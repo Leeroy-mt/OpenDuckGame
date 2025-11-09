@@ -1,0 +1,73 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+	  <UseWindowsForms>true</UseWindowsForms>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	  <OutputType>WinExe</OutputType>
+	  <StartupObject>DuckGame.Program</StartupObject>
+	  <BaseOutputPath>..\</BaseOutputPath>
+	  <ApplicationIcon>duckgame.ico</ApplicationIcon>
+	  <Configurations>Debug;Release</Configurations>
+	  <OutDir>$(SolutionDir)bin</OutDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="bin\**" />
+    <Compile Remove="Content\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="Content\**" />
+    <None Remove="bin\**" />
+    <None Remove="Content\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="refs\Mono.Cecil.dll" />
+    <None Include="refs\Mono.Cecil.Mdb.dll" />
+    <None Include="refs\Mono.Cecil.Pdb.dll" />
+	  <None Include="refs\Mono.Cecil.Rocks.dll" />
+    <None Include="refs\MonoMod.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="NVorbis" Version="0.10.5" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+    <PackageReference Include="System.Speech" Version="9.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrashWindow\CrashWindow.csproj" />
+    <ProjectReference Include="..\FNA\FNA.Core.csproj" />
+    <ProjectReference Include="..\Steam\Steam.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Mono.Cecil">
+      <HintPath>refs\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>refs\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>refs\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>refs\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod">
+      <HintPath>refs\MonoMod.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="lang.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,16 @@
+﻿using System.Collections.Generic;
+using Steamworks;
+
+public class WorkshopQueryFileDetails : WorkshopQueryBase {
+
+    public IList<ulong> files { get; internal set; }
+
+    public WorkshopQueryFileDetails() {
+        files = new List<ulong>();
+    }
+
+    internal override unsafe void Create() {
+        _handle = SteamUGC.CreateQueryUGCDetailsRequest(SteamHelper.GetArray(files, id => new PublishedFileId_t(id)), (uint) files.Count);
+    }
+
+}
