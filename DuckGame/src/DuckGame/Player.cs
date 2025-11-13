@@ -1,6 +1,5 @@
-﻿//namespace DuckGame
-//{
-//    public static class Player
-//    {
-//    }
-//}
+namespace DuckGame;
+
+public static class Player
+{
+}

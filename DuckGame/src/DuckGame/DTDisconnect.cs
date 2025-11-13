@@ -1,10 +1,9 @@
-﻿namespace DuckGame
+namespace DuckGame;
+
+public class DTDisconnect : DestroyType
 {
-    public class DTDisconnect : DestroyType
-    {
-        public DTDisconnect(Thing t)
-          : base(t)
-        {
-        }
-    }
+	public DTDisconnect(Thing t)
+		: base(t)
+	{
+	}
 }

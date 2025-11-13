@@ -1,33 +1,32 @@
-﻿using System;
+using System;
 using System.Linq;
 
-namespace DuckGame
+namespace DuckGame;
+
+public class UnlockableDevtimes : Unlockable
 {
-    public class UnlockableDevtimes : Unlockable
-    {
-        private DuckPersona _persona;
+	private DuckPersona _persona;
 
-        public UnlockableDevtimes(string identifier, Func<bool> condition, string nam, string desc)
-          : base(identifier, condition, nam, desc)
-        {
-            _persona = Persona.alllist[Rando.Int(3)];
-            _showScreen = true;
-        }
+	public UnlockableDevtimes(string identifier, Func<bool> condition, string nam, string desc)
+		: base(identifier, condition, nam, desc)
+	{
+		_persona = Persona.all.ElementAt(Rando.Int(3));
+		_showScreen = true;
+	}
 
-        public override void Initialize()
-        {
-        }
+	public override void Initialize()
+	{
+	}
 
-        protected override void Unlock()
-        {
-        }
+	protected override void Unlock()
+	{
+	}
 
-        protected override void Lock()
-        {
-        }
+	protected override void Lock()
+	{
+	}
 
-        public override void Draw(float x, float y, Depth depth)
-        {
-        }
-    }
+	public override void Draw(float x, float y, Depth depth)
+	{
+	}
 }

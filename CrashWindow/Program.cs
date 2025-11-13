@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using DuckGame.src.MonoTime.Console;
 namespace CrashWindow
 {
-    public static class Program
+    internal static class Program
     {
         public static bool IsLinux;
         /// <summary>

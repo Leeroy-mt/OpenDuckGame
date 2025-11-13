@@ -1,6 +1,0 @@
-<Solution>
-  <Project Path="CrashWindow/CrashWindow.csproj" Id="0e8ea4f1-2558-4836-8971-458b726af5a3" />
-  <Project Path="DuckGame/DuckGame.csproj" />
-  <Project Path="FNA/FNA.Core.csproj" />
-  <Project Path="Steam/Steam.csproj" Id="d38af98a-e1d1-4559-aca4-dfdb930c1ef7" />
-</Solution>

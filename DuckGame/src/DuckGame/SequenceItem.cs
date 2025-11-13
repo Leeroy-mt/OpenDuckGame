@@ -1,185 +1,228 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace DuckGame
+namespace DuckGame;
+
+public class SequenceItem
 {
-    public class SequenceItem
-    {
-        public static List<SequenceItem> sequenceItems = new List<SequenceItem>();
-        public int order;
-        private bool _finished;
-        private bool _activated;
-        private Thing _thing;
-        private SequenceItemType _type;
-        private bool _loop;
-        public bool waitTillOrder;
-        public bool isValid = true;
-        public int timesActivated;
-        public int likelyhood;
-        public bool randomMode;
-        public bool _resetLikelyhood = true;
+	public static List<SequenceItem> sequenceItems = new List<SequenceItem>();
 
-        public bool finished => _finished;
+	public int order;
 
-        public bool activated => _activated;
+	private bool _finished;
 
-        public SequenceItemType type
-        {
-            get => _type;
-            set => _type = value;
-        }
+	private bool _activated;
 
-        public bool loop
-        {
-            get => _loop;
-            set => _loop = value;
-        }
+	private Thing _thing;
 
-        public SequenceItem(Thing t) => _thing = t;
+	private SequenceItemType _type;
 
-        public virtual void Finished()
-        {
-            _finished = true;
-            if (order < 0)
-                return;
-            CheckSequence();
-        }
+	private bool _loop;
 
-        public void Reset()
-        {
-            _activated = false;
-            _finished = false;
-        }
+	public bool waitTillOrder;
 
-        public void BeginRandomSequence()
-        {
-            List<int> intList = new List<int>();
-            foreach (ISequenceItem sequenceItem in Level.current.things[typeof(ISequenceItem)])
-            {
-                SequenceItem sequence = (sequenceItem as Thing).sequence;
-                sequence._finished = false;
-                sequence._activated = false;
-                if (sequence.order != order && !intList.Contains(sequence.order))
-                    intList.Add(sequence.order);
-            }
-            if (intList.Count == 0)
-                intList.Add(order);
-            int num = Rando.ChooseInt(intList.ToArray());
-            foreach (ISequenceItem sequenceItem in Level.current.things[typeof(ISequenceItem)])
-            {
-                SequenceItem sequence = (sequenceItem as Thing).sequence;
-                if (sequence.order == num)
-                    sequence.Activate();
-            }
-        }
+	public bool isValid = true;
 
-        private bool SequenceFinished()
-        {
-            foreach (ISequenceItem sequenceItem in Level.current.things[typeof(ISequenceItem)])
-            {
-                SequenceItem sequence = (sequenceItem as Thing).sequence;
-                if (sequence.order == order && !sequence._finished)
-                    return false;
-            }
-            return true;
-        }
+	public int timesActivated;
 
-        private void CheckSequence()
-        {
-            if (randomMode)
-                return;
-            List<SequenceItem> sequenceItemList = new List<SequenceItem>();
-            int num1 = 9999999;
-            int num2 = order;
-            if (loop && SequenceFinished())
-            {
-                num2 = -1;
-                foreach (ISequenceItem sequenceItem in Level.current.things[typeof(ISequenceItem)])
-                {
-                    SequenceItem sequence = (sequenceItem as Thing).sequence;
-                    sequence._activated = false;
-                    sequence._finished = false;
-                }
-            }
-            bool flag = false;
-            foreach (ISequenceItem sequenceItem in Level.current.things[typeof(ISequenceItem)])
-            {
-                SequenceItem sequence = (sequenceItem as Thing).sequence;
-                if ((sequence != this || loop) && (!(sequenceItem is Window) && !(sequenceItem is Door) || sequence.isValid))
-                {
-                    if (!sequence._activated && sequence.order > num2)
-                    {
-                        if (sequence.order == num1)
-                            sequenceItemList.Add(sequence);
-                        else if (sequence.order < num1)
-                        {
-                            sequenceItemList.Clear();
-                            sequenceItemList.Add(sequence);
-                            num1 = sequence.order;
-                        }
-                    }
-                    if (sequence.order == num2 && !sequence._finished)
-                    {
-                        sequenceItemList.Clear();
-                        flag = true;
-                        break;
-                    }
-                }
-            }
-            if (!flag && ChallengeLevel.random)
-            {
-                BeginRandomSequence();
-            }
-            else
-            {
-                foreach (SequenceItem sequenceItem in sequenceItemList)
-                    sequenceItem.Activate();
-            }
-        }
+	public int likelyhood;
 
-        public static bool IsFinished()
-        {
-            bool flag = true;
-            foreach (ISequenceItem sequenceItem in Level.current.things[typeof(ISequenceItem)])
-            {
-                SequenceItem sequence = (sequenceItem as Thing).sequence;
-                if (sequence != null && !sequence._finished && sequence.isValid)
-                {
-                    flag = false;
-                    break;
-                }
-            }
-            return flag;
-        }
+	public bool randomMode;
 
-        public static bool IsFinished(SequenceItemType tp)
-        {
-            bool flag = true;
-            foreach (ISequenceItem sequenceItem in Level.current.things[typeof(ISequenceItem)])
-            {
-                SequenceItem sequence = (sequenceItem as Thing).sequence;
-                if (sequence != null && sequence.type == tp && !sequence._finished && sequence.isValid)
-                {
-                    flag = false;
-                    break;
-                }
-            }
-            return flag;
-        }
+	public bool _resetLikelyhood = true;
 
-        public void Activate()
-        {
-            if (_activated)
-                return;
-            if (_resetLikelyhood)
-                likelyhood = 0;
-            _activated = true;
-            _thing.OnSequenceActivate();
-            OnActivate();
-            ++timesActivated;
-        }
+	public bool finished => _finished;
 
-        public virtual void OnActivate()
-        {
-        }
-    }
+	public bool activated => _activated;
+
+	public SequenceItemType type
+	{
+		get
+		{
+			return _type;
+		}
+		set
+		{
+			_type = value;
+		}
+	}
+
+	public bool loop
+	{
+		get
+		{
+			return _loop;
+		}
+		set
+		{
+			_loop = value;
+		}
+	}
+
+	public SequenceItem(Thing t)
+	{
+		_thing = t;
+	}
+
+	public virtual void Finished()
+	{
+		_finished = true;
+		if (order >= 0)
+		{
+			CheckSequence();
+		}
+	}
+
+	public void Reset()
+	{
+		_activated = false;
+		_finished = false;
+	}
+
+	public void BeginRandomSequence()
+	{
+		List<int> orders = new List<int>();
+		foreach (ISequenceItem item in Level.current.things[typeof(ISequenceItem)])
+		{
+			SequenceItem t = (item as Thing).sequence;
+			t._finished = false;
+			t._activated = false;
+			if (t.order != order && !orders.Contains(t.order))
+			{
+				orders.Add(t.order);
+			}
+		}
+		if (orders.Count == 0)
+		{
+			orders.Add(order);
+		}
+		int pick = Rando.ChooseInt(orders.ToArray());
+		foreach (ISequenceItem item2 in Level.current.things[typeof(ISequenceItem)])
+		{
+			SequenceItem t2 = (item2 as Thing).sequence;
+			if (t2.order == pick)
+			{
+				t2.Activate();
+			}
+		}
+	}
+
+	private bool SequenceFinished()
+	{
+		foreach (ISequenceItem item in Level.current.things[typeof(ISequenceItem)])
+		{
+			SequenceItem t = (item as Thing).sequence;
+			if (t.order == order && !t._finished)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private void CheckSequence()
+	{
+		if (randomMode)
+		{
+			return;
+		}
+		List<SequenceItem> things = new List<SequenceItem>();
+		int minNext = 9999999;
+		int realOrder = order;
+		if (loop && SequenceFinished())
+		{
+			realOrder = -1;
+			foreach (ISequenceItem item in Level.current.things[typeof(ISequenceItem)])
+			{
+				SequenceItem sequence = (item as Thing).sequence;
+				sequence._activated = false;
+				sequence._finished = false;
+			}
+		}
+		bool notFinished = false;
+		foreach (ISequenceItem seq in Level.current.things[typeof(ISequenceItem)])
+		{
+			SequenceItem t = (seq as Thing).sequence;
+			if ((t == this && !loop) || ((seq is Window || seq is Door) && !t.isValid))
+			{
+				continue;
+			}
+			if (!t._activated && t.order > realOrder)
+			{
+				if (t.order == minNext)
+				{
+					things.Add(t);
+				}
+				else if (t.order < minNext)
+				{
+					things.Clear();
+					things.Add(t);
+					minNext = t.order;
+				}
+			}
+			if (t.order == realOrder && !t._finished)
+			{
+				things.Clear();
+				notFinished = true;
+				break;
+			}
+		}
+		if (!notFinished && ChallengeLevel.random)
+		{
+			BeginRandomSequence();
+			return;
+		}
+		foreach (SequenceItem item2 in things)
+		{
+			item2.Activate();
+		}
+	}
+
+	public static bool IsFinished()
+	{
+		bool fin = true;
+		foreach (ISequenceItem item in Level.current.things[typeof(ISequenceItem)])
+		{
+			SequenceItem t = (item as Thing).sequence;
+			if (t != null && !t._finished && t.isValid)
+			{
+				fin = false;
+				break;
+			}
+		}
+		return fin;
+	}
+
+	public static bool IsFinished(SequenceItemType tp)
+	{
+		bool fin = true;
+		foreach (ISequenceItem item in Level.current.things[typeof(ISequenceItem)])
+		{
+			SequenceItem t = (item as Thing).sequence;
+			if (t != null && t.type == tp && !t._finished && t.isValid)
+			{
+				fin = false;
+				break;
+			}
+		}
+		return fin;
+	}
+
+	public void Activate()
+	{
+		if (!_activated)
+		{
+			if (_resetLikelyhood)
+			{
+				likelyhood = 0;
+			}
+			_activated = true;
+			_thing.OnSequenceActivate();
+			OnActivate();
+			timesActivated++;
+		}
+	}
+
+	public virtual void OnActivate()
+	{
+	}
 }

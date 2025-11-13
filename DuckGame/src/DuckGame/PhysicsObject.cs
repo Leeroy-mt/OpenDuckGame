@@ -1,1006 +1,1295 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace DuckGame
+namespace DuckGame;
+
+public abstract class PhysicsObject : MaterialThing, ITeleport
 {
-    public abstract class PhysicsObject : MaterialThing, ITeleport
-    {
-        public StateBinding _positionBinding = new InterpolatedVec2Binding(nameof(netPosition), 10000);
-        public StateBinding _velocityBinding = new CompressedVec2Binding(GhostPriority.High, nameof(netVelocity), 20, true);
-        public StateBinding _angleBinding = new CompressedFloatBinding(GhostPriority.High, "_angle", 0, 16, true, true);
-        public StateBinding _offDirBinding = new StateBinding(GhostPriority.High, "_offDir");
-        public StateBinding _ownerBinding = new StateBinding(GhostPriority.High, nameof(netOwner));
-        public StateBinding _physicsStateBinding = new PhysicsFlagBinding(GhostPriority.High);
-        public StateBinding _burntBinding = new CompressedFloatBinding("burnt", bits: 8);
-        public StateBinding _collideSoundBinding = new NetSoundBinding("_netCollideSound");
-        public bool isSpawned;
-        //private const short positionMax = 8191;
-        public Vec2 cameraPositionOverride = Vec2.Zero;
-        public float vMax = 8f;
-        public float hMax = 12f;
-        protected Holdable _holdObject;
-        public bool sliding;
-        public bool crouch;
-        public bool disableCrouch;
-        public float friction = 0.1f;
-        public float frictionMod;
-        public float frictionMult = 1f;
-        public float airFrictionMult = 1f;
-        public float throwSpeedMultiplier = 1f;
-        public static float gravity = 0.2f;
-        protected bool _skipAutoPlatforms;
-        protected bool _skipPlatforms;
-        public bool wasHeldByPlayer;
-        protected bool duck;
-        public float gravMultiplier = 1f;
-        public float floatMultiplier = 0.4f;
-        private MaterialThing _collideLeft;
-        private MaterialThing _collideRight;
-        private MaterialThing _collideTop;
-        private MaterialThing _collideBottom;
-        private MaterialThing _wallCollideLeft;
-        private MaterialThing _wallCollideRight;
-        private MaterialThing _lastrealcollideBottom;
-        private Vec2 _lastrealcollidepos;
-        private Vec2 _lastrealcollidesize;
-        private Vec2 _lastrealcollideoffset;
-        protected bool _inPhysicsLoop;
-        protected Vec2 _lastPosition = Vec2.Zero;
-        protected Vec2 _lastVelocity = Vec2.Zero;
-        public bool inRewindLoop;
-        public bool predict;
-        private List<MaterialThing> _hitThings;
-        private List<Duck> _hitDucks;
-        public Vec2 velocityBeforeFriction = Vec2.Zero;
-        private bool _initedNetSounds;
-        public bool skipClip;
-        private FluidData _curFluid;
-        protected FluidPuddle _curPuddle;
-        public bool removedFromFall;
-        public DateTime lastGrounded;
-        public byte framesSinceGrounded = 99;
-        public bool _sleeping;
-        public bool doFloat;
-        private static Comparison<MaterialThing> XHspeedPositive = new Comparison<MaterialThing>(SortCollisionXHspeedPositive);
-        private static Comparison<MaterialThing> XHspeedNegative = new Comparison<MaterialThing>(SortCollisionXHspeedNegative);
-        private static Comparison<MaterialThing> YVspeedPositive = new Comparison<MaterialThing>(SortCollisionYVspeedPositive);
-        private static Comparison<MaterialThing> YVspeedNegative = new Comparison<MaterialThing>(SortCollisionYVspeedNegative);
-        public bool platformSkip;
-        public float specialFrictionMod = 1f;
-        private Predicate<MaterialThing> _collisionPred;
-        //private bool firstCheck;
-        private bool _awaken = true;
-        public bool modifiedGravForFloat;
-        public bool modFric;
-        public bool updatePhysics = true;
-        public bool didSpawn;
-        public bool spawnAnimation;
-        private MaterialGrid _gridMaterial;
-        private Material _oldMaterial;
-        private bool _oldMaterialSet;
-        public bool initemspawner;
-        public short netVelocityX
-        {
-            get => (short)Math.Round(hSpeed * 1000f);
-            set => hSpeed = value / 1000f;
-        }
+	public delegate void NetAction();
 
-        public short netVelocityY
-        {
-            get => (short)Math.Round(vSpeed * 1000f);
-            set => vSpeed = value / 1000f;
-        }
+	public StateBinding _positionBinding = new InterpolatedVec2Binding("netPosition", 10000);
 
-        public byte netAngle
-        {
-            get
-            {
-                float num = angleDegrees;
-                if (num < 0) num = Math.Abs(num) + 180f;
-                return (byte)Math.Round(num % 360 / 2);
-            }
-            set => angleDegrees = value * 2f;
-        }
+	public StateBinding _velocityBinding = new CompressedVec2Binding(GhostPriority.High, "netVelocity", 20, isvelocity: true);
 
-        public virtual Vec2 netVelocity
-        {
-            get => velocity;
-            set => velocity = value;
-        }
+	public StateBinding _angleBinding = new CompressedFloatBinding(GhostPriority.High, "_angle", 0f, 16, isRot: true, doLerp: true);
 
-        public short netPositionX
-        {
-            get => (short)Maths.Clamp((int)Math.Round(position.x * 4f), short.MinValue, short.MaxValue);
-            set => position.x = value / 4f;
-        }
+	public StateBinding _offDirBinding = new StateBinding(GhostPriority.High, "_offDir");
 
-        public short netPositionY
-        {
-            get => (short)Maths.Clamp((int)Math.Round(position.y * 4f), short.MinValue, short.MaxValue);
-            set => position.y = value / 4f;
-        }
+	public StateBinding _ownerBinding = new StateBinding(GhostPriority.High, "netOwner");
 
-        public virtual Thing netOwner
-        {
-            get => owner;
-            set => owner = value;
-        }
+	public StateBinding _physicsStateBinding = new PhysicsFlagBinding(GhostPriority.High);
 
-        public override Vec2 netPosition
-        {
-            get
-            {
-                double x = position.x;
-                return position;
-            }
-            set
-            {
-                double x = value.x;
-                position = value;
-            }
-        }
+	public StateBinding _burntBinding = new CompressedFloatBinding("burnt", 1f, 8);
 
-        public override Vec2 cameraPosition => !(cameraPositionOverride != Vec2.Zero) ? base.cameraPosition : cameraPositionOverride;
+	public StateBinding _collideSoundBinding = new NetSoundBinding("_netCollideSound");
 
-        public Thing clipThing
-        {
-            get => clip.Count == 0 ? null : (Thing)clip.ElementAt(0);
-            set
-            {
-                if (value != null && value != this)
-                {
-                    clip.Clear();
-                    clip.Add(value as MaterialThing);
-                }
-                else
-                    clip.Clear();
-            }
-        }
+	public bool isSpawned;
 
-        public Thing impactingThing
-        {
-            get => impacting.Count == 0 ? null : (Thing)impacting.ElementAt(0);
-            set
-            {
-                if (value != null && value != this)
-                {
-                    impacting.Clear();
-                    impacting.Add(value as MaterialThing);
-                }
-                else
-                    impacting.Clear();
-            }
-        }
+	private const short positionMax = 8191;
 
-        public virtual Holdable holdObject
-        {
-            get => _holdObject;
-            set => _holdObject = value;
-        }
+	public Vec2 cameraPositionOverride = Vec2.Zero;
 
-        public Gun gun => holdObject as Gun;
+	public float vMax = 8f;
 
-        public float currentFriction => (friction + frictionMod) * frictionMult;
+	public float hMax = 12f;
 
-        public virtual float currentGravity => gravity * gravMultiplier * floatMultiplier;
+	protected Holdable _holdObject;
 
-        public MaterialThing collideLeft => _collideLeft;
+	public bool sliding;
 
-        public MaterialThing collideRight => _collideRight;
+	public bool crouch;
 
-        public MaterialThing collideTop => _collideTop;
+	public bool disableCrouch;
 
-        public MaterialThing collideBottom => _collideBottom;
+	public float friction = 0.1f;
 
-        public MaterialThing wallCollideLeft => _wallCollideLeft;
+	public float frictionMod;
 
-        public MaterialThing wallCollideRight => _wallCollideRight;
+	public float frictionMult = 1f;
 
-        public override float impactPowerV => base.impactPowerV - (vSpeed > 0 ? currentGravity * weightMultiplierInvTotal : 0f);
+	public float airFrictionMult = 1f;
 
-        public override float hSpeed
-        {
-            get => !_inPhysicsLoop ? _hSpeed : lastHSpeed;
-            set => _hSpeed = value;
-        }
+	public float throwSpeedMultiplier = 1f;
 
-        public override float vSpeed
-        {
-            get => !_inPhysicsLoop ? _vSpeed : lastVSpeed;
-            set => _vSpeed = value;
-        }
+	public static float gravity = 0.2f;
 
-        public Vec2 lastPosition => _lastPosition;
+	protected bool _skipAutoPlatforms;
 
-        public Vec2 lastVelocity => _lastVelocity;
+	protected bool _skipPlatforms;
 
-        public bool ownerIsLocalController => owner != null && owner.responsibleProfile != null && owner.responsibleProfile.localPlayer;
+	public bool wasHeldByPlayer;
 
-        public virtual float holdWeightMultiplier => holdObject != null ? holdObject.weightMultiplier : 1f;
+	protected bool duck;
 
-        public virtual float holdWeightMultiplierSmall => holdObject != null ? holdObject.weightMultiplierSmall : 1f;
+	public float gravMultiplier = 1f;
 
-        public PhysicsObject()
-          : this(0f, 0f)
-        {
-        }
+	public float floatMultiplier = 0.4f;
 
-        public PhysicsObject(float xval, float yval)
-          : base(xval, yval)
-        {
-            syncPriority = GhostPriority.Normal;
-            gravity = !TeamSelect2.Enabled("MOOGRAV") ? 0.2f : 0.1f;
-            _physicsIndex = GetGlobalIndex();
-            _ghostType = Editor.IDToType[GetType()];
-            _placementCost += 6;
-            _hitThings = new List<MaterialThing>();
-            _hitDucks = new List<Duck>();
-        }
+	private MaterialThing _collideLeft;
 
-        public override void DoInitialize() => base.DoInitialize();
+	private MaterialThing _collideRight;
 
-        public override void Initialize() => _grounded = true;
+	private MaterialThing _collideTop;
 
-        public override bool ShouldUpdate() => false;
+	private MaterialThing _collideBottom;
 
-        public bool sleeping
-        {
-            get => _sleeping;
-            set
-            {
-                if (_sleeping && !value)
-                {
-                    _sleeping = value;
-                    foreach (PhysicsObject physicsObject in Level.CheckLineAll<PhysicsObject>(topLeft + new Vec2(0f, -4f), topRight + new Vec2(0f, -4f)))
-                        physicsObject.sleeping = false;
-                }
-                _sleeping = value;
-            }
-        }
+	private MaterialThing _wallCollideLeft;
 
-        public static int SortCollisionXHspeedPositive(MaterialThing t1, MaterialThing t2)
-        {
-            float num1 = t1.x + (t1.isBlock ? -10000f : 0f);
-            float num2 = t2.x + (t2.isBlock ? -10000f : 0f);
-            if (num1 > num2)
-                return 1;
-            return num1 < num2 ? -1 : 0;
-        }
+	private MaterialThing _wallCollideRight;
 
-        public static int SortCollisionXHspeedNegative(MaterialThing t1, MaterialThing t2)
-        {
-            float num1 = -t1.x + (t1.isBlock ? 10000f : 0);
-            float num2 = -t2.x + (t2.isBlock ? 10000f : 0);
-            if (num1 > num2)
-                return 1;
-            return num1 < num2 ? -1 : 0;
-        }
+	protected bool _inPhysicsLoop;
 
-        public static int SortCollisionYVspeedPositive(MaterialThing t1, MaterialThing t2)
-        {
-            float num1 = t1.y + (t1.isBlock ? 10000f : 0f);
-            float num2 = t2.y + (t2.isBlock ? 10000f : 0f);
-            if (num1 > num2)
-                return 1;
-            return num1 < num2 ? -1 : 0;
-        }
+	protected Vec2 _lastPosition = Vec2.Zero;
 
-        public static int SortCollisionYVspeedNegative(MaterialThing t1, MaterialThing t2)
-        {
-            float num1 = -t1.y + (t1.isBlock ? -10000f : 0f);
-            float num2 = -t2.y + (t2.isBlock ? -10000f : 0f);
-            if (num1 > num2)
-                return 1;
-            return num1 < num2 ? -1 : 0;
-        }
+	protected Vec2 _lastVelocity = Vec2.Zero;
 
-        /// <summary>
-        /// Called when the object is shot out of a pipe/cannon/etc
-        /// </summary>
-        /// <param name="pFrom">The thing this object was ejected from</param>
-        public virtual void Ejected(Thing pFrom)
-        {
-        }
+	public bool inRewindLoop;
 
-        public virtual void UpdatePhysics()
-        {
-            if (framesSinceGrounded > 10)
-                framesSinceGrounded = 10;
-            _lastPosition = position;
-            _lastVelocity = velocity;
-            base.Update();
-            if (!solid || !enablePhysics || level != null && !level.simulatePhysics)
-            {
-                //lastGrounded = DateTime.Now;
-                if (solid)
-                    return;
-                solidImpacting.Clear();
-                impacting.Clear();
-            }
-            else
-            {
-                if (_collisionPred == null)
-                    _collisionPred = thing => thing == null || !Collision.Rect(topLeft, bottomRight, thing);
-                _collideLeft = null;
-                _collideRight = null;
-                _collideTop = null;
-                _collideBottom = null;
-                _wallCollideLeft = null;
-                _wallCollideRight = null;
-                _curPuddle = null;
-                if (!skipClip)
-                {
-                    clip.RemoveWhere(_collisionPred);
-                    impacting.RemoveWhere(_collisionPred);
-                }
-                if (_sleeping)
-                {//(_collideBottom is PhysicsObject)
-                    if (hSpeed == 0 && this.vSpeed == 0 && heat <= 0 && !_awaken && (!(_lastrealcollideBottom is PhysicsObject) || (!_lastrealcollideBottom.removeFromLevel && (_lastrealcollideBottom.position.x - _lastrealcollidepos.x) == 0 && (_lastrealcollideBottom.position.y - _lastrealcollidepos.y) == 0 && _lastrealcollidesize == _lastrealcollideBottom.collisionSize && _lastrealcollideoffset == _lastrealcollideBottom.collisionOffset
-                        && _lastrealcollideBottom.grounded && (_lastrealcollideBottom as PhysicsObject).sleeping)))
-                        return;
-                    _sleeping = false;
-                    _awaken = false;
-                }
-                if (!skipClip)
-                    solidImpacting.RemoveWhere(_collisionPred);
-                float currentFriction = this.currentFriction;
-                if (sliding || crouch)
-                    currentFriction *= 0.28f;
-                float num1 = currentFriction * specialFrictionMod;
-                if (owner is Duck)
-                    gravMultiplier = 1f;
-                if (hSpeed > -num1 && hSpeed < num1)
-                    hSpeed = 0f;
-                if (duck)
-                {
-                    if (hSpeed > 0) hSpeed -= num1;
-                    if (hSpeed < 0) hSpeed += num1;
-                }
-                else if (grounded)
-                {
-                    if (hSpeed > 0) hSpeed -= num1;
-                    if (hSpeed < 0) hSpeed += num1;
-                }
-                else
-                {
-                    if (isServerForObject && y > Level.current.lowestPoint + 500)
-                    {
-                        removedFromFall = true;
-                        switch (this)
-                        {
-                            case Duck _:
-                                return;
-                            case RagdollPart _:
-                                return;
-                            case TrappedDuck _:
-                                return;
-                            default:
-                                Level.Remove(this);
-                                break;
-                        }
-                    }
-                    if (hSpeed > 0) hSpeed -= num1 * 0.7f * airFrictionMult;
-                    if (hSpeed < 0) hSpeed += num1 * 0.7f * airFrictionMult;
-                }
-                if (hSpeed > hMax) hSpeed = hMax;
-                if (hSpeed < -hMax) hSpeed = -hMax;
-                Vec2 p1_1 = topLeft + new Vec2(0f, 0.5f);
-                Vec2 p2_1 = bottomRight + new Vec2(0f, -0.5f);
-                lastHSpeed = hSpeed;
-                if (hSpeed != 0)
-                {
-                    int num3 = (int)Math.Ceiling(Math.Abs(this.hSpeed) / 4);
-                    float hSpeed = this.hSpeed;
-                    if (this.hSpeed < 0)
-                    {
-                        p1_1.x += this.hSpeed;
-                        p2_1.x -= 2f;
-                    }
-                    else
-                    {
-                        p2_1.x += this.hSpeed;
-                        p1_1.x += 2f;
-                    }
-                    _hitThings.Clear();
-                    Level.CheckRectAll(p1_1, p2_1, _hitThings);
-                    if (Network.isActive && !isServerForObject && Math.Abs(this.hSpeed) > 0.5f)
-                    {
-                        _hitDucks.Clear();
-                        Level.CheckRectAll(p1_1 + new Vec2(this.hSpeed * 2f, 0f), p2_1 + new Vec2(this.hSpeed * 2f, 0f), _hitDucks);
-                        foreach (Duck hitDuck in _hitDucks)
-                        {
-                            if (this.hSpeed > 0) hitDuck.Impact(this, ImpactedFrom.Left, true);
-                            else if (this.hSpeed < 0) hitDuck.Impact(this, ImpactedFrom.Right, true);
-                        }
-                    }
-                    if (this.hSpeed > 0) 
-                        DGList.Sort(_hitThings, XHspeedPositive);
-                    else 
-                        DGList.Sort(_hitThings, XHspeedNegative);
-                    for (int index = 0; index < num3; ++index)
-                    {
-                        float num4 = this.hSpeed / num3;
-                        if (num4 != 0 && Math.Sign(num4) == Math.Sign(hSpeed))
-                        {
-                            x += num4;
-                            _inPhysicsLoop = true;
-                            bool flag2 = false;
-                            foreach (MaterialThing hitThing in _hitThings)
-                            {
-                                if (hitThing != this && !clip.Contains(hitThing) && !hitThing.clip.Contains(this) && hitThing.solid && (planeOfExistence == 4 || hitThing.planeOfExistence == planeOfExistence) && (!flag2 || hitThing.isBlock))
-                                {
-                                    Vec2 position = this.position;
-                                    bool flag3 = false;
-                                    if (hitThing.left <= right && hitThing.left > left)
-                                    {
-                                        flag3 = true;
-                                        if (this.hSpeed > 0)
-                                        {
-                                            _collideRight = hitThing;
-                                            if (hitThing.isBlock)
-                                            {
-                                                _wallCollideRight = hitThing;
-                                                flag2 = true;
-                                            }
-                                            hitThing.Impact(this, ImpactedFrom.Left, true);
-                                            Impact(hitThing, ImpactedFrom.Right, true);
-                                        }
-                                    }
-                                    if (hitThing.right >= left && hitThing.right < right)
-                                    {
-                                        flag3 = true;
-                                        if (this.hSpeed < 0)
-                                        {
-                                            _collideLeft = hitThing;
-                                            if (hitThing.isBlock)
-                                            {
-                                                _wallCollideLeft = hitThing;
-                                                flag2 = true;
-                                            }
-                                            hitThing.Impact(this, ImpactedFrom.Right, true);
-                                            Impact(hitThing, ImpactedFrom.Left, true);
-                                        }
-                                    }
-                                    if (hitThing is IBigStupidWall && (position - this.position).length > 64f)
-                                        this.position = position;
-                                    if (flag3)
-                                    {
-                                        hitThing.Touch(this);
-                                        Touch(hitThing);
-                                    }
-                                }
-                            }
-                            _inPhysicsLoop = false;
-                        }
-                        else break;
-                    }
-                }
-                //if (flag1) x = num2;
-                if (this.vSpeed > vMax) this.vSpeed = vMax;
-                if (this.vSpeed < -vMax) this.vSpeed = -vMax;
-                this.vSpeed += currentGravity;
-                grounded = false;
-                framesSinceGrounded++;
-                if (this.vSpeed <= 0) Math.Floor(this.vSpeed);
-                else Math.Ceiling(this.vSpeed);
-                Vec2 p1_2 = topLeft + new Vec2(0.5f, 0f);
-                Vec2 p2_2 = bottomRight + new Vec2(-0.5f, 0f);
-                float num5 = -9999f;
-                bool flag4 = false;
-                float vSpeed = this.vSpeed;
-                lastVSpeed = this.vSpeed;
-                if (this.vSpeed < 0)
-                {
-                    p1_2.y += this.vSpeed;
-                    p2_2.y -= 2f;
-                }
-                else
-                {
-                    p2_2.y += this.vSpeed;
-                    p1_2.y += 2f;
-                }
-                _hitThings.Clear();
-                Level.CheckRectAll(p1_2, p2_2, _hitThings);
-                if (this.vSpeed > 0) 
-                    DGList.Sort(_hitThings, YVspeedPositive);
-                else 
-                    DGList.Sort(_hitThings, YVspeedNegative);
+	public bool predict;
 
-                //double top = this.top; WHATS THE POINT OF THIS?????????? -Lucky
-                //double bottom = this.bottom;
+	private List<MaterialThing> _hitThings;
 
-                //Whats the point of this?? -Lucky
-                //if (this is Duck duck)
-                //{
-                //    int num6 = !duck.inputProfile.Down(Triggers.Down) ? 0 : (duck._jumpValid > 0 ? 1 : 0);
-                //}
-                int num7 = (int)Math.Ceiling(Math.Abs(this.vSpeed) / 4f);
-                for (int index1 = 0; index1 < num7; ++index1)
-                {
-                    float num8 = this.vSpeed / num7;
-                    if (num8 != 0 && Math.Sign(num8) == Math.Sign(vSpeed))
-                    {
-                        y += num8;
-                        _inPhysicsLoop = true;
-                        for (int index2 = 0; index2 < _hitThings.Count; ++index2)
-                        {
-                            MaterialThing hitThing = _hitThings[index2];
-                            if (hitThing is FluidPuddle)
-                            {
-                                flag4 = true;
-                                _curPuddle = hitThing as FluidPuddle;
-                                if (hitThing.top < bottom - 2f && hitThing.collisionSize.y > 2f) num5 = hitThing.top;
-                            }
-                            if (hitThing != this && !clip.Contains(hitThing) && !hitThing.clip.Contains(this) && hitThing.solid && (planeOfExistence == 4 || hitThing.planeOfExistence == planeOfExistence))
-                            {
-                                Vec2 position = this.position;
-                                bool flag5 = false;
-                                if (hitThing.bottom >= top && hitThing.top < top)
-                                {
-                                    flag5 = true;
-                                    if (this.vSpeed < 0)
-                                    {
-                                        double y = this.y;
-                                        _collideTop = hitThing;
-                                        hitThing.Impact(this, ImpactedFrom.Bottom, true);
-                                        Impact(hitThing, ImpactedFrom.Top, true);
-                                    }
-                                }
-                                if (hitThing.top <= bottom && hitThing.bottom > bottom)
-                                {
-                                    flag5 = true;
-                                    if (this.vSpeed > 0)
-                                    {
-                                        //EnergyScimitar energyScimitar = this as EnergyScimitar;
-                                        if (!(hitThing is FluidPuddle) || buoyancy > 0f)
-                                        {
-                                            _collideBottom = hitThing;
-                                            _lastrealcollidepos = hitThing.position;
-                                            _lastrealcollidesize = hitThing.collisionSize;
-                                            _lastrealcollideoffset = hitThing.collisionOffset;
-                                            _lastrealcollideBottom = hitThing;
-                                        }
+	private List<Duck> _hitDucks;
 
-                                        hitThing.Impact(this, ImpactedFrom.Top, true);
-                                        Impact(hitThing, ImpactedFrom.Bottom, true);
-                                    }
-                                }
-                                if (hitThing is IBigStupidWall && (position - this.position).length > 64f) this.position = position;
-                                if (flag5)
-                                {
-                                    hitThing.Touch(this);
-                                    Touch(hitThing);
-                                }
-                            }
-                        }
-                        _inPhysicsLoop = false;
-                    }
-                    else break;
-                }
-                if (grounded || initemspawner)
-                {
-                    //(!(_collideBottom is PhysicsObject) || (!(_collideBottom as PhysicsObject).modifiedGravForFloat && _collideBottom.grounded && (!((this._lastrealcollideBottom as PhysicsObject)._lastrealcollideBottom is PhysicsObject) || (!((this._lastrealcollideBottom as PhysicsObject)._lastrealcollideBottom as PhysicsObject).modifiedGravForFloat && ((this._lastrealcollideBottom as PhysicsObject)._lastrealcollideBottom as PhysicsObject).groun
-                    //))))) 
-                    //!(this._lastrealcollideBottom as PhysicsObject)._lastrealcollideBottom is PhysicsObject || !((this._lastrealcollideBottom as PhysicsObject)._lastrealcollideBottom as PhysicsObject).modifiedGravForFloat
-                    // lastGrounded = DateTime.Now;
-                    framesSinceGrounded = 0;// mmmm remove i shall !(_collideBottom is PhysicsObject) // !doFloat &&  !doFloat && 
+	public Vec2 velocityBeforeFriction = Vec2.Zero;
 
-                    if ((!doFloat || buoyancy <= 0f) && hSpeed == 0 && this.vSpeed == 0 && (((_collideBottom is Block || _collideBottom is IPlatform) && (!(_collideBottom is ItemBox) || (_collideBottom as ItemBox).canBounce)) || initemspawner) && (!(_collideBottom is PhysicsObject) || ((_collideBottom as PhysicsObject).sleeping))) // !(_collideBottom as PhysicsObject).modifiedGravForFloat && _collideBottom.grounded && 
-                        // (this._lastrealcollideBottom as PhysicsObject)._lastrealcollideBottom is PhysicsObject
-                        _sleeping = true;
-                }
-                if (num5 > -999f)
-                {
-                    if (!doFloat && this.vSpeed > 1f)
-                    {
-                        if (DGRSettings.ActualParticleMultiplier > 0) Level.Add(new WaterSplash(x, num5 - 3f, _curFluid));
-                        SFX.Play("largeSplash", Rando.Float(0.6f, 0.7f), Rando.Float(-0.7f, -0.2f));
-                    }
-                    doFloat = true;
-                }
-                else doFloat = false;
-                if (_curPuddle != null)
-                {
-                    _curFluid = _curPuddle.data;
-                    if (onFire && _curFluid.flammable <= 0.5 && _curFluid.heat <= 0.5)
-                        Extinquish();
-                    else if (_curFluid.heat > 0.5)
-                    {
-                        if (flammable > 0 && isServerForObject)
-                        {
-                            bool onFire = this.onFire;
-                            Burn(position, this);
-                            if (this is Duck && (this as Duck).onFire && !onFire) (this as Duck).ThrowItem();
-                        }
-                        DoHeatUp(0.015f, position);
-                    }
-                    else
-                        DoHeatUp(-0.05f, position);
-                }
-                if (doFloat)
-                {
-                    if ((!(this is Duck) ? 0 : ((this as Duck).crouch ? 1 : 0)) != 0)
-                    {
-                        if (floatMultiplier > 0.98f) this.vSpeed *= 0.8f;
-                        floatMultiplier = 0.8f;
-                    }
-                    else
-                    {
-                        if (floatMultiplier > 0.98f) this.vSpeed *= 0.4f;
-                        this.vSpeed *= 0.95f;
-                        floatMultiplier = 0.4f;
-                    }
-                }
-                else
-                {
-                    if (flag4 && vSpeed > 1 && Math.Abs(this.vSpeed) < 0.01f)
-                    {
-                        Level.Add(new WaterSplash(x, bottom, _curFluid));
-                        SFX.Play("littleSplash", Rando.Float(0.8f, 0.9f), Rando.Float(-0.2f, 0.2f));
-                    }
-                    floatMultiplier = 1f;
-                }
-                Recorder.LogVelocity(Math.Abs(hSpeed) + Math.Abs(this.vSpeed));
-                if (_sleeping)
-                    return;
-                if (modFric)
-                    modFric = false;
-                else
-                    specialFrictionMod = 1f;
-            }
-        }
+	private bool _initedNetSounds;
 
-        public void DoFloat(bool lavaOnly = false)
-        {
-            onlyFloatInLava = lavaOnly;
-            DoFloat();
-        }
+	public bool skipClip;
 
-        public void DoFloat()
-        {
-            if (buoyancy > 0f)
-            {
-                FluidPuddle fluidPuddle = Level.CheckPoint<FluidPuddle>(position + new Vec2(0f, 4f));
-                if (fluidPuddle != null)
-                {
-                    if (onlyFloatInLava && fluidPuddle.data.heat < 0.5f)
-                        return;
-                    if (y + 4f - fluidPuddle.top > 8f)
-                    {
-                        modifiedGravForFloat = true;
-                        gravMultiplier = -0.5f;
-                        grounded = false;
-                    }
-                    else
-                    {
-                        if (y + 4f - fluidPuddle.top < 3f)
-                        {
-                            modifiedGravForFloat = true;
-                            gravMultiplier = 0.2f;
-                            grounded = true;
-                        }
-                        else if (y + 4f - fluidPuddle.top > 4f)
-                        {
-                            gravMultiplier = -0.2f;
-                            grounded = true;
-                        }
-                        grounded = true;
-                    }
-                }
-                else
-                    gravMultiplier = 1f;
-            }
-            else
-            {
-                if (!modifiedGravForFloat)
-                    return;
-                gravMultiplier = 1f;
-            }
-        }
+	private FluidData _curFluid;
 
-        public override void Impact(MaterialThing with, ImpactedFrom from, bool solidImpact)
-        {
-            bool flag1 = true;
-            bool flag2 = false;
-            switch (with)
-            {
-                case Block _:
-                    flag2 = true;
-                    with.SolidImpact(this, from);
-                    if (with.destroyed)
-                        return;
-                    if (from == ImpactedFrom.Right)
-                    {
-                        x = with.left + (x - right);
-                        SolidImpact(with, from);
-                        if (hSpeed > -hSpeed * bouncy)
-                        {
-                            hSpeed = -hSpeed * bouncy;
-                            if (Math.Abs(hSpeed) < 0.1f)
-                                hSpeed = 0f;
-                        }
-                    }
-                    if (from == ImpactedFrom.Left)
-                    {
-                        x = with.right + (x - left);
-                        SolidImpact(with, from);
-                        if (hSpeed < -hSpeed * bouncy)
-                        {
-                            hSpeed = -hSpeed * bouncy;
-                            if (Math.Abs(hSpeed) < 0.1f)
-                                hSpeed = 0f;
-                        }
-                    }
-                    if (from == ImpactedFrom.Top)
-                    {
-                        y = (with.bottom + (y - top) + 1f);
-                        SolidImpact(with, from);
-                        if (vSpeed < -vSpeed * bouncy)
-                        {
-                            vSpeed = -vSpeed * bouncy;
-                            if (Math.Abs(vSpeed) < 0.1f)
-                                vSpeed = 0f;
-                        }
-                    }
-                    if (from == ImpactedFrom.Bottom)
-                    {
-                        y = with.top + (y - bottom);
-                        SolidImpact(with, from);
-                        if (vSpeed > -vSpeed * bouncy)
-                        {
-                            vSpeed = -vSpeed * bouncy;
-                            if (Math.Abs(vSpeed) < 0.1f || (bouncy != 0f && Math.Abs(_vSpeed) < 0.1f))
-                            {
-                                vSpeed = 0f;
-                            }
-                        }
-                        grounded = true;
-                        break;
-                    }
-                    break;
-                case IPlatform _:
-                    flag2 = false;
-                    if (from == ImpactedFrom.Bottom)
-                    {
-                        if (with is PhysicsObject && (!with.grounded || Math.Abs(with.vSpeed) >= 0.3f) || with.top + (vSpeed + 2f) <= bottom || _skipPlatforms || _skipAutoPlatforms && with is AutoPlatform)
-                            return;
-                        with.SolidImpact(this, ImpactedFrom.Top);
-                        if (with.destroyed)
-                            return;
-                        y = with.top + (y - bottom);
-                        SolidImpact(with, from);
-                        if (vSpeed > -vSpeed * bouncy)
-                        {
-                            vSpeed = -vSpeed * bouncy;
-                            if (Math.Abs(vSpeed) < 0.1f || (bouncy != 0f && Math.Abs(_vSpeed) < 0.1f))
-                                vSpeed = 0f;
-                        }
-                        grounded = true;
-                        break;
-                    }
-                    break;
-                default:
-                    flag1 = false;
-                    break;
-            }
-            if (flag1)
-            {
-                if (!flag2 && !impacting.Contains(with))
-                {
-                    base.Impact(with, from, solidImpact);
-                    impacting.Add(with);
-                }
-                else
-                {
-                    if (!flag2 || solidImpacting.Contains(with))
-                        return;
-                    base.Impact(with, from, solidImpact);
-                    solidImpacting.Add(with);
-                }
-            }
-            else
-                base.Impact(with, from, solidImpact);
-        }
+	protected FluidPuddle _curPuddle;
 
-        public override void Update()
-        {
-            if (Network.isActive && !_initedNetSounds)
-            {
-                _initedNetSounds = true;
-                List<string> list = collideSounds.GetList(ImpactedFrom.Bottom);
-                if (list != null)
-                {
-                    _netCollideSound = new NetSoundEffect(list.ToArray())
-                    {
-                        volume = _impactVolume
-                    };
-                }
-            }
-            if (!updatePhysics)
-                return;
-            UpdatePhysics();
-        }
+	public bool removedFromFall;
 
-        public override void DoDraw()
-        {
-            if (!Content.renderingToTarget && spawnAnimation)
-            {
-                if (_gridMaterial == null)
-                    _gridMaterial = new MaterialGrid(this);
-                if (!_gridMaterial.finished)
-                {
-                    if (!_oldMaterialSet)
-                    {
-                        _oldMaterial = material;
-                        _oldMaterialSet = true;
-                    }
-                    material = _gridMaterial;
-                }
-                else
-                {
-                    if (_oldMaterialSet)
-                        material = _oldMaterial;
-                    spawnAnimation = false;
-                }
-            }
-            base.DoDraw();
-        }
+	public DateTime lastGrounded;
 
-        public override void Draw()
-        {
-            if (graphic != null)
-                graphic.flipH = offDir <= 0;
-            base.Draw();
-        }
+	public byte framesSinceGrounded = 99;
 
-        public override void NetworkUpdate()
-        {
-        }
+	public bool _sleeping;
 
-        protected void SyncNetworkAction(NetAction pAction)
-        {
-            if (!Network.isActive)
-            {
-                pAction();
-            }
-            else
-            {
-                if (!isServerForObject)
-                    return;
-                CheckForNetworkActionAttribute(pAction.Method);
-                pAction();
-                Send.Message(new NMRunNetworkAction(this, Editor.NetworkActionIndex(GetType(), pAction.Method)));
-            }
-        }
+	public bool doFloat;
 
-        protected void SyncNetworkAction<T>(Action<T> pMethod, T pParameter)
-        {
-            if (!Network.isActive)
-            {
-                pMethod(pParameter);
-            }
-            else
-            {
-                if (!isServerForObject)
-                    return;
-                CheckForNetworkActionAttribute(pMethod.Method);
-                pMethod(pParameter);
-                Send.Message(new NMRunNetworkActionParameters(this, pMethod.Method, new object[1]
-                {
-           pParameter
-                }));
-            }
-        }
+	private static Comparison<MaterialThing> XHspeedPositive = SortCollisionXHspeedPositive;
 
-        protected void SyncNetworkAction<T, T2>(Action<T, T2> pMethod, T pParameter, T2 pParameter2)
-        {
-            if (!Network.isActive)
-            {
-                pMethod(pParameter, pParameter2);
-            }
-            else
-            {
-                if (!isServerForObject)
-                    return;
-                CheckForNetworkActionAttribute(pMethod.Method);
-                pMethod(pParameter, pParameter2);
-                Send.Message(new NMRunNetworkActionParameters(this, pMethod.Method, new object[2]
-                {
-           pParameter,
-           pParameter2
-                }));
-            }
-        }
+	private static Comparison<MaterialThing> XHspeedNegative = SortCollisionXHspeedNegative;
 
-        protected void SyncNetworkAction<T, T2, T3>(
-          Action<T, T2, T3> pMethod,
-          T pParameter,
-          T2 pParameter2,
-          T3 pParameter3)
-        {
-            if (!Network.isActive)
-            {
-                pMethod(pParameter, pParameter2, pParameter3);
-            }
-            else
-            {
-                if (!isServerForObject)
-                    return;
-                CheckForNetworkActionAttribute(pMethod.Method);
-                pMethod(pParameter, pParameter2, pParameter3);
-                Send.Message(new NMRunNetworkActionParameters(this, pMethod.Method, new object[3]
-                {
-           pParameter,
-           pParameter2,
-           pParameter3
-                }));
-            }
-        }
+	private static Comparison<MaterialThing> YVspeedPositive = SortCollisionYVspeedPositive;
 
-        protected void SyncNetworkAction<T, T2, T3, T4>(
-          Action<T, T2, T3, T4> pMethod,
-          T pParameter,
-          T2 pParameter2,
-          T3 pParameter3,
-          T4 pParameter4)
-        {
-            if (!Network.isActive)
-            {
-                pMethod(pParameter, pParameter2, pParameter3, pParameter4);
-            }
-            else
-            {
-                if (!isServerForObject)
-                    return;
-                CheckForNetworkActionAttribute(pMethod.Method);
-                pMethod(pParameter, pParameter2, pParameter3, pParameter4);
-                Send.Message(new NMRunNetworkActionParameters(this, pMethod.Method, new object[4]
-                {
-           pParameter,
-           pParameter2,
-           pParameter3,
-           pParameter4
-                }));
-            }
-        }
+	private static Comparison<MaterialThing> YVspeedNegative = SortCollisionYVspeedNegative;
 
-        protected void SyncNetworkAction<T, T2, T3, T4, T5>(
-          Action<T, T2, T3, T4, T5> pMethod,
-          T pParameter,
-          T2 pParameter2,
-          T3 pParameter3,
-          T4 pParameter4,
-          T5 pParameter5)
-        {
-            if (!Network.isActive)
-            {
-                pMethod(pParameter, pParameter2, pParameter3, pParameter4, pParameter5);
-            }
-            else
-            {
-                if (!isServerForObject)
-                    return;
-                CheckForNetworkActionAttribute(pMethod.Method);
-                pMethod(pParameter, pParameter2, pParameter3, pParameter4, pParameter5);
-                Send.Message(new NMRunNetworkActionParameters(this, pMethod.Method, new object[5]
-                {
-           pParameter,
-           pParameter2,
-           pParameter3,
-           pParameter4,
-           pParameter5
-                }));
-            }
-        }
+	public bool platformSkip;
 
-        private void CheckForNetworkActionAttribute(MethodInfo pMethod)
-        {
-            if (!pMethod.GetCustomAttributes(typeof(NetworkAction), false).Any())
-                throw new Exception("SyncNetworkAction can only be used for functions with the [NetworkAction] attribute defined.");
-        }
+	public float specialFrictionMod = 1f;
 
-        public delegate void NetAction();
-    }
+	private Predicate<MaterialThing> _collisionPred;
+
+	private bool firstCheck;
+
+	private bool _awaken = true;
+
+	private bool modifiedGravForFloat;
+
+	public bool modFric;
+
+	public bool updatePhysics = true;
+
+	public bool didSpawn;
+
+	public bool spawnAnimation;
+
+	private MaterialGrid _gridMaterial;
+
+	private Material _oldMaterial;
+
+	private bool _oldMaterialSet;
+
+	public short netVelocityX
+	{
+		get
+		{
+			return (short)Math.Round(hSpeed * 1000f);
+		}
+		set
+		{
+			hSpeed = (float)value / 1000f;
+		}
+	}
+
+	public short netVelocityY
+	{
+		get
+		{
+			return (short)Math.Round(vSpeed * 1000f);
+		}
+		set
+		{
+			vSpeed = (float)value / 1000f;
+		}
+	}
+
+	public byte netAngle
+	{
+		get
+		{
+			float deg = base.angleDegrees;
+			if (deg < 0f)
+			{
+				deg = Math.Abs(deg) + 180f;
+			}
+			return (byte)Math.Round(deg % 360f / 2f);
+		}
+		set
+		{
+			base.angleDegrees = (float)(int)value * 2f;
+		}
+	}
+
+	public virtual Vec2 netVelocity
+	{
+		get
+		{
+			return base.velocity;
+		}
+		set
+		{
+			base.velocity = value;
+		}
+	}
+
+	public short netPositionX
+	{
+		get
+		{
+			return (short)Maths.Clamp((int)Math.Round(position.x * 4f), -32768, 32767);
+		}
+		set
+		{
+			position.x = (float)value / 4f;
+		}
+	}
+
+	public short netPositionY
+	{
+		get
+		{
+			return (short)Maths.Clamp((int)Math.Round(position.y * 4f), -32768, 32767);
+		}
+		set
+		{
+			position.y = (float)value / 4f;
+		}
+	}
+
+	public virtual Thing netOwner
+	{
+		get
+		{
+			return owner;
+		}
+		set
+		{
+			owner = value;
+		}
+	}
+
+	public override Vec2 netPosition
+	{
+		get
+		{
+			_ = position.x;
+			_ = -1000f;
+			return position;
+		}
+		set
+		{
+			_ = value.x;
+			_ = -1000f;
+			position = value;
+		}
+	}
+
+	public override Vec2 cameraPosition
+	{
+		get
+		{
+			if (!(cameraPositionOverride != Vec2.Zero))
+			{
+				return base.cameraPosition;
+			}
+			return cameraPositionOverride;
+		}
+	}
+
+	public Thing clipThing
+	{
+		get
+		{
+			if (base.clip.Count == 0)
+			{
+				return null;
+			}
+			return base.clip.ElementAt(0);
+		}
+		set
+		{
+			if (value != null && value != this)
+			{
+				base.clip.Clear();
+				base.clip.Add(value as MaterialThing);
+			}
+			else
+			{
+				base.clip.Clear();
+			}
+		}
+	}
+
+	public Thing impactingThing
+	{
+		get
+		{
+			if (base.impacting.Count == 0)
+			{
+				return null;
+			}
+			return base.impacting.ElementAt(0);
+		}
+		set
+		{
+			if (value != null && value != this)
+			{
+				base.impacting.Clear();
+				base.impacting.Add(value as MaterialThing);
+			}
+			else
+			{
+				base.impacting.Clear();
+			}
+		}
+	}
+
+	public virtual Holdable holdObject
+	{
+		get
+		{
+			return _holdObject;
+		}
+		set
+		{
+			_holdObject = value;
+		}
+	}
+
+	public Gun gun => holdObject as Gun;
+
+	public float currentFriction => (friction + frictionMod) * frictionMult;
+
+	public virtual float currentGravity => gravity * gravMultiplier * floatMultiplier;
+
+	public MaterialThing collideLeft => _collideLeft;
+
+	public MaterialThing collideRight => _collideRight;
+
+	public MaterialThing collideTop => _collideTop;
+
+	public MaterialThing collideBottom => _collideBottom;
+
+	public MaterialThing wallCollideLeft => _wallCollideLeft;
+
+	public MaterialThing wallCollideRight => _wallCollideRight;
+
+	public override float impactPowerV => base.impactPowerV - ((vSpeed > 0f) ? (currentGravity * base.weightMultiplierInvTotal) : 0f);
+
+	public override float hSpeed
+	{
+		get
+		{
+			if (!_inPhysicsLoop)
+			{
+				return _hSpeed;
+			}
+			return lastHSpeed;
+		}
+		set
+		{
+			_hSpeed = value;
+		}
+	}
+
+	public override float vSpeed
+	{
+		get
+		{
+			if (!_inPhysicsLoop)
+			{
+				return _vSpeed;
+			}
+			return lastVSpeed;
+		}
+		set
+		{
+			_vSpeed = value;
+		}
+	}
+
+	public Vec2 lastPosition => _lastPosition;
+
+	public Vec2 lastVelocity => _lastVelocity;
+
+	public bool ownerIsLocalController
+	{
+		get
+		{
+			if (owner != null && owner.responsibleProfile != null && owner.responsibleProfile.localPlayer)
+			{
+				return true;
+			}
+			return false;
+		}
+	}
+
+	public virtual float holdWeightMultiplier
+	{
+		get
+		{
+			if (holdObject != null)
+			{
+				return holdObject.weightMultiplier;
+			}
+			return 1f;
+		}
+	}
+
+	public virtual float holdWeightMultiplierSmall
+	{
+		get
+		{
+			if (holdObject != null)
+			{
+				return holdObject.weightMultiplierSmall;
+			}
+			return 1f;
+		}
+	}
+
+	public bool sleeping
+	{
+		get
+		{
+			return _sleeping;
+		}
+		set
+		{
+			if (_sleeping && !value)
+			{
+				_sleeping = value;
+				foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(base.topLeft + new Vec2(0f, -4f), base.topRight + new Vec2(0f, -4f)))
+				{
+					item.sleeping = false;
+				}
+			}
+			_sleeping = value;
+		}
+	}
+
+	public PhysicsObject()
+		: this(0f, 0f)
+	{
+	}
+
+	public PhysicsObject(float xval, float yval)
+		: base(xval, yval)
+	{
+		syncPriority = GhostPriority.Normal;
+		if (TeamSelect2.Enabled("MOOGRAV"))
+		{
+			gravity = 0.1f;
+		}
+		else
+		{
+			gravity = 0.2f;
+		}
+		_physicsIndex = Thing.GetGlobalIndex();
+		_ghostType = Editor.IDToType[GetType()];
+		_placementCost += 6;
+		_hitThings = new List<MaterialThing>();
+		_hitDucks = new List<Duck>();
+	}
+
+	public override void DoInitialize()
+	{
+		base.DoInitialize();
+	}
+
+	public override void Initialize()
+	{
+		_grounded = true;
+	}
+
+	public override bool ShouldUpdate()
+	{
+		return false;
+	}
+
+	public static int SortCollisionXHspeedPositive(MaterialThing t1, MaterialThing t2)
+	{
+		float val1 = t1.x + (float)((t1 is Block) ? (-10000) : 0);
+		float val2 = t2.x + (float)((t2 is Block) ? (-10000) : 0);
+		if (val1 > val2)
+		{
+			return 1;
+		}
+		if (val1 < val2)
+		{
+			return -1;
+		}
+		return 0;
+	}
+
+	public static int SortCollisionXHspeedNegative(MaterialThing t1, MaterialThing t2)
+	{
+		float val1 = 0f - t1.x + (float)((t1 is Block) ? 10000 : 0);
+		float val2 = 0f - t2.x + (float)((t2 is Block) ? 10000 : 0);
+		if (val1 > val2)
+		{
+			return 1;
+		}
+		if (val1 < val2)
+		{
+			return -1;
+		}
+		return 0;
+	}
+
+	public static int SortCollisionYVspeedPositive(MaterialThing t1, MaterialThing t2)
+	{
+		float val1 = t1.y + (float)((t1 is Block) ? 10000 : 0);
+		float val2 = t2.y + (float)((t2 is Block) ? 10000 : 0);
+		if (val1 > val2)
+		{
+			return 1;
+		}
+		if (val1 < val2)
+		{
+			return -1;
+		}
+		return 0;
+	}
+
+	public static int SortCollisionYVspeedNegative(MaterialThing t1, MaterialThing t2)
+	{
+		float val1 = 0f - t1.y + (float)((t1 is Block) ? (-10000) : 0);
+		float val2 = 0f - t2.y + (float)((t2 is Block) ? (-10000) : 0);
+		if (val1 > val2)
+		{
+			return 1;
+		}
+		if (val1 < val2)
+		{
+			return -1;
+		}
+		return 0;
+	}
+
+	/// <summary>
+	/// Called when the object is shot out of a pipe/cannon/etc
+	/// </summary>
+	/// <param name="pFrom">The thing this object was ejected from</param>
+	public virtual void Ejected(Thing pFrom)
+	{
+	}
+
+	public virtual void UpdatePhysics()
+	{
+		if (framesSinceGrounded > 10)
+		{
+			framesSinceGrounded = 10;
+		}
+		_lastPosition = position;
+		_lastVelocity = base.velocity;
+		base.Update();
+		if (!solid || !enablePhysics || (base.level != null && !base.level.simulatePhysics))
+		{
+			lastGrounded = DateTime.Now;
+			if (!solid)
+			{
+				base.solidImpacting.Clear();
+				base.impacting.Clear();
+			}
+			return;
+		}
+		if (_collisionPred == null)
+		{
+			_collisionPred = (MaterialThing thing) => thing == null || !Collision.Rect(base.topLeft, base.bottomRight, thing);
+		}
+		_collideLeft = null;
+		_collideRight = null;
+		_collideTop = null;
+		_collideBottom = null;
+		_wallCollideLeft = null;
+		_wallCollideRight = null;
+		_curPuddle = null;
+		if (!skipClip)
+		{
+			base.clip.RemoveWhere(_collisionPred);
+			base.impacting.RemoveWhere(_collisionPred);
+		}
+		if (_sleeping)
+		{
+			if (hSpeed == 0f && vSpeed == 0f && !(heat > 0f) && !_awaken)
+			{
+				return;
+			}
+			_sleeping = false;
+			_awaken = false;
+		}
+		if (!skipClip)
+		{
+			base.solidImpacting.RemoveWhere(_collisionPred);
+		}
+		float fric = currentFriction;
+		if (sliding || crouch)
+		{
+			fric *= 0.28f;
+		}
+		fric *= specialFrictionMod;
+		if (owner is Duck)
+		{
+			gravMultiplier = 1f;
+		}
+		if (hSpeed > 0f - fric && hSpeed < fric)
+		{
+			hSpeed = 0f;
+		}
+		if (duck)
+		{
+			if (hSpeed > 0f)
+			{
+				hSpeed -= fric;
+			}
+			if (hSpeed < 0f)
+			{
+				hSpeed += fric;
+			}
+		}
+		else if (base.grounded)
+		{
+			if (hSpeed > 0f)
+			{
+				hSpeed -= fric;
+			}
+			if (hSpeed < 0f)
+			{
+				hSpeed += fric;
+			}
+		}
+		else
+		{
+			if (base.isServerForObject && base.y > Level.current.lowestPoint + 500f)
+			{
+				removedFromFall = true;
+				if (this is Duck || this is RagdollPart || this is TrappedDuck)
+				{
+					return;
+				}
+				Level.Remove(this);
+			}
+			if (hSpeed > 0f)
+			{
+				hSpeed -= fric * 0.7f * airFrictionMult;
+			}
+			if (hSpeed < 0f)
+			{
+				hSpeed += fric * 0.7f * airFrictionMult;
+			}
+		}
+		if (hSpeed > hMax)
+		{
+			hSpeed = hMax;
+		}
+		if (hSpeed < 0f - hMax)
+		{
+			hSpeed = 0f - hMax;
+		}
+		Vec2 tl = base.topLeft + new Vec2(0f, 0.5f);
+		Vec2 br = base.bottomRight + new Vec2(0f, -0.5f);
+		lastHSpeed = hSpeed;
+		float realX = 0f;
+		bool hasRealX = false;
+		if (hSpeed != 0f)
+		{
+			int cycles = (int)Math.Ceiling(Math.Abs(hSpeed) / 4f);
+			float oldHSpeed = hSpeed;
+			if (hSpeed < 0f)
+			{
+				tl.x += hSpeed;
+				br.x -= 2f;
+			}
+			else
+			{
+				br.x += hSpeed;
+				tl.x += 2f;
+			}
+			_hitThings.Clear();
+			Level.CheckRectAll(tl, br, _hitThings);
+			if (Network.isActive && !base.isServerForObject && Math.Abs(hSpeed) > 0.5f)
+			{
+				_hitDucks.Clear();
+				Level.CheckRectAll(tl + new Vec2(hSpeed * 2f, 0f), br + new Vec2(hSpeed * 2f, 0f), _hitDucks);
+				foreach (Duck d in _hitDucks)
+				{
+					if (hSpeed > 0f)
+					{
+						d.Impact(this, ImpactedFrom.Left, solidImpact: true);
+					}
+					else if (hSpeed < 0f)
+					{
+						d.Impact(this, ImpactedFrom.Right, solidImpact: true);
+					}
+				}
+			}
+			if (hSpeed > 0f)
+			{
+				DGList.Sort(_hitThings, XHspeedPositive);
+			}
+			else
+			{
+				DGList.Sort(_hitThings, XHspeedNegative);
+			}
+			for (int i = 0; i < cycles; i++)
+			{
+				float speedAdd = hSpeed / (float)cycles;
+				if (speedAdd == 0f || Math.Sign(speedAdd) != Math.Sign(oldHSpeed))
+				{
+					break;
+				}
+				base.x += speedAdd;
+				_inPhysicsLoop = true;
+				bool solidImpact = false;
+				foreach (MaterialThing t in _hitThings)
+				{
+					if (t == this || base.clip.Contains(t) || t.clip.Contains(this) || !t.solid || (base.planeOfExistence != 4 && t.planeOfExistence != base.planeOfExistence) || (solidImpact && !(t is Block)))
+					{
+						continue;
+					}
+					Vec2 prevPos = position;
+					bool touch = false;
+					if (t.left <= base.right && t.left > base.left)
+					{
+						touch = true;
+						if (hSpeed > 0f)
+						{
+							_collideRight = t;
+							if (t is Block)
+							{
+								_wallCollideRight = t;
+								solidImpact = true;
+							}
+							t.Impact(this, ImpactedFrom.Left, solidImpact: true);
+							Impact(t, ImpactedFrom.Right, solidImpact: true);
+						}
+					}
+					if (t.right >= base.left && t.right < base.right)
+					{
+						touch = true;
+						if (hSpeed < 0f)
+						{
+							_collideLeft = t;
+							if (t is Block)
+							{
+								_wallCollideLeft = t;
+								solidImpact = true;
+							}
+							t.Impact(this, ImpactedFrom.Right, solidImpact: true);
+							Impact(t, ImpactedFrom.Left, solidImpact: true);
+						}
+					}
+					if (t is IBigStupidWall && (prevPos - position).length > 64f)
+					{
+						position = prevPos;
+					}
+					if (touch)
+					{
+						t.Touch(this);
+						Touch(t);
+					}
+				}
+				_inPhysicsLoop = false;
+			}
+		}
+		if (hasRealX)
+		{
+			base.x = realX;
+		}
+		if (vSpeed > vMax)
+		{
+			vSpeed = vMax;
+		}
+		if (vSpeed < 0f - vMax)
+		{
+			vSpeed = 0f - vMax;
+		}
+		vSpeed += currentGravity;
+		if (vSpeed < 0f)
+		{
+			base.grounded = false;
+		}
+		base.grounded = false;
+		framesSinceGrounded++;
+		if (!(vSpeed > 0f))
+		{
+			Math.Floor(vSpeed);
+		}
+		else
+		{
+			Math.Ceiling(vSpeed);
+		}
+		tl = base.topLeft + new Vec2(0.5f, 0f);
+		br = base.bottomRight + new Vec2(-0.5f, 0f);
+		float floaterTop = -9999f;
+		bool touchedWater = false;
+		float oldVSpeed = vSpeed;
+		lastVSpeed = vSpeed;
+		if (vSpeed < 0f)
+		{
+			tl.y += vSpeed;
+			br.y -= 2f;
+		}
+		else
+		{
+			br.y += vSpeed;
+			tl.y += 2f;
+		}
+		_hitThings.Clear();
+		Level.CheckRectAll(tl, br, _hitThings);
+		if (vSpeed > 0f)
+		{
+			DGList.Sort(_hitThings, YVspeedPositive);
+		}
+		else
+		{
+			DGList.Sort(_hitThings, YVspeedNegative);
+		}
+		_ = base.top;
+		_ = base.bottom;
+		if (this is Duck asDuck)
+		{
+			if (asDuck.inputProfile.Down("DOWN"))
+			{
+				_ = asDuck._jumpValid > 0;
+			}
+			else
+				_ = 0;
+		}
+		int vCycles = (int)Math.Ceiling(Math.Abs(vSpeed) / 4f);
+		for (int i2 = 0; i2 < vCycles; i2++)
+		{
+			float vSpeedAdd = vSpeed / (float)vCycles;
+			if (vSpeedAdd == 0f || Math.Sign(vSpeedAdd) != Math.Sign(oldVSpeed))
+			{
+				break;
+			}
+			base.y += vSpeedAdd;
+			_inPhysicsLoop = true;
+			for (int iObject = 0; iObject < _hitThings.Count; iObject++)
+			{
+				MaterialThing t2 = _hitThings[iObject];
+				if (t2 is FluidPuddle)
+				{
+					touchedWater = true;
+					_curPuddle = t2 as FluidPuddle;
+					if (t2.top < base.bottom - 2f && t2.collisionSize.y > 2f)
+					{
+						floaterTop = t2.top;
+					}
+				}
+				if (t2 == this || base.clip.Contains(t2) || t2.clip.Contains(this) || !t2.solid || (base.planeOfExistence != 4 && t2.planeOfExistence != base.planeOfExistence))
+				{
+					continue;
+				}
+				Vec2 prevPos2 = position;
+				bool touch2 = false;
+				if (t2.bottom >= base.top && t2.top < base.top)
+				{
+					touch2 = true;
+					if (vSpeed < 0f)
+					{
+						_ = base.y;
+						_collideTop = t2;
+						t2.Impact(this, ImpactedFrom.Bottom, solidImpact: true);
+						Impact(t2, ImpactedFrom.Top, solidImpact: true);
+					}
+				}
+				if (t2.top <= base.bottom && t2.bottom > base.bottom)
+				{
+					touch2 = true;
+					if (vSpeed > 0f)
+					{
+						_ = this is EnergyScimitar;
+						_collideBottom = t2;
+						t2.Impact(this, ImpactedFrom.Top, solidImpact: true);
+						Impact(t2, ImpactedFrom.Bottom, solidImpact: true);
+					}
+				}
+				if (t2 is IBigStupidWall && (prevPos2 - position).length > 64f)
+				{
+					position = prevPos2;
+				}
+				if (touch2)
+				{
+					t2.Touch(this);
+					Touch(t2);
+				}
+			}
+			_inPhysicsLoop = false;
+		}
+		if (base.grounded)
+		{
+			lastGrounded = DateTime.Now;
+			framesSinceGrounded = 0;
+			if (!doFloat && hSpeed == 0f && vSpeed == 0f && !(_collideBottom is PhysicsObject) && (_collideBottom is Block || _collideBottom is IPlatform) && (!(_collideBottom is ItemBox) || (_collideBottom as ItemBox).canBounce))
+			{
+				_sleeping = true;
+			}
+		}
+		if (floaterTop > -999f)
+		{
+			if (!doFloat && vSpeed > 1f)
+			{
+				Level.Add(new WaterSplash(base.x, floaterTop - 3f, _curFluid));
+				SFX.Play("largeSplash", Rando.Float(0.6f, 0.7f), Rando.Float(-0.7f, -0.2f));
+			}
+			doFloat = true;
+		}
+		else
+		{
+			doFloat = false;
+		}
+		if (_curPuddle != null)
+		{
+			_curFluid = _curPuddle.data;
+			if (base.onFire && _curFluid.flammable <= 0.5f && _curFluid.heat <= 0.5f)
+			{
+				Extinquish();
+			}
+			else if (_curFluid.heat > 0.5f)
+			{
+				if (flammable > 0f && base.isServerForObject)
+				{
+					bool wasOnFire = base.onFire;
+					Burn(position, this);
+					if (this is Duck && (this as Duck).onFire && !wasOnFire)
+					{
+						(this as Duck).ThrowItem();
+					}
+				}
+				DoHeatUp(0.015f, position);
+			}
+			else
+			{
+				DoHeatUp(-0.05f, position);
+			}
+		}
+		if (doFloat)
+		{
+			if (this is Duck && (this as Duck).crouch)
+			{
+				if (floatMultiplier > 0.98f)
+				{
+					vSpeed *= 0.8f;
+				}
+				floatMultiplier = 0.8f;
+			}
+			else
+			{
+				if (floatMultiplier > 0.98f)
+				{
+					vSpeed *= 0.4f;
+				}
+				vSpeed *= 0.95f;
+				floatMultiplier = 0.4f;
+			}
+		}
+		else
+		{
+			if (touchedWater && oldVSpeed > 1f && Math.Abs(vSpeed) < 0.01f)
+			{
+				Level.Add(new WaterSplash(base.x, base.bottom, _curFluid));
+				SFX.Play("littleSplash", Rando.Float(0.8f, 0.9f), Rando.Float(-0.2f, 0.2f));
+			}
+			floatMultiplier = 1f;
+		}
+		Recorder.LogVelocity(Math.Abs(hSpeed) + Math.Abs(vSpeed));
+		if (!_sleeping)
+		{
+			if (modFric)
+			{
+				modFric = false;
+			}
+			else
+			{
+				specialFrictionMod = 1f;
+			}
+		}
+	}
+
+	public void DoFloat(bool lavaOnly = false)
+	{
+		onlyFloatInLava = lavaOnly;
+		DoFloat();
+	}
+
+	public void DoFloat()
+	{
+		if (buoyancy > 0f)
+		{
+			FluidPuddle p = Level.CheckPoint<FluidPuddle>(position + new Vec2(0f, 4f));
+			if (p != null)
+			{
+				if (onlyFloatInLava && p.data.heat < 0.5f)
+				{
+					return;
+				}
+				if (base.y + 4f - p.top > 8f)
+				{
+					modifiedGravForFloat = true;
+					gravMultiplier = -0.5f;
+					base.grounded = false;
+					return;
+				}
+				if (base.y + 4f - p.top < 3f)
+				{
+					modifiedGravForFloat = true;
+					gravMultiplier = 0.2f;
+					base.grounded = true;
+				}
+				else if (base.y + 4f - p.top > 4f)
+				{
+					gravMultiplier = -0.2f;
+					base.grounded = true;
+				}
+				base.grounded = true;
+			}
+			else
+			{
+				gravMultiplier = 1f;
+			}
+		}
+		else if (modifiedGravForFloat)
+		{
+			gravMultiplier = 1f;
+		}
+	}
+
+	public override void Impact(MaterialThing with, ImpactedFrom from, bool solidImpact)
+	{
+		bool wasBlock = true;
+		bool wasSolid = false;
+		if (with is Block)
+		{
+			wasSolid = true;
+			with.SolidImpact(this, from);
+			if (with.destroyed)
+			{
+				return;
+			}
+			if (from == ImpactedFrom.Right)
+			{
+				base.x = with.left + (base.x - base.right);
+				SolidImpact(with, from);
+				if (hSpeed > (0f - hSpeed) * base.bouncy)
+				{
+					hSpeed = (0f - hSpeed) * base.bouncy;
+					if (Math.Abs(hSpeed) < 0.1f)
+					{
+						hSpeed = 0f;
+					}
+				}
+			}
+			if (from == ImpactedFrom.Left)
+			{
+				base.x = with.right + (base.x - base.left);
+				SolidImpact(with, from);
+				if (hSpeed < (0f - hSpeed) * base.bouncy)
+				{
+					hSpeed = (0f - hSpeed) * base.bouncy;
+					if (Math.Abs(hSpeed) < 0.1f)
+					{
+						hSpeed = 0f;
+					}
+				}
+			}
+			if (from == ImpactedFrom.Top)
+			{
+				base.y = with.bottom + (base.y - base.top) + 1f;
+				SolidImpact(with, from);
+				if (vSpeed < (0f - vSpeed) * base.bouncy)
+				{
+					vSpeed = (0f - vSpeed) * base.bouncy;
+					if (Math.Abs(vSpeed) < 0.1f)
+					{
+						vSpeed = 0f;
+					}
+				}
+			}
+			if (from == ImpactedFrom.Bottom)
+			{
+				base.y = with.top + (base.y - base.bottom);
+				SolidImpact(with, from);
+				if (vSpeed > (0f - vSpeed) * base.bouncy)
+				{
+					vSpeed = (0f - vSpeed) * base.bouncy;
+					if (Math.Abs(vSpeed) < 0.1f)
+					{
+						vSpeed = 0f;
+					}
+				}
+				base.grounded = true;
+			}
+		}
+		else if (with is IPlatform)
+		{
+			wasSolid = false;
+			if (from == ImpactedFrom.Bottom)
+			{
+				if ((with is PhysicsObject && (!with.grounded || !(Math.Abs(with.vSpeed) < 0.3f))) || !(with.top + (vSpeed + 2f) > base.bottom) || _skipPlatforms || (_skipAutoPlatforms && with is AutoPlatform))
+				{
+					return;
+				}
+				with.SolidImpact(this, ImpactedFrom.Top);
+				if (with.destroyed)
+				{
+					return;
+				}
+				base.y = with.top + (base.y - base.bottom);
+				SolidImpact(with, from);
+				if (vSpeed > (0f - vSpeed) * base.bouncy)
+				{
+					vSpeed = (0f - vSpeed) * base.bouncy;
+					if (Math.Abs(vSpeed) < 0.1f)
+					{
+						vSpeed = 0f;
+					}
+				}
+				base.grounded = true;
+			}
+		}
+		else
+		{
+			wasBlock = false;
+		}
+		if (wasBlock)
+		{
+			if (!wasSolid && !base.impacting.Contains(with))
+			{
+				base.Impact(with, from, solidImpact);
+				base.impacting.Add(with);
+			}
+			else if (wasSolid && !base.solidImpacting.Contains(with))
+			{
+				base.Impact(with, from, solidImpact);
+				base.solidImpacting.Add(with);
+			}
+		}
+		else
+		{
+			base.Impact(with, from, solidImpact);
+		}
+	}
+
+	public override void Update()
+	{
+		if (Network.isActive && !_initedNetSounds)
+		{
+			_initedNetSounds = true;
+			List<string> s = base.collideSounds.GetList(ImpactedFrom.Bottom);
+			if (s != null)
+			{
+				_netCollideSound = new NetSoundEffect(s.ToArray());
+				_netCollideSound.volume = _impactVolume;
+			}
+		}
+		if (updatePhysics)
+		{
+			UpdatePhysics();
+		}
+	}
+
+	public override void DoDraw()
+	{
+		if (!Content.renderingToTarget && spawnAnimation)
+		{
+			if (_gridMaterial == null)
+			{
+				_gridMaterial = new MaterialGrid(this);
+			}
+			if (!_gridMaterial.finished)
+			{
+				if (!_oldMaterialSet)
+				{
+					_oldMaterial = base.material;
+					_oldMaterialSet = true;
+				}
+				base.material = _gridMaterial;
+			}
+			else
+			{
+				if (_oldMaterialSet)
+				{
+					base.material = _oldMaterial;
+				}
+				spawnAnimation = false;
+			}
+		}
+		base.DoDraw();
+	}
+
+	public override void Draw()
+	{
+		if (graphic != null)
+		{
+			graphic.flipH = offDir <= 0;
+		}
+		base.Draw();
+	}
+
+	public override void NetworkUpdate()
+	{
+	}
+
+	protected void SyncNetworkAction(NetAction pAction)
+	{
+		if (!Network.isActive)
+		{
+			pAction();
+		}
+		else if (base.isServerForObject)
+		{
+			CheckForNetworkActionAttribute(pAction.Method);
+			pAction();
+			Send.Message(new NMRunNetworkAction(this, Editor.NetworkActionIndex(GetType(), pAction.Method)));
+		}
+	}
+
+	protected void SyncNetworkAction<T>(Action<T> pMethod, T pParameter)
+	{
+		if (!Network.isActive)
+		{
+			pMethod(pParameter);
+		}
+		else if (base.isServerForObject)
+		{
+			CheckForNetworkActionAttribute(pMethod.Method);
+			pMethod(pParameter);
+			Send.Message(new NMRunNetworkActionParameters(this, pMethod.Method, new object[1] { pParameter }));
+		}
+	}
+
+	protected void SyncNetworkAction<T, T2>(Action<T, T2> pMethod, T pParameter, T2 pParameter2)
+	{
+		if (!Network.isActive)
+		{
+			pMethod(pParameter, pParameter2);
+		}
+		else if (base.isServerForObject)
+		{
+			CheckForNetworkActionAttribute(pMethod.Method);
+			pMethod(pParameter, pParameter2);
+			Send.Message(new NMRunNetworkActionParameters(this, pMethod.Method, new object[2] { pParameter, pParameter2 }));
+		}
+	}
+
+	protected void SyncNetworkAction<T, T2, T3>(Action<T, T2, T3> pMethod, T pParameter, T2 pParameter2, T3 pParameter3)
+	{
+		if (!Network.isActive)
+		{
+			pMethod(pParameter, pParameter2, pParameter3);
+		}
+		else if (base.isServerForObject)
+		{
+			CheckForNetworkActionAttribute(pMethod.Method);
+			pMethod(pParameter, pParameter2, pParameter3);
+			Send.Message(new NMRunNetworkActionParameters(this, pMethod.Method, new object[3] { pParameter, pParameter2, pParameter3 }));
+		}
+	}
+
+	protected void SyncNetworkAction<T, T2, T3, T4>(Action<T, T2, T3, T4> pMethod, T pParameter, T2 pParameter2, T3 pParameter3, T4 pParameter4)
+	{
+		if (!Network.isActive)
+		{
+			pMethod(pParameter, pParameter2, pParameter3, pParameter4);
+		}
+		else if (base.isServerForObject)
+		{
+			CheckForNetworkActionAttribute(pMethod.Method);
+			pMethod(pParameter, pParameter2, pParameter3, pParameter4);
+			Send.Message(new NMRunNetworkActionParameters(this, pMethod.Method, new object[4] { pParameter, pParameter2, pParameter3, pParameter4 }));
+		}
+	}
+
+	protected void SyncNetworkAction<T, T2, T3, T4, T5>(Action<T, T2, T3, T4, T5> pMethod, T pParameter, T2 pParameter2, T3 pParameter3, T4 pParameter4, T5 pParameter5)
+	{
+		if (!Network.isActive)
+		{
+			pMethod(pParameter, pParameter2, pParameter3, pParameter4, pParameter5);
+		}
+		else if (base.isServerForObject)
+		{
+			CheckForNetworkActionAttribute(pMethod.Method);
+			pMethod(pParameter, pParameter2, pParameter3, pParameter4, pParameter5);
+			Send.Message(new NMRunNetworkActionParameters(this, pMethod.Method, new object[5] { pParameter, pParameter2, pParameter3, pParameter4, pParameter5 }));
+		}
+	}
+
+	private void CheckForNetworkActionAttribute(MethodInfo pMethod)
+	{
+		if (!pMethod.GetCustomAttributes(typeof(NetworkAction), inherit: false).Any())
+		{
+			throw new Exception("SyncNetworkAction can only be used for functions with the [NetworkAction] attribute defined.");
+		}
+	}
 }

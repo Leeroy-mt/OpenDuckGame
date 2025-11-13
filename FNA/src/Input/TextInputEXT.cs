@@ -90,14 +90,6 @@ namespace Microsoft.Xna.Framework.Input
 			FNAPlatform.SetTextInputRectangle(WindowHandle, rectangle);
 		}
 
-		public static char[] TextInputCharacters
-		{
-			get
-			{
-				return FNAPlatform.TextInputCharacters;
-			}
-		}
-
 		#endregion
 
 		#region Internal Event Access Method

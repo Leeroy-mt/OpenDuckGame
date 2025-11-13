@@ -1,474 +1,850 @@
-﻿namespace DuckGame
+namespace DuckGame;
+
+public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontMove, IPathNodeBlocker
 {
-    public abstract class AutoPlatform :
-    MaterialThing,
-    IAutoTile,
-    IPlatform,
-    IDontMove,
-    IPathNodeBlocker
-    {
-        protected SpriteMap _sprite;
-        public Nubber _leftNub;
-        public Nubber _rightNub;
-        protected string _tileset;
-        public float verticalWidth = 16f;
-        public float verticalWidthThick = 16f;
-        public float horizontalHeight = 16f;
-        protected bool _hasNubs = true;
-        protected bool _init50;
-        protected bool _collideBottom;
-        protected bool _neighborsInitialized;
-        protected AutoPlatform _leftBlock;
-        protected AutoPlatform _rightBlock;
-        protected AutoPlatform _upBlock;
-        protected AutoPlatform _downBlock;
-        private bool _pathed;
-        public bool treeLike;
-        public bool cheap;
-        public bool neverCheap;
-        public bool needsRefresh;
-        public bool _hasLeftNub = true;
-        public bool _hasRightNub = true;
+	protected SpriteMap _sprite;
 
-        public AutoPlatform leftBlock => _leftBlock;
+	public Nubber _leftNub;
 
-        public AutoPlatform rightBlock => _rightBlock;
+	public Nubber _rightNub;
 
-        public AutoPlatform upBlock => _upBlock;
+	protected string _tileset;
 
-        public AutoPlatform downBlock => _downBlock;
+	public float verticalWidth = 16f;
 
-        public override void SetTranslation(Vec2 translation)
-        {
-            if (_leftNub != null)
-                _leftNub.SetTranslation(translation);
-            if (_rightNub != null)
-                _rightNub.SetTranslation(translation);
-            base.SetTranslation(translation);
-        }
+	public float verticalWidthThick = 16f;
 
-        public override void Draw()
-        {
-            flipHorizontal = false;
-            //if (cheap && !Editor.editorDraw)
-            //    graphic.UltraCheapStaticDraw(flipHorizontal);
-            //else
-            //    base.Draw();
-            if (graphic.position != position)
-            {
-                (graphic as SpriteMap).ClearCache();
-            }
-            graphic.position = position;
-            graphic.scale = scale;
-            graphic.center = center;
-            graphic.depth = depth;
-            graphic.alpha = alpha;
-            graphic.angle = angle;
-            graphic.cheapmaterial = material;
-            (graphic as SpriteMap).UpdateFrame();
-            graphic.UltraCheapStaticDraw(flipHorizontal);
-            //  graphic.Draw() FUCK NORMAL DRAWING I AM CHEAP BASTERD 
-        }
+	public float horizontalHeight = 16f;
 
-        public bool pathed
-        {
-            get => _pathed;
-            set => _pathed = value;
-        }
+	protected bool _hasNubs = true;
 
-        public override int frame
-        {
-            get => _sprite.frame;
-            set
-            {
-                _sprite.frame = value;
-                UpdateNubbers();
-                UpdateCollision();
-                DoPositioning();
-            }
-        }
+	protected bool _init50;
 
-        public AutoPlatform(float x, float y, string tileset)
-          : base(x, y)
-        {
-            if (tileset != "")
-                _sprite = new SpriteMap(tileset, 16, 16);
-            _tileset = tileset;
-            graphic = _sprite;
-            collisionSize = new Vec2(16f, 16f);
-            thickness = 0.2f;
-            centerx = 8f;
-            centery = 8f;
-            collisionOffset = new Vec2(-8f, -8f);
-            depth = (Depth)0.3f;
-            _canBeGrouped = true;
-            _isStatic = true;
-            _placementCost = 1;
-        }
+	protected bool _collideBottom;
 
-        public virtual void InitializeNeighbors()
-        {
-            if (_neighborsInitialized)
-                return;
-            _leftBlock = Level.CheckPointPlacementLayer<AutoPlatform>(left - 2f, position.y, this, placementLayer);
-            _rightBlock = Level.CheckPointPlacementLayer<AutoPlatform>(right + 2f, position.y, this, placementLayer);
-            _upBlock = Level.CheckPointPlacementLayer<AutoPlatform>(position.x, top - 2f, this, placementLayer);
-            _downBlock = Level.CheckPointPlacementLayer<AutoPlatform>(position.x, bottom + 2f, this, placementLayer);
-            _neighborsInitialized = true;
-        }
+	protected bool _neighborsInitialized;
 
-        public override void Initialize()
-        {
-            DoPositioning();
-            if (ModLoader.ShouldOptimizations)
-            {
-                _level.AddUpdateOnce(this);
-                shouldbeinupdateloop = false;
-            }
-        }
-        public virtual void DoPositioning()
-        {
-            //if (Level.current is Editor || graphic == null)
-            //    return;
-            if (graphic == null)
-                return;
-            cheap = !neverCheap && !RandomLevelNode.editorLoad;
-            graphic.position = position;
-            graphic.scale = scale;
-            graphic.center = center;
-            graphic.depth = depth;
-            graphic.alpha = alpha;
-            graphic.angle = angle;
-            (graphic as SpriteMap).ClearCache();
-            (graphic as SpriteMap).UpdateFrame();
-            if (_leftNub != null)
-            {
-                _leftNub.cheap = cheap;
-                _leftNub.DoPositioning();
-            }
-            if (_rightNub == null)
-                return;
-            _rightNub.cheap = cheap;
-            _rightNub.DoPositioning();
-        }
-        public override void PreLevelInitialize()
-        {
-            // this.UpdatePlatform();
-        }
-        public override void EditorObjectsChanged() => PlaceBlock();
+	protected AutoPlatform _leftBlock;
 
-        public virtual bool HasNoCollision() => _sprite.frame == 50;
+	protected AutoPlatform _rightBlock;
 
-        public virtual void UpdatePlatform()
-        {
-            if (needsRefresh)
-            {
-                PlaceBlock();
-                if ((_sprite.frame == 50 || (_sprite.frame == 44 || _sprite.frame == 26 || _sprite.frame == 27 || _sprite.frame == 28) && !_collideBottom || _sprite.frame == 10 || _sprite.frame == 11 || _sprite.frame == 12 || _sprite.frame == 18 || _sprite.frame == 19 || _sprite.frame == 20 || _sprite.frame == 6 || _sprite.frame == 8 || _sprite.frame == 14 || _sprite.frame == 16 || _sprite.frame == 22) && !_init50 && (treeLike || _sprite.frame != 8 && _sprite.frame != 14 && _sprite.frame != 16 && _sprite.frame != 22))
-                {
-                    solid = false;
-                    _init50 = true;
-                }
-                needsRefresh = false;
-            }
-            if (!_placed)
-            {
-                PlaceBlock();
-            }
-            else
-            {
-                if (_sprite.frame != 50 && (_sprite.frame != 44 && _sprite.frame != 26 && _sprite.frame != 27 && _sprite.frame != 28 || _collideBottom) && _sprite.frame != 10 && _sprite.frame != 11 && _sprite.frame != 12 && _sprite.frame != 18 && _sprite.frame != 19 && _sprite.frame != 20 && _sprite.frame != 6 && _sprite.frame != 8 && _sprite.frame != 14 && _sprite.frame != 16 && _sprite.frame != 22 || _init50 || !treeLike && (_sprite.frame == 8 || _sprite.frame == 14 || _sprite.frame == 16 || _sprite.frame == 22))
-                    return;
-                solid = false;
-                _init50 = true;
-            }
-        }
+	protected AutoPlatform _upBlock;
 
-        public override void Update()
-        {
-            UpdatePlatform();
-            base.Update();
-        }
+	protected AutoPlatform _downBlock;
 
-        public override void Terminate() => TerminateNubs();
+	private bool _pathed;
 
-        private void TerminateNubs()
-        {
-            if (_leftNub != null)
-            {
-                Level.Remove(_leftNub);
-                _leftNub = null;
-            }
-            if (_rightNub == null)
-                return;
-            Level.Remove(_rightNub);
-            _rightNub = null;
-        }
+	public bool treeLike;
 
-        public void PlaceBlock()
-        {
-            _placed = true;
-            FindFrame();
-            UpdateCollision();
-            DoPositioning();
-            UpdateNubbers();
-        }
+	public bool cheap;
 
-        public virtual void UpdateCollision()
-        {
-            switch (_sprite.frame)
-            {
-                case 32:
-                case 41:
-                case 51:
-                case 53:
-                case 58:
-                    collisionSize = new Vec2((8f + verticalWidth / 2f), 16f);
-                    collisionOffset = new Vec2((-verticalWidth / 2f), -8f);
-                    break;
-                case 37:
-                case 43:
-                case 45:
-                case 52:
-                case 60:
-                    collisionSize = new Vec2((8f + verticalWidth / 2f), 16f);
-                    collisionOffset = new Vec2(-8f, -8f);
-                    break;
-                case 40:
-                case 44:
-                case 49:
-                case 50:
-                    collisionSize = new Vec2(verticalWidth, 16f);
-                    collisionOffset = new Vec2((-verticalWidth / 2f), -8f);
-                    break;
-                default:
-                    collisionSize = new Vec2(16f, 16f);
-                    collisionOffset = new Vec2(-8f, -8f);
-                    break;
-            }
-            switch (_sprite.frame)
-            {
-                case 1:
-                case 2:
-                case 7:
-                case 18:
-                case 26:
-                    _collisionSize.x = verticalWidthThick;
-                    _collisionOffset.x = 16f - verticalWidthThick - 8f;
-                    break;
-                case 4:
-                case 5:
-                case 15:
-                case 20:
-                case 28:
-                    _collisionSize.x = verticalWidthThick;
-                    _collisionOffset.x = -8f;
-                    break;
-                case 8:
-                case 14:
-                case 16:
-                case 22:
-                    if (!treeLike)
-                    {
-                        _collisionSize.x = verticalWidthThick;
-                        _collisionOffset.x = (16f - verticalWidthThick - 8f);
-                        break;
-                    }
-                    break;
-            }
-            switch (_sprite.frame)
-            {
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 32:
-                case 33:
-                case 35:
-                case 36:
-                case 37:
-                case 40:
-                case 41:
-                case 43:
-                case 44:
-                case 57:
-                case 58:
-                case 59:
-                case 60:
-                    _collisionSize.y = horizontalHeight;
-                    break;
-                default:
-                    _collisionSize.y = 16f;
-                    break;
-            }
-        }
+	public bool neverCheap;
 
-        public virtual void UpdateNubbers()
-        {
-            TerminateNubs();
-            if (!_hasNubs || removeFromLevel)
-                return;
-            switch (_sprite.frame)
-            {
-                case 2:
-                    if (_hasLeftNub)
-                    {
-                        _leftNub = new Nubber(x - 24f, y - 8f, true, _tileset);
-                        Level.Add(_leftNub);
-                        break;
-                    }
-                    break;
-                case 4:
-                    if (_hasRightNub)
-                    {
-                        _rightNub = new Nubber(x + 8f, y - 8f, false, _tileset);
-                        Level.Add(_rightNub);
-                        break;
-                    }
-                    break;
-                case 32:
-                    if (_hasLeftNub)
-                    {
-                        _leftNub = new Nubber(x - 24f, y - 8f, true, _tileset);
-                        Level.Add(_leftNub);
-                        break;
-                    }
-                    break;
-                case 37:
-                    if (_hasRightNub)
-                    {
-                        _rightNub = new Nubber(x + 8f, y - 8f, false, _tileset);
-                        Level.Add(_rightNub);
-                        break;
-                    }
-                    break;
-                case 40:
-                    if (_hasRightNub)
-                    {
-                        _rightNub = new Nubber(x + 8f, y - 8f, false, _tileset);
-                        Level.Add(_rightNub);
-                    }
-                    if (_hasLeftNub)
-                    {
-                        _leftNub = new Nubber(x - 24f, y - 8f, true, _tileset);
-                        Level.Add(_leftNub);
-                        break;
-                    }
-                    break;
-                case 41:
-                    if (_hasLeftNub)
-                    {
-                        _leftNub = new Nubber(x - 24f, y - 8f, true, _tileset);
-                        Level.Add(_leftNub);
-                        break;
-                    }
-                    break;
-                case 43:
-                    if (_hasRightNub)
-                    {
-                        _rightNub = new Nubber(x + 8f, y - 8f, false, _tileset);
-                        Level.Add(_rightNub);
-                        break;
-                    }
-                    break;
-                case 49:
-                    if (_hasRightNub)
-                    {
-                        _rightNub = new Nubber(x + 8f, y - 8f, false, _tileset);
-                        Level.Add(_rightNub);
-                    }
-                    if (_hasLeftNub)
-                    {
-                        _leftNub = new Nubber(x - 24f, y - 8f, true, _tileset);
-                        Level.Add(_leftNub);
-                        break;
-                    }
-                    break;
-                case 51:
-                    if (_hasLeftNub)
-                    {
-                        _leftNub = new Nubber(x - 24f, y - 8f, true, _tileset);
-                        Level.Add(_leftNub);
-                        break;
-                    }
-                    break;
-                case 52:
-                    if (_hasRightNub)
-                    {
-                        _rightNub = new Nubber(x + 8f, y - 8f, false, _tileset);
-                        Level.Add(_rightNub);
-                        break;
-                    }
-                    break;
-            }
-            if (_leftNub != null)
-            {
-                _leftNub.depth = depth;
-                _leftNub.material = material;
-            }
-            if (_rightNub == null)
-                return;
-            _rightNub.depth = depth;
-            _rightNub.material = material;
-        }
+	public bool needsRefresh;
 
-        public static readonly byte[] neighborFrameLookupList = new byte[256]
-{
-            40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40,
-            37, 37, 43, 43, 37, 37, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43,
-            49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49,
-            52, 52, 4, 4, 52, 52, 52, 52, 52, 52, 4, 5, 52, 52, 52, 52,
-            32, 41, 32, 41, 41, 41, 41, 41, 32, 41, 32, 41, 41, 41, 41, 41,
-            36, 33, 35, 59, 33, 33, 59, 59, 35, 59, 35, 59, 59, 59, 59, 59,
-            51, 2, 51, 2, 51, 2, 51, 1, 51, 2, 51, 2, 51, 2, 51, 2,
-            34, 8, 14, 3, 34, 0, 255, 3, 34, 255, 6, 3, 34, 3, 3, 3,
-            44, 44, 44, 44, 44, 44, 44, 44, 44, 44, 44, 44, 44, 44, 44, 44,
-            60, 60, 60, 60, 60, 60, 60, 60, 28, 28, 28, 28, 28, 28, 28, 28,
-            50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50,
-            45, 45, 4, 4, 45, 45, 45, 45, 15, 15, 20, 20, 15, 15, 20, 20,
-            58, 58, 58, 58, 26, 26, 26, 26, 58, 58, 58, 58, 26, 26, 26, 26,
-            57, 57, 57, 57, 25, 25, 25, 25, 29, 29, 29, 29, 27, 27, 27, 27,
-            53, 2, 53, 2, 7, 18, 7, 18, 53, 53, 53, 53, 7, 18, 7, 18,
-            42, 8, 255, 3, 24, 16, 24, 10, 30, 255, 22, 12, 23, 17, 21, 11
-};
-        public virtual void FindFrame()
-        {
-            float num = 16f;
-            if (!treeLike)
-                num = 10f;
-            AutoPlatform up = Level.CheckPointPlacementLayer<AutoPlatform>(x, y - 17f, this, placementLayer);
-            AutoPlatform down = Level.CheckPointPlacementLayer<AutoPlatform>(x, y + num, this, placementLayer);
-            AutoPlatform bLeft = Level.CheckPointPlacementLayer<AutoPlatform>(x - 16f, y, this, placementLayer);
-            AutoPlatform bRight = Level.CheckPointPlacementLayer<AutoPlatform>(x + 16f, y, this, placementLayer);
-            AutoPlatform topbLeft = Level.CheckPointPlacementLayer<AutoPlatform>(x - 16f, y - 17f, this, placementLayer);
-            AutoPlatform topbRight = Level.CheckPointPlacementLayer<AutoPlatform>(x + 16f, y - 17f, this, placementLayer);
-            AutoPlatform bottombLeft = Level.CheckPointPlacementLayer<AutoPlatform>(x - 16f, y + num, this, placementLayer);
-            AutoPlatform bottombRight = Level.CheckPointPlacementLayer<AutoPlatform>(x + 16f, y + num, this, placementLayer);
+	public bool _hasLeftNub = true;
 
-            if (up != null && up._tileset != _tileset) up = null;
-            if (down != null && down._tileset != _tileset) down = null;
-            if (bLeft != null && bLeft._tileset != _tileset) bLeft = null;
-            if (bRight != null && bRight._tileset != _tileset) bRight = null;
-            if (topbLeft != null && topbLeft._tileset != _tileset) topbLeft = null;
-            if (topbRight != null && topbRight._tileset != _tileset) topbRight = null;
-            if (bottombLeft != null && bottombLeft._tileset != _tileset) bottombLeft = null;
-            if (bottombRight != null && bottombRight._tileset != _tileset) bottombRight = null;
+	public bool _hasRightNub = true;
 
-            bool[] neighbors = new bool[8] { up != null, bRight != null, down != null, bLeft != null, topbLeft != null, topbRight != null, bottombLeft != null, bottombRight != null };
-            byte neighborValue = 0;
-            for (int i = neighbors.Length - 1; i >= 0; i--)
-            {
-                if (neighbors[i])
-                {
-                    neighborValue |= (byte)(1 << (neighbors.Length - 1 - i));
-                }
-            }
-            byte newFrame = neighborFrameLookupList[neighborValue];
-            if (newFrame != 255)
-                _sprite.frame = newFrame;
-        }
+	public AutoPlatform leftBlock => _leftBlock;
 
-        public override ContextMenu GetContextMenu() => null;
-    }
+	public AutoPlatform rightBlock => _rightBlock;
+
+	public AutoPlatform upBlock => _upBlock;
+
+	public AutoPlatform downBlock => _downBlock;
+
+	public bool pathed
+	{
+		get
+		{
+			return _pathed;
+		}
+		set
+		{
+			_pathed = value;
+		}
+	}
+
+	public override int frame
+	{
+		get
+		{
+			return _sprite.frame;
+		}
+		set
+		{
+			_sprite.frame = value;
+			UpdateNubbers();
+			UpdateCollision();
+			DoPositioning();
+		}
+	}
+
+	public override void SetTranslation(Vec2 translation)
+	{
+		if (_leftNub != null)
+		{
+			_leftNub.SetTranslation(translation);
+		}
+		if (_rightNub != null)
+		{
+			_rightNub.SetTranslation(translation);
+		}
+		base.SetTranslation(translation);
+	}
+
+	public override void Draw()
+	{
+		flipHorizontal = false;
+		if (cheap)
+		{
+			graphic.UltraCheapStaticDraw(flipHorizontal);
+		}
+		else
+		{
+			base.Draw();
+		}
+	}
+
+	public AutoPlatform(float x, float y, string tileset)
+		: base(x, y)
+	{
+		if (tileset != "")
+		{
+			_sprite = new SpriteMap(tileset, 16, 16);
+		}
+		_tileset = tileset;
+		graphic = _sprite;
+		collisionSize = new Vec2(16f, 16f);
+		thickness = 0.2f;
+		base.centerx = 8f;
+		base.centery = 8f;
+		collisionOffset = new Vec2(-8f, -8f);
+		base.depth = 0.3f;
+		_canBeGrouped = true;
+		_isStatic = true;
+		_placementCost = 1;
+	}
+
+	public virtual void InitializeNeighbors()
+	{
+		if (!_neighborsInitialized)
+		{
+			_leftBlock = Level.CheckPointPlacementLayer<AutoPlatform>(base.left - 2f, position.y, this, base.placementLayer);
+			_rightBlock = Level.CheckPointPlacementLayer<AutoPlatform>(base.right + 2f, position.y, this, base.placementLayer);
+			_upBlock = Level.CheckPointPlacementLayer<AutoPlatform>(position.x, base.top - 2f, this, base.placementLayer);
+			_downBlock = Level.CheckPointPlacementLayer<AutoPlatform>(position.x, base.bottom + 2f, this, base.placementLayer);
+			_neighborsInitialized = true;
+		}
+	}
+
+	public override void Initialize()
+	{
+		DoPositioning();
+	}
+
+	public virtual void DoPositioning()
+	{
+		if (!(Level.current is Editor) && graphic != null)
+		{
+			cheap = !neverCheap && !RandomLevelNode.editorLoad;
+			graphic.position = position;
+			graphic.scale = base.scale;
+			graphic.center = center;
+			graphic.depth = base.depth;
+			graphic.alpha = base.alpha;
+			graphic.angle = angle;
+			(graphic as SpriteMap).ClearCache();
+			(graphic as SpriteMap).UpdateFrame();
+			if (_leftNub != null)
+			{
+				_leftNub.cheap = cheap;
+				_leftNub.DoPositioning();
+			}
+			if (_rightNub != null)
+			{
+				_rightNub.cheap = cheap;
+				_rightNub.DoPositioning();
+			}
+		}
+	}
+
+	public override void EditorObjectsChanged()
+	{
+		PlaceBlock();
+	}
+
+	public virtual bool HasNoCollision()
+	{
+		return _sprite.frame == 50;
+	}
+
+	public virtual void UpdatePlatform()
+	{
+		if (needsRefresh)
+		{
+			PlaceBlock();
+			if ((_sprite.frame == 50 || ((_sprite.frame == 44 || _sprite.frame == 26 || _sprite.frame == 27 || _sprite.frame == 28) && !_collideBottom) || _sprite.frame == 10 || _sprite.frame == 11 || _sprite.frame == 12 || _sprite.frame == 18 || _sprite.frame == 19 || _sprite.frame == 20 || _sprite.frame == 6 || _sprite.frame == 8 || _sprite.frame == 14 || _sprite.frame == 16 || _sprite.frame == 22) && !_init50 && (treeLike || (_sprite.frame != 8 && _sprite.frame != 14 && _sprite.frame != 16 && _sprite.frame != 22)))
+			{
+				solid = false;
+				_init50 = true;
+			}
+			needsRefresh = false;
+		}
+		if (!_placed)
+		{
+			PlaceBlock();
+		}
+		else if ((_sprite.frame == 50 || ((_sprite.frame == 44 || _sprite.frame == 26 || _sprite.frame == 27 || _sprite.frame == 28) && !_collideBottom) || _sprite.frame == 10 || _sprite.frame == 11 || _sprite.frame == 12 || _sprite.frame == 18 || _sprite.frame == 19 || _sprite.frame == 20 || _sprite.frame == 6 || _sprite.frame == 8 || _sprite.frame == 14 || _sprite.frame == 16 || _sprite.frame == 22) && !_init50 && (treeLike || (_sprite.frame != 8 && _sprite.frame != 14 && _sprite.frame != 16 && _sprite.frame != 22)))
+		{
+			solid = false;
+			_init50 = true;
+		}
+	}
+
+	public override void Update()
+	{
+		UpdatePlatform();
+		base.Update();
+	}
+
+	public override void Terminate()
+	{
+		TerminateNubs();
+	}
+
+	private void TerminateNubs()
+	{
+		if (_leftNub != null)
+		{
+			Level.Remove(_leftNub);
+			_leftNub = null;
+		}
+		if (_rightNub != null)
+		{
+			Level.Remove(_rightNub);
+			_rightNub = null;
+		}
+	}
+
+	public void PlaceBlock()
+	{
+		_placed = true;
+		FindFrame();
+		UpdateCollision();
+		DoPositioning();
+		UpdateNubbers();
+	}
+
+	public virtual void UpdateCollision()
+	{
+		switch (_sprite.frame)
+		{
+		case 40:
+		case 44:
+		case 49:
+		case 50:
+			collisionSize = new Vec2(verticalWidth, 16f);
+			collisionOffset = new Vec2((0f - verticalWidth) / 2f, -8f);
+			break;
+		case 37:
+		case 43:
+		case 45:
+		case 52:
+		case 60:
+			collisionSize = new Vec2(8f + verticalWidth / 2f, 16f);
+			collisionOffset = new Vec2(-8f, -8f);
+			break;
+		case 32:
+		case 41:
+		case 51:
+		case 53:
+		case 58:
+			collisionSize = new Vec2(8f + verticalWidth / 2f, 16f);
+			collisionOffset = new Vec2((0f - verticalWidth) / 2f, -8f);
+			break;
+		default:
+			collisionSize = new Vec2(16f, 16f);
+			collisionOffset = new Vec2(-8f, -8f);
+			break;
+		}
+		switch (_sprite.frame)
+		{
+		case 4:
+		case 5:
+		case 15:
+		case 20:
+		case 28:
+			_collisionSize.x = verticalWidthThick;
+			_collisionOffset.x = -8f;
+			break;
+		case 1:
+		case 2:
+		case 7:
+		case 18:
+		case 26:
+			_collisionSize.x = verticalWidthThick;
+			_collisionOffset.x = -8f + (16f - verticalWidthThick);
+			break;
+		case 8:
+		case 14:
+		case 16:
+		case 22:
+			if (!treeLike)
+			{
+				_collisionSize.x = verticalWidthThick;
+				_collisionOffset.x = -8f + (16f - verticalWidthThick);
+			}
+			break;
+		}
+		switch (_sprite.frame)
+		{
+		case 25:
+		case 26:
+		case 27:
+		case 28:
+		case 29:
+		case 32:
+		case 33:
+		case 35:
+		case 36:
+		case 37:
+		case 40:
+		case 41:
+		case 43:
+		case 44:
+		case 57:
+		case 58:
+		case 59:
+		case 60:
+			_collisionSize.y = horizontalHeight;
+			break;
+		default:
+			_collisionSize.y = 16f;
+			break;
+		}
+	}
+
+	public virtual void UpdateNubbers()
+	{
+		TerminateNubs();
+		if (!_hasNubs || base.removeFromLevel)
+		{
+			return;
+		}
+		switch (_sprite.frame)
+		{
+		case 2:
+			if (_hasLeftNub)
+			{
+				_leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+				Level.Add(_leftNub);
+			}
+			break;
+		case 4:
+			if (_hasRightNub)
+			{
+				_rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+				Level.Add(_rightNub);
+			}
+			break;
+		case 32:
+			if (_hasLeftNub)
+			{
+				_leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+				Level.Add(_leftNub);
+			}
+			break;
+		case 37:
+			if (_hasRightNub)
+			{
+				_rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+				Level.Add(_rightNub);
+			}
+			break;
+		case 40:
+			if (_hasRightNub)
+			{
+				_rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+				Level.Add(_rightNub);
+			}
+			if (_hasLeftNub)
+			{
+				_leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+				Level.Add(_leftNub);
+			}
+			break;
+		case 41:
+			if (_hasLeftNub)
+			{
+				_leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+				Level.Add(_leftNub);
+			}
+			break;
+		case 43:
+			if (_hasRightNub)
+			{
+				_rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+				Level.Add(_rightNub);
+			}
+			break;
+		case 49:
+			if (_hasRightNub)
+			{
+				_rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+				Level.Add(_rightNub);
+			}
+			if (_hasLeftNub)
+			{
+				_leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+				Level.Add(_leftNub);
+			}
+			break;
+		case 51:
+			if (_hasLeftNub)
+			{
+				_leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+				Level.Add(_leftNub);
+			}
+			break;
+		case 52:
+			if (_hasRightNub)
+			{
+				_rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+				Level.Add(_rightNub);
+			}
+			break;
+		}
+		if (_leftNub != null)
+		{
+			_leftNub.depth = base.depth;
+			_leftNub.material = base.material;
+		}
+		if (_rightNub != null)
+		{
+			_rightNub.depth = base.depth;
+			_rightNub.material = base.material;
+		}
+	}
+
+	public virtual void FindFrame()
+	{
+		AutoPlatform left = null;
+		AutoPlatform right = null;
+		AutoPlatform up = null;
+		AutoPlatform down = null;
+		AutoPlatform topleft = null;
+		AutoPlatform topright = null;
+		AutoPlatform bottomleft = null;
+		AutoPlatform bottomright = null;
+		float off2 = 16f;
+		if (!treeLike)
+		{
+			off2 = 10f;
+		}
+		up = Level.CheckPointPlacementLayer<AutoPlatform>(base.x, base.y - 17f, this, base.placementLayer);
+		down = Level.CheckPointPlacementLayer<AutoPlatform>(base.x, base.y + off2, this, base.placementLayer);
+		left = Level.CheckPointPlacementLayer<AutoPlatform>(base.x - 16f, base.y, this, base.placementLayer);
+		right = Level.CheckPointPlacementLayer<AutoPlatform>(base.x + 16f, base.y, this, base.placementLayer);
+		topleft = Level.CheckPointPlacementLayer<AutoPlatform>(base.x - 16f, base.y - 17f, this, base.placementLayer);
+		topright = Level.CheckPointPlacementLayer<AutoPlatform>(base.x + 16f, base.y - 17f, this, base.placementLayer);
+		bottomleft = Level.CheckPointPlacementLayer<AutoPlatform>(base.x - 16f, base.y + off2, this, base.placementLayer);
+		bottomright = Level.CheckPointPlacementLayer<AutoPlatform>(base.x + 16f, base.y + off2, this, base.placementLayer);
+		if (up != null && up._tileset != _tileset)
+		{
+			up = null;
+		}
+		if (down != null && down._tileset != _tileset)
+		{
+			down = null;
+		}
+		if (left != null && left._tileset != _tileset)
+		{
+			left = null;
+		}
+		if (right != null && right._tileset != _tileset)
+		{
+			right = null;
+		}
+		if (topleft != null && topleft._tileset != _tileset)
+		{
+			topleft = null;
+		}
+		if (topright != null && topright._tileset != _tileset)
+		{
+			topright = null;
+		}
+		if (bottomleft != null && bottomleft._tileset != _tileset)
+		{
+			bottomleft = null;
+		}
+		if (bottomright != null && bottomright._tileset != _tileset)
+		{
+			bottomright = null;
+		}
+		if (up != null)
+		{
+			if (right != null)
+			{
+				if (down != null)
+				{
+					if (left != null)
+					{
+						if (topleft != null)
+						{
+							if (topright != null)
+							{
+								if (bottomleft != null)
+								{
+									if (bottomright != null)
+									{
+										_sprite.frame = 11;
+									}
+									else
+									{
+										_sprite.frame = 21;
+									}
+								}
+								else if (bottomright != null)
+								{
+									_sprite.frame = 17;
+								}
+								else
+								{
+									_sprite.frame = 23;
+								}
+							}
+							else if (bottomright != null)
+							{
+								if (bottomleft != null)
+								{
+									_sprite.frame = 12;
+								}
+							}
+							else if (bottomleft != null)
+							{
+								_sprite.frame = 22;
+							}
+							else
+							{
+								_sprite.frame = 30;
+							}
+						}
+						else if (topright != null)
+						{
+							if (bottomright != null)
+							{
+								if (bottomleft != null)
+								{
+									_sprite.frame = 10;
+								}
+								else
+								{
+									_sprite.frame = 16;
+								}
+							}
+							else
+							{
+								_sprite.frame = 24;
+							}
+						}
+						else if (bottomright != null)
+						{
+							if (bottomleft != null)
+							{
+								_sprite.frame = 3;
+							}
+							else
+							{
+								_sprite.frame = 8;
+							}
+						}
+						else if (bottomleft == null)
+						{
+							_sprite.frame = 42;
+						}
+					}
+					else if (topright != null)
+					{
+						if (bottomright != null)
+						{
+							_sprite.frame = 18;
+							return;
+						}
+						if (topleft == null)
+						{
+						}
+						_sprite.frame = 7;
+					}
+					else if (topleft == null && bottomright != null)
+					{
+						_sprite.frame = 2;
+					}
+					else
+					{
+						_sprite.frame = 53;
+					}
+				}
+				else if (left != null)
+				{
+					if (topleft != null)
+					{
+						if (topright != null)
+						{
+							_sprite.frame = 27;
+						}
+						else
+						{
+							_sprite.frame = 29;
+						}
+					}
+					else if (topright != null)
+					{
+						_sprite.frame = 25;
+					}
+					else
+					{
+						_sprite.frame = 57;
+					}
+				}
+				else if (topright != null)
+				{
+					_sprite.frame = 26;
+				}
+				else
+				{
+					_sprite.frame = 58;
+				}
+			}
+			else if (down != null)
+			{
+				if (left != null)
+				{
+					if (topleft != null)
+					{
+						if (bottomleft != null)
+						{
+							_sprite.frame = 20;
+							return;
+						}
+						if (bottomright == null)
+						{
+						}
+						_sprite.frame = 15;
+						return;
+					}
+					if (topright == null)
+					{
+						if (bottomright != null)
+						{
+							if (bottomleft != null)
+							{
+								_sprite.frame = 4;
+							}
+							else
+							{
+								_sprite.frame = 45;
+							}
+							return;
+						}
+						if (bottomleft != null)
+						{
+							_sprite.frame = 4;
+							return;
+						}
+					}
+					_sprite.frame = 45;
+				}
+				else
+				{
+					_sprite.frame = 50;
+				}
+			}
+			else if (left != null)
+			{
+				if (topleft != null)
+				{
+					_sprite.frame = 28;
+				}
+				else
+				{
+					_sprite.frame = 60;
+				}
+			}
+			else
+			{
+				_sprite.frame = 44;
+			}
+		}
+		else if (right != null)
+		{
+			if (down != null)
+			{
+				if (left != null)
+				{
+					if (bottomleft == null && bottomright == null)
+					{
+						_sprite.frame = 34;
+					}
+					else if (topleft != null)
+					{
+						if (topright != null)
+						{
+							_sprite.frame = 3;
+						}
+						else if (bottomright != null)
+						{
+							if (bottomleft != null)
+							{
+								_sprite.frame = 3;
+							}
+						}
+						else if (bottomleft != null)
+						{
+							_sprite.frame = 6;
+						}
+						else
+						{
+							_sprite.frame = 24;
+						}
+					}
+					else if (topright != null)
+					{
+						if (bottomright != null)
+						{
+							if (bottomleft != null)
+							{
+								_sprite.frame = 3;
+							}
+							else
+							{
+								_sprite.frame = 0;
+							}
+						}
+						else if (bottomleft == null)
+						{
+							_sprite.frame = 25;
+						}
+					}
+					else if (bottomright != null)
+					{
+						if (bottomleft != null)
+						{
+							_sprite.frame = 3;
+						}
+						else
+						{
+							_sprite.frame = 8;
+						}
+					}
+					else if (bottomleft != null)
+					{
+						_sprite.frame = 14;
+					}
+					else
+					{
+						_sprite.frame = 34;
+					}
+				}
+				else if (topleft == null && topright != null && bottomleft != null && bottomright != null)
+				{
+					_sprite.frame = 1;
+				}
+				else if (bottomright != null)
+				{
+					_sprite.frame = 2;
+				}
+				else
+				{
+					_sprite.frame = 51;
+				}
+			}
+			else if (left != null)
+			{
+				if ((bottomleft != null || topleft != null) && (topright != null || bottomright != null))
+				{
+					_sprite.frame = 59;
+				}
+				else if (bottomright != null || topright != null)
+				{
+					_sprite.frame = 33;
+				}
+				else if (bottomleft != null || topleft != null)
+				{
+					_sprite.frame = 35;
+				}
+				else
+				{
+					_sprite.frame = 36;
+				}
+			}
+			else if (bottomright != null || topright != null)
+			{
+				_sprite.frame = 41;
+			}
+			else
+			{
+				_sprite.frame = 32;
+			}
+		}
+		else if (down != null)
+		{
+			if (left != null)
+			{
+				if (topleft != null)
+				{
+					if (topright == null)
+					{
+						if (bottomleft != null)
+						{
+							if (bottomright != null)
+							{
+								_sprite.frame = 5;
+							}
+							else
+							{
+								_sprite.frame = 4;
+							}
+						}
+						else
+						{
+							_sprite.frame = 52;
+						}
+						return;
+					}
+				}
+				else if (topright == null && bottomleft != null)
+				{
+					_sprite.frame = 4;
+					return;
+				}
+				_sprite.frame = 52;
+			}
+			else
+			{
+				_sprite.frame = 49;
+			}
+		}
+		else if (left != null)
+		{
+			if (bottomleft != null || topleft != null)
+			{
+				_sprite.frame = 43;
+			}
+			else
+			{
+				_sprite.frame = 37;
+			}
+		}
+		else
+		{
+			_sprite.frame = 40;
+		}
+	}
+
+	public override ContextMenu GetContextMenu()
+	{
+		return null;
+	}
 }

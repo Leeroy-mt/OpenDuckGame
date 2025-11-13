@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="CrashWindow/CrashWindow.csproj" />
+  <Project Path="DuckGame/DuckGame.csproj" />
+  <Project Path="FNA/FNA.Core.csproj" />
+  <Project Path="Steam/Steam.csproj" />
+</Solution>

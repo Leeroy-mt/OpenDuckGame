@@ -1,0 +1,27 @@
+namespace DuckGame;
+
+public class CommandAddObject : Command
+{
+	private Thing _object;
+
+	public CommandAddObject(Thing obj)
+	{
+		_object = obj;
+	}
+
+	public override void OnDo()
+	{
+		if (Level.current is Editor editor)
+		{
+			editor.AddObject(_object);
+		}
+	}
+
+	public override void OnUndo()
+	{
+		if (Level.current is Editor editor)
+		{
+			editor.RemoveObject(_object);
+		}
+	}
+}

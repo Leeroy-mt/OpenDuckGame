@@ -1,19 +1,38 @@
-﻿namespace DuckGame
+namespace DuckGame;
+
+public class DTShot : DestroyType
 {
-    public class DTShot : DestroyType
-    {
-        private Bullet _bullet;
+	private Bullet _bullet;
 
-        public Bullet bullet => _bullet;
+	public Bullet bullet => _bullet;
 
-        public Thing bulletOwner => _bullet == null ? null : _bullet.owner;
+	public Thing bulletOwner
+	{
+		get
+		{
+			if (_bullet == null)
+			{
+				return null;
+			}
+			return _bullet.owner;
+		}
+	}
 
-        public Thing bulletFiredFrom => _bullet == null ? null : _bullet.firedFrom;
+	public Thing bulletFiredFrom
+	{
+		get
+		{
+			if (_bullet == null)
+			{
+				return null;
+			}
+			return _bullet.firedFrom;
+		}
+	}
 
-        public DTShot(Bullet b)
-          : base(b)
-        {
-            _bullet = b;
-        }
-    }
+	public DTShot(Bullet b)
+		: base(b)
+	{
+		_bullet = b;
+	}
 }

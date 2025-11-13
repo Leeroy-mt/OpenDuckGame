@@ -1,16 +1,26 @@
-These are XNA ABI compatibility files for FNA.
+This is FNA, an XNA4 reimplementation that focuses solely on developing a fully
+accurate XNA4 runtime for the desktop.
 
-Note that these files are only important if you are working on XNA games without
-source code access. If you have the source, build against FNA directly!
+Project Website: https://fna-xna.github.io/
 
-To build, you need FNA as well as FNA.NetStub, for the Xbox Live namespaces.
+License
+-------
+FNA is released under the Microsoft Public License. See LICENSE for details.
 
-There are two ways to build:
+FNA uses LzxDecoder.cs, released under a dual MSPL/LGPL license.
+See lzxdecoder.LICENSE for details.
 
-1. Microsoft.Xna.Framework.sln. This is the recommended path, since FNA and
-   FNA.NetStub will be built for you.
-2. Makefile. You need to build FNA and FNA.NetStub first. Then, type `make`!
+FNA uses code from the Mono.Xna project, released under the MIT license.
+See monoxna.LICENSE for details.
 
-Regardless of which path you choose, be sure that the FNA and FNA.NetStub repos
-are sitting next to each other! For example, the Makefile in this folder will
-look for FNA.NetStub in `../../FNA.NetStub/bin/Debug/FNA.NetStub.dll`.
+Documentation
+-------------
+Documentation for FNA can be found on the FNA wiki:
+
+https://fna-xna.github.io/docs/
+
+Found an issue?
+---------------
+Issues and patches can be reported via GitHub:
+
+https://github.com/FNA-XNA/FNA/issues

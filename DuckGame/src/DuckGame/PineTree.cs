@@ -1,334 +1,456 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace DuckGame
+namespace DuckGame;
+
+public abstract class PineTree : AutoPlatform
 {
-    public abstract class PineTree : AutoPlatform
-    {
-        public bool knocked;
-        private float shiftTime;
-        private int shiftAmount;
-        public float _vertPush;
-        public bool edge;
-        public bool iterated;
-        public int orientation;
-        public PineTree leftPine;
-        public PineTree rightPine;
+	public bool knocked;
 
-        public PineTree(float x, float y, string tileset)
-          : base(x, y, tileset)
-        {
-            _sprite = new SpriteMap(tileset, 8, 16);
-            graphic = _sprite;
-            collisionSize = new Vec2(8f, 16f);
-            thickness = 0.2f;
-            centerx = 4f;
-            centery = 8f;
-            collisionOffset = new Vec2(-4f, -8f);
-            depth = -0.12f;
-            placementLayerOverride = Layer.Foreground;
-            forceEditorGrid = 8;
-            treeLike = true;
-        }
+	private float shiftTime;
 
-        public override void InitializeNeighbors()
-        {
-            if (_neighborsInitialized)
-                return;
-            _leftBlock = Level.CheckPoint<PineTree>(left - 2f, position.y, this);
-            _rightBlock = Level.CheckPoint<PineTree>(right + 2f, position.y, this);
-            _upBlock = Level.CheckPoint<PineTree>(position.x, top - 2f, this);
-            _downBlock = Level.CheckPoint<PineTree>(position.x, bottom + 2f, this);
-            _neighborsInitialized = true;
-        }
+	private int shiftAmount;
 
-        public virtual void KnockOffSnow(Vec2 dir, bool vertShake) => knocked = true;
+	public float _vertPush;
 
-        public override bool Hit(Bullet bullet, Vec2 hitPos)
-        {
-            shiftTime = 1f;
-            shiftAmount = bullet.travelDirNormalized.x > 0 ? 1 : -1;
-            KnockOffSnow(bullet.travelDirNormalized, false);
-            return false;
-        }
+	public bool edge;
 
-        public override bool HasNoCollision() => false;
+	public bool iterated;
 
-        public override void UpdatePlatform()
-        {
-            if (needsRefresh)
-            {
-                PlaceBlock();
-                if ((_sprite.frame == 0 || _sprite.frame == 2 || _sprite.frame == 3 || _sprite.frame == 4) && !_init50)
-                    edge = true;
-                solid = false;
-                _init50 = true;
-                needsRefresh = false;
-            }
-            if (!_placed)
-            {
-                PlaceBlock();
-            }
-            else
-            {
-                if ((_sprite.frame == 0 || _sprite.frame == 2 || _sprite.frame == 3 || _sprite.frame == 4) && !_init50)
-                    edge = true;
-                solid = false;
-                _init50 = true;
-            }
-        }
+	public int orientation;
 
-        public override void UpdateCollision()
-        {
-        }
+	public PineTree leftPine;
 
-        public override void UpdateNubbers()
-        {
-        }
+	public PineTree rightPine;
 
-        public override void Draw()
-        {
-            depth = -0.12f;
-            if (_vertPush > 0)
-                depth = -0.11f;
-            if (_graphic != null)
-            {
-                Sprite graphic = _graphic;
-                Vec2 position = this.position;
-                Vec2 vec2_1 = new Vec2(0f * shiftTime, _vertPush * 1.5f);
-                Vec2 vec2_2 = position + vec2_1;
-                graphic.position = vec2_2;
-                _graphic.alpha = alpha;
-                _graphic.angle = angle;
-                _graphic.depth = depth;
-                _graphic.scale = scale + new Vec2(Math.Abs(shiftAmount * 0f) * shiftTime, _vertPush * 0.2f);
-                _graphic.center = center;
-                _graphic.Draw();
-            }
-            if (shiftTime > 0)
-            {
-                _graphic.position = position + new Vec2(shiftAmount * 2 * shiftTime, 0f);
-                _graphic.alpha = alpha;
-                _graphic.angle = angle;
-                _graphic.depth = depth + 10;
-                _graphic.scale = scale + new Vec2(Math.Abs(shiftAmount * 0f) * shiftTime, 0f);
-                _graphic.center = center;
-                _graphic.alpha = 0.6f;
-                _graphic.Draw();
-            }
-            shiftTime = Lerp.FloatSmooth(shiftTime, 0f, 0.1f);
-            if (shiftTime < 0.05f)
-                shiftTime = 0f;
-            _vertPush = Lerp.FloatSmooth(_vertPush, 0f, 0.3f);
-            if (_vertPush >= 0.05f)
-                return;
-            _vertPush = 0f;
-        }
+	public PineTree(float x, float y, string tileset)
+		: base(x, y, tileset)
+	{
+		_sprite = new SpriteMap(tileset, 8, 16);
+		graphic = _sprite;
+		collisionSize = new Vec2(8f, 16f);
+		thickness = 0.2f;
+		base.centerx = 4f;
+		base.centery = 8f;
+		collisionOffset = new Vec2(-4f, -8f);
+		base.depth = -0.12f;
+		placementLayerOverride = Layer.Foreground;
+		forceEditorGrid = 8;
+		treeLike = true;
+	}
 
-        public void SpecialFindFrame()
-        {
-            PineTree leftPine = this.leftPine;
-            PineTree rightPine = this.rightPine;
-            PineTree pineTree1 = Level.CheckPoint<PineTree>(x, y - 16f, this);
-            PineTree pineTree2 = Level.CheckPoint<PineTree>(x, y + 16f, this);
-            if (pineTree1 != null && pineTree1._tileset != _tileset)
-                pineTree1 = null;
-            if (pineTree2 != null && pineTree2._tileset != _tileset)
-                pineTree2 = null;
-            if (pineTree1 != null)
-            {
-                if (rightPine != null)
-                {
-                    if (pineTree2 != null)
-                    {
-                        if (leftPine != null)
-                        {
-                            if (orientation == 0)
-                            {
-                                if (leftPine.leftPine == null && rightPine.rightPine == null)
-                                    frame = 1;
-                                else
-                                    frame = 10;
-                            }
-                            else if (orientation == -1)
-                            {
-                                if (leftPine.leftPine == null)
-                                    frame = 22;
-                                else
-                                    frame = 23;
-                            }
-                            else
-                            {
-                                if (orientation != 1)
-                                    return;
-                                if (rightPine.rightPine == null)
-                                    frame = 26;
-                                else
-                                    frame = 25;
-                            }
-                        }
-                        else
-                            frame = 0;
-                    }
-                    else if (leftPine != null)
-                    {
-                        if (orientation == 0)
-                        {
-                            if (leftPine.leftPine == null && rightPine.rightPine == null)
-                                frame = 1;
-                            else
-                                frame = 10;
-                        }
-                        else if (orientation == -1)
-                        {
-                            if (leftPine.leftPine == null)
-                                frame = 8;
-                            else
-                                frame = 9;
-                        }
-                        else
-                        {
-                            if (orientation != 1)
-                                return;
-                            if (rightPine.rightPine == null)
-                                frame = 12;
-                            else
-                                frame = 11;
-                        }
-                    }
-                    else
-                        frame = 3;
-                }
-                else if (pineTree2 != null)
-                {
-                    if (leftPine != null)
-                        frame = 2;
-                    else
-                        frame = 5;
-                }
-                else if (leftPine != null)
-                    frame = 4;
-                else
-                    frame = 5;
-            }
-            else if (rightPine != null)
-            {
-                if (pineTree2 != null)
-                {
-                    if (leftPine != null)
-                    {
-                        if (orientation == 0)
-                        {
-                            if (leftPine.leftPine == null && rightPine.rightPine == null)
-                                frame = 1;
-                            else
-                                frame = 31;
-                        }
-                        else if (orientation == -1)
-                        {
-                            if (leftPine.leftPine == null)
-                                frame = 29;
-                            else
-                                frame = 30;
-                        }
-                        else
-                        {
-                            if (orientation != 1)
-                                return;
-                            if (rightPine.rightPine == null)
-                                frame = 33;
-                            else
-                                frame = 32;
-                        }
-                    }
-                    else
-                        frame = 0;
-                }
-                else if (leftPine != null)
-                {
-                    if (orientation == 0)
-                    {
-                        if (leftPine.leftPine == null && rightPine.rightPine == null)
-                            frame = 1;
-                        else
-                            frame = 17;
-                    }
-                    else if (orientation == -1)
-                    {
-                        if (leftPine.leftPine == null)
-                            frame = 15;
-                        else
-                            frame = 16;
-                    }
-                    else
-                    {
-                        if (orientation != 1)
-                            return;
-                        if (rightPine.rightPine == null)
-                            frame = 19;
-                        else
-                            frame = 18;
-                    }
-                }
-                else
-                    frame = 3;
-            }
-            else if (pineTree2 != null)
-            {
-                if (leftPine != null)
-                    frame = 2;
-                else
-                    frame = 5;
-            }
-            else if (leftPine != null)
-                frame = 4;
-            else
-                frame = 5;
-        }
+	public override void InitializeNeighbors()
+	{
+		if (!_neighborsInitialized)
+		{
+			_leftBlock = Level.CheckPoint<PineTree>(base.left - 2f, position.y, this);
+			_rightBlock = Level.CheckPoint<PineTree>(base.right + 2f, position.y, this);
+			_upBlock = Level.CheckPoint<PineTree>(position.x, base.top - 2f, this);
+			_downBlock = Level.CheckPoint<PineTree>(position.x, base.bottom + 2f, this);
+			_neighborsInitialized = true;
+		}
+	}
 
-        public override void FindFrame()
-        {
-            PineTree pineTree1 = Level.CheckPoint<PineTree>(x - 8f, y, this);
-            if (pineTree1 != null && pineTree1._tileset != _tileset)
-                pineTree1 = null;
-            PineTree ignore = Level.CheckPoint<PineTree>(x + 8f, y, this);
-            if (ignore != null && ignore._tileset != _tileset)
-                ignore = null;
-            if (pineTree1 != null && ignore != null)
-            {
-                pineTree1.FindFrame();
-            }
-            else
-            {
-                if (pineTree1 != null)
-                    return;
-                List<PineTree> pineTreeList = new List<PineTree>();
-                PineTree pineTree2 = this;
-                leftPine = null;
-                while (pineTree2 != null)
-                {
-                    pineTreeList.Add(pineTree2);
-                    pineTree2.rightPine = ignore;
-                    if (ignore != null)
-                    {
-                        ignore.leftPine = pineTree2;
-                        pineTree2 = ignore;
-                        ignore = Level.CheckPoint<PineTree>(ignore.x + 8f, ignore.y, ignore);
-                    }
-                    else
-                        break;
-                }
-                bool flag = pineTreeList.Count % 2 == 0;
-                foreach (PineTree pineTree3 in pineTreeList)
-                {
-                    int num1 = pineTreeList.Count / 2;
-                    int num2 = pineTreeList.IndexOf(pineTree3);
-                    pineTree3.orientation = !flag ? (num2 != num1 ? (num2 >= num1 ? 1 : -1) : 0) : (num2 >= num1 ? 1 : -1);
-                    pineTree3.SpecialFindFrame();
-                }
-            }
-        }
+	public virtual void KnockOffSnow(Vec2 dir, bool vertShake)
+	{
+		knocked = true;
+	}
 
-        public override ContextMenu GetContextMenu() => null;
-    }
+	public override bool Hit(Bullet bullet, Vec2 hitPos)
+	{
+		shiftTime = 1f;
+		shiftAmount = ((bullet.travelDirNormalized.x > 0f) ? 1 : (-1));
+		KnockOffSnow(bullet.travelDirNormalized, vertShake: false);
+		return false;
+	}
+
+	public override bool HasNoCollision()
+	{
+		return false;
+	}
+
+	public override void UpdatePlatform()
+	{
+		if (needsRefresh)
+		{
+			PlaceBlock();
+			if ((_sprite.frame == 0 || _sprite.frame == 2 || _sprite.frame == 3 || _sprite.frame == 4) && !_init50)
+			{
+				edge = true;
+			}
+			solid = false;
+			_init50 = true;
+			needsRefresh = false;
+		}
+		if (!_placed)
+		{
+			PlaceBlock();
+			return;
+		}
+		if ((_sprite.frame == 0 || _sprite.frame == 2 || _sprite.frame == 3 || _sprite.frame == 4) && !_init50)
+		{
+			edge = true;
+		}
+		solid = false;
+		_init50 = true;
+	}
+
+	public override void UpdateCollision()
+	{
+	}
+
+	public override void UpdateNubbers()
+	{
+	}
+
+	public override void Draw()
+	{
+		base.depth = -0.12f;
+		if (_vertPush > 0f)
+		{
+			base.depth = -0.11f;
+		}
+		if (_graphic != null)
+		{
+			Sprite sprite = _graphic;
+			Vec2 vec = position;
+			_ = shiftAmount;
+			sprite.position = vec + new Vec2(0f * shiftTime, _vertPush * 1.5f);
+			_graphic.alpha = base.alpha;
+			_graphic.angle = angle;
+			_graphic.depth = base.depth;
+			_graphic.scale = base.scale + new Vec2(Math.Abs((float)shiftAmount * 0f) * shiftTime, _vertPush * 0.2f);
+			_graphic.center = center;
+			_graphic.Draw();
+		}
+		if (shiftTime > 0f)
+		{
+			_graphic.position = position + new Vec2((float)(shiftAmount * 2) * shiftTime, 0f);
+			_graphic.alpha = base.alpha;
+			_graphic.angle = angle;
+			_graphic.depth = base.depth + 10;
+			_graphic.scale = base.scale + new Vec2(Math.Abs((float)shiftAmount * 0f) * shiftTime, 0f);
+			_graphic.center = center;
+			_graphic.alpha = 0.6f;
+			_graphic.Draw();
+		}
+		shiftTime = Lerp.FloatSmooth(shiftTime, 0f, 0.1f);
+		if (shiftTime < 0.05f)
+		{
+			shiftTime = 0f;
+		}
+		_vertPush = Lerp.FloatSmooth(_vertPush, 0f, 0.3f);
+		if (_vertPush < 0.05f)
+		{
+			_vertPush = 0f;
+		}
+	}
+
+	public void SpecialFindFrame()
+	{
+		PineTree up = null;
+		PineTree down = null;
+		PineTree left = leftPine;
+		PineTree right = rightPine;
+		up = Level.CheckPoint<PineTree>(base.x, base.y - 16f, this);
+		down = Level.CheckPoint<PineTree>(base.x, base.y + 16f, this);
+		if (up != null && up._tileset != _tileset)
+		{
+			up = null;
+		}
+		if (down != null && down._tileset != _tileset)
+		{
+			down = null;
+		}
+		if (up != null)
+		{
+			if (right != null)
+			{
+				if (down != null)
+				{
+					if (left != null)
+					{
+						if (orientation == 0)
+						{
+							if (left.leftPine == null && right.rightPine == null)
+							{
+								frame = 1;
+							}
+							else
+							{
+								frame = 10;
+							}
+						}
+						else if (orientation == -1)
+						{
+							if (left.leftPine == null)
+							{
+								frame = 22;
+							}
+							else
+							{
+								frame = 23;
+							}
+						}
+						else if (orientation == 1)
+						{
+							if (right.rightPine == null)
+							{
+								frame = 26;
+							}
+							else
+							{
+								frame = 25;
+							}
+						}
+					}
+					else
+					{
+						frame = 0;
+					}
+				}
+				else if (left != null)
+				{
+					if (orientation == 0)
+					{
+						if (left.leftPine == null && right.rightPine == null)
+						{
+							frame = 1;
+						}
+						else
+						{
+							frame = 10;
+						}
+					}
+					else if (orientation == -1)
+					{
+						if (left.leftPine == null)
+						{
+							frame = 8;
+						}
+						else
+						{
+							frame = 9;
+						}
+					}
+					else if (orientation == 1)
+					{
+						if (right.rightPine == null)
+						{
+							frame = 12;
+						}
+						else
+						{
+							frame = 11;
+						}
+					}
+				}
+				else
+				{
+					frame = 3;
+				}
+			}
+			else if (down != null)
+			{
+				if (left != null)
+				{
+					frame = 2;
+				}
+				else
+				{
+					frame = 5;
+				}
+			}
+			else if (left != null)
+			{
+				frame = 4;
+			}
+			else
+			{
+				frame = 5;
+			}
+		}
+		else if (right != null)
+		{
+			if (down != null)
+			{
+				if (left != null)
+				{
+					if (orientation == 0)
+					{
+						if (left.leftPine == null && right.rightPine == null)
+						{
+							frame = 1;
+						}
+						else
+						{
+							frame = 31;
+						}
+					}
+					else if (orientation == -1)
+					{
+						if (left.leftPine == null)
+						{
+							frame = 29;
+						}
+						else
+						{
+							frame = 30;
+						}
+					}
+					else if (orientation == 1)
+					{
+						if (right.rightPine == null)
+						{
+							frame = 33;
+						}
+						else
+						{
+							frame = 32;
+						}
+					}
+				}
+				else
+				{
+					frame = 0;
+				}
+			}
+			else if (left != null)
+			{
+				if (orientation == 0)
+				{
+					if (left.leftPine == null && right.rightPine == null)
+					{
+						frame = 1;
+					}
+					else
+					{
+						frame = 17;
+					}
+				}
+				else if (orientation == -1)
+				{
+					if (left.leftPine == null)
+					{
+						frame = 15;
+					}
+					else
+					{
+						frame = 16;
+					}
+				}
+				else if (orientation == 1)
+				{
+					if (right.rightPine == null)
+					{
+						frame = 19;
+					}
+					else
+					{
+						frame = 18;
+					}
+				}
+			}
+			else
+			{
+				frame = 3;
+			}
+		}
+		else if (down != null)
+		{
+			if (left != null)
+			{
+				frame = 2;
+			}
+			else
+			{
+				frame = 5;
+			}
+		}
+		else if (left != null)
+		{
+			frame = 4;
+		}
+		else
+		{
+			frame = 5;
+		}
+	}
+
+	public override void FindFrame()
+	{
+		PineTree left = null;
+		PineTree right = null;
+		left = Level.CheckPoint<PineTree>(base.x - 8f, base.y, this);
+		if (left != null && left._tileset != _tileset)
+		{
+			left = null;
+		}
+		right = Level.CheckPoint<PineTree>(base.x + 8f, base.y, this);
+		if (right != null && right._tileset != _tileset)
+		{
+			right = null;
+		}
+		if (left != null && right != null)
+		{
+			left.FindFrame();
+		}
+		else
+		{
+			if (left != null)
+			{
+				return;
+			}
+			List<PineTree> pineList = new List<PineTree>();
+			PineTree currentPine = this;
+			leftPine = null;
+			while (currentPine != null)
+			{
+				pineList.Add(currentPine);
+				currentPine.rightPine = right;
+				if (right == null)
+				{
+					break;
+				}
+				right.leftPine = currentPine;
+				currentPine = right;
+				right = Level.CheckPoint<PineTree>(right.x + 8f, right.y, right);
+			}
+			bool even = pineList.Count % 2 == 0;
+			foreach (PineTree p in pineList)
+			{
+				int div = pineList.Count / 2;
+				int idx = pineList.IndexOf(p);
+				if (even)
+				{
+					if (idx < div)
+					{
+						p.orientation = -1;
+					}
+					else
+					{
+						p.orientation = 1;
+					}
+				}
+				else if (idx == div)
+				{
+					p.orientation = 0;
+				}
+				else if (idx < div)
+				{
+					p.orientation = -1;
+				}
+				else
+				{
+					p.orientation = 1;
+				}
+				p.SpecialFindFrame();
+			}
+		}
+	}
+
+	public override ContextMenu GetContextMenu()
+	{
+		return null;
+	}
 }

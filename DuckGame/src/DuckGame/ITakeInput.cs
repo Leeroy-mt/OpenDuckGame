@@ -1,7 +1,6 @@
-﻿namespace DuckGame
+namespace DuckGame;
+
+public interface ITakeInput
 {
-    public interface ITakeInput
-    {
-        InputProfile inputProfile { get; }
-    }
+	InputProfile inputProfile { get; }
 }

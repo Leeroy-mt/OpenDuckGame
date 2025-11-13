@@ -1,7 +1,6 @@
-﻿namespace DuckGame
+namespace DuckGame;
+
+public interface ISwing
 {
-    public interface ISwing
-    {
-        Rope GetRopeParent(Thing child);
-    }
+	Rope GetRopeParent(Thing child);
 }

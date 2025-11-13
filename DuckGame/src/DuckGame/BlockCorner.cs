@@ -1,21 +1,26 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace DuckGame
+namespace DuckGame;
+
+public class BlockCorner
 {
-    public class BlockCorner
-    {
-        public Vec2 corner;
-        public Block block;
-        public bool wallCorner;
-        public List<BlockCorner> testedCorners = new List<BlockCorner>();
+	public Vec2 corner;
 
-        public BlockCorner(Vec2 c, Block b, bool wall = false)
-        {
-            corner = c;
-            block = b;
-            wallCorner = wall;
-        }
+	public Block block;
 
-        public BlockCorner Copy() => new BlockCorner(corner, block, wallCorner);
-    }
+	public bool wallCorner;
+
+	public List<BlockCorner> testedCorners = new List<BlockCorner>();
+
+	public BlockCorner(Vec2 c, Block b, bool wall = false)
+	{
+		corner = c;
+		block = b;
+		wallCorner = wall;
+	}
+
+	public BlockCorner Copy()
+	{
+		return new BlockCorner(corner, block, wallCorner);
+	}
 }

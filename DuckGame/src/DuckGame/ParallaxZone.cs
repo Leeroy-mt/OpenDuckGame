@@ -1,74 +1,93 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace DuckGame
+namespace DuckGame;
+
+public class ParallaxZone
 {
-    public class ParallaxZone
-    {
-        public float distance;
-        public float speed;
-        public float scroll;
-        public float wrapMul = 1f;
-        public bool moving;
-        public bool visible = true;
-        private List<Sprite> _sprites = new List<Sprite>();
-        private List<Thing> _things = new List<Thing>();
-        private int _ypos;
+	public float distance;
 
-        public ParallaxZone(float d, float s, bool m, bool vis = true, int ypos = 0)
-        {
-            distance = d;
-            speed = s;
-            moving = m;
-            visible = vis;
-            _ypos = 0;
-        }
+	public float speed;
 
-        public void Update(float mul)
-        {
-            if (moving)
-                mul = 1f;
-            scroll += (1f - distance) * speed * mul;
-        }
+	public float scroll;
 
-        public void RenderSprites(Vec2 position)
-        {
-            float num = (0.4f + _ypos * 0.01f);
-            foreach (Sprite sprite1 in _sprites)
-            {
-                Sprite sprite2 = sprite1;
-                sprite2.position += position;
-                sprite1.position.x += scroll;
-                if (sprite1.position.x < -200f * wrapMul)
-                    sprite1.position.x += 500f * wrapMul;
-                if (sprite1.position.x > 450f * wrapMul)
-                    sprite1.position.x -= 500f * wrapMul;
-                sprite1.depth = (Depth)num;
-                Graphics.Draw(sprite1, sprite1.x, sprite1.y);
-                num += 1f / 1000f;
-                sprite1.position.x -= scroll;
-                Sprite sprite3 = sprite1;
-                sprite3.position -= position;
-            }
-            foreach (Thing thing1 in _things)
-            {
-                Thing thing2 = thing1;
-                thing2.position += position;
-                thing1.position.x += scroll;
-                if (thing1.position.x < -200f)
-                    thing1.position.x += 500f;
-                if (thing1.position.x > 450f)
-                    thing1.position.x -= 500f;
-                thing1.depth = (Depth)num;
-                thing1.Update();
-                thing1.Draw();
-                thing1.position.x -= scroll;
-                Thing thing3 = thing1;
-                thing3.position -= position;
-            }
-        }
+	public float wrapMul = 1f;
 
-        public void AddSprite(Sprite s) => _sprites.Add(s);
+	public bool moving;
 
-        public void AddThing(Thing s) => _things.Add(s);
-    }
+	public bool visible = true;
+
+	private List<Sprite> _sprites = new List<Sprite>();
+
+	private List<Thing> _things = new List<Thing>();
+
+	private int _ypos;
+
+	public ParallaxZone(float d, float s, bool m, bool vis = true, int ypos = 0)
+	{
+		distance = d;
+		speed = s;
+		moving = m;
+		visible = vis;
+		_ypos = 0;
+	}
+
+	public void Update(float mul)
+	{
+		if (moving)
+		{
+			mul = 1f;
+		}
+		scroll += (1f - distance) * speed * mul;
+	}
+
+	public void RenderSprites(Vec2 position)
+	{
+		float dep = 0.4f + (float)_ypos * 0.01f;
+		foreach (Sprite s in _sprites)
+		{
+			s.position += position;
+			s.position.x += scroll;
+			if (s.position.x < -200f * wrapMul)
+			{
+				s.position.x += 500f * wrapMul;
+			}
+			if (s.position.x > 450f * wrapMul)
+			{
+				s.position.x -= 500f * wrapMul;
+			}
+			s.depth = dep;
+			Graphics.Draw(s, s.x, s.y);
+			dep += 0.001f;
+			s.position.x -= scroll;
+			s.position -= position;
+		}
+		foreach (Thing s2 in _things)
+		{
+			s2.position += position;
+			s2.position.x += scroll;
+			if (s2.position.x < -200f)
+			{
+				s2.position.x += 500f;
+			}
+			if (s2.position.x > 450f)
+			{
+				s2.position.x -= 500f;
+			}
+			s2.depth = dep;
+			s2.Update();
+			s2.Draw();
+			s2.position.x -= scroll;
+			s2.position -= position;
+		}
+	}
+
+	public void AddSprite(Sprite s)
+	{
+		_sprites.Add(s);
+	}
+
+	public void AddThing(Thing s)
+	{
+		_things.Add(s);
+	}
 }

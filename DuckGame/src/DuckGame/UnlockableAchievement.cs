@@ -1,29 +1,17 @@
-﻿using System;
+using System;
 
-namespace DuckGame
+namespace DuckGame;
+
+public class UnlockableAchievement : Unlockable
 {
-    public class UnlockableAchievement : Unlockable
-    {
-        public UnlockableAchievement(
-          string identifier,
-          Func<bool> condition,
-          string nam,
-          string desc,
-          string achieve)
-          : this(true, identifier, condition, nam, desc, achieve)
-        {
-        }
+	public UnlockableAchievement(string identifier, Func<bool> condition, string nam, string desc, string achieve)
+		: this(canHint: true, identifier, condition, nam, desc, achieve)
+	{
+	}
 
-        public UnlockableAchievement(
-          bool canHint,
-          string identifier,
-          Func<bool> condition,
-          string nam,
-          string desc,
-          string achieve)
-          : base(identifier, condition, nam, desc, achieve)
-        {
-            allowHints = canHint;
-        }
-    }
+	public UnlockableAchievement(bool canHint, string identifier, Func<bool> condition, string nam, string desc, string achieve)
+		: base(identifier, condition, nam, desc, achieve)
+	{
+		allowHints = canHint;
+	}
 }

@@ -1,510 +1,529 @@
-﻿using System;
+using System;
 
-namespace DuckGame
+namespace DuckGame;
+
+public class HUD
 {
-    public class HUD
-    {
-        private static HUDCore _core = new HUDCore();
-        private const int CornerDisplayNextLineSeparation = 12;
+	private static HUDCore _core = new HUDCore();
 
-        public static HUDCore core
-        {
-            get => _core;
-            set => _core = value;
-        }
+	private const int CornerDisplayNextLineSeparation = 12;
 
-        public static bool hide
-        {
-            get => _core._hide;
-            set => _core._hide = value;
-        }
+	public static HUDCore core
+	{
+		get
+		{
+			return _core;
+		}
+		set
+		{
+			_core = value;
+		}
+	}
 
-        public static CornerDisplay FindDuplicateActiveCorner(
-          HUDCorner corner,
-          string text,
-          bool allowStacking = false)
-        {
-            foreach (CornerDisplay cornerDisplay in _core._cornerDisplays)
-            {
-                if (cornerDisplay.corner == corner)
-                {
-                    if (cornerDisplay.text == text)
-                    {
-                        if (!cornerDisplay.closing)
-                            return cornerDisplay;
-                        break;
-                    }
-                    break;
-                }
-            }
-            if (!allowStacking)
-                CloseCorner(corner);
-            return null;
-        }
+	public static bool hide
+	{
+		get
+		{
+			return _core._hide;
+		}
+		set
+		{
+			_core._hide = value;
+		}
+	}
 
-        public static CornerDisplay AddCornerMessage(HUDCorner corner, string text) => AddCornerMessage(corner, text, false);
+	public static CornerDisplay FindDuplicateActiveCorner(HUDCorner corner, string text, bool allowStacking = false)
+	{
+		foreach (CornerDisplay d in _core._cornerDisplays)
+		{
+			if (d.corner == corner)
+			{
+				if (d.text == text && !d.closing)
+				{
+					return d;
+				}
+				break;
+			}
+		}
+		if (!allowStacking)
+		{
+			CloseCorner(corner);
+		}
+		return null;
+	}
 
-        public static CornerDisplay AddCornerMessage(
-          HUDCorner corner,
-          string text,
-          bool allowStacking)
-        {
-            CornerDisplay cornerDisplay1 = FindDuplicateActiveCorner(corner, text, allowStacking);
-            if (cornerDisplay1 == null)
-            {
-                cornerDisplay1 = new CornerDisplay
-                {
-                    corner = corner,
-                    text = text
-                };
-                _core._cornerDisplays.Add(cornerDisplay1);
-            }
-            if (!allowStacking)
-            {
-                foreach (CornerDisplay cornerDisplay2 in _core._cornerDisplays)
-                {
-                    if (cornerDisplay2.corner == corner && cornerDisplay2 != cornerDisplay1)
-                        cornerDisplay2.closing = true;
-                }
-            }
-            return cornerDisplay1;
-        }
+	public static CornerDisplay AddCornerMessage(HUDCorner corner, string text)
+	{
+		return AddCornerMessage(corner, text, allowStacking: false);
+	}
 
-        public static CornerDisplay AddCornerMessageWithScale(HUDCorner corner, string text, float scale) => AddCornerMessageWithScale(corner, text, false, scale);
+	public static CornerDisplay AddCornerMessage(HUDCorner corner, string text, bool allowStacking)
+	{
+		CornerDisplay d = null;
+		d = FindDuplicateActiveCorner(corner, text, allowStacking);
+		if (d == null)
+		{
+			d = new CornerDisplay();
+			d.corner = corner;
+			d.text = text;
+			_core._cornerDisplays.Add(d);
+		}
+		if (!allowStacking)
+		{
+			foreach (CornerDisplay d2 in _core._cornerDisplays)
+			{
+				if (d2.corner == corner && d2 != d)
+				{
+					d2.closing = true;
+				}
+			}
+		}
+		return d;
+	}
 
-        public static CornerDisplay AddCornerMessageWithScale(HUDCorner corner, string text, bool allowStacking, float scale)
-        {
-            CornerDisplay cornerDisplay1 = FindDuplicateActiveCorner(corner, text, allowStacking);
-            if (cornerDisplay1 == null)
-            {
-                cornerDisplay1 = new CornerDisplay
-                {
-                    corner = corner,
-                    text = text,
-                    scale = scale
-                };
-                _core._cornerDisplays.Add(cornerDisplay1);
-            }
-            if (!allowStacking)
-            {
-                foreach (CornerDisplay cornerDisplay2 in _core._cornerDisplays)
-                {
-                    if (cornerDisplay2.corner == corner && cornerDisplay2 != cornerDisplay1)
-                        cornerDisplay2.closing = true;
-                }
-            }
-            return cornerDisplay1;
-        }
+	public static CornerDisplay AddCornerControl(HUDCorner corner, string text, InputProfile pro)
+	{
+		return AddCornerControl(corner, text, pro, allowStacking: false);
+	}
 
-        public static CornerDisplay AddCornerControl(
-          HUDCorner corner,
-          string text,
-          InputProfile pro)
-        {
-            return AddCornerControl(corner, text, pro, false);
-        }
+	public static CornerDisplay AddCornerControl(HUDCorner corner, string text, InputProfile pro = null, bool allowStacking = false)
+	{
+		CornerDisplay d = null;
+		d = FindDuplicateActiveCorner(corner, text, allowStacking);
+		if (d == null)
+		{
+			d = new CornerDisplay();
+			d.corner = corner;
+			d.text = text;
+			d.isControl = true;
+			d.profile = pro;
+			_core._cornerDisplays.Add(d);
+		}
+		return d;
+	}
 
-        public static CornerDisplay AddCornerControl(
-          HUDCorner corner,
-          string text,
-          InputProfile pro = null,
-          bool allowStacking = false)
-        {
-            CornerDisplay cornerDisplay = FindDuplicateActiveCorner(corner, text, allowStacking);
-            if (cornerDisplay == null)
-            {
-                cornerDisplay = new CornerDisplay
-                {
-                    corner = corner,
-                    text = text,
-                    isControl = true,
-                    profile = pro
-                };
-                _core._cornerDisplays.Add(cornerDisplay);
-            }
-            return cornerDisplay;
-        }
+	public static void AddInputChangeDisplay(string text)
+	{
+		_core._inputChangeDisplays.Clear();
+		CornerDisplay d = new CornerDisplay();
+		d.text = text;
+		d.isControl = true;
+		d.life = 3f;
+		_core._inputChangeDisplays.Add(d);
+	}
 
-        public static void AddInputChangeDisplay(string text)
-        {
-            _core._inputChangeDisplays.Clear();
-            _core._inputChangeDisplays.Add(new CornerDisplay()
-            {
-                text = text,
-                isControl = true,
-                life = 3f
-            });
-        }
+	public static void AddPlayerChangeDisplay(string text)
+	{
+		AddPlayerChangeDisplay(text, 4f);
+	}
 
-        public static void AddPlayerChangeDisplay(string text) => AddPlayerChangeDisplay(text, 4f);
+	public static void AddPlayerChangeDisplay(string text, float life)
+	{
+		_core._playerChangeDisplays.Clear();
+		CornerDisplay d = new CornerDisplay();
+		d.text = text;
+		d.isControl = true;
+		d.life = life;
+		_core._playerChangeDisplays.Add(d);
+	}
 
-        public static void AddPlayerChangeDisplay(string text, float life)
-        {
-            _core._playerChangeDisplays.Clear();
-            _core._playerChangeDisplays.Add(new CornerDisplay()
-            {
-                text = text,
-                isControl = true,
-                life = life
-            });
-        }
+	public static void AddCornerTimer(HUDCorner corner, string text, Timer timer)
+	{
+		CornerDisplay d = new CornerDisplay();
+		d.corner = corner;
+		d.text = text;
+		d.timer = timer;
+		_core._cornerDisplays.Add(d);
+	}
 
-        public static void AddCornerTimer(HUDCorner corner, string text, Timer timer) => _core._cornerDisplays.Add(new CornerDisplay()
-        {
-            corner = corner,
-            text = text,
-            timer = timer
-        });
+	public static void AddCornerCounter(HUDCorner corner, string text, FieldBinding counter, int max = 0, bool animateCount = false)
+	{
+		CornerDisplay d = new CornerDisplay();
+		d.corner = corner;
+		d.text = text;
+		d.counter = counter;
+		d.maxCount = max;
+		d.animateCount = animateCount;
+		d.curCount = (int)counter.value;
+		d.realCount = (int)counter.value;
+		_core._cornerDisplays.Add(d);
+	}
 
-        public static void AddCornerCounter(
-          HUDCorner corner,
-          string text,
-          FieldBinding counter,
-          int max = 0,
-          bool animateCount = false)
-        {
-            _core._cornerDisplays.Add(new CornerDisplay()
-            {
-                corner = corner,
-                text = text,
-                counter = counter,
-                maxCount = max,
-                animateCount = animateCount,
-                curCount = (int)counter.value,
-                realCount = (int)counter.value
-            });
-        }
+	public static void ClearPlayerChangeDisplays()
+	{
+		_core._playerChangeDisplays.Clear();
+	}
 
-        public static void ClearPlayerChangeDisplays() => _core._playerChangeDisplays.Clear();
+	public static void CloseAllCorners()
+	{
+		foreach (CornerDisplay cornerDisplay in _core._cornerDisplays)
+		{
+			cornerDisplay.closing = true;
+		}
+	}
 
-        public static void CloseAllCorners()
-        {
-            foreach (CornerDisplay cornerDisplay in _core._cornerDisplays)
-                cornerDisplay.closing = true;
-        }
-        public static void CloseAllCorners(bool notarcade)
-        {
-            foreach (CornerDisplay cornerDisplay in _core._cornerDisplays)
-            {
-                if (cornerDisplay.ischallenge)
-                {
-                    continue;
-                }
-                cornerDisplay.closing = true;
-            }
+	public static void CloseCorner(HUDCorner corner)
+	{
+		foreach (CornerDisplay d in _core._cornerDisplays)
+		{
+			if (d.corner == corner)
+			{
+				d.closing = true;
+			}
+		}
+	}
 
-        }
+	public static void CloseInputChangeDisplays()
+	{
+		foreach (CornerDisplay inputChangeDisplay in _core._inputChangeDisplays)
+		{
+			inputChangeDisplay.closing = true;
+		}
+	}
 
-        public static void CloseCorner(HUDCorner corner)
-        {
-            foreach (CornerDisplay cornerDisplay in _core._cornerDisplays)
-            {
-                if (cornerDisplay.corner == corner)
-                    cornerDisplay.closing = true;
-            }
-        }
+	public static void ClearCorners()
+	{
+		_core._cornerDisplays.Clear();
+	}
 
-        public static void CloseInputChangeDisplays()
-        {
-            foreach (CornerDisplay inputChangeDisplay in _core._inputChangeDisplays)
-                inputChangeDisplay.closing = true;
-        }
+	public static void Update()
+	{
+		for (int i = 0; i < _core._inputChangeDisplays.Count; i++)
+		{
+			CornerDisplay d = _core._inputChangeDisplays[i];
+			if (d.closing)
+			{
+				d.slide = Lerp.FloatSmooth(d.slide, -0.3f, 0.15f);
+				if (d.slide < -0.15f)
+				{
+					_core._inputChangeDisplays.RemoveAt(i);
+					i--;
+				}
+			}
+			else
+			{
+				d.life -= Maths.IncFrameTimer();
+				d.slide = Lerp.FloatSmooth(d.slide, 1f, 0.15f, 1.2f);
+				if (d.life <= 0f)
+				{
+					d.closing = true;
+				}
+			}
+		}
+		for (int j = 0; j < _core._playerChangeDisplays.Count; j++)
+		{
+			CornerDisplay d2 = _core._playerChangeDisplays[j];
+			if (d2.closing)
+			{
+				d2.slide = Lerp.FloatSmooth(d2.slide, -0.3f, 0.15f);
+				if (d2.slide < -0.15f)
+				{
+					_core._playerChangeDisplays.RemoveAt(j);
+					j--;
+				}
+			}
+			else
+			{
+				d2.life -= Maths.IncFrameTimer();
+				d2.slide = Lerp.FloatSmooth(d2.slide, 1f, 0.15f, 1.2f);
+				if (d2.life <= 0f)
+				{
+					d2.closing = true;
+				}
+			}
+		}
+		for (int k = 0; k < _core._cornerDisplays.Count; k++)
+		{
+			CornerDisplay d3 = _core._cornerDisplays[k];
+			if (d3.closing)
+			{
+				d3.slide = Lerp.FloatSmooth(d3.slide, -0.3f, 0.15f);
+				if (d3.slide < -0.15f)
+				{
+					_core._cornerDisplays.RemoveAt(k);
+					k--;
+				}
+				continue;
+			}
+			if (d3.willDie)
+			{
+				d3.life -= Maths.IncFrameTimer();
+				if (d3.life <= 0f)
+				{
+					d3.closing = true;
+				}
+			}
+			if (_core._cornerDisplays.Exists((CornerDisplay v) => v.corner == d3.corner && v.closing))
+			{
+				continue;
+			}
+			if (d3.counter != null)
+			{
+				if (d3.addCount != 0)
+				{
+					d3.addCountWait -= 0.05f;
+					if (d3.addCountWait <= 0f)
+					{
+						d3.addCountWait = 0.05f;
+						if (d3.addCount > 0)
+						{
+							d3.addCount--;
+							d3.curCount++;
+						}
+						else if (d3.addCount < 0)
+						{
+							d3.addCount++;
+							d3.curCount--;
+						}
+						SFX.Play("tinyTick", 0.6f, 0.3f);
+					}
+				}
+				int newVal = (int)d3.counter.value;
+				if (newVal != d3.realCount)
+				{
+					if (d3.animateCount)
+					{
+						d3.addCountWait = 1f;
+						d3.addCount = newVal - d3.realCount;
+						d3.curCount = d3.realCount;
+						d3.realCount = newVal;
+					}
+					else
+					{
+						d3.realCount = newVal;
+						d3.curCount = newVal;
+					}
+				}
+			}
+			if (d3.timer != null && d3.timer.maxTime.TotalSeconds != 0.0 && (int)(d3.timer.maxTime - d3.timer.elapsed).TotalSeconds == d3.lowTimeTick)
+			{
+				d3.lowTimeTick--;
+				SFX.Play("cameraBeep", 0.8f);
+			}
+			d3.slide = Lerp.FloatSmooth(d3.slide, 1f, 0.15f, 1.2f);
+		}
+	}
 
-        public static void ClearCorners() => _core._cornerDisplays.Clear();
+	public static void DrawForeground()
+	{
+		if (DevConsole.debugOrigin)
+		{
+			Graphics.DrawLine(new Vec2(0f, -32f), new Vec2(0f, 32f), Color.Orange);
+			Graphics.DrawLine(new Vec2(-32f, 0f), new Vec2(32f, 0f), Color.Orange);
+			Graphics.DrawRect(new Vec2(-2f, -2f), new Vec2(2f, 2f), Color.Red);
+		}
+		if (DevConsole.debugBounds && Level.current != null)
+		{
+			Graphics.DrawLine(Level.current.topLeft, new Vec2(Level.current.bottomRight.x, Level.current.topLeft.y), Color.Green);
+			Graphics.DrawLine(Level.current.topLeft, new Vec2(Level.current.topLeft.x, Level.current.bottomRight.y), Color.Green);
+			Graphics.DrawLine(Level.current.bottomRight, new Vec2(Level.current.topLeft.x, Level.current.bottomRight.y), Color.Green);
+			Graphics.DrawLine(Level.current.bottomRight, new Vec2(Level.current.bottomRight.x, Level.current.topLeft.y), Color.Green);
+		}
+	}
 
-        public static void Update()
-        {
-            for (int index = 0; index < _core._inputChangeDisplays.Count; ++index)
-            {
-                CornerDisplay inputChangeDisplay = _core._inputChangeDisplays[index];
-                if (inputChangeDisplay.closing)
-                {
-                    inputChangeDisplay.slide = Lerp.FloatSmooth(inputChangeDisplay.slide, -0.3f, 0.15f);
-                    if (inputChangeDisplay.slide < -0.15f)
-                    {
-                        _core._inputChangeDisplays.RemoveAt(index);
-                        --index;
-                    }
-                }
-                else
-                {
-                    inputChangeDisplay.life -= Maths.IncFrameTimer();
-                    inputChangeDisplay.slide = Lerp.FloatSmooth(inputChangeDisplay.slide, 1f, 0.15f, 1.2f);
-                    if (inputChangeDisplay.life <= 0f)
-                        inputChangeDisplay.closing = true;
-                }
-            }
-            for (int index = 0; index < _core._playerChangeDisplays.Count; ++index)
-            {
-                CornerDisplay playerChangeDisplay = _core._playerChangeDisplays[index];
-                if (playerChangeDisplay.closing)
-                {
-                    playerChangeDisplay.slide = Lerp.FloatSmooth(playerChangeDisplay.slide, -0.3f, 0.15f);
-                    if (playerChangeDisplay.slide < -0.15f)
-                    {
-                        _core._playerChangeDisplays.RemoveAt(index);
-                        --index;
-                    }
-                }
-                else
-                {
-                    playerChangeDisplay.life -= Maths.IncFrameTimer();
-                    playerChangeDisplay.slide = Lerp.FloatSmooth(playerChangeDisplay.slide, 1f, 0.15f, 1.2f);
-                    if (playerChangeDisplay.life <= 0f)
-                        playerChangeDisplay.closing = true;
-                }
-            }
-            for (int index = 0; index < _core._cornerDisplays.Count; ++index)
-            {
-                CornerDisplay d = _core._cornerDisplays[index];
-                if (d.closing)
-                {
-                    d.slide = Lerp.FloatSmooth(d.slide, -0.3f, 0.15f);
-                    if (d.slide < -0.15f)
-                    {
-                        _core._cornerDisplays.RemoveAt(index);
-                        --index;
-                    }
-                }
-                else
-                {
-                    if (d.willDie)
-                    {
-                        d.life -= Maths.IncFrameTimer();
-                        if (d.life <= 0f)
-                            d.closing = true;
-                    }
-                    if (!_core._cornerDisplays.Exists(v => v.corner == d.corner && v.closing))
-                    {
-                        if (d.counter != null)
-                        {
-                            if (d.addCount != 0)
-                            {
-                                d.addCountWait -= 0.05f;
-                                if (d.addCountWait <= 0f)
-                                {
-                                    d.addCountWait = 0.05f;
-                                    if (d.addCount > 0)
-                                    {
-                                        --d.addCount;
-                                        ++d.curCount;
-                                    }
-                                    else if (d.addCount < 0)
-                                    {
-                                        ++d.addCount;
-                                        --d.curCount;
-                                    }
-                                    SFX.Play("tinyTick", 0.6f, 0.3f);
-                                }
-                            }
-                            int num = (int)d.counter.value;
-                            if (num != d.realCount)
-                            {
-                                if (d.animateCount)
-                                {
-                                    d.addCountWait = 1f;
-                                    d.addCount = num - d.realCount;
-                                    d.curCount = d.realCount;
-                                    d.realCount = num;
-                                }
-                                else
-                                {
-                                    d.realCount = num;
-                                    d.curCount = num;
-                                }
-                            }
-                        }
-                        if (d.timer != null && d.timer.maxTime.TotalSeconds != 0f && (int)(d.timer.maxTime - d.timer.elapsed).TotalSeconds == d.lowTimeTick)
-                        {
-                            --d.lowTimeTick;
-                            SFX.Play("cameraBeep", 0.8f);
-                        }
-                        d.slide = Lerp.FloatSmooth(d.slide, 1f, 0.15f, 1.2f);
-                    }
-                }
-            }
-        }
-
-        public static void DrawForeground()
-        {
-            if (DevConsole.debugOrigin)
-            {
-                Graphics.DrawLine(new Vec2(0f, -32f), new Vec2(0f, 32f), Color.Orange);
-                Graphics.DrawLine(new Vec2(-32f, 0f), new Vec2(32f, 0f), Color.Orange);
-                Graphics.DrawRect(new Vec2(-2f, -2f), new Vec2(2f, 2f), Color.Red);
-            }
-            if (!DevConsole.debugBounds || Level.current == null)
-                return;
-            Graphics.DrawLine(Level.current.topLeft, new Vec2(Level.current.bottomRight.x, Level.current.topLeft.y), Color.Green);
-            Graphics.DrawLine(Level.current.topLeft, new Vec2(Level.current.topLeft.x, Level.current.bottomRight.y), Color.Green);
-            Graphics.DrawLine(Level.current.bottomRight, new Vec2(Level.current.topLeft.x, Level.current.bottomRight.y), Color.Green);
-            Graphics.DrawLine(Level.current.bottomRight, new Vec2(Level.current.bottomRight.x, Level.current.topLeft.y), Color.Green);
-        }
-
-        public static void Draw()
-        {
-            if (_core._hide)
-                return;
-            foreach (CornerDisplay inputChangeDisplay in _core._inputChangeDisplays)
-            {
-                Vec2 vec2_1 = new Vec2(Layer.HUD.camera.width / 2f, Layer.HUD.camera.height);
-                string text = inputChangeDisplay.text ?? "";
-                float stringWidth = Graphics.GetStringWidth(text);
-                float x = stringWidth;
-                float stringHeight = Graphics.GetStringHeight(text);
-                float num1 = stringHeight + 4f;
-                float num2 = 0f;
-                Vec2 vec2_2 = vec2_1;
-                Vec2 vec2_3 = vec2_1;
-                vec2_2.x -= stringWidth / 2f;
-                vec2_3.x -= stringWidth / 2f;
-                float num3 = Layer.HUD.camera.width / 32f + num1;
-                Vec2 vec2_4 = Vec2.Zero;
-                vec2_4 = new Vec2(0f, -num3);
-                Graphics.DrawRect(vec2_3 + vec2_4 * inputChangeDisplay.slide, vec2_3 + new Vec2(x, num1 - 1f) + vec2_4 * inputChangeDisplay.slide, Color.Black, (Depth)0.95f);
-                Graphics.DrawString(text, vec2_2 + new Vec2(((x - stringWidth) / 2f), ((num1 - stringHeight) / 2f) + num2) + vec2_4 * inputChangeDisplay.slide, Color.White, (Depth)0.97f, inputChangeDisplay.profile);
-            }
-            foreach (CornerDisplay playerChangeDisplay in _core._playerChangeDisplays)
-            {
-                Vec2 vec2_5 = new Vec2(Layer.HUD.camera.width / 2f, 0f);
-                string text = playerChangeDisplay.text ?? "";
-                float stringWidth = Graphics.GetStringWidth(text);
-                float x = stringWidth;
-                float stringHeight = Graphics.GetStringHeight(text);
-                float num4 = stringHeight + 4f;
-                float num5 = 0f;
-                Vec2 vec2_6 = vec2_5;
-                Vec2 vec2_7 = vec2_5;
-                vec2_6.x -= stringWidth / 2f;
-                vec2_7.x -= stringWidth / 2f;
-                float y = Layer.HUD.camera.width / 32f + num4;
-                Vec2 vec2_8 = Vec2.Zero;
-                vec2_8 = new Vec2(0f, y);
-                Graphics.DrawRect(vec2_7 + vec2_8 * playerChangeDisplay.slide, vec2_7 + new Vec2(x, num4 - 1f) + vec2_8 * playerChangeDisplay.slide, Color.Black, (Depth)0.95f);
-                Graphics.DrawString(text, vec2_6 + new Vec2(((x - stringWidth) / 2f), ((num4 - stringHeight) / 2f) + num5) + vec2_8 * playerChangeDisplay.slide, Color.White, (Depth)0.97f, playerChangeDisplay.profile);
-            }
-            int num6 = 0;
-            int num7 = 0;
-            int num8 = 0;
-            int num9 = 0;
-            int num10 = 0;
-            int num11 = 0;
-            foreach (CornerDisplay cornerDisplay in _core._cornerDisplays)
-            {
-                Vec2 vec2_9 = new Vec2(0f, 0f);
-                switch (cornerDisplay.corner)
-                {
-                    case HUDCorner.TopLeft:
-                        vec2_9 = new Vec2(0f, num6 * 12);
-                        ++num6;
-                        break;
-                    case HUDCorner.TopRight:
-                        vec2_9 = new Vec2(Layer.HUD.camera.width, num7 * 12);
-                        ++num7;
-                        break;
-                    case HUDCorner.BottomLeft:
-                        vec2_9 = new Vec2(0f, Layer.HUD.camera.height - num8 * 12);
-                        ++num8;
-                        break;
-                    case HUDCorner.BottomRight:
-                        vec2_9 = new Vec2(Layer.HUD.camera.width, Layer.HUD.camera.height - num9 * 12);
-                        ++num9;
-                        break;
-                    case HUDCorner.BottomMiddle:
-                        vec2_9 = new Vec2(Layer.HUD.camera.width / 2f, Layer.HUD.camera.height - num10 * 12);
-                        ++num10;
-                        break;
-                    case HUDCorner.TopMiddle:
-                        vec2_9 = new Vec2(Layer.HUD.camera.width / 2f, num11 * 12);
-                        ++num11;
-                        break;
-                }
-                string text = cornerDisplay.text ?? "";
-                bool flag = false;
-                if (cornerDisplay.timer != null)
-                {
-                    if (cornerDisplay.timer.maxTime.TotalSeconds != 0f)
-                    {
-                        TimeSpan span = cornerDisplay.timer.maxTime - cornerDisplay.timer.elapsed;
-                        text = text + cornerDisplay.text + MonoMain.TimeString(span, small: true);
-                        if (span.TotalSeconds < 10f)
-                            flag = true;
-                    }
-                    else
-                        text = text + cornerDisplay.text + MonoMain.TimeString(cornerDisplay.timer.elapsed, small: true);
-                }
-                else if (cornerDisplay.counter != null && cornerDisplay.counter.value is int)
-                {
-                    int curCount = cornerDisplay.curCount;
-                    if (cornerDisplay.addCount != 0)
-                    {
-                        text += Convert.ToString(curCount);
-                        if (cornerDisplay.addCount > 0)
-                            text = text + " |GREEN|+" + Convert.ToString(cornerDisplay.addCount);
-                        else if (cornerDisplay.addCount < 0)
-                            text = text + " |RED|" + Convert.ToString(cornerDisplay.addCount);
-                    }
-                    else
-                        text = cornerDisplay.maxCount == 0 ? text + Convert.ToString(curCount) : text + Convert.ToString(curCount) + "/" + Convert.ToString(cornerDisplay.maxCount);
-                }
-                float stringWidth1 = Graphics.GetStringWidth(text, scale: cornerDisplay.scale);
-                double stringWidth2 = Graphics.GetStringWidth(text, cornerDisplay.isControl, scale: cornerDisplay.scale);
-                float num12 = stringWidth1 + 8f;
-                float x = (float)(stringWidth2 + 8f);
-                float stringHeight = Graphics.GetStringHeight(text) * cornerDisplay.scale;
-                float num13 = stringHeight + 4f;
-                Vec2 vec2_10 = vec2_9;
-                Vec2 vec2_11 = vec2_9;
-                if (cornerDisplay.corner == HUDCorner.TopRight || cornerDisplay.corner == HUDCorner.BottomRight)
-                {
-                    vec2_10.x -= num12 * cornerDisplay.slide;
-                    vec2_11.x -= x * cornerDisplay.slide;
-                }
-                else if (cornerDisplay.corner == HUDCorner.TopLeft || cornerDisplay.corner == HUDCorner.BottomLeft)
-                {
-                    vec2_10.x -= num12 * (1f - cornerDisplay.slide);
-                    vec2_11.x -= x * (1f - cornerDisplay.slide);
-                    vec2_11.x += num12 - x;
-                }
-                if (cornerDisplay.corner == HUDCorner.BottomLeft || cornerDisplay.corner == HUDCorner.BottomRight || cornerDisplay.corner == HUDCorner.BottomMiddle)
-                {
-                    vec2_10.y -= num13;
-                    vec2_11.y -= num13;
-                }
-                if (cornerDisplay.corner == HUDCorner.BottomMiddle || cornerDisplay.corner == HUDCorner.TopMiddle)
-                {
-                    vec2_10.x -= num12 / 2f;
-                    vec2_11.x -= num12 / 2f;
-                    vec2_11.x += num12 - x;
-                }
-                if (cornerDisplay.corner == HUDCorner.BottomMiddle)
-                {
-                    vec2_10.y += 24f * (1f - cornerDisplay.slide);
-                    vec2_11.y += 24f * (1f - cornerDisplay.slide);
-                }
-                float num14 = Layer.HUD.camera.width / 32f;
-                Vec2 vec2_12 = Vec2.Zero;
-                if (cornerDisplay.corner == HUDCorner.TopLeft)
-                    vec2_12 = new Vec2(num14, num14);
-                else if (cornerDisplay.corner == HUDCorner.TopRight)
-                    vec2_12 = new Vec2(-num14, num14);
-                else if (cornerDisplay.corner == HUDCorner.BottomLeft)
-                    vec2_12 = new Vec2(num14, -num14);
-                else if (cornerDisplay.corner == HUDCorner.BottomRight)
-                    vec2_12 = new Vec2(-num14, -num14);
-                else if (cornerDisplay.corner == HUDCorner.BottomMiddle)
-                    vec2_12 = new Vec2(0f, -num14);
-                else if (cornerDisplay.corner == HUDCorner.TopMiddle)
-                    vec2_12 = new Vec2(0f, num14);
-                Graphics.DrawRect(vec2_11 + vec2_12 * cornerDisplay.slide, vec2_11 + new Vec2(x, num13 - 1f) + vec2_12 * cornerDisplay.slide, Color.Black, (Depth)0.95f);
-                Graphics.DrawRect(vec2_11 + new Vec2(x, 1f) + vec2_12 * cornerDisplay.slide, vec2_11 + new Vec2(x + 1f, num13 - 2f) + vec2_12 * cornerDisplay.slide, Color.Black, (Depth)0.95f);
-                Graphics.DrawRect(vec2_11 + new Vec2(0f, 1f) + vec2_12 * cornerDisplay.slide, vec2_11 + new Vec2(-1f, num13 - 2f) + vec2_12 * cornerDisplay.slide, Color.Black, (Depth)0.95f);
-                Graphics.DrawString(text, vec2_10 + new Vec2((float)((num12 - stringWidth1) / 2f), (float)((num13 - stringHeight) / 2f)) + vec2_12 * cornerDisplay.slide, flag ? Color.Red : Color.White, (Depth)0.98f, cornerDisplay.profile, cornerDisplay.scale);
-            }
-            if (!(Level.current is ChallengeLevel))
-                return;
-            foreach (TargetDuck targetDuck in Level.current.things[typeof(TargetDuck)])
-                targetDuck.DrawIcon();
-        }
-    }
+	public static void Draw()
+	{
+		if (_core._hide)
+		{
+			return;
+		}
+		foreach (CornerDisplay d in _core._inputChangeDisplays)
+		{
+			Vec2 vec = new Vec2(Layer.HUD.camera.width / 2f, Layer.HUD.camera.height);
+			string text = d.text;
+			if (text == null)
+			{
+				text = "";
+			}
+			float stringWidth = Graphics.GetStringWidth(text);
+			float wide = stringWidth;
+			float stringHeight = Graphics.GetStringHeight(text);
+			float high = stringHeight + 4f;
+			float topOff = 0f;
+			Vec2 topLeft = vec;
+			Vec2 topLeftRect = vec;
+			topLeft.x -= stringWidth / 2f;
+			topLeftRect.x -= stringWidth / 2f;
+			float offDist = Layer.HUD.camera.width / 32f + high;
+			Vec2 tlOffset = Vec2.Zero;
+			tlOffset = new Vec2(0f, 0f - offDist);
+			Graphics.DrawRect(topLeftRect + tlOffset * d.slide, topLeftRect + new Vec2(wide, high - 1f) + tlOffset * d.slide, Color.Black, 0.95f);
+			Graphics.DrawString(text, topLeft + new Vec2((wide - stringWidth) / 2f, (high - stringHeight) / 2f + topOff) + tlOffset * d.slide, Color.White, 0.97f, d.profile);
+		}
+		foreach (CornerDisplay d2 in _core._playerChangeDisplays)
+		{
+			Vec2 vec2 = new Vec2(Layer.HUD.camera.width / 2f, 0f);
+			string text2 = d2.text;
+			if (text2 == null)
+			{
+				text2 = "";
+			}
+			float stringWidth2 = Graphics.GetStringWidth(text2);
+			float wide2 = stringWidth2;
+			float stringHeight2 = Graphics.GetStringHeight(text2);
+			float high2 = stringHeight2 + 4f;
+			float topOff2 = 0f;
+			Vec2 topLeft2 = vec2;
+			Vec2 topLeftRect2 = vec2;
+			topLeft2.x -= stringWidth2 / 2f;
+			topLeftRect2.x -= stringWidth2 / 2f;
+			float offDist2 = Layer.HUD.camera.width / 32f + high2;
+			Vec2 tlOffset2 = Vec2.Zero;
+			tlOffset2 = new Vec2(0f, offDist2);
+			Graphics.DrawRect(topLeftRect2 + tlOffset2 * d2.slide, topLeftRect2 + new Vec2(wide2, high2 - 1f) + tlOffset2 * d2.slide, Color.Black, 0.95f);
+			Graphics.DrawString(text2, topLeft2 + new Vec2((wide2 - stringWidth2) / 2f, (high2 - stringHeight2) / 2f + topOff2) + tlOffset2 * d2.slide, Color.White, 0.97f, d2.profile);
+		}
+		int numTopLeft = 0;
+		int numTopRight = 0;
+		int numBottomLeft = 0;
+		int numBottomRight = 0;
+		int numBottomMiddle = 0;
+		int numTopMiddle = 0;
+		foreach (CornerDisplay d3 in _core._cornerDisplays)
+		{
+			Vec2 pos = new Vec2(0f, 0f);
+			switch (d3.corner)
+			{
+			case HUDCorner.TopLeft:
+				pos = new Vec2(0f, numTopLeft * 12);
+				numTopLeft++;
+				break;
+			case HUDCorner.TopRight:
+				pos = new Vec2(Layer.HUD.camera.width, numTopRight * 12);
+				numTopRight++;
+				break;
+			case HUDCorner.BottomLeft:
+				pos = new Vec2(0f, Layer.HUD.camera.height - (float)(numBottomLeft * 12));
+				numBottomLeft++;
+				break;
+			case HUDCorner.BottomRight:
+				pos = new Vec2(Layer.HUD.camera.width, Layer.HUD.camera.height - (float)(numBottomRight * 12));
+				numBottomRight++;
+				break;
+			case HUDCorner.BottomMiddle:
+				pos = new Vec2(Layer.HUD.camera.width / 2f, Layer.HUD.camera.height - (float)(numBottomMiddle * 12));
+				numBottomMiddle++;
+				break;
+			case HUDCorner.TopMiddle:
+				pos = new Vec2(Layer.HUD.camera.width / 2f, numTopMiddle * 12);
+				numTopMiddle++;
+				break;
+			}
+			string text3 = d3.text;
+			if (text3 == null)
+			{
+				text3 = "";
+			}
+			bool lowTime = false;
+			if (d3.timer != null)
+			{
+				if (d3.timer.maxTime.TotalSeconds != 0.0)
+				{
+					TimeSpan t = d3.timer.maxTime - d3.timer.elapsed;
+					text3 = text3 + d3.text + MonoMain.TimeString(t, 3, small: true);
+					if (t.TotalSeconds < 10.0)
+					{
+						lowTime = true;
+					}
+				}
+				else
+				{
+					text3 = text3 + d3.text + MonoMain.TimeString(d3.timer.elapsed, 3, small: true);
+				}
+			}
+			else if (d3.counter != null && d3.counter.value is int)
+			{
+				int num = d3.curCount;
+				if (d3.addCount == 0)
+				{
+					text3 = ((d3.maxCount == 0) ? (text3 + Convert.ToString(num)) : (text3 + Convert.ToString(num) + "/" + Convert.ToString(d3.maxCount)));
+				}
+				else
+				{
+					text3 += Convert.ToString(num);
+					if (d3.addCount > 0)
+					{
+						text3 = text3 + " |GREEN|+" + Convert.ToString(d3.addCount);
+					}
+					else if (d3.addCount < 0)
+					{
+						text3 = text3 + " |RED|" + Convert.ToString(d3.addCount);
+					}
+				}
+			}
+			float stringWidth3 = Graphics.GetStringWidth(text3);
+			float stringWidth4 = Graphics.GetStringWidth(text3, d3.isControl);
+			float wide3 = stringWidth3 + 8f;
+			float wideThin = stringWidth4 + 8f;
+			float stringHeight3 = Graphics.GetStringHeight(text3);
+			float high3 = stringHeight3 + 4f;
+			Vec2 topLeft3 = pos;
+			Vec2 topLeftRect3 = pos;
+			if (d3.corner == HUDCorner.TopRight || d3.corner == HUDCorner.BottomRight)
+			{
+				topLeft3.x -= wide3 * d3.slide;
+				topLeftRect3.x -= wideThin * d3.slide;
+			}
+			else if (d3.corner == HUDCorner.TopLeft || d3.corner == HUDCorner.BottomLeft)
+			{
+				topLeft3.x -= wide3 * (1f - d3.slide);
+				topLeftRect3.x -= wideThin * (1f - d3.slide);
+				topLeftRect3.x += wide3 - wideThin;
+			}
+			if (d3.corner == HUDCorner.BottomLeft || d3.corner == HUDCorner.BottomRight || d3.corner == HUDCorner.BottomMiddle)
+			{
+				topLeft3.y -= high3;
+				topLeftRect3.y -= high3;
+			}
+			if (d3.corner == HUDCorner.BottomMiddle || d3.corner == HUDCorner.TopMiddle)
+			{
+				topLeft3.x -= wide3 / 2f;
+				topLeftRect3.x -= wide3 / 2f;
+				topLeftRect3.x += wide3 - wideThin;
+			}
+			if (d3.corner == HUDCorner.BottomMiddle)
+			{
+				topLeft3.y += 24f * (1f - d3.slide);
+				topLeftRect3.y += 24f * (1f - d3.slide);
+			}
+			float offDist3 = Layer.HUD.camera.width / 32f;
+			Vec2 tlOffset3 = Vec2.Zero;
+			if (d3.corner == HUDCorner.TopLeft)
+			{
+				tlOffset3 = new Vec2(offDist3, offDist3);
+			}
+			else if (d3.corner == HUDCorner.TopRight)
+			{
+				tlOffset3 = new Vec2(0f - offDist3, offDist3);
+			}
+			else if (d3.corner == HUDCorner.BottomLeft)
+			{
+				tlOffset3 = new Vec2(offDist3, 0f - offDist3);
+			}
+			else if (d3.corner == HUDCorner.BottomRight)
+			{
+				tlOffset3 = new Vec2(0f - offDist3, 0f - offDist3);
+			}
+			else if (d3.corner == HUDCorner.BottomMiddle)
+			{
+				tlOffset3 = new Vec2(0f, 0f - offDist3);
+			}
+			else if (d3.corner == HUDCorner.TopMiddle)
+			{
+				tlOffset3 = new Vec2(0f, offDist3);
+			}
+			Graphics.DrawRect(topLeftRect3 + tlOffset3 * d3.slide, topLeftRect3 + new Vec2(wideThin, high3 - 1f) + tlOffset3 * d3.slide, Color.Black, 0.95f);
+			Graphics.DrawRect(topLeftRect3 + new Vec2(wideThin, 1f) + tlOffset3 * d3.slide, topLeftRect3 + new Vec2(wideThin + 1f, high3 - 2f) + tlOffset3 * d3.slide, Color.Black, 0.95f);
+			Graphics.DrawRect(topLeftRect3 + new Vec2(0f, 1f) + tlOffset3 * d3.slide, topLeftRect3 + new Vec2(-1f, high3 - 2f) + tlOffset3 * d3.slide, Color.Black, 0.95f);
+			Graphics.DrawString(text3, topLeft3 + new Vec2((wide3 - stringWidth3) / 2f, (high3 - stringHeight3) / 2f) + tlOffset3 * d3.slide, lowTime ? Color.Red : Color.White, 0.98f, d3.profile);
+		}
+		if (!(Level.current is ChallengeLevel))
+		{
+			return;
+		}
+		foreach (TargetDuck item in Level.current.things[typeof(TargetDuck)])
+		{
+			item.DrawIcon();
+		}
+	}
 }

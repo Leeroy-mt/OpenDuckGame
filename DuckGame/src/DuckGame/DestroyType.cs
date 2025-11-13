@@ -1,44 +1,68 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace DuckGame
+namespace DuckGame;
+
+public abstract class DestroyType
 {
-    public abstract class DestroyType
-    {
-        private static Map<byte, System.Type> _types = new Map<byte, System.Type>();
-        private Thing _thing;
+	private static Map<byte, Type> _types = new Map<byte, Type>();
 
-        public static Map<byte, System.Type> indexTypeMap => _types;
+	private Thing _thing;
 
-        public static void InitializeTypes()
-        {
-            if (MonoMain.moddingEnabled)
-            {
-                byte key = 0;
-                foreach (System.Type sortedType in ManagedContent.DestroyTypes.SortedTypes)
-                {
-                    _types.Add(key, sortedType);
-                    ++key;
-                }
-            }
-            else
-            {
-                List<System.Type> list = Editor.GetSubclasses(typeof(DestroyType)).ToList();
-                byte key = 0;
-                foreach (System.Type type in list)
-                {
-                    _types.Add(key, type);
-                    ++key;
-                }
-            }
-        }
+	public static Map<byte, Type> indexTypeMap => _types;
 
-        public Thing thing => _thing;
+	public Thing thing => _thing;
 
-        public System.Type killThingType => _thing == null ? null : _thing.killThingType;
+	public Type killThingType
+	{
+		get
+		{
+			if (_thing == null)
+			{
+				return null;
+			}
+			return _thing.killThingType;
+		}
+	}
 
-        public Profile responsibleProfile => _thing == null ? null : _thing.responsibleProfile;
+	public Profile responsibleProfile
+	{
+		get
+		{
+			if (_thing == null)
+			{
+				return null;
+			}
+			return _thing.responsibleProfile;
+		}
+	}
 
-        public DestroyType(Thing t = null) => _thing = t;
-    }
+	public static void InitializeTypes()
+	{
+		if (MonoMain.moddingEnabled)
+		{
+			byte num = 0;
+			{
+				foreach (Type type in ManagedContent.DestroyTypes.SortedTypes)
+				{
+					_types.Add(num, type);
+					num++;
+				}
+				return;
+			}
+		}
+		List<Type> list = Editor.GetSubclasses(typeof(DestroyType)).ToList();
+		byte index = 0;
+		foreach (Type t in list)
+		{
+			_types.Add(index, t);
+			index++;
+		}
+	}
+
+	public DestroyType(Thing t = null)
+	{
+		_thing = t;
+	}
 }

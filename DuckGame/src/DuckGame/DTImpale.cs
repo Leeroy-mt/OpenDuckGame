@@ -1,10 +1,9 @@
-﻿namespace DuckGame
+namespace DuckGame;
+
+public class DTImpale : DestroyType
 {
-    public class DTImpale : DestroyType
-    {
-        public DTImpale(Thing t)
-          : base(t)
-        {
-        }
-    }
+	public DTImpale(Thing t)
+		: base(t)
+	{
+	}
 }

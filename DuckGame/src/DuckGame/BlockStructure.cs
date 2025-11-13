@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace DuckGame
+namespace DuckGame;
+
+public class BlockStructure
 {
-    public class BlockStructure
-    {
-        public List<BlockCorner> corners = new List<BlockCorner>();
-        public HashSet<Block> blocks = new HashSet<Block>();
-    }
+	public List<BlockCorner> corners = new List<BlockCorner>();
+
+	public HashSet<Block> blocks = new HashSet<Block>();
 }

@@ -1,6 +1,5 @@
-﻿namespace DuckGame
+namespace DuckGame;
+
+public interface IAmADuck
 {
-    public interface IAmADuck
-    {
-    }
 }
