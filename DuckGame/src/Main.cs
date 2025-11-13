@@ -198,7 +198,7 @@ namespace DuckGame
             //} old
             ModLoader.Start();
 
-            GraphicsDebug.Initialize(); ///mark
+            //GraphicsDebug.Initialize(); ///mark
         }
         protected override void OnUpdate()
         {

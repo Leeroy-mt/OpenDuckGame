@@ -1,5 +1,5 @@
 ﻿using AddedContent.Firebreak;
-using SDL2;
+using SDL3;
 using SixLabors.ImageSharp;
 using System;
 using System.IO;
@@ -2374,7 +2374,7 @@ namespace DuckGame
                     if (_core.enteringText)
                     {
                         Input._imeAllowed = true;
-                        if (Keyboard.control && Keyboard.Pressed(Keys.V) && SDL.SDL_HasClipboardText() == SDL.SDL_bool.SDL_TRUE)
+                        if (Keyboard.control && Keyboard.Pressed(Keys.V) && SDL.SDL_HasClipboardText() == true)
                             Keyboard.KeyString += SDL.SDL_GetClipboardText();
                         if (Keyboard.KeyString.Length > 90)
                             Keyboard.KeyString = Keyboard.KeyString.Substring(0, 90);
