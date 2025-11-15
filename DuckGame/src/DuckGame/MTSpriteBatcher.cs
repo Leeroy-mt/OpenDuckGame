@@ -423,10 +423,10 @@ internal class MTSpriteBatcher
 				if (item.Texture != tex || item.Material != eff)
 				{
 					FlushVertexArray(startIndex, index);
-					if (eff != null && item.Material == null)
-					{
-						_batch.Setup();
-					}
+					//if (eff != null && item.Material == null)
+					//{
+					//	_batch.Setup();
+					//}
 					eff = (_batch.transitionEffect ? null : item.Material);
 					tex = item.Texture;
 					startIndex = (index = 0);
@@ -436,7 +436,11 @@ internal class MTSpriteBatcher
 						eff.SetValue("MatrixTransform", _batch.fullMatrix);
 						eff.Apply();
 					}
-				}
+					else //new
+					{
+						_batch.Setup();
+					}
+                }
 				_vertexArray[index++] = item.vertexTL;
 				_vertexArray[index++] = item.vertexTR;
 				_vertexArray[index++] = item.vertexBL;

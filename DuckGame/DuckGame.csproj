@@ -13,6 +13,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="debug\**" />
+    <EmbeddedResource Remove="debug\**" />
+    <None Remove="debug\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="app.ico" />
   </ItemGroup>
 

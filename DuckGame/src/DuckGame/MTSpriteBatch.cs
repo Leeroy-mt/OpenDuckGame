@@ -201,11 +201,11 @@ public class MTSpriteBatch : SpriteBatch
 		graphicsDevice.SamplerStates[0] = _samplerState;
 		Viewport vp = graphicsDevice.Viewport;
 		Matrix.CreateOrthographicOffCenter(0f, vp.Width, vp.Height, 0f, 1f, -1f, out _projMatrix);
-		if (!Program.isLinux)
-		{
-			_projMatrix.M41 += -0.5f * _projMatrix.M11;
-			_projMatrix.M42 += -0.5f * _projMatrix.M22;
-		}
+		//if (!Program.isLinux)
+		//{
+		//	_projMatrix.M41 += -0.5f * _projMatrix.M11;
+		//	_projMatrix.M42 += -0.5f * _projMatrix.M22;
+		//}
 		Matrix.Multiply(ref _matrix, ref _projMatrix, out var projection);
 		fullMatrix = projection;
 		if (simple)
@@ -452,7 +452,7 @@ public class MTSpriteBatch : SpriteBatch
 			_texCoordBR.x = _texCoordTL.x;
 			_texCoordTL.x = temp2;
 		}
-		item.Set(destinationRectangle.x, destinationRectangle.y, 0f - origin.x, 0f - origin.y, destinationRectangle.z, destinationRectangle.w, (float)Math.Sin(rotation), (float)Math.Cos(rotation), color, _texCoordTL, _texCoordBR);
+        item.Set(destinationRectangle.x, destinationRectangle.y, 0f - origin.x, 0f - origin.y, destinationRectangle.z, destinationRectangle.w, (float)Math.Sin(rotation), (float)Math.Cos(rotation), color, _texCoordTL, _texCoordBR);
 		if (Graphics.recordMetadata)
 		{
 			item.MetaData = new MTSpriteBatchItemMetaData();
