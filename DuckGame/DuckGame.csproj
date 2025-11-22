@@ -7,16 +7,10 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>disable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <StartupObject>DGWindows.WindowsPlatformStartup</StartupObject>
+    <StartupObject>DuckGame.Program</StartupObject>
 	  <OutDir>$(SolutionDir)bin</OutDir>
 	  <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="debug\**" />
-    <EmbeddedResource Remove="debug\**" />
-    <None Remove="debug\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="app.ico" />
@@ -33,10 +27,6 @@
     <ProjectReference Include="..\CrashWindow\CrashWindow.csproj" />
     <ProjectReference Include="..\FNA\FNA.Core.csproj" />
     <ProjectReference Include="..\Steam\Steam.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="src\DGInput\" />
   </ItemGroup>
 
   <ItemGroup>

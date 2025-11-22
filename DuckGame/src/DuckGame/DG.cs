@@ -58,40 +58,62 @@ public static class DG
 	{
 		get
 		{
-			string ver = Environment.OSVersion.ToString();
+			var os = Environment.OSVersion;
+			var version = Environment.OSVersion.Version;
 			string name = "Windows Mystery Edition";
-			if (ver.Contains("5.0"))
+			
+			switch (version.Major)
 			{
-				name = "Windows 2000";
+				case <= 4:
+					name = $"Windows NT {version.Major}.{version.Minor}";
+					break;
+				case 5:
+					name = version.Minor switch
+					{
+						0 => "Windows 2000",
+						1 => "Windows XP",
+						//2 => "Windows Server 2003",
+						_ => os.VersionString
+                    };
+					break;
+				case 6:
+					switch(version.Minor)
+					{
+						case 0:
+							name = version.Build switch
+							{
+								//2423 => "Windows Home Server",
+								>= 6000 and <= 6003 => "Windows Vista",
+								_ => os.VersionString
+							};
+							break;
+						case 1:
+							name = version.Build switch
+							{
+								>= 6429 and <= 7601 => "Windows 7",
+								//7657 => "Windows Home Server 2011",
+								_ => os.VersionString
+							};
+							break;
+						case 2:
+							name = "Windows 8";
+                            break;
+						case 3:
+							name = "Windows 8.1";
+							break;
+					}
+					break;
+				case 10:
+					name = version.Build switch
+					{
+						>= 9841 and <= 19045 => "Windows 10",
+						//20348 => "Windows Server 2022",
+						>= 22000 and <= 26200 => "Windows 11",
+                        _ => os.VersionString
+					};
+					break;
 			}
-			else if (ver.Contains("5.1"))
-			{
-				name = "Windows XP";
-			}
-			else if (ver.Contains("5.2"))
-			{
-				name = "Windows XP 64-Bit Edition";
-			}
-			else if (ver.Contains("6.0"))
-			{
-				name = "Windows Vista";
-			}
-			else if (ver.Contains("6.1"))
-			{
-				name = "Windows 7";
-			}
-			else if (ver.Contains("6.2"))
-			{
-				name = "Windows 8";
-			}
-			else if (ver.Contains("6.3"))
-			{
-				name = "Windows 8.1";
-			}
-			else if (ver.Contains("10.0"))
-			{
-				name = "Windows 10";
-			}
+
 			if (Program.wineVersion != null)
 			{
 				name = name + " (Linux Wine v" + Program.wineVersion + ")";

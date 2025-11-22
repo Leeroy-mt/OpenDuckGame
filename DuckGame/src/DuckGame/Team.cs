@@ -1199,7 +1199,7 @@ public class Team
 			totalLoadHats++;
 			MonoMain.currentActionQueue.Enqueue(new LoadingAction(delegate
 			{
-				MonoMain.loadMessage = "Loading Custom Hats (" + currentLoadHat + "/" + totalLoadHats + ")";
+				//MonoMain.loadMessage = "Loading Custom Hats (" + currentLoadHat + "/" + totalLoadHats + ")";
 				currentLoadHat++;
 				Team team = null;
 				if (pExtension == "png")

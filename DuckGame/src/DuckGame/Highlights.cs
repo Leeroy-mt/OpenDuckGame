@@ -10,7 +10,7 @@ public class Highlights
 
 	public static void Initialize()
 	{
-		MonoMain.loadMessage = "Loading Highlights";
+		//MonoMain.loadMessage = "Loading Highlights";
 		for (int i = 0; i < 6; i++)
 		{
 			_recordings.Add(new Recording());

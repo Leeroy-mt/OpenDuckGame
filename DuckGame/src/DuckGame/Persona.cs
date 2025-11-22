@@ -78,7 +78,8 @@ public static class Persona
 
 	public static void Initialize()
 	{
-	}
+		_ = _personas;
+    }
 
 	public static void Shuffle(int pSeed = -1)
 	{
