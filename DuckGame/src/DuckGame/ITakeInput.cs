@@ -2,5 +2,5 @@ namespace DuckGame;
 
 public interface ITakeInput
 {
-	InputProfile inputProfile { get; }
+    InputProfile inputProfile { get; }
 }

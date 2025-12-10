@@ -2,10 +2,10 @@ namespace DuckGame;
 
 public class PhysicalBullet : MaterialThing
 {
-	public Bullet bullet;
+    public Bullet bullet;
 
-	public PhysicalBullet()
-		: base(0f, 0f)
-	{
-	}
+    public PhysicalBullet()
+        : base(0f, 0f)
+    {
+    }
 }

@@ -2,19 +2,19 @@ namespace DuckGame;
 
 public class UIInviteUser
 {
-	public Sprite sprite;
+    public Sprite sprite;
 
-	public User user;
+    public User user;
 
-	public SteamUserState state;
+    public SteamUserState state;
 
-	public string name;
+    public string name;
 
-	public bool inGame;
+    public bool inGame;
 
-	public bool inDuckGame;
+    public bool inDuckGame;
 
-	public bool inMyLobby;
+    public bool inMyLobby;
 
-	public bool triedInvite;
+    public bool triedInvite;
 }

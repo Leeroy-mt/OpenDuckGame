@@ -1,11 +1,11 @@
 ﻿using Steamworks;
-using System;
-using System.Collections.Generic;
 
 // Common helper class that turns out to be used ~ 2 times per function...
-public static class SteamHelper {
+public static class SteamHelper
+{
 
-    public static List<T> GetList<T>(int count, Func<int, T> get) {
+    public static List<T> GetList<T>(int count, Func<int, T> get)
+    {
         if (count <= 0)
             return new List<T>();
         List<T> list = new List<T>(count);
@@ -14,7 +14,8 @@ public static class SteamHelper {
         return list;
     }
 
-    public static TOut[] GetArray<TIn, TOut>(IList<TIn> list, Func<TIn, TOut> get) {
+    public static TOut[] GetArray<TIn, TOut>(IList<TIn> list, Func<TIn, TOut> get)
+    {
         if (list.Count <= 0)
             return new TOut[0];
         TOut[] array = new TOut[list.Count];
@@ -23,7 +24,8 @@ public static class SteamHelper {
         return array;
     }
 
-    public static byte[] GetImageRGBA(int id) {
+    public static byte[] GetImageRGBA(int id)
+    {
         uint w;
         uint h;
         if (!SteamUtils.GetImageSize(id, out w, out h))

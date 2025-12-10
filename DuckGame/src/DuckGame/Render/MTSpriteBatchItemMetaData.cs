@@ -4,15 +4,15 @@ namespace DuckGame;
 
 public class MTSpriteBatchItemMetaData
 {
-	public Tex2D texture;
+    public Tex2D texture;
 
-	public float rotation;
+    public float rotation;
 
-	public Color color;
+    public Color color;
 
-	public SpriteEffects effect;
+    public SpriteEffects effect;
 
-	public float depth;
+    public float depth;
 
-	public Rectangle tempRect;
+    public Rectangle tempRect;
 }

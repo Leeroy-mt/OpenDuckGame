@@ -2,7 +2,7 @@ namespace DuckGame;
 
 public class ReceivedLevelInfo
 {
-	public string name;
+    public string name;
 
-	public LevelData data;
+    public LevelData data;
 }

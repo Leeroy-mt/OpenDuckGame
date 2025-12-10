@@ -4,9 +4,9 @@ namespace DuckGame;
 
 public class ModMetaData : BinaryClassChunk
 {
-	public bool hasLocalMods;
+    public bool hasLocalMods;
 
-	public HashSet<ulong> workshopIDs = new HashSet<ulong>();
+    public HashSet<ulong> workshopIDs = new HashSet<ulong>();
 
-	public HashSet<string> localModIdentifiers = new HashSet<string>();
+    public HashSet<string> localModIdentifiers = new HashSet<string>();
 }

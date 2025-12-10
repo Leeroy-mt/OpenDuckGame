@@ -2,15 +2,15 @@ namespace DuckGame;
 
 public class DCChartValue
 {
-	public string chart;
+    public string chart;
 
-	public string section;
+    public string section;
 
-	public Color color;
+    public Color color;
 
-	public double x;
+    public double x;
 
-	public double y;
+    public double y;
 
-	public int threadIndex;
+    public int threadIndex;
 }

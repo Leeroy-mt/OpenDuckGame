@@ -7,14 +7,14 @@ namespace DuckGame;
 /// </summary>
 public enum PhysicsMaterial
 {
-	Default = 0,
-	Metal = 1,
-	Rubber = 2,
-	Wood = 3,
-	Paper = 4,
-	Crust = 5,
-	Plastic = 6,
-	Duck = 7,
-	Glass = 8,
-	Reserved = 255
+    Default = 0,
+    Metal = 1,
+    Rubber = 2,
+    Wood = 3,
+    Paper = 4,
+    Crust = 5,
+    Plastic = 6,
+    Duck = 7,
+    Glass = 8,
+    Reserved = 255
 }

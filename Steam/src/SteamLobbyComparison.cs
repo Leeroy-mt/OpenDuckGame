@@ -1,4 +1,5 @@
-﻿public enum SteamLobbyComparison {
+﻿public enum SteamLobbyComparison
+{
     NotEqual = 3,
     EqualToOrGreaterThan = 2,
     GreaterThan = 1,

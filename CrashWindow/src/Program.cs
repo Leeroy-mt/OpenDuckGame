@@ -1,9 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using DuckGame.src.MonoTime.Console;
+using System;
 using System.Windows.Forms;
-using DuckGame.src.MonoTime.Console;
 namespace CrashWindow
 {
     internal static class Program

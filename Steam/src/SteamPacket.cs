@@ -1,5 +1,7 @@
-﻿public class SteamPacket {
-    public SteamPacket() {
+﻿public class SteamPacket
+{
+    public SteamPacket()
+    {
     }
 
     public User connection;

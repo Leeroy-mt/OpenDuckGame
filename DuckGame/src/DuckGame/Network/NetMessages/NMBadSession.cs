@@ -3,14 +3,14 @@ namespace DuckGame;
 [FixedNetworkID(421)]
 public class NMBadSession : NMNetworkCoreMessage
 {
-	public NetIndex4 remoteSession;
+    public NetIndex4 remoteSession;
 
-	public NMBadSession()
-	{
-	}
+    public NMBadSession()
+    {
+    }
 
-	public NMBadSession(NetIndex4 pMySession)
-	{
-		remoteSession = pMySession;
-	}
+    public NMBadSession(NetIndex4 pMySession)
+    {
+        remoteSession = pMySession;
+    }
 }

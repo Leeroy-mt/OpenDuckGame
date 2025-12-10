@@ -1,5 +1,7 @@
-﻿public class UserInfo {
-    public UserInfo() {
+﻿public class UserInfo
+{
+    public UserInfo()
+    {
     }
 
     public bool inGame;

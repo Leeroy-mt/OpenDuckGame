@@ -1,4 +1,5 @@
-﻿public enum FriendRelationship {
+﻿public enum FriendRelationship
+{
     Max = 8,
     Suggested = 7,
     IgnoredFriend = 6,

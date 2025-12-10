@@ -2,21 +2,21 @@ namespace DuckGame;
 
 public class NMBulletHit : NMEvent
 {
-	private float x;
+    private float x;
 
-	private float y;
+    private float y;
 
-	public NMBulletHit()
-	{
-	}
+    public NMBulletHit()
+    {
+    }
 
-	public NMBulletHit(Vec2 pos)
-	{
-		x = pos.x;
-		y = pos.y;
-	}
+    public NMBulletHit(Vec2 pos)
+    {
+        x = pos.x;
+        y = pos.y;
+    }
 
-	public override void Activate()
-	{
-	}
+    public override void Activate()
+    {
+    }
 }

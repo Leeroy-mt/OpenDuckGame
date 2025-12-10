@@ -2,14 +2,7 @@ using System;
 
 namespace Microsoft.Xna.Framework.Input;
 
-public class KeyEventArgs : EventArgs
+public class KeyEventArgs(Keys keyCode) : EventArgs
 {
-	private Keys keyCode;
-
-	public Keys KeyCode => keyCode;
-
-	public KeyEventArgs(Keys keyCode)
-	{
-		this.keyCode = keyCode;
-	}
+    public Keys KeyCode { get; } = keyCode;
 }

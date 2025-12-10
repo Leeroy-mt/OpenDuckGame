@@ -1,27 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Steamworks;
 using System.Runtime.ExceptionServices;
-using Steamworks;
 
-public class WorkshopItem : IDisposable {
+public class WorkshopItem : IDisposable
+{
 
     private static Dictionary<ulong, WorkshopItem> _items;
 
-    internal static WorkshopItem GetItem(PublishedFileId_t id) {
+    internal static WorkshopItem GetItem(PublishedFileId_t id)
+    {
         return GetItem(id.m_PublishedFileId);
     }
 
-    public static WorkshopItem GetItem(ulong id) {
-        if (id == 0) {
+    public static WorkshopItem GetItem(ulong id)
+    {
+        if (id == 0)
+        {
             return null;
         }
 
-        if (_items == null) {
+        if (_items == null)
+        {
             _items = new Dictionary<ulong, WorkshopItem>();
         }
-        using (Lock _lock = new Lock(_items)) {
+        using (Lock _lock = new Lock(_items))
+        {
             WorkshopItem item;
-            if (!_items.TryGetValue(id, out item)) {
+            if (!_items.TryGetValue(id, out item))
+            {
                 item = new WorkshopItem(id);
                 _items[id] = item;
             }
@@ -46,11 +51,12 @@ public class WorkshopItem : IDisposable {
     public SteamResult result { get; private set; }
     public SteamResult downloadResult { get; private set; }
 
-    public unsafe WorkshopItemState stateFlags => (WorkshopItemState) SteamUGC.GetItemState(_id);
+    public unsafe WorkshopItemState stateFlags => (WorkshopItemState)SteamUGC.GetItemState(_id);
 
     public bool needsLegal { get; private set; }
-    public unsafe string path {
-        get 
+    public unsafe string path
+    {
+        get
         {
             ulong SizeOnDisk;
             string Folder;
@@ -82,10 +88,12 @@ public class WorkshopItem : IDisposable {
     // private object _tags; // unused
 
     public WorkshopItem(ulong id)
-        : this(new PublishedFileId_t(id)) {
+        : this(new PublishedFileId_t(id))
+    {
     }
 
-    internal WorkshopItem(PublishedFileId_t id) {
+    internal WorkshopItem(PublishedFileId_t id)
+    {
         _id = id;
         //ulong SizeOnDisk;
         //string Folder;
@@ -96,36 +104,44 @@ public class WorkshopItem : IDisposable {
         result = SteamResult.OK;
     }
 
-    public WorkshopItem() {
+    public WorkshopItem()
+    {
     }
 
-    public void ApplyResult(SteamResult r, bool legal, ulong id) {
+    public void ApplyResult(SteamResult r, bool legal, ulong id)
+    {
         result = r;
         needsLegal = legal;
         _id = new PublishedFileId_t(id);
         finishedProcessing = true;
     }
 
-    public void ApplyDownloadResult(SteamResult r) {
+    public void ApplyDownloadResult(SteamResult r)
+    {
         downloadResult = r;
         finishedProcessing = true;
     }
 
-    public unsafe bool ApplyWorkshopData(WorkshopItemData data) {
+    public unsafe bool ApplyWorkshopData(WorkshopItemData data)
+    {
         UGCUpdateHandle_t handle = SteamUGC.StartItemUpdate(SteamUtils.GetAppID(), _id);
-        if (handle.m_UGCUpdateHandle == 0) {
+        if (handle.m_UGCUpdateHandle == 0)
+        {
             return false;
         }
         this.data = data;
-        if (data.name != null && data.name != "") {
+        if (data.name != null && data.name != "")
+        {
             SteamUGC.SetItemTitle(handle, data.name);
-            SteamUGC.SetItemVisibility(handle, (ERemoteStoragePublishedFileVisibility) data.visibility);
+            SteamUGC.SetItemVisibility(handle, (ERemoteStoragePublishedFileVisibility)data.visibility);
         }
-        if (data.description != null && data.description != "") {
+        if (data.description != null && data.description != "")
+        {
             SteamUGC.SetItemDescription(handle, data.description);
         }
         List<string> tags = data.tags;
-        if (tags != null && tags.Count > 0) {
+        if (tags != null && tags.Count > 0)
+        {
             SteamUGC.SetItemTags(handle, data.tags);
         }
         SteamUGC.SetItemPreview(handle, data.previewPath);
@@ -135,53 +151,63 @@ public class WorkshopItem : IDisposable {
         return true;
     }
 
-    public unsafe TransferProgress GetUploadProgress() {
+    public unsafe TransferProgress GetUploadProgress()
+    {
         ulong bytesDownloaded, bytesTotal;
         EItemUpdateStatus status = SteamUGC.GetItemUpdateProgress(_currentUpdateHandle, out bytesDownloaded, out bytesTotal);
-        return new TransferProgress {
-            status = (ItemUpdateStatus) (int) status,
+        return new TransferProgress
+        {
+            status = (ItemUpdateStatus)(int)status,
             bytesDownloaded = bytesDownloaded,
             bytesTotal = bytesTotal
         };
     }
 
-    public unsafe TransferProgress GetDownloadProgress() {
+    public unsafe TransferProgress GetDownloadProgress()
+    {
         ulong bytesDownloaded, bytesTotal;
         bool status = SteamUGC.GetItemDownloadInfo(_id, out bytesDownloaded, out bytesTotal);
         if (!status)
             bytesDownloaded = bytesTotal = 0;
-        return new TransferProgress {
+        return new TransferProgress
+        {
             status = ItemUpdateStatus.Invalid,
             bytesDownloaded = bytesDownloaded,
             bytesTotal = bytesTotal
         };
     }
 
-    public void ResetProcessing() {
+    public void ResetProcessing()
+    {
         finishedProcessing = false;
         needsLegal = false;
     }
 
-    public void SkipProcessing() {
+    public void SkipProcessing()
+    {
         finishedProcessing = true;
         needsLegal = false;
         result = SteamResult.OK;
     }
 
-    public void SetDetails(string name, WorkshopItemData data) {
+    public void SetDetails(string name, WorkshopItemData data)
+    {
         this.name = name;
         this.data = data;
     }
 
-    public unsafe void Subscribe() {
+    public unsafe void Subscribe()
+    {
         SteamUGC.SubscribeItem(_id);
     }
 
     [HandleProcessCorruptedStateExceptions]
-    protected virtual void Dispose(bool flag) {
+    protected virtual void Dispose(bool flag)
+    {
     }
 
-    public void Dispose() {
+    public void Dispose()
+    {
         Dispose(true);
     }
 

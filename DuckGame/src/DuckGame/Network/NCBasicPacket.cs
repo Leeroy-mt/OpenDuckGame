@@ -4,7 +4,7 @@ namespace DuckGame;
 
 public class NCBasicPacket
 {
-	public byte[] data;
+    public byte[] data;
 
-	public IPEndPoint sender;
+    public IPEndPoint sender;
 }

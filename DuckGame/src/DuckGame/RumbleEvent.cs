@@ -5,128 +5,128 @@ namespace DuckGame;
 /// </summary>
 public class RumbleEvent
 {
-	public Vec2? position;
+    public Vec2? position;
 
-	public Profile profile;
+    public Profile profile;
 
-	public float intensityInitial;
+    public float intensityInitial;
 
-	public float intensityCurrent;
+    public float intensityCurrent;
 
-	public float timeDuration;
+    public float timeDuration;
 
-	public float timeElapsed;
+    public float timeElapsed;
 
-	public float timeFalloff;
+    public float timeFalloff;
 
-	public RumbleType type;
+    public RumbleType type;
 
-	public void SetRumbleParameters(RumbleIntensity intensityToSet, RumbleDuration durationToSet, RumbleFalloff falloffToSet, RumbleType rumbleTypeToSet)
-	{
-		switch (intensityToSet)
-		{
-		case RumbleIntensity.Heavy:
-			intensityInitial = 0.8f;
-			break;
-		case RumbleIntensity.Medium:
-			intensityInitial = 0.5f;
-			break;
-		case RumbleIntensity.Light:
-			intensityInitial = 0.25f;
-			break;
-		case RumbleIntensity.Kick:
-			intensityInitial = 0.15f;
-			break;
-		case RumbleIntensity.None:
-			intensityInitial = 0f;
-			break;
-		default:
-			intensityInitial = 0.25f;
-			break;
-		}
-		intensityCurrent = intensityInitial;
-		switch (durationToSet)
-		{
-		case RumbleDuration.Long:
-			timeDuration = 1f;
-			break;
-		case RumbleDuration.Medium:
-			timeDuration = 0.5f;
-			break;
-		case RumbleDuration.Short:
-			timeDuration = 0.15f;
-			break;
-		case RumbleDuration.Pulse:
-			timeDuration = 0.075f;
-			break;
-		default:
-			timeDuration = 0.1f;
-			break;
-		}
-		switch (falloffToSet)
-		{
-		case RumbleFalloff.Long:
-			timeFalloff = 0.5f;
-			break;
-		case RumbleFalloff.Medium:
-			timeFalloff = 0.25f;
-			break;
-		case RumbleFalloff.Short:
-			timeFalloff = 0.1f;
-			break;
-		case RumbleFalloff.None:
-			timeFalloff = 0f;
-			break;
-		default:
-			timeFalloff = 0.1f;
-			break;
-		}
-		type = rumbleTypeToSet;
-	}
+    public void SetRumbleParameters(RumbleIntensity intensityToSet, RumbleDuration durationToSet, RumbleFalloff falloffToSet, RumbleType rumbleTypeToSet)
+    {
+        switch (intensityToSet)
+        {
+            case RumbleIntensity.Heavy:
+                intensityInitial = 0.8f;
+                break;
+            case RumbleIntensity.Medium:
+                intensityInitial = 0.5f;
+                break;
+            case RumbleIntensity.Light:
+                intensityInitial = 0.25f;
+                break;
+            case RumbleIntensity.Kick:
+                intensityInitial = 0.15f;
+                break;
+            case RumbleIntensity.None:
+                intensityInitial = 0f;
+                break;
+            default:
+                intensityInitial = 0.25f;
+                break;
+        }
+        intensityCurrent = intensityInitial;
+        switch (durationToSet)
+        {
+            case RumbleDuration.Long:
+                timeDuration = 1f;
+                break;
+            case RumbleDuration.Medium:
+                timeDuration = 0.5f;
+                break;
+            case RumbleDuration.Short:
+                timeDuration = 0.15f;
+                break;
+            case RumbleDuration.Pulse:
+                timeDuration = 0.075f;
+                break;
+            default:
+                timeDuration = 0.1f;
+                break;
+        }
+        switch (falloffToSet)
+        {
+            case RumbleFalloff.Long:
+                timeFalloff = 0.5f;
+                break;
+            case RumbleFalloff.Medium:
+                timeFalloff = 0.25f;
+                break;
+            case RumbleFalloff.Short:
+                timeFalloff = 0.1f;
+                break;
+            case RumbleFalloff.None:
+                timeFalloff = 0f;
+                break;
+            default:
+                timeFalloff = 0.1f;
+                break;
+        }
+        type = rumbleTypeToSet;
+    }
 
-	/// <summary>
-	/// Create a RumbleEvent using only enum definitions
-	/// </summary>
-	public RumbleEvent(RumbleIntensity intensityToSet, RumbleDuration durationToSet, RumbleFalloff falloffToSet, RumbleType rumbleTypeToSet = RumbleType.Gameplay)
-	{
-		SetRumbleParameters(intensityToSet, durationToSet, falloffToSet, rumbleTypeToSet);
-	}
+    /// <summary>
+    /// Create a RumbleEvent using only enum definitions
+    /// </summary>
+    public RumbleEvent(RumbleIntensity intensityToSet, RumbleDuration durationToSet, RumbleFalloff falloffToSet, RumbleType rumbleTypeToSet = RumbleType.Gameplay)
+    {
+        SetRumbleParameters(intensityToSet, durationToSet, falloffToSet, rumbleTypeToSet);
+    }
 
-	/// <summary>
-	/// Create a RumbleEvent with float-specified intensity, duration, and falloff
-	/// </summary>
-	public RumbleEvent(float intensityToSet, float durationToSet, float falloffToSet, RumbleType rumbleTypeToSet = RumbleType.Gameplay)
-	{
-		intensityInitial = intensityToSet;
-		intensityCurrent = intensityInitial;
-		timeDuration = durationToSet;
-		timeFalloff = falloffToSet;
-		type = rumbleTypeToSet;
-	}
+    /// <summary>
+    /// Create a RumbleEvent with float-specified intensity, duration, and falloff
+    /// </summary>
+    public RumbleEvent(float intensityToSet, float durationToSet, float falloffToSet, RumbleType rumbleTypeToSet = RumbleType.Gameplay)
+    {
+        intensityInitial = intensityToSet;
+        intensityCurrent = intensityInitial;
+        timeDuration = durationToSet;
+        timeFalloff = falloffToSet;
+        type = rumbleTypeToSet;
+    }
 
-	/// <summary>
-	/// Updates the intensity of a RumbleEvent based on the time remaining in the falloff portion of the full duration.
-	/// </summary> 
-	public void FallOffLinear()
-	{
-		intensityCurrent = (1f - (timeElapsed - timeDuration) / timeFalloff) * intensityInitial;
-	}
+    /// <summary>
+    /// Updates the intensity of a RumbleEvent based on the time remaining in the falloff portion of the full duration.
+    /// </summary> 
+    public void FallOffLinear()
+    {
+        intensityCurrent = (1f - (timeElapsed - timeDuration) / timeFalloff) * intensityInitial;
+    }
 
-	/// <summary>
-	/// Updates the elapsed time and updates the intensity for any falloff. Returns false if the rumble is completed and should be cleaned up by RumbleManager
-	/// </summary>
-	/// <returns></returns>
-	public bool Update()
-	{
-		timeElapsed += 0.016f;
-		if (timeElapsed < timeDuration + timeFalloff)
-		{
-			if (timeElapsed > timeDuration)
-			{
-				FallOffLinear();
-			}
-			return true;
-		}
-		return false;
-	}
+    /// <summary>
+    /// Updates the elapsed time and updates the intensity for any falloff. Returns false if the rumble is completed and should be cleaned up by RumbleManager
+    /// </summary>
+    /// <returns></returns>
+    public bool Update()
+    {
+        timeElapsed += 0.016f;
+        if (timeElapsed < timeDuration + timeFalloff)
+        {
+            if (timeElapsed > timeDuration)
+            {
+                FallOffLinear();
+            }
+            return true;
+        }
+        return false;
+    }
 }

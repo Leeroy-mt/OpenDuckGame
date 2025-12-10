@@ -2,23 +2,23 @@ namespace DuckGame;
 
 public class NMMeltTile : NMEvent
 {
-	public short x;
+    public short x;
 
-	public short y;
+    public short y;
 
-	public NMMeltTile()
-	{
-	}
+    public NMMeltTile()
+    {
+    }
 
-	public NMMeltTile(Vec2 pPosition)
-	{
-		x = (short)pPosition.x;
-		y = (short)pPosition.y;
-	}
+    public NMMeltTile(Vec2 pPosition)
+    {
+        x = (short)pPosition.x;
+        y = (short)pPosition.y;
+    }
 
-	public override void Activate()
-	{
-		Level.CheckPoint<SnowTileset>(new Vec2(x, y))?.Melt(pServer: false, pNetMessage: true);
-		base.Activate();
-	}
+    public override void Activate()
+    {
+        Level.CheckPoint<SnowTileset>(new Vec2(x, y))?.Melt(pServer: false, pNetMessage: true);
+        base.Activate();
+    }
 }

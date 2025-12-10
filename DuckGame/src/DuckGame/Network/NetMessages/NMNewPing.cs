@@ -3,35 +3,35 @@ namespace DuckGame;
 [FixedNetworkID(30014)]
 public class NMNewPing : NMNetworkCoreMessage
 {
-	private Timer _pingTimer;
+    private Timer _pingTimer;
 
-	public byte index;
+    public byte index;
 
-	public float GetTotalSeconds()
-	{
-		if (_pingTimer == null)
-		{
-			return 1f;
-		}
-		return (float)_pingTimer.elapsed.TotalSeconds;
-	}
+    public float GetTotalSeconds()
+    {
+        if (_pingTimer == null)
+        {
+            return 1f;
+        }
+        return (float)_pingTimer.elapsed.TotalSeconds;
+    }
 
-	public NMNewPing(byte pIndex)
-	{
-		index = pIndex;
-	}
+    public NMNewPing(byte pIndex)
+    {
+        index = pIndex;
+    }
 
-	public NMNewPing()
-	{
-	}
+    public NMNewPing()
+    {
+    }
 
-	protected override void OnSerialize()
-	{
-		if (_pingTimer == null)
-		{
-			_pingTimer = new Timer();
-			_pingTimer.Start();
-		}
-		base.OnSerialize();
-	}
+    protected override void OnSerialize()
+    {
+        if (_pingTimer == null)
+        {
+            _pingTimer = new Timer();
+            _pingTimer.Start();
+        }
+        base.OnSerialize();
+    }
 }

@@ -4,24 +4,24 @@ namespace DuckGame;
 
 public class NCBasicConnection
 {
-	public IPEndPoint connection;
+    public IPEndPoint connection;
 
-	public NCBasicStatus status;
+    public NCBasicStatus status;
 
-	public Timer timeout = new Timer();
+    public Timer timeout = new Timer();
 
-	public Timer heartbeat = new Timer();
+    public Timer heartbeat = new Timer();
 
-	public int attempts;
+    public int attempts;
 
-	public int beatsReceived;
+    public int beatsReceived;
 
-	public bool isHost;
+    public bool isHost;
 
-	public int packets;
+    public int packets;
 
-	public NCBasicConnection()
-	{
-		heartbeat.Start();
-	}
+    public NCBasicConnection()
+    {
+        heartbeat.Start();
+    }
 }

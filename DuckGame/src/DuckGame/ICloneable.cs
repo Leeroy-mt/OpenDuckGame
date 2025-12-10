@@ -8,9 +8,9 @@ namespace DuckGame;
 /// <typeparam name="T">The type it can be cloned into.</typeparam>
 public interface ICloneable<T> : ICloneable
 {
-	/// <summary>
-	/// Clones this instance.
-	/// </summary>
-	/// <returns>The new instance.</returns>
-	new T Clone();
+    /// <summary>
+    /// Clones this instance.
+    /// </summary>
+    /// <returns>The new instance.</returns>
+    new T Clone();
 }

@@ -8,23 +8,23 @@ namespace DuckGame;
 [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
 public sealed class EditorGroupAttribute : Attribute
 {
-	public readonly string editorGroup;
+    public readonly string editorGroup;
 
-	public readonly EditorItemType editorType;
+    public readonly EditorItemType editorType;
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="T:DuckGame.EditorGroupAttribute" /> class.
-	/// </summary>
-	/// <param name="group">The editor group, in the format of "root|sub|sub|sub..."</param>
-	public EditorGroupAttribute(string group)
-	{
-		editorGroup = group;
-		editorType = EditorItemType.Normal;
-	}
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:DuckGame.EditorGroupAttribute" /> class.
+    /// </summary>
+    /// <param name="group">The editor group, in the format of "root|sub|sub|sub..."</param>
+    public EditorGroupAttribute(string group)
+    {
+        editorGroup = group;
+        editorType = EditorItemType.Normal;
+    }
 
-	public EditorGroupAttribute(string pGroup, EditorItemType pType)
-	{
-		editorGroup = pGroup;
-		editorType = pType;
-	}
+    public EditorGroupAttribute(string pGroup, EditorItemType pType)
+    {
+        editorGroup = pGroup;
+        editorType = pType;
+    }
 }

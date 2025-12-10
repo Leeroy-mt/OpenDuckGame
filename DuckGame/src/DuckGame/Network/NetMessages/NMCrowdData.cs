@@ -2,24 +2,24 @@ namespace DuckGame;
 
 public class NMCrowdData : NMEvent
 {
-	public BitBuffer data;
+    public BitBuffer data;
 
-	public NMCrowdData()
-	{
-	}
+    public NMCrowdData()
+    {
+    }
 
-	public NMCrowdData(BitBuffer dat)
-	{
-		data = dat;
-	}
+    public NMCrowdData(BitBuffer dat)
+    {
+        data = dat;
+    }
 
-	protected override void OnSerialize()
-	{
-		_serializedData.Write(data);
-	}
+    protected override void OnSerialize()
+    {
+        _serializedData.Write(data);
+    }
 
-	public override void OnDeserialize(BitBuffer d)
-	{
-		data = d.ReadBitBuffer();
-	}
+    public override void OnDeserialize(BitBuffer d)
+    {
+        data = d.ReadBitBuffer();
+    }
 }

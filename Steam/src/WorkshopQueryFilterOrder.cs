@@ -1,4 +1,5 @@
-﻿public enum WorkshopQueryFilterOrder {
+﻿public enum WorkshopQueryFilterOrder
+{
     RankedByTotalUniqueSubscriptions = 12,
     RankedByTextSearch = 11,
     RankedByVotesUp = 10,

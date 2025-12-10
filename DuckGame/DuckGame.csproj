@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>disable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <StartupObject>DuckGame.Program</StartupObject>
+    <StartupObject>DGWindows.WindowsPlatformStartup</StartupObject>
 	  <OutDir>$(SolutionDir)bin</OutDir>
 	  <ApplicationIcon>app.ico</ApplicationIcon>
+	  <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,15 +28,6 @@
     <ProjectReference Include="..\CrashWindow\CrashWindow.csproj" />
     <ProjectReference Include="..\FNA\FNA.Core.csproj" />
     <ProjectReference Include="..\Steam\Steam.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Mono.Cecil">
-      <HintPath>refs\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod">
-      <HintPath>refs\MonoMod.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

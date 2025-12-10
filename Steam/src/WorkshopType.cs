@@ -1,4 +1,5 @@
-﻿public enum WorkshopType {
+﻿public enum WorkshopType
+{
     Collections = 3,
     ControllerBindings = 11,
     UsableInGame = 10,

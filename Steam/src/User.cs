@@ -1,26 +1,31 @@
 ﻿using Steamworks;
-using System;
-using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
 
-public class User : IDisposable {
+public class User : IDisposable
+{
 
     private static Dictionary<ulong, User> _users;
 
-    internal static User GetUser(CSteamID id) {
+    internal static User GetUser(CSteamID id)
+    {
         return GetUser(id.m_SteamID);
     }
 
-    public static User GetUser(ulong id) {
-        if (id == 0) {
+    public static User GetUser(ulong id)
+    {
+        if (id == 0)
+        {
             return null;
         }
-        if (_users == null) {
+        if (_users == null)
+        {
             _users = new Dictionary<ulong, User>();
         }
-        using (Lock _lock = new Lock(_users)) {
+        using (Lock _lock = new Lock(_users))
+        {
             User user;
-            if (!_users.TryGetValue(id, out user)) {
+            if (!_users.TryGetValue(id, out user))
+            {
                 user = new User(id);
                 _users[id] = user;
             }
@@ -31,7 +36,8 @@ public class User : IDisposable {
     private CSteamID _id;
     public virtual ulong id => _id.m_SteamID;
 
-    public virtual unsafe string name {
+    public virtual unsafe string name
+    {
         get
         {
             if (id != 0 && Steam.initialized)
@@ -41,7 +47,8 @@ public class User : IDisposable {
     }
 
     private byte[] _avatarDataSmall;
-    public virtual unsafe byte[] avatarSmall {
+    public virtual unsafe byte[] avatarSmall
+    {
         get
         {
             if (id != 0 && Steam.initialized)
@@ -56,7 +63,8 @@ public class User : IDisposable {
     }
 
     private byte[] _avatarDataMedium;
-    public virtual unsafe byte[] avatarMedium {
+    public virtual unsafe byte[] avatarMedium
+    {
         get
         {
             if (id != 0 && Steam.initialized)
@@ -70,7 +78,8 @@ public class User : IDisposable {
         }
     }
 
-    public virtual unsafe bool inGame {
+    public virtual unsafe bool inGame
+    {
         get
         {
             if (id != 0 && Steam.initialized)
@@ -83,7 +92,8 @@ public class User : IDisposable {
         }
     }
 
-    public virtual unsafe bool inCurrentGame {
+    public virtual unsafe bool inCurrentGame
+    {
         get
         {
             if (id != 0 && Steam.initialized)
@@ -96,7 +106,8 @@ public class User : IDisposable {
         }
     }
 
-    protected virtual unsafe bool inLobby {
+    protected virtual unsafe bool inLobby
+    {
         get
         {
             if (id != 0 && Steam.initialized)
@@ -109,7 +120,8 @@ public class User : IDisposable {
         }
     }
 
-    public virtual unsafe bool inCurrentLobby {
+    public virtual unsafe bool inCurrentLobby
+    {
         get
         {
             if (id != 0 && Steam.lobby != null && Steam.initialized)
@@ -122,9 +134,12 @@ public class User : IDisposable {
         }
     }
 
-    public virtual unsafe UserInfo info {
-        get {
-            return new UserInfo() {
+    public virtual unsafe UserInfo info
+    {
+        get
+        {
+            return new UserInfo()
+            {
                 inGame = inGame,
                 inCurrentGame = inCurrentGame,
                 inLobby = inLobby,
@@ -135,7 +150,8 @@ public class User : IDisposable {
         }
     }
 
-    public virtual unsafe SteamUserState state {
+    public virtual unsafe SteamUserState state
+    {
         get
         {
             if (id != 0 && Steam.initialized)
@@ -144,7 +160,8 @@ public class User : IDisposable {
         }
     }
 
-    public virtual unsafe FriendRelationship relationship {
+    public virtual unsafe FriendRelationship relationship
+    {
         get
         {
             if (id != 0 && Steam.initialized)
@@ -153,19 +170,23 @@ public class User : IDisposable {
         }
     }
 
-    private User(ulong id) {
+    private User(ulong id)
+    {
         _id = new CSteamID(id);
     }
 
-    internal User(CSteamID id) {
+    internal User(CSteamID id)
+    {
         _id = id;
     }
 
     [HandleProcessCorruptedStateExceptions]
-    protected virtual void Dispose(bool flag) {
+    protected virtual void Dispose(bool flag)
+    {
     }
 
-    public void Dispose() {
+    public void Dispose()
+    {
         Dispose(true);
     }
 

@@ -1,7 +1,9 @@
 ﻿using Steamworks;
 
-public class WorkshopQueryResultDetails {
-    public WorkshopQueryResultDetails() {
+public class WorkshopQueryResultDetails
+{
+    public WorkshopQueryResultDetails()
+    {
     }
 
     public WorkshopItem publishedFile;

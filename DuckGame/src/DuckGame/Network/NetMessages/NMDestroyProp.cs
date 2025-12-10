@@ -2,37 +2,37 @@ namespace DuckGame;
 
 public class NMDestroyProp : NMEvent
 {
-	public Thing prop;
+    public Thing prop;
 
-	private byte _levelIndex;
+    private byte _levelIndex;
 
-	public NMDestroyProp(Thing t)
-	{
-		priority = NetMessagePriority.UnreliableUnordered;
-		prop = t;
-	}
+    public NMDestroyProp(Thing t)
+    {
+        priority = NetMessagePriority.UnreliableUnordered;
+        prop = t;
+    }
 
-	public NMDestroyProp()
-	{
-	}
+    public NMDestroyProp()
+    {
+    }
 
-	public override void Activate()
-	{
-		if (Level.current is GameLevel && DuckNetwork.levelIndex == _levelIndex && prop is MaterialThing m)
-		{
-			m.NetworkDestroy();
-		}
-	}
+    public override void Activate()
+    {
+        if (Level.current is GameLevel && DuckNetwork.levelIndex == _levelIndex && prop is MaterialThing m)
+        {
+            m.NetworkDestroy();
+        }
+    }
 
-	protected override void OnSerialize()
-	{
-		base.OnSerialize();
-		_serializedData.Write(DuckNetwork.levelIndex);
-	}
+    protected override void OnSerialize()
+    {
+        base.OnSerialize();
+        _serializedData.Write(DuckNetwork.levelIndex);
+    }
 
-	public override void OnDeserialize(BitBuffer d)
-	{
-		base.OnDeserialize(d);
-		_levelIndex = d.ReadByte();
-	}
+    public override void OnDeserialize(BitBuffer d)
+    {
+        base.OnDeserialize(d);
+        _levelIndex = d.ReadByte();
+    }
 }

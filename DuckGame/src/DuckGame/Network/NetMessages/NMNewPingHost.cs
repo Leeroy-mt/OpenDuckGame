@@ -3,20 +3,20 @@ namespace DuckGame;
 [FixedNetworkID(30016)]
 public class NMNewPingHost : NMNewPing
 {
-	public NetIndex16 hostSynchronizedTime;
+    public NetIndex16 hostSynchronizedTime;
 
-	public NMNewPingHost(byte pIndex)
-		: base(pIndex)
-	{
-	}
+    public NMNewPingHost(byte pIndex)
+        : base(pIndex)
+    {
+    }
 
-	public NMNewPingHost()
-	{
-	}
+    public NMNewPingHost()
+    {
+    }
 
-	protected override void OnSerialize()
-	{
-		hostSynchronizedTime = Network.TickSync;
-		base.OnSerialize();
-	}
+    protected override void OnSerialize()
+    {
+        hostSynchronizedTime = Network.TickSync;
+        base.OnSerialize();
+    }
 }

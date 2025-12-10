@@ -1,10 +1,10 @@
-﻿using System;
-using Steamworks;
+﻿using Steamworks;
 
 public delegate void WorkshopQueryFinished(object sender);
 public delegate void WorkshopQueryResultFetched(object sender, WorkshopQueryResult result);
 
-public abstract class WorkshopQueryBase : IDisposable {
+public abstract class WorkshopQueryBase : IDisposable
+{
 
     internal static readonly bool _hasSetReturnOnlyIDs = typeof(SteamUGC).GetMethod("SetReturnOnlyIDs") != null;
 
@@ -30,7 +30,8 @@ public abstract class WorkshopQueryBase : IDisposable {
 
     public bool onlyQueryIDs { get; set; }
 
-    internal unsafe WorkshopQueryBase() {
+    internal unsafe WorkshopQueryBase()
+    {
         _numResultsTotal = 0;
         _numResultsFetched = 0;
         _dataToFetch = WorkshopQueryData.Details;
@@ -40,14 +41,14 @@ public abstract class WorkshopQueryBase : IDisposable {
         _handle = new UGCQueryHandle_t();
     }
 
-    unsafe ~WorkshopQueryBase() 
+    unsafe ~WorkshopQueryBase()
     {
         Dispose(true);
     }
 
     internal abstract void Create();
 
-    internal virtual unsafe void Destroy() 
+    internal virtual unsafe void Destroy()
     {
         if (!Steam.initialized)
             return;
@@ -63,7 +64,7 @@ public abstract class WorkshopQueryBase : IDisposable {
         }
     }
 
-    internal virtual unsafe void SetQueryData() 
+    internal virtual unsafe void SetQueryData()
     {
         if (_dataToFetch == WorkshopQueryData.TotalOnly)
             SteamUGC.SetReturnTotalOnly(_handle, true);
@@ -111,22 +112,25 @@ public abstract class WorkshopQueryBase : IDisposable {
         //    }
     }
 
-    internal unsafe void SetQueryData_SetReturnOnlyIDs(UGCQueryHandle_t handle, bool bReturnOnlyIDs) 
+    internal unsafe void SetQueryData_SetReturnOnlyIDs(UGCQueryHandle_t handle, bool bReturnOnlyIDs)
     {
         SteamUGC.SetReturnOnlyIDs(_handle, true);
     }
 
-    public unsafe void Request() {
-        try 
+    public unsafe void Request()
+    {
+        try
         {
             _Request();
-        } catch (TypeLoadException) {
+        }
+        catch (TypeLoadException)
+        {
             // We're definitely using the stubbed Steamworks.NET now... unless someone dropped in an outdated version? But why?
             QueryFinished?.Invoke(this);
         }
     }
 
-    protected virtual unsafe void _Request() 
+    protected virtual unsafe void _Request()
     {
         if (handle == 0)
             Create();
@@ -142,7 +146,7 @@ public abstract class WorkshopQueryBase : IDisposable {
         }
     }
 
-    private unsafe void OnSteamUGCQueryCompleted(SteamUGCQueryCompleted_t queryCompleted, bool ioFailure) 
+    private unsafe void OnSteamUGCQueryCompleted(SteamUGCQueryCompleted_t queryCompleted, bool ioFailure)
     {
         _numResultsTotal = queryCompleted.m_unTotalMatchingResults;
 
@@ -161,8 +165,8 @@ public abstract class WorkshopQueryBase : IDisposable {
             SteamUGC.GetQueryUGCResult(queryCompleted.m_handle, resulti, out ugcDetails);
             WorkshopQueryResultDetails resultDetails = result.details = new WorkshopQueryResultDetails();
 
-            resultDetails.acceptedForUse =ugcDetails.m_bAcceptedForUse;
-            resultDetails.banned =ugcDetails.m_bBanned;
+            resultDetails.acceptedForUse = ugcDetails.m_bAcceptedForUse;
+            resultDetails.banned = ugcDetails.m_bBanned;
             resultDetails.description = ugcDetails.m_rgchDescription;
 
             resultDetails.file = ugcDetails.m_hFile.m_UGCHandle;
@@ -240,14 +244,16 @@ public abstract class WorkshopQueryBase : IDisposable {
         }
     }
 
-    protected virtual void Dispose(bool flag) {
-         Destroy();
+    protected virtual void Dispose(bool flag)
+    {
+        Destroy();
         _completedCallResult?.Cancel();
         (_completedCallResult as IDisposable)?.Dispose();
         _completedCallResult = null;
     }
 
-    public void Dispose() {
+    public void Dispose()
+    {
         Dispose(true);
         GC.SuppressFinalize(this);
     }

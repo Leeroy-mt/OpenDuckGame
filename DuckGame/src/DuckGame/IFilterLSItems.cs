@@ -6,11 +6,11 @@ namespace DuckGame;
 /// </summary>
 public interface IFilterLSItems
 {
-	/// <summary>
-	/// Filters the specified level.
-	/// </summary>
-	/// <param name="level">The level.</param>
-	/// <param name="location">The location.</param>
-	/// <returns>true to keep, false to remove</returns>
-	bool Filter(string level, LevelLocation location = LevelLocation.Any);
+    /// <summary>
+    /// Filters the specified level.
+    /// </summary>
+    /// <param name="level">The level.</param>
+    /// <param name="location">The location.</param>
+    /// <returns>true to keep, false to remove</returns>
+    bool Filter(string level, LevelLocation location = LevelLocation.Any);
 }

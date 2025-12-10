@@ -6,6 +6,6 @@ namespace DuckGame;
 /// </summary>
 public enum RumbleType
 {
-	Gameplay,
-	Menu
+    Gameplay,
+    Menu
 }

@@ -3,14 +3,14 @@ namespace DuckGame;
 [FixedNetworkID(10)]
 public class NMHeartbeat : NMNetworkCoreMessage
 {
-	public NetIndex4 remoteSession;
+    public NetIndex4 remoteSession;
 
-	public NMHeartbeat()
-	{
-	}
+    public NMHeartbeat()
+    {
+    }
 
-	public NMHeartbeat(NetIndex4 s)
-	{
-		remoteSession = s;
-	}
+    public NMHeartbeat(NetIndex4 s)
+    {
+        remoteSession = s;
+    }
 }

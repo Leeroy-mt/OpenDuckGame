@@ -1,9 +1,8 @@
 ﻿using Steamworks;
-using System;
-using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
 
-public class Lobby : IDisposable {
+public class Lobby : IDisposable
+{
 
     public int randomID; // Duck Game uses this... BUT IT ISN'T USED ANYWHERE IN Steam.dll?!
 
@@ -21,8 +20,10 @@ public class Lobby : IDisposable {
 
     public SteamLobbyJoinResult joinResult { get; private set; }
 
-    public unsafe User owner {
-        get {
+    public unsafe User owner
+    {
+        get
+        {
             try
             {
                 if (id != 0 && Steam.initialized)
@@ -45,7 +46,8 @@ public class Lobby : IDisposable {
             SteamMatchmaking.SetLobbyData(_id, "mods", value);
         }
     }
-    public unsafe string name {
+    public unsafe string name
+    {
         get
         {
             if (id != 0 && Steam.initialized)
@@ -54,20 +56,26 @@ public class Lobby : IDisposable {
             }
             return "";
         }
-        set {
-            if (id != 0 && Steam.initialized) {
+        set
+        {
+            if (id != 0 && Steam.initialized)
+            {
                 SteamMatchmaking.SetLobbyData(_id, "name", value);
             }
         }
     }
 
     private bool _joinable;
-    public unsafe bool joinable {
-        get {
+    public unsafe bool joinable
+    {
+        get
+        {
             return id != 0 && _joinable;
         }
-        set {
-            if (id != 0 && Steam.initialized) {
+        set
+        {
+            if (id != 0 && Steam.initialized)
+            {
                 SteamMatchmaking.SetLobbyJoinable(_id, value);
                 _joinable = value;
             }
@@ -75,13 +83,17 @@ public class Lobby : IDisposable {
     }
 
     private SteamLobbyType _type;
-    public unsafe SteamLobbyType type {
-        get {
+    public unsafe SteamLobbyType type
+    {
+        get
+        {
             return _type;
         }
-        set {
-            if (id != 0 && Steam.initialized) {
-                SteamMatchmaking.SetLobbyType(_id, (ELobbyType) value);
+        set
+        {
+            if (id != 0 && Steam.initialized)
+            {
+                SteamMatchmaking.SetLobbyType(_id, (ELobbyType)value);
                 // This isn't set by the original Steam.dll...
                 _type = value;
             }
@@ -89,7 +101,8 @@ public class Lobby : IDisposable {
     }
 
     private int _maxMembers;
-    public unsafe int maxMembers {
+    public unsafe int maxMembers
+    {
         get
         {
             if (id != 0 && Steam.initialized)
@@ -98,14 +111,17 @@ public class Lobby : IDisposable {
             }
             return 0;
         }
-        set {
-            if (id != 0 && Steam.initialized) {
+        set
+        {
+            if (id != 0 && Steam.initialized)
+            {
                 SteamMatchmaking.SetLobbyMemberLimit(_id, _maxMembers = value);
             }
         }
     }
 
-    public unsafe List<User> users {
+    public unsafe List<User> users
+    {
         get
         {
             if (id != 0 && Steam.initialized)
@@ -119,17 +135,20 @@ public class Lobby : IDisposable {
     public bool processing { get; private set; }
 
     public Lobby(ulong lobbyID)
-        : this(new CSteamID(lobbyID)) {
+        : this(new CSteamID(lobbyID))
+    {
     }
 
-    internal Lobby(CSteamID lobbyID) {
+    internal Lobby(CSteamID lobbyID)
+    {
         _type = SteamLobbyType.FriendsOnly;
         processing = true;
         _id = lobbyID;
         _joinable = true;
     }
 
-    public Lobby(SteamLobbyType lobbyTypeVal, int maxMembersVal) {
+    public Lobby(SteamLobbyType lobbyTypeVal, int maxMembersVal)
+    {
         _type = lobbyTypeVal;
         // This is set to this.maxMembers by the original Steam.dll...
         _maxMembers = maxMembersVal;
@@ -138,13 +157,15 @@ public class Lobby : IDisposable {
         _joinable = true;
     }
 
-    public void OnProcessingComplete(ulong idVal, SteamLobbyJoinResult result) {
+    public void OnProcessingComplete(ulong idVal, SteamLobbyJoinResult result)
+    {
         _id = new CSteamID(idVal);
         joinResult = result;
         processing = false;
     }
 
-    public void OnUserStatusChange(User user, SteamLobbyUserStatusFlags flags, User responsibleUser) {
+    public void OnUserStatusChange(User user, SteamLobbyUserStatusFlags flags, User responsibleUser)
+    {
         UserStatusChange?.Invoke(user, flags, responsibleUser);
     }
     public void OnChatMessage(User user, byte[] data)
@@ -152,7 +173,8 @@ public class Lobby : IDisposable {
         ChatMessage?.Invoke(user, data);
     }
 
-    public unsafe void SetLobbyData(string name, string value) {
+    public unsafe void SetLobbyData(string name, string value)
+    {
         if (id != 0 && Steam.initialized)
             SteamMatchmaking.SetLobbyData(_id, name, value);
     }
@@ -165,10 +187,12 @@ public class Lobby : IDisposable {
     }
 
     [HandleProcessCorruptedStateExceptions]
-    protected virtual void Dispose(bool flag) {
+    protected virtual void Dispose(bool flag)
+    {
     }
 
-    public void Dispose() {
+    public void Dispose()
+    {
         Dispose(true);
     }
 

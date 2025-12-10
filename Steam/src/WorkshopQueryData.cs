@@ -1,7 +1,6 @@
-﻿using System;
-
-[Flags]
-public enum WorkshopQueryData {
+﻿[Flags]
+public enum WorkshopQueryData
+{
     Statistics = 32,
     LongDescription = 16,
     AdditionalPreviews = 8,

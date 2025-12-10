@@ -2,8 +2,8 @@ namespace DuckGame;
 
 public class DTElectrocute : DestroyType
 {
-	public DTElectrocute(Thing t)
-		: base(t)
-	{
-	}
+    public DTElectrocute(Thing t)
+        : base(t)
+    {
+    }
 }

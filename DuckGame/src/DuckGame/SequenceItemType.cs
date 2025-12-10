@@ -2,8 +2,8 @@ namespace DuckGame;
 
 public enum SequenceItemType
 {
-	ALL,
-	Target,
-	Goody,
-	Activator
+    ALL,
+    Target,
+    Goody,
+    Activator
 }

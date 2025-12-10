@@ -47,7 +47,7 @@ internal class Startup(MonoMain main)
         var finished = from Task in Actions
                        where !Task.IsActive
                        select Task;
-        return finished.Count() / ((float)Actions.Count - 1);
+        return finished.Count() / (float)Actions.Count;
     }
 
     public void RunMainTasks()

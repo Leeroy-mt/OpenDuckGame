@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.IO;
 using System.Diagnostics;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 
 namespace DuckGame.src.MonoTime.Console
 {

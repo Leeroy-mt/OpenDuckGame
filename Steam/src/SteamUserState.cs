@@ -1,4 +1,5 @@
-﻿public enum SteamUserState {
+﻿public enum SteamUserState
+{
     Max = 7,
     LookingToPlay = 6,
     LookingToTrade = 5,

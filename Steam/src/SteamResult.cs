@@ -1,4 +1,5 @@
-﻿public enum SteamResult {
+﻿public enum SteamResult
+{
     Ignored = 41,
     Blocked = 40,
     Banned = 17,

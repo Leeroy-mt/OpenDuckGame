@@ -3,14 +3,14 @@ namespace DuckGame;
 [FixedNetworkID(30001)]
 public class NMWrongVersion : NMNetworkCoreMessage
 {
-	public string version;
+    public string version;
 
-	public NMWrongVersion()
-	{
-	}
+    public NMWrongVersion()
+    {
+    }
 
-	public NMWrongVersion(string v)
-	{
-		version = v;
-	}
+    public NMWrongVersion(string v)
+    {
+        version = v;
+    }
 }

@@ -2,35 +2,35 @@ namespace DuckGame;
 
 public class ProceduralChunkData : BinaryClassChunk
 {
-	public int sideMask;
+    public int sideMask;
 
-	public float chance = 1f;
+    public float chance = 1f;
 
-	public int maxPerLevel = 1;
+    public int maxPerLevel = 1;
 
-	public bool enableSingle;
+    public bool enableSingle;
 
-	public bool enableMulti;
+    public bool enableMulti;
 
-	public bool canMirror;
+    public bool canMirror;
 
-	public bool isMirrored;
+    public bool isMirrored;
 
-	public int numArmor;
+    public int numArmor;
 
-	public int numEquipment;
+    public int numEquipment;
 
-	public int numSpawns;
+    public int numSpawns;
 
-	public int numTeamSpawns;
+    public int numTeamSpawns;
 
-	public int numLockedDoors;
+    public int numLockedDoors;
 
-	public int numKeys;
+    public int numKeys;
 
-	public string weaponConfig;
+    public string weaponConfig;
 
-	public string spawnerConfig;
+    public string spawnerConfig;
 
-	public LevelObjects openAirAlternateObjects => GetChunk<LevelObjects>("openAirAlternateObjects");
+    public LevelObjects openAirAlternateObjects => GetChunk<LevelObjects>("openAirAlternateObjects");
 }

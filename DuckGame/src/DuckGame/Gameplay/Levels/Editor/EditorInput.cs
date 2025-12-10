@@ -2,7 +2,7 @@ namespace DuckGame;
 
 public enum EditorInput
 {
-	Gamepad,
-	Mouse,
-	Touch
+    Gamepad,
+    Mouse,
+    Touch
 }

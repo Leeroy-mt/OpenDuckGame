@@ -3,23 +3,23 @@ namespace DuckGame;
 [FixedNetworkID(43)]
 public class NMConnect : NMNetworkCoreMessage
 {
-	public string version;
+    public string version;
 
-	public NetIndex4 connectsReceived;
+    public NetIndex4 connectsReceived;
 
-	public NetIndex4 remoteSession;
+    public NetIndex4 remoteSession;
 
-	public string modHash;
+    public string modHash;
 
-	public NMConnect()
-	{
-	}
+    public NMConnect()
+    {
+    }
 
-	public NMConnect(byte received, NetIndex4 s, string v, string mH)
-	{
-		version = v;
-		connectsReceived = received;
-		remoteSession = s;
-		modHash = mH;
-	}
+    public NMConnect(byte received, NetIndex4 s, string v, string mH)
+    {
+        version = v;
+        connectsReceived = received;
+        remoteSession = s;
+        modHash = mH;
+    }
 }

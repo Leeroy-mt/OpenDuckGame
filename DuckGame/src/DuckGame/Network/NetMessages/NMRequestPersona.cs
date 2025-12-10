@@ -4,25 +4,25 @@ namespace DuckGame;
 
 public class NMRequestPersona : NMEvent
 {
-	public Profile profile;
+    public Profile profile;
 
-	public byte persona;
+    public byte persona;
 
-	public NMRequestPersona()
-	{
-	}
+    public NMRequestPersona()
+    {
+    }
 
-	public NMRequestPersona(Profile pProfile, DuckPersona pPersona)
-	{
-		profile = pProfile;
-		persona = (byte)pPersona.index;
-	}
+    public NMRequestPersona(Profile pProfile, DuckPersona pPersona)
+    {
+        profile = pProfile;
+        persona = (byte)pPersona.index;
+    }
 
-	public override void Activate()
-	{
-		if (profile != null && persona >= 0 && persona < Persona.all.Count())
-		{
-			DuckNetwork.RequestPersona(profile, Persona.all.ElementAt(persona));
-		}
-	}
+    public override void Activate()
+    {
+        if (profile != null && persona >= 0 && persona < Persona.all.Count())
+        {
+            DuckNetwork.RequestPersona(profile, Persona.all.ElementAt(persona));
+        }
+    }
 }

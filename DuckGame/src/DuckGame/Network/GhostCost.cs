@@ -2,7 +2,7 @@ namespace DuckGame;
 
 public enum GhostCost
 {
-	Cheap,
-	Normal,
-	Expensive
+    Cheap,
+    Normal,
+    Expensive
 }

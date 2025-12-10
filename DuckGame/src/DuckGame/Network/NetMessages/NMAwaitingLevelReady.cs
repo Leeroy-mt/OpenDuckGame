@@ -2,14 +2,14 @@ namespace DuckGame;
 
 public class NMAwaitingLevelReady : NMDuckNetwork
 {
-	public new byte levelIndex;
+    public new byte levelIndex;
 
-	public NMAwaitingLevelReady()
-	{
-	}
+    public NMAwaitingLevelReady()
+    {
+    }
 
-	public NMAwaitingLevelReady(byte idx)
-	{
-		levelIndex = idx;
-	}
+    public NMAwaitingLevelReady(byte idx)
+    {
+        levelIndex = idx;
+    }
 }

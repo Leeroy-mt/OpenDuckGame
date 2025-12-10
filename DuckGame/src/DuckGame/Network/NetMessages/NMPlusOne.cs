@@ -4,12 +4,12 @@ namespace DuckGame;
 
 public class NMPlusOne : NMAssignWin
 {
-	public NMPlusOne(List<Profile> pProfiles, Profile pTheRealWinnerHere)
-		: base(pProfiles, pTheRealWinnerHere)
-	{
-	}
+    public NMPlusOne(List<Profile> pProfiles, Profile pTheRealWinnerHere)
+        : base(pProfiles, pTheRealWinnerHere)
+    {
+    }
 
-	public NMPlusOne()
-	{
-	}
+    public NMPlusOne()
+    {
+    }
 }

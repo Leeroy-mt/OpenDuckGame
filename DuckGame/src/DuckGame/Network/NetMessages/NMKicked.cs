@@ -2,14 +2,14 @@ namespace DuckGame;
 
 public class NMKicked : NMDuckNetwork
 {
-	public Profile profile;
+    public Profile profile;
 
-	public NMKicked()
-	{
-	}
+    public NMKicked()
+    {
+    }
 
-	public NMKicked(Profile pProfile)
-	{
-		profile = pProfile;
-	}
+    public NMKicked(Profile pProfile)
+    {
+        profile = pProfile;
+    }
 }

@@ -4,7 +4,7 @@ namespace DuckGame;
 
 public interface IContainPossibleThings
 {
-	List<TypeProbPair> possible { get; }
+    List<TypeProbPair> possible { get; }
 
-	void PreparePossibilities();
+    void PreparePossibilities();
 }

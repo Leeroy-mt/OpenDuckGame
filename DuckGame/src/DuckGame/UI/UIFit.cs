@@ -5,7 +5,7 @@ namespace DuckGame;
 [Flags]
 public enum UIFit
 {
-	None = 0,
-	Horizontal = 2,
-	Vertical = 4
+    None = 0,
+    Horizontal = 2,
+    Vertical = 4
 }

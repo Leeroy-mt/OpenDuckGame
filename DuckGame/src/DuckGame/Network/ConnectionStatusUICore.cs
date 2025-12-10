@@ -4,9 +4,9 @@ namespace DuckGame;
 
 public class ConnectionStatusUICore
 {
-	public int tempShow;
+    public int tempShow;
 
-	public List<ConnectionStatusBar> bars = new List<ConnectionStatusBar>();
+    public List<ConnectionStatusBar> bars = new List<ConnectionStatusBar>();
 
-	public bool open;
+    public bool open;
 }

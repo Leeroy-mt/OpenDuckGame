@@ -1,5 +1,7 @@
-﻿public class WorkshopQueryResult {
-    public WorkshopQueryResult() {
+﻿public class WorkshopQueryResult
+{
+    public WorkshopQueryResult()
+    {
     }
 
     public WorkshopQueryResultDetails details;

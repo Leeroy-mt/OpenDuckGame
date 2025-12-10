@@ -1,7 +1,6 @@
-﻿using System;
-
-[Flags]
-public enum WorkshopItemState : uint {
+﻿[Flags]
+public enum WorkshopItemState : uint
+{
     None = 0,
     DownloadPending = 32,
     Downloading = 16,

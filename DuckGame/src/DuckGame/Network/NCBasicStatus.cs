@@ -2,10 +2,10 @@ namespace DuckGame;
 
 public enum NCBasicStatus
 {
-	Disconnected,
-	TryingToConnect,
-	WaitingForAck,
-	Connecting,
-	Connected,
-	Disconnecting
+    Disconnected,
+    TryingToConnect,
+    WaitingForAck,
+    Connecting,
+    Connected,
+    Disconnecting
 }

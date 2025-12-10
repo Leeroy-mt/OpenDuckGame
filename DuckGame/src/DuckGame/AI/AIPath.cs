@@ -4,7 +4,7 @@ namespace DuckGame;
 
 public class AIPath
 {
-	public List<PathNode> nodes;
+    public List<PathNode> nodes;
 
-	public float length;
+    public float length;
 }

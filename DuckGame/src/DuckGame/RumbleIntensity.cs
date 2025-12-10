@@ -2,9 +2,9 @@ namespace DuckGame;
 
 public enum RumbleIntensity
 {
-	None,
-	Kick,
-	Light,
-	Medium,
-	Heavy
+    None,
+    Kick,
+    Light,
+    Medium,
+    Heavy
 }

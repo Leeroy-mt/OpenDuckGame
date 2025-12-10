@@ -10,7 +10,8 @@
 
   <ItemGroup>
     <Reference Include="Steamworks.NET">
-      <HintPath>refs\Steamworks.NET.dll</HintPath>
+      <HintPath>Windows-x64\Steamworks.NET.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 

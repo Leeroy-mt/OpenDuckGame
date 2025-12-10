@@ -2,12 +2,12 @@ namespace DuckGame;
 
 public class NMDuckNetworkEvent : NMDuckNetwork
 {
-	public NMDuckNetworkEvent()
-	{
-		manager = BelongsToManager.DuckNetwork;
-	}
+    public NMDuckNetworkEvent()
+    {
+        manager = BelongsToManager.DuckNetwork;
+    }
 
-	public virtual void Activate()
-	{
-	}
+    public virtual void Activate()
+    {
+    }
 }

@@ -1,4 +1,5 @@
-﻿public enum WorkshopList {
+﻿public enum WorkshopList
+{
     Followed = 8,
     UsedOrPlayed = 7,
     Subscribed = 6,

@@ -8,5 +8,5 @@ namespace DuckGame;
 /// </summary>
 public interface IContainThings
 {
-	IEnumerable<Type> contains { get; }
+    IEnumerable<Type> contains { get; }
 }

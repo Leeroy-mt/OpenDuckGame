@@ -1,5 +1,7 @@
-﻿public class TransferProgress {
-    public TransferProgress() {
+﻿public class TransferProgress
+{
+    public TransferProgress()
+    {
     }
 
     public ItemUpdateStatus status;

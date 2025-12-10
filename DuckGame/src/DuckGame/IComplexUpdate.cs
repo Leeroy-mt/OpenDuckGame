@@ -2,7 +2,7 @@ namespace DuckGame;
 
 public interface IComplexUpdate
 {
-	void OnPreUpdate();
+    void OnPreUpdate();
 
-	void OnPostUpdate();
+    void OnPostUpdate();
 }

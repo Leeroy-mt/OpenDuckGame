@@ -7,5 +7,5 @@ namespace DuckGame;
 /// </summary>
 public interface IContainAThing
 {
-	Type contains { get; }
+    Type contains { get; }
 }

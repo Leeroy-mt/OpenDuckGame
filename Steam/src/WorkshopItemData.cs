@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-public class WorkshopItemData {
-    public WorkshopItemData() {
+﻿public class WorkshopItemData
+{
+    public WorkshopItemData()
+    {
     }
 
     public string name;

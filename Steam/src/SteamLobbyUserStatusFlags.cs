@@ -1,7 +1,6 @@
-﻿using System;
-
-[Flags]
-public enum SteamLobbyUserStatusFlags {
+﻿[Flags]
+public enum SteamLobbyUserStatusFlags
+{
     Banned = 16,
     Kicked = 8,
     Disconnected = 4,

@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using XnaToFna.ProxyDInput;
 
 namespace DuckGame;
 
@@ -52,8 +49,6 @@ public class DevConsole
     public static bool fuckUpPacketOrder = false;
 
     public static List<DCLine> debuggerLines = new List<DCLine>();
-
-    private static bool _doDataSubmission = false;
 
     private static string _dataSubmissionMessage = null;
 
@@ -176,102 +171,6 @@ public class DevConsole
     public static int fontPoints => Options.Data.consoleFontSize;
 
     public static string fontName => Options.Data.consoleFont;
-
-    public static void SubmitSaveData(string pMessage)
-    {
-        byte[] zippedData;
-        using (MemoryStream memory = new MemoryStream())
-        {
-            using (ZipArchive archive = new ZipArchive(memory, ZipArchiveMode.Create, leaveOpen: true))
-            {
-                int num = Steam.FileGetCount();
-                for (int i = 0; i < num; i++)
-                {
-                    string file = Steam.FileGetName(i);
-                    if (!file.EndsWith(".lev") && !file.EndsWith(".png") && !file.EndsWith(".play"))
-                    {
-                        using Stream entryStream = archive.CreateEntry(file).Open();
-                        byte[] cloudData = Steam.FileRead(file);
-                        entryStream.Write(cloudData, 0, cloudData.Length);
-                    }
-                }
-                string inputDeviceData = "DirectInputDevices:\n===================================\n";
-                for (int j = 0; j < 32; j++)
-                {
-                    try
-                    {
-                        if (DInput.GetState(j) != null)
-                        {
-                            string productName = DInput.GetProductName(j);
-                            string padGUID = DInput.GetProductGUID(j);
-                            string fullIdentifier = productName + padGUID + " " /*+ DInput.IsXInput(j)*/;
-                            inputDeviceData = inputDeviceData + fullIdentifier + "\n";
-                            continue;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        inputDeviceData = inputDeviceData + "\n" + ex.ToString() + "\n";
-                        continue;
-                    }
-                    break;
-                }
-                inputDeviceData += "\nEnumerated Input Devices:\n===================================\n";
-                foreach (InputDevice d in Input.GetInputDevices())
-                {
-                    if (d.isConnected)
-                    {
-                        try
-                        {
-                            inputDeviceData = inputDeviceData + d.productName + d.productGUID + " (" + d.ToString() + ", " + d.inputDeviceType + ")\n";
-                        }
-                        catch (Exception ex2)
-                        {
-                            inputDeviceData = inputDeviceData + "\n" + ex2.ToString() + "\n";
-                        }
-                    }
-                }
-                using (Stream entryStream2 = archive.CreateEntry("input_device_report.txt").Open())
-                {
-                    using StreamWriter entryStreamWriter = new StreamWriter(entryStream2);
-                    entryStreamWriter.Write(inputDeviceData);
-                    entryStreamWriter.Flush();
-                }
-                using Stream entryStream3 = archive.CreateEntry("dg_details.txt").Open();
-                using StreamWriter entryStreamWriter2 = new StreamWriter(entryStream3);
-                entryStreamWriter2.Write(MonoMain.GetDetails());
-                entryStreamWriter2.Write("Console Contents:\n");
-                for (int k = 0; k < 100; k++)
-                {
-                    if (k < core.lines.Count)
-                    {
-                        entryStreamWriter2.Write(core.lines.ElementAt(k)?.ToString() + "\n");
-                    }
-                }
-                entryStreamWriter2.Flush();
-            }
-            zippedData = memory.ToArray();
-        }
-        if (zippedData != null)
-        {
-            HttpWebRequest obj = (HttpWebRequest)WebRequest.Create("http://www.wonthelp.info/DuckWeb/submitSave.php");
-            obj.Method = "POST";
-            string data = "sendRequest=DGBugLogger";
-            data = data + "&steamID=" + global::CrashWindow.CrashWindow.SQLEncode(Steam.user.id.ToString());
-            data = ((pMessage == null) ? (data + "&steamName=" + global::CrashWindow.CrashWindow.SQLEncode(Steam.user.name)) : (data + "&steamName=" + global::CrashWindow.CrashWindow.SQLEncode(Steam.user.name + "(" + pMessage + ")")));
-            data = data + "&data=" + global::CrashWindow.CrashWindow.SQLEncode(Editor.BytesToString(zippedData));
-            byte[] byteArray = Encoding.UTF8.GetBytes(data);
-            obj.ContentType = "application/x-www-form-urlencoded;charset=utf-8";
-            obj.ContentLength = byteArray.Length;
-            Stream requestStream = obj.GetRequestStream();
-            requestStream.Write(byteArray, 0, byteArray.Length);
-            requestStream.Close();
-            HttpWebResponse obj2 = (HttpWebResponse)obj.GetResponse();
-            LogComplexMessage(obj2.StatusDescription, Colors.DGBlue);
-            using Stream ds = obj2.GetResponseStream();
-            LogComplexMessage(new StreamReader(ds).ReadToEnd(), Colors.DGBlue);
-        }
-    }
 
     public static void SuppressDevConsole()
     {
@@ -505,16 +404,6 @@ public class DevConsole
     {
         if (DG.buildExpired)
         {
-            return;
-        }
-        if (_doDataSubmission)
-        {
-            _dataSubmissionMessage = command;
-            _core.lines.Enqueue(new DCLine
-            {
-                line = "Submitting save data, this could take some time...",
-                color = Color.White
-            });
             return;
         }
         _core.logScores = -1;
@@ -1688,6 +1577,17 @@ public class DevConsole
 
     public static void InitializeCommands()
     {
+        AddCommand(new("vsync", () =>
+        {
+            Graphics._manager.SynchronizeWithVerticalRetrace = !Graphics._manager.SynchronizeWithVerticalRetrace;
+            Graphics._manager.ApplyChanges();
+
+            if (Graphics._manager.SynchronizeWithVerticalRetrace)
+                Log("|DGGREEN|vsync enabled");
+            else
+                Log("|DGRED|vsync disabled");
+        }));
+
         AddCommand(new CMD("level", new CMD.Argument[1]
         {
             new CMD.Level("level")
@@ -1700,12 +1600,12 @@ public class DevConsole
             aliases = new List<string> { "lev" },
             commandQueueWaitFunction = () => Level.core.nextLevel == null
         });
-        AddCommand(new CMD("give", new CMD.Argument[3]
-        {
+        AddCommand(new CMD("give",
+        [
             new CMD.Thing<Duck>("player"),
             new CMD.Thing<Holdable>("object"),
             new CMD.String("specialCode", pOptional: true)
-        }, delegate (CMD cmd)
+        ], delegate (CMD cmd)
         {
             Duck duck = cmd.Arg<Duck>("player");
             Holdable holdable = cmd.Arg<Holdable>("object");
@@ -1920,6 +1820,7 @@ public class DevConsole
             new CMD.Font("font", () => Options.Data.chatFontSize)
         }, delegate (CMD cmd)
         {
+            var families = FontFamily.Families;
             string chatFont = cmd.Arg<string>("font");
             Options.Data.chatFont = chatFont;
             Options.Save();
@@ -2229,19 +2130,6 @@ public class DevConsole
             hidden = true,
             cheat = true
         });
-        AddCommand(new CMD("sendsave", (Action)delegate
-        {
-            _core.lines.Enqueue(new DCLine
-            {
-                line = "Please type a message to the developer then and press enter..",
-                color = Color.White
-            });
-            _doDataSubmission = true;
-        })
-        {
-            hidden = true,
-            cheat = true
-        });
         AddCommand(new CMD("clearsave", (Action)delegate
         {
             _core.lines.Enqueue(new DCLine
@@ -2425,17 +2313,6 @@ public class DevConsole
         if (_core == null)
         {
             return;
-        }
-        if (_doDataSubmission && _dataSubmissionMessage != null)
-        {
-            SubmitSaveData(_dataSubmissionMessage);
-            _core.lines.Enqueue(new DCLine
-            {
-                line = "|DGGREEN|Save data submitted!",
-                color = Colors.DGBlue
-            });
-            _doDataSubmission = false;
-            _dataSubmissionMessage = null;
         }
         FlushPendingLines();
         bool shift = Keyboard.Down(Keys.LeftShift) || Keyboard.Down(Keys.RightShift);

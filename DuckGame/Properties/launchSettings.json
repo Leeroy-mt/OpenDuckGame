@@ -2,7 +2,7 @@
   "profiles": {
     "DuckGame": {
       "commandName": "Project",
-      "commandLineArgs": "-nointro -disableModding"
+      "commandLineArgs": "-nointro"
     }
   }
 }

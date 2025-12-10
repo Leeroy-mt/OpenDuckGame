@@ -2,21 +2,21 @@ namespace DuckGame;
 
 public class EditorPropertyInfo
 {
-	public object value;
+    public object value;
 
-	public float min;
+    public float min;
 
-	public float max;
+    public float max;
 
-	public float increment;
+    public float increment;
 
-	public string minSpecial;
+    public string minSpecial;
 
-	public bool isTime;
+    public bool isTime;
 
-	public bool isLevel;
+    public bool isLevel;
 
-	public string tooltip;
+    public string tooltip;
 
-	public string name;
+    public string name;
 }

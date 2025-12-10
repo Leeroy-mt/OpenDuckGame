@@ -2,24 +2,24 @@ namespace DuckGame;
 
 public class NMWeatherData : NMEvent
 {
-	public BitBuffer data;
+    public BitBuffer data;
 
-	public NMWeatherData()
-	{
-	}
+    public NMWeatherData()
+    {
+    }
 
-	public NMWeatherData(BitBuffer dat)
-	{
-		data = dat;
-	}
+    public NMWeatherData(BitBuffer dat)
+    {
+        data = dat;
+    }
 
-	protected override void OnSerialize()
-	{
-		_serializedData.Write(data);
-	}
+    protected override void OnSerialize()
+    {
+        _serializedData.Write(data);
+    }
 
-	public override void OnDeserialize(BitBuffer d)
-	{
-		data = d.ReadBitBuffer();
-	}
+    public override void OnDeserialize(BitBuffer d)
+    {
+        data = d.ReadBitBuffer();
+    }
 }

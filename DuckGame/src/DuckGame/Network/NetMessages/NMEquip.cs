@@ -2,26 +2,26 @@ namespace DuckGame;
 
 public class NMEquip : NMEvent
 {
-	public Duck duck;
+    public Duck duck;
 
-	public Equipment equipment;
+    public Equipment equipment;
 
-	public NMEquip()
-	{
-	}
+    public NMEquip()
+    {
+    }
 
-	public NMEquip(Duck pDuck, Equipment pEquipment)
-	{
-		duck = pDuck;
-		equipment = pEquipment;
-	}
+    public NMEquip(Duck pDuck, Equipment pEquipment)
+    {
+        duck = pDuck;
+        equipment = pEquipment;
+    }
 
-	public override void Activate()
-	{
-		if (duck != null && equipment != null)
-		{
-			duck.Equip(equipment, makeSound: false, forceNetwork: true);
-		}
-		base.Activate();
-	}
+    public override void Activate()
+    {
+        if (duck != null && equipment != null)
+        {
+            duck.Equip(equipment, makeSound: false, forceNetwork: true);
+        }
+        base.Activate();
+    }
 }

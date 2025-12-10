@@ -2,7 +2,7 @@ namespace DuckGame;
 
 public class ConnectionStatusBar
 {
-	public Profile profile;
+    public Profile profile;
 
-	public float position;
+    public float position;
 }

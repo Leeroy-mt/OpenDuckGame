@@ -4,23 +4,23 @@ namespace DuckGame;
 
 public class SynchronizedNetMessage : ConditionalMessage
 {
-	public int syncWaitFrames;
+    public int syncWaitFrames;
 
-	private int numWaitFrames = -1;
+    private int numWaitFrames = -1;
 
-	public override bool Update()
-	{
-		if (numWaitFrames == -1 && !Network.isServer)
-		{
-			numWaitFrames = syncWaitFrames - (int)Math.Min(Math.Min(base.connection.manager.ping / 2f * 60f, 30f), syncWaitFrames);
-		}
-		numWaitFrames--;
-		return numWaitFrames <= 0;
-	}
+    public override bool Update()
+    {
+        if (numWaitFrames == -1 && !Network.isServer)
+        {
+            numWaitFrames = syncWaitFrames - (int)Math.Min(Math.Min(base.connection.manager.ping / 2f * 60f, 30f), syncWaitFrames);
+        }
+        numWaitFrames--;
+        return numWaitFrames <= 0;
+    }
 
-	protected override void OnSerialize()
-	{
-		syncWaitFrames = (numWaitFrames = Math.Min((int)(Network.highestPing / 2f * 60f) + 2, 30));
-		base.OnSerialize();
-	}
+    protected override void OnSerialize()
+    {
+        syncWaitFrames = (numWaitFrames = Math.Min((int)(Network.highestPing / 2f * 60f) + 2, 30));
+        base.OnSerialize();
+    }
 }

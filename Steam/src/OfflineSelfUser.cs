@@ -1,7 +1,8 @@
 ﻿using Steamworks;
 
 // THIS TYPE DOESN'T EXIST IN THE ORIGINAL Steam.dll!
-public class OfflineSelfUser : User {
+public class OfflineSelfUser : User
+{
 
     public override ulong id => 0;
 
@@ -24,7 +25,8 @@ public class OfflineSelfUser : User {
     public override unsafe FriendRelationship relationship => FriendRelationship.None;
 
     internal OfflineSelfUser()
-        : base(new CSteamID()) {
+        : base(new CSteamID())
+    {
     }
 
 }

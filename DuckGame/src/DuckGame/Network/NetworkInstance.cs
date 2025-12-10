@@ -6,92 +6,92 @@ namespace DuckGame;
 
 public class NetworkInstance
 {
-	public class Core
-	{
-		public FieldInfo member;
+    public class Core
+    {
+        public FieldInfo member;
 
-		public object instance;
+        public object instance;
 
-		public object originalInstance;
+        public object originalInstance;
 
-		public Action firstLockAction;
+        public Action firstLockAction;
 
-		public void Lock()
-		{
-			member.SetValue(null, instance);
-			if (firstLockAction != null)
-			{
-				firstLockAction();
-				firstLockAction = null;
-			}
-		}
+        public void Lock()
+        {
+            member.SetValue(null, instance);
+            if (firstLockAction != null)
+            {
+                firstLockAction();
+                firstLockAction = null;
+            }
+        }
 
-		public void Unlock()
-		{
-			member.SetValue(null, originalInstance);
-		}
-	}
+        public void Unlock()
+        {
+            member.SetValue(null, originalInstance);
+        }
+    }
 
-	public NetDebugInterface debugInterface;
+    public NetDebugInterface debugInterface;
 
-	public List<Core> extraCores = new List<Core>();
+    public List<Core> extraCores = new List<Core>();
 
-	public Rectangle rect;
+    public Rectangle rect;
 
-	public bool canReconnect;
+    public bool canReconnect;
 
-	public Network network;
+    public Network network;
 
-	public InputProfileCore inputProfile;
+    public InputProfileCore inputProfile;
 
-	public float waitJoin = 1f;
+    public float waitJoin = 1f;
 
-	public bool joined;
+    public bool joined;
 
-	public DuckNetworkCore duckNetworkCore;
+    public DuckNetworkCore duckNetworkCore;
 
-	public TeamsCore teamsCore;
+    public TeamsCore teamsCore;
 
-	public LayerCore layerCore;
+    public LayerCore layerCore;
 
-	public VirtualTransitionCore virtualCore;
+    public VirtualTransitionCore virtualCore;
 
-	public LevelCore levelCore;
+    public LevelCore levelCore;
 
-	public ProfilesCore profileCore;
+    public ProfilesCore profileCore;
 
-	public DevConsoleCore consoleCore;
+    public DevConsoleCore consoleCore;
 
-	public CrowdCore crowdCore;
+    public CrowdCore crowdCore;
 
-	public GameModeCore gameModeCore;
+    public GameModeCore gameModeCore;
 
-	public MonoMainCore monoCore;
+    public MonoMainCore monoCore;
 
-	public HUDCore hudCore;
+    public HUDCore hudCore;
 
-	public MatchmakingBoxCore matchmakingCore;
+    public MatchmakingBoxCore matchmakingCore;
 
-	public ConnectionStatusUICore connectionUICore;
+    public ConnectionStatusUICore connectionUICore;
 
-	public AutoUpdatables.Core auCore;
+    public AutoUpdatables.Core auCore;
 
-	public float fade = 1f;
+    public float fade = 1f;
 
-	public InputProfile ipro;
+    public InputProfile ipro;
 
-	public Random rando;
+    public Random rando;
 
-	public bool active = true;
+    public bool active = true;
 
-	public bool hover => rect.Contains(Mouse.mousePos);
+    public bool hover => rect.Contains(Mouse.mousePos);
 
-	public Rectangle consoleSize
-	{
-		get
-		{
-			float scale = rect.width / layerCore._console.camera.width * 0.5f;
-			return new Rectangle(rect.x * scale, rect.y * scale, rect.width * scale, rect.height * scale);
-		}
-	}
+    public Rectangle consoleSize
+    {
+        get
+        {
+            float scale = rect.width / layerCore._console.camera.width * 0.5f;
+            return new Rectangle(rect.x * scale, rect.y * scale, rect.width * scale, rect.height * scale);
+        }
+    }
 }

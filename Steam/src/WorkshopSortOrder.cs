@@ -1,4 +1,5 @@
-﻿public enum WorkshopSortOrder {
+﻿public enum WorkshopSortOrder
+{
     ForModeration = 6,
     VoteScoreDesc = 5,
     SubscriptionDateDesc = 4,

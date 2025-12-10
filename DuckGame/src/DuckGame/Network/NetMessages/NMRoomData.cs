@@ -2,29 +2,29 @@ namespace DuckGame;
 
 public class NMRoomData : NMDuckNetwork
 {
-	public BitBuffer data;
+    public BitBuffer data;
 
-	public Profile profile;
+    public Profile profile;
 
-	public NMRoomData()
-	{
-	}
+    public NMRoomData()
+    {
+    }
 
-	public NMRoomData(Profile pProfile, BitBuffer pData)
-	{
-		data = pData;
-		profile = pProfile;
-	}
+    public NMRoomData(Profile pProfile, BitBuffer pData)
+    {
+        data = pData;
+        profile = pProfile;
+    }
 
-	protected override void OnSerialize()
-	{
-		_serializedData.WriteProfile(profile);
-		_serializedData.Write(data);
-	}
+    protected override void OnSerialize()
+    {
+        _serializedData.WriteProfile(profile);
+        _serializedData.Write(data);
+    }
 
-	public override void OnDeserialize(BitBuffer d)
-	{
-		profile = d.ReadProfile();
-		data = d.ReadBitBuffer();
-	}
+    public override void OnDeserialize(BitBuffer d)
+    {
+        profile = d.ReadProfile();
+        data = d.ReadBitBuffer();
+    }
 }
