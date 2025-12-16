@@ -55,7 +55,6 @@ nunit-*.xml
 
 .vs
 *.user
+[Bb]in/
+[Oo]bj/
 obj_core
-*Properties/
-/DuckGame/Properties/launchSettings.json
-/DuckGame/Properties/launchSettings.json

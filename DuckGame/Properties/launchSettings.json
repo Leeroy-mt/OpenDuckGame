@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DuckGame": {
+      "commandName": "Project",
+      "commandLineArgs": "-nointro"
+    }
+  }
+}
