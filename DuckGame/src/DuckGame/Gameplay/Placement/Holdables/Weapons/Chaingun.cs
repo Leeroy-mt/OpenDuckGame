@@ -6,11 +6,11 @@ namespace DuckGame;
 [BaggedProperty("isSuperWeapon", true)]
 public class Chaingun : Gun
 {
-    public StateBinding _fireWaitBinding = new StateBinding("_fireWait");
+    public StateBinding _fireWaitBinding = new StateBinding(nameof(_fireWait));
 
-    public StateBinding _spinBinding = new StateBinding("_spin");
+    public StateBinding _spinBinding = new StateBinding(nameof(_spin));
 
-    public StateBinding _spinningBinding = new StateBinding("_spinning");
+    public StateBinding _spinningBinding = new StateBinding(nameof(_spinning));
 
     private SpriteMap _tip;
 

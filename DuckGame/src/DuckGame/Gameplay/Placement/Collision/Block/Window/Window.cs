@@ -6,15 +6,15 @@ namespace DuckGame;
 [EditorGroup("Stuff")]
 public class Window : Block, IPlatform, ISequenceItem, IDontMove
 {
-    public StateBinding _positionBinding = new StateBinding("netPosition");
+    public StateBinding _positionBinding = new StateBinding(nameof(netPosition));
 
-    public StateBinding _hitPointsBinding = new StateBinding("hitPoints");
+    public StateBinding _hitPointsBinding = new StateBinding(nameof(hitPoints));
 
-    public StateBinding _destroyedBinding = new StateBinding("_destroyed");
+    public StateBinding _destroyedBinding = new StateBinding(nameof(_destroyed));
 
-    public StateBinding _damageMultiplierBinding = new StateBinding("damageMultiplier");
+    public StateBinding _damageMultiplierBinding = new StateBinding(nameof(damageMultiplier));
 
-    public StateBinding _shakeTimesBinding = new StateBinding("shakeTimes");
+    public StateBinding _shakeTimesBinding = new StateBinding(nameof(shakeTimes));
 
     public NetIndex4 shakeTimes = 0;
 

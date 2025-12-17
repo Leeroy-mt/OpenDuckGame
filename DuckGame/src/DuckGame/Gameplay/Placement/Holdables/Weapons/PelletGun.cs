@@ -5,11 +5,11 @@ namespace DuckGame;
 [EditorGroup("Guns|Rifles")]
 public class PelletGun : Gun
 {
-    public StateBinding _loadStateBinding = new StateBinding("_loadState");
+    public StateBinding _loadStateBinding = new StateBinding(nameof(_loadState));
 
-    public StateBinding _firesTillFailBinding = new StateBinding("firesTillFail");
+    public StateBinding _firesTillFailBinding = new StateBinding(nameof(firesTillFail));
 
-    public StateBinding _aimAngleBinding = new StateBinding("_aimAngle");
+    public StateBinding _aimAngleBinding = new StateBinding(nameof(_aimAngle));
 
     private SpriteMap _sprite;
 

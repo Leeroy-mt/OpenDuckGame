@@ -3,7 +3,7 @@ namespace DuckGame;
 [EditorGroup("Guns|Fire")]
 public class RomanCandle : FlareGun
 {
-    public StateBinding _litBinding = new StateBinding("_lit");
+    public StateBinding _litBinding = new StateBinding(nameof(_lit));
 
     private SpriteMap _sprite;
 

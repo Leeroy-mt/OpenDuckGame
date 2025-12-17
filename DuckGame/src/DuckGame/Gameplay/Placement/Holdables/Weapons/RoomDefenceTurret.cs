@@ -2,9 +2,9 @@ namespace DuckGame;
 
 public class RoomDefenceTurret : Gun
 {
-    public StateBinding _targetBinding = new StateBinding("_target");
+    public StateBinding _targetBinding = new StateBinding(nameof(_target));
 
-    public StateBinding _friendlyBinding = new StateBinding("_friendly");
+    public StateBinding _friendlyBinding = new StateBinding(nameof(_friendly));
 
     private Duck _target;
 

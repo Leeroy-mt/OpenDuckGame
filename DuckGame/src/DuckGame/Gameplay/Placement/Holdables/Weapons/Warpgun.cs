@@ -17,11 +17,11 @@ public class Warpgun : Gun
         public Vec2 pos;
     }
 
-    public StateBinding _gravMultTimeBinding = new StateBinding("gravMultTime");
+    public StateBinding _gravMultTimeBinding = new StateBinding(nameof(gravMultTime));
 
-    public StateBinding _shotsSinceGroundedBinding = new StateBinding("shotsSinceGrounded");
+    public StateBinding _shotsSinceGroundedBinding = new StateBinding(nameof(shotsSinceGrounded));
 
-    public StateBinding _shotsSinceDuckWasGroundedBinding = new StateBinding("shotsSinceDuckWasGrounded");
+    public StateBinding _shotsSinceDuckWasGroundedBinding = new StateBinding(nameof(shotsSinceDuckWasGrounded));
 
     private SpriteMap _sprite;
 

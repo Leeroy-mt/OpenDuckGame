@@ -8,9 +8,9 @@ namespace DuckGame;
 [BaggedProperty("previewPriority", true)]
 public class Saxaphone : Gun
 {
-    public StateBinding _notePitchBinding = new StateBinding("notePitch");
+    public StateBinding _notePitchBinding = new StateBinding(nameof(notePitch));
 
-    public StateBinding _handPitchBinding = new StateBinding("handPitch");
+    public StateBinding _handPitchBinding = new StateBinding(nameof(handPitch));
 
     public float notePitch;
 

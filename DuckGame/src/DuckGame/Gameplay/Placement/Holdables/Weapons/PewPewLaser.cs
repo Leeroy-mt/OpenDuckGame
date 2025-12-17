@@ -3,9 +3,9 @@ namespace DuckGame;
 [EditorGroup("Guns|Lasers")]
 public class PewPewLaser : Gun
 {
-    public StateBinding _burstingBinding = new StateBinding("_bursting");
+    public StateBinding _burstingBinding = new StateBinding(nameof(_bursting));
 
-    public StateBinding _burstNumBinding = new StateBinding("_burstNum");
+    public StateBinding _burstNumBinding = new StateBinding(nameof(_burstNum));
 
     public float _burstWait;
 

@@ -4,11 +4,11 @@ namespace DuckGame;
 [BaggedProperty("isInDemo", true)]
 public class SnubbyPistol : Gun
 {
-    public new StateBinding _loadedBinding = new StateBinding("_loaded");
+    public new StateBinding _loadedBinding = new StateBinding(nameof(_loaded));
 
-    public StateBinding _loadBurstBinding = new StateBinding("_loadBurst");
+    public StateBinding _loadBurstBinding = new StateBinding(nameof(_loadBurst));
 
-    public StateBinding _angleOffsetBinding = new StateBinding("_angleOffset");
+    public StateBinding _angleOffsetBinding = new StateBinding(nameof(_angleOffset));
 
     private SpriteMap _sprite;
 

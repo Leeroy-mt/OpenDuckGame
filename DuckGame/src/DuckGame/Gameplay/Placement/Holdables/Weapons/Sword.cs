@@ -6,19 +6,19 @@ namespace DuckGame;
 [EditorGroup("Guns|Melee")]
 public class Sword : Gun
 {
-    public StateBinding _swingBinding = new StateBinding(doLerp: true, "_swing");
+    public StateBinding _swingBinding = new StateBinding(doLerp: true, nameof(_swing));
 
-    public StateBinding _holdBinding = new StateBinding(doLerp: true, "_hold");
+    public StateBinding _holdBinding = new StateBinding(doLerp: true, nameof(_hold));
 
     public StateBinding _stanceBinding = new SwordFlagBinding();
 
-    public StateBinding _pullBackBinding = new StateBinding(doLerp: true, "_pullBack");
+    public StateBinding _pullBackBinding = new StateBinding(doLerp: true, nameof(_pullBack));
 
-    public StateBinding _throwSpinBinding = new StateBinding(doLerp: true, "_throwSpin");
+    public StateBinding _throwSpinBinding = new StateBinding(doLerp: true, nameof(_throwSpin));
 
-    public StateBinding _addOffsetXBinding = new StateBinding("_addOffsetX");
+    public StateBinding _addOffsetXBinding = new StateBinding(nameof(_addOffsetX));
 
-    public StateBinding _addOffsetYBinding = new StateBinding("_addOffsetY");
+    public StateBinding _addOffsetYBinding = new StateBinding(nameof(_addOffsetY));
 
     public float _swing;
 

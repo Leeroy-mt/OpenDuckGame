@@ -2,7 +2,7 @@ namespace DuckGame;
 
 public class ContinueCountdown : Thing
 {
-    public StateBinding _timerBinding = new StateBinding("timer");
+    public StateBinding _timerBinding = new StateBinding(nameof(timer));
 
     public float timer = 5f;
 

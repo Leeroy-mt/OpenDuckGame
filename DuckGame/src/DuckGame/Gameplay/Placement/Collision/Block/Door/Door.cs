@@ -6,19 +6,19 @@ namespace DuckGame;
 [EditorGroup("Stuff|Doors")]
 public class Door : Block, IPlatform, IDontMove, ISequenceItem
 {
-    public StateBinding _hitPointsBinding = new StateBinding("_hitPoints");
+    public StateBinding _hitPointsBinding = new StateBinding(nameof(_hitPoints));
 
-    public StateBinding _openBinding = new StateBinding("_open");
+    public StateBinding _openBinding = new StateBinding(nameof(_open));
 
-    public StateBinding _openForceBinding = new StateBinding("_openForce");
+    public StateBinding _openForceBinding = new StateBinding(nameof(_openForce));
 
-    public StateBinding _jiggleBinding = new StateBinding("_jiggle");
+    public StateBinding _jiggleBinding = new StateBinding(nameof(_jiggle));
 
-    public StateBinding _jamBinding = new StateBinding("_jam");
+    public StateBinding _jamBinding = new StateBinding(nameof(_jam));
 
-    public StateBinding _damageMultiplierBinding = new StateBinding("damageMultiplier");
+    public StateBinding _damageMultiplierBinding = new StateBinding(nameof(damageMultiplier));
 
-    public StateBinding _doorInstanceBinding = new StateBinding("_doorInstance");
+    public StateBinding _doorInstanceBinding = new StateBinding(nameof(_doorInstance));
 
     public StateBinding _doorStateBinding = new DoorFlagBinding();
 

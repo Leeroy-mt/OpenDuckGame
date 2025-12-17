@@ -2,9 +2,9 @@ namespace DuckGame;
 
 public class QuadLaserBullet : Thing, ITeleport
 {
-    public StateBinding _positionBinding = new CompressedVec2Binding("position", int.MaxValue, isvelocity: false, doLerp: true);
+    public StateBinding _positionBinding = new CompressedVec2Binding(nameof(position), int.MaxValue, isvelocity: false, doLerp: true);
 
-    public StateBinding _travelBinding = new CompressedVec2Binding("travel", 20);
+    public StateBinding _travelBinding = new CompressedVec2Binding(nameof(travel), 20);
 
     private Vec2 _travel;
 

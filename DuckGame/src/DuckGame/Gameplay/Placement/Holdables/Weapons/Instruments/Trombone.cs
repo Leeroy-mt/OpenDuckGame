@@ -7,9 +7,9 @@ namespace DuckGame;
 [BaggedProperty("isFatal", false)]
 public class Trombone : Gun
 {
-    public StateBinding _notePitchBinding = new StateBinding("notePitch");
+    public StateBinding _notePitchBinding = new StateBinding(nameof(notePitch));
 
-    public StateBinding _handPitchBinding = new StateBinding("handPitch");
+    public StateBinding _handPitchBinding = new StateBinding(nameof(handPitch));
 
     public float notePitch;
 

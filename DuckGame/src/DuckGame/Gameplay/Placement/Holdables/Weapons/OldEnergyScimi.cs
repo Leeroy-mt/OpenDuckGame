@@ -14,7 +14,7 @@ public class OldEnergyScimi : Sword
         public Vec2 offset;
     }
 
-    public StateBinding _glowBinding = new StateBinding("_glow");
+    public StateBinding _glowBinding = new StateBinding(nameof(_glow));
 
     private MaterialEnergyBlade _bladeMaterial;
 

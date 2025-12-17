@@ -5,9 +5,9 @@ namespace DuckGame;
 [EditorGroup("Stuff|Props")]
 public class Desk : Holdable, IPlatform
 {
-    public StateBinding _flippedBinding = new StateBinding("flipped");
+    public StateBinding _flippedBinding = new StateBinding(nameof(flipped));
 
-    public StateBinding _flipBinding = new StateBinding("_flip");
+    public StateBinding _flipBinding = new StateBinding(nameof(_flip));
 
     private float damageMultiplier = 1f;
 

@@ -7,15 +7,15 @@ public abstract class Gun : Holdable
 {
     protected AmmoType _ammoType;
 
-    public StateBinding _ammoBinding = new StateBinding("netAmmo");
+    public StateBinding _ammoBinding = new StateBinding(nameof(netAmmo));
 
-    public StateBinding _waitBinding = new StateBinding("_wait");
+    public StateBinding _waitBinding = new StateBinding(nameof(_wait));
 
-    public StateBinding _loadedBinding = new StateBinding("loaded");
+    public StateBinding _loadedBinding = new StateBinding(nameof(loaded));
 
-    public StateBinding _bulletFireIndexBinding = new StateBinding("bulletFireIndex");
+    public StateBinding _bulletFireIndexBinding = new StateBinding(nameof(bulletFireIndex));
 
-    public StateBinding _infiniteAmmoValBinding = new StateBinding("infiniteAmmoVal");
+    public StateBinding _infiniteAmmoValBinding = new StateBinding(nameof(infiniteAmmoVal));
 
     public byte bulletFireIndex;
 

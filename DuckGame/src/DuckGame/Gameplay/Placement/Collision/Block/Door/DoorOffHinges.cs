@@ -2,9 +2,9 @@ namespace DuckGame;
 
 public class DoorOffHinges : PhysicsObject
 {
-    public StateBinding _throwSpinBinding = new StateBinding("_throwSpin");
+    public StateBinding _throwSpinBinding = new StateBinding(nameof(_throwSpin));
 
-    public StateBinding _secondaryBinding = new StateBinding("_secondaryFrame");
+    public StateBinding _secondaryBinding = new StateBinding(nameof(_secondaryFrame));
 
     public bool _secondaryFrame;
 

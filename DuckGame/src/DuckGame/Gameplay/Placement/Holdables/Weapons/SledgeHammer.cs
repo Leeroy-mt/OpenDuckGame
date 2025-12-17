@@ -5,7 +5,7 @@ namespace DuckGame;
 [EditorGroup("Guns|Melee")]
 public class SledgeHammer : Gun
 {
-    public StateBinding _swingBinding = new StateBinding("_swing");
+    public StateBinding _swingBinding = new StateBinding(nameof(_swing));
 
     private SpriteMap _sprite;
 

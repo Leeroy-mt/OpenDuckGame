@@ -4,9 +4,9 @@ namespace DuckGame;
 [BaggedProperty("isInDemo", true)]
 public class Magnum : Gun
 {
-    public StateBinding _angleOffsetBinding = new StateBinding("_angleOffset");
+    public StateBinding _angleOffsetBinding = new StateBinding(nameof(_angleOffset));
 
-    public StateBinding _riseBinding = new StateBinding("rise");
+    public StateBinding _riseBinding = new StateBinding(nameof(rise));
 
     public float rise;
 

@@ -5,13 +5,13 @@ namespace DuckGame;
 [BaggedProperty("canSpawn", false)]
 public class ScoreRock : Holdable, IPlatform
 {
-    public StateBinding _planeBinding = new StateBinding("planeOfExistence");
+    public StateBinding _planeBinding = new StateBinding(nameof(planeOfExistence));
 
-    public StateBinding _depthBinding = new StateBinding("netDepth");
+    public StateBinding _depthBinding = new StateBinding(nameof(netDepth));
 
-    public StateBinding _zBinding = new StateBinding("z");
+    public StateBinding _zBinding = new StateBinding(nameof(z));
 
-    public StateBinding _profileBinding = new StateBinding("netProfileIndex");
+    public StateBinding _profileBinding = new StateBinding(nameof(netProfileIndex));
 
     private byte _netProfileIndex;
 

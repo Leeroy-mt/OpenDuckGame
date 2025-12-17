@@ -6,7 +6,7 @@ namespace DuckGame;
 [BaggedProperty("canSpawn", false)]
 public class Trophy : Holdable
 {
-    public StateBinding _actionBinding = new StateBinding("ownerAction");
+    public StateBinding _actionBinding = new StateBinding(nameof(ownerAction));
 
     private bool ownerAction;
 

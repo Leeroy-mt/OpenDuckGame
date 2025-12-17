@@ -2,9 +2,9 @@ namespace DuckGame;
 
 public abstract class Equipment : Holdable
 {
-    public StateBinding _equippedBinding = new StateBinding("netEquippedDuck");
+    public StateBinding _equippedBinding = new StateBinding(nameof(netEquippedDuck));
 
-    public StateBinding _equipIndexBinding = new StateBinding("equipIndex");
+    public StateBinding _equipIndexBinding = new StateBinding(nameof(equipIndex));
 
     public NetIndex4 equipIndex = new NetIndex4(0);
 

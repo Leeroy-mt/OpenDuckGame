@@ -319,47 +319,47 @@ public class Duck : PhysicsObject, IReflect, ITakeInput, IAmADuck, IDrawToDiffer
         }
     }
 
-    public StateBinding _profileIndexBinding = new StateBinding(GhostPriority.Normal, "netProfileIndex", 4);
+    public StateBinding _profileIndexBinding = new StateBinding(GhostPriority.Normal, nameof(netProfileIndex), 4);
 
-    public StateBinding _disarmIndexBinding = new StateBinding(GhostPriority.Normal, "disarmIndex", 4);
+    public StateBinding _disarmIndexBinding = new StateBinding(GhostPriority.Normal, nameof(disarmIndex), 4);
 
-    public StateBinding _animationIndexBinding = new StateBinding(GhostPriority.Normal, "netAnimationIndex", 4);
+    public StateBinding _animationIndexBinding = new StateBinding(GhostPriority.Normal, nameof(netAnimationIndex), 4);
 
-    public StateBinding _holdObjectBinding = new StateBinding(GhostPriority.High, "holdObject");
+    public StateBinding _holdObjectBinding = new StateBinding(GhostPriority.High, nameof(holdObject));
 
-    public StateBinding _ragdollBinding = new StateBinding(GhostPriority.High, "ragdoll");
+    public StateBinding _ragdollBinding = new StateBinding(GhostPriority.High, nameof(ragdoll));
 
-    public StateBinding _cookedBinding = new StateBinding(GhostPriority.High, "_cooked");
+    public StateBinding _cookedBinding = new StateBinding(GhostPriority.High, nameof(_cooked));
 
-    public StateBinding _quackBinding = new StateBinding(GhostPriority.High, "quack", 5);
+    public StateBinding _quackBinding = new StateBinding(GhostPriority.High, nameof(quack), 5);
 
-    public StateBinding _quackPitchBinding = new StateBinding(GhostPriority.High, "quackPitch");
+    public StateBinding _quackPitchBinding = new StateBinding(GhostPriority.High, nameof(quackPitch));
 
-    public StateBinding _toungeBinding = new CompressedVec2Binding(GhostPriority.Normal, "tounge", 1);
+    public StateBinding _toungeBinding = new CompressedVec2Binding(GhostPriority.Normal, nameof(tounge), 1);
 
-    public StateBinding _cameraPositionOverrideBinding = new CompressedVec2Binding(GhostPriority.Normal, "cameraPositionOverride");
+    public StateBinding _cameraPositionOverrideBinding = new CompressedVec2Binding(GhostPriority.Normal, nameof(cameraPositionOverride));
 
-    public StateBinding _trappedInstanceBinding = new StateBinding("_trappedInstance");
+    public StateBinding _trappedInstanceBinding = new StateBinding(nameof(_trappedInstance));
 
-    public StateBinding _ragdollInstanceBinding = new StateBinding("_ragdollInstance");
+    public StateBinding _ragdollInstanceBinding = new StateBinding(nameof(_ragdollInstance));
 
-    public StateBinding _cookedInstanceBinding = new StateBinding("_cookedInstance");
+    public StateBinding _cookedInstanceBinding = new StateBinding(nameof(_cookedInstance));
 
     public StateBinding _duckStateBinding = new DuckFlagBinding(GhostPriority.High);
 
-    public StateBinding _netQuackBinding = new NetSoundBinding(GhostPriority.High, "_netQuack");
+    public StateBinding _netQuackBinding = new NetSoundBinding(GhostPriority.High, nameof(_netQuack));
 
-    public StateBinding _netSwearBinding = new NetSoundBinding("_netSwear");
+    public StateBinding _netSwearBinding = new NetSoundBinding(nameof(_netSwear));
 
-    public StateBinding _netScreamBinding = new NetSoundBinding("_netScream");
+    public StateBinding _netScreamBinding = new NetSoundBinding(nameof(_netScream));
 
-    public StateBinding _netJumpBinding = new NetSoundBinding(GhostPriority.Normal, "_netJump");
+    public StateBinding _netJumpBinding = new NetSoundBinding(GhostPriority.Normal, nameof(_netJump));
 
-    public StateBinding _netDisarmBinding = new NetSoundBinding("_netDisarm");
+    public StateBinding _netDisarmBinding = new NetSoundBinding(nameof(_netDisarm));
 
-    public StateBinding _netTinyMotionBinding = new NetSoundBinding("_netTinyMotion");
+    public StateBinding _netTinyMotionBinding = new NetSoundBinding(nameof(_netTinyMotion));
 
-    public StateBinding _conversionResistanceBinding = new StateBinding("conversionResistance", 8);
+    public StateBinding _conversionResistanceBinding = new StateBinding(nameof(conversionResistance), 8);
 
     public bool forceDead;
 

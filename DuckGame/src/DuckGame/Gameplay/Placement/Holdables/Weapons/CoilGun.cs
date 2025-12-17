@@ -7,9 +7,9 @@ public class CoilGun : Gun
 {
     public StateBinding _laserStateBinding = new CoilGunFlagBinding();
 
-    public StateBinding _animationIndexBinding = new StateBinding("netAnimationIndex", 4);
+    public StateBinding _animationIndexBinding = new StateBinding(nameof(netAnimationIndex), 4);
 
-    public StateBinding _frameBinding = new StateBinding("spriteFrame");
+    public StateBinding _frameBinding = new StateBinding(nameof(spriteFrame));
 
     public bool doBlast;
 

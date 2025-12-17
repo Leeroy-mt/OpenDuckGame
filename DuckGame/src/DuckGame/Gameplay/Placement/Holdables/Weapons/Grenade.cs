@@ -6,9 +6,9 @@ namespace DuckGame;
 [BaggedProperty("isInDemo", true)]
 public class Grenade : Gun
 {
-    public StateBinding _timerBinding = new StateBinding("_timer");
+    public StateBinding _timerBinding = new StateBinding(nameof(_timer));
 
-    public StateBinding _pinBinding = new StateBinding("_pin");
+    public StateBinding _pinBinding = new StateBinding(nameof(_pin));
 
     private SpriteMap _sprite;
 

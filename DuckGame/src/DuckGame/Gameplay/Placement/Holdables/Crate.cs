@@ -7,11 +7,11 @@ namespace DuckGame;
 [BaggedProperty("previewPriority", true)]
 public class Crate : Holdable, IPlatform
 {
-    public StateBinding _destroyedBinding = new StateBinding("_destroyed");
+    public StateBinding _destroyedBinding = new StateBinding(nameof(_destroyed));
 
-    public StateBinding _hitPointsBinding = new StateBinding("_hitPoints");
+    public StateBinding _hitPointsBinding = new StateBinding(nameof(_hitPoints));
 
-    public StateBinding _damageMultiplierBinding = new StateBinding("damageMultiplier");
+    public StateBinding _damageMultiplierBinding = new StateBinding(nameof(damageMultiplier));
 
     public float damageMultiplier = 1f;
 

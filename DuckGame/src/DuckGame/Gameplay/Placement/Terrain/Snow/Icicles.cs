@@ -4,9 +4,9 @@ namespace DuckGame;
 [BaggedProperty("previewPriority", true)]
 public class Icicles : MaterialThing
 {
-    public StateBinding _deadlyIcicleInstanceBinding = new StateBinding("_deadlyIcicleInstance");
+    public StateBinding _deadlyIcicleInstanceBinding = new StateBinding(nameof(_deadlyIcicleInstance));
 
-    public StateBinding _frameBinding = new StateBinding("frame");
+    public StateBinding _frameBinding = new StateBinding(nameof(frame));
 
     private Thing _deadlyIcicleInstance;
 

@@ -6,35 +6,35 @@ namespace DuckGame;
 
 public class HatSelector : Thing, ITakeInput
 {
-    public StateBinding _profileBoxNumberBinding = new StateBinding("profileBoxNumber");
+    public StateBinding _profileBoxNumberBinding = new StateBinding(nameof(profileBoxNumber));
 
     private sbyte _profileBoxNumber = -1;
 
-    public StateBinding _positionBinding = new StateBinding("netPosition");
+    public StateBinding _positionBinding = new StateBinding(nameof(netPosition));
 
-    public StateBinding _openBinding = new StateBinding("_open");
+    public StateBinding _openBinding = new StateBinding(nameof(_open));
 
-    public StateBinding _selectorPositionBinding = new StateBinding("_selectorPosition");
+    public StateBinding _selectorPositionBinding = new StateBinding(nameof(_selectorPosition));
 
-    public StateBinding _desiredTeamSelectionBinding = new StateBinding("_desiredTeamSelection");
+    public StateBinding _desiredTeamSelectionBinding = new StateBinding(nameof(_desiredTeamSelection));
 
-    public StateBinding _mainSelectionBinding = new StateBinding("_mainSelection");
+    public StateBinding _mainSelectionBinding = new StateBinding(nameof(_mainSelection));
 
-    public StateBinding _selectionBinding = new StateBinding("selectionInt");
+    public StateBinding _selectionBinding = new StateBinding(nameof(selectionInt));
 
-    public StateBinding _lcdFlashBinding = new StateBinding("_lcdFlash");
+    public StateBinding _lcdFlashBinding = new StateBinding(nameof(_lcdFlash));
 
-    public StateBinding _lcdFlashIncBinding = new StateBinding("_lcdFlashInc");
+    public StateBinding _lcdFlashIncBinding = new StateBinding(nameof(_lcdFlashInc));
 
-    public StateBinding _editingRoomBinding = new StateBinding("_editingRoom");
+    public StateBinding _editingRoomBinding = new StateBinding(nameof(_editingRoom));
 
-    public StateBinding _gettingXPBinding = new StateBinding("_gettingXP");
+    public StateBinding _gettingXPBinding = new StateBinding(nameof(_gettingXP));
 
-    public StateBinding _gettingXPCompletionBinding = new StateBinding("_gettingXPCompletion");
+    public StateBinding _gettingXPCompletionBinding = new StateBinding(nameof(_gettingXPCompletion));
 
-    public StateBinding _flashTransitionBinding = new StateBinding("flashTransition");
+    public StateBinding _flashTransitionBinding = new StateBinding(nameof(flashTransition));
 
-    public StateBinding _darkenBinding = new StateBinding("darken");
+    public StateBinding _darkenBinding = new StateBinding(nameof(darken));
 
     public float _fade;
 

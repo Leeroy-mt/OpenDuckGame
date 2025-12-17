@@ -5,15 +5,15 @@ namespace DuckGame;
 [EditorGroup("Guns|Explosives")]
 public class GrenadeCannon : Gun
 {
-    public StateBinding _fireAngleState = new StateBinding("_fireAngle");
+    public StateBinding _fireAngleState = new StateBinding(nameof(_fireAngle));
 
-    public StateBinding _aimAngleState = new StateBinding("_aimAngle");
+    public StateBinding _aimAngleState = new StateBinding(nameof(_aimAngle));
 
-    public StateBinding _aimWaitState = new StateBinding("_aimWait");
+    public StateBinding _aimWaitState = new StateBinding(nameof(_aimWait));
 
-    public StateBinding _aimingState = new StateBinding("_aiming");
+    public StateBinding _aimingState = new StateBinding(nameof(_aiming));
 
-    public StateBinding _cooldownState = new StateBinding("_cooldown");
+    public StateBinding _cooldownState = new StateBinding(nameof(_cooldown));
 
     public bool _doLoad;
 

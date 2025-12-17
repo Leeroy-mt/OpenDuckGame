@@ -18,23 +18,23 @@ public class DrumSet : Holdable, IPlatform
 
     private HighTom _highTom;
 
-    public StateBinding _netBassDrumBinding = new NetSoundBinding("_netBassDrum");
+    public StateBinding _netBassDrumBinding = new NetSoundBinding(nameof(_netBassDrum));
 
-    public StateBinding _netSnareBinding = new NetSoundBinding("_netSnare");
+    public StateBinding _netSnareBinding = new NetSoundBinding(nameof(_netSnare));
 
-    public StateBinding _netHatBinding = new NetSoundBinding("_netHat");
+    public StateBinding _netHatBinding = new NetSoundBinding(nameof(_netHat));
 
-    public StateBinding _netHatAlternateBinding = new NetSoundBinding("_netHatAlternate");
+    public StateBinding _netHatAlternateBinding = new NetSoundBinding(nameof(_netHatAlternate));
 
-    public StateBinding _netLowTomBinding = new NetSoundBinding("_netLowTom");
+    public StateBinding _netLowTomBinding = new NetSoundBinding(nameof(_netLowTom));
 
-    public StateBinding _netMediumTomBinding = new NetSoundBinding("_netMediumTom");
+    public StateBinding _netMediumTomBinding = new NetSoundBinding(nameof(_netMediumTom));
 
-    public StateBinding _netHighTomBinding = new NetSoundBinding("_netHighTom");
+    public StateBinding _netHighTomBinding = new NetSoundBinding(nameof(_netHighTom));
 
-    public StateBinding _netCrashBinding = new NetSoundBinding("_netCrash");
+    public StateBinding _netCrashBinding = new NetSoundBinding(nameof(_netCrash));
 
-    public StateBinding _netThrowStickBinding = new NetSoundBinding("_netThrowStick");
+    public StateBinding _netThrowStickBinding = new NetSoundBinding(nameof(_netThrowStick));
 
     public NetSoundEffect _netBassDrum = new NetSoundEffect();
 

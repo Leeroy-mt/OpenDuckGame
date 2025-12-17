@@ -4,7 +4,7 @@ namespace DuckGame;
 [BaggedProperty("isSuperWeapon", true)]
 public class VirtualShotgun : Shotgun
 {
-    public StateBinding _roomIndexBinding = new StateBinding("roomIndex", 4);
+    public StateBinding _roomIndexBinding = new StateBinding(nameof(roomIndex), 4);
 
     private byte _roomIndex;
 

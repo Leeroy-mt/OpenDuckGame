@@ -6,13 +6,13 @@ public class TampingWeapon : Gun
 {
     public StateBinding _tampedBinding = new TampingFlagBinding();
 
-    public StateBinding _tampIncBinding = new StateBinding("_tampInc");
+    public StateBinding _tampIncBinding = new StateBinding(nameof(_tampInc));
 
-    public StateBinding _tampTimeBinding = new StateBinding("_tampTime");
+    public StateBinding _tampTimeBinding = new StateBinding(nameof(_tampTime));
 
-    public StateBinding _offsetYBinding = new StateBinding("_offsetY");
+    public StateBinding _offsetYBinding = new StateBinding(nameof(_offsetY));
 
-    public StateBinding _rotAngleBinding = new StateBinding("_rotAngle");
+    public StateBinding _rotAngleBinding = new StateBinding(nameof(_rotAngle));
 
     public bool _tamped = true;
 

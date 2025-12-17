@@ -6,11 +6,11 @@ namespace DuckGame;
 [BaggedProperty("canSpawn", false)]
 public class RCCar : Holdable, IPlatform
 {
-    public StateBinding _controllerBinding = new StateBinding("_controller");
+    public StateBinding _controllerBinding = new StateBinding(nameof(_controller));
 
-    public StateBinding _signalBinding = new StateBinding("receivingSignal");
+    public StateBinding _signalBinding = new StateBinding(nameof(receivingSignal));
 
-    public StateBinding _idleSpeedBinding = new CompressedFloatBinding("_idleSpeed", 1f, 4);
+    public StateBinding _idleSpeedBinding = new CompressedFloatBinding(nameof(_idleSpeed), 1f, 4);
 
     private SpriteMap _sprite;
 

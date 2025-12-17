@@ -8,19 +8,19 @@ namespace DuckGame;
 [BaggedProperty("canSpawn", false)]
 public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossibleThings
 {
-    public StateBinding _containedObject1Binding = new StateBinding("_containedObject1");
+    public StateBinding _containedObject1Binding = new StateBinding(nameof(_containedObject1));
 
-    public StateBinding _containedObject2Binding = new StateBinding("_containedObject2");
+    public StateBinding _containedObject2Binding = new StateBinding(nameof(_containedObject2));
 
-    public StateBinding _containedObject3Binding = new StateBinding("_containedObject3");
+    public StateBinding _containedObject3Binding = new StateBinding(nameof(_containedObject3));
 
-    public StateBinding _containedObject4Binding = new StateBinding("_containedObject4");
+    public StateBinding _containedObject4Binding = new StateBinding(nameof(_containedObject4));
 
-    public StateBinding _destroyedBinding = new StateBinding("_destroyed");
+    public StateBinding _destroyedBinding = new StateBinding(nameof(_destroyed));
 
-    public StateBinding _hitPointsBinding = new StateBinding("_hitPoints");
+    public StateBinding _hitPointsBinding = new StateBinding(nameof(_hitPoints));
 
-    public StateBinding _damageMultiplierBinding = new StateBinding("damageMultiplier");
+    public StateBinding _damageMultiplierBinding = new StateBinding(nameof(damageMultiplier));
 
     public bool randomSpawn;
 

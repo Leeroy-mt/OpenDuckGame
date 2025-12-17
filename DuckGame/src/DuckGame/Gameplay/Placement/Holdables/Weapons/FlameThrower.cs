@@ -4,7 +4,7 @@ namespace DuckGame;
 [BaggedProperty("isSuperWeapon", true)]
 public class FlameThrower : Gun
 {
-    public StateBinding _firingBinding = new StateBinding("_firing");
+    public StateBinding _firingBinding = new StateBinding(nameof(_firing));
 
     private SpriteMap _barrelFlame;
 

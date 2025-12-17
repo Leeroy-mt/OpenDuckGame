@@ -2,17 +2,17 @@ namespace DuckGame;
 
 public class InputObject : Thing, ITakeInput
 {
-    public StateBinding _profileNumberBinding = new StateBinding("profileNumber");
+    public StateBinding _profileNumberBinding = new StateBinding(nameof(profileNumber));
 
-    public StateBinding _votedBinding = new StateBinding("voted");
+    public StateBinding _votedBinding = new StateBinding(nameof(voted));
 
-    public StateBinding _inputChangeIndexBinding = new StateBinding("_inputChangeIndex");
+    public StateBinding _inputChangeIndexBinding = new StateBinding(nameof(_inputChangeIndex));
 
-    public StateBinding _leftStickBinding = new StateBinding(doLerp: true, "leftStick");
+    public StateBinding _leftStickBinding = new StateBinding(doLerp: true, nameof(leftStick));
 
-    public StateBinding _rightStickBinding = new StateBinding(doLerp: true, "rightStick");
+    public StateBinding _rightStickBinding = new StateBinding(doLerp: true, nameof(rightStick));
 
-    public StateBinding _leftTriggerBinding = new StateBinding("leftTrigger");
+    public StateBinding _leftTriggerBinding = new StateBinding(nameof(leftTrigger));
 
     public byte _inputChangeIndex;
 

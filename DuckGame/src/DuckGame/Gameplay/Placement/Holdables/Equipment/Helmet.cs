@@ -5,7 +5,7 @@ namespace DuckGame;
 [BaggedProperty("previewPriority", true)]
 public class Helmet : Hat
 {
-    public StateBinding _crushedBinding = new StateBinding("crushed");
+    public StateBinding _crushedBinding = new StateBinding(nameof(crushed));
 
     public bool crushed;
 

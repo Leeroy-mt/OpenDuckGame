@@ -6,13 +6,13 @@ namespace DuckGame;
 [BaggedProperty("isSuperWeapon", true)]
 public class Chaindart : Gun
 {
-    public StateBinding _fireWaitBinding = new StateBinding("_fireWait");
+    public StateBinding _fireWaitBinding = new StateBinding(nameof(_fireWait));
 
-    public StateBinding _spinBinding = new StateBinding("_spin");
+    public StateBinding _spinBinding = new StateBinding(nameof(_spin));
 
-    public StateBinding _spinningBinding = new StateBinding("_spinning");
+    public StateBinding _spinningBinding = new StateBinding(nameof(_spinning));
 
-    public StateBinding _burnLifeBinding = new StateBinding("_burnLife");
+    public StateBinding _burnLifeBinding = new StateBinding(nameof(_burnLife));
 
     public float _burnLife = 1f;
 

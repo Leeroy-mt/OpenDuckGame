@@ -4,7 +4,7 @@ namespace DuckGame;
 [BaggedProperty("isOnlineCapable", true)]
 public class WireTrapDoor : Block, IWirePeripheral
 {
-    public StateBinding _openBinding = new StateBinding("_open");
+    public StateBinding _openBinding = new StateBinding(nameof(_open));
 
     public bool _open;
 

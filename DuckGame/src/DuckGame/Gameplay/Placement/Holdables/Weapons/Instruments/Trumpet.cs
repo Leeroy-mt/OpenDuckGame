@@ -7,7 +7,7 @@ namespace DuckGame;
 [BaggedProperty("isFatal", false)]
 public class Trumpet : Gun
 {
-    public StateBinding _notePitchBinding = new StateBinding("notePitch");
+    public StateBinding _notePitchBinding = new StateBinding(nameof(notePitch));
 
     public float notePitch;
 

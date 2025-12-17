@@ -7,11 +7,11 @@ namespace DuckGame;
 [BaggedProperty("isInDemo", true)]
 public class Holster : Equipment
 {
-    public StateBinding _containedObjectBinding = new StateBinding("netContainedObject");
+    public StateBinding _containedObjectBinding = new StateBinding(nameof(netContainedObject));
 
-    public StateBinding _netRaiseBinding = new StateBinding("netRaise");
+    public StateBinding _netRaiseBinding = new StateBinding(nameof(netRaise));
 
-    public StateBinding _netChainedBinding = new StateBinding("netChained");
+    public StateBinding _netChainedBinding = new StateBinding(nameof(netChained));
 
     public bool netRaise;
 

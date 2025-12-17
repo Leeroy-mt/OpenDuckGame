@@ -7,17 +7,17 @@ public class Ragdoll : Thing
 {
     public bool inSleepingBag;
 
-    public StateBinding _positionBinding = new InterpolatedVec2Binding("position");
+    public StateBinding _positionBinding = new InterpolatedVec2Binding(nameof(position));
 
-    public StateBinding _part1Binding = new StateBinding("part1");
+    public StateBinding _part1Binding = new StateBinding(nameof(part1));
 
-    public StateBinding _part2Binding = new StateBinding("part2");
+    public StateBinding _part2Binding = new StateBinding(nameof(part2));
 
-    public StateBinding _part3Binding = new StateBinding("part3");
+    public StateBinding _part3Binding = new StateBinding(nameof(part3));
 
-    public StateBinding _tongueStuckBinding = new StateBinding("tongueStuck");
+    public StateBinding _tongueStuckBinding = new StateBinding(nameof(tongueStuck));
 
-    public StateBinding _sleepingBagHealthBinding = new StateBinding("sleepingBagHealth");
+    public StateBinding _sleepingBagHealthBinding = new StateBinding(nameof(sleepingBagHealth));
 
     public byte sleepingBagHealth;
 

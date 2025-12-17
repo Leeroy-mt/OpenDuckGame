@@ -40,19 +40,19 @@ public class Keytar : Gun
 
     private byte _prevColorVariation = byte.MaxValue;
 
-    public StateBinding _ruinedBinding = new StateBinding("_ruined");
+    public StateBinding _ruinedBinding = new StateBinding(nameof(_ruined));
 
-    public StateBinding _benderBinding = new StateBinding("bender");
+    public StateBinding _benderBinding = new StateBinding(nameof(bender));
 
-    public StateBinding _notePitchBinding = new StateBinding("notePitch");
+    public StateBinding _notePitchBinding = new StateBinding(nameof(notePitch));
 
-    public StateBinding _handPitchBinding = new StateBinding("handPitch");
+    public StateBinding _handPitchBinding = new StateBinding(nameof(handPitch));
 
-    public StateBinding _presetBinding = new StateBinding("preset");
+    public StateBinding _presetBinding = new StateBinding(nameof(preset));
 
-    public StateBinding _brokenKeyBinding = new StateBinding("brokenKey");
+    public StateBinding _brokenKeyBinding = new StateBinding(nameof(brokenKey));
 
-    public StateBinding _colorVariationBinding = new StateBinding("colorVariation");
+    public StateBinding _colorVariationBinding = new StateBinding(nameof(colorVariation));
 
     private bool _prevRuined;
 

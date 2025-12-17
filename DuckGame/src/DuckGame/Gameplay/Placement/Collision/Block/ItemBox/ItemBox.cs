@@ -9,15 +9,15 @@ namespace DuckGame;
 [BaggedProperty("previewPriority", true)]
 public class ItemBox : Block, IPathNodeBlocker, IContainAThing
 {
-    public StateBinding _positionBinding = new StateBinding("position");
+    public StateBinding _positionBinding = new StateBinding(nameof(position));
 
-    public StateBinding _containedObjectBinding = new StateBinding("containedObject");
+    public StateBinding _containedObjectBinding = new StateBinding(nameof(containedObject));
 
     public StateBinding _boxStateBinding = new ItemBoxFlagBinding();
 
-    public StateBinding _chargingBinding = new StateBinding("charging", 9);
+    public StateBinding _chargingBinding = new StateBinding(nameof(charging), 9);
 
-    public StateBinding _netDisarmIndexBinding = new StateBinding("netDisarmIndex");
+    public StateBinding _netDisarmIndexBinding = new StateBinding(nameof(netDisarmIndex));
 
     public byte netDisarmIndex;
 

@@ -67,21 +67,21 @@ public class EnergyScimitar : Gun
         public Vec2 offset;
     }
 
-    public StateBinding _throwSpinBinding = new StateBinding(doLerp: true, "_throwSpin");
+    public StateBinding _throwSpinBinding = new StateBinding(doLerp: true, nameof(_throwSpin));
 
-    public StateBinding _stanceBinding = new StateBinding(doLerp: true, "stanceInt");
+    public StateBinding _stanceBinding = new StateBinding(doLerp: true, nameof(stanceInt));
 
-    public StateBinding _lerpedAngleBinding = new StateBinding(doLerp: true, "_lerpedAngle");
+    public StateBinding _lerpedAngleBinding = new StateBinding(doLerp: true, nameof(_lerpedAngle));
 
-    public StateBinding _swordAngleBinding = new StateBinding(doLerp: true, "_swordAngle");
+    public StateBinding _swordAngleBinding = new StateBinding(doLerp: true, nameof(_swordAngle));
 
-    public StateBinding _stuckBinding = new StateBinding("stuck");
+    public StateBinding _stuckBinding = new StateBinding(nameof(stuck));
 
-    public StateBinding _airFlyBinding = new StateBinding(doLerp: true, "_airFly");
+    public StateBinding _airFlyBinding = new StateBinding(doLerp: true, nameof(_airFly));
 
-    public StateBinding _airFlyDirBinding = new StateBinding(doLerp: true, "_airFlyAngle");
+    public StateBinding _airFlyDirBinding = new StateBinding(doLerp: true, nameof(_airFlyAngle));
 
-    public StateBinding _wasLiftedBinding = new StateBinding("_wasLifted");
+    public StateBinding _wasLiftedBinding = new StateBinding(nameof(_wasLifted));
 
     private bool _stuck;
 
@@ -125,7 +125,7 @@ public class EnergyScimitar : Gun
 
     private int _timeSincePress;
 
-    public StateBinding _glowBinding = new StateBinding("_glow");
+    public StateBinding _glowBinding = new StateBinding(nameof(_glow));
 
     private MaterialEnergyBlade _bladeMaterial;
 

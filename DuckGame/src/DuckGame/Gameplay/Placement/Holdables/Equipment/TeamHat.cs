@@ -171,7 +171,7 @@ public class TeamHat : Hat
 
     private float _fade;
 
-    public StateBinding _netTeamIndexBinding = new StateBinding("netTeamIndex");
+    public StateBinding _netTeamIndexBinding = new StateBinding(nameof(netTeamIndex));
 
     private bool _shouldUpdateSprite;
 

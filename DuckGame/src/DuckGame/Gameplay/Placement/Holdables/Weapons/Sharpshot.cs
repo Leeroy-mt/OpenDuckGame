@@ -3,9 +3,9 @@ namespace DuckGame;
 [EditorGroup("Guns|Rifles")]
 public class Sharpshot : Gun
 {
-    public StateBinding _loadStateBinding = new StateBinding("_loadState");
+    public StateBinding _loadStateBinding = new StateBinding(nameof(_loadState));
 
-    public StateBinding _angleOffsetBinding = new StateBinding("_angleOffset");
+    public StateBinding _angleOffsetBinding = new StateBinding(nameof(_angleOffset));
 
     public int _loadState = -1;
 

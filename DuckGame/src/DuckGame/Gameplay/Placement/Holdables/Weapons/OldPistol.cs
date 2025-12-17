@@ -3,7 +3,7 @@ namespace DuckGame;
 [EditorGroup("Guns|Pistols")]
 public class OldPistol : Gun
 {
-    public StateBinding _loadStateBinding = new StateBinding("_loadState");
+    public StateBinding _loadStateBinding = new StateBinding(nameof(_loadState));
 
     public int _loadState = -1;
 

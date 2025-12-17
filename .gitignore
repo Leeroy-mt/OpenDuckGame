@@ -58,3 +58,4 @@ nunit-*.xml
 [Bb]in/
 [Oo]bj/
 obj_core
+Properties

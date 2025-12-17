@@ -5,9 +5,9 @@ namespace DuckGame;
 [BaggedProperty("canSpawn", false)]
 public class PositronShooter : Gun
 {
-    public StateBinding _burstingBinding = new StateBinding("_bursting");
+    public StateBinding _burstingBinding = new StateBinding(nameof(_bursting));
 
-    public StateBinding _burstNumBinding = new StateBinding("_burstNum");
+    public StateBinding _burstNumBinding = new StateBinding(nameof(_burstNum));
 
     private List<string> _notes = new List<string>
     {

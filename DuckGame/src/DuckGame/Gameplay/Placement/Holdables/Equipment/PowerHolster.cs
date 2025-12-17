@@ -4,7 +4,7 @@ namespace DuckGame;
 [BaggedProperty("isInDemo", true)]
 public class PowerHolster : Holster
 {
-    public StateBinding _triggerBinding = new StateBinding("trigger");
+    public StateBinding _triggerBinding = new StateBinding(nameof(trigger));
 
     public bool trigger;
 

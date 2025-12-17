@@ -2,9 +2,9 @@ namespace DuckGame;
 
 public class Dart : PhysicsObject, IPlatform
 {
-    public StateBinding _stickTimeBinding = new StateBinding("_stickTime");
+    public StateBinding _stickTimeBinding = new StateBinding(nameof(_stickTime));
 
-    public StateBinding _stuckBinding = new StateBinding("_stuck");
+    public StateBinding _stuckBinding = new StateBinding(nameof(_stuck));
 
     private SpriteMap _sprite;
 

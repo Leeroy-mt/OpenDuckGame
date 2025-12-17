@@ -6,9 +6,9 @@ namespace DuckGame;
 [BaggedProperty("previewPriority", true)]
 public class Jetpack : Equipment
 {
-    public StateBinding _onBinding = new StateBinding("_on");
+    public StateBinding _onBinding = new StateBinding(nameof(_on));
 
-    public StateBinding _heatBinding = new StateBinding("_heat");
+    public StateBinding _heatBinding = new StateBinding(nameof(_heat));
 
     protected SpriteMap _sprite;
 

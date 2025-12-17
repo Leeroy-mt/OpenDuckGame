@@ -11,9 +11,9 @@ public class TV : Holdable, IPlatform
 
     private Sprite _damaged;
 
-    public StateBinding _ruinedBinding = new StateBinding("_ruined");
+    public StateBinding _ruinedBinding = new StateBinding(nameof(_ruined));
 
-    public StateBinding _channelBinding = new StateBinding("channel");
+    public StateBinding _channelBinding = new StateBinding(nameof(channel));
 
     private float _ghostWait = 1f;
 

@@ -8,7 +8,7 @@ public class WireMount : Thing, IWirePeripheral
 {
     private SpriteMap _sprite;
 
-    public StateBinding _containedThingBinding = new StateBinding("_containedThing");
+    public StateBinding _containedThingBinding = new StateBinding(nameof(_containedThing));
 
     public StateBinding _actionBinding = new WireMountFlagBinding();
 

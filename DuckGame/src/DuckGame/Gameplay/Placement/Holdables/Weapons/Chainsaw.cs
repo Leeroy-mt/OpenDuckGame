@@ -45,13 +45,13 @@ public class Chainsaw : Gun
         }
     }
 
-    public StateBinding _angleOffsetBinding = new StateBinding("_hold");
+    public StateBinding _angleOffsetBinding = new StateBinding(nameof(_hold));
 
-    public StateBinding _throwSpinBinding = new StateBinding("_throwSpin");
+    public StateBinding _throwSpinBinding = new StateBinding(nameof(_throwSpin));
 
-    public StateBinding _gasBinding = new StateBinding("_gas");
+    public StateBinding _gasBinding = new StateBinding(nameof(_gas));
 
-    public StateBinding _floodBinding = new StateBinding("_flood");
+    public StateBinding _floodBinding = new StateBinding(nameof(_flood));
 
     public StateBinding _chainsawStateBinding = new ChainsawFlagBinding();
 

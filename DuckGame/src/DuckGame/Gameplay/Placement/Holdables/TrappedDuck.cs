@@ -5,7 +5,7 @@ namespace DuckGame;
 
 public class TrappedDuck : Holdable, IPlatform, IAmADuck
 {
-    public StateBinding _duckOwnerBinding = new StateBinding("_duckOwner");
+    public StateBinding _duckOwnerBinding = new StateBinding(nameof(_duckOwner));
 
     public Duck _duckOwner;
 

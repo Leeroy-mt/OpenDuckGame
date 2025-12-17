@@ -578,7 +578,11 @@ public class UIModManagement : UIMenu
                     {
                         string text = DuckFile.saveDirectory + "error_info.txt";
                         File.WriteAllText(text, _selectedMod.configuration.error);
-                        Process.Start(text);
+                        ProcessStartInfo startInfo = new(text)
+                        {
+                            UseShellExecute = true
+                        };
+                        Process.Start(startInfo);
                         SFX.Play("rockHitGround", 0.8f);
                         return;
                     }

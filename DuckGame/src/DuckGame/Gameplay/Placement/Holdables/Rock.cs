@@ -4,7 +4,7 @@ namespace DuckGame;
 [BaggedProperty("isInDemo", true)]
 public class Rock : Holdable, IPlatform
 {
-    public StateBinding _isGoldBinding = new StateBinding("isGoldRock");
+    public StateBinding _isGoldBinding = new StateBinding(nameof(isGoldRock));
 
     public EditorProperty<bool> gold = new EditorProperty<bool>(val: false);
 

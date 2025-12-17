@@ -5,9 +5,9 @@ namespace DuckGame;
 [EditorGroup("Guns|Misc")]
 public class CampingRifle : Gun
 {
-    public StateBinding _loadProgressBinding = new StateBinding("_loadProgress");
+    public StateBinding _loadProgressBinding = new StateBinding(nameof(_loadProgress));
 
-    public StateBinding _readyToFireBinding = new StateBinding("readyToFire");
+    public StateBinding _readyToFireBinding = new StateBinding(nameof(readyToFire));
 
     public sbyte _loadProgress = 100;
 

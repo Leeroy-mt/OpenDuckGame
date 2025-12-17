@@ -6,7 +6,7 @@ namespace DuckGame;
 [EditorGroup("Equipment")]
 public class SpikeHelm : Helmet
 {
-    public StateBinding _pokedBinding = new StateBinding("poked");
+    public StateBinding _pokedBinding = new StateBinding(nameof(poked));
 
     protected List<Type> _pokables = new List<Type>();
 

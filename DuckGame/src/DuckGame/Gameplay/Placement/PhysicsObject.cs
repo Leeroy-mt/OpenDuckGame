@@ -9,21 +9,21 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
 {
     public delegate void NetAction();
 
-    public StateBinding _positionBinding = new InterpolatedVec2Binding("netPosition", 10000);
+    public StateBinding _positionBinding = new InterpolatedVec2Binding(nameof(netPosition), 10000);
 
-    public StateBinding _velocityBinding = new CompressedVec2Binding(GhostPriority.High, "netVelocity", 20, isvelocity: true);
+    public StateBinding _velocityBinding = new CompressedVec2Binding(GhostPriority.High, nameof(netVelocity), 20, isvelocity: true);
 
-    public StateBinding _angleBinding = new CompressedFloatBinding(GhostPriority.High, "_angle", 0f, 16, isRot: true, doLerp: true);
+    public StateBinding _angleBinding = new CompressedFloatBinding(GhostPriority.High, nameof(_angle), 0f, 16, isRot: true, doLerp: true);
 
-    public StateBinding _offDirBinding = new StateBinding(GhostPriority.High, "_offDir");
+    public StateBinding _offDirBinding = new StateBinding(GhostPriority.High, nameof(_offDir));
 
-    public StateBinding _ownerBinding = new StateBinding(GhostPriority.High, "netOwner");
+    public StateBinding _ownerBinding = new StateBinding(GhostPriority.High, nameof(netOwner));
 
     public StateBinding _physicsStateBinding = new PhysicsFlagBinding(GhostPriority.High);
 
-    public StateBinding _burntBinding = new CompressedFloatBinding("burnt", 1f, 8);
+    public StateBinding _burntBinding = new CompressedFloatBinding(nameof(burnt), 1f, 8);
 
-    public StateBinding _collideSoundBinding = new NetSoundBinding("_netCollideSound");
+    public StateBinding _collideSoundBinding = new NetSoundBinding(nameof(_netCollideSound));
 
     public bool isSpawned;
 

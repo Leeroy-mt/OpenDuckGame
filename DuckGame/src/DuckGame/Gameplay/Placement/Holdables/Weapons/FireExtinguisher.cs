@@ -4,7 +4,7 @@ namespace DuckGame;
 [BaggedProperty("isFatal", false)]
 public class FireExtinguisher : Gun
 {
-    public StateBinding _firingBinding = new StateBinding("_firing");
+    public StateBinding _firingBinding = new StateBinding(nameof(_firing));
 
     private SpriteMap _guage;
 

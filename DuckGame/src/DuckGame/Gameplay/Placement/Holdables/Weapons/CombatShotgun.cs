@@ -5,7 +5,7 @@ namespace DuckGame;
 [EditorGroup("Guns|Shotguns")]
 public class CombatShotgun : Gun
 {
-    public StateBinding _readyToShootBinding = new StateBinding("_readyToShoot");
+    public StateBinding _readyToShootBinding = new StateBinding(nameof(_readyToShoot));
 
     private float _loadProgress = 1f;
 

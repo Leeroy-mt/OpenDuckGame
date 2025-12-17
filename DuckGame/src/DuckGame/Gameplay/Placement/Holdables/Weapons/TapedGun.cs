@@ -7,9 +7,9 @@ namespace DuckGame;
 [BaggedProperty("isFatal", false)]
 public class TapedGun : Gun
 {
-    public StateBinding _gun1Binding = new StateBinding("gun1");
+    public StateBinding _gun1Binding = new StateBinding(nameof(gun1));
 
-    public StateBinding _gun2Binding = new StateBinding("gun2");
+    public StateBinding _gun2Binding = new StateBinding(nameof(gun2));
 
     private Holdable _gun1;
 

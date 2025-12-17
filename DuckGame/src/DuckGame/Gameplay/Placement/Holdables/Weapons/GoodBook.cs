@@ -6,29 +6,29 @@ namespace DuckGame;
 [BaggedProperty("isFatal", false)]
 public class GoodBook : Gun
 {
-    public StateBinding _raiseArmBinding = new StateBinding("_raiseArm");
+    public StateBinding _raiseArmBinding = new StateBinding(nameof(_raiseArm));
 
-    public StateBinding _timerBinding = new StateBinding("_timer");
+    public StateBinding _timerBinding = new StateBinding(nameof(_timer));
 
-    public StateBinding _netPreachBinding = new NetSoundBinding("_netPreach");
+    public StateBinding _netPreachBinding = new NetSoundBinding(nameof(_netPreach));
 
-    public StateBinding _ringPulseBinding = new StateBinding("_ringPulse");
+    public StateBinding _ringPulseBinding = new StateBinding(nameof(_ringPulse));
 
-    public StateBinding _controlling1Binding = new StateBinding("controlling1");
+    public StateBinding _controlling1Binding = new StateBinding(nameof(controlling1));
 
-    public StateBinding _controlling2Binding = new StateBinding("controlling2");
+    public StateBinding _controlling2Binding = new StateBinding(nameof(controlling2));
 
-    public StateBinding _controlling3Binding = new StateBinding("controlling3");
+    public StateBinding _controlling3Binding = new StateBinding(nameof(controlling3));
 
-    public StateBinding _controlling4Binding = new StateBinding("controlling4");
+    public StateBinding _controlling4Binding = new StateBinding(nameof(controlling4));
 
-    public StateBinding _controlling5Binding = new StateBinding("controlling5");
+    public StateBinding _controlling5Binding = new StateBinding(nameof(controlling5));
 
-    public StateBinding _controlling6Binding = new StateBinding("controlling6");
+    public StateBinding _controlling6Binding = new StateBinding(nameof(controlling6));
 
-    public StateBinding _controlling7Binding = new StateBinding("controlling7");
+    public StateBinding _controlling7Binding = new StateBinding(nameof(controlling7));
 
-    public StateBinding _controlling8Binding = new StateBinding("controlling8");
+    public StateBinding _controlling8Binding = new StateBinding(nameof(controlling8));
 
     public Duck[] controlling = new Duck[8];
 

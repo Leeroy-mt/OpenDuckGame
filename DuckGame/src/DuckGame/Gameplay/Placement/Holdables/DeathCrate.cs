@@ -9,9 +9,9 @@ namespace DuckGame;
 [BaggedProperty("isInDemo", true)]
 public class DeathCrate : Holdable, IPlatform
 {
-    public StateBinding _settingIndexBinding = new StateBinding("settingIndex");
+    public StateBinding _settingIndexBinding = new StateBinding(nameof(settingIndex));
 
-    public StateBinding _activatedBinding = new StateBinding("activated");
+    public StateBinding _activatedBinding = new StateBinding(nameof(activated));
 
     private SpriteMap _sprite;
 

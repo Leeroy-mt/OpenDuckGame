@@ -8,15 +8,15 @@ namespace DuckGame;
 [BaggedProperty("isFatal", false)]
 public class MagnetGun : Gun
 {
-    public StateBinding _powerBinding = new StateBinding("_power");
+    public StateBinding _powerBinding = new StateBinding(nameof(_power));
 
-    public StateBinding _grabbedBinding = new StateBinding("grabbed");
+    public StateBinding _grabbedBinding = new StateBinding(nameof(grabbed));
 
-    public StateBinding _magnetActiveBinding = new StateBinding("_magnetActive");
+    public StateBinding _magnetActiveBinding = new StateBinding(nameof(_magnetActive));
 
-    public StateBinding _keepRaisedBinding = new StateBinding("_keepRaised");
+    public StateBinding _keepRaisedBinding = new StateBinding(nameof(_keepRaised));
 
-    public StateBinding _attachIndexBinding = new StateBinding("attachIndex");
+    public StateBinding _attachIndexBinding = new StateBinding(nameof(attachIndex));
 
     public NetIndex4 attachIndex = new NetIndex4(0);
 

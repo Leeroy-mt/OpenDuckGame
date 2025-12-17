@@ -4,11 +4,11 @@ namespace DuckGame;
 [BaggedProperty("canSpawn", false)]
 public class RCController : Gun
 {
-    public StateBinding _carBinding = new StateBinding("_car");
+    public StateBinding _carBinding = new StateBinding(nameof(_car));
 
-    public StateBinding _burningBinding = new StateBinding("_burning");
+    public StateBinding _burningBinding = new StateBinding(nameof(_burning));
 
-    public StateBinding _burnLifeBinding = new StateBinding("_burnLife");
+    public StateBinding _burnLifeBinding = new StateBinding(nameof(_burnLife));
 
     private SpriteMap _sprite;
 

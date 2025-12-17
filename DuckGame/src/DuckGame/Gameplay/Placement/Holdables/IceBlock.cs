@@ -7,9 +7,9 @@ namespace DuckGame;
 [BaggedProperty("isInDemo", false)]
 public class IceBlock : Holdable, IPlatform
 {
-    public StateBinding _hitPointsBinding = new StateBinding("_hitPoints");
+    public StateBinding _hitPointsBinding = new StateBinding(nameof(_hitPoints));
 
-    public StateBinding _carvedBinding = new StateBinding("carved");
+    public StateBinding _carvedBinding = new StateBinding(nameof(carved));
 
     public float carved;
 

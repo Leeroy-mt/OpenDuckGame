@@ -7,17 +7,17 @@ public class HugeLaser : Gun
 {
     public StateBinding _laserStateBinding = new HugeLaserFlagBinding();
 
-    public StateBinding _animationIndexBinding = new StateBinding("netAnimationIndex", 4);
+    public StateBinding _animationIndexBinding = new StateBinding(nameof(netAnimationIndex), 4);
 
-    public StateBinding _frameBinding = new StateBinding("spriteFrame");
+    public StateBinding _frameBinding = new StateBinding(nameof(spriteFrame));
 
-    public StateBinding _chargeVolumeBinding = new CompressedFloatBinding(GhostPriority.High, "_chargeVolume", 1f, 8);
+    public StateBinding _chargeVolumeBinding = new CompressedFloatBinding(GhostPriority.High, nameof(_chargeVolume), 1f, 8);
 
-    public StateBinding _chargeVolumeShortBinding = new CompressedFloatBinding(GhostPriority.High, "_chargeVolumeShort", 1f, 8);
+    public StateBinding _chargeVolumeShortBinding = new CompressedFloatBinding(GhostPriority.High, nameof(_chargeVolumeShort), 1f, 8);
 
-    public StateBinding _unchargeVolumeBinding = new CompressedFloatBinding(GhostPriority.High, "_unchargeVolume", 1f, 8);
+    public StateBinding _unchargeVolumeBinding = new CompressedFloatBinding(GhostPriority.High, nameof(_unchargeVolume), 1f, 8);
 
-    public StateBinding _unchargeVolumeShortBinding = new CompressedFloatBinding(GhostPriority.High, "_unchargeVolumeShort", 1f, 8);
+    public StateBinding _unchargeVolumeShortBinding = new CompressedFloatBinding(GhostPriority.High, nameof(_unchargeVolumeShort), 1f, 8);
 
     private float _chargeVolume;
 

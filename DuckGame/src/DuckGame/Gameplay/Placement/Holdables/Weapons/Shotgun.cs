@@ -9,7 +9,7 @@ public class Shotgun : Gun
 
     public float _loadAnimation = 1f;
 
-    public StateBinding _loadProgressBinding = new StateBinding("_loadProgress");
+    public StateBinding _loadProgressBinding = new StateBinding(nameof(_loadProgress));
 
     protected SpriteMap _loaderSprite;
 

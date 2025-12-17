@@ -4,7 +4,7 @@ namespace DuckGame;
 [BaggedProperty("isFatal", false)]
 public class DartGun : Gun
 {
-    public StateBinding _burnLifeBinding = new StateBinding("_burnLife");
+    public StateBinding _burnLifeBinding = new StateBinding(nameof(_burnLife));
 
     private SpriteMap _sprite;
 

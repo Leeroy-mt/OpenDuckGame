@@ -4,13 +4,13 @@ namespace DuckGame;
 
 public class ForceWave : Thing
 {
-    public StateBinding _positionBinding = new InterpolatedVec2Binding("netPosition");
+    public StateBinding _positionBinding = new InterpolatedVec2Binding(nameof(netPosition));
 
-    public StateBinding _offDirBinding = new StateBinding(GhostPriority.High, "_offDir");
+    public StateBinding _offDirBinding = new StateBinding(GhostPriority.High, nameof(_offDir));
 
-    public StateBinding _alphaBinding = new StateBinding(GhostPriority.High, "alpha");
+    public StateBinding _alphaBinding = new StateBinding(GhostPriority.High, nameof(alpha));
 
-    public StateBinding _waveOwnerBinding = new StateBinding(GhostPriority.High, "_waveOwner");
+    public StateBinding _waveOwnerBinding = new StateBinding(GhostPriority.High, nameof(_waveOwner));
 
     private Thing _waveOwner;
 

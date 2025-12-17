@@ -7,15 +7,15 @@ namespace DuckGame;
 [BaggedProperty("isInDemo", true)]
 public class RagdollPart : Holdable, IAmADuck
 {
-    public StateBinding _dollBinding = new StateBinding("_doll");
+    public StateBinding _dollBinding = new StateBinding(nameof(_doll));
 
-    public StateBinding _connectBinding = new StateBinding("connect");
+    public StateBinding _connectBinding = new StateBinding(nameof(connect));
 
-    public StateBinding _jointBinding = new StateBinding("_joint");
+    public StateBinding _jointBinding = new StateBinding(nameof(_joint));
 
-    public StateBinding _partBinding = new StateBinding("netPart", 2);
+    public StateBinding _partBinding = new StateBinding(nameof(netPart), 2);
 
-    public StateBinding _framesSinceGroundedBinding = new StateBinding("framesSinceGrounded", 4);
+    public StateBinding _framesSinceGroundedBinding = new StateBinding(nameof(framesSinceGrounded), 4);
 
     private bool _setting;
 

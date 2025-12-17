@@ -4,7 +4,7 @@ namespace DuckGame;
 [BaggedProperty("isFatal", false)]
 public class MindControlRay : Gun
 {
-    public StateBinding _controlledDuckBinding = new StateBinding("_controlledDuck");
+    public StateBinding _controlledDuckBinding = new StateBinding(nameof(_controlledDuck));
 
     private Duck _prevControlDuck;
 

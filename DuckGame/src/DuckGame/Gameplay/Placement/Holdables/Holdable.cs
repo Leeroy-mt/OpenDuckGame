@@ -4,9 +4,9 @@ namespace DuckGame;
 
 public abstract class Holdable : PhysicsObject
 {
-    public StateBinding _triggerHeldBinding = new StateBinding("_triggerHeld");
+    public StateBinding _triggerHeldBinding = new StateBinding(nameof(_triggerHeld));
 
-    public StateBinding _canPickUpBinding = new StateBinding("canPickUp");
+    public StateBinding _canPickUpBinding = new StateBinding(nameof(canPickUp));
 
     public float raiseSpeed = 0.2f;
 

@@ -6,7 +6,7 @@ namespace DuckGame;
 [BaggedProperty("previewPriority", true)]
 public class Grapple : Equipment, ISwing
 {
-    public StateBinding _ropeDataBinding = new DataBinding("ropeData");
+    public StateBinding _ropeDataBinding = new DataBinding(nameof(ropeData));
 
     public BitBuffer ropeData = new BitBuffer();
 
