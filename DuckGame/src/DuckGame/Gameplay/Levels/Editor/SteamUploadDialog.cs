@@ -101,13 +101,13 @@ public class SteamUploadDialog : ContextMenu
     public override void Initialize()
     {
         base.layer = Layer.HUD;
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         _showBackground = false;
         itemSize = new Vec2(386f, 16f);
         _root = true;
         drawControls = false;
-        _descriptionBox = new Textbox(base.x + 5f, base.y + 225f, 316f, 40f, 0.5f, 9, "<ENTER DESCRIPTION>");
-        _nameBox = new Textbox(base.x + 5f, base.y + 255f, 316f, 12f, 1f, 1, "<ENTER NAME>");
+        _descriptionBox = new Textbox(base.X + 5f, base.Y + 225f, 316f, 40f, 0.5f, 9, "<ENTER DESCRIPTION>");
+        _nameBox = new Textbox(base.X + 5f, base.Y + 255f, 316f, 12f, 1f, 1, "<ENTER NAME>");
         _font = new FancyBitmapFont("smallFont");
         _confirm = new MessageDialogue();
         Level.Add(_confirm);
@@ -398,7 +398,7 @@ public class SteamUploadDialog : ContextMenu
             _ = new Vec2(base.layer.width / 2f - base.width / 2f + hOffset, base.layer.height / 2f - base.height / 2f - 15f) + new Vec2(7f, 276f);
             foreach (KeyValuePair<string, Vec2> xpos in tagPositions)
             {
-                if (Mouse.x > xpos.Value.x && Mouse.x < xpos.Value.x + 8f && Mouse.y > xpos.Value.y && Mouse.y < xpos.Value.y + 8f && Mouse.left == InputState.Pressed)
+                if (Mouse.x > xpos.Value.X && Mouse.x < xpos.Value.X + 8f && Mouse.y > xpos.Value.Y && Mouse.y < xpos.Value.Y + 8f && Mouse.left == InputState.Pressed)
                 {
                     _publishItem.RemoveTag(xpos.Key);
                     return;
@@ -407,30 +407,30 @@ public class SteamUploadDialog : ContextMenu
             if (tagPositions.Count != possibleTags.Count)
             {
                 bool hoverPlus = false;
-                if (Mouse.x > _plusPosition.x && Mouse.x < _plusPosition.x + 8f && Mouse.y > _plusPosition.y && Mouse.y < _plusPosition.y + 8f)
+                if (Mouse.x > _plusPosition.X && Mouse.x < _plusPosition.X + 8f && Mouse.y > _plusPosition.Y && Mouse.y < _plusPosition.Y + 8f)
                 {
                     hoverPlus = true;
                 }
                 if (hoverPlus && Mouse.left == InputState.Pressed)
                 {
                     ContextMenu tagMenu = new ContextMenu(this);
-                    tagMenu.x = _plusPosition.x;
-                    tagMenu.y = _plusPosition.y;
+                    tagMenu.X = _plusPosition.X;
+                    tagMenu.Y = _plusPosition.Y;
                     tagMenu.root = true;
-                    tagMenu.depth = base.depth + 20;
+                    tagMenu.Depth = base.Depth + 20;
                     int hi = 0;
                     foreach (string s in possibleTags)
                     {
                         if (!_publishItem.tags.Contains(s))
                         {
                             ContextMenu confirmItem = new ContextMenu(this);
-                            confirmItem.itemSize.x = 40f;
+                            confirmItem.itemSize.X = 40f;
                             confirmItem.text = s;
                             tagMenu.AddItem(confirmItem);
                             hi++;
                         }
                     }
-                    tagMenu.y -= hi * 16 + 10;
+                    tagMenu.Y -= hi * 16 + 10;
                     Level.Add(tagMenu);
                     tagMenu.opened = true;
                     tagMenu.closeOnRight = true;
@@ -444,11 +444,11 @@ public class SteamUploadDialog : ContextMenu
             _nameBox.Update();
             _acceptHover = false;
             _cancelHover = false;
-            if (Mouse.x > _acceptPos.x && Mouse.x < _acceptPos.x + _acceptSize.x && Mouse.y > _acceptPos.y && Mouse.y < _acceptPos.y + _acceptSize.y)
+            if (Mouse.x > _acceptPos.X && Mouse.x < _acceptPos.X + _acceptSize.X && Mouse.y > _acceptPos.Y && Mouse.y < _acceptPos.Y + _acceptSize.Y)
             {
                 _acceptHover = true;
             }
-            if (Mouse.x > _cancelPos.x && Mouse.x < _cancelPos.x + _cancelSize.x && Mouse.y > _cancelPos.y && Mouse.y < _cancelPos.y + _cancelSize.y)
+            if (Mouse.x > _cancelPos.X && Mouse.x < _cancelPos.X + _cancelSize.X && Mouse.y > _cancelPos.Y && Mouse.y < _cancelPos.Y + _cancelSize.Y)
             {
                 _cancelHover = true;
             }
@@ -473,7 +473,7 @@ public class SteamUploadDialog : ContextMenu
 
     public override void Draw()
     {
-        menuSize.y = _fdHeight;
+        menuSize.Y = _fdHeight;
         if (!base.opened)
         {
             return;
@@ -483,29 +483,29 @@ public class SteamUploadDialog : ContextMenu
         float height = _fdHeight + 22f;
         Vec2 topLeft = new Vec2(base.layer.width / 2f - width / 2f + hOffset, base.layer.height / 2f - height / 2f - 15f);
         Vec2 bottomRight = new Vec2(base.layer.width / 2f + width / 2f + hOffset, base.layer.height / 2f + height / 2f - 12f);
-        Graphics.DrawRect(topLeft, bottomRight, new Color(70, 70, 70), base.depth, filled: false);
-        Graphics.DrawRect(topLeft, bottomRight, new Color(30, 30, 30), base.depth - 8);
-        Graphics.DrawRect(topLeft + new Vec2(4f, 23f), bottomRight + new Vec2(-4f, -160f), new Color(10, 10, 10), base.depth - 4);
-        Graphics.DrawRect(topLeft + new Vec2(4f, 206f), bottomRight + new Vec2(-4f, -66f), new Color(10, 10, 10), base.depth - 4);
-        Graphics.DrawRect(topLeft + new Vec2(4f, 224f), bottomRight + new Vec2(-4f, -14f), new Color(10, 10, 10), base.depth - 4);
-        Graphics.DrawRect(topLeft + new Vec2(3f, 3f), new Vec2(bottomRight.x - 3f, topLeft.y + 19f), new Color(70, 70, 70), base.depth - 4);
+        Graphics.DrawRect(topLeft, bottomRight, new Color(70, 70, 70), base.Depth, filled: false);
+        Graphics.DrawRect(topLeft, bottomRight, new Color(30, 30, 30), base.Depth - 8);
+        Graphics.DrawRect(topLeft + new Vec2(4f, 23f), bottomRight + new Vec2(-4f, -160f), new Color(10, 10, 10), base.Depth - 4);
+        Graphics.DrawRect(topLeft + new Vec2(4f, 206f), bottomRight + new Vec2(-4f, -66f), new Color(10, 10, 10), base.Depth - 4);
+        Graphics.DrawRect(topLeft + new Vec2(4f, 224f), bottomRight + new Vec2(-4f, -14f), new Color(10, 10, 10), base.Depth - 4);
+        Graphics.DrawRect(topLeft + new Vec2(3f, 3f), new Vec2(bottomRight.X - 3f, topLeft.Y + 19f), new Color(70, 70, 70), base.Depth - 4);
         if (_mod != null)
         {
-            Graphics.DrawString("Upload Mod to Workshop", topLeft + new Vec2(5f, 7f), Color.White, base.depth + 8);
+            Graphics.DrawString("Upload Mod to Workshop", topLeft + new Vec2(5f, 7f), Color.White, base.Depth + 8);
         }
         else if (Editor.arcadeMachineMode)
         {
-            Graphics.DrawString("Upload " + _publishItem.levelType.ToString() + " to Workshop", topLeft + new Vec2(5f, 7f), Color.White, base.depth + 8);
+            Graphics.DrawString("Upload " + _publishItem.levelType.ToString() + " to Workshop", topLeft + new Vec2(5f, 7f), Color.White, base.Depth + 8);
         }
         else
         {
-            Graphics.DrawString("Upload " + _publishItem.levelSize.ToString() + " " + _publishItem.levelType.ToString() + " to Workshop", topLeft + new Vec2(5f, 7f), Color.White, base.depth + 8);
+            Graphics.DrawString("Upload " + _publishItem.levelSize.ToString() + " " + _publishItem.levelType.ToString() + " to Workshop", topLeft + new Vec2(5f, 7f), Color.White, base.Depth + 8);
         }
         _descriptionBox.position = topLeft + new Vec2(6f, 226f);
-        _descriptionBox.depth = base.depth + 2;
+        _descriptionBox.depth = base.Depth + 2;
         _descriptionBox.Draw();
         _nameBox.position = topLeft + new Vec2(6f, 208f);
-        _nameBox.depth = base.depth + 2;
+        _nameBox.depth = base.Depth + 2;
         _nameBox.Draw();
         int numTag = 0;
         Vec2 tagPos = topLeft + new Vec2(7f, 276f);
@@ -514,9 +514,9 @@ public class SteamUploadDialog : ContextMenu
         foreach (string tag in _publishItem.tags)
         {
             bool num = possibleTags.Contains(tag);
-            _workshopTag.depth = base.depth + 8;
+            _workshopTag.Depth = base.Depth + 8;
             _workshopTag.frame = 0;
-            Graphics.Draw(_workshopTag, tagPos.x, tagPos.y);
+            Graphics.Draw(_workshopTag, tagPos.X, tagPos.Y);
             float stringWidth = Graphics.GetStringWidth(tag, thinButtons: false, 0.5f);
             float xSize = 4f;
             if (!num)
@@ -527,45 +527,45 @@ public class SteamUploadDialog : ContextMenu
             {
                 numX++;
             }
-            Graphics.DrawTexturedLine(_workshopTagMiddle.texture, tagPos + new Vec2(4f, 4f), tagPos + new Vec2(4f + stringWidth + xSize, 4f), Color.White, 1f, base.depth + 10);
-            Graphics.DrawString(tag, tagPos + new Vec2(4f, 2f), Color.Black, base.depth + 14, null, 0.5f);
+            Graphics.DrawTexturedLine(_workshopTagMiddle.texture, tagPos + new Vec2(4f, 4f), tagPos + new Vec2(4f + stringWidth + xSize, 4f), Color.White, 1f, base.Depth + 10);
+            Graphics.DrawString(tag, tagPos + new Vec2(4f, 2f), Color.Black, base.Depth + 14, null, 0.5f);
             if (num)
             {
                 Vec2 xPos = tagPos + new Vec2(stringWidth + 6f, 2f);
                 tagPositions[tag] = xPos;
-                Graphics.DrawString("x", xPos, Color.Red, base.depth + 14, null, 0.5f);
+                Graphics.DrawString("x", xPos, Color.Red, base.Depth + 14, null, 0.5f);
             }
             _workshopTag.frame = 1;
-            Graphics.Draw(_workshopTag, tagPos.x + xSize + 4f + stringWidth, tagPos.y);
-            tagPos.x += stringWidth + 11f + xSize;
+            Graphics.Draw(_workshopTag, tagPos.X + xSize + 4f + stringWidth, tagPos.Y);
+            tagPos.X += stringWidth + 11f + xSize;
             numTag++;
         }
         if (numX < possibleTags.Count)
         {
-            _tagPlus.depth = base.depth + 8;
-            tagPos.x += 2f;
-            Graphics.Draw(_tagPlus, tagPos.x, tagPos.y);
+            _tagPlus.Depth = base.Depth + 8;
+            tagPos.X += 2f;
+            Graphics.Draw(_tagPlus, tagPos.X, tagPos.Y);
             _plusPosition = tagPos;
         }
         _acceptPos = bottomRight + new Vec2(-78f, -12f);
         _acceptSize = new Vec2(34f, 8f);
-        Graphics.DrawRect(_acceptPos, _acceptPos + _acceptSize, _acceptHover ? new Color(180, 180, 180) : new Color(110, 110, 110), base.depth - 4);
-        Graphics.DrawString("PUBLISH!", _acceptPos + new Vec2(2f, 2f), Color.White, base.depth + 8, null, 0.5f);
+        Graphics.DrawRect(_acceptPos, _acceptPos + _acceptSize, _acceptHover ? new Color(180, 180, 180) : new Color(110, 110, 110), base.Depth - 4);
+        Graphics.DrawString("PUBLISH!", _acceptPos + new Vec2(2f, 2f), Color.White, base.Depth + 8, null, 0.5f);
         _cancelPos = bottomRight + new Vec2(-36f, -12f);
         _cancelSize = new Vec2(32f, 8f);
-        Graphics.DrawRect(_cancelPos, _cancelPos + _cancelSize, _cancelHover ? new Color(180, 180, 180) : new Color(110, 110, 110), base.depth - 4);
-        Graphics.DrawString("CANCEL!", _cancelPos + new Vec2(2f, 2f), Color.White, base.depth + 8, null, 0.5f);
+        Graphics.DrawRect(_cancelPos, _cancelPos + _cancelSize, _cancelHover ? new Color(180, 180, 180) : new Color(110, 110, 110), base.Depth - 4);
+        Graphics.DrawString("CANCEL!", _cancelPos + new Vec2(2f, 2f), Color.White, base.Depth + 8, null, 0.5f);
         if (_previewTarget.width < 300)
         {
-            _previewTarget.depth = base.depth + 10;
-            _previewTarget.scale = new Vec2(0.5f, 0.5f);
-            Graphics.Draw(_previewTarget, topLeft.x + (bottomRight.x - topLeft.x) / 2f - (float)_previewTarget.width * _previewTarget.scale.x / 2f, topLeft.y + (bottomRight.y - topLeft.y) / 2f - (float)_previewTarget.height * _previewTarget.scale.y / 2f - 20f);
+            _previewTarget.Depth = base.Depth + 10;
+            _previewTarget.Scale = new Vec2(0.5f, 0.5f);
+            Graphics.Draw(_previewTarget, topLeft.X + (bottomRight.X - topLeft.X) / 2f - (float)_previewTarget.width * _previewTarget.Scale.X / 2f, topLeft.Y + (bottomRight.Y - topLeft.Y) / 2f - (float)_previewTarget.height * _previewTarget.Scale.Y / 2f - 20f);
         }
         else
         {
-            _previewTarget.depth = base.depth + 10;
-            _previewTarget.scale = new Vec2(0.25f, 0.25f);
-            Graphics.Draw(_previewTarget, topLeft.x + 4f, topLeft.y + 23f);
+            _previewTarget.Depth = base.Depth + 10;
+            _previewTarget.Scale = new Vec2(0.25f, 0.25f);
+            Graphics.Draw(_previewTarget, topLeft.X + 4f, topLeft.Y + 23f);
         }
     }
 }

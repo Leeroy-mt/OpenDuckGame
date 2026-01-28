@@ -15,8 +15,8 @@ public class ContextRadio : ContextMenu
     public ContextRadio(string text, bool selected, object index, IContextListener owner, FieldBinding field = null)
         : base(owner)
     {
-        itemSize.x = 150f;
-        itemSize.y = 16f;
+        itemSize.X = 150f;
+        itemSize.Y = 16f;
         _text = text;
         if (field != null)
         {
@@ -28,13 +28,13 @@ public class ContextRadio : ContextMenu
         }
         _field = field;
         _index = index;
-        base.depth = 0.8f;
+        base.Depth = 0.8f;
         _radioButton = new SpriteMap("Editor/radioButton", 16, 16);
-        itemSize.x = Graphics.GetFancyStringWidth(_text) + 40f;
+        itemSize.X = Graphics.GetFancyStringWidth(_text) + 40f;
         if (index != null && index is Type)
         {
             _image = Editor.GetThing(index as Type).GeneratePreview(16, 16, transparentBack: true);
-            itemSize.x += 32f;
+            itemSize.X += 32f;
         }
     }
 
@@ -83,7 +83,7 @@ public class ContextRadio : ContextMenu
     {
         if (_hover && !greyOut)
         {
-            Graphics.DrawRect(position, position + itemSize, new Color(70, 70, 70), 0.83f);
+            Graphics.DrawRect(Position, Position + itemSize, new Color(70, 70, 70), 0.83f);
         }
         Color c = Color.White;
         if (greyOut)
@@ -92,21 +92,21 @@ public class ContextRadio : ContextMenu
         }
         if (_image != null)
         {
-            Graphics.DrawString(_text, position + new Vec2(20f, 5f), c, 0.85f);
-            _image.depth = base.depth + 3;
-            _image.x = base.x + 1f;
-            _image.y = base.y;
+            Graphics.DrawString(_text, Position + new Vec2(20f, 5f), c, 0.85f);
+            _image.Depth = base.Depth + 3;
+            _image.X = base.X + 1f;
+            _image.Y = base.Y;
             _image.color = c;
-            _image.scale = new Vec2(1f);
+            _image.Scale = new Vec2(1f);
             _image.Draw();
         }
         else
         {
-            Graphics.DrawString(_text, position + new Vec2(4f, 5f), c, 0.85f);
+            Graphics.DrawString(_text, Position + new Vec2(4f, 5f), c, 0.85f);
         }
-        _radioButton.depth = 0.9f;
-        _radioButton.x = base.x + itemSize.x - 16f;
-        _radioButton.y = base.y;
+        _radioButton.Depth = 0.9f;
+        _radioButton.X = base.X + itemSize.X - 16f;
+        _radioButton.Y = base.Y;
         _radioButton.frame = (_selected ? 1 : 0);
         _radioButton.color = c;
         _radioButton.Draw();

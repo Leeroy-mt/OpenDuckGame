@@ -153,10 +153,10 @@ public class NetGraph
     public void DrawLine(Vec2 p1, Vec2 p2, Color col, float width = 1f)
     {
         Graphics.currentDrawIndex++;
-        p1 = new Vec2(p1.x, p1.y);
-        p2 = new Vec2(p2.x, p2.y);
-        float angle = (float)Math.Atan2(p2.y - p1.y, p2.x - p1.x);
-        float length = (p1 - p2).length;
+        p1 = new Vec2(p1.X, p1.Y);
+        p2 = new Vec2(p2.X, p2.Y);
+        float angle = (float)Math.Atan2(p2.Y - p1.Y, p2.X - p1.X);
+        float length = (p1 - p2).Length();
         batch.Draw(_blank, p1, null, col, angle, new Vec2(0f, 0.5f), new Vec2(length, width), SpriteEffects.None, 1f);
     }
 
@@ -186,12 +186,12 @@ public class NetGraph
         int curCount = 0;
         int packetNum = 0;
         int newMaxSize = 0;
-        DrawLine(pos, new Vec2(pos.x + (float)_packetsToDraw * _widthPerPacket, pos.y), Color.White);
+        DrawLine(pos, new Vec2(pos.X + (float)_packetsToDraw * _widthPerPacket, pos.Y), Color.White);
         int total = 0;
         foreach (NCPacketBreakdown packet in _packets)
         {
             curCount = 0;
-            Vec2 barPos = new Vec2(pos.x + (float)packetNum * _widthPerPacket, pos.y + _maxHeightPerPacket);
+            Vec2 barPos = new Vec2(pos.X + (float)packetNum * _widthPerPacket, pos.Y + _maxHeightPerPacket);
             foreach (NCPacketDataType type in NCPacketBreakdown.dataTypes)
             {
                 int count = packet.Get(type);
@@ -219,8 +219,8 @@ public class NetGraph
         {
             _currentMaxSize -= 2;
         }
-        _biosFont.Draw(batch, "in: " + _currentMaxSize / 8 + " bytes - " + (int)((float)total / (float)_packets.Count / 8f) + " avg", pos.x, pos.y - 9f, Color.White);
-        _biosFont.Draw(batch, "fps: " + fps + "    ping: " + (int)(ping * 1000f) + "ms", pos.x, pos.y + _maxHeightPerPacket + 8f, Color.White);
+        _biosFont.Draw(batch, "in: " + _currentMaxSize / 8 + " bytes - " + (int)((float)total / (float)_packets.Count / 8f) + " avg", pos.X, pos.Y - 9f, Color.White);
+        _biosFont.Draw(batch, "fps: " + fps + "    ping: " + (int)(ping * 1000f) + "ms", pos.X, pos.Y + _maxHeightPerPacket + 8f, Color.White);
     }
 
     public void DrawChart(Vec2 pos)
@@ -240,12 +240,12 @@ public class NetGraph
         int curCount = 0;
         int packetNum = 0;
         int newMaxSize = 0;
-        Graphics.DrawLine(pos, new Vec2(pos.x + (float)_packetsToDraw * _widthPerPacket, pos.y), Color.White, 1f, 0.9f);
+        Graphics.DrawLine(pos, new Vec2(pos.X + (float)_packetsToDraw * _widthPerPacket, pos.Y), Color.White, 1f, 0.9f);
         int total = 0;
         foreach (NCPacketBreakdown packet in _packets)
         {
             curCount = 0;
-            Vec2 barPos = new Vec2(pos.x + (float)packetNum * _widthPerPacket, pos.y + _maxHeightPerPacket);
+            Vec2 barPos = new Vec2(pos.X + (float)packetNum * _widthPerPacket, pos.Y + _maxHeightPerPacket);
             foreach (NCPacketDataType type in NCPacketBreakdown.dataTypes)
             {
                 int count = packet.Get(type);
@@ -290,8 +290,8 @@ public class NetGraph
             numAckBytes = 0;
             numFrames = 0;
         }
-        Graphics.DrawString("in: " + _currentMaxSize / 8 + " bytes - " + (int)((float)total / (float)_packets.Count / 8f) + " avg", new Vec2(pos.x, pos.y - 9f), Color.White, 0.9f);
-        Graphics.DrawString("fps: " + fps + "    ping: " + (int)(ping * 1000f) + "ms     bytes out:" + avgBytes.ToString("0.00") + " hdr:" + avgHeaderBytes.ToString("0.00") + " ack:" + avgAckBytes.ToString("0.00") + " gst:" + avgGhostBytes.ToString("0.00"), new Vec2(pos.x, pos.y + _maxHeightPerPacket + 8f), Color.White, 0.9f);
+        Graphics.DrawString("in: " + _currentMaxSize / 8 + " bytes - " + (int)((float)total / (float)_packets.Count / 8f) + " avg", new Vec2(pos.X, pos.Y - 9f), Color.White, 0.9f);
+        Graphics.DrawString("fps: " + fps + "    ping: " + (int)(ping * 1000f) + "ms     bytes out:" + avgBytes.ToString("0.00") + " hdr:" + avgHeaderBytes.ToString("0.00") + " ack:" + avgAckBytes.ToString("0.00") + " gst:" + avgGhostBytes.ToString("0.00"), new Vec2(pos.X, pos.Y + _maxHeightPerPacket + 8f), Color.White, 0.9f);
     }
 
     public void PreUpdate()

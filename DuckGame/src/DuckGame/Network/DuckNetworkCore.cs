@@ -465,10 +465,10 @@ public class DuckNetworkCore
             }
         }
         float chatScale = DuckNetwork.chatScale;
-        _chatFont.scale = new Vec2(2f * pMessage.scale * chatScale);
+        _chatFont.Scale = new Vec2(2f * pMessage.scale * chatScale);
         if (_chatFont is RasterFont)
         {
-            _chatFont.scale *= 0.5f;
+            _chatFont.Scale *= 0.5f;
         }
         try
         {

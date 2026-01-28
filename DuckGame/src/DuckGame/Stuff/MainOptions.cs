@@ -14,7 +14,7 @@ public class MainOptions : Thing
         : base(xpos, ypos)
     {
         base.layer = Layer.HUD;
-        _font.scale = new Vec2(4f, 4f);
+        _font.Scale = new Vec2(4f, 4f);
         _options = new List<string> { "MULTIPLAYER", "OPTIONS", "QUIT" };
         float longest = 0f;
         foreach (string option in _options)
@@ -30,12 +30,12 @@ public class MainOptions : Thing
 
     public override void Draw()
     {
-        Graphics.DrawRect(new Vec2((float)Graphics.width / 2f - _menuWidth / 2f, base.y), new Vec2((float)Graphics.width / 2f + _menuWidth / 2f, base.y + 250f), Color.Black, 0.9f);
+        Graphics.DrawRect(new Vec2((float)Graphics.width / 2f - _menuWidth / 2f, base.Y), new Vec2((float)Graphics.width / 2f + _menuWidth / 2f, base.Y + 250f), Color.Black, 0.9f);
         int index = 0;
         foreach (string option in _options)
         {
             float size = _font.GetWidth(option);
-            _font.Draw(option, (float)Graphics.width / 2f - size / 2f, base.y + 30f + (float)(index * 60), Color.White);
+            _font.Draw(option, (float)Graphics.width / 2f - size / 2f, base.Y + 30f + (float)(index * 60), Color.White);
             index++;
         }
     }

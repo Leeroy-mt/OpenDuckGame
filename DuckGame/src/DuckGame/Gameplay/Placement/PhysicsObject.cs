@@ -13,7 +13,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
 
     public StateBinding _velocityBinding = new CompressedVec2Binding(GhostPriority.High, nameof(netVelocity), 20, isvelocity: true);
 
-    public StateBinding _angleBinding = new CompressedFloatBinding(GhostPriority.High, nameof(_angle), 0f, 16, isRot: true, doLerp: true);
+    public StateBinding _angleBinding = new CompressedFloatBinding(GhostPriority.High, nameof(AngleValue), 0f, 16, isRot: true, doLerp: true);
 
     public StateBinding _offDirBinding = new StateBinding(GhostPriority.High, nameof(_offDir));
 
@@ -175,7 +175,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
     {
         get
         {
-            float deg = base.angleDegrees;
+            float deg = base.AngleDegrees;
             if (deg < 0f)
             {
                 deg = Math.Abs(deg) + 180f;
@@ -184,7 +184,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         }
         set
         {
-            base.angleDegrees = (float)(int)value * 2f;
+            base.AngleDegrees = (float)(int)value * 2f;
         }
     }
 
@@ -204,11 +204,11 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
     {
         get
         {
-            return (short)Maths.Clamp((int)Math.Round(position.x * 4f), -32768, 32767);
+            return (short)Maths.Clamp((int)Math.Round(X * 4), -32768, 32767);
         }
         set
         {
-            position.x = (float)value / 4f;
+            X = (float)value / 4f;
         }
     }
 
@@ -216,11 +216,11 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
     {
         get
         {
-            return (short)Maths.Clamp((int)Math.Round(position.y * 4f), -32768, 32767);
+            return (short)Maths.Clamp((int)Math.Round(Y * 4), -32768, 32767);
         }
         set
         {
-            position.y = (float)value / 4f;
+            Y = (float)value / 4f;
         }
     }
 
@@ -240,15 +240,15 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
     {
         get
         {
-            _ = position.x;
+            _ = Position.X;
             _ = -1000f;
-            return position;
+            return Position;
         }
         set
         {
-            _ = value.x;
+            _ = value.X;
             _ = -1000f;
-            position = value;
+            Position = value;
         }
     }
 
@@ -477,8 +477,8 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
 
     public static int SortCollisionXHspeedPositive(MaterialThing t1, MaterialThing t2)
     {
-        float val1 = t1.x + (float)((t1 is Block) ? (-10000) : 0);
-        float val2 = t2.x + (float)((t2 is Block) ? (-10000) : 0);
+        float val1 = t1.X + (float)((t1 is Block) ? (-10000) : 0);
+        float val2 = t2.X + (float)((t2 is Block) ? (-10000) : 0);
         if (val1 > val2)
         {
             return 1;
@@ -492,8 +492,8 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
 
     public static int SortCollisionXHspeedNegative(MaterialThing t1, MaterialThing t2)
     {
-        float val1 = 0f - t1.x + (float)((t1 is Block) ? 10000 : 0);
-        float val2 = 0f - t2.x + (float)((t2 is Block) ? 10000 : 0);
+        float val1 = 0f - t1.X + (float)((t1 is Block) ? 10000 : 0);
+        float val2 = 0f - t2.X + (float)((t2 is Block) ? 10000 : 0);
         if (val1 > val2)
         {
             return 1;
@@ -507,8 +507,8 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
 
     public static int SortCollisionYVspeedPositive(MaterialThing t1, MaterialThing t2)
     {
-        float val1 = t1.y + (float)((t1 is Block) ? 10000 : 0);
-        float val2 = t2.y + (float)((t2 is Block) ? 10000 : 0);
+        float val1 = t1.Y + (float)((t1 is Block) ? 10000 : 0);
+        float val2 = t2.Y + (float)((t2 is Block) ? 10000 : 0);
         if (val1 > val2)
         {
             return 1;
@@ -522,8 +522,8 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
 
     public static int SortCollisionYVspeedNegative(MaterialThing t1, MaterialThing t2)
     {
-        float val1 = 0f - t1.y + (float)((t1 is Block) ? (-10000) : 0);
-        float val2 = 0f - t2.y + (float)((t2 is Block) ? (-10000) : 0);
+        float val1 = 0f - t1.Y + (float)((t1 is Block) ? (-10000) : 0);
+        float val2 = 0f - t2.Y + (float)((t2 is Block) ? (-10000) : 0);
         if (val1 > val2)
         {
             return 1;
@@ -549,7 +549,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         {
             framesSinceGrounded = 10;
         }
-        _lastPosition = position;
+        _lastPosition = Position;
         _lastVelocity = base.velocity;
         base.Update();
         if (!solid || !enablePhysics || (base.level != null && !base.level.simulatePhysics))
@@ -629,7 +629,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         }
         else
         {
-            if (base.isServerForObject && base.y > Level.current.lowestPoint + 500f)
+            if (base.isServerForObject && base.Y > Level.current.lowestPoint + 500f)
             {
                 removedFromFall = true;
                 if (this is Duck || this is RagdollPart || this is TrappedDuck)
@@ -666,13 +666,13 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
             float oldHSpeed = hSpeed;
             if (hSpeed < 0f)
             {
-                tl.x += hSpeed;
-                br.x -= 2f;
+                tl.X += hSpeed;
+                br.X -= 2f;
             }
             else
             {
-                br.x += hSpeed;
-                tl.x += 2f;
+                br.X += hSpeed;
+                tl.X += 2f;
             }
             _hitThings.Clear();
             Level.CheckRectAll(tl, br, _hitThings);
@@ -707,7 +707,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
                 {
                     break;
                 }
-                base.x += speedAdd;
+                base.X += speedAdd;
                 _inPhysicsLoop = true;
                 bool solidImpact = false;
                 foreach (MaterialThing t in _hitThings)
@@ -716,7 +716,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
                     {
                         continue;
                     }
-                    Vec2 prevPos = position;
+                    Vec2 prevPos = Position;
                     bool touch = false;
                     if (t.left <= base.right && t.left > base.left)
                     {
@@ -748,9 +748,9 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
                             Impact(t, ImpactedFrom.Left, solidImpact: true);
                         }
                     }
-                    if (t is IBigStupidWall && (prevPos - position).length > 64f)
+                    if (t is IBigStupidWall && (prevPos - Position).Length() > 64f)
                     {
-                        position = prevPos;
+                        Position = prevPos;
                     }
                     if (touch)
                     {
@@ -763,7 +763,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         }
         if (hasRealX)
         {
-            base.x = realX;
+            base.X = realX;
         }
         if (vSpeed > vMax)
         {
@@ -796,13 +796,13 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         lastVSpeed = vSpeed;
         if (vSpeed < 0f)
         {
-            tl.y += vSpeed;
-            br.y -= 2f;
+            tl.Y += vSpeed;
+            br.Y -= 2f;
         }
         else
         {
-            br.y += vSpeed;
-            tl.y += 2f;
+            br.Y += vSpeed;
+            tl.Y += 2f;
         }
         _hitThings.Clear();
         Level.CheckRectAll(tl, br, _hitThings);
@@ -833,7 +833,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
             {
                 break;
             }
-            base.y += vSpeedAdd;
+            base.Y += vSpeedAdd;
             _inPhysicsLoop = true;
             for (int iObject = 0; iObject < _hitThings.Count; iObject++)
             {
@@ -842,7 +842,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
                 {
                     touchedWater = true;
                     _curPuddle = t2 as FluidPuddle;
-                    if (t2.top < base.bottom - 2f && t2.collisionSize.y > 2f)
+                    if (t2.top < base.bottom - 2f && t2.collisionSize.Y > 2f)
                     {
                         floaterTop = t2.top;
                     }
@@ -851,14 +851,14 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
                 {
                     continue;
                 }
-                Vec2 prevPos2 = position;
+                Vec2 prevPos2 = Position;
                 bool touch2 = false;
                 if (t2.bottom >= base.top && t2.top < base.top)
                 {
                     touch2 = true;
                     if (vSpeed < 0f)
                     {
-                        _ = base.y;
+                        _ = base.Y;
                         _collideTop = t2;
                         t2.Impact(this, ImpactedFrom.Bottom, solidImpact: true);
                         Impact(t2, ImpactedFrom.Top, solidImpact: true);
@@ -875,9 +875,9 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
                         Impact(t2, ImpactedFrom.Bottom, solidImpact: true);
                     }
                 }
-                if (t2 is IBigStupidWall && (prevPos2 - position).length > 64f)
+                if (t2 is IBigStupidWall && (prevPos2 - Position).Length() > 64f)
                 {
-                    position = prevPos2;
+                    Position = prevPos2;
                 }
                 if (touch2)
                 {
@@ -900,7 +900,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         {
             if (!doFloat && vSpeed > 1f)
             {
-                Level.Add(new WaterSplash(base.x, floaterTop - 3f, _curFluid));
+                Level.Add(new WaterSplash(base.X, floaterTop - 3f, _curFluid));
                 SFX.Play("largeSplash", Rando.Float(0.6f, 0.7f), Rando.Float(-0.7f, -0.2f));
             }
             doFloat = true;
@@ -921,17 +921,17 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
                 if (flammable > 0f && base.isServerForObject)
                 {
                     bool wasOnFire = base.onFire;
-                    Burn(position, this);
+                    Burn(Position, this);
                     if (this is Duck && (this as Duck).onFire && !wasOnFire)
                     {
                         (this as Duck).ThrowItem();
                     }
                 }
-                DoHeatUp(0.015f, position);
+                DoHeatUp(0.015f, Position);
             }
             else
             {
-                DoHeatUp(-0.05f, position);
+                DoHeatUp(-0.05f, Position);
             }
         }
         if (doFloat)
@@ -958,7 +958,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         {
             if (touchedWater && oldVSpeed > 1f && Math.Abs(vSpeed) < 0.01f)
             {
-                Level.Add(new WaterSplash(base.x, base.bottom, _curFluid));
+                Level.Add(new WaterSplash(base.X, base.bottom, _curFluid));
                 SFX.Play("littleSplash", Rando.Float(0.8f, 0.9f), Rando.Float(-0.2f, 0.2f));
             }
             floatMultiplier = 1f;
@@ -987,27 +987,27 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
     {
         if (buoyancy > 0f)
         {
-            FluidPuddle p = Level.CheckPoint<FluidPuddle>(position + new Vec2(0f, 4f));
+            FluidPuddle p = Level.CheckPoint<FluidPuddle>(Position + new Vec2(0f, 4f));
             if (p != null)
             {
                 if (onlyFloatInLava && p.data.heat < 0.5f)
                 {
                     return;
                 }
-                if (base.y + 4f - p.top > 8f)
+                if (base.Y + 4f - p.top > 8f)
                 {
                     modifiedGravForFloat = true;
                     gravMultiplier = -0.5f;
                     base.grounded = false;
                     return;
                 }
-                if (base.y + 4f - p.top < 3f)
+                if (base.Y + 4f - p.top < 3f)
                 {
                     modifiedGravForFloat = true;
                     gravMultiplier = 0.2f;
                     base.grounded = true;
                 }
-                else if (base.y + 4f - p.top > 4f)
+                else if (base.Y + 4f - p.top > 4f)
                 {
                     gravMultiplier = -0.2f;
                     base.grounded = true;
@@ -1039,7 +1039,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
             }
             if (from == ImpactedFrom.Right)
             {
-                base.x = with.left + (base.x - base.right);
+                base.X = with.left + (base.X - base.right);
                 SolidImpact(with, from);
                 if (hSpeed > (0f - hSpeed) * base.bouncy)
                 {
@@ -1052,7 +1052,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
             }
             if (from == ImpactedFrom.Left)
             {
-                base.x = with.right + (base.x - base.left);
+                base.X = with.right + (base.X - base.left);
                 SolidImpact(with, from);
                 if (hSpeed < (0f - hSpeed) * base.bouncy)
                 {
@@ -1065,7 +1065,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
             }
             if (from == ImpactedFrom.Top)
             {
-                base.y = with.bottom + (base.y - base.top) + 1f;
+                base.Y = with.bottom + (base.Y - base.top) + 1f;
                 SolidImpact(with, from);
                 if (vSpeed < (0f - vSpeed) * base.bouncy)
                 {
@@ -1078,7 +1078,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
             }
             if (from == ImpactedFrom.Bottom)
             {
-                base.y = with.top + (base.y - base.bottom);
+                base.Y = with.top + (base.Y - base.bottom);
                 SolidImpact(with, from);
                 if (vSpeed > (0f - vSpeed) * base.bouncy)
                 {
@@ -1105,7 +1105,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
                 {
                     return;
                 }
-                base.y = with.top + (base.y - base.bottom);
+                base.Y = with.top + (base.Y - base.bottom);
                 SolidImpact(with, from);
                 if (vSpeed > (0f - vSpeed) * base.bouncy)
                 {

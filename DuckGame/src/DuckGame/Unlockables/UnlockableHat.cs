@@ -57,39 +57,39 @@ public class UnlockableHat : Unlockable
         {
             y -= 9f;
             float ypos = y + 8f;
-            _persona.sprite.depth = depth;
+            _persona.sprite.Depth = depth;
             _persona.sprite.color = Color.White;
             Graphics.Draw(_persona.sprite, 0, x, ypos);
             _persona.armSprite.frame = _persona.sprite.imageIndex;
-            _persona.armSprite.scale = new Vec2(1f, 1f);
-            _persona.armSprite.depth = depth + 4;
+            _persona.armSprite.Scale = new Vec2(1f, 1f);
+            _persona.armSprite.Depth = depth + 4;
             Graphics.Draw(_persona.armSprite, x - 3f, ypos + 6f);
             Vec2 offset = DuckRig.GetHatPoint(_persona.sprite.imageIndex);
-            _team.hat.depth = depth + 2;
-            _team.hat.center = new Vec2(16f, 16f) + _team.hatOffset;
-            Graphics.Draw(_team.hat, _team.hat.frame, x + offset.x, ypos + offset.y);
+            _team.hat.Depth = depth + 2;
+            _team.hat.Center = new Vec2(16f, 16f) + _team.hatOffset;
+            Graphics.Draw(_team.hat, _team.hat.frame, x + offset.X, ypos + offset.Y);
             if (_team.hat.texture.textureName == "hats/devhat" && _cape == null)
             {
-                _hat = new TeamHat(x + offset.x, ypos + offset.y + 5f, Teams.GetTeam("CAPTAIN"));
-                _cape = new Cape(x + offset.x, ypos + offset.y, _hat);
+                _hat = new TeamHat(x + offset.X, ypos + offset.Y + 5f, Teams.GetTeam("CAPTAIN"));
+                _cape = new Cape(x + offset.X, ypos + offset.Y, _hat);
                 _cape.SetCapeTexture(Content.Load<Tex2D>("hats/devCape"));
             }
             if (_team.hat.texture.textureName == "hats/moonwalker" && _cape == null)
             {
-                _hat = new TeamHat(x + offset.x, ypos + offset.y + 5f, Teams.GetTeam("MOONWALK"));
-                _cape = new Cape(x + offset.x, ypos + offset.y, _hat);
+                _hat = new TeamHat(x + offset.X, ypos + offset.Y + 5f, Teams.GetTeam("MOONWALK"));
+                _cape = new Cape(x + offset.X, ypos + offset.Y, _hat);
                 _cape.SetCapeTexture(Content.Load<Tex2D>("hats/moonCape"));
             }
             if (_team.hat.texture.textureName == "hats/royalty" && _cape == null)
             {
-                _hat = new TeamHat(x + offset.x, ypos + offset.y + 5f, Teams.GetTeam("MAJESTY"));
-                _cape = new Cape(x + offset.x, ypos + offset.y, _hat);
+                _hat = new TeamHat(x + offset.X, ypos + offset.Y + 5f, Teams.GetTeam("MAJESTY"));
+                _cape = new Cape(x + offset.X, ypos + offset.Y, _hat);
                 _cape.SetCapeTexture(Content.Load<Tex2D>("hats/royalCape"));
             }
             if (_cape != null)
             {
-                _hat.position = new Vec2(x + offset.x, ypos + offset.y + 5f);
-                _cape.depth = depth + 2;
+                _hat.Position = new Vec2(x + offset.X, ypos + offset.Y + 5f);
+                _cape.Depth = depth + 2;
                 _cape.Update();
                 _cape.Draw();
             }

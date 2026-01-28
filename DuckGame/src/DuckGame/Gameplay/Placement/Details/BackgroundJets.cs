@@ -19,14 +19,14 @@ public class BackgroundJets : Thing
         _leftJet = new("jet", 16, 16);
         _leftJet.AddAnimation("idle", 0.4f, true, 0, 1, 2);
         _leftJet.SetAnimation("idle");
-        _leftJet.center = new(8, 0f);
-        _leftJet.alpha = 0.7f;
+        _leftJet.Center = new(8, 0f);
+        _leftJet.Alpha = 0.7f;
         _rightJet = new("jet", 16, 16);
         _rightJet.AddAnimation("idle", 0.4f, true, 1, 2, 0);
         _rightJet.SetAnimation("idle");
-        _rightJet.center = new(8, 0);
-        _rightJet.alpha = 0.7f;
-        center = new(16, 8);
+        _rightJet.Center = new(8, 0);
+        _rightJet.Alpha = 0.7f;
+        Center = new(16, 8);
         _collisionSize = new(16, 14);
         _collisionOffset = new(-8);
         editorTooltip = "Things gotta float somehow.";
@@ -43,7 +43,7 @@ public class BackgroundJets : Thing
     public override void Draw()
     {
         base.Draw();
-        Graphics.Draw(_leftJet, x - 8, y + 5);
-        Graphics.Draw(_rightJet, x + 8, y + 5);
+        Graphics.Draw(_leftJet, X - 8, Y + 5);
+        Graphics.Draw(_rightJet, X + 8, Y + 5);
     }
 }

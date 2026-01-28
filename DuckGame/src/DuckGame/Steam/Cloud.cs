@@ -45,10 +45,10 @@ public static class Cloud
             if (base.open)
             {
                 string text = "" + "Working... (" + (int)(progress * 100f) + "%)";
-                Graphics.DrawRect(new Rectangle(_box.x - _box.halfWidth + 8f, _box.y, _box.width - 16f, 10f), Color.LightGray, 0.8f);
-                Graphics.DrawRect(new Rectangle(_box.x - _box.halfWidth + 8f, _box.y, Lerp.FloatSmooth(0f, _box.width - 16f, progress), 10f), Color.White, 0.8f);
+                Graphics.DrawRect(new Rectangle(_box.X - _box.halfWidth + 8f, _box.Y, _box.width - 16f, 10f), Color.LightGray, 0.8f);
+                Graphics.DrawRect(new Rectangle(_box.X - _box.halfWidth + 8f, _box.Y, Lerp.FloatSmooth(0f, _box.width - 16f, progress), 10f), Color.White, 0.8f);
                 float width = Graphics.GetStringWidth(text);
-                Graphics.DrawString(text, new Vec2(_box.x - width / 2f, _box.y - 10f), Color.White, 0.8f);
+                Graphics.DrawString(text, new Vec2(_box.X - width / 2f, _box.Y - 10f), Color.White, 0.8f);
                 if (!processing)
                 {
                     Close();
@@ -192,10 +192,8 @@ public static class Cloud
         get
         {
             if (_totalOperations != 0 && _operations.Count != 0)
-            {
-                return Math.Max(1f - (float)_operations.Count / (float)_totalOperations, 0f);
-            }
-            return 1f;
+                return Math.Max(1 - _operations.Count / (float)_totalOperations, 0);
+            return 1;
         }
     }
 

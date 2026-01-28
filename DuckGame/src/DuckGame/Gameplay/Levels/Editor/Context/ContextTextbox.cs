@@ -15,8 +15,8 @@ public class ContextTextbox : ContextMenu
     public ContextTextbox(string text, IContextListener owner, FieldBinding field, string valTooltip)
         : base(owner)
     {
-        itemSize.x = 150f;
-        itemSize.y = 16f;
+        itemSize.X = 150f;
+        itemSize.Y = 16f;
         _text = text;
         _field = field;
         if (field == null)
@@ -30,8 +30,8 @@ public class ContextTextbox : ContextMenu
     public ContextTextbox(string text, IContextListener owner, FieldBinding field = null)
         : base(owner)
     {
-        itemSize.x = 150f;
-        itemSize.y = 16f;
+        itemSize.X = 150f;
+        itemSize.Y = 16f;
         _text = text;
         _field = field;
         if (field == null)
@@ -98,18 +98,18 @@ public class ContextTextbox : ContextMenu
         }
         if (_hover)
         {
-            Graphics.DrawRect(position, position + itemSize, new Color(70, 70, 70), 0.82f);
+            Graphics.DrawRect(Position, Position + itemSize, new Color(70, 70, 70), 0.82f);
             if (val.Length > 12)
             {
-                Vec2 pos = new Vec2(base.x, base.y);
-                pos.x += itemSize.x + 4f;
-                pos.y -= 2f;
+                Vec2 pos = new Vec2(base.X, base.Y);
+                pos.X += itemSize.X + 4f;
+                pos.Y -= 2f;
                 float menuWidth = 200f;
                 float menuHeight = 100f;
-                Graphics.DrawString(_text, position + new Vec2(2f, 5f), Color.White, 0.88f);
+                Graphics.DrawString(_text, Position + new Vec2(2f, 5f), Color.White, 0.88f);
                 Graphics.DrawRect(pos, pos + new Vec2(menuWidth, menuHeight), new Color(70, 70, 70), 0.83f);
                 Graphics.DrawRect(pos + new Vec2(1f, 1f), pos + new Vec2(menuWidth - 1f, menuHeight - 1f), new Color(30, 30, 30), 0.84f);
-                _fancyFont.depth = 0.8f;
+                _fancyFont.Depth = 0.8f;
                 _fancyFont.maxWidth = 200;
                 _fancyFont.Draw(val, pos + new Vec2(4f, 4f), Color.White, 0.86f);
             }
@@ -120,18 +120,18 @@ public class ContextTextbox : ContextMenu
                     val += "_";
                 }
                 _fancyFont.maxWidth = 200;
-                _fancyFont.Draw(val, position + new Vec2(2f, 5f), Color.White, 0.86f);
+                _fancyFont.Draw(val, Position + new Vec2(2f, 5f), Color.White, 0.86f);
             }
         }
         else
         {
-            Graphics.DrawString(_text, position + new Vec2(2f, 5f), Color.White, 0.84f);
+            Graphics.DrawString(_text, Position + new Vec2(2f, 5f), Color.White, 0.84f);
             if (val.Length > 12)
             {
                 val = val.Substring(0, 12) + "..";
             }
-            _fancyFont.depth = 0.81f;
-            _fancyFont.Draw(val, position + new Vec2(itemSize.x - 4f - _fancyFont.GetWidth(val), 5f), Color.White, 0.84f);
+            _fancyFont.Depth = 0.81f;
+            _fancyFont.Draw(val, Position + new Vec2(itemSize.X - 4f - _fancyFont.GetWidth(val), 5f), Color.White, 0.84f);
         }
     }
 }

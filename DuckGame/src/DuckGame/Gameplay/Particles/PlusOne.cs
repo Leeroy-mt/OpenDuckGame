@@ -27,7 +27,7 @@ public class PlusOne : Thing
         _profile = p;
         _temp = temp;
         base.layer = Layer.Blocks;
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         _testMode = testMode;
     }
 
@@ -77,17 +77,17 @@ public class PlusOne : Thing
     {
         if (_profile != null && _profile.persona != null && !(base.anchor == null))
         {
-            position = base.anchor.position;
-            _font.scale = new Vec2(1f + pulse * 0.5f);
+            Position = base.anchor.position;
+            _font.Scale = new Vec2(1f + pulse * 0.5f);
             _num = 1;
             string text = "+" + _num;
-            float xposit = base.x - _font.GetWidth(text) / 2f;
-            _font.Draw(text, xposit - 1f, base.y - 1f, Color.Black, 0.8f);
-            _font.Draw(text, xposit + 1f, base.y - 1f, Color.Black, 0.8f);
-            _font.Draw(text, xposit - 1f, base.y + 1f, Color.Black, 0.8f);
-            _font.Draw(text, xposit + 1f, base.y + 1f, Color.Black, 0.8f);
+            float xposit = base.X - _font.GetWidth(text) / 2f;
+            _font.Draw(text, xposit - 1f, base.Y - 1f, Color.Black, 0.8f);
+            _font.Draw(text, xposit + 1f, base.Y - 1f, Color.Black, 0.8f);
+            _font.Draw(text, xposit - 1f, base.Y + 1f, Color.Black, 0.8f);
+            _font.Draw(text, xposit + 1f, base.Y + 1f, Color.Black, 0.8f);
             Color c = new Color((byte)_profile.persona.color.x, (byte)_profile.persona.color.y, (byte)_profile.persona.color.z);
-            _font.Draw(text, xposit, base.y, c, 0.9f);
+            _font.Draw(text, xposit, base.Y, c, 0.9f);
         }
     }
 }

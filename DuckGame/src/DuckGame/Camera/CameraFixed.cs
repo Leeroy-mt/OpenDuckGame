@@ -49,13 +49,13 @@ public class CameraFixed : CustomCamera
             {
                 Level.current.camera.x += MoveX.value;
                 Level.current.camera.y += MoveY.value;
-                position = Level.current.camera.center;
+                Position = Level.current.camera.center;
                 if (MoveX.value != 0f || MoveY.value != 0f)
                 {
-                    CameraMover m = Level.CheckLine<CameraMover>(position, position + new Vec2(MoveX.value, MoveY.value));
-                    if (m != null && m != curMover && ((m.position - position).length < 0.5f || (MoveX.value != 0f && Math.Sign(m.position.x - position.x) != Math.Sign(MoveX.value)) || (MoveY.value != 0f && Math.Sign(m.position.y - position.y) != Math.Sign(MoveY.value))))
+                    CameraMover m = Level.CheckLine<CameraMover>(Position, Position + new Vec2(MoveX.value, MoveY.value));
+                    if (m != null && m != curMover && ((m.Position - Position).Length() < 0.5f || (MoveX.value != 0f && Math.Sign(m.Position.X - Position.X) != Math.Sign(MoveX.value)) || (MoveY.value != 0f && Math.Sign(m.Position.Y - Position.Y) != Math.Sign(MoveY.value))))
                     {
-                        position = m.position;
+                        Position = m.Position;
                         MoveX.value = m.SpeedX.value;
                         MoveY.value = m.SpeedY.value;
                         MoveDelay.value = m.MoveDelay.value;

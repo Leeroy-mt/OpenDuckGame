@@ -20,7 +20,7 @@ public class MagBlaster : Gun
         _sprite.AddAnimation("fire", 0.8f, false, 1, 1, 2, 2, 3, 3);
         _sprite.AddAnimation("empty", 1f, true, 4);
         graphic = _sprite;
-        center = new Vec2(12f, 8f);
+        Center = new Vec2(12f, 8f);
         collisionOffset = new Vec2(-8f, -7f);
         collisionSize = new Vec2(16f, 14f);
         _barrelOffsetTL = new Vec2(20f, 5f);
@@ -54,7 +54,7 @@ public class MagBlaster : Gun
             {
                 Vec2 pos = Offset(new Vec2(-9f, 0f));
                 Vec2 rot = base.barrelVector.Rotate(Rando.Float(1f), Vec2.Zero);
-                Level.Add(Spark.New(pos.x, pos.y, rot, 0.1f));
+                Level.Add(Spark.New(pos.X, pos.Y, rot, 0.1f));
             }
         }
         else

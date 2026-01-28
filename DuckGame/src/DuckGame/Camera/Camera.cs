@@ -40,13 +40,13 @@ public class Camera
     {
         get
         {
-            return _position.x;
+            return _position.X;
         }
         set
         {
-            if (_position.x != value)
+            if (_position.X != value)
             {
-                _position.x = value;
+                _position.X = value;
                 _dirty = true;
             }
         }
@@ -56,13 +56,13 @@ public class Camera
     {
         get
         {
-            return _position.y;
+            return _position.Y;
         }
         set
         {
-            if (_position.y != value)
+            if (_position.Y != value)
             {
-                _position.y = value;
+                _position.Y = value;
                 _dirty = true;
             }
         }
@@ -76,8 +76,8 @@ public class Camera
         }
         set
         {
-            centerX = value.x;
-            centerY = value.y;
+            centerX = value.X;
+            centerY = value.Y;
         }
     }
 
@@ -85,13 +85,13 @@ public class Camera
     {
         get
         {
-            return _position.x + width / 2f;
+            return _position.X + width / 2f;
         }
         set
         {
             if (centerX != value)
             {
-                _position.x = value - width / 2f;
+                _position.X = value - width / 2f;
                 _dirty = true;
             }
         }
@@ -101,13 +101,13 @@ public class Camera
     {
         get
         {
-            return _position.y + height / 2f;
+            return _position.Y + height / 2f;
         }
         set
         {
             if (centerY != value)
             {
-                _position.y = value - height / 2f;
+                _position.Y = value - height / 2f;
                 _dirty = true;
             }
         }
@@ -142,13 +142,13 @@ public class Camera
     {
         get
         {
-            return _size.x;
+            return _size.X;
         }
         set
         {
-            if (_size.x != value)
+            if (_size.X != value)
             {
-                _size.x = value;
+                _size.X = value;
                 _dirty = true;
             }
         }
@@ -158,13 +158,13 @@ public class Camera
     {
         get
         {
-            return _size.y;
+            return _size.Y;
         }
         set
         {
-            if (_size.y != value)
+            if (_size.Y != value)
             {
-                _size.y = value;
+                _size.Y = value;
                 _dirty = true;
             }
         }
@@ -258,44 +258,44 @@ public class Camera
 
     public virtual Vec2 transformScreenVector(Vec2 vector)
     {
-        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.x, vector.y, 0f), Matrix.Invert(getMatrix()));
+        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Matrix.Invert(getMatrix()));
         return new Vec2(newvec3.x, newvec3.y);
     }
 
     public virtual Vec2 transformTime(Vec2 vector)
     {
-        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.x, vector.y, 0f), Resolution.getTransformationMatrix() * getMatrix());
+        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Resolution.getTransformationMatrix() * getMatrix());
         return new Vec2(newvec3.x, newvec3.y);
     }
 
     public virtual Vec2 transformWorldVector(Vec2 vector)
     {
-        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.x, vector.y, 0f), Matrix.Invert(Resolution.getTransformationMatrix()) * getMatrix());
+        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Matrix.Invert(Resolution.getTransformationMatrix()) * getMatrix());
         return new Vec2(newvec3.x, newvec3.y);
     }
 
     public virtual Vec2 transform(Vec2 vector)
     {
-        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.x, vector.y, 0f), getMatrix());
+        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), getMatrix());
         return new Vec2(newvec3.x, newvec3.y);
     }
 
     public virtual Vec2 transformInverse(Vec2 vector)
     {
-        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.x, vector.y, 0f), Matrix.Invert(getMatrix()));
+        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Matrix.Invert(getMatrix()));
         return new Vec2(newvec3.x, newvec3.y);
     }
 
     public virtual Matrix getMatrix()
     {
-        if (_dirty || (float)Graphics.viewport.Width != _viewSize.x || (float)Graphics.viewport.Height != _viewSize.y)
+        if (_dirty || (float)Graphics.viewport.Width != _viewSize.X || (float)Graphics.viewport.Height != _viewSize.Y)
         {
-            _rectangle = new Rectangle(left - 16f, top - 16f, size.x + 32f, size.y + 32f);
+            _rectangle = new Rectangle(left - 16f, top - 16f, size.X + 32f, size.Y + 32f);
             _viewSize = new Vec2(Graphics.viewport.Width, Graphics.viewport.Height);
             Vec2 pos = position;
             float wid = width;
             float hig = height;
-            _matrix = Matrix.CreateTranslation(new Vec3(0f - pos.x, 0f - pos.y, 0f)) * Matrix.CreateScale(_viewSize.x / wid, _viewSize.y / hig, 1f);
+            _matrix = Matrix.CreateTranslation(new Vec3(0f - pos.X, 0f - pos.Y, 0f)) * Matrix.CreateScale(_viewSize.X / wid, _viewSize.Y / hig, 1f);
             _dirty = false;
         }
         return _matrix;

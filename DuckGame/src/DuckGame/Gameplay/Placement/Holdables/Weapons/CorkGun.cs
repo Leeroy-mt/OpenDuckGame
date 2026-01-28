@@ -18,7 +18,7 @@ public class CorkGun : Gun
         _type = "gun";
         _sprite = new SpriteMap("corkGun", 13, 10);
         graphic = _sprite;
-        center = new Vec2(6f, 4f);
+        Center = new Vec2(6f, 4f);
         collisionOffset = new Vec2(-6f, -4f);
         collisionSize = new Vec2(12f, 8f);
         _barrelOffsetTL = new Vec2(10f, 3f);
@@ -44,14 +44,14 @@ public class CorkGun : Gun
                 windingVelocity = 0f;
                 corkObject = null;
                 _firedCork = 0;
-                base.scale = new Vec2(1.5f, 1.5f);
+                base.Scale = new Vec2(1.5f, 1.5f);
             }
             if (num < 16f)
             {
                 windingVelocity = 1f;
             }
         }
-        base.scale = Lerp.Vec2Smooth(base.scale, Vec2.One, 0.1f);
+        base.Scale = Lerp.Vec2Smooth(base.Scale, Vec2.One, 0.1f);
         _sprite.frame = ((_firedCork != 0) ? 1 : 0);
         base.Update();
     }

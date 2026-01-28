@@ -22,7 +22,7 @@ public class PewPewLaser : Gun
         _ammoType = new ATPewPew();
         _type = "gun";
         graphic = new Sprite("pewpewLaser");
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -3f);
         collisionSize = new Vec2(16f, 7f);
         _barrelOffsetTL = new Vec2(31f, 15f);
@@ -33,7 +33,7 @@ public class PewPewLaser : Gun
         _fireRumble = RumbleIntensity.Kick;
         _holdOffset = new Vec2(0f, 0f);
         _flare = new SpriteMap("laserFlare", 16, 16);
-        _flare.center = new Vec2(0f, 8f);
+        _flare.Center = new Vec2(0f, 8f);
         editorTooltip = "Quick-fire laser beam of ULTIMATE DESTRUCTION... with an adorable wittle name.";
     }
 

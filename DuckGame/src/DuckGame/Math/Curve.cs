@@ -54,31 +54,31 @@ public class Curve
     public static Vec2 Calculate(Vec2 start, Vec2 end, float lerp, float arcSizeMult = 1f)
     {
         Vec2 centerPos = (start + end) / 2f;
-        if (end.x == start.x)
+        if (end.X == start.X)
         {
-            if (end.y > start.y)
+            if (end.Y > start.Y)
             {
-                centerPos.x = start.x - 6f * arcSizeMult;
+                centerPos.X = start.X - 6f * arcSizeMult;
             }
             else
             {
-                centerPos.x = start.x + 6f * arcSizeMult;
+                centerPos.X = start.X + 6f * arcSizeMult;
             }
             arcSizeMult *= 0.2f;
         }
-        if (end.y > start.y)
+        if (end.Y > start.Y)
         {
-            centerPos.y = start.y - 22f * arcSizeMult;
+            centerPos.Y = start.Y - 22f * arcSizeMult;
         }
         else
         {
-            centerPos.y = end.y - 16f * arcSizeMult;
+            centerPos.Y = end.Y - 16f * arcSizeMult;
         }
         List<Vec2> curve = Bezier(8, start, centerPos, end);
         float curveLength = 0f;
         for (int i = 1; i < curve.Count; i++)
         {
-            curveLength += (curve[i] - curve[i - 1]).length;
+            curveLength += (curve[i] - curve[i - 1]).Length();
         }
         _ = curveLength / (float)curve.Count;
         int curveIndex = (int)Math.Floor(lerp * (float)curve.Count) + 1;
@@ -109,8 +109,8 @@ public class Curve
             for (int j = 0; j != npts; j++)
             {
                 float basis = (float)Bernstein(npts - 1, j, t);
-                p.x += basis * points[j].x;
-                p.y += basis * points[j].y;
+                p.X += basis * points[j].X;
+                p.Y += basis * points[j].Y;
             }
             t += step;
             output.Add(p);

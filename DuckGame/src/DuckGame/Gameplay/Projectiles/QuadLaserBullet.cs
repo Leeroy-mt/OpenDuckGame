@@ -2,7 +2,7 @@ namespace DuckGame;
 
 public class QuadLaserBullet : Thing, ITeleport
 {
-    public StateBinding _positionBinding = new CompressedVec2Binding(nameof(position), int.MaxValue, isvelocity: false, doLerp: true);
+    public StateBinding _positionBinding = new CompressedVec2Binding(nameof(Position), int.MaxValue, isvelocity: false, doLerp: true);
 
     public StateBinding _travelBinding = new CompressedVec2Binding(nameof(travel), 20);
 
@@ -43,8 +43,8 @@ public class QuadLaserBullet : Thing, ITeleport
         _wave.Update();
         _wave2.Update();
         timeAlive += 0.016f;
-        position += _travel * 0.5f;
-        if (base.isServerForObject && (base.x > Level.current.bottomRight.x + 200f || base.x < Level.current.topLeft.x - 200f))
+        Position += _travel * 0.5f;
+        if (base.isServerForObject && (base.X > Level.current.bottomRight.X + 200f || base.X < Level.current.topLeft.X - 200f))
         {
             Level.Remove(this);
         }
@@ -77,8 +77,8 @@ public class QuadLaserBullet : Thing, ITeleport
 
     public override void Draw()
     {
-        Graphics.DrawRect(position + new Vec2(-4f, -4f), position + new Vec2(4f, 4f), new Color(255 - (int)(_wave.normalized * 90f), 137 + (int)(_wave.normalized * 50f), 31 + (int)(_wave.normalized * 30f)), base.depth);
-        Graphics.DrawRect(position + new Vec2(-4f, -4f), position + new Vec2(4f, 4f), new Color(255, 224 - (int)(_wave2.normalized * 150f), 90 + (int)(_wave2.normalized * 50f)), base.depth + 1, filled: false);
+        Graphics.DrawRect(Position + new Vec2(-4f, -4f), Position + new Vec2(4f, 4f), new Color(255 - (int)(_wave.normalized * 90f), 137 + (int)(_wave.normalized * 50f), 31 + (int)(_wave.normalized * 30f)), base.Depth);
+        Graphics.DrawRect(Position + new Vec2(-4f, -4f), Position + new Vec2(4f, 4f), new Color(255, 224 - (int)(_wave2.normalized * 150f), 90 + (int)(_wave2.normalized * 50f)), base.Depth + 1, filled: false);
         base.Draw();
     }
 }

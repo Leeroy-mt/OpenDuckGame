@@ -21,12 +21,12 @@ public class WeaponTest : DuckGameTestArea
         foreach (Type t in types)
         {
             Thing thing = Thing.Instantiate(t);
-            thing.x = xpos + index * 22;
-            thing.y = 200f;
+            thing.X = xpos + index * 22;
+            thing.Y = 200f;
             Level.Add(thing);
             Thing thing2 = Thing.Instantiate(t);
-            thing2.x = xpos + index * 22 + 8;
-            thing2.y = 200f;
+            thing2.X = xpos + index * 22 + 8;
+            thing2.Y = 200f;
             Level.Add(thing2);
             index++;
         }

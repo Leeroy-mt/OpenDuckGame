@@ -49,10 +49,10 @@ public class PathNode : Thing, IPathNodeBlocker
     {
         _thing = t;
         graphic = new Sprite("ball");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -8f);
         collisionSize = new Vec2(16f, 16f);
-        base.scale = new Vec2(0.5f, 0.5f);
+        base.Scale = new Vec2(0.5f, 0.5f);
         base.editorOffset = new Vec2(0f, -8f);
     }
 
@@ -93,7 +93,7 @@ public class PathNode : Thing, IPathNodeBlocker
     public static bool LineIsClear(Vec2 from, Vec2 to, Thing ignore = null)
     {
         IEnumerable<IPathNodeBlocker> blockers = Level.current.CollisionLineAll<IPathNodeBlocker>(from, to);
-        if (to.y - from.y < -64f)
+        if (to.Y - from.Y < -64f)
         {
             return false;
         }
@@ -108,7 +108,7 @@ public class PathNode : Thing, IPathNodeBlocker
                     blocked = true;
                     break;
                 }
-                if ((!(t is AutoPlatform) || !(t as AutoPlatform).HasNoCollision()) && !(t is AutoPlatform) && t.y > from.y && to.y > t.y)
+                if ((!(t is AutoPlatform) || !(t as AutoPlatform).HasNoCollision()) && !(t is AutoPlatform) && t.Y > from.Y && to.Y > t.Y)
                 {
                     blocked = true;
                     break;
@@ -132,9 +132,9 @@ public class PathNode : Thing, IPathNodeBlocker
                 {
                     if (prevPos != Vec2.Zero)
                     {
-                        dist += (n.position - prevPos).length;
+                        dist += (n.Position - prevPos).Length();
                     }
-                    prevPos = n.position;
+                    prevPos = n.Position;
                 }
                 AIPath aiPath = new AIPath();
                 aiPath.length = dist;
@@ -150,7 +150,7 @@ public class PathNode : Thing, IPathNodeBlocker
 
     public static bool CheckTraversalLimits(Vec2 from, Vec2 to)
     {
-        if (from.y - to.y > 64f || Math.Abs(from.x - to.x) > 128f || (from.y - to.y > 8f && Math.Abs(from.x - to.x) > 64f))
+        if (from.Y - to.Y > 64f || Math.Abs(from.X - to.X) > 128f || (from.Y - to.Y > 8f && Math.Abs(from.X - to.X) > 64f))
         {
             return false;
         }
@@ -172,7 +172,7 @@ public class PathNode : Thing, IPathNodeBlocker
 
     public bool PathBlocked(PathNode to)
     {
-        IEnumerable<IPathNodeBlocker> enumerable = Level.current.CollisionLineAll<IPathNodeBlocker>(position, to.position);
+        IEnumerable<IPathNodeBlocker> enumerable = Level.current.CollisionLineAll<IPathNodeBlocker>(Position, to.Position);
         bool blocked = false;
         foreach (IPathNodeBlocker blocker in enumerable)
         {
@@ -184,7 +184,7 @@ public class PathNode : Thing, IPathNodeBlocker
                     blocked = true;
                     break;
                 }
-                if ((!(t is AutoPlatform) || !(t as AutoPlatform).HasNoCollision()) && t.y > base.y)
+                if ((!(t is AutoPlatform) || !(t as AutoPlatform).HasNoCollision()) && t.Y > base.Y)
                 {
                     blocked = true;
                     break;
@@ -208,7 +208,7 @@ public class PathNode : Thing, IPathNodeBlocker
                     blocked = true;
                     break;
                 }
-                if ((!(t is AutoPlatform) || !(t as AutoPlatform).HasNoCollision()) && t.y > from.y)
+                if ((!(t is AutoPlatform) || !(t as AutoPlatform).HasNoCollision()) && t.Y > from.Y)
                 {
                     blocked = true;
                     break;
@@ -222,17 +222,17 @@ public class PathNode : Thing, IPathNodeBlocker
     {
         foreach (PathNode node in Level.current.things[typeof(PathNode)])
         {
-            if (node == this || !CheckTraversalLimits(position, node.position) || PathBlocked(node))
+            if (node == this || !CheckTraversalLimits(Position, node.Position) || PathBlocked(node))
             {
                 continue;
             }
             PathNodeLink link = new PathNodeLink();
             link.owner = this;
             link.link = node;
-            link.distance = (node.position - position).length;
-            if (Math.Abs(base.y - node.y) < 8f)
+            link.distance = (node.Position - Position).Length();
+            if (Math.Abs(base.Y - node.Y) < 8f)
             {
-                Vec2 vec = (position + node.position) / 2f;
+                Vec2 vec = (Position + node.Position) / 2f;
                 if (Level.CheckLine<IPathNodeBlocker>(vec, vec + new Vec2(0f, 18f)) == null)
                 {
                     link.gap = true;
@@ -261,9 +261,9 @@ public class PathNode : Thing, IPathNodeBlocker
 
     public static float CalculateCost(PathNode who, PathNode parent)
     {
-        float dx = who.x - parent.x;
-        float dy = who.y - parent.y;
-        if (parent.y > who.y && Math.Abs(dy) > 48f)
+        float dx = who.X - parent.X;
+        float dy = who.Y - parent.Y;
+        if (parent.Y > who.Y && Math.Abs(dy) > 48f)
         {
             dy *= 100f;
         }
@@ -273,8 +273,8 @@ public class PathNode : Thing, IPathNodeBlocker
 
     public static float CalculateHeuristic(PathNode who, PathNode end)
     {
-        float num = who.x - end.x;
-        float dy = who.y - end.y;
+        float num = who.X - end.X;
+        float dy = who.Y - end.Y;
         return Math.Abs(num + dy);
     }
 
@@ -301,14 +301,14 @@ public class PathNode : Thing, IPathNodeBlocker
             {
                 c = Color.LightBlue;
             }
-            Graphics.DrawLine(position, l.link.position, c * 0.2f, 1f, 0.9f);
-            float length = (l.link.position - position).length;
-            Vec2 dir = (l.link.position - position).normalized;
+            Graphics.DrawLine(Position, l.link.Position, c * 0.2f, 1f, 0.9f);
+            float length = (l.link.Position - Position).Length();
+            Vec2 dir = (l.link.Position - Position).Normalized;
             Vec2 dirLeft = dir;
             Vec2 dirRight = dir;
             dirLeft = -dirLeft.Rotate(1f, Vec2.Zero);
             dirRight = -dirRight.Rotate(-1f, Vec2.Zero);
-            Vec2 vec = position + dir * (length / 1.5f);
+            Vec2 vec = Position + dir * (length / 1.5f);
             Graphics.DrawLine(vec, vec + dirLeft * 4f, c * 0.2f, 1f, 0.9f);
             Graphics.DrawLine(vec, vec + dirRight * 4f, c * 0.2f, 1f, 0.9f);
         }

@@ -53,17 +53,17 @@ public class Resolution
         }
     }
 
-    public float aspect => dimensions.x / dimensions.y;
+    public float aspect => dimensions.X / dimensions.Y;
 
     public int x
     {
         get
         {
-            return (int)dimensions.x;
+            return (int)dimensions.X;
         }
         set
         {
-            dimensions.x = value;
+            dimensions.X = value;
         }
     }
 
@@ -71,11 +71,11 @@ public class Resolution
     {
         get
         {
-            return (int)dimensions.y;
+            return (int)dimensions.Y;
         }
         set
         {
-            dimensions.y = value;
+            dimensions.Y = value;
         }
     }
 

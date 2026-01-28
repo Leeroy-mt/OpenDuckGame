@@ -114,7 +114,7 @@ public static class DamageManager
             _hits.RemoveAt(index);
             float s = (float)hit.thing.graphic.width / (float)hit.thing.graphic.width;
             Camera cam = new Camera(0f, 0f, hit.thing.graphic.width, hit.thing.graphic.height);
-            cam.position = new Vec2(hit.thing.x - hit.thing.centerx * s, hit.thing.y - hit.thing.centery * s);
+            cam.position = new Vec2(hit.thing.X - hit.thing.CenterX * s, hit.thing.Y - hit.thing.CenterY * s);
             Graphics.SetRenderTarget(hit.thing.graphic.renderTexture);
             DepthStencilState state = new DepthStencilState
             {
@@ -127,9 +127,9 @@ public static class DamageManager
             Graphics.screen.Begin(SpriteSortMode.BackToFront, _blendState, SamplerState.PointClamp, state, RasterizerState.CullNone, null, cam.getMatrix());
             foreach (Vec2 p in hit.points)
             {
-                _bulletHoles.depth = 1f;
-                _bulletHoles.x = p.x + Rando.Float(-1f, 1f);
-                _bulletHoles.y = p.y + Rando.Float(-1f, 1f);
+                _bulletHoles.Depth = 1f;
+                _bulletHoles.X = p.X + Rando.Float(-1f, 1f);
+                _bulletHoles.Y = p.Y + Rando.Float(-1f, 1f);
                 _bulletHoles.imageIndex = Rando.Int(4);
                 _bulletHoles.Draw();
             }

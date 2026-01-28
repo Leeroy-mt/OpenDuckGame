@@ -98,9 +98,9 @@ public class HotnessAnimation
         {
             _wait += 0.01f;
         }
-        _redBar.depth = 0.2f;
+        _redBar.Depth = 0.2f;
         Graphics.Draw(_redBar, 30f, 25f);
-        _font.depth = 0.25f;
+        _font.Depth = 0.25f;
         if (DG.isHalloween)
         {
             _font.Draw("SPOOKY  REPORT", 44f, 28f, Color.White, 0.25f);
@@ -109,18 +109,18 @@ public class HotnessAnimation
         {
             _font.Draw("HOTNESS REPORT", 44f, 28f, Color.White, 0.25f);
         }
-        _blueBar.depth = 0.1f;
+        _blueBar.Depth = 0.1f;
         Graphics.Draw(_blueBar, 30f, 18f);
         Graphics.DrawRect(new Vec2(20f, 135f), new Vec2(260f, 160f), new Color(12, 90, 182), 0.1f);
         Vec2 duckAreaTL = new Vec2(60f, 50f);
         Vec2 duckAreaBR = new Vec2(200f, 150f);
-        Vec2 duckAreaSize = new Vec2(duckAreaBR.x - duckAreaTL.x, duckAreaBR.y - duckAreaTL.y);
+        Vec2 duckAreaSize = new Vec2(duckAreaBR.X - duckAreaTL.X, duckAreaBR.Y - duckAreaTL.Y);
         List<Profile> profiles = Profiles.active;
         int i = 0;
         foreach (Profile p in profiles)
         {
             float centerAdd = 0f;
-            centerAdd = ((profiles.Count == 1) ? (duckAreaSize.x / 2f) : ((profiles.Count != 2) ? ((float)i * (duckAreaSize.x / (float)(profiles.Count - 1))) : (duckAreaSize.x / 2f - duckAreaSize.x / 4f + (float)i * (duckAreaSize.x / 2f))));
+            centerAdd = ((profiles.Count == 1) ? (duckAreaSize.X / 2f) : ((profiles.Count != 2) ? ((float)i * (duckAreaSize.X / (float)(profiles.Count - 1))) : (duckAreaSize.X / 2f - duckAreaSize.X / 4f + (float)i * (duckAreaSize.X / 2f))));
             float normalizedHotness = (float)(_cool[i] + 50) / 250f;
             float zoneSize = 1f / (float)(_tempMap.Count - 2);
             int curZone = (int)(normalizedHotness * (float)(_tempMap.Count - 2));
@@ -133,15 +133,15 @@ public class HotnessAnimation
             int temp = (int)((float)_tempMap[curZone] + (float)(_tempMap[curZone + 1] - _tempMap[curZone]) * travel);
             float barMaxHeight = 50f;
             float pedHeight = normalizedHotness + 0.28f;
-            float xpos = duckAreaTL.x + centerAdd;
-            float ypos = duckAreaBR.y - 32f - pedHeight * barMaxHeight;
-            p.persona.sprite.depth = 0.3f;
+            float xpos = duckAreaTL.X + centerAdd;
+            float ypos = duckAreaBR.Y - 32f - pedHeight * barMaxHeight;
+            p.persona.sprite.Depth = 0.3f;
             p.persona.sprite.color = Color.White;
             Graphics.Draw(p.persona.sprite, 0, xpos, ypos);
             Vec2 offset = DuckRig.GetHatPoint(p.persona.sprite.imageIndex);
-            p.team.hat.depth = 0.31f;
-            p.team.hat.center = new Vec2(16f, 16f) + p.team.hatOffset;
-            Graphics.Draw(p.team.hat, p.team.hat.frame, xpos + offset.x, ypos + offset.y);
+            p.team.hat.Depth = 0.31f;
+            p.team.hat.Center = new Vec2(16f, 16f) + p.team.hatOffset;
+            Graphics.Draw(p.team.hat, p.team.hat.frame, xpos + offset.X, ypos + offset.Y);
             if (_cool.Count > 4)
             {
                 Graphics.DrawRect(new Vec2(xpos - 9f, ypos + 16f), new Vec2(xpos + 9f, 160f), p.persona.colorUsable, 0.05f);
@@ -151,21 +151,21 @@ public class HotnessAnimation
                 Graphics.DrawRect(new Vec2(xpos - 17f, ypos + 16f), new Vec2(xpos + 16f, 160f), p.persona.colorUsable, 0.05f);
             }
             string text = temp + "=";
-            _font.depth = 0.25f;
+            _font.Depth = 0.25f;
             if (_cool.Count > 4)
             {
-                _font.scale = new Vec2(0.5f);
+                _font.Scale = new Vec2(0.5f);
             }
             _font.Draw(text, new Vec2(xpos - _font.GetWidth(text) / 2f + 3f, 140f), Color.White, 0.25f);
-            _font.scale = new Vec2(1f);
-            _icon.depth = 0.3f;
+            _font.Scale = new Vec2(1f);
+            _icon.Depth = 0.3f;
             _icon.frame = (int)Math.Floor(normalizedHotness * 8.99f);
             if (_icon.frame != _lastFrame[i])
             {
                 _lastFrame[i] = _icon.frame;
                 _upScale[i] = 0.5f;
             }
-            _icon.scale = new Vec2(1f + _upScale[i]);
+            _icon.Scale = new Vec2(1f + _upScale[i]);
             Graphics.Draw(_icon, xpos, ypos + 28f);
             i++;
         }

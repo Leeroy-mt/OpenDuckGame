@@ -12,7 +12,7 @@ public class SuicidePistol : Gun
         _ammoType.immediatelyDeadly = true;
         _type = "gun";
         graphic = new Sprite("suicidePistol");
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -5f);
         collisionSize = new Vec2(16f, 10f);
         _barrelOffsetTL = new Vec2(8f, 13f);

@@ -74,17 +74,17 @@ public class UnlockableHats : Unlockable
             if (t != null && idx < 8)
             {
                 float ypos = y + 12f;
-                _persona[idx].sprite.depth = depth;
+                _persona[idx].sprite.Depth = depth;
                 _persona[idx].sprite.color = Color.White;
                 Graphics.Draw(_persona[idx].sprite, 0, x - xOff + (float)(idx * 18), ypos);
                 _persona[idx].armSprite.frame = _persona[idx].sprite.imageIndex;
-                _persona[idx].armSprite.scale = new Vec2(1f, 1f);
-                _persona[idx].armSprite.depth = depth + 4;
+                _persona[idx].armSprite.Scale = new Vec2(1f, 1f);
+                _persona[idx].armSprite.Depth = depth + 4;
                 Graphics.Draw(_persona[idx].armSprite, x - xOff + (float)(idx * 18) - 3f, ypos + 6f);
                 Vec2 offset = DuckRig.GetHatPoint(_persona[idx].sprite.imageIndex);
-                t.hat.depth = depth + 2;
-                t.hat.center = new Vec2(16f, 16f) + t.hatOffset;
-                Graphics.Draw(t.hat, t.hat.frame, x - xOff + (float)(idx * 18) + offset.x, ypos + offset.y);
+                t.hat.Depth = depth + 2;
+                t.hat.Center = new Vec2(16f, 16f) + t.hatOffset;
+                Graphics.Draw(t.hat, t.hat.frame, x - xOff + (float)(idx * 18) + offset.X, ypos + offset.Y);
             }
             idx++;
         }

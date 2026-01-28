@@ -25,7 +25,7 @@ public class PyramidWall : Block, IBigStupidWall
         _corner = new Sprite("pyWallCorner");
         _corner2 = new Sprite("pyWallCorner2");
         physicsMaterial = PhysicsMaterial.Metal;
-        base.depth = -0.9f;
+        base.Depth = -0.9f;
     }
 
     public override void Initialize()
@@ -43,7 +43,7 @@ public class PyramidWall : Block, IBigStupidWall
                 Thing t = Level.current.CollisionPoint<Thing>(check, this);
                 if (t == null || t is AutoPlatform || t is BackgroundTile)
                 {
-                    Level.Add(new PyramidTileset(check.x, check.y));
+                    Level.Add(new PyramidTileset(check.X, check.Y));
                 }
             }
         }
@@ -55,7 +55,7 @@ public class PyramidWall : Block, IBigStupidWall
                 Thing t2 = Level.current.CollisionPoint<Thing>(check2, this);
                 if (t2 == null || t2 is AutoPlatform || t2 is BackgroundTile)
                 {
-                    Level.Add(new PyramidTileset(check2.x, check2.y - 1f));
+                    Level.Add(new PyramidTileset(check2.X, check2.Y - 1f));
                 }
             }
         }
@@ -67,7 +67,7 @@ public class PyramidWall : Block, IBigStupidWall
                 Thing t3 = Level.current.CollisionPoint<Thing>(check3, this);
                 if (t3 == null || t3 is AutoPlatform || t3 is BackgroundTile)
                 {
-                    Level.Add(new PyramidTileset(check3.x, check3.y));
+                    Level.Add(new PyramidTileset(check3.X, check3.Y));
                 }
             }
         }
@@ -81,26 +81,26 @@ public class PyramidWall : Block, IBigStupidWall
             Thing t4 = Level.current.CollisionPoint<Thing>(check4, this);
             if (t4 == null || t4 is AutoPlatform || t4 is BackgroundTile)
             {
-                Level.Add(new PyramidTileset(check4.x, check4.y));
+                Level.Add(new PyramidTileset(check4.X, check4.Y));
             }
         }
     }
 
     public override void Draw()
     {
-        graphic.depth = -0.8f;
-        Graphics.Draw(graphic, base.x - 8f, base.y - 8f, new Rectangle(0f, 0f, 208f, 8f));
-        graphic.depth = -0.85f;
-        Graphics.Draw(graphic, base.x, base.y + 144f, new Rectangle(8f, 152f, 192f, 8f));
-        graphic.depth = -0.86f;
-        Graphics.Draw(graphic, base.x + 192f, base.y, new Rectangle(200f, 8f, 8f, 144f));
-        Graphics.Draw(graphic, base.x - 8f, base.y - 8f, new Rectangle(0f, 0f, 8f, 152f));
-        _corner.depth = -0.9f;
-        Graphics.Draw(_corner, base.x - 8f, base.y + 144f);
-        _corner2.depth = -0.9f;
-        Graphics.Draw(_corner2, base.x + 192f, base.y + 144f);
-        graphic.depth = -0.7f;
-        Graphics.Draw(graphic, base.x, base.y, new Rectangle(8f, 8f, 192f, 144f));
+        graphic.Depth = -0.8f;
+        Graphics.Draw(graphic, base.X - 8f, base.Y - 8f, new Rectangle(0f, 0f, 208f, 8f));
+        graphic.Depth = -0.85f;
+        Graphics.Draw(graphic, base.X, base.Y + 144f, new Rectangle(8f, 152f, 192f, 8f));
+        graphic.Depth = -0.86f;
+        Graphics.Draw(graphic, base.X + 192f, base.Y, new Rectangle(200f, 8f, 8f, 144f));
+        Graphics.Draw(graphic, base.X - 8f, base.Y - 8f, new Rectangle(0f, 0f, 8f, 152f));
+        _corner.Depth = -0.9f;
+        Graphics.Draw(_corner, base.X - 8f, base.Y + 144f);
+        _corner2.Depth = -0.9f;
+        Graphics.Draw(_corner2, base.X + 192f, base.Y + 144f);
+        graphic.Depth = -0.7f;
+        Graphics.Draw(graphic, base.X, base.Y, new Rectangle(8f, 8f, 192f, 144f));
         if (!DevConsole.showCollision)
         {
             return;

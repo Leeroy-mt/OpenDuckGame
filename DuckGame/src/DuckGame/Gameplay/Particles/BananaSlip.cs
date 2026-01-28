@@ -10,7 +10,7 @@ public class BananaSlip : Thing
         _sprite = new SpriteMap("slip", 32, 32);
         _sprite.AddAnimation("slip", 0.45f, false, 0, 1, 2, 3);
         _sprite.SetAnimation("slip");
-        center = new Vec2(19f, 31f);
+        Center = new Vec2(19f, 31f);
         graphic = _sprite;
         _sprite.flipH = flip;
     }

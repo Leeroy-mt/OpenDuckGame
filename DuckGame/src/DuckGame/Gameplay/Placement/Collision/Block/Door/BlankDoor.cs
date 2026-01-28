@@ -12,8 +12,8 @@ public class BlankDoor : Thing
 
     public override void Draw()
     {
-        _fontSmall.DrawOutline("DUCK", new Vec2(base.x + 22f, base.y + 40f), Color.White, Colors.BlueGray, base.depth + 10);
-        _fontSmall.DrawOutline("GAME", new Vec2(base.x + 90f, base.y + 40f), Color.White, Colors.BlueGray, base.depth + 10);
+        _fontSmall.DrawOutline("DUCK", new Vec2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, base.Depth + 10);
+        _fontSmall.DrawOutline("GAME", new Vec2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, base.Depth + 10);
         base.Draw();
     }
 }

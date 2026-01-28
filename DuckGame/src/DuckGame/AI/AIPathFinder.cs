@@ -114,7 +114,7 @@ public class AIPathFinder
     {
         if (_followObject != null)
         {
-            SetTarget(_followObject.position, target);
+            SetTarget(_followObject.Position, target);
         }
         else
         {
@@ -126,7 +126,7 @@ public class AIPathFinder
     {
         if (_followObject != null)
         {
-            SetTarget(_followObject.position, target.owner.position);
+            SetTarget(_followObject.Position, target.owner.Position);
         }
     }
 
@@ -135,11 +135,11 @@ public class AIPathFinder
         _revert = null;
         _path = null;
         List<Thing> nodes = Level.current.things[typeof(PathNode)].ToList();
-        nodes.Sort((Thing a, Thing b) => (!((a.position - position).lengthSq < (b.position - position).lengthSq)) ? 1 : (-1));
+        nodes.Sort((Thing a, Thing b) => (!((a.Position - position).lengthSq < (b.Position - position).lengthSq)) ? 1 : (-1));
         PathNode startNode = null;
         foreach (Thing t in nodes)
         {
-            if (PathNode.LineIsClear(position, t.position))
+            if (PathNode.LineIsClear(position, t.Position))
             {
                 startNode = t as PathNode;
                 break;
@@ -149,11 +149,11 @@ public class AIPathFinder
         {
             return;
         }
-        nodes.Sort((Thing a, Thing b) => (!((a.position - target).lengthSq < (b.position - target).lengthSq)) ? 1 : (-1));
+        nodes.Sort((Thing a, Thing b) => (!((a.Position - target).lengthSq < (b.Position - target).lengthSq)) ? 1 : (-1));
         PathNode endNode = null;
         foreach (Thing t2 in nodes)
         {
-            if (PathNode.LineIsClear(target, t2.position))
+            if (PathNode.LineIsClear(target, t2.Position))
             {
                 endNode = t2 as PathNode;
                 break;
@@ -169,7 +169,7 @@ public class AIPathFinder
             return;
         }
         bool skipFirst = false;
-        if (p.nodes.Count > 1 && PathNode.LineIsClear(position, p.nodes[1].position))
+        if (p.nodes.Count > 1 && PathNode.LineIsClear(position, p.nodes[1].Position))
         {
             skipFirst = true;
         }

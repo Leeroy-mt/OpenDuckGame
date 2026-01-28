@@ -15,7 +15,7 @@ public class PhysicsRopeSection : PhysicsObject
     public PhysicsRopeSection(float xpos, float ypos, PhysicsRope r)
         : base(xpos, ypos)
     {
-        tempPos = position;
+        tempPos = Position;
         collisionSize = new Vec2(4f, 4f);
         collisionOffset = new Vec2(-2f, -2f);
         weight = 0.1f;

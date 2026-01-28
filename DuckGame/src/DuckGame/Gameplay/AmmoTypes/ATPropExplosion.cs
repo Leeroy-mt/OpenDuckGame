@@ -6,9 +6,9 @@ public class ATPropExplosion : ATShrapnel
     {
         for (int repeat = 0; repeat < 1; repeat++)
         {
-            ExplosionPart explosionPart = new ExplosionPart(pos.x - 8f + Rando.Float(16f), pos.y - 8f + Rando.Float(16f));
-            explosionPart.xscale *= 0.7f;
-            explosionPart.yscale *= 0.7f;
+            ExplosionPart explosionPart = new ExplosionPart(pos.X - 8f + Rando.Float(16f), pos.Y - 8f + Rando.Float(16f));
+            explosionPart.ScaleX *= 0.7f;
+            explosionPart.ScaleY *= 0.7f;
             Level.Add(explosionPart);
         }
         SFX.Play("explode");

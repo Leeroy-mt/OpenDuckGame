@@ -10,7 +10,7 @@ public class CameraBounds : Thing
     public CameraBounds()
     {
         graphic = new Sprite("swirl");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionSize = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -8f);
         _canFlip = false;
@@ -24,6 +24,6 @@ public class CameraBounds : Thing
         base.Draw();
         float wid = wide.value;
         float hig = high.value;
-        Graphics.DrawRect(position + new Vec2((0f - wid) / 2f, (0f - hig) / 2f), position + new Vec2(wid / 2f, hig / 2f), Color.Blue * 0.5f, 1f, filled: false);
+        Graphics.DrawRect(Position + new Vec2((0f - wid) / 2f, (0f - hig) / 2f), Position + new Vec2(wid / 2f, hig / 2f), Color.Blue * 0.5f, 1f, filled: false);
     }
 }

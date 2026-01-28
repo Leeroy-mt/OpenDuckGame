@@ -1,48 +1,42 @@
 namespace DuckGame;
 
-public class UIOnOff : UIText
+public class UIOnOff(float wide, float high, FieldBinding field, FieldBinding filterBinding)
+    : UIText("ON OFF", Color.White)
 {
-    private FieldBinding _field;
+    #region Private Fields
 
-    private FieldBinding _filterBinding;
+    FieldBinding _field = field;
 
-    public UIOnOff(float wide, float high, FieldBinding field, FieldBinding filterBinding)
-        : base("ON OFF", Color.White)
-    {
-        _field = field;
-        _filterBinding = filterBinding;
-    }
+    FieldBinding _filterBinding = filterBinding;
+
+    #endregion
+
+    #region Public Methods
 
     public override void Draw()
     {
-        _font.scale = base.scale;
-        _font.alpha = base.alpha;
+        _font.Scale = Scale;
+        _font.Alpha = Alpha;
         string display = "ON OFF";
         float textWidth = _font.GetWidth(display);
-        float xOffset = 0f;
-        xOffset = (((base.align & UIAlign.Left) > UIAlign.Center) ? (0f - base.width / 2f) : (((base.align & UIAlign.Right) <= UIAlign.Center) ? ((0f - textWidth) / 2f) : (base.width / 2f - textWidth)));
-        float yOffset = 0f;
-        yOffset = (((base.align & UIAlign.Top) > UIAlign.Center) ? (0f - base.height / 2f) : (((base.align & UIAlign.Bottom) <= UIAlign.Center) ? ((0f - _font.height) / 2f) : (base.height / 2f - _font.height)));
+        float xOffset = ((align & UIAlign.Left) > UIAlign.Center) ? (-width / 2) : (((align & UIAlign.Right) <= UIAlign.Center) ? (-textWidth / 2) : (width / 2 - textWidth));
+        float yOffset = ((align & UIAlign.Top) > UIAlign.Center) ? (-height / 2) : (((align & UIAlign.Bottom) <= UIAlign.Center) ? (-_font.height / 2) : (height / 2 - _font.height));
         bool val = (bool)_field.value;
         if (_filterBinding != null)
         {
             if (!(bool)_filterBinding.value)
-            {
-                _font.Draw("   ANY", base.x + xOffset, base.y + yOffset, Color.White, base.depth);
-            }
+                _font.Draw("   ANY", X + xOffset, Y + yOffset, Color.White, Depth);
             else if (val)
-            {
-                _font.Draw("    ON", base.x + xOffset, base.y + yOffset, Color.White, base.depth);
-            }
+                _font.Draw("    ON", X + xOffset, Y + yOffset, Color.White, Depth);
             else
-            {
-                _font.Draw("   OFF", base.x + xOffset, base.y + yOffset, Color.White, base.depth);
-            }
+                _font.Draw("   OFF", X + xOffset, Y + yOffset, Color.White, Depth);
         }
         else
         {
-            _font.Draw("ON", base.x + xOffset, base.y + yOffset, val ? Color.White : new Color(70, 70, 70), base.depth);
-            _font.Draw("   OFF", base.x + xOffset, base.y + yOffset, (!val) ? Color.White : new Color(70, 70, 70), base.depth);
+            _font.Draw("ON", X + xOffset, Y + yOffset, val ? Color.White : new Color(70, 70, 70), Depth);
+            _font.Draw("   OFF", X + xOffset, Y + yOffset, !val ? Color.White : new Color(70, 70, 70), Depth);
         }
     }
+
+    #endregion
 }

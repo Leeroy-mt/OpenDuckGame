@@ -8,15 +8,15 @@ public class SpringUpLeft : SpringUpRight
         : base(xpos, ypos)
     {
         UpdateSprite();
-        center = new Vec2(8f, 7f);
+        Center = new Vec2(8f, 7f);
         collisionOffset = new Vec2(-8f, 0f);
         collisionSize = new Vec2(16f, 8f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Spring UpLeft";
         editorTooltip = "Can't reach a high platform or want to get somewhere fast? That's why we built springs.";
         physicsMaterial = PhysicsMaterial.Metal;
         editorCycleType = typeof(Spring);
-        base.angleDegrees = -45f;
+        base.AngleDegrees = -45f;
     }
 
     public override void Touch(MaterialThing with)
@@ -71,11 +71,11 @@ public class SpringUpLeft : SpringUpRight
     {
         if (flipHorizontal)
         {
-            base.angleDegrees = 45f;
+            base.AngleDegrees = 45f;
         }
         else
         {
-            base.angleDegrees = -45f;
+            base.AngleDegrees = -45f;
         }
     }
 

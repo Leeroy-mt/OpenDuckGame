@@ -21,11 +21,11 @@ public class Flower : Holdable
     {
         graphic = new Sprite("flower");
         _burnt = new Sprite("flower_burned");
-        center = new Vec2(8f, 12f);
+        Center = new Vec2(8f, 12f);
         collisionOffset = new Vec2(-3f, -12f);
         collisionSize = new Vec2(6f, 14f);
         _holdOffset = new Vec2(-2f, 2f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         weight = 1f;
         flammable = 0.3f;
         base.hugWalls = WallHug.Floor;
@@ -42,14 +42,14 @@ public class Flower : Holdable
         for (int i = 0; i < 4; i++)
         {
             ConfettiParticle confettiParticle = new ConfettiParticle();
-            confettiParticle.Init(pPosition.x + Rando.Float(-4f, 0f), pPosition.y + Rando.Float(-4f, 6f), new Vec2(Rando.Float(-1f, 0f), Rando.Float(-1f, 1f)));
+            confettiParticle.Init(pPosition.X + Rando.Float(-4f, 0f), pPosition.Y + Rando.Float(-4f, 6f), new Vec2(Rando.Float(-1f, 0f), Rando.Float(-1f, 1f)));
             confettiParticle._color = new Color(49, 163, 242);
             Level.Add(confettiParticle);
         }
         for (int j = 0; j < 2; j++)
         {
             ConfettiParticle confettiParticle2 = new ConfettiParticle();
-            confettiParticle2.Init(pPosition.x + Rando.Float(-4f, 0f), pPosition.y + Rando.Float(-4f, 6f), new Vec2(Rando.Float(-1f, 0f), Rando.Float(-1f, 1f)));
+            confettiParticle2.Init(pPosition.X + Rando.Float(-4f, 0f), pPosition.Y + Rando.Float(-4f, 6f), new Vec2(Rando.Float(-1f, 0f), Rando.Float(-1f, 1f)));
             confettiParticle2._color = new Color(163, 206, 39);
             Level.Add(confettiParticle2);
         }
@@ -62,11 +62,11 @@ public class Flower : Holdable
             if (graphic != _burnt)
             {
                 SFX.Play("flameExplode");
-                Level.Add(SmallFire.New(base.x + Rando.Float(-2f, 2f), base.y + Rando.Float(-2f, 2f), -1f + Rando.Float(2f), -1f + Rando.Float(2f), shortLife: false, null, canMultiply: true, this));
-                Level.Add(SmallFire.New(base.x + Rando.Float(-2f, 2f), base.y + Rando.Float(-2f, 2f), -1f + Rando.Float(2f), -1f + Rando.Float(2f), shortLife: false, null, canMultiply: true, this));
+                Level.Add(SmallFire.New(base.X + Rando.Float(-2f, 2f), base.Y + Rando.Float(-2f, 2f), -1f + Rando.Float(2f), -1f + Rando.Float(2f), shortLife: false, null, canMultiply: true, this));
+                Level.Add(SmallFire.New(base.X + Rando.Float(-2f, 2f), base.Y + Rando.Float(-2f, 2f), -1f + Rando.Float(2f), -1f + Rando.Float(2f), shortLife: false, null, canMultiply: true, this));
                 for (int i = 0; i < 3; i++)
                 {
-                    Level.Add(SmallSmoke.New(base.x + Rando.Float(-2f, 2f), base.y + Rando.Float(-2f, 2f)));
+                    Level.Add(SmallSmoke.New(base.X + Rando.Float(-2f, 2f), base.Y + Rando.Float(-2f, 2f)));
                 }
             }
             graphic = _burnt;
@@ -87,10 +87,10 @@ public class Flower : Holdable
                 }
                 if (!_stuck.removeFromLevel || !base.isServerForObject)
                 {
-                    position = _stuck.Offset(_stuck.barrelOffset + _stuck.barrelInsertOffset + new Vec2(1f, 1f));
+                    Position = _stuck.Offset(_stuck.barrelOffset + _stuck.barrelInsertOffset + new Vec2(1f, 1f));
                     offDir = _stuck.offDir;
-                    base.angleDegrees = _stuck.angleDegrees + (float)(90 * offDir);
-                    base.depth = _stuck.depth - 4;
+                    base.AngleDegrees = _stuck.AngleDegrees + (float)(90 * offDir);
+                    base.Depth = _stuck.Depth - 4;
                     base.velocity = Vec2.Zero;
                     if (_stuck._barrelHeat < _prevBarrelHeat)
                     {
@@ -98,10 +98,10 @@ public class Flower : Holdable
                     }
                     if (base.isServerForObject && _stuck._barrelHeat > _prevBarrelHeat + 0.01f)
                     {
-                        PoofEffect(position);
+                        PoofEffect(Position);
                         if (Network.isActive)
                         {
-                            Send.Message(new NMFlowerPoof(position));
+                            Send.Message(new NMFlowerPoof(Position));
                         }
                         Level.Remove(this);
                     }
@@ -123,19 +123,19 @@ public class Flower : Holdable
             if (owner != null)
             {
                 framesSinceThrown = 0;
-                center = new Vec2(8f, 12f);
+                Center = new Vec2(8f, 12f);
                 collisionOffset = new Vec2(-3f, -12f);
                 collisionSize = new Vec2(6f, 14f);
-                base.angleDegrees = 0f;
+                base.AngleDegrees = 0f;
                 graphic.flipH = offDir < 0;
             }
             else
             {
-                base.depth = -0.5f;
+                base.Depth = -0.5f;
                 if (framesSinceThrown < 15)
                 {
-                    Gun g = Level.current.NearestThing<Gun>(position);
-                    if (g != null && (g.barrelPosition - position).length < 4f && g.held && g.wideBarrel && ((g.offDir > 0 && hSpeed < 0f) || (g.offDir < 0 && hSpeed > 0f)))
+                    Gun g = Level.current.NearestThing<Gun>(Position);
+                    if (g != null && (g.barrelPosition - Position).Length() < 4f && g.held && g.wideBarrel && ((g.offDir > 0 && hSpeed < 0f) || (g.offDir < 0 && hSpeed > 0f)))
                     {
                         _stuck = g;
                         _prevBarrelHeat = _stuck._barrelHeat;
@@ -143,12 +143,12 @@ public class Flower : Holdable
                     }
                 }
                 framesSinceThrown++;
-                center = new Vec2(8f, 8f);
+                Center = new Vec2(8f, 8f);
                 collisionOffset = new Vec2(-7f, -5f);
                 collisionSize = new Vec2(14f, 6f);
-                base.angleDegrees = 90f;
+                base.AngleDegrees = 90f;
                 graphic.flipH = true;
-                base.depth = 0.4f;
+                base.Depth = 0.4f;
             }
         }
         base.Update();
@@ -180,7 +180,7 @@ public class Flower : Holdable
         SFX.Play("flameExplode");
         for (int i = 0; i < 8; i++)
         {
-            Level.Add(SmallFire.New(base.x + Rando.Float(-8f, 8f), base.y + Rando.Float(-8f, 8f), -3f + Rando.Float(6f), -3f + Rando.Float(6f), shortLife: false, null, canMultiply: true, this));
+            Level.Add(SmallFire.New(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-8f, 8f), -3f + Rando.Float(6f), -3f + Rando.Float(6f), shortLife: false, null, canMultiply: true, this));
         }
     }
 
@@ -196,10 +196,10 @@ public class Flower : Holdable
     {
         if (_stuck != null)
         {
-            position = _stuck.Offset(_stuck.barrelOffset + _stuck.barrelInsertOffset + new Vec2(1f, 1f));
+            Position = _stuck.Offset(_stuck.barrelOffset + _stuck.barrelInsertOffset + new Vec2(1f, 1f));
             offDir = _stuck.offDir;
-            base.angleDegrees = _stuck.angleDegrees + (float)(90 * offDir);
-            base.depth = _stuck.depth - 4;
+            base.AngleDegrees = _stuck.AngleDegrees + (float)(90 * offDir);
+            base.Depth = _stuck.Depth - 4;
             base.velocity = Vec2.Zero;
         }
         base.Draw();

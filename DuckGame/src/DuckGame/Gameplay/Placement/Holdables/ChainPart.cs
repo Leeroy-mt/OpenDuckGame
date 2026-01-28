@@ -9,15 +9,15 @@ public class ChainPart : Vine
     {
         _sprite = new SpriteMap("chain", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-5f, -4f);
         collisionSize = new Vec2(11f, 7f);
         weight = 0.1f;
         thickness = 0.1f;
         canPickUp = false;
         initLength = init;
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _vinePartSprite = new Sprite("chain");
-        _vinePartSprite.center = new Vec2(8f, 0f);
+        _vinePartSprite.Center = new Vec2(8f, 0f);
     }
 }

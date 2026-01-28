@@ -8,9 +8,9 @@ public class HiHat : Drum
         : base(xpos, ypos)
     {
         graphic = new Sprite("drumset/hat");
-        center = new Vec2(graphic.w / 2, graphic.h / 2);
+        Center = new Vec2(graphic.w / 2, graphic.h / 2);
         _stand = new Sprite("drumset/hatStand");
-        _stand.center = new Vec2(_stand.w / 2, 0f);
+        _stand.Center = new Vec2(_stand.w / 2, 0f);
         _sound = "hatClosed";
         _alternateSound = "hatOpen";
     }
@@ -18,7 +18,7 @@ public class HiHat : Drum
     public override void Draw()
     {
         base.Draw();
-        _stand.depth = base.depth - 1;
-        Graphics.Draw(_stand, base.x, base.y - 4f);
+        _stand.Depth = base.Depth - 1;
+        Graphics.Draw(_stand, base.X, base.Y - 4f);
     }
 }

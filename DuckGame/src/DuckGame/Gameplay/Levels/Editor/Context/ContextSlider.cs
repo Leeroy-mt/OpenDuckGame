@@ -37,8 +37,8 @@ public class ContextSlider : ContextMenu
     public ContextSlider(string text, IContextListener owner, FieldBinding field, float step, string minSpecial, bool time, Type myType, string valTooltip)
         : base(owner)
     {
-        itemSize.x = 150f;
-        itemSize.y = 16f;
+        itemSize.X = 150f;
+        itemSize.Y = 16f;
         _text = text;
         _field = field;
         _radioButton = new SpriteMap("Editor/radioButton", 16, 16);
@@ -58,8 +58,8 @@ public class ContextSlider : ContextMenu
     public ContextSlider(string text, IContextListener owner, FieldBinding field = null, float step = 0.25f, string minSpecial = null, bool time = false, Type myType = null)
         : base(owner)
     {
-        itemSize.x = 150f;
-        itemSize.y = 16f;
+        itemSize.X = 150f;
+        itemSize.Y = 16f;
         _text = text;
         _field = field;
         _radioButton = new SpriteMap("Editor/radioButton", 16, 16);
@@ -83,24 +83,24 @@ public class ContextSlider : ContextMenu
 
     public override void Selected()
     {
-        if (Editor.inputMode == EditorInput.Mouse || (!_enteringSlideMode && Editor.inputMode == EditorInput.Touch && TouchScreen.GetPress().Check(new Rectangle(base.x, base.y, itemSize.x, itemSize.y), base.layer.camera)))
+        if (Editor.inputMode == EditorInput.Mouse || (!_enteringSlideMode && Editor.inputMode == EditorInput.Touch && TouchScreen.GetPress().Check(new Rectangle(base.X, base.Y, itemSize.X, itemSize.Y), base.layer.camera)))
         {
             _canEditSlide = true;
         }
         _enteringSlideMode = false;
-        if (_canEditSlide && (Editor.inputMode == EditorInput.Mouse || (Editor.inputMode == EditorInput.Touch && TouchScreen.GetTouch().Check(new Rectangle(base.x, base.y, itemSize.x, itemSize.y), base.layer.camera))))
+        if (_canEditSlide && (Editor.inputMode == EditorInput.Mouse || (Editor.inputMode == EditorInput.Touch && TouchScreen.GetTouch().Check(new Rectangle(base.X, base.Y, itemSize.X, itemSize.Y), base.layer.camera))))
         {
             _sliding = true;
-            float pos = Maths.Clamp(Mouse.x - position.x, 0f, itemSize.x);
+            float pos = Maths.Clamp(Mouse.x - Position.X, 0f, itemSize.X);
             if (Editor.inputMode == EditorInput.Touch)
             {
-                pos = Maths.Clamp(TouchScreen.GetTouch().Transform(base.layer.camera).x - position.x, 0f, itemSize.x);
+                pos = Maths.Clamp(TouchScreen.GetTouch().Transform(base.layer.camera).X - Position.X, 0f, itemSize.X);
             }
             if (_field.value is List<TypeProbPair>)
             {
                 if (_step > 0f)
                 {
-                    pos = (float)Math.Round(pos / itemSize.x * 1f / _step) * _step / 1f * itemSize.x;
+                    pos = (float)Math.Round(pos / itemSize.X * 1f / _step) * _step / 1f * itemSize.X;
                 }
                 TypeProbPair p = null;
                 List<TypeProbPair> list = _field.value as List<TypeProbPair>;
@@ -121,7 +121,7 @@ public class ContextSlider : ContextMenu
                     };
                     list.Add(p);
                 }
-                p.probability = 0f + pos / itemSize.x * 1f;
+                p.probability = 0f + pos / itemSize.X * 1f;
                 if (p.probability == 0f)
                 {
                     list.Remove(p);
@@ -132,19 +132,19 @@ public class ContextSlider : ContextMenu
                 float fullRange = Math.Abs(_field.max - _field.min);
                 if (_step > 0f)
                 {
-                    pos = Maths.Snap(pos / itemSize.x * fullRange, _step) / fullRange * itemSize.x;
+                    pos = Maths.Snap(pos / itemSize.X * fullRange, _step) / fullRange * itemSize.X;
                 }
                 if (_field.value is float)
                 {
-                    _field.value = _field.min + pos / itemSize.x * fullRange;
+                    _field.value = _field.min + pos / itemSize.X * fullRange;
                 }
                 else if (_field.value is int)
                 {
-                    _field.value = (int)Math.Round(_field.min + pos / itemSize.x * (Math.Abs(_field.min) + _field.max));
+                    _field.value = (int)Math.Round(_field.min + pos / itemSize.X * (Math.Abs(_field.min) + _field.max));
                 }
                 else if (_field.value != null && _field.value.GetType().IsEnum)
                 {
-                    int num = (int)Math.Round(_field.min + pos / itemSize.x * (Math.Abs(_field.min) + _field.max));
+                    int num = (int)Math.Round(_field.min + pos / itemSize.X * (Math.Abs(_field.min) + _field.max));
                     Array vals = Enum.GetValues(_field.value.GetType());
                     if (num >= 0 && num < vals.Length)
                     {
@@ -387,9 +387,9 @@ public class ContextSlider : ContextMenu
         if (_adjust)
         {
             float gapSize = _field.max - _field.min;
-            float offset = 4f + (gapSize - (_field.max - fVal)) / gapSize * (itemSize.x - 8f);
+            float offset = 4f + (gapSize - (_field.max - fVal)) / gapSize * (itemSize.X - 8f);
             float leftPos = 0f;
-            float rightPos = itemSize.x;
+            float rightPos = itemSize.X;
             val = _text + ": " + val;
             Color c = Color.White;
             if (_field.value is List<TypeProbPair>)
@@ -403,43 +403,43 @@ public class ContextSlider : ContextMenu
             }
             bool drawFlipped = false;
             float valStringWidth = Graphics.GetStringWidth(val);
-            if (position.x + itemSize.x + 8f + valStringWidth > base.layer.width)
+            if (Position.X + itemSize.X + 8f + valStringWidth > base.layer.width)
             {
                 drawFlipped = true;
             }
             if (drawFlipped)
             {
                 leftPos = 0f - valStringWidth - 12f;
-                Graphics.DrawString(val, position + new Vec2(0f - valStringWidth - 8f, 5f), c, 0.82f + depthAdd);
+                Graphics.DrawString(val, Position + new Vec2(0f - valStringWidth - 8f, 5f), c, 0.82f + depthAdd);
             }
             else
             {
-                Graphics.DrawString(val, position + new Vec2(itemSize.x + 8f, 5f), c, 0.82f + depthAdd);
+                Graphics.DrawString(val, Position + new Vec2(itemSize.X + 8f, 5f), c, 0.82f + depthAdd);
                 rightPos += valStringWidth + 10f;
             }
-            Graphics.DrawRect(position + new Vec2(offset - 2f, 3f), position + new Vec2(offset + 2f, itemSize.y - 3f), new Color(250, 250, 250), 0.85f + depthAdd);
-            Graphics.DrawRect(position + new Vec2(leftPos, 0f), position + new Vec2(rightPos, itemSize.y), new Color(70, 70, 70), 0.75f + depthAdd);
-            Graphics.DrawRect(position + new Vec2(4f, itemSize.y / 2f - 2f), position + new Vec2(itemSize.x - 4f, itemSize.y / 2f + 2f), new Color(150, 150, 150), 0.82f + depthAdd);
+            Graphics.DrawRect(Position + new Vec2(offset - 2f, 3f), Position + new Vec2(offset + 2f, itemSize.Y - 3f), new Color(250, 250, 250), 0.85f + depthAdd);
+            Graphics.DrawRect(Position + new Vec2(leftPos, 0f), Position + new Vec2(rightPos, itemSize.Y), new Color(70, 70, 70), 0.75f + depthAdd);
+            Graphics.DrawRect(Position + new Vec2(4f, itemSize.Y / 2f - 2f), Position + new Vec2(itemSize.X - 4f, itemSize.Y / 2f + 2f), new Color(150, 150, 150), 0.82f + depthAdd);
             if (Editor.inputMode == EditorInput.Gamepad)
             {
-                Vec2 handPos = position + new Vec2(offset, 0f);
-                _adjusterHand.depth = 0.9f;
-                Graphics.Draw(_adjusterHand, handPos.x - 6f, handPos.y - 6f);
+                Vec2 handPos = Position + new Vec2(offset, 0f);
+                _adjusterHand.Depth = 0.9f;
+                Graphics.Draw(_adjusterHand, handPos.X - 6f, handPos.Y - 6f);
             }
         }
         else
         {
             if (_hover)
             {
-                Graphics.DrawRect(position, position + itemSize, new Color(70, 70, 70), base.depth);
+                Graphics.DrawRect(Position, Position + itemSize, new Color(70, 70, 70), base.Depth);
             }
             Color c2 = Color.White;
             if (_field.value is List<TypeProbPair>)
             {
                 c2 = ((fVal == 0f) ? Color.DarkGray : ((fVal < 0.3f) ? Colors.DGRed : ((!(fVal < 0.7f)) ? Color.Green : Color.Orange)));
             }
-            Graphics.DrawString(_text, position + new Vec2(2f, 5f), c2, 0.82f);
-            Graphics.DrawString(val, position + new Vec2(itemSize.x - 4f - Graphics.GetStringWidth(val), 5f), Color.White, 0.82f);
+            Graphics.DrawString(_text, Position + new Vec2(2f, 5f), c2, 0.82f);
+            Graphics.DrawString(val, Position + new Vec2(itemSize.X - 4f - Graphics.GetStringWidth(val), 5f), Color.White, 0.82f);
         }
     }
 }

@@ -30,7 +30,7 @@ public class CampingRifle : Gun
         _sprite = new SpriteMap("camping", 23, 15);
         _sprite.speed = 0f;
         graphic = _sprite;
-        center = new Vec2(11f, 7f);
+        Center = new Vec2(11f, 7f);
         collisionOffset = new Vec2(-10f, -5f);
         collisionSize = new Vec2(20f, 12f);
         _barrelOffsetTL = new Vec2(22f, 6f);
@@ -41,7 +41,7 @@ public class CampingRifle : Gun
         _manualLoad = true;
         flammable = 1f;
         _loaderSprite = new SpriteMap("camping_loader", 6, 4);
-        _loaderSprite.center = new Vec2(3f, 2f);
+        _loaderSprite.Center = new Vec2(3f, 2f);
         _holdOffset = new Vec2(0f, -2f);
         _editorName = "Camping Gun";
         editorTooltip = "Designed to get campers into bed quickly.";
@@ -152,8 +152,8 @@ public class CampingRifle : Gun
                 Vec2 pos = Offset(base.barrelOffset);
                 for (int i = 0; i < 6; i++)
                 {
-                    CampingSmoke smoke = new CampingSmoke(base.barrelPosition.x - 8f + Rando.Float(8f) + (float)offDir * 8f, base.barrelPosition.y - 8f + Rando.Float(8f));
-                    smoke.depth = 0.9f + (float)i * 0.001f;
+                    CampingSmoke smoke = new CampingSmoke(base.barrelPosition.X - 8f + Rando.Float(8f) + (float)offDir * 8f, base.barrelPosition.Y - 8f + Rando.Float(8f));
+                    smoke.Depth = 0.9f + (float)i * 0.001f;
                     if (i < 3)
                     {
                         smoke.move -= base.barrelVector * Rando.Float(0.05f);
@@ -166,7 +166,7 @@ public class CampingRifle : Gun
                 }
                 if (!receivingPress)
                 {
-                    CampingBall n = new CampingBall(pos.x, pos.y - 2f, base.duck);
+                    CampingBall n = new CampingBall(pos.X, pos.Y - 2f, base.duck);
                     Level.Add(n);
                     Fondle(n);
                     if (base.onFire)
@@ -178,8 +178,8 @@ public class CampingRifle : Gun
                         n.responsibleProfile = owner.responsibleProfile;
                     }
                     n.clip.Add(owner as MaterialThing);
-                    n.hSpeed = base.barrelVector.x * 10f;
-                    n.vSpeed = base.barrelVector.y * 7f - 0.75f;
+                    n.hSpeed = base.barrelVector.X * 10f;
+                    n.vSpeed = base.barrelVector.Y * 7f - 0.75f;
                 }
             }
             _loadProgress = -1;
@@ -201,6 +201,6 @@ public class CampingRifle : Gun
         base.Draw();
         Vec2 bOffset = new Vec2(13f, -2f);
         float offset = (float)Math.Sin(_loadAnimation * 3.14f) * 3f;
-        Draw(_loaderSprite, new Vec2(bOffset.x - 8f - offset, bOffset.y + 4f));
+        Draw(_loaderSprite, new Vec2(bOffset.X - 8f - offset, bOffset.Y + 4f));
     }
 }

@@ -8,16 +8,16 @@ public class CrashCymbal : Drum
         : base(xpos, ypos)
     {
         graphic = new("drumset/crashCymbal");
-        center = new(graphic.w / 2, graphic.h / 2);
+        Center = new(graphic.w / 2, graphic.h / 2);
         _stand = new("drumset/crashStand");
-        _stand.center = new(_stand.w / 2, 0);
+        _stand.Center = new(_stand.w / 2, 0);
         _sound = "crash";
     }
 
     public override void Draw()
     {
         base.Draw();
-        _stand.depth = depth - 1;
-        Graphics.Draw(_stand, x, y + 1);
+        _stand.Depth = Depth - 1;
+        Graphics.Draw(_stand, X, Y + 1);
     }
 }

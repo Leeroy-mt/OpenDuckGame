@@ -16,12 +16,12 @@ public class Respawner : Thing, IDrawToDifferentLayers
     {
         _sprite = new SpriteMap("respawner", 18, 10);
         graphic = _sprite;
-        center = new Vec2(9f, 5f);
+        Center = new Vec2(9f, 5f);
         collisionOffset = new Vec2(-8f, -4f);
         collisionSize = new Vec2(16f, 4f);
         base.hugWalls = WallHug.Floor;
         base.layer = Layer.Blocks;
-        base.depth = 0.8f;
+        base.Depth = 0.8f;
         _animate = Rando.Float(100f);
         editorTooltip = "";
     }
@@ -38,32 +38,32 @@ public class Respawner : Thing, IDrawToDifferentLayers
             return;
         }
         _animate += 0.05f;
-        _ = base.y;
+        _ = base.Y;
         int numLines = 6;
         for (int i = 0; i < numLines; i++)
         {
-            Vec2 linePos = new Vec2(base.x - 6f, base.y - (float)i * 4f - _animate % 1f * 4f);
-            float dist = 1f - (base.y - linePos.y) / 24f;
+            Vec2 linePos = new Vec2(base.X - 6f, base.Y - (float)i * 4f - _animate % 1f * 4f);
+            float dist = 1f - (base.Y - linePos.Y) / 24f;
             float thick = dist * 3f;
-            linePos.y += thick / 2f;
+            linePos.Y += thick / 2f;
             Graphics.DrawLine(linePos, linePos + new Vec2(12f, 0f), Colors.DGBlue * (dist * 0.8f), thick, -0.75f);
         }
         Vec2 noiseSize = new Vec2(7f, 8f);
-        Vec2 noisePos = position + new Vec2(-7f, -24f);
-        for (int j = 0; (float)j < noiseSize.x * noiseSize.y; j++)
+        Vec2 noisePos = Position + new Vec2(-7f, -24f);
+        for (int j = 0; (float)j < noiseSize.X * noiseSize.Y; j++)
         {
-            Vec2 pos = new Vec2((int)((float)j % noiseSize.x), (int)((float)j / noiseSize.y));
-            float fallSpeedMult = (Noise.Generate(pos.x * 32f, 0f) + 1f) / 2f * 1.5f + 0.1f;
+            Vec2 pos = new Vec2((int)((float)j % noiseSize.X), (int)((float)j / noiseSize.Y));
+            float fallSpeedMult = (Noise.Generate(pos.X * 32f, 0f) + 1f) / 2f * 1.5f + 0.1f;
             float noiseOffsetMult = (int)(_animate * fallSpeedMult / 1f);
             float noiseOffsetY = _animate * 0.1f - noiseOffsetMult;
-            float noise = Noise.Generate(pos.x + 100f, (pos.y + 100f - noiseOffsetY) * 0.5f);
+            float noise = Noise.Generate(pos.X + 100f, (pos.Y + 100f - noiseOffsetY) * 0.5f);
             if (noise > 0.25f)
             {
-                pos.y -= _animate * fallSpeedMult % 1f;
-                float edge = 1f - Math.Abs((noiseSize.x / 2f - pos.x) / noiseSize.x * 2f);
-                float a = (noise - 0.25f) / 0.75f * edge * Math.Max(0f, Math.Min((pos.y / noiseSize.y - 0.1f) * 2f, 1f));
+                pos.Y -= _animate * fallSpeedMult % 1f;
+                float edge = 1f - Math.Abs((noiseSize.X / 2f - pos.X) / noiseSize.X * 2f);
+                float a = (noise - 0.25f) / 0.75f * edge * Math.Max(0f, Math.Min((pos.Y / noiseSize.Y - 0.1f) * 2f, 1f));
                 pos *= 2f;
-                pos.y *= 2f;
+                pos.Y *= 2f;
                 Graphics.DrawRect(pos + noisePos, pos + noisePos + new Vec2(1f, 1f), Color.White * a, -0.5f);
             }
         }

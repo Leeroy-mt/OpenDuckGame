@@ -1,6 +1,6 @@
 namespace DuckGame;
 
-public class Nubber : MaterialThing, IPlatform, IDontMove, IDontUpdate
+public class Nubber : MaterialThing, IPlatform, IDontMove
 {
     private SpriteMap _sprite;
 
@@ -123,12 +123,12 @@ public class Nubber : MaterialThing, IPlatform, IDontMove, IDontUpdate
     {
         if (!(Level.current is Editor) && graphic != null)
         {
-            graphic.position = position;
-            graphic.scale = base.scale;
-            graphic.center = center;
-            graphic.depth = base.depth;
-            graphic.alpha = base.alpha;
-            graphic.angle = angle;
+            graphic.Position = Position;
+            graphic.Scale = base.Scale;
+            graphic.Center = Center;
+            graphic.Depth = base.Depth;
+            graphic.Alpha = base.Alpha;
+            graphic.Angle = Angle;
             (graphic as SpriteMap).ClearCache();
             (graphic as SpriteMap).UpdateFrame();
         }

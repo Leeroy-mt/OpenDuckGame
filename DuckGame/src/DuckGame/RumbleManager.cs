@@ -17,11 +17,7 @@ namespace DuckGame;
 /// </summary>
 public static class RumbleManager
 {
-    private const float RUMBLE_DISTANCE_MAX = 512f;
-
-    private const float RUMBLE_DISTANCE_MIN = 32f;
-
-    private static List<RumbleEvent> ListRumbleEvents = new List<RumbleEvent>();
+    private static List<RumbleEvent> ListRumbleEvents = [];
 
     /// <summary>
     /// Evaluates whether we're in a "game" setting, in regards to rumble
@@ -30,9 +26,7 @@ public static class RumbleManager
     private static bool isInGameForRumble()
     {
         if (!Level.core.gameInProgress)
-        {
             return Level.current is TeamSelect2;
-        }
         return true;
     }
 
@@ -41,10 +35,8 @@ public static class RumbleManager
     /// </summary>        
     public static void AddRumbleEvent(RumbleEvent rumbleEvent)
     {
-        if (!(rumbleEvent.intensityInitial <= 0f))
-        {
+        if (!(rumbleEvent.intensityInitial <= 0))
             ListRumbleEvents.Add(rumbleEvent);
-        }
     }
 
     /// <summary>
@@ -81,13 +73,9 @@ public static class RumbleManager
     public static void ClearRumbles(RumbleType? rumbleType)
     {
         if (rumbleType.HasValue)
-        {
-            ListRumbleEvents.RemoveAll((RumbleEvent rumble) => rumble.type == rumbleType);
-        }
+            ListRumbleEvents.RemoveAll(rumble => rumble.type == rumbleType);
         else
-        {
             ListRumbleEvents.Clear();
-        }
     }
 
     /// <summary>
@@ -95,10 +83,7 @@ public static class RumbleManager
     /// </summary>        
     private static void AddIntensityToDevice(InputDevice controllerToSet, float intensityToAdd)
     {
-        if (controllerToSet != null)
-        {
-            controllerToSet.rumbleIntensity += intensityToAdd;
-        }
+        controllerToSet?.rumbleIntensity += intensityToAdd;
     }
 
     public static void Update()
@@ -112,9 +97,7 @@ public static class RumbleManager
         foreach (Profile profileToClear in activeProfiles)
         {
             if (profileToClear != null && profileToClear.inputProfile != null && profileToClear.inputProfile.lastActiveDevice != null)
-            {
-                profileToClear.inputProfile.lastActiveDevice.rumbleIntensity = 0f;
-            }
+                profileToClear.inputProfile.lastActiveDevice.rumbleIntensity = 0;
         }
         for (int i = ListRumbleEvents.Count - 1; i >= 0; i--)
         {
@@ -126,18 +109,14 @@ public static class RumbleManager
                     foreach (Profile profileToCheck in activeProfiles)
                     {
                         if (profileToCheck == null || !profileToCheck.localPlayer || profileToCheck.duck == null || (rumbleEvent.profile != null && rumbleEvent.profile != profileToCheck))
-                        {
                             continue;
-                        }
                         float distance = Vec2.Distance(rumbleEvent.position.Value, profileToCheck.duck.cameraPosition);
-                        float intensityMultiplier = 1f;
-                        if (distance > 32f)
+                        float intensityMultiplier = 1;
+                        if (distance > 32)
                         {
-                            if (distance > 512f)
-                            {
+                            if (distance > 512)
                                 continue;
-                            }
-                            intensityMultiplier = 1f - ((distance - 32f > 0f) ? (distance - 32f) : 0f) / 512f;
+                            intensityMultiplier = 1 - ((distance - 32 > 0F) ? (distance - 32) : 0F) / 512F;
                         }
                         AddIntensityToDevice(profileToCheck.inputProfile.lastActiveDevice, rumbleEvent.intensityCurrent * (intensityMultiplier * intensityMultiplier));
                     }
@@ -145,34 +124,22 @@ public static class RumbleManager
                 else if (rumbleEvent.profile == null)
                 {
                     foreach (Profile profile in activeProfiles)
-                    {
                         if (profile != null && profile.inputProfile != null && profile.localPlayer && profile.inputProfile.lastActiveDevice != null)
-                        {
                             AddIntensityToDevice(profile.inputProfile.lastActiveDevice, rumbleEvent.intensityCurrent);
-                        }
-                    }
                 }
                 else if (rumbleEvent.profile != null && rumbleEvent.profile.inputProfile != null && rumbleEvent.profile.inputProfile.lastActiveDevice != null)
-                {
                     AddIntensityToDevice(rumbleEvent.profile.inputProfile.lastActiveDevice, rumbleEvent.intensityCurrent);
-                }
                 if (!rumbleEvent.Update())
-                {
                     ListRumbleEvents.RemoveAt(i);
-                }
             }
         }
-        if (!(Options.Data.rumbleIntensity > 0f))
-        {
+        if (!(Options.Data.rumbleIntensity > 0))
             return;
-        }
         foreach (Profile profileToCheck2 in activeProfiles)
-        {
             if (profileToCheck2 != null && profileToCheck2.inputProfile != null)
             {
                 InputDevice deviceToRumble = profileToCheck2.inputProfile.lastActiveDevice;
                 deviceToRumble?.Rumble(deviceToRumble.rumbleIntensity * deviceToRumble.RumbleIntensityModifier(), deviceToRumble.rumbleIntensity * deviceToRumble.RumbleIntensityModifier());
             }
-        }
     }
 }

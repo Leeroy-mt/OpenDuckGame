@@ -411,7 +411,7 @@ public class ProfileSelector : Thing
         : base(xpos, ypos)
     {
         _font = new BitmapFont("biosFontUI", 8, 7);
-        _font.scale = new Vec2(0.5f, 0.5f);
+        _font.Scale = new Vec2(0.5f, 0.5f);
         _collisionSize = new Vec2(141f, 89f);
         _spinnerArrows = new SpriteMap("spinnerArrows", 8, 4);
         _box = box;
@@ -421,9 +421,9 @@ public class ProfileSelector : Thing
         _angryIcons = new SpriteMap("angryFace", 16, 16);
         _angryIcons.CenterOrigin();
         _smallFont = new BitmapFont("smallBiosFont", 7, 6);
-        _smallFont.scale = new Vec2(0.5f, 0.5f);
+        _smallFont.Scale = new Vec2(0.5f, 0.5f);
         _controlsFont = new BitmapFont("biosFontUIArrows", 8, 7);
-        _controlsFont.scale = new Vec2(1f);
+        _controlsFont.Scale = new Vec2(1f);
     }
 
     public override void Initialize()
@@ -801,38 +801,38 @@ public class ProfileSelector : Thing
                         {
                             continue;
                         }
-                        if (move.x != 0f)
+                        if (move.X != 0f)
                         {
-                            if (s.position.y != _selectedSetting.position.y)
+                            if (s.position.Y != _selectedSetting.position.Y)
                             {
                                 continue;
                             }
-                            if (move.x > 0f)
+                            if (move.X > 0f)
                             {
-                                if (s.position.x > _selectedSetting.position.x && (nearest == null || s.position.x < nearest.position.x))
+                                if (s.position.X > _selectedSetting.position.X && (nearest == null || s.position.X < nearest.position.X))
                                 {
                                     nearest = s;
                                 }
                             }
-                            else if (s.position.x < _selectedSetting.position.x && (nearest == null || s.position.x > nearest.position.x))
+                            else if (s.position.X < _selectedSetting.position.X && (nearest == null || s.position.X > nearest.position.X))
                             {
                                 nearest = s;
                             }
                         }
                         else
                         {
-                            if (s.position.x != _selectedSetting.position.x && s.column != _selectedSetting.column)
+                            if (s.position.X != _selectedSetting.position.X && s.column != _selectedSetting.column)
                             {
                                 continue;
                             }
-                            if (move.y > 0f)
+                            if (move.Y > 0f)
                             {
-                                if (s.position.y > _selectedSetting.position.y && (nearest == null || s.position.y < nearest.position.y))
+                                if (s.position.Y > _selectedSetting.position.Y && (nearest == null || s.position.Y < nearest.position.Y))
                                 {
                                     nearest = s;
                                 }
                             }
-                            else if (s.position.y < _selectedSetting.position.y && (nearest == null || s.position.y > nearest.position.y))
+                            else if (s.position.Y < _selectedSetting.position.Y && (nearest == null || s.position.Y > nearest.position.Y))
                             {
                                 nearest = s;
                             }
@@ -1145,33 +1145,33 @@ public class ProfileSelector : Thing
                 }
             }
         }
-        _font.alpha = _fade;
-        _font.depth = 0.96f;
-        _font.scale = new Vec2(1f, 1f);
+        _font.Alpha = _fade;
+        _font.Depth = 0.96f;
+        _font.Scale = new Vec2(1f, 1f);
         if (_mode == PSMode.EditControlsConfirm)
         {
-            Vec2 realPos = position;
-            position = Vec2.Zero;
+            Vec2 realPos = Position;
+            Position = Vec2.Zero;
             _selector.screen.BeginDraw();
             string caption = "SAVE CHANGES?";
-            _smallFont.Draw(caption, Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _smallFont.GetWidth(caption) / 2f, base.y + 22f)), Colors.MenuOption * ((_controlPosition == 0) ? 1f : 0.6f), 0.95f);
-            _ = new Vec2(base.x + base.width / 2f - 66f, base.y + 18f) + new Vec2(0.5f, 0f);
-            _smallFont.Draw("YES", Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _smallFont.GetWidth("YES") / 2f, base.y + 34f)), Colors.MenuOption * ((_editControlSelection == 0) ? 1f : 0.6f), 0.95f);
-            _smallFont.Draw("NO", Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _smallFont.GetWidth("NO") / 2f, base.y + 34f + 8f)), Colors.MenuOption * ((_editControlSelection == 1) ? 1f : 0.6f), 0.95f);
+            _smallFont.Draw(caption, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _smallFont.GetWidth(caption) / 2f, base.Y + 22f)), Colors.MenuOption * ((_controlPosition == 0) ? 1f : 0.6f), 0.95f);
+            _ = new Vec2(base.X + base.width / 2f - 66f, base.Y + 18f) + new Vec2(0.5f, 0f);
+            _smallFont.Draw("YES", Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _smallFont.GetWidth("YES") / 2f, base.Y + 34f)), Colors.MenuOption * ((_editControlSelection == 0) ? 1f : 0.6f), 0.95f);
+            _smallFont.Draw("NO", Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _smallFont.GetWidth("NO") / 2f, base.Y + 34f + 8f)), Colors.MenuOption * ((_editControlSelection == 1) ? 1f : 0.6f), 0.95f);
             string buttons = "@SELECT@";
             _font.Draw(buttons, 4f, 79f, new Color(180, 180, 180), 0.95f, _inputProfile);
             buttons = "@CANCEL@";
             _font.Draw(buttons, 122f, 79f, new Color(180, 180, 180), 0.95f, _inputProfile);
-            position = realPos;
+            Position = realPos;
             _selector.screen.EndDraw();
         }
         else if (_mode == PSMode.EditControls)
         {
-            Vec2 realPos2 = position;
-            position = Vec2.Zero;
+            Vec2 realPos2 = Position;
+            Position = Vec2.Zero;
             _selector.screen.BeginDraw();
             InputProfile pro = _inputProfile;
-            _smallFont.scale = new Vec2(1f, 1f);
+            _smallFont.Scale = new Vec2(1f, 1f);
             float yOff = 6f;
             string currentDevice = pro.lastActiveDevice.productName;
             if (currentDevice == null)
@@ -1192,8 +1192,8 @@ public class ProfileSelector : Thing
             {
                 currentDevice = "< " + currentDevice + " >";
             }
-            _smallFont.Draw(currentDevice, Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _smallFont.GetWidth(currentDevice) / 2f, base.y + yOff)), Colors.MenuOption * ((_controlPosition == 0) ? 1f : 0.6f), 0.95f);
-            Vec2 controlsDrawOffset = new Vec2(base.x + base.width / 2f - 66f, base.y + yOff + 9f) + new Vec2(0.5f, 0f);
+            _smallFont.Draw(currentDevice, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _smallFont.GetWidth(currentDevice) / 2f, base.Y + yOff)), Colors.MenuOption * ((_controlPosition == 0) ? 1f : 0.6f), 0.95f);
+            Vec2 controlsDrawOffset = new Vec2(base.X + base.width / 2f - 66f, base.Y + yOff + 9f) + new Vec2(0.5f, 0f);
             bool drewFirstLine = false;
             foreach (ControlSetting s2 in _controlSettingPages[_controlPage])
             {
@@ -1208,27 +1208,27 @@ public class ProfileSelector : Thing
                 }
                 string controlLine = s2.name;
                 Vec2 pos = s2.position;
-                if (pos.y == 0f)
+                if (pos.Y == 0f)
                 {
                     drewFirstLine = true;
                 }
                 else if (!drewFirstLine && (_controlPage != 0 || s2 != _controlSettingPages[_controlPage][_controlSettingPages[_controlPage].Count - 1]))
                 {
-                    pos.y -= 12f;
+                    pos.Y -= 12f;
                 }
                 if (s2.trigger != "ANY")
                 {
                     controlLine += ":|DGBLUE|";
                     if (!_editControl || _selectedSetting != s2)
                     {
-                        Graphics.Draw(pro.lastActiveDevice.GetMapImage(_configInputMapping.map[s2.trigger]), controlsDrawOffset.x + pos.x + _smallFont.GetWidth(controlLine) - 2f, controlsDrawOffset.y + pos.y - 3f);
+                        Graphics.Draw(pro.lastActiveDevice.GetMapImage(_configInputMapping.map[s2.trigger]), controlsDrawOffset.X + pos.X + _smallFont.GetWidth(controlLine) - 2f, controlsDrawOffset.Y + pos.Y - 3f);
                     }
                     else
                     {
                         controlLine += "_";
                     }
                 }
-                _smallFont.Draw(controlLine, Maths.RoundToPixel(new Vec2(pos.x, pos.y) + controlsDrawOffset), Colors.MenuOption * ((s2 == _selectedSetting) ? 1f : 0.6f), 0.95f);
+                _smallFont.Draw(controlLine, Maths.RoundToPixel(new Vec2(pos.X, pos.Y) + controlsDrawOffset), Colors.MenuOption * ((s2 == _selectedSetting) ? 1f : 0.6f), 0.95f);
             }
             if (!_editControl)
             {
@@ -1242,17 +1242,17 @@ public class ProfileSelector : Thing
                 string buttons3 = "@START@";
                 _font.Draw(buttons3, 4f, 79f, new Color(180, 180, 180), 0.95f, _inputProfile);
             }
-            position = realPos2;
+            Position = realPos2;
             _selector.screen.EndDraw();
         }
         else if (_mode == PSMode.SelectProfile)
         {
             _pendingMaps.Clear();
-            Vec2 realPos3 = position;
-            position = Vec2.Zero;
+            Vec2 realPos3 = Position;
+            Position = Vec2.Zero;
             _selector.screen.BeginDraw();
             string pickTeam = "@LWING@PICK PROFILE@RWING@";
-            _font.Draw(pickTeam, Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _font.GetWidth(pickTeam) / 2f, base.y + 8f)), Color.White, 0.95f);
+            _font.Draw(pickTeam, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(pickTeam) / 2f, base.Y + 8f)), Color.White, 0.95f);
             float yOff2 = 8f;
             for (int i = 0; i < 7; i++)
             {
@@ -1287,8 +1287,8 @@ public class ProfileSelector : Thing
                 {
                     selectorString = "> " + name + " <";
                 }
-                float middle = base.y + yOff2 + 33f;
-                float ypos = base.y + yOff2 + (float)(i * 11) + (0f - _slide) * 11f;
+                float middle = base.Y + yOff2 + 33f;
+                float ypos = base.Y + yOff2 + (float)(i * 11) + (0f - _slide) * 11f;
                 float distMult = Maths.Clamp((33f - Math.Abs(ypos - middle)) / 33f, 0f, 1f);
                 float colorMult = distMult * Maths.NormalizeSection(distMult, 0f, 0.9f);
                 float m = 0.2f;
@@ -1303,19 +1303,19 @@ public class ProfileSelector : Thing
                 {
                     name = name.Replace("|DGBLUE|", "");
                 }
-                _font.Draw(name, Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _font.GetWidth(name) / 2f, ypos)), (taken2 ? Color.Red : (n ? Color.Lime : (def ? Colors.DGYellow : Colors.MenuOption))) * colorMult, 0.95f);
+                _font.Draw(name, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(name) / 2f, ypos)), (taken2 ? Color.Red : (n ? Color.Lime : (def ? Colors.DGYellow : Colors.MenuOption))) * colorMult, 0.95f);
                 if (selectorString != null)
                 {
-                    _font.Draw(selectorString, Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _font.GetWidth(selectorString) / 2f, ypos)), Color.White, 0.92f);
+                    _font.Draw(selectorString, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(selectorString) / 2f, ypos)), Color.White, 0.92f);
                 }
             }
             float barY = yOff2 + 32f;
-            Graphics.DrawRect(position + new Vec2(2f, barY), position + new Vec2(138f, barY + 9f), new Color(30, 30, 30) * _fade, 0.8f);
+            Graphics.DrawRect(Position + new Vec2(2f, barY), Position + new Vec2(138f, barY + 9f), new Color(30, 30, 30) * _fade, 0.8f);
             string buttons4 = "@SELECT@";
             _font.Draw(buttons4, 4f, 79f, new Color(180, 180, 180), 0.95f, _inputProfile);
             buttons4 = (HoveredProfileIsCustom() ? "@MENU2@" : "@CANCEL@");
             _font.Draw(buttons4, 122f, 79f, new Color(180, 180, 180), 0.95f, _inputProfile);
-            position = realPos3;
+            Position = realPos3;
             _selector.screen.EndDraw();
         }
         else
@@ -1324,8 +1324,8 @@ public class ProfileSelector : Thing
             {
                 return;
             }
-            Vec2 realPos4 = position;
-            position = Vec2.Zero;
+            Vec2 realPos4 = Position;
+            Position = Vec2.Zero;
             _selector.screen.BeginDraw();
             string profileName = "NONAME";
             if (_name != "")
@@ -1336,12 +1336,12 @@ public class ProfileSelector : Thing
                 }
                 profileName = _name;
             }
-            Vec2 namePos = new Vec2(base.x + 36f, base.y + 8f);
+            Vec2 namePos = new Vec2(base.X + 36f, base.Y + 8f);
             if (!isEditing)
             {
                 if (_changeName)
                 {
-                    namePos.x -= 2f;
+                    namePos.X -= 2f;
                     for (int i2 = 0; i2 < 9; i2++)
                     {
                         Graphics.DrawRect(namePos + new Vec2(i2 * 8, 0f), namePos + new Vec2(i2 * 8 + 7, 7f), new Color(60, 60, 60), 0.8f);
@@ -1349,58 +1349,58 @@ public class ProfileSelector : Thing
                         {
                             _spinnerArrows.frame = 0;
                             Vec2 tlArrow = namePos + new Vec2(i2 * 8, -6f);
-                            Graphics.Draw(_spinnerArrows, tlArrow.x, tlArrow.y, 0.95f);
+                            Graphics.Draw(_spinnerArrows, tlArrow.X, tlArrow.Y, 0.95f);
                             _spinnerArrows.frame = 1;
                             Vec2 brArrow = namePos + new Vec2(i2 * 8, 9f);
-                            Graphics.Draw(_spinnerArrows, brArrow.x, brArrow.y, 0.95f);
+                            Graphics.Draw(_spinnerArrows, brArrow.X, brArrow.Y, 0.95f);
                             Graphics.DrawRect(namePos + new Vec2(i2 * 8 - 2, -2f), namePos + new Vec2(i2 * 8 + 9, 9f), Color.White * 0.8f, 0.97f, filled: false);
                         }
                     }
                     _font.Draw(profileName, Maths.RoundToPixel(namePos), Color.Lime * ((_createSelection == PSCreateSelection.ChangeName) ? 1f : 0.6f), 0.95f);
-                    namePos.x += 2f;
+                    namePos.X += 2f;
                     string arrows = ">              <";
-                    _font.Draw(arrows, Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _font.GetWidth(arrows) / 2f, namePos.y)), Color.White * ((_createSelection == PSCreateSelection.ChangeName) ? 1f : 0.6f), 0.95f);
+                    _font.Draw(arrows, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(arrows) / 2f, namePos.Y)), Color.White * ((_createSelection == PSCreateSelection.ChangeName) ? 1f : 0.6f), 0.95f);
                     if (_takenFlash > 0.05f)
                     {
                         string nameTaken = "Name Taken";
-                        _font.Draw(nameTaken, Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _font.GetWidth(nameTaken) / 2f, namePos.y)), Color.Red * _takenFlash, 0.97f);
-                        Graphics.DrawRect(new Vec2(base.x + 20f, namePos.y), new Vec2(base.x + base.width - 20f, namePos.y + 8f), Color.Black, 0.96f);
+                        _font.Draw(nameTaken, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(nameTaken) / 2f, namePos.Y)), Color.Red * _takenFlash, 0.97f);
+                        Graphics.DrawRect(new Vec2(base.X + 20f, namePos.Y), new Vec2(base.X + base.width - 20f, namePos.Y + 8f), Color.Black, 0.96f);
                     }
                 }
                 else
                 {
                     profileName = profileName.Replace(" ", "");
                     profileName = ((_createSelection != PSCreateSelection.ChangeName) ? ("@LWING@" + profileName.Reduced(12) + "@RWING@") : ("> " + profileName.Reduced(12) + " <"));
-                    _font.Draw(profileName, Maths.RoundToPixel(new Vec2(base.x + 2f + base.width / 2f - _font.GetWidth(profileName) / 2f, namePos.y)), Color.White * ((_createSelection == PSCreateSelection.ChangeName) ? 1f : 0.6f), 0.95f);
+                    _font.Draw(profileName, Maths.RoundToPixel(new Vec2(base.X + 2f + base.width / 2f - _font.GetWidth(profileName) / 2f, namePos.Y)), Color.White * ((_createSelection == PSCreateSelection.ChangeName) ? 1f : 0.6f), 0.95f);
                 }
             }
             else
             {
                 string createProfile = "@LWING@" + profileName.Reduced(12) + "@RWING@";
-                _font.Draw(createProfile, Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _font.GetWidth(createProfile) / 2f, base.y + 8f)), Color.White * (1f - Math.Min(1f, _takenFlash * 2f)), 0.95f);
+                _font.Draw(createProfile, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(createProfile) / 2f, base.Y + 8f)), Color.White * (1f - Math.Min(1f, _takenFlash * 2f)), 0.95f);
             }
-            namePos.y += 14f;
+            namePos.Y += 14f;
             string setMood = "            ";
             if (_createSelection == PSCreateSelection.Mood)
             {
                 setMood = "< " + setMood + " >";
             }
-            _font.Draw(setMood, base.x + base.width / 2f - _font.GetWidth(setMood) / 2f, namePos.y, Color.White * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 0.95f);
-            Graphics.DrawLine(new Vec2(base.x + base.width / 4f + 4f, namePos.y + 5f), new Vec2(base.x + base.width / 4f * 3f, namePos.y + 5f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 2f, 0.95f);
+            _font.Draw(setMood, base.X + base.width / 2f - _font.GetWidth(setMood) / 2f, namePos.Y, Color.White * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 0.95f);
+            Graphics.DrawLine(new Vec2(base.X + base.width / 4f + 4f, namePos.Y + 5f), new Vec2(base.X + base.width / 4f * 3f, namePos.Y + 5f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 2f, 0.95f);
             float barW = 60f;
-            Graphics.DrawLine(new Vec2(base.x + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.y + 1f), new Vec2(base.x + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.y + 4f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 3f, 0.95f);
-            Graphics.DrawLine(new Vec2(base.x + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.y + 6f), new Vec2(base.x + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.y + 9f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 3f, 0.95f);
+            Graphics.DrawLine(new Vec2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 1f), new Vec2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 4f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 3f, 0.95f);
+            Graphics.DrawLine(new Vec2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 6f), new Vec2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 9f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 3f, 0.95f);
             _happyIcons.color = Color.White * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f);
-            _happyIcons.alpha = _fade;
+            _happyIcons.Alpha = _fade;
             _happyIcons.frame = (int)Math.Round(_moodVal * 4f);
-            _happyIcons.depth = 0.95f;
-            Graphics.Draw(_happyIcons, base.x + base.width / 6f + 2f, namePos.y + 4f);
+            _happyIcons.Depth = 0.95f;
+            Graphics.Draw(_happyIcons, base.X + base.width / 6f + 2f, namePos.Y + 4f);
             _angryIcons.color = Color.White * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f);
-            _angryIcons.alpha = _fade;
+            _angryIcons.Alpha = _fade;
             _angryIcons.frame = (int)Math.Round((1f - _moodVal) * 4f);
-            _angryIcons.depth = 0.95f;
-            Graphics.Draw(_angryIcons, base.x + base.width / 6f * 5f, namePos.y + 4f);
-            namePos.y += 16f;
+            _angryIcons.Depth = 0.95f;
+            Graphics.Draw(_angryIcons, base.X + base.width / 6f * 5f, namePos.Y + 4f);
+            namePos.Y += 16f;
             string col = ((_preferredColor >= 0) ? "COLOR" : "NO COLOR");
             if (_createSelection == PSCreateSelection.Color)
             {
@@ -1408,28 +1408,28 @@ public class ProfileSelector : Thing
             }
             if (_preferredColor >= 0)
             {
-                Graphics.DrawRect(new Vec2(base.x + 20f, namePos.y - 2f), new Vec2(base.x + (base.width - 20f), namePos.y + 9f), Persona.all.ElementAt(_preferredColor).colorDark.ToColor() * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.93f, filled: false);
-                _font.Draw(col, Maths.RoundToPixel(new Vec2(base.x + 2f + base.width / 2f - _font.GetWidth(col) / 2f, namePos.y)), Persona.all.ElementAt(_preferredColor).color.ToColor() * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.95f);
+                Graphics.DrawRect(new Vec2(base.X + 20f, namePos.Y - 2f), new Vec2(base.X + (base.width - 20f), namePos.Y + 9f), Persona.all.ElementAt(_preferredColor).colorDark.ToColor() * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.93f, filled: false);
+                _font.Draw(col, Maths.RoundToPixel(new Vec2(base.X + 2f + base.width / 2f - _font.GetWidth(col) / 2f, namePos.Y)), Persona.all.ElementAt(_preferredColor).color.ToColor() * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.95f);
             }
             else
             {
-                Graphics.DrawRect(new Vec2(base.x + 20f, namePos.y - 2f), new Vec2(base.x + (base.width - 20f), namePos.y + 9f), Colors.BlueGray * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.93f, filled: false);
-                _font.Draw(col, Maths.RoundToPixel(new Vec2(base.x + 2f + base.width / 2f - _font.GetWidth(col) / 2f, namePos.y)), Colors.BlueGray * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.95f);
+                Graphics.DrawRect(new Vec2(base.X + 20f, namePos.Y - 2f), new Vec2(base.X + (base.width - 20f), namePos.Y + 9f), Colors.BlueGray * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.93f, filled: false);
+                _font.Draw(col, Maths.RoundToPixel(new Vec2(base.X + 2f + base.width / 2f - _font.GetWidth(col) / 2f, namePos.Y)), Colors.BlueGray * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.95f);
             }
-            namePos.y += 12f;
+            namePos.Y += 12f;
             string controls = "CONTROLS";
             if (_createSelection == PSCreateSelection.Controls)
             {
                 controls = "> " + controls + " <";
             }
-            _font.Draw(controls, Maths.RoundToPixel(new Vec2(base.x + 2f + base.width / 2f - _font.GetWidth(controls) / 2f, namePos.y)), Colors.MenuOption * ((_createSelection == PSCreateSelection.Controls) ? 1f : 0.6f), 0.95f);
+            _font.Draw(controls, Maths.RoundToPixel(new Vec2(base.X + 2f + base.width / 2f - _font.GetWidth(controls) / 2f, namePos.Y)), Colors.MenuOption * ((_createSelection == PSCreateSelection.Controls) ? 1f : 0.6f), 0.95f);
             string ok = "OK";
             if (_createSelection == PSCreateSelection.Accept)
             {
                 ok = "> " + ok + " <";
             }
-            namePos.y += 12f;
-            _font.Draw(ok, Maths.RoundToPixel(new Vec2(base.x + 2f + base.width / 2f - _font.GetWidth(ok) / 2f, namePos.y)), Colors.MenuOption * ((_createSelection == PSCreateSelection.Accept) ? 1f : 0.6f), 0.95f);
+            namePos.Y += 12f;
+            _font.Draw(ok, Maths.RoundToPixel(new Vec2(base.X + 2f + base.width / 2f - _font.GetWidth(ok) / 2f, namePos.Y)), Colors.MenuOption * ((_createSelection == PSCreateSelection.Accept) ? 1f : 0.6f), 0.95f);
             if (_changeName)
             {
                 string buttons5 = "@DPAD@";
@@ -1477,7 +1477,7 @@ public class ProfileSelector : Thing
                 buttons9 = "@CANCEL@";
                 _font.Draw(buttons9, 122f, 79f, new Color(180, 180, 180), 0.95f, _inputProfile);
             }
-            position = realPos4;
+            Position = realPos4;
             _selector.screen.EndDraw();
         }
     }

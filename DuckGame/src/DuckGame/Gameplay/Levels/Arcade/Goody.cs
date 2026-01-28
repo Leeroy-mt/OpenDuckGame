@@ -10,7 +10,7 @@ public abstract class Goody : MaterialThing, ISequenceItem
         : base(xpos, ypos)
     {
         graphic = sprite;
-        center = new Vec2(sprite.w / 2, sprite.h / 2);
+        Center = new Vec2(sprite.w / 2, sprite.h / 2);
         _collisionSize = new Vec2(10f, 10f);
         collisionOffset = new Vec2(-5f, -5f);
         base.sequence = new SequenceItem(this);

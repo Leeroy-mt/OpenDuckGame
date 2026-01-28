@@ -47,10 +47,10 @@ public class TV : Holdable, IPlatform
         _sprite = new SpriteMap("plasma2", 16, 16);
         _sprite.speed = 0.2f;
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -7f);
         collisionSize = new Vec2(16f, 14f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "TV";
         thickness = 2f;
         weight = 5f;
@@ -65,7 +65,7 @@ public class TV : Holdable, IPlatform
         base.collideSounds.Add("landTV");
         physicsMaterial = PhysicsMaterial.Metal;
         _channels = new SpriteMap("channels", 8, 6);
-        _channels.depth = base.depth + 5;
+        _channels.Depth = base.Depth + 5;
         _tvNoise = new SpriteMap("tvnoise", 8, 6);
         _tvNoise.AddAnimation("noise", 0.6f, true, 0, 1, 2);
         _tvNoise.currentAnimation = "noise";
@@ -77,7 +77,7 @@ public class TV : Holdable, IPlatform
     {
         if (!(Level.current is Editor))
         {
-            _cape = new Cape(base.x, base.y, this, trail: true);
+            _cape = new Cape(base.X, base.Y, this, trail: true);
             _cape.metadata.CapeIsTrail.value = true;
             _cape._capeTexture = new Sprite("rainbowCarp").texture;
             Level.Add(_cape);
@@ -98,7 +98,7 @@ public class TV : Holdable, IPlatform
             SFX.Play("breakTV");
             for (int i = 0; i < 8; i++)
             {
-                Level.Add(new GlassParticle(base.x + Rando.Float(-8f, 8f), base.y + Rando.Float(-8f, 8f), new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+                Level.Add(new GlassParticle(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-8f, 8f), new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
             }
             base.collideSounds.Clear();
             base.collideSounds.Add("deadTVLand");
@@ -143,10 +143,10 @@ public class TV : Holdable, IPlatform
             {
                 if (!_madeGhost)
                 {
-                    Level.Add(new EscapingGhost(base.x, base.y - 6f));
+                    Level.Add(new EscapingGhost(base.X, base.Y - 6f));
                     for (int i = 0; i < 8; i++)
                     {
-                        Level.Add(Spark.New(base.x + Rando.Float(-8f, 8f), base.y + Rando.Float(-8f, 8f), new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+                        Level.Add(Spark.New(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-8f, 8f), new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
                     }
                 }
                 _madeGhost = true;
@@ -202,21 +202,21 @@ public class TV : Holdable, IPlatform
         }
         Sprite sprite = _frame;
         SpriteMap channels = _channels;
-        float num = (_tvNoise.angle = angle);
-        float num3 = (channels.angle = num);
-        sprite.angle = num3;
+        float num = (_tvNoise.Angle = Angle);
+        float num3 = (channels.Angle = num);
+        sprite.Angle = num3;
         Sprite sprite2 = _frame;
         SpriteMap channels2 = _channels;
         bool flag = (_tvNoise.flipH = offDir < 0);
         bool flipH = (channels2.flipH = flag);
         sprite2.flipH = flipH;
-        _frame.depth = base.depth + 1;
-        Graphics.Draw(_frame, base.x, base.y);
-        _channels.alpha = Lerp.Float(_channels.alpha, (owner != null) ? 1f : 0f, 0.1f);
-        _channels.depth = base.depth + 4;
+        _frame.Depth = base.Depth + 1;
+        Graphics.Draw(_frame, base.X, base.Y);
+        _channels.Alpha = Lerp.Float(_channels.Alpha, (owner != null) ? 1f : 0f, 0.1f);
+        _channels.Depth = base.Depth + 4;
         _channels.frame = (channel ? (jumpReady ? 1 : 2) : 0);
         Vec2 channelPos = Offset(new Vec2(-4f, -4f));
-        Graphics.Draw(_channels, channelPos.x, channelPos.y);
+        Graphics.Draw(_channels, channelPos.X, channelPos.Y);
         if (owner != null)
         {
             Vec2 prev = Vec2.Zero;
@@ -229,20 +229,20 @@ public class TV : Holdable, IPlatform
                 }
                 else
                 {
-                    Graphics.DrawTexturedLine(_rainbow.texture, prev, v, Color.White, 1f, base.depth - 10);
+                    Graphics.DrawTexturedLine(_rainbow.texture, prev, v, Color.White, 1f, base.Depth - 10);
                 }
                 prev = v;
             }
         }
         if (_switchFrames > 0)
         {
-            _tvNoise.alpha = 1f;
+            _tvNoise.Alpha = 1f;
         }
         else
         {
-            _tvNoise.alpha = 0.2f;
+            _tvNoise.Alpha = 0.2f;
         }
-        _tvNoise.depth = base.depth + 8;
-        Graphics.Draw(_tvNoise, channelPos.x, channelPos.y);
+        _tvNoise.Depth = base.Depth + 8;
+        Graphics.Draw(_tvNoise, channelPos.X, channelPos.Y);
     }
 }

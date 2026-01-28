@@ -64,21 +64,21 @@ public class DrumSet : Holdable, IPlatform
     {
         get
         {
-            return position;
+            return Position;
         }
         set
         {
-            position = value;
+            Position = value;
         }
     }
 
     public DrumSet(float xpos, float ypos)
         : base(xpos, ypos)
     {
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -11f);
         collisionSize = new Vec2(16f, 14f);
-        base.depth = 0.5f;
+        base.Depth = 0.5f;
         thickness = 0f;
         weight = 7f;
         _editorIcon = new Sprite("drumsIcon");
@@ -96,44 +96,44 @@ public class DrumSet : Holdable, IPlatform
     {
         if (Rando.Float(1f) >= 0.5f)
         {
-            Level.Add(new DrumStick(base.x - 5f, base.y - 8f));
+            Level.Add(new DrumStick(base.X - 5f, base.Y - 8f));
         }
         else
         {
-            Level.Add(new DrumStick(base.x + 5f, base.y - 8f));
+            Level.Add(new DrumStick(base.X + 5f, base.Y - 8f));
         }
     }
 
     public override void Initialize()
     {
-        _bass = new BassDrum(base.x, base.y);
+        _bass = new BassDrum(base.X, base.Y);
         Level.Add(_bass);
-        _snare = new Snare(base.x, base.y);
+        _snare = new Snare(base.X, base.Y);
         Level.Add(_snare);
-        _hat = new HiHat(base.x, base.y);
+        _hat = new HiHat(base.X, base.Y);
         Level.Add(_hat);
-        _lowTom = new LowTom(base.x, base.y);
+        _lowTom = new LowTom(base.X, base.Y);
         Level.Add(_lowTom);
-        _crash = new CrashCymbal(base.x, base.y);
+        _crash = new CrashCymbal(base.X, base.Y);
         Level.Add(_crash);
-        _medTom = new MediumTom(base.x, base.y);
+        _medTom = new MediumTom(base.X, base.Y);
         Level.Add(_medTom);
-        _highTom = new HighTom(base.x, base.y);
+        _highTom = new HighTom(base.X, base.Y);
         Level.Add(_highTom);
-        _bass.position = position;
-        _bass.depth = base.depth + 1;
-        _snare.position = position + new Vec2(10f, -7f);
-        _snare.depth = base.depth;
-        _hat.depth = base.depth - 1;
-        _hat.position = position + new Vec2(13f, -11f);
-        _lowTom.depth = base.depth - 1;
-        _lowTom.position = position + new Vec2(-9f, -5f);
-        _crash.depth = base.depth;
-        _crash.position = position + new Vec2(-15f, -15f);
-        _medTom.depth = base.depth + 3;
-        _medTom.position = position + new Vec2(-8f, -12f);
-        _highTom.depth = base.depth + 3;
-        _highTom.position = position + new Vec2(7f, -12f);
+        _bass.Position = Position;
+        _bass.Depth = base.Depth + 1;
+        _snare.Position = Position + new Vec2(10f, -7f);
+        _snare.Depth = base.Depth;
+        _hat.Depth = base.Depth - 1;
+        _hat.Position = Position + new Vec2(13f, -11f);
+        _lowTom.Depth = base.Depth - 1;
+        _lowTom.Position = Position + new Vec2(-9f, -5f);
+        _crash.Depth = base.Depth;
+        _crash.Position = Position + new Vec2(-15f, -15f);
+        _medTom.Depth = base.Depth + 3;
+        _medTom.Position = Position + new Vec2(-8f, -12f);
+        _highTom.Depth = base.Depth + 3;
+        _highTom.Position = Position + new Vec2(7f, -12f);
         _netBassDrum.function = _bass.Hit;
         _netSnare.function = _snare.Hit;
         _netHat.function = _hat.Hit;
@@ -170,7 +170,7 @@ public class DrumSet : Holdable, IPlatform
         }
         if (owner == null || base.held)
         {
-            base.depth = 0.5f;
+            base.Depth = 0.5f;
         }
         if (owner != null && base.held)
         {
@@ -297,19 +297,19 @@ public class DrumSet : Holdable, IPlatform
                 }
             }
         }
-        _bass.position = position;
-        _bass.depth = base.depth + 1;
-        _snare.position = position + new Vec2(10f, -7f);
-        _snare.depth = base.depth;
-        _hat.depth = base.depth - 1;
-        _hat.position = position + new Vec2(13f, -11f);
-        _lowTom.depth = base.depth - 1;
-        _lowTom.position = position + new Vec2(-9f, -5f);
-        _crash.depth = base.depth;
-        _crash.position = position + new Vec2(-15f, -15f);
-        _medTom.depth = base.depth + 3;
-        _medTom.position = position + new Vec2(-8f, -12f);
-        _highTom.depth = base.depth + 3;
-        _highTom.position = position + new Vec2(7f, -12f);
+        _bass.Position = Position;
+        _bass.Depth = base.Depth + 1;
+        _snare.Position = Position + new Vec2(10f, -7f);
+        _snare.Depth = base.Depth;
+        _hat.Depth = base.Depth - 1;
+        _hat.Position = Position + new Vec2(13f, -11f);
+        _lowTom.Depth = base.Depth - 1;
+        _lowTom.Position = Position + new Vec2(-9f, -5f);
+        _crash.Depth = base.Depth;
+        _crash.Position = Position + new Vec2(-15f, -15f);
+        _medTom.Depth = base.Depth + 3;
+        _medTom.Position = Position + new Vec2(-8f, -12f);
+        _highTom.Depth = base.Depth + 3;
+        _highTom.Position = Position + new Vec2(7f, -12f);
     }
 }

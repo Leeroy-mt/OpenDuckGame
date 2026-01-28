@@ -2,53 +2,62 @@ namespace DuckGame;
 
 public class UIChangingText : UIText
 {
-    private FieldBinding _field;
-
-    private FieldBinding _filterBinding;
+    #region Public Fields
 
     public string defaultSizeString = "ON OFF  ";
 
+    #endregion
+
+    #region Private Fields
+
+    FieldBinding _field;
+
+    FieldBinding _filterBinding;
+
+    #endregion
+
+    #region Public Properties
+
     public override string text
     {
-        get
-        {
-            return _text;
-        }
+        get => _text;
         set
         {
             _text = value;
             if (minLength > 0)
-            {
                 while (_text.Length < minLength)
-                {
                     _text = " " + _text;
-                }
-            }
         }
     }
 
+    #endregion
+
+    #region Public Constructors
+
     public UIChangingText(float wide, float high, FieldBinding field, FieldBinding filterBinding)
-        : base("ON OFF  ", Color.White)
+        : base("ON OFF", Color.White)
     {
         _field = field;
         _filterBinding = filterBinding;
     }
 
+    #endregion
+
+    #region Public Methods
+
     public override void Draw()
     {
-        _font.scale = base.scale;
-        _font.alpha = base.alpha;
+        _font.Scale = Scale;
+        _font.Alpha = Alpha;
         float textWidth = _font.GetWidth(defaultSizeString);
-        float xOffset = 0f;
-        xOffset = (((base.align & UIAlign.Left) > UIAlign.Center) ? (0f - base.width / 2f) : (((base.align & UIAlign.Right) <= UIAlign.Center) ? ((0f - textWidth) / 2f) : (base.width / 2f - textWidth)));
-        float yOffset = 0f;
-        yOffset = (((base.align & UIAlign.Top) > UIAlign.Center) ? (0f - base.height / 2f) : (((base.align & UIAlign.Bottom) <= UIAlign.Center) ? ((0f - _font.height) / 2f) : (base.height / 2f - _font.height)));
+        float xOffset = ((align & UIAlign.Left) > UIAlign.Center) ? (-width / 2) : (((align & UIAlign.Right) <= UIAlign.Center) ? (-textWidth / 2) : (width / 2 - textWidth));
+        float yOffset = ((align & UIAlign.Top) > UIAlign.Center) ? (-height / 2) : (((align & UIAlign.Bottom) <= UIAlign.Center) ? (-_font.height / 2) : (height / 2 - _font.height));
         string t = text;
         while (t.Length < 8)
-        {
             t = " " + t;
-        }
-        _font.colorOverride = (UIMenu.disabledDraw ? Colors.BlueGray : default(Color));
-        _font.Draw(t, base.x + xOffset, base.y + yOffset, Color.White, base.depth);
+        _font.colorOverride = UIMenu.disabledDraw ? Colors.BlueGray : default;
+        _font.Draw(t, X + xOffset, Y + yOffset, Color.White, Depth);
     }
+
+    #endregion
 }

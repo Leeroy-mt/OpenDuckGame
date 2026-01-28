@@ -28,7 +28,7 @@ public class Touch
             }
             if (data != null)
             {
-                return (data.touchXY - originalPosition).length > 25f;
+                return (data.touchXY - originalPosition).Length() > 25f;
             }
             return false;
         }
@@ -82,8 +82,8 @@ public class Touch
         viewCoords = Transform(pCamera);
         if (viewCoords != new Vec2(-1f, -1f))
         {
-            viewCoords.x = (float)Math.Round(viewCoords.x / pCellSize) * pCellSize;
-            viewCoords.y = (float)Math.Round(viewCoords.y / pCellSize) * pCellSize;
+            viewCoords.X = (float)Math.Round(viewCoords.X / pCellSize) * pCellSize;
+            viewCoords.Y = (float)Math.Round(viewCoords.Y / pCellSize) * pCellSize;
         }
         return viewCoords;
     }

@@ -1,23 +1,21 @@
 namespace DuckGame;
 
-public class UINumber : UIText
+public class UINumber(float wide, float high, FieldBinding field, string append = "", FieldBinding filterField = null, MatchSetting setting = null)
+    : UIText("0", Color.White)
 {
-    private FieldBinding _field;
+    #region Private Fields
 
-    private string _append = "";
+    string _append = append;
 
-    private FieldBinding _filterField;
+    FieldBinding _field = field;
 
-    private MatchSetting _setting;
+    FieldBinding _filterField = filterField;
 
-    public UINumber(float wide, float high, FieldBinding field, string append = "", FieldBinding filterField = null, MatchSetting setting = null)
-        : base("0", Color.White)
-    {
-        _setting = setting;
-        _field = field;
-        _append = append;
-        _filterField = filterField;
-    }
+    MatchSetting _setting = setting;
+
+    #endregion
+
+    #region Public Methods
 
     public override void Draw()
     {
@@ -27,27 +25,21 @@ public class UINumber : UIText
             if (_setting != null && _filterField != null)
             {
                 if (_setting.filterMode == FilterMode.GreaterThan)
-                {
                     prepend = ">=";
-                }
                 else if (_setting.filterMode == FilterMode.LessThan)
-                {
                     prepend = "<=";
-                }
             }
-            if (_setting != null && _field.value is int && (int)_field.value == _setting.min && _setting.minString != null)
-            {
+            if (_setting != null && _field.value is int i && i == _setting.min && _setting.minString != null)
                 _text = _setting.minString;
-            }
             else
             {
                 _text = prepend + Change.ToString((int)_field.value) + _append;
                 if (_filterField != null && !(bool)_filterField.value)
-                {
                     _text = "ANY";
-                }
             }
         }
         base.Draw();
     }
+
+    #endregion
 }

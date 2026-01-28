@@ -1,6 +1,6 @@
 namespace DuckGame;
 
-public class Spark : PhysicsParticle, IFactory
+public class Spark : PhysicsParticle
 {
     private static int kMaxSparks = 64;
 
@@ -40,12 +40,12 @@ public class Spark : PhysicsParticle, IFactory
 
     private void Init(float xpos, float ypos, Vec2 hitAngle, float killSpeed = 0.02f)
     {
-        position.x = xpos;
-        position.y = ypos;
-        hSpeed = (0f - hitAngle.x) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(-1f, 1f);
-        vSpeed = (0f - hitAngle.y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
+        X = xpos;
+        Y = ypos;
+        hSpeed = (0f - hitAngle.X) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(-1f, 1f);
+        vSpeed = (0f - hitAngle.Y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
         _bounceEfficiency = 0.6f;
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         _killSpeed = killSpeed;
         _color = new Color(byte.MaxValue, (byte)Rando.Int(180, 255), (byte)0);
         _width = 0.5f;
@@ -53,8 +53,8 @@ public class Spark : PhysicsParticle, IFactory
 
     public override void Update()
     {
-        base.alpha -= _killSpeed;
-        if (base.alpha < 0f)
+        base.Alpha -= _killSpeed;
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }
@@ -63,11 +63,11 @@ public class Spark : PhysicsParticle, IFactory
 
     public override void Draw()
     {
-        Vec2 dir = base.velocity.normalized;
-        float speed = base.velocity.length * 2f;
-        Vec2 end = position + dir * speed;
+        Vec2 dir = base.velocity.Normalized;
+        float speed = base.velocity.Length() * 2f;
+        Vec2 end = Position + dir * speed;
         Vec2 intersect;
-        Block touch = Level.CheckLine<Block>(position, end, out intersect);
-        Graphics.DrawLine(position, (touch != null) ? intersect : end, _color * base.alpha, _width, base.depth);
+        Block touch = Level.CheckLine<Block>(Position, end, out intersect);
+        Graphics.DrawLine(Position, (touch != null) ? intersect : end, _color * base.Alpha, _width, base.Depth);
     }
 }

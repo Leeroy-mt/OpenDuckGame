@@ -57,7 +57,7 @@ public class SmallSmoke : Thing
         obj.ResetProperties();
         obj._sprite.globalIndex = Thing.GetGlobalIndex();
         obj.globalIndex = Thing.GetGlobalIndex();
-        obj.depth = depth;
+        obj.Depth = depth;
         obj.s1 *= scaleMul;
         obj.s2 *= scaleMul;
         if (shortlife)
@@ -84,7 +84,7 @@ public class SmallSmoke : Thing
         obj.ResetProperties();
         obj._sprite.globalIndex = Thing.GetGlobalIndex();
         obj.globalIndex = Thing.GetGlobalIndex();
-        obj.depth = 0.8f;
+        obj.Depth = 0.8f;
         return obj;
     }
 
@@ -100,18 +100,18 @@ public class SmallSmoke : Thing
         _orbiter.AddAnimation("puff", Rando.Float(0.15f, 0.25f), false, off, 1 + off, 2 + off, 3 + off);
         _sprite2 = new SpriteMap("tinySmokeTestBack", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
     }
 
     private void Init(float xpos, float ypos)
     {
         _orbitInc += 0.2f;
         _life = 1f;
-        position.x = xpos;
-        position.y = ypos;
+        X = xpos;
+        Y = ypos;
         _sprite.SetAnimation("idle");
-        _sprite.angleDegrees = Rando.Float(360f);
-        _orbiter.angleDegrees = Rando.Float(360f);
+        _sprite.AngleDegrees = Rando.Float(360f);
+        _orbiter.AngleDegrees = Rando.Float(360f);
         s1 = Rando.Float(0.6f, 1f);
         s2 = Rando.Float(0.6f, 1f);
         hSpeed = Rando.Float(-0.15f, 0.15f);
@@ -120,8 +120,8 @@ public class SmallSmoke : Thing
         float lightness = 0.6f - Rando.Float(0.2f);
         lightness = 0.7f;
         _sprite.color = new Color(lightness, lightness, lightness);
-        base.depth = 0.8f;
-        base.alpha = 1f;
+        base.Depth = 0.8f;
+        base.Alpha = 1f;
         base.layer = Layer.Game;
     }
 
@@ -131,8 +131,8 @@ public class SmallSmoke : Thing
 
     public override void Update()
     {
-        base.xscale = 1f;
-        base.yscale = base.xscale;
+        base.ScaleX = 1f;
+        base.ScaleY = base.ScaleX;
         _orbitInc += _rotSpeed;
         _distPulse += _distPulseSpeed;
         vSpeed -= 0.01f;
@@ -146,8 +146,8 @@ public class SmallSmoke : Thing
         {
             Level.Remove(this);
         }
-        base.x += hSpeed;
-        base.y += vSpeed;
+        base.X += hSpeed;
+        base.Y += vSpeed;
     }
 
     public override void Draw()
@@ -156,31 +156,31 @@ public class SmallSmoke : Thing
         float xOff = (0f - (float)Math.Sin(_orbitInc) * distPulse) * s1;
         float yOff = (float)Math.Cos(_orbitInc) * distPulse * s1;
         _sprite.imageIndex = _sprite.imageIndex;
-        _sprite.depth = base.depth;
-        _sprite.scale = new Vec2(s1);
-        _sprite.center = center;
-        Graphics.Draw(_sprite, base.x + xOff, base.y + yOff);
+        _sprite.Depth = base.Depth;
+        _sprite.Scale = new Vec2(s1);
+        _sprite.Center = Center;
+        Graphics.Draw(_sprite, base.X + xOff, base.Y + yOff);
         _sprite2.imageIndex = _sprite.imageIndex;
-        _sprite2.angle = _sprite.angle;
-        _sprite2.depth = -0.5f;
-        _sprite2.scale = _sprite.scale;
-        _sprite2.center = center;
+        _sprite2.Angle = _sprite.Angle;
+        _sprite2.Depth = -0.5f;
+        _sprite2.Scale = _sprite.Scale;
+        _sprite2.Center = Center;
         float lightness = 0.6f - Rando.Float(0.2f);
         lightness = 0.4f;
         _sprite2.color = new Color(lightness, lightness, lightness);
-        Graphics.Draw(_sprite2, base.x + xOff, base.y + yOff);
+        Graphics.Draw(_sprite2, base.X + xOff, base.Y + yOff);
         _orbiter.imageIndex = _sprite.imageIndex;
         _orbiter.color = _sprite.color;
-        _orbiter.depth = base.depth;
-        _orbiter.scale = new Vec2(s2);
-        _orbiter.center = center;
-        Graphics.Draw(_orbiter, base.x - xOff, base.y - yOff);
+        _orbiter.Depth = base.Depth;
+        _orbiter.Scale = new Vec2(s2);
+        _orbiter.Center = Center;
+        Graphics.Draw(_orbiter, base.X - xOff, base.Y - yOff);
         _sprite2.imageIndex = _orbiter.imageIndex;
-        _sprite2.angle = _orbiter.angle;
-        _sprite2.depth = -0.5f;
-        _sprite2.scale = _orbiter.scale;
-        _sprite2.center = center;
+        _sprite2.Angle = _orbiter.Angle;
+        _sprite2.Depth = -0.5f;
+        _sprite2.Scale = _orbiter.Scale;
+        _sprite2.Center = Center;
         _sprite2.color = new Color(lightness, lightness, lightness);
-        Graphics.Draw(_sprite2, base.x - xOff, base.y - yOff);
+        Graphics.Draw(_sprite2, base.X - xOff, base.Y - yOff);
     }
 }

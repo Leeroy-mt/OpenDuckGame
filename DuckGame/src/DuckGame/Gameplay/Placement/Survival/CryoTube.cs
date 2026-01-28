@@ -10,16 +10,16 @@ public class CryoTube : Thing
         : base(xpos, ypos)
     {
         graphic = new("survival/cryoTube");
-        center = new(16, 15);
+        Center = new(16, 15);
         _collisionSize = new(18, 32);
         _collisionOffset = new(-9, -16);
-        depth = 0.9f;
+        Depth = 0.9f;
         hugWalls = WallHug.Floor;
     }
 
     public override void Initialize()
     {
-        _plug = new(x - 20, y);
+        _plug = new(X - 20, Y);
         Level.Add(_plug);
         _plug.AttachTo(this);
     }

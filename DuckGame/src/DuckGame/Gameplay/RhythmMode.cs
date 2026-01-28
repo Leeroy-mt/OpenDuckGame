@@ -50,21 +50,21 @@ public class RhythmMode
             _ball.CenterOrigin();
         }
         Vec2 barPos = new Vec2(Layer.HUD.camera.width / 2f - (float)(_bar.w / 2), 10f);
-        Graphics.Draw(_bar, barPos.x, barPos.y);
+        Graphics.Draw(_bar, barPos.X, barPos.Y);
         for (int i = 0; i < 5; i++)
         {
-            float xpos = barPos.x + 2f + (float)(i * (_bar.w / 4) + 1) + _pos * ((float)_bar.w / 4f);
-            float distance = Maths.Clamp((xpos - barPos.x) / ((float)_bar.w - 2f), 0f, 1f);
-            _ball.alpha = ((float)Math.Sin((double)distance * (Math.PI * 2.0) - Math.PI / 2.0) + 1f) / 2f;
+            float xpos = barPos.X + 2f + (float)(i * (_bar.w / 4) + 1) + _pos * ((float)_bar.w / 4f);
+            float distance = Maths.Clamp((xpos - barPos.X) / ((float)_bar.w - 2f), 0f, 1f);
+            _ball.Alpha = ((float)Math.Sin((double)distance * (Math.PI * 2.0) - Math.PI / 2.0) + 1f) / 2f;
             if (((i == 1 && _pos > 0.5f) || (i == 2 && _pos <= 0.5f)) && inTime)
             {
-                _ball.scale = new Vec2(2f, 2f);
+                _ball.Scale = new Vec2(2f, 2f);
             }
             else
             {
-                _ball.scale = new Vec2(1f, 1f);
+                _ball.Scale = new Vec2(1f, 1f);
             }
-            Graphics.Draw(_ball, xpos, barPos.y + 4f);
+            Graphics.Draw(_ball, xpos, barPos.Y + 4f);
         }
     }
 }

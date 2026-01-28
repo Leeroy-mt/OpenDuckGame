@@ -4,14 +4,20 @@ namespace DuckGame;
 
 public class UIProgressBar : UIComponent
 {
-    private FieldBinding _field;
+    #region Private Fields
 
-    private Vec2 _barSize;
+    float _step;
 
-    private float _step;
+    Vec2 _barSize;
 
-    public UIProgressBar(float wide, float high, FieldBinding field, float increment, Color c = default(Color))
-        : base(0f, 0f, 0f, 0f)
+    FieldBinding _field;
+
+    #endregion
+
+    #region Public Constructors
+
+    public UIProgressBar(float wide, float high, FieldBinding field, float increment, Color c = default)
+        : base(0, 0, 0, 0)
     {
         _field = field;
         _barSize = new Vec2(wide, high);
@@ -19,31 +25,35 @@ public class UIProgressBar : UIComponent
         _step = increment;
     }
 
+    #endregion
+
+    #region Public Methods
+
     public override void Draw()
     {
-        float sizeX = _barSize.x * base.scale.x;
-        float sizeY = _barSize.y * base.scale.y;
+        float sizeX = _barSize.X * Scale.X;
+        float sizeY = _barSize.Y * Scale.Y;
         int numParts = (int)Math.Ceiling((_field.max - _field.min) / _step);
         for (int i = 0; i < numParts; i++)
         {
-            Vec2 tl = position - new Vec2(base.halfWidth, sizeY / 2f) + new Vec2(i * (int)Math.Round(sizeX / (float)numParts), 0f);
-            Vec2 br = position - new Vec2(base.halfWidth, (0f - sizeY) / 2f) + new Vec2((float)((i + 1) * (int)Math.Round(sizeX / (float)numParts)) - 1f, 0f);
-            if ((base.align & UIAlign.Center) > UIAlign.Center)
+            Vec2 tl = Position - new Vec2(halfWidth, sizeY / 2) + new Vec2(i * (int)Math.Round(sizeX / numParts), 0);
+            Vec2 br = Position - new Vec2(halfWidth, -sizeY / 2) + new Vec2(((i + 1) * (int)Math.Round(sizeX / numParts)) - 1, 0);
+            if ((align & UIAlign.Center) > UIAlign.Center)
             {
-                tl.x += base.halfWidth - sizeX / 2f;
-                br.x += base.halfWidth - sizeX / 2f;
+                tl.X += halfWidth - sizeX / 2;
+                br.X += halfWidth - sizeX / 2;
             }
-            else if ((base.align & UIAlign.Right) > UIAlign.Center)
+            else if ((align & UIAlign.Right) > UIAlign.Center)
             {
-                tl.x += base.width - sizeX;
-                br.x += base.width - sizeX;
+                tl.X += width - sizeX;
+                br.X += width - sizeX;
             }
-            if (tl.x == br.x)
-            {
-                br.x += 1f;
-            }
+            if (tl.X == br.X)
+                br.X += 1;
             float value = (float)_field.value;
-            Graphics.DrawRect(tl, br, (value > (float)i * _step) ? Color.White : new Color(70, 70, 70), base.depth);
+            Graphics.DrawRect(tl, br, (value > i * _step) ? Color.White : new Color(70, 70, 70), Depth);
         }
     }
+
+    #endregion
 }

@@ -9,13 +9,13 @@ public class MuzzleFlare : Thing
     {
         _sprite = new SpriteMap("smallFlare", 16, 16);
         graphic = _sprite;
-        center = new Vec2(0f, 8f);
+        Center = new Vec2(0f, 8f);
     }
 
     public override void Update()
     {
-        base.alpha -= 0.1f;
-        if (base.alpha < 0f)
+        base.Alpha -= 0.1f;
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }

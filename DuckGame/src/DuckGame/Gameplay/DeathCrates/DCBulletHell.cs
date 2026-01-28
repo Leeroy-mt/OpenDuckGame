@@ -6,8 +6,8 @@ public class DCBulletHell : DeathCrateSetting
 {
     public override void Activate(DeathCrate c, bool server = true)
     {
-        float cx = c.x;
-        float cy = c.y - 2f;
+        float cx = c.X;
+        float cy = c.Y - 2f;
         Level.Add(new ExplosionPart(cx, cy));
         int num = 6;
         if (Graphics.effectsLevel < 2)
@@ -26,12 +26,12 @@ public class DCBulletHell : DeathCrateSetting
             {
                 float dir2 = (float)j * 22.5f;
                 Rando.Float(8f, 14f);
-                Level.Add(new QuadLaserBullet(c.x, c.y, new Vec2((float)Math.Cos(Maths.DegToRad(dir2)), (float)(0.0 - Math.Sin(Maths.DegToRad(dir2))))));
+                Level.Add(new QuadLaserBullet(c.X, c.Y, new Vec2((float)Math.Cos(Maths.DegToRad(dir2)), (float)(0.0 - Math.Sin(Maths.DegToRad(dir2))))));
             }
             Level.Remove(c);
         }
         Graphics.FlashScreen();
         SFX.Play("explode");
-        RumbleManager.AddRumbleEvent(c.position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
+        RumbleManager.AddRumbleEvent(c.Position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
     }
 }

@@ -166,9 +166,9 @@ public class DuckAI : InputProfile
         {
             if (lastNode != Vec2.Zero)
             {
-                Graphics.DrawLine(lastNode, n.owner.position, new Color(255, 0, 255), 2f, 0.9f);
+                Graphics.DrawLine(lastNode, n.owner.Position, new Color(255, 0, 255), 2f, 0.9f);
             }
-            lastNode = n.owner.position;
+            lastNode = n.owner.Position;
         }
     }
 }

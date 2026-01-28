@@ -2,105 +2,75 @@ namespace DuckGame;
 
 public class UIMenuItemString : UIMenuItem
 {
-    private FieldBinding _field;
+    #region Private Fields
 
-    private FieldBinding _filterBinding;
+    string _text;
 
-    private UIStringEntryMenu _enterStringMenu;
+    string _id;
 
-    private string _text;
+    FieldBinding _field;
 
-    private string _id;
+    UIStringEntryMenu _enterStringMenu;
 
-    private UIStringEntry _passwordItem;
+    UIStringEntry _passwordItem;
 
-    private UIMenuActionOpenMenu _activateFunction;
+    UIMenuActionOpenMenu _activateFunction;
 
-    public void SetFieldBinding(FieldBinding f)
-    {
-        _field = f;
-    }
+    #endregion
 
-    public UIMenuItemString(string text, string id, UIMenuAction action = null, FieldBinding field = null, Color c = default(Color), FieldBinding filterBinding = null, bool tiny = false)
+    public UIMenuItemString(string text, string id, UIMenuAction action = null, FieldBinding field = null, Color c = default, FieldBinding filterBinding = null, bool tiny = false)
         : base(action)
     {
         _text = text;
-        if (c == default(Color))
-        {
+        if (c == default)
             c = Colors.MenuOption;
-        }
         _id = id;
         BitmapFont littleFont = null;
         if (tiny)
-        {
             littleFont = new BitmapFont("smallBiosFontUI", 7, 5);
-        }
-        UIDivider splitter = new UIDivider(vert: true, 0f);
+        UIDivider splitter = new(vert: true, 0);
         if (text != "")
         {
-            UIText t = new UIText(text, c);
+            UIText t = new(text, c);
             if (tiny)
-            {
                 t.SetFont(littleFont);
-            }
             t.align = UIAlign.Left;
             splitter.leftSection.Add(t);
         }
-        _passwordItem = new UIStringEntry(directional: false, "", Color.White);
-        _passwordItem.align = UIAlign.Right;
+        _passwordItem = new UIStringEntry(directional: false, "", Color.White)
+        {
+            align = UIAlign.Right
+        };
         splitter.rightSection.Add(_passwordItem);
-        base.rightSection.Add(splitter);
+        rightSection.Add(splitter);
         if (tiny)
-        {
             _arrow = new UIImage("littleContextArrowRight");
-        }
         else
-        {
             _arrow = new UIImage("contextArrowRight");
-        }
         _arrow.align = UIAlign.Right;
         _arrow.visible = false;
-        base.leftSection.Add(_arrow);
+        leftSection.Add(_arrow);
         _field = field;
-        _filterBinding = filterBinding;
         controlString = "@CANCEL@BACK @WASD@ADJUST";
     }
+
+    #region Public Methods
 
     public override void Update()
     {
         if ((string)_field.value == "")
         {
-            if (base.open && _id == "name" && Profiles.active.Count > 0)
+            if (open && _id == "name" && Profiles.active.Count > 0)
             {
                 _field.value = TeamSelect2.DefaultGameName();
                 _passwordItem.text = (string)_field.value;
             }
             else
-            {
                 _passwordItem.text = "NONE";
-            }
         }
         else
-        {
             _passwordItem.text = (string)_field.value;
-        }
         base.Update();
-    }
-
-    public void InitializeEntryMenu(UIComponent pGroup, UIMenu pReturn)
-    {
-        if (_id == "port")
-        {
-            _enterStringMenu = new UIStringEntryMenu(directional: false, "SET " + _text, _field, 6, pNumeric: true, 1337, 55535);
-        }
-        else
-        {
-            _enterStringMenu = new UIStringEntryMenu(directional: false, "SET " + _text, _field);
-        }
-        _enterStringMenu.SetBackFunction(new UIMenuActionOpenMenu(_enterStringMenu, pReturn));
-        _enterStringMenu.Close();
-        pGroup.Add(_enterStringMenu, doAnchor: false);
-        _activateFunction = new UIMenuActionOpenMenu(pReturn, _enterStringMenu);
     }
 
     public override void Activate(string trigger)
@@ -111,4 +81,23 @@ public class UIMenuItemString : UIMenuItem
             _activateFunction.Activate();
         }
     }
+
+    public void SetFieldBinding(FieldBinding f)
+    {
+        _field = f;
+    }
+
+    public void InitializeEntryMenu(UIComponent pGroup, UIMenu pReturn)
+    {
+        if (_id == "port")
+            _enterStringMenu = new UIStringEntryMenu(directional: false, $"SET {_text}", _field, 6, pNumeric: true, 1337, 55535);
+        else
+            _enterStringMenu = new UIStringEntryMenu(directional: false, $"SET {_text}", _field);
+        _enterStringMenu.SetBackFunction(new UIMenuActionOpenMenu(_enterStringMenu, pReturn));
+        _enterStringMenu.Close();
+        pGroup.Add(_enterStringMenu, doAnchor: false);
+        _activateFunction = new UIMenuActionOpenMenu(pReturn, _enterStringMenu);
+    }
+
+    #endregion
 }

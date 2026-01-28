@@ -10,15 +10,15 @@ public class EnemySpawn : Thing
         GraphicList list = new GraphicList();
         list.Add(new SpriteMap("duck", 32, 32)
         {
-            depth = 0.9f,
-            position = new Vec2(-8f, -18f)
+            Depth = 0.9f,
+            Position = new Vec2(-8f, -18f)
         });
         _spawnSprite = new SpriteMap("spawnSheet", 16, 16);
-        _spawnSprite.depth = 0.95f;
+        _spawnSprite.Depth = 0.95f;
         list.Add(_spawnSprite);
         graphic = list;
         _editorName = "enemy spawn";
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionSize = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -8f);
     }

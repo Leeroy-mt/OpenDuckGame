@@ -32,7 +32,7 @@ public class PortalGun : Gun
         (_ammoType as ATPortal).angleShot = false;
         _type = "gun";
         graphic = new Sprite("phaser");
-        center = new Vec2(7f, 4f);
+        Center = new Vec2(7f, 4f);
         collisionOffset = new Vec2(-7f, -4f);
         collisionSize = new Vec2(15f, 9f);
         _barrelOffsetTL = new Vec2(14f, 3f);
@@ -42,6 +42,6 @@ public class PortalGun : Gun
         _kickForce = 0.5f;
         _holdOffset = new Vec2(0f, 0f);
         _flare = new SpriteMap("laserFlare", 16, 16);
-        _flare.center = new Vec2(0f, 8f);
+        _flare.Center = new Vec2(0f, 8f);
     }
 }

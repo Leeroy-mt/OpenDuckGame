@@ -2166,7 +2166,14 @@ public class Profile
                 break;
             }
         }
-        return (byte)((uint)(byte)((byte)((byte)((byte)((byte)((int)(byte)((byte)((int)(byte)((byte)(0 | (allDev ? 1 : 0)) << 1) | (((int)Global.data.onlineWins >= 50) ? 1 : 0)) << 1) | (((int)Global.data.matchesPlayed >= 100) ? 1 : 0)) << 1) | (allComplete ? 1 : 0)) << 1) | (Options.Data.shennanigans ? 1 : 0)) | ((Options.Data.rumbleIntensity > 0f) ? 1u : 0u));
+        return (byte)((byte)((byte)((byte)((byte)((byte)((byte)((byte)((byte)((byte)(
+                                                       0 |
+                                                       (allDev ? 1 : 0)) << 1) |
+                                                       (Global.data.onlineWins >= 50 ? 1 : 0)) << 1) |
+                                                       (Global.data.matchesPlayed >= 100 ? 1 : 0)) << 1) |
+                                                       (allComplete ? 1 : 0)) << 1) |
+                                                       (Options.Data.shennanigans ? 1 : 0)) |
+                                                       (Options.Data.rumbleIntensity > 0 ? 1u : 0u));
     }
 
     public bool GetLightStatus(int index)

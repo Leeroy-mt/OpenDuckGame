@@ -26,7 +26,7 @@ public class TriggerVolume : MaterialThing, ISequenceItem
     {
         if (!(Level.current is Editor))
         {
-            center = new Vec2(8f, 8f);
+            Center = new Vec2(8f, 8f);
             collisionSize = new Vec2((int)Wide, (int)High);
             collisionOffset = new Vec2(-((int)Wide / 2), -((int)High / 2));
         }
@@ -40,7 +40,7 @@ public class TriggerVolume : MaterialThing, ISequenceItem
         enablePhysics = false;
         _impactThreshold = 1E-06f;
         graphic = new SpriteMap("challenge/goody", 16, 16);
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         (graphic as SpriteMap).frame = 3;
         collisionOffset = new Vec2(-4f, -4f);
         collisionSize = new Vec2(8f, 8f);
@@ -109,7 +109,7 @@ public class TriggerVolume : MaterialThing, ISequenceItem
                 base.sequence.order = Rando.Int(256);
             }
             base.sequence.waitTillOrder = true;
-            center = new Vec2(8f, 8f);
+            Center = new Vec2(8f, 8f);
             collisionSize = new Vec2((int)Wide, (int)High);
             collisionOffset = new Vec2(-((int)Wide / 2), -((int)High / 2));
         }
@@ -140,7 +140,7 @@ public class TriggerVolume : MaterialThing, ISequenceItem
             {
                 float wid = Wide.value;
                 float hig = High.value;
-                Graphics.DrawRect(position + new Vec2((0f - wid) / 2f, (0f - hig) / 2f), position + new Vec2(wid / 2f, hig / 2f), Colors.DGGreen * 0.5f, 1f, filled: false);
+                Graphics.DrawRect(Position + new Vec2((0f - wid) / 2f, (0f - hig) / 2f), Position + new Vec2(wid / 2f, hig / 2f), Colors.DGGreen * 0.5f, 1f, filled: false);
             }
         }
     }

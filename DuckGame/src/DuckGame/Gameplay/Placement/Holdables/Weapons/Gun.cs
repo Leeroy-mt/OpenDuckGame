@@ -149,21 +149,21 @@ public abstract class Gun : Holdable
 
     public Vec2 barrelPosition => Offset(barrelOffset);
 
-    public Vec2 barrelOffset => _barrelOffsetTL - center + _extraOffset;
+    public Vec2 barrelOffset => _barrelOffsetTL - Center + _extraOffset;
 
-    public Vec2 laserOffset => _laserOffsetTL - center;
+    public Vec2 laserOffset => _laserOffsetTL - Center;
 
     public Vec2 barrelVector => Offset(barrelOffset) - Offset(barrelOffset + new Vec2(-1f, 0f));
 
-    public override float angle
+    public override float Angle
     {
         get
         {
-            return _angle + (float)_accuracyWave * (_accuracyLost * 0.5f);
+            return AngleValue + (float)_accuracyWave * (_accuracyLost * 0.5f);
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
@@ -220,9 +220,9 @@ public abstract class Gun : Holdable
         : base(xval, yval)
     {
         _flare = new SpriteMap("smallFlare", 11, 10);
-        _flare.center = new Vec2(0f, 5f);
+        _flare.Center = new Vec2(0f, 5f);
         _barrelSmoke = new SpriteMap("barrelSmoke", 8, 8);
-        _barrelSmoke.center = new Vec2(1f, 8f);
+        _barrelSmoke.Center = new Vec2(1f, 8f);
         _barrelSmoke.ClearAnimations();
         _barrelSmoke.AddAnimation("puff", 1f, false, 0, 1, 2);
         _barrelSmoke.AddAnimation("loop", 1f, true, 3, 4, 5, 6, 7, 8);
@@ -234,10 +234,10 @@ public abstract class Gun : Holdable
         _dontCrush = true;
         _clickPuff = new SpriteMap("clickPuff", 16, 16);
         _clickPuff.AddAnimation("puff", 0.3f, false, 0, 1, 2, 3);
-        _clickPuff.center = new Vec2(0f, 12f);
+        _clickPuff.Center = new Vec2(0f, 12f);
         _sightHit = new Sprite("laserSightHit");
         _sightHit.CenterOrigin();
-        base.depth = -0.1f;
+        base.Depth = -0.1f;
         infinite = new EditorProperty<bool>(val: false, this);
         infinite._tooltip = "Makes gun have infinite ammo.";
         base.collideSounds.Add("smallMetalCollide");
@@ -256,11 +256,11 @@ public abstract class Gun : Holdable
         SFX.Play(_clickSound);
         for (int i = 0; i < 2; i++)
         {
-            SmallSmoke smallSmoke = SmallSmoke.New(barrelPosition.x, barrelPosition.y);
-            smallSmoke.scale = new Vec2(0.3f, 0.3f);
+            SmallSmoke smallSmoke = SmallSmoke.New(barrelPosition.X, barrelPosition.Y);
+            smallSmoke.Scale = new Vec2(0.3f, 0.3f);
             smallSmoke.hSpeed = Rando.Float(-0.1f, 0.1f);
             smallSmoke.vSpeed = 0f - Rando.Float(0.05f, 0.2f);
-            smallSmoke.alpha = 0.6f;
+            smallSmoke.Alpha = 0.6f;
             Level.Add(smallSmoke);
         }
     }
@@ -406,58 +406,58 @@ public abstract class Gun : Holdable
             {
                 if (offDir > 0)
                 {
-                    base.angleDegrees += (Math.Abs(hSpeed * 2f) + Math.Abs(vSpeed)) * 1f + 5f;
+                    base.AngleDegrees += (Math.Abs(hSpeed * 2f) + Math.Abs(vSpeed)) * 1f + 5f;
                 }
                 else
                 {
-                    base.angleDegrees -= (Math.Abs(hSpeed * 2f) + Math.Abs(vSpeed)) * 1f + 5f;
+                    base.AngleDegrees -= (Math.Abs(hSpeed * 2f) + Math.Abs(vSpeed)) * 1f + 5f;
                 }
                 spinning = true;
             }
             if (!spinning || againstWall)
             {
-                base.angleDegrees %= 360f;
-                if (base.angleDegrees < 0f)
+                base.AngleDegrees %= 360f;
+                if (base.AngleDegrees < 0f)
                 {
-                    base.angleDegrees += 360f;
+                    base.AngleDegrees += 360f;
                 }
                 if (againstWall)
                 {
-                    if (Math.Abs(base.angleDegrees - 90f) < Math.Abs(base.angleDegrees + 90f))
+                    if (Math.Abs(base.AngleDegrees - 90f) < Math.Abs(base.AngleDegrees + 90f))
                     {
-                        base.angleDegrees = Lerp.Float(base.angleDegrees, 90f, 16f);
+                        base.AngleDegrees = Lerp.Float(base.AngleDegrees, 90f, 16f);
                     }
                     else
                     {
-                        base.angleDegrees = Lerp.Float(-90f, 0f, 16f);
+                        base.AngleDegrees = Lerp.Float(-90f, 0f, 16f);
                     }
                 }
-                else if (base.angleDegrees > 90f && base.angleDegrees < 270f)
+                else if (base.AngleDegrees > 90f && base.AngleDegrees < 270f)
                 {
-                    base.angleDegrees = Lerp.Float(base.angleDegrees, 180f, 14f);
+                    base.AngleDegrees = Lerp.Float(base.AngleDegrees, 180f, 14f);
                 }
                 else
                 {
-                    if (base.angleDegrees > 180f)
+                    if (base.AngleDegrees > 180f)
                     {
-                        base.angleDegrees -= 360f;
+                        base.AngleDegrees -= 360f;
                     }
-                    else if (base.angleDegrees < -180f)
+                    else if (base.AngleDegrees < -180f)
                     {
-                        base.angleDegrees += 360f;
+                        base.AngleDegrees += 360f;
                     }
-                    base.angleDegrees = Lerp.Float(base.angleDegrees, 0f, 14f);
+                    base.AngleDegrees = Lerp.Float(base.AngleDegrees, 0f, 14f);
                 }
             }
         }
-        float val = 1f - ((float)Math.Sin(Maths.DegToRad(base.angleDegrees + 90f)) + 1f) / 2f;
+        float val = 1f - ((float)Math.Sin(Maths.DegToRad(base.AngleDegrees + 90f)) + 1f) / 2f;
         if (_owner == null)
         {
-            _extraOffset.y = val * (_collisionOffset.y + _collisionSize.y + _collisionOffset.y);
+            _extraOffset.Y = val * (_collisionOffset.Y + _collisionSize.Y + _collisionOffset.Y);
         }
         else
         {
-            _extraOffset.y = 0f;
+            _extraOffset.Y = 0f;
         }
         if (owner == null || (owner.hSpeed > -0.1f && owner.hSpeed < 0.1f))
         {
@@ -499,13 +499,13 @@ public abstract class Gun : Holdable
         }
         if (owner == null)
         {
-            if (ammo <= 0 && (base.alpha < 0.99f || (base.grounded && Math.Abs(hSpeed) + Math.Abs(vSpeed) < 0.3f)))
+            if (ammo <= 0 && (base.Alpha < 0.99f || (base.grounded && Math.Abs(hSpeed) + Math.Abs(vSpeed) < 0.3f)))
             {
                 canPickUp = false;
-                base.alpha -= 10.2f;
+                base.Alpha -= 10.2f;
                 weight = 0.01f;
             }
-            if ((double)base.alpha < 0.0)
+            if ((double)base.Alpha < 0.0)
             {
                 Level.Remove(this);
             }
@@ -528,11 +528,11 @@ public abstract class Gun : Holdable
     {
         if (!(Level.current is Editor))
         {
-            Level.Add(SmallSmoke.New(base.x, base.y));
-            Level.Add(SmallSmoke.New(base.x + 4f, base.y));
-            Level.Add(SmallSmoke.New(base.x - 4f, base.y));
-            Level.Add(SmallSmoke.New(base.x, base.y + 4f));
-            Level.Add(SmallSmoke.New(base.x, base.y - 4f));
+            Level.Add(SmallSmoke.New(base.X, base.Y));
+            Level.Add(SmallSmoke.New(base.X + 4f, base.Y));
+            Level.Add(SmallSmoke.New(base.X - 4f, base.Y));
+            Level.Add(SmallSmoke.New(base.X, base.Y + 4f));
+            Level.Add(SmallSmoke.New(base.X, base.Y - 4f));
         }
         base.Terminate();
     }
@@ -554,9 +554,9 @@ public abstract class Gun : Holdable
                 Level.Remove(this);
                 for (int repeat = 0; repeat < 1; repeat++)
                 {
-                    ExplosionPart explosionPart = new ExplosionPart(base.x - 8f + Rando.Float(16f), base.y - 8f + Rando.Float(16f));
-                    explosionPart.xscale *= 0.7f;
-                    explosionPart.yscale *= 0.7f;
+                    ExplosionPart explosionPart = new ExplosionPart(base.X - 8f + Rando.Float(16f), base.Y - 8f + Rando.Float(16f));
+                    explosionPart.ScaleX *= 0.7f;
+                    explosionPart.ScaleY *= 0.7f;
                     Level.Add(explosionPart);
                 }
                 SFX.Play("explode");
@@ -566,7 +566,7 @@ public abstract class Gun : Holdable
                     float dir = (float)i * 30f - 10f + Rando.Float(20f);
                     ATShrapnel shrap = new ATShrapnel();
                     shrap.range = 25f + Rando.Float(10f);
-                    Bullet bullet = new Bullet(base.x + (float)(Math.Cos(Maths.DegToRad(dir)) * 8.0), base.y - (float)(Math.Sin(Maths.DegToRad(dir)) * 8.0), shrap, dir);
+                    Bullet bullet = new Bullet(base.X + (float)(Math.Cos(Maths.DegToRad(dir)) * 8.0), base.Y - (float)(Math.Sin(Maths.DegToRad(dir)) * 8.0), shrap, dir);
                     bullet.firedFrom = this;
                     firedBullets.Add(bullet);
                     Level.Add(bullet);
@@ -621,19 +621,19 @@ public abstract class Gun : Holdable
             if (duckOwner != null && duckOwner.ragdoll != null && duckOwner.ragdoll.part2 != null && duckOwner.ragdoll.part1 != null && duckOwner.ragdoll.part3 != null)
             {
                 Vec2 dir = -barrelVector * (_kickForce / 2f);
-                duckOwner.ragdoll.part1.hSpeed += dir.x;
-                duckOwner.ragdoll.part1.vSpeed += dir.y;
-                duckOwner.ragdoll.part2.hSpeed += dir.x;
-                duckOwner.ragdoll.part2.vSpeed += dir.y;
-                duckOwner.ragdoll.part3.hSpeed += dir.x;
-                duckOwner.ragdoll.part3.vSpeed += dir.y;
+                duckOwner.ragdoll.part1.hSpeed += dir.X;
+                duckOwner.ragdoll.part1.vSpeed += dir.Y;
+                duckOwner.ragdoll.part2.hSpeed += dir.X;
+                duckOwner.ragdoll.part2.vSpeed += dir.Y;
+                duckOwner.ragdoll.part3.hSpeed += dir.X;
+                duckOwner.ragdoll.part3.vSpeed += dir.Y;
             }
             else
             {
                 Vec2 dir2 = -barrelVector * _kickForce;
-                if (Math.Sign(kick.hSpeed) != Math.Sign(dir2.x) || Math.Abs(dir2.x) > Math.Abs(kick.hSpeed))
+                if (Math.Sign(kick.hSpeed) != Math.Sign(dir2.X) || Math.Abs(dir2.X) > Math.Abs(kick.hSpeed))
                 {
-                    kick.hSpeed = dir2.x;
+                    kick.hSpeed = dir2.X;
                 }
                 if (duckOwner != null)
                 {
@@ -641,11 +641,11 @@ public abstract class Gun : Holdable
                     {
                         duckOwner.sliding = true;
                     }
-                    kick.vSpeed += dir2.y - _kickForce * 0.333f;
+                    kick.vSpeed += dir2.Y - _kickForce * 0.333f;
                 }
                 else
                 {
-                    kick.vSpeed += dir2.y - _kickForce * 0.333f;
+                    kick.vSpeed += dir2.Y - _kickForce * 0.333f;
                 }
             }
         }
@@ -671,7 +671,7 @@ public abstract class Gun : Holdable
                 float accuracy = _ammoType.accuracy;
                 _ammoType.accuracy *= 1f - _accuracyLost;
                 _ammoType.bulletColor = _bulletColor;
-                float shootAngle = base.angleDegrees;
+                float shootAngle = base.AngleDegrees;
                 if (offDir < 0)
                 {
                     shootAngle += 180f;
@@ -688,18 +688,18 @@ public abstract class Gun : Holdable
                         if (base.isServerForObject)
                         {
                             Vec2 pos = Offset(barrelOffset);
-                            Dart d = new Dart(pos.x, pos.y, owner as Duck, 0f - shootAngle);
+                            Dart d = new Dart(pos.X, pos.Y, owner as Duck, 0f - shootAngle);
                             Fondle(d);
                             if (base.onFire || _barrelHeat > 6f)
                             {
                                 Level.Add(SmallFire.New(0f, 0f, 0f, 0f, shortLife: false, d, canMultiply: true, this));
                                 d.burning = true;
                                 d.onFire = true;
-                                Burn(position, this);
+                                Burn(Position, this);
                             }
                             Vec2 travelDir = Maths.AngleToVec(Maths.DegToRad(0f - shootAngle));
-                            d.hSpeed = travelDir.x * 10f;
-                            d.vSpeed = travelDir.y * 10f;
+                            d.hSpeed = travelDir.X * 10f;
+                            d.vSpeed = travelDir.Y * 10f;
                             d.vSpeed -= Rando.Float(2f);
                             Level.Add(d);
                         }
@@ -738,9 +738,9 @@ public abstract class Gun : Holdable
             if (owner == null)
             {
                 Vec2 fly = barrelVector * Rando.Float(1f, 3f);
-                fly.y += Rando.Float(2f);
-                hSpeed -= fly.x;
-                vSpeed -= fly.y;
+                fly.Y += Rando.Float(2f);
+                hSpeed -= fly.X;
+                vSpeed -= fly.Y;
             }
             _accuracyLost += loseAccuracy;
             if (_accuracyLost > maxAccuracyLost)
@@ -765,7 +765,7 @@ public abstract class Gun : Holdable
     {
         if ((base.isServerForObject || isMessage) && _ammoType != null)
         {
-            _ammoType.PopShell(base.x, base.y, -offDir);
+            _ammoType.PopShell(base.X, base.Y, -offDir);
             if (!isMessage)
             {
                 Send.Message(new NMPopShell(this), NetMessagePriority.UnreliableUnordered);
@@ -792,7 +792,7 @@ public abstract class Gun : Holdable
         {
             ATTracer tracer = new ATTracer();
             tracer.range = 2000f;
-            float a = base.angleDegrees;
+            float a = base.AngleDegrees;
             a *= -1f;
             if (offDir < 0)
             {
@@ -800,7 +800,7 @@ public abstract class Gun : Holdable
             }
             Vec2 pos = Offset(laserOffset);
             tracer.penetration = 0.4f;
-            Bullet b = new Bullet(pos.x, pos.y, tracer, a, owner, rbound: false, -1f, tracer: true);
+            Bullet b = new Bullet(pos.X, pos.Y, tracer, a, owner, rbound: false, -1f, tracer: true);
             _wallPoint = b.end;
             _laserInit = true;
         }
@@ -818,8 +818,8 @@ public abstract class Gun : Holdable
         }
         if (_doPuff)
         {
-            _clickPuff.alpha = 0.6f;
-            _clickPuff.angle = angle + _smokeAngle;
+            _clickPuff.Alpha = 0.6f;
+            _clickPuff.Angle = Angle + _smokeAngle;
             _clickPuff.flipH = offDir < 0;
             Draw(_clickPuff, barrelOffset);
         }
@@ -835,18 +835,18 @@ public abstract class Gun : Holdable
         }
         if (_barrelSmoke.speed > 0f && !base.raised)
         {
-            _barrelSmoke.alpha = 0.7f;
-            _barrelSmoke.angle = _smokeAngle;
+            _barrelSmoke.Alpha = 0.7f;
+            _barrelSmoke.Angle = _smokeAngle;
             _barrelSmoke.flipH = offDir < 0;
-            if (offDir > 0 && base.angleDegrees > 90f && base.angleDegrees < 270f)
+            if (offDir > 0 && base.AngleDegrees > 90f && base.AngleDegrees < 270f)
             {
                 _barrelSmoke.flipH = true;
             }
-            if (offDir < 0 && base.angleDegrees > 90f && base.angleDegrees < 270f)
+            if (offDir < 0 && base.AngleDegrees > 90f && base.AngleDegrees < 270f)
             {
                 _barrelSmoke.flipH = false;
             }
-            _barrelSmoke.yscale = 1f - _smokeFlatten;
+            _barrelSmoke.ScaleY = 1f - _smokeFlatten;
             DrawIgnoreAngle(_barrelSmoke, barrelOffset);
         }
         if (!Options.Data.fireGlow)
@@ -867,28 +867,28 @@ public abstract class Gun : Holdable
                 alpha = 0.4f;
             }
             Vec2 startPos = Offset(laserOffset);
-            float length = (startPos - _wallPoint).length;
+            float length = (startPos - _wallPoint).Length();
             float range = 100f;
             if (ammoType != null)
             {
                 range = ammoType.range;
             }
-            Vec2 travel = (_wallPoint - startPos).normalized;
+            Vec2 travel = (_wallPoint - startPos).Normalized;
             Vec2 endPos = startPos + travel * Math.Min(range, length);
-            Graphics.DrawTexturedLine(_laserTex, startPos, endPos, Color.Red * alpha, 0.5f, base.depth - 1);
+            Graphics.DrawTexturedLine(_laserTex, startPos, endPos, Color.Red * alpha, 0.5f, base.Depth - 1);
             if (length > range)
             {
                 for (int i = 1; i < 4; i++)
                 {
-                    Graphics.DrawTexturedLine(_laserTex, endPos, endPos + travel * 2f, Color.Red * (1f - (float)i * 0.2f) * alpha, 0.5f, base.depth - 1);
+                    Graphics.DrawTexturedLine(_laserTex, endPos, endPos + travel * 2f, Color.Red * (1f - (float)i * 0.2f) * alpha, 0.5f, base.Depth - 1);
                     endPos += travel * 2f;
                 }
             }
             if (_sightHit != null && length < range)
             {
-                _sightHit.alpha = alpha;
+                _sightHit.Alpha = alpha;
                 _sightHit.color = Color.Red * alpha;
-                Graphics.Draw(_sightHit, _wallPoint.x, _wallPoint.y);
+                Graphics.Draw(_sightHit, _wallPoint.X, _wallPoint.Y);
             }
         }
         base.DrawGlow();

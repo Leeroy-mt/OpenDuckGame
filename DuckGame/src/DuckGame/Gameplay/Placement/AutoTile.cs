@@ -55,10 +55,10 @@ public abstract class AutoTile : MaterialThing, IAutoTile, IDontMove, IPathNodeB
         graphic = _sprite;
         collisionSize = new(16, 16);
         thickness = 0.2f;
-        centerx = 8;
-        centery = 8;
+        CenterX = 8;
+        CenterY = 8;
         collisionOffset = new(-8, -8);
-        depth = 0.3f;
+        Depth = 0.3f;
         _canBeGrouped = true;
         _isStatic = true;
         _placementCost = 1;
@@ -127,19 +127,19 @@ public abstract class AutoTile : MaterialThing, IAutoTile, IDontMove, IPathNodeB
             case 15:
             case 20:
             case 28:
-                _collisionSize.x = verticalWidthThick;
-                _collisionOffset.x = -8f;
+                _collisionSize.X = verticalWidthThick;
+                _collisionOffset.X = -8f;
                 break;
             case 1:
             case 2:
             case 7:
             case 18:
             case 26:
-                _collisionSize.x = verticalWidthThick;
-                _collisionOffset.x = -8 + (16 - verticalWidthThick);
+                _collisionSize.X = verticalWidthThick;
+                _collisionOffset.X = -8 + (16 - verticalWidthThick);
                 break;
         }
-        _collisionSize.y = _sprite.frame switch
+        _collisionSize.Y = _sprite.frame switch
         {
             25 or 26 or 27 or 28 or 29 or 32 or 33 or 35 or 36 or 37 or 40 or 41 or 43 or 44 or 57 or 58 or 59 or 60 => horizontalHeight,
             _ => 16
@@ -148,14 +148,14 @@ public abstract class AutoTile : MaterialThing, IAutoTile, IDontMove, IPathNodeB
 
     public void FindFrame()
     {
-        var up = Level.CheckPoint<AutoTile>(x, y - 16, this);
-        var down = Level.CheckPoint<AutoTile>(x, y + 16, this);
-        var left = Level.CheckPoint<AutoTile>(x - 16, y, this);
-        var right = Level.CheckPoint<AutoTile>(x + 16, y, this);
-        var topleft = Level.CheckPoint<AutoTile>(x - 16, y - 16, this);
-        var topright = Level.CheckPoint<AutoTile>(x + 16, y - 16, this);
-        var bottomleft = Level.CheckPoint<AutoTile>(x - 16, y + 16, this);
-        var bottomright = Level.CheckPoint<AutoTile>(x + 16, y + 16, this);
+        var up = Level.CheckPoint<AutoTile>(X, Y - 16, this);
+        var down = Level.CheckPoint<AutoTile>(X, Y + 16, this);
+        var left = Level.CheckPoint<AutoTile>(X - 16, Y, this);
+        var right = Level.CheckPoint<AutoTile>(X + 16, Y, this);
+        var topleft = Level.CheckPoint<AutoTile>(X - 16, Y - 16, this);
+        var topright = Level.CheckPoint<AutoTile>(X + 16, Y - 16, this);
+        var bottomleft = Level.CheckPoint<AutoTile>(X - 16, Y + 16, this);
+        var bottomright = Level.CheckPoint<AutoTile>(X + 16, Y + 16, this);
 
         if (up != null && up._tileset != _tileset)
             up = null;

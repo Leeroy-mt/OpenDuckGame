@@ -2,16 +2,16 @@ using System;
 
 namespace DuckGame;
 
-public class SubBackgroundTile : Thing, IStaticRender
+public class SubBackgroundTile : Thing
 {
     public SubBackgroundTile(float xpos, float ypos)
         : base(xpos, ypos)
     {
     }
 
-    public override void Initialize()
-    {
-    }
+    #region Public Methods
+
+    public override void Initialize() { }
 
     public override DXMLNode LegacySerialize()
     {
@@ -25,9 +25,7 @@ public class SubBackgroundTile : Thing, IStaticRender
         base.LegacyDeserialize(node);
         DXMLNode typeNode = node.Element("frame");
         if (typeNode != null)
-        {
             (graphic as SpriteMap).frame = Convert.ToInt32(typeNode.Value);
-        }
         return true;
     }
 
@@ -35,4 +33,6 @@ public class SubBackgroundTile : Thing, IStaticRender
     {
         return null;
     }
+
+    #endregion
 }

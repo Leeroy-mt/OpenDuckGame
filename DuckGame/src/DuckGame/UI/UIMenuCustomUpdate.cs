@@ -2,22 +2,14 @@ using System;
 
 namespace DuckGame;
 
-public class UIMenuCustomUpdate : UIMenu
+public class UIMenuCustomUpdate(Action customUpdate, string title, float xpos, float ypos, float wide = -1, float high = -1, string conString = "", InputProfile conProfile = null, bool tiny = false)
+    : UIMenu(title, xpos, ypos, wide, high, conString, conProfile, tiny)
 {
-    private Action _customUpdate;
-
-    public UIMenuCustomUpdate(Action customUpdate, string title, float xpos, float ypos, float wide = -1f, float high = -1f, string conString = "", InputProfile conProfile = null, bool tiny = false)
-        : base(title, xpos, ypos, wide, high, conString, conProfile, tiny)
-    {
-        _customUpdate = customUpdate;
-    }
+    Action _customUpdate = customUpdate;
 
     public override void Update()
     {
-        if (_customUpdate != null)
-        {
-            _customUpdate();
-        }
+        _customUpdate?.Invoke();
         base.Update();
     }
 }

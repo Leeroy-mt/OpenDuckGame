@@ -108,7 +108,7 @@ public class FieldBackground : Layer
         Begin(transparent);
         foreach (Sprite s in _sprites)
         {
-            Graphics.Draw(s, s.x, s.y);
+            Graphics.Draw(s, s.X, s.Y);
         }
         _batch.End();
         Graphics.screen = null;

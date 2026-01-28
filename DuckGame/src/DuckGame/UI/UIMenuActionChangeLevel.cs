@@ -1,28 +1,24 @@
 namespace DuckGame;
 
-public class UIMenuActionChangeLevel : UIMenuAction
+public class UIMenuActionChangeLevel(UIComponent menu, Level destination) : UIMenuAction
 {
-    private UIComponent _menu;
+    #region Private Fields
 
-    private Level _destination;
+    bool _activated;
 
-    private bool _activated;
+    Level _destination = destination;
 
-    public UIMenuActionChangeLevel(UIComponent menu, Level destination)
-    {
-        _menu = menu;
-        _destination = destination;
-    }
+    #endregion
+
+    #region Public Methods
 
     public override void Update()
     {
         if (_activated)
         {
-            Graphics.fade = Lerp.Float(Graphics.fade, 0f, 0.09f);
-            if (Graphics.fade == 0f)
-            {
+            Graphics.fade = Lerp.Float(Graphics.fade, 0, 0.09f);
+            if (Graphics.fade == 0)
                 Level.current = _destination;
-            }
         }
     }
 
@@ -30,4 +26,6 @@ public class UIMenuActionChangeLevel : UIMenuAction
     {
         _activated = true;
     }
+
+    #endregion
 }

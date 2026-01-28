@@ -20,7 +20,7 @@ public class DoorOffHinges : PhysicsObject
         _secondaryFrame = secondaryFrame;
         _collisionSize = new Vec2(8f, 8f);
         _collisionOffset = new Vec2(-4f, -6f);
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         base.collideSounds.Add("rockHitGround");
         weight = 2f;
     }
@@ -35,12 +35,12 @@ public class DoorOffHinges : PhysicsObject
     {
         if (!sounded)
         {
-            Level.Add(SmallSmoke.New(base.x, base.y + 2f));
-            Level.Add(SmallSmoke.New(base.x, base.y - 16f));
+            Level.Add(SmallSmoke.New(base.X, base.Y + 2f));
+            Level.Add(SmallSmoke.New(base.X, base.Y - 16f));
             SFX.Play("doorBreak");
             for (int i = 0; i < 8; i++)
             {
-                WoodDebris woodDebris = WoodDebris.New(base.x - 8f + Rando.Float(16f), base.y - 8f + Rando.Float(16f));
+                WoodDebris woodDebris = WoodDebris.New(base.X - 8f + Rando.Float(16f), base.Y - 8f + Rando.Float(16f));
                 woodDebris.hSpeed = ((Rando.Float(1f) > 0.5f) ? 1f : (-1f)) * Rando.Float(3f);
                 woodDebris.vSpeed = 0f - Rando.Float(1f);
                 Level.Add(woodDebris);
@@ -65,8 +65,8 @@ public class DoorOffHinges : PhysicsObject
         {
             MakeEffects();
         }
-        base.angleDegrees = _throwSpin;
-        center = new Vec2(16f, 16f);
+        base.AngleDegrees = _throwSpin;
+        Center = new Vec2(16f, 16f);
         _throwSpin %= 360f;
         if (offDir > 0)
         {

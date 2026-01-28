@@ -21,7 +21,7 @@ public class ChokeCollar : Equipment
         _pickupSprite = new Sprite("chokeCollar");
         _sprite = new SpriteMap("chokeCollar", 8, 8);
         graphic = _pickupSprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-4f, -2f);
         collisionSize = new Vec2(8f, 4f);
         _sprite.CenterOrigin();
@@ -37,7 +37,7 @@ public class ChokeCollar : Equipment
         base.Initialize();
         if (!(Level.current is Editor))
         {
-            _ball = new WeightBall(base.x, base.y, this, this, mace.value);
+            _ball = new WeightBall(base.X, base.Y, this, this, mace.value);
             ReturnItemToWorld(_ball);
             Level.Add(_ball);
         }
@@ -50,7 +50,7 @@ public class ChokeCollar : Equipment
         {
             collisionOffset = new Vec2(-6f, -6f);
             collisionSize = new Vec2(12f, 12f);
-            center = new Vec2(8f, 8f);
+            Center = new Vec2(8f, 8f);
             solid = false;
             _sprite.flipH = _equippedDuck._sprite.flipH;
             graphic = _sprite;
@@ -60,7 +60,7 @@ public class ChokeCollar : Equipment
         {
             collisionOffset = new Vec2(-4f, -2f);
             collisionSize = new Vec2(8f, 4f);
-            center = new Vec2(_pickupSprite.w / 2, _pickupSprite.h / 2);
+            Center = new Vec2(_pickupSprite.w / 2, _pickupSprite.h / 2);
             solid = true;
             _sprite.frame = 0;
             _sprite.flipH = false;
@@ -69,9 +69,9 @@ public class ChokeCollar : Equipment
         }
         if (destroyed)
         {
-            base.alpha -= 0.05f;
+            base.Alpha -= 0.05f;
         }
-        if (base.alpha < 0f)
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }

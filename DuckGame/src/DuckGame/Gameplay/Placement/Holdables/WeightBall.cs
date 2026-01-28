@@ -22,7 +22,7 @@ public class WeightBall : Holdable, IPlatform
         if (isMace)
         {
             graphic = new Sprite("maceBall");
-            center = new Vec2(9f, 9f);
+            Center = new Vec2(9f, 9f);
             _collisionOffset = new Vec2(-8f, -8f);
             _collisionSize = new Vec2(14f, 14f);
             _impactThreshold = 4f;
@@ -33,7 +33,7 @@ public class WeightBall : Holdable, IPlatform
         else
         {
             graphic = new Sprite("weightBall");
-            center = new Vec2(8f, 8f);
+            Center = new Vec2(8f, 8f);
             _collisionOffset = new Vec2(-7f, -7f);
             _collisionSize = new Vec2(14f, 14f);
             _impactThreshold = 2f;
@@ -55,7 +55,7 @@ public class WeightBall : Holdable, IPlatform
     {
         for (int i = 0; i < 8; i++)
         {
-            ChainLink link = new ChainLink(base.x, base.y);
+            ChainLink link = new ChainLink(base.X, base.Y);
             Level.Add(link);
             _links.Add(link);
         }
@@ -95,8 +95,8 @@ public class WeightBall : Holdable, IPlatform
 
     public override bool Hit(Bullet bullet, Vec2 hitPos)
     {
-        hSpeed += bullet.travelDirNormalized.x;
-        vSpeed += bullet.travelDirNormalized.y;
+        hSpeed += bullet.travelDirNormalized.X;
+        vSpeed += bullet.travelDirNormalized.Y;
         SFX.Play("ricochetSmall", Rando.Float(0.6f, 0.7f), Rando.Float(-0.2f, 0.2f));
         return base.Hit(bullet, hitPos);
     }
@@ -105,8 +105,8 @@ public class WeightBall : Holdable, IPlatform
     {
         Thing body1 = ((b1.owner != null) ? b1.owner : b1);
         Thing body2 = ((b2.owner != null) ? b2.owner : b2);
-        Vec2 axis = b2.position - b1.position;
-        float currentDistance = axis.length;
+        Vec2 axis = b2.Position - b1.Position;
+        float currentDistance = axis.Length();
         if (currentDistance < 0.0001f)
         {
             currentDistance = 0.0001f;
@@ -149,17 +149,17 @@ public class WeightBall : Holdable, IPlatform
         Vec2 impulseVector = unitAxis * impulse;
         vel1 += impulseVector * invMass1;
         vel2 -= impulseVector * invMass2;
-        body1.hSpeed = vel1.x;
-        body1.vSpeed = vel1.y;
-        body2.hSpeed = vel2.x;
-        body2.vSpeed = vel2.y;
-        if (body1 is ChainLink && (body2.position - body1.position).length > dist * 12f)
+        body1.hSpeed = vel1.X;
+        body1.vSpeed = vel1.Y;
+        body2.hSpeed = vel2.X;
+        body2.vSpeed = vel2.Y;
+        if (body1 is ChainLink && (body2.Position - body1.Position).Length() > dist * 12f)
         {
-            body1.position = position;
+            body1.Position = Position;
         }
-        if (body2 is ChainLink && (body2.position - body1.position).length > dist * 12f)
+        if (body2 is ChainLink && (body2.Position - body1.Position).Length() > dist * 12f)
         {
-            body2.position = position;
+            body2.Position = Position;
         }
         return impulse;
     }
@@ -183,7 +183,7 @@ public class WeightBall : Holdable, IPlatform
         {
             Solve(l, prev, 2f);
             prev = l;
-            l.depth = _attach.depth - 8 - index;
+            l.Depth = _attach.Depth - 8 - index;
             index++;
         }
         Solve(attach, prev, 2f);
@@ -199,7 +199,7 @@ public class WeightBall : Holdable, IPlatform
         if (_sparkWait == 0f && base.grounded && Math.Abs(hSpeed) > 1f)
         {
             _sparkWait = 0.25f;
-            Level.Add(Spark.New(base.x + (float)((hSpeed > 0f) ? (-2) : 2), base.y + 7f, new Vec2(0f, 0.5f)));
+            Level.Add(Spark.New(base.X + (float)((hSpeed > 0f) ? (-2) : 2), base.Y + 7f, new Vec2(0f, 0.5f)));
         }
     }
 }

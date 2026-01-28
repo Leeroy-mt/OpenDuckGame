@@ -26,7 +26,7 @@ public class DartGun : Gun
         _type = "gun";
         _sprite = new SpriteMap("dartgun", 32, 32);
         graphic = _sprite;
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -4f);
         collisionSize = new Vec2(16f, 9f);
         _barrelOffsetTL = new Vec2(29f, 14f);
@@ -49,7 +49,7 @@ public class DartGun : Gun
 
     public override void UpdateFirePosition(SmallFire f)
     {
-        f.position = Offset(new Vec2(10f, 0f));
+        f.Position = Offset(new Vec2(10f, 0f));
     }
 
     public override void UpdateOnFire()
@@ -75,7 +75,7 @@ public class DartGun : Gun
         {
             _sprite.frame = 1;
             Vec2 smokePos = Offset(new Vec2(10f, 0f));
-            Level.Add(SmallSmoke.New(smokePos.x, smokePos.y));
+            Level.Add(SmallSmoke.New(smokePos.X, smokePos.Y));
             _onFire = false;
             flammable = 0f;
             burntOut = true;
@@ -110,7 +110,7 @@ public class DartGun : Gun
             {
                 Vec2 pos = Offset(base.barrelOffset + new Vec2(-8f, 0f));
                 float fireAngle = base.barrelAngle + Rando.Float(-0.05f, 0.05f);
-                Dart d = new Dart(pos.x, pos.y, owner as Duck, 0f - fireAngle);
+                Dart d = new Dart(pos.X, pos.Y, owner as Duck, 0f - fireAngle);
                 Fondle(d);
                 if (base.onFire)
                 {
@@ -120,8 +120,8 @@ public class DartGun : Gun
                 }
                 _barrelHeat += 0.015f;
                 Vec2 travelDir = Maths.AngleToVec(fireAngle);
-                d.hSpeed = travelDir.x * 10f;
-                d.vSpeed = travelDir.y * 10f;
+                d.hSpeed = travelDir.X * 10f;
+                d.vSpeed = travelDir.Y * 10f;
                 Level.Add(d);
             }
         }

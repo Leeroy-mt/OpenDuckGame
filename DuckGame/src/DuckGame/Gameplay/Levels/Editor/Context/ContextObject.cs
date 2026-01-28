@@ -20,9 +20,9 @@ public class ContextObject : ContextMenu
         _placement = placement;
         _thing = thing;
         _image = thing.GeneratePreview(16, 16, transparentBack: true);
-        itemSize.y = 16f;
+        itemSize.Y = 16f;
         _text = thing.editorName;
-        itemSize.x = Graphics.GetFancyStringWidth(_text) + 26f;
+        itemSize.X = Graphics.GetFancyStringWidth(_text) + 26f;
         _thingBag = ContentProperties.GetBag(thing.GetType());
         if (Main.isDemo && !_thingBag.GetOrDefault("isInDemo", defaultValue: false))
         {
@@ -110,20 +110,20 @@ public class ContextObject : ContextMenu
         _framesSinceSelected++;
         if (_hover && !greyOut)
         {
-            Graphics.DrawRect(position, position + itemSize, new Color(70, 70, 70), base.depth + 1);
+            Graphics.DrawRect(Position, Position + itemSize, new Color(70, 70, 70), base.Depth + 1);
         }
         if (scrollButtonDirection != 0)
         {
-            _arrow.depth = base.depth + 2;
+            _arrow.Depth = base.Depth + 2;
             if (scrollButtonDirection > 0)
             {
                 _arrow.flipV = true;
-                Graphics.Draw(_arrow, position.x + (_owner as ContextMenu).menuSize.x / 2f, position.y + 8f);
+                Graphics.Draw(_arrow, Position.X + (_owner as ContextMenu).menuSize.X / 2f, Position.Y + 8f);
             }
             else
             {
                 _arrow.flipV = false;
-                Graphics.Draw(_arrow, position.x + (_owner as ContextMenu).menuSize.x / 2f, position.y + 8f);
+                Graphics.Draw(_arrow, Position.X + (_owner as ContextMenu).menuSize.X / 2f, Position.Y + 8f);
             }
             return;
         }
@@ -132,12 +132,12 @@ public class ContextObject : ContextMenu
         {
             c = Color.White * 0.3f;
         }
-        Graphics.DrawFancyString(_text, position + new Vec2(22f, 4f), c, base.depth + 2);
-        _image.depth = base.depth + 3;
-        _image.x = base.x + 1f;
-        _image.y = base.y;
+        Graphics.DrawFancyString(_text, Position + new Vec2(22f, 4f), c, base.Depth + 2);
+        _image.Depth = base.Depth + 3;
+        _image.X = base.X + 1f;
+        _image.Y = base.Y;
         _image.color = c;
-        _image.scale = new Vec2(1f);
+        _image.Scale = new Vec2(1f);
         _image.Draw();
     }
 }

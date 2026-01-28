@@ -258,7 +258,7 @@ public class DuckPersona
                 Color c2 = new Color(varCol2.x / 255f, varCol2.y / 255f, varCol2.z / 255f);
                 Color c3 = new Color(varCol3.x / 255f, varCol3.y / 255f, varCol3.z / 255f);
                 _skipSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("skipSign_m"), c1, c2, c3), 52, 18);
-                _skipSprite.center = new Vec2(_skipSprite.width - 3, 15f);
+                _skipSprite.Center = new Vec2(_skipSprite.width - 3, 15f);
                 _arrowSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("startArrow_m"), c1, c2, c3), 24, 16);
                 _arrowSprite.CenterOrigin();
                 _sprite = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("duck_m"), c1, c2, c3), 32, 32);
@@ -295,7 +295,7 @@ public class DuckPersona
             else
             {
                 _skipSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Tex2D>("skipSign"), _color), 52, 18);
-                _skipSprite.center = new Vec2(_skipSprite.width - 3, 15f);
+                _skipSprite.Center = new Vec2(_skipSprite.width - 3, 15f);
                 _arrowSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Tex2D>("startArrow"), _color), 24, 16);
                 _arrowSprite.CenterOrigin();
                 _sprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Tex2D>("duck"), _color), 32, 32);

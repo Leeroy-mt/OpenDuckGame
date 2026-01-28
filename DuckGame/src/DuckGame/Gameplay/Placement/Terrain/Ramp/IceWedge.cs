@@ -11,10 +11,10 @@ public class IceWedge : MaterialThing
         _canFlipVert = true;
         graphic = new SpriteMap("iceWedge", 17, 17);
         base.hugWalls = WallHug.Left | WallHug.Right | WallHug.Floor;
-        center = new Vec2(8f, 14f);
+        Center = new Vec2(8f, 14f);
         collisionSize = new Vec2(14f, 8f);
         collisionOffset = new Vec2(-7f, -6f);
-        base.depth = -0.9f;
+        base.Depth = -0.9f;
     }
 
     public override void EditorUpdate()
@@ -65,35 +65,35 @@ public class IceWedge : MaterialThing
         {
             base.hugWalls |= WallHug.Left;
         }
-        base.angleDegrees = 0f;
+        base.AngleDegrees = 0f;
         if (flipVertical)
         {
             if (flipHorizontal)
             {
-                base.angleDegrees = 180f;
-                center = new Vec2(8f, 14f);
+                base.AngleDegrees = 180f;
+                Center = new Vec2(8f, 14f);
                 collisionSize = new Vec2(14f, 8f);
                 collisionOffset = new Vec2(-7f, -2f);
             }
             else
             {
-                base.angleDegrees = 90f;
-                center = new Vec2(3f, 9f);
+                base.AngleDegrees = 90f;
+                Center = new Vec2(3f, 9f);
                 collisionSize = new Vec2(14f, 8f);
                 collisionOffset = new Vec2(-7f, -2f);
             }
         }
         else if (flipHorizontal)
         {
-            base.angleDegrees = 270f;
-            center = new Vec2(3f, 9f);
+            base.AngleDegrees = 270f;
+            Center = new Vec2(3f, 9f);
             collisionSize = new Vec2(14f, 8f);
             collisionOffset = new Vec2(-7f, -6f);
         }
         else
         {
-            base.angleDegrees = 0f;
-            center = new Vec2(8f, 14f);
+            base.AngleDegrees = 0f;
+            Center = new Vec2(8f, 14f);
             collisionSize = new Vec2(14f, 8f);
             collisionOffset = new Vec2(-7f, -6f);
         }

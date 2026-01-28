@@ -9,7 +9,7 @@ namespace DuckGame;
 [BaggedProperty("previewPriority", true)]
 public class ItemBox : Block, IPathNodeBlocker, IContainAThing
 {
-    public StateBinding _positionBinding = new StateBinding(nameof(position));
+    public StateBinding _positionBinding = new StateBinding(nameof(Position));
 
     public StateBinding _containedObjectBinding = new StateBinding(nameof(containedObject));
 
@@ -67,10 +67,10 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
         _sprite = new SpriteMap("itemBox", 16, 16);
         graphic = _sprite;
         base.layer = Layer.Foreground;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionSize = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -8f);
-        base.depth = 0.5f;
+        base.Depth = 0.5f;
         _canFlip = false;
         _placementCost += 4;
         editorTooltip = "Spawns a copy of the contained item any time it's used. Recharges after a short duration.";
@@ -112,7 +112,7 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
                 continue;
             }
             Fondle(p);
-            p.y -= 2f;
+            p.Y -= 2f;
             p.vSpeed = -3f;
             if (p is Duck d)
             {
@@ -187,7 +187,7 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
             {
                 containedObject.visible = false;
                 containedObject.active = false;
-                containedObject.position = position;
+                containedObject.Position = Position;
                 Level.Add(containedObject);
             }
         }
@@ -199,7 +199,7 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
         _aboveList.Clear();
         if (startY < -9999f)
         {
-            startY = base.y;
+            startY = base.Y;
         }
         _sprite.frame = (_hit ? 1 : 0);
         if (contains == null && containedObject == null && !(this is ItemBoxRandom))
@@ -220,7 +220,7 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
                 {
                     continue;
                 }
-                p.y -= 2f;
+                p.Y -= 2f;
                 p.vSpeed = -3f;
                 if (p is Duck d)
                 {
@@ -244,21 +244,21 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
         {
             bounceAmount = 0f;
         }
-        base.y -= bounceAmount;
+        base.Y -= bounceAmount;
         if (!_canBounce)
         {
-            if (base.y < startY)
+            if (base.Y < startY)
             {
-                base.y += 0.8f + Math.Abs(base.y - startY) * 0.4f;
+                base.Y += 0.8f + Math.Abs(base.Y - startY) * 0.4f;
             }
-            if (base.y > startY)
+            if (base.Y > startY)
             {
-                base.y -= 0.8f - Math.Abs(base.y - startY) * 0.4f;
+                base.Y -= 0.8f - Math.Abs(base.Y - startY) * 0.4f;
             }
-            if (Math.Abs(base.y - startY) < 0.8f)
+            if (Math.Abs(base.Y - startY) < 0.8f)
             {
                 _canBounce = true;
-                base.y = startY;
+                base.Y = startY;
             }
         }
     }
@@ -312,9 +312,9 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
         {
             newThing.clip.Add(obj);
         }
-        newThing.x = base.x;
+        newThing.X = base.X;
         newThing.bottom = base.bottom;
-        newThing.y -= 12f;
+        newThing.Y -= 12f;
         newThing.vSpeed = -3.5f;
         newThing.clip.Add(this);
         if (newThing is Gun)
@@ -322,15 +322,15 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
             Gun g = newThing as Gun;
             if (g.CanSpin())
             {
-                g.angleDegrees = 180f;
+                g.AngleDegrees = 180f;
             }
         }
-        Block leftWall = Level.CheckPoint<Block>(position + new Vec2(-16f, 0f));
+        Block leftWall = Level.CheckPoint<Block>(Position + new Vec2(-16f, 0f));
         if (leftWall != null)
         {
             newThing.clip.Add(leftWall);
         }
-        Block rightWall = Level.CheckPoint<Block>(position + new Vec2(16f, 0f));
+        Block rightWall = Level.CheckPoint<Block>(Position + new Vec2(16f, 0f));
         if (rightWall != null)
         {
             newThing.clip.Add(rightWall);
@@ -430,6 +430,6 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
         {
             containString = contains.Name;
         }
-        Graphics.DrawString(containString, position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
+        Graphics.DrawString(containString, Position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
     }
 }

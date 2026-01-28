@@ -42,15 +42,15 @@ public class SnowFallParticle : PhysicsParticle
         {
             float sinOff = (float)Math.Sin(_sin) * _sinSize;
             _sin += _moveSpeed;
-            base.x += Rando.Float(-0.3f, 0.3f);
-            base.x += sinOff / 60f;
+            base.X += Rando.Float(-0.3f, 0.3f);
+            base.X += sinOff / 60f;
         }
     }
 
     public override void Draw()
     {
-        _ = base.z / 200f;
+        _ = base.Z / 200f;
         float size = _size;
-        Graphics.DrawRect(position + new Vec2(0f - size, 0f - size), position + new Vec2(size, size), Color.White * base.alpha, 0.1f);
+        Graphics.DrawRect(Position + new Vec2(0f - size, 0f - size), Position + new Vec2(size, size), Color.White * base.Alpha, 0.1f);
     }
 }

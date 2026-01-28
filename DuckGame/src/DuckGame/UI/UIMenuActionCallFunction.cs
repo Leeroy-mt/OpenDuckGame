@@ -1,15 +1,11 @@
+using System;
+
 namespace DuckGame;
 
-public class UIMenuActionCallFunction : UIMenuAction
+public class UIMenuActionCallFunction(Action f) 
+    : UIMenuAction
 {
-    public delegate void Function();
-
-    private Function _function;
-
-    public UIMenuActionCallFunction(Function f)
-    {
-        _function = f;
-    }
+    Action _function = f;
 
     public override void Activate()
     {

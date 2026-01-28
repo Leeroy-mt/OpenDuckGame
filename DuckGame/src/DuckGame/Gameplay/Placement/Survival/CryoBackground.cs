@@ -8,10 +8,10 @@ public class CryoBackground : Thing
         : base(xpos, ypos)
     {
         graphic = new("survival/cryoBackground");
-        center = new(graphic.w / 2, graphic.h / 2);
+        Center = new(graphic.w / 2, graphic.h / 2);
         _collisionSize = new(32);
         _collisionOffset = new(-16);
-        depth = 0.9f;
+        Depth = 0.9f;
         layer = Layer.Background;
     }
 }

@@ -179,8 +179,8 @@ public class NetMessage
             {
                 field.SetValue(this, new Vec2
                 {
-                    x = msg.ReadFloat(),
-                    y = msg.ReadFloat()
+                    X = msg.ReadFloat(),
+                    Y = msg.ReadFloat()
                 });
             }
             else if (field.FieldType == typeof(Profile))
@@ -293,8 +293,8 @@ public class NetMessage
             else if (field.FieldType == typeof(Vec2))
             {
                 Vec2 val = (Vec2)field.GetValue(this);
-                _serializedData.Write(val.x);
-                _serializedData.Write(val.y);
+                _serializedData.Write(val.X);
+                _serializedData.Write(val.Y);
             }
             else if (field.FieldType == typeof(Profile))
             {

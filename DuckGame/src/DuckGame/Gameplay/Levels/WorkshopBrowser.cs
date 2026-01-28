@@ -155,7 +155,7 @@ internal class WorkshopBrowser : Level
         _quackLoader = new SpriteMap("quackLoader", 31, 31);
         _quackLoader.speed = 0.2f;
         _quackLoader.CenterOrigin();
-        _quackLoader.scale = new Vec2(0.5f, 0.5f);
+        _quackLoader.Scale = new Vec2(0.5f, 0.5f);
         _font = new FancyBitmapFont("smallFont");
         Layer.HUD.camera.width *= 2f;
         Layer.HUD.camera.height *= 2f;
@@ -213,7 +213,7 @@ internal class WorkshopBrowser : Level
         {
             if (_openedItem != null)
             {
-                _font.scale = new Vec2(1f, 1f);
+                _font.Scale = new Vec2(1f, 1f);
                 _font.Draw(_openedItem.name, new Vec2(16f, 16f), Color.White, 0.5f);
                 if (_openedItem.preview != null)
                 {
@@ -231,7 +231,7 @@ internal class WorkshopBrowser : Level
                 foreach (Group g in groups)
                 {
                     Vec2 drawPos = groupDrawPos + new Vec2(0f, 12f);
-                    _font.scale = new Vec2(1f, 1f);
+                    _font.Scale = new Vec2(1f, 1f);
                     _font.Draw(g.name, groupDrawPos, Color.White, 0.5f);
                     int itemIndex = 0;
                     foreach (Item i in g.items)
@@ -254,21 +254,21 @@ internal class WorkshopBrowser : Level
                         }
                         else
                         {
-                            Graphics.Draw(_quackLoader, drawPos.x + itemSize.x / 2f, drawPos.y + itemSize.y / 2f);
+                            Graphics.Draw(_quackLoader, drawPos.X + itemSize.X / 2f, drawPos.Y + itemSize.Y / 2f);
                         }
-                        _font.scale = new Vec2(0.5f, 0.5f);
+                        _font.Scale = new Vec2(0.5f, 0.5f);
                         string drawName = i.name.Reduced(21);
                         _font.Draw(drawName, drawPos + extraOffset + new Vec2(2f, 2f), Color.White, baseDepth + 0.1f);
                         Graphics.DrawRect(drawPos + extraOffset + new Vec2(1f, 1f), drawPos + extraOffset + new Vec2(_font.GetWidth(drawName) + 6f, 8f), Color.Black * 0.7f, baseDepth + 0.05f);
-                        drawPos.x += itemSize.x;
-                        if (drawPos.x + itemSize.x > Layer.HUD.width)
+                        drawPos.X += itemSize.X;
+                        if (drawPos.X + itemSize.X > Layer.HUD.width)
                         {
                             break;
                         }
                         itemIndex++;
                     }
                     groupIndex++;
-                    groupDrawPos.y += 84f;
+                    groupDrawPos.Y += 84f;
                 }
             }
         }

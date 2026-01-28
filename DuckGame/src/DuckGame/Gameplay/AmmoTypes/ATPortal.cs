@@ -20,7 +20,7 @@ public class ATPortal : AmmoType
     public override Bullet FireBullet(Vec2 position, Thing owner = null, float angle = 0f, Thing firedFrom = null)
     {
         angle *= -1f;
-        Bullet bullet = new PortalBullet(position.x, position.y, this, angle, _ownerGun, rebound, -1f, bulletThickness);
+        Bullet bullet = new PortalBullet(position.X, position.Y, this, angle, _ownerGun, rebound, -1f, bulletThickness);
         bullet.firedFrom = firedFrom;
         Level.current.AddThing(bullet);
         return bullet;

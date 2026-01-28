@@ -20,20 +20,20 @@ public class PortalDoor
 
     public List<Block> collision = new List<Block>();
 
-    public float top => point1.y;
+    public float top => point1.Y;
 
-    public float left => point1.x;
+    public float left => point1.X;
 
-    public float bottom => point2.y;
+    public float bottom => point2.Y;
 
-    public float right => point2.x;
+    public float right => point2.X;
 
     public void Update()
     {
-        Vec2 position = new Vec2(center.x, center.y);
+        Vec2 position = new Vec2(center.X, center.Y);
         Matrix m = Level.current.camera.getMatrix();
         Vec2 vec = Vec2.Transform(position, m);
-        int xScissor = (int)vec.x;
+        int xScissor = (int)vec.X;
         if (xScissor < 0)
         {
             xScissor = 0;
@@ -42,7 +42,7 @@ public class PortalDoor
         {
             xScissor = Graphics.width;
         }
-        int yScissor = (int)vec.y;
+        int yScissor = (int)vec.Y;
         if (yScissor < 0)
         {
             yScissor = 0;

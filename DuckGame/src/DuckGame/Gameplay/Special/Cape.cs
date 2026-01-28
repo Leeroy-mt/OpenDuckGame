@@ -51,7 +51,7 @@ public class Cape : Thing
         visible = attach.visible;
         killTimer = killTime;
         _attach = attach;
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _trail = trail;
         _editorCanModify = false;
         if (_trail)
@@ -77,7 +77,7 @@ public class Cape : Thing
         _trail = metadata.CapeIsTrail.value;
         if (_initLastPos)
         {
-            _lastPos = _attach.position + attachOffset;
+            _lastPos = _attach.Position + attachOffset;
             _initLastPos = false;
         }
         Thing attach = _attach;
@@ -104,7 +104,7 @@ public class Cape : Thing
                 }
             }
         }
-        float velLength = attach.velocity.length;
+        float velLength = attach.velocity.Length();
         if (velLength > 3f)
         {
             velLength = 3f;
@@ -125,15 +125,15 @@ public class Cape : Thing
         _capeWaveMult = velLength * 0.5f;
         float inverseMult = inverseVel * 0.5f;
         offDir = (sbyte)(-_attach.offDir);
-        Vec2 p1 = attach.position + attachOffset;
-        Vec2 p2 = attach.position + attachOffset;
-        base.depth = (metadata.CapeForeground.value ? (attach.depth + 50) : (attach.depth - 50));
-        p1.y += yOffset;
-        p2.y += yOffset;
+        Vec2 p1 = attach.Position + attachOffset;
+        Vec2 p2 = attach.Position + attachOffset;
+        base.Depth = (metadata.CapeForeground.value ? (attach.Depth + 50) : (attach.Depth - 50));
+        p1.Y += yOffset;
+        p2.Y += yOffset;
         if (!_trail)
         {
-            p1.y += sin * _capeWaveMult * metadata.CapeWiggleModifier.value.y * (attach.velocity.x * 0.5f);
-            p1.x += sin * _capeWaveMult * metadata.CapeWiggleModifier.value.x * (attach.velocity.y * 0.2f);
+            p1.Y += sin * _capeWaveMult * metadata.CapeWiggleModifier.value.Y * (attach.velocity.X * 0.5f);
+            p1.X += sin * _capeWaveMult * metadata.CapeWiggleModifier.value.X * (attach.velocity.Y * 0.2f);
         }
         if (capePeices.Count > 0)
         {
@@ -141,11 +141,11 @@ public class Cape : Thing
         }
         if (_trail)
         {
-            capePeices.Add(new CapePeice(attach.x + attachOffset.x, attach.y + attachOffset.y, metadata.CapeTaperStart.value, p1, p2));
+            capePeices.Add(new CapePeice(attach.X + attachOffset.X, attach.Y + attachOffset.Y, metadata.CapeTaperStart.value, p1, p2));
         }
         else
         {
-            capePeices.Add(new CapePeice(attach.x - (float)(offDir * -10) + attachOffset.x, attach.y + 6f + attachOffset.y, metadata.CapeTaperStart.value, p1, p2));
+            capePeices.Add(new CapePeice(attach.X - (float)(offDir * -10) + attachOffset.X, attach.Y + 6f + attachOffset.Y, metadata.CapeTaperStart.value, p1, p2));
         }
         int idx = 0;
         foreach (CapePeice cp in capePeices)
@@ -153,15 +153,15 @@ public class Cape : Thing
             cp.wide = Lerp.FloatSmooth(metadata.CapeTaperEnd.value, metadata.CapeTaperStart.value, (float)idx / (float)(capePeices.Count - 1));
             if (!_trail)
             {
-                cp.p1.x += sin2 * inverseMult * metadata.CapeWiggleModifier.value.x * (cp.wide - 0.5f) * 0.9f;
-                cp.p2.x += sin2 * inverseMult * metadata.CapeWiggleModifier.value.x * (cp.wide - 0.5f) * 0.9f;
-                cp.p1.y += sin3 * inverseMult * metadata.CapeWiggleModifier.value.y * (cp.wide - 0.5f) * 0.8f;
-                cp.p2.y += sin3 * inverseMult * metadata.CapeWiggleModifier.value.y * (cp.wide - 0.5f) * 0.8f;
-                cp.p1.y += metadata.CapeSwayModifier.value.y;
-                cp.p2.y += metadata.CapeSwayModifier.value.y;
-                cp.p1.x += metadata.CapeSwayModifier.value.x * (float)offDir;
-                cp.p2.x += metadata.CapeSwayModifier.value.x * (float)offDir;
-                cp.position.x += 0.5f * (float)offDir;
+                cp.p1.X += sin2 * inverseMult * metadata.CapeWiggleModifier.value.X * (cp.wide - 0.5f) * 0.9f;
+                cp.p2.X += sin2 * inverseMult * metadata.CapeWiggleModifier.value.X * (cp.wide - 0.5f) * 0.9f;
+                cp.p1.Y += sin3 * inverseMult * metadata.CapeWiggleModifier.value.Y * (cp.wide - 0.5f) * 0.8f;
+                cp.p2.Y += sin3 * inverseMult * metadata.CapeWiggleModifier.value.Y * (cp.wide - 0.5f) * 0.8f;
+                cp.p1.Y += metadata.CapeSwayModifier.value.Y;
+                cp.p2.Y += metadata.CapeSwayModifier.value.Y;
+                cp.p1.X += metadata.CapeSwayModifier.value.X * (float)offDir;
+                cp.p2.X += metadata.CapeSwayModifier.value.X * (float)offDir;
+                cp.position.X += 0.5f * (float)offDir;
             }
             idx++;
         }
@@ -173,7 +173,7 @@ public class Cape : Thing
         {
             capePeices.RemoveAt(0);
         }
-        _lastPos = attach.position + attachOffset;
+        _lastPos = attach.Position + attachOffset;
         visible = attach.visible;
         if (attach is Holdable && attach.owner != null)
         {
@@ -203,7 +203,7 @@ public class Cape : Thing
     {
         if (_attach != null)
         {
-            base.depth = (metadata.CapeForeground.value ? (_attach.depth + 50) : (_attach.depth - 50));
+            base.Depth = (metadata.CapeForeground.value ? (_attach.Depth + 50) : (_attach.Depth - 50));
             bool hide = !_attach.visible;
             if (_attach.owner != null)
             {
@@ -227,7 +227,7 @@ public class Cape : Thing
         {
             return;
         }
-        float deep = Graphics.AdjustDepth(base.depth);
+        float deep = Graphics.AdjustDepth(base.Depth);
         float uvPart = 1f / (float)(capePeices.Count - 1);
         float uvInc = 0f;
         for (int i = capePeices.Count - 1; i >= 0; i--)
@@ -264,7 +264,7 @@ public class Cape : Thing
             if (hasLastPart)
             {
                 Vec2 v2 = pos - lastPart;
-                float length = v2.length;
+                float length = v2.Length();
                 v2.Normalize();
                 if (length > 2f)
                 {

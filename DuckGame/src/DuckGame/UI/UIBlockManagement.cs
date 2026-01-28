@@ -168,7 +168,7 @@ public class UIBlockManagement : UIMenu
     {
         if (base.open)
         {
-            Vec2 pos = new Vec2(base.x - 124f, base.y - 56f);
+            Vec2 pos = new Vec2(base.X - 124f, base.Y - 56f);
             float yOffset = 0f;
             int idx = 0;
             int drawIndex = 0;
@@ -186,12 +186,12 @@ public class UIBlockManagement : UIMenu
                 if (_topOffset > 0)
                 {
                     _downArrow.flipV = true;
-                    Graphics.Draw(_downArrow, base.x, pos.y - 2f, 0.5f);
+                    Graphics.Draw(_downArrow, base.X, pos.Y - 2f, 0.5f);
                 }
                 if (drawIndex > kMaxInView)
                 {
                     _downArrow.flipV = false;
-                    Graphics.Draw(_downArrow, base.x, pos.y + yOffset, 0.5f);
+                    Graphics.Draw(_downArrow, base.X, pos.Y + yOffset, 0.5f);
                     break;
                 }
                 string drawName = pair.Key.ToString();
@@ -228,7 +228,7 @@ public class UIBlockManagement : UIMenu
                 controlsText = ((!items[_selection].Value) ? (controlsText + " @MENU1@BLOCK") : (controlsText + " @MENU1@UN-BLOCK"));
                 controlsText += " @SELECT@@STEAMICON@";
             }
-            _littleFont.Draw(controlsText, new Vec2(base.x - _littleFont.GetWidth(controlsText) / 2f, base.y + 64f), Color.White, 0.5f);
+            _littleFont.Draw(controlsText, new Vec2(base.X - _littleFont.GetWidth(controlsText) / 2f, base.Y + 64f), Color.White, 0.5f);
         }
         base.Draw();
     }

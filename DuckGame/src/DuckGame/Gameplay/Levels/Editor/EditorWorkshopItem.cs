@@ -46,7 +46,7 @@ public class EditorWorkshopItem
                         previewTarget = new RenderTarget2D(512, 512);
                         Content.customPreviewWidth = 128;
                         Content.customPreviewHeight = 128;
-                        Content.customPreviewCenter = (Level.current as Editor).levelThings[0].position;
+                        Content.customPreviewCenter = (Level.current as Editor).levelThings[0].Position;
                     }
                     else
                     {

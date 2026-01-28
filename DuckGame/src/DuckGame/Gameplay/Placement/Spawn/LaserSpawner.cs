@@ -28,10 +28,10 @@ public class LaserSpawner : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("laserSpawner");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionSize = new Vec2(12f, 12f);
         collisionOffset = new Vec2(-6f, -6f);
-        base.depth = 0.99f;
+        base.Depth = 0.99f;
         base.hugWalls = WallHug.None;
         _visibleInGame = false;
         editorTooltip = "Spawns Quad Laser bullets in the specified direction.";
@@ -60,13 +60,13 @@ public class LaserSpawner : Thing
             else
             {
                 Vec2 move = Maths.AngleToVec(Maths.DegToRad(direction)) * firePower;
-                Vec2 spawn = position - move.normalized * 16f;
-                Level.Add(new QuadLaserBullet(spawn.x, spawn.y, move));
+                Vec2 spawn = Position - move.Normalized * 16f;
+                Level.Add(new QuadLaserBullet(spawn.X, spawn.Y, move));
                 _spawnWait = 0f;
                 _numSpawned++;
             }
         }
-        base.angleDegrees = 0f - direction;
+        base.AngleDegrees = 0f - direction;
     }
 
     public override void Terminate()
@@ -160,12 +160,12 @@ public class LaserSpawner : Thing
     public override void DrawHoverInfo()
     {
         Vec2 move = Maths.AngleToVec(Maths.DegToRad(direction)) * (firePower * 5f);
-        Graphics.DrawLine(position, position + move, Color.Red, 2f, 1f);
+        Graphics.DrawLine(Position, Position + move, Color.Red, 2f, 1f);
     }
 
     public override void Draw()
     {
-        base.angleDegrees = 0f - direction;
+        base.AngleDegrees = 0f - direction;
         base.Draw();
     }
 }

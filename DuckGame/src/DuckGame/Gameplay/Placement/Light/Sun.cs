@@ -8,10 +8,10 @@ public class Sun : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("officeLight");
-        center = new Vec2(16f, 3f);
+        Center = new Vec2(16f, 3f);
         _collisionSize = new Vec2(30f, 6f);
         _collisionOffset = new Vec2(-15f, -3f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.hugWalls = WallHug.Ceiling;
         base.layer = Layer.Game;
     }
@@ -20,7 +20,7 @@ public class Sun : Thing
     {
         if (!(Level.current is Editor))
         {
-            Level.Add(new SunLight(base.x, base.y - 1f, new Color(255, 255, 255), 100f));
+            Level.Add(new SunLight(base.X, base.Y - 1f, new Color(255, 255, 255), 100f));
             Level.Remove(this);
         }
     }

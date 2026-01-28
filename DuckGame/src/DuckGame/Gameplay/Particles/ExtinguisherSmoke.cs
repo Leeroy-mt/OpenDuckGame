@@ -41,16 +41,16 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
     public ExtinguisherSmoke(float xpos, float ypos, bool network = false)
         : base(xpos, ypos)
     {
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         hSpeed = Rando.Float(-0.2f, 0.2f);
         vSpeed = Rando.Float(-0.2f, 0.2f);
         _life += Rando.Float(0.2f);
-        base.angleDegrees = Rando.Float(360f);
+        base.AngleDegrees = Rando.Float(360f);
         _gravMult = 0.8f;
         _sticky = 0.2f;
         _life = 3f;
         _bounceEfficiency = 0.2f;
-        base.xscale = (base.yscale = Rando.Float(0.4f, 0.5f));
+        base.ScaleX = (base.ScaleY = Rando.Float(0.4f, 0.5f));
         _smokeID = FireManager.GetFireID();
         _collisionSize = new Vec2(4f, 4f);
         _collisionOffset = new Vec2(-2f, -2f);
@@ -65,7 +65,7 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
         _orbiter.AddAnimation("puff", Rando.Float(0.15f, 0.25f), false, off, 1 + off, 2 + off, 3 + off);
         _sprite2 = new SpriteMap("tinySmokeTestBack", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         if (Network.isActive && !network)
         {
             GhostManager.context.particleManager.AddLocalParticle(this);
@@ -73,18 +73,18 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
         isLocal = !network;
         _orbitInc += 0.2f;
         _sprite.SetAnimation("idle");
-        _sprite.angleDegrees = Rando.Float(360f);
-        _orbiter.angleDegrees = Rando.Float(360f);
+        _sprite.AngleDegrees = Rando.Float(360f);
+        _orbiter.AngleDegrees = Rando.Float(360f);
         s1 = Rando.Float(0.8f, 1.1f);
         s2 = Rando.Float(0.8f, 1.1f);
         float lightness = 0.6f - Rando.Float(0.2f);
         lightness = 1f;
         _sprite.color = new Color(lightness, lightness, lightness);
-        base.depth = 0.8f;
-        base.alpha = 1f;
+        base.Depth = 0.8f;
+        base.Alpha = 1f;
         base.layer = Layer.Game;
-        s1 = base.xscale;
-        s2 = base.xscale;
+        s1 = base.ScaleX;
+        s2 = base.ScaleX;
     }
 
     public override void Removed()
@@ -109,21 +109,21 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
         _distPulse += _distPulseSpeed;
         if (_life < 0.3f)
         {
-            float num = (base.yscale = Maths.LerpTowards(base.xscale, 0.1f, 0.015f));
-            base.xscale = num;
+            float num = (base.ScaleY = Maths.LerpTowards(base.ScaleX, 0.1f, 0.015f));
+            base.ScaleX = num;
         }
         else if (_grounded)
         {
-            float num = (base.yscale = Maths.LerpTowards(base.xscale, _fullScale, 0.01f));
-            base.xscale = num;
+            float num = (base.ScaleY = Maths.LerpTowards(base.ScaleX, _fullScale, 0.01f));
+            base.ScaleX = num;
         }
         else
         {
-            float num = (base.yscale = Maths.LerpTowards(base.xscale, _fullScale * 0.8f, 0.04f));
-            base.xscale = num;
+            float num = (base.ScaleY = Maths.LerpTowards(base.ScaleX, _fullScale * 0.8f, 0.04f));
+            base.ScaleX = num;
         }
-        s1 = base.xscale;
-        s2 = base.xscale;
+        s1 = base.ScaleX;
+        s2 = base.ScaleX;
         if (!isLocal)
         {
             base.Update();
@@ -132,10 +132,10 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
         if (_grounded)
         {
             _groundedTime += 0.01f;
-            ExtinguisherSmoke e = Level.CheckCircle<ExtinguisherSmoke>(new Vec2(base.x, base.y + 4f), 6f);
+            ExtinguisherSmoke e = Level.CheckCircle<ExtinguisherSmoke>(new Vec2(base.X, base.Y + 4f), 6f);
             if (e != null && _groundedTime < e._groundedTime - 0.1f)
             {
-                e.y -= 0.1f;
+                e.Y -= 0.1f;
             }
         }
         if (_life < 0f && _sprite.currentAnimation != "puff")
@@ -155,31 +155,31 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
         float xOff = (0f - (float)Math.Sin(_orbitInc) * distPulse) * s1;
         float yOff = (float)Math.Cos(_orbitInc) * distPulse * s1;
         _sprite.imageIndex = _sprite.imageIndex;
-        _sprite.depth = base.depth;
-        _sprite.scale = new Vec2(s1);
-        _sprite.center = center;
-        Graphics.Draw(_sprite, base.x + xOff, base.y + yOff);
+        _sprite.Depth = base.Depth;
+        _sprite.Scale = new Vec2(s1);
+        _sprite.Center = Center;
+        Graphics.Draw(_sprite, base.X + xOff, base.Y + yOff);
         _sprite2.imageIndex = _sprite.imageIndex;
-        _sprite2.angle = _sprite.angle;
-        _sprite2.depth = -0.5f;
-        _sprite2.scale = _sprite.scale;
-        _sprite2.center = center;
+        _sprite2.Angle = _sprite.Angle;
+        _sprite2.Depth = -0.5f;
+        _sprite2.Scale = _sprite.Scale;
+        _sprite2.Center = Center;
         float lightness = 0.6f - Rando.Float(0.2f);
         lightness = 0.4f;
         _sprite2.color = new Color(lightness, lightness, lightness);
-        Graphics.Draw(_sprite2, base.x + xOff, base.y + yOff);
+        Graphics.Draw(_sprite2, base.X + xOff, base.Y + yOff);
         _orbiter.imageIndex = _sprite.imageIndex;
         _orbiter.color = _sprite.color;
-        _orbiter.depth = base.depth;
-        _orbiter.scale = new Vec2(s2);
-        _orbiter.center = center;
-        Graphics.Draw(_orbiter, base.x - xOff, base.y - yOff);
+        _orbiter.Depth = base.Depth;
+        _orbiter.Scale = new Vec2(s2);
+        _orbiter.Center = Center;
+        Graphics.Draw(_orbiter, base.X - xOff, base.Y - yOff);
         _sprite2.imageIndex = _orbiter.imageIndex;
-        _sprite2.angle = _orbiter.angle;
-        _sprite2.depth = -0.5f;
-        _sprite2.scale = _orbiter.scale;
-        _sprite2.center = center;
+        _sprite2.Angle = _orbiter.Angle;
+        _sprite2.Depth = -0.5f;
+        _sprite2.Scale = _orbiter.Scale;
+        _sprite2.Center = Center;
         _sprite2.color = new Color(lightness, lightness, lightness);
-        Graphics.Draw(_sprite2, base.x - xOff, base.y - yOff);
+        Graphics.Draw(_sprite2, base.X - xOff, base.Y - yOff);
     }
 }

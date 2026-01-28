@@ -14,9 +14,9 @@ public class LevelUpArrowAnimation : EffectAnimation
         : base(pos, new SpriteMap("levelUpArrow", 16, 16), 0.9f)
     {
         base.layer = Layer.HUD;
-        base.alpha = 0f;
+        base.Alpha = 0f;
         _startWait = Rando.Float(2.5f);
-        _sprite.depth = 1f;
+        _sprite.Depth = 1f;
     }
 
     public override void Update()
@@ -28,10 +28,10 @@ public class LevelUpArrowAnimation : EffectAnimation
         else
         {
             _vel -= 0.1f;
-            base.y += _vel;
+            base.Y += _vel;
             _alph -= 0.1f;
-            base.alpha = Math.Min(_alph, 1f);
-            if (base.alpha <= 0f)
+            base.Alpha = Math.Min(_alph, 1f);
+            if (base.Alpha <= 0f)
             {
                 Level.Remove(this);
             }

@@ -22,7 +22,7 @@ public class NetGun : Gun
         _ammoType.penetration = -1f;
         _type = "gun";
         graphic = new Sprite("netGun");
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -4f);
         collisionSize = new Vec2(16f, 9f);
         _barrelOffsetTL = new Vec2(27f, 14f);
@@ -33,7 +33,7 @@ public class NetGun : Gun
         _fireRumble = RumbleIntensity.Kick;
         _netGunGuage = new SpriteMap("netGunGuage", 8, 8);
         _barrelSteam = new SpriteMap("steamPuff", 16, 16);
-        _barrelSteam.center = new Vec2(0f, 14f);
+        _barrelSteam.Center = new Vec2(0f, 14f);
         _barrelSteam.AddAnimation("puff", 0.4f, false, 0, 1, 2, 3, 4, 5, 6, 7);
         _barrelSteam.SetAnimation("puff");
         _barrelSteam.speed = 0f;
@@ -63,7 +63,7 @@ public class NetGun : Gun
         base.Draw();
         if (_barrelSteam.speed > 0f)
         {
-            _barrelSteam.alpha = 0.6f;
+            _barrelSteam.Alpha = 0.6f;
             Draw(_barrelSteam, new Vec2(9f, 1f));
         }
         Draw(_netGunGuage, new Vec2(-4f, -4f));
@@ -85,7 +85,7 @@ public class NetGun : Gun
             Vec2 pos = Offset(base.barrelOffset);
             if (!receivingPress)
             {
-                Net n = new Net(pos.x, pos.y - 2f, base.duck);
+                Net n = new Net(pos.X, pos.Y - 2f, base.duck);
                 Level.Add(n);
                 Fondle(n);
                 if (owner != null)
@@ -93,8 +93,8 @@ public class NetGun : Gun
                     n.responsibleProfile = owner.responsibleProfile;
                 }
                 n.clip.Add(owner as MaterialThing);
-                n.hSpeed = base.barrelVector.x * 10f;
-                n.vSpeed = base.barrelVector.y * 7f - 1.5f;
+                n.hSpeed = base.barrelVector.X * 10f;
+                n.vSpeed = base.barrelVector.Y * 7f - 1.5f;
             }
         }
         else

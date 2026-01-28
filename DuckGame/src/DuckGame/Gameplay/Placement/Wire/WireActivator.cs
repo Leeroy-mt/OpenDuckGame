@@ -23,10 +23,10 @@ public class WireActivator : Thing, IWirePeripheral
     {
         _sprite = new SpriteMap("activatorBlock", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -8f);
         collisionSize = new Vec2(16f, 16f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Wire Activator";
         editorTooltip = "Activates nearby objects when powered.";
         base.layer = Layer.Foreground;
@@ -38,7 +38,7 @@ public class WireActivator : Thing, IWirePeripheral
     {
         if (!_preparedObjects)
         {
-            foreach (MaterialThing t in base.level.CollisionCircleAll<MaterialThing>(position, 16f))
+            foreach (MaterialThing t in base.level.CollisionCircleAll<MaterialThing>(Position, 16f))
             {
                 if (!(t is PhysicsObject))
                 {
@@ -80,7 +80,7 @@ public class WireActivator : Thing, IWirePeripheral
         {
             return;
         }
-        foreach (PhysicsObject t in base.level.CollisionCircleAll<PhysicsObject>(position, 16f))
+        foreach (PhysicsObject t in base.level.CollisionCircleAll<PhysicsObject>(Position, 16f))
         {
             if (t is Holdable)
             {

@@ -12,7 +12,7 @@ public class SMG : Gun
         _ammoType.accuracy = 0.6f;
         _type = "gun";
         graphic = new Sprite("smg");
-        center = new Vec2(8f, 4f);
+        Center = new Vec2(8f, 4f);
         collisionOffset = new Vec2(-8f, -4f);
         collisionSize = new Vec2(16f, 8f);
         _barrelOffsetTL = new Vec2(17f, 2f);

@@ -118,10 +118,10 @@ public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontM
         graphic = _sprite;
         collisionSize = new Vec2(16f, 16f);
         thickness = 0.2f;
-        base.centerx = 8f;
-        base.centery = 8f;
+        base.CenterX = 8f;
+        base.CenterY = 8f;
         collisionOffset = new Vec2(-8f, -8f);
-        base.depth = 0.3f;
+        base.Depth = 0.3f;
         _canBeGrouped = true;
         _isStatic = true;
         _placementCost = 1;
@@ -131,10 +131,10 @@ public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontM
     {
         if (!_neighborsInitialized)
         {
-            _leftBlock = Level.CheckPointPlacementLayer<AutoPlatform>(base.left - 2f, position.y, this, base.placementLayer);
-            _rightBlock = Level.CheckPointPlacementLayer<AutoPlatform>(base.right + 2f, position.y, this, base.placementLayer);
-            _upBlock = Level.CheckPointPlacementLayer<AutoPlatform>(position.x, base.top - 2f, this, base.placementLayer);
-            _downBlock = Level.CheckPointPlacementLayer<AutoPlatform>(position.x, base.bottom + 2f, this, base.placementLayer);
+            _leftBlock = Level.CheckPointPlacementLayer<AutoPlatform>(base.left - 2f, Position.Y, this, base.placementLayer);
+            _rightBlock = Level.CheckPointPlacementLayer<AutoPlatform>(base.right + 2f, Position.Y, this, base.placementLayer);
+            _upBlock = Level.CheckPointPlacementLayer<AutoPlatform>(Position.X, base.top - 2f, this, base.placementLayer);
+            _downBlock = Level.CheckPointPlacementLayer<AutoPlatform>(Position.X, base.bottom + 2f, this, base.placementLayer);
             _neighborsInitialized = true;
         }
     }
@@ -149,12 +149,12 @@ public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontM
         if (!(Level.current is Editor) && graphic != null)
         {
             cheap = !neverCheap && !RandomLevelNode.editorLoad;
-            graphic.position = position;
-            graphic.scale = base.scale;
-            graphic.center = center;
-            graphic.depth = base.depth;
-            graphic.alpha = base.alpha;
-            graphic.angle = angle;
+            graphic.Position = Position;
+            graphic.Scale = base.Scale;
+            graphic.Center = Center;
+            graphic.Depth = base.Depth;
+            graphic.Alpha = base.Alpha;
+            graphic.Angle = Angle;
             (graphic as SpriteMap).ClearCache();
             (graphic as SpriteMap).UpdateFrame();
             if (_leftNub != null)
@@ -276,16 +276,16 @@ public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontM
             case 15:
             case 20:
             case 28:
-                _collisionSize.x = verticalWidthThick;
-                _collisionOffset.x = -8f;
+                _collisionSize.X = verticalWidthThick;
+                _collisionOffset.X = -8f;
                 break;
             case 1:
             case 2:
             case 7:
             case 18:
             case 26:
-                _collisionSize.x = verticalWidthThick;
-                _collisionOffset.x = -8f + (16f - verticalWidthThick);
+                _collisionSize.X = verticalWidthThick;
+                _collisionOffset.X = -8f + (16f - verticalWidthThick);
                 break;
             case 8:
             case 14:
@@ -293,8 +293,8 @@ public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontM
             case 22:
                 if (!treeLike)
                 {
-                    _collisionSize.x = verticalWidthThick;
-                    _collisionOffset.x = -8f + (16f - verticalWidthThick);
+                    _collisionSize.X = verticalWidthThick;
+                    _collisionOffset.X = -8f + (16f - verticalWidthThick);
                 }
                 break;
         }
@@ -318,10 +318,10 @@ public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontM
             case 58:
             case 59:
             case 60:
-                _collisionSize.y = horizontalHeight;
+                _collisionSize.Y = horizontalHeight;
                 break;
             default:
-                _collisionSize.y = 16f;
+                _collisionSize.Y = 16f;
                 break;
         }
     }
@@ -338,92 +338,92 @@ public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontM
             case 2:
                 if (_hasLeftNub)
                 {
-                    _leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+                    _leftNub = new Nubber(base.X - 24f, base.Y - 8f, left: true, _tileset);
                     Level.Add(_leftNub);
                 }
                 break;
             case 4:
                 if (_hasRightNub)
                 {
-                    _rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+                    _rightNub = new Nubber(base.X + 8f, base.Y - 8f, left: false, _tileset);
                     Level.Add(_rightNub);
                 }
                 break;
             case 32:
                 if (_hasLeftNub)
                 {
-                    _leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+                    _leftNub = new Nubber(base.X - 24f, base.Y - 8f, left: true, _tileset);
                     Level.Add(_leftNub);
                 }
                 break;
             case 37:
                 if (_hasRightNub)
                 {
-                    _rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+                    _rightNub = new Nubber(base.X + 8f, base.Y - 8f, left: false, _tileset);
                     Level.Add(_rightNub);
                 }
                 break;
             case 40:
                 if (_hasRightNub)
                 {
-                    _rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+                    _rightNub = new Nubber(base.X + 8f, base.Y - 8f, left: false, _tileset);
                     Level.Add(_rightNub);
                 }
                 if (_hasLeftNub)
                 {
-                    _leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+                    _leftNub = new Nubber(base.X - 24f, base.Y - 8f, left: true, _tileset);
                     Level.Add(_leftNub);
                 }
                 break;
             case 41:
                 if (_hasLeftNub)
                 {
-                    _leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+                    _leftNub = new Nubber(base.X - 24f, base.Y - 8f, left: true, _tileset);
                     Level.Add(_leftNub);
                 }
                 break;
             case 43:
                 if (_hasRightNub)
                 {
-                    _rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+                    _rightNub = new Nubber(base.X + 8f, base.Y - 8f, left: false, _tileset);
                     Level.Add(_rightNub);
                 }
                 break;
             case 49:
                 if (_hasRightNub)
                 {
-                    _rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+                    _rightNub = new Nubber(base.X + 8f, base.Y - 8f, left: false, _tileset);
                     Level.Add(_rightNub);
                 }
                 if (_hasLeftNub)
                 {
-                    _leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+                    _leftNub = new Nubber(base.X - 24f, base.Y - 8f, left: true, _tileset);
                     Level.Add(_leftNub);
                 }
                 break;
             case 51:
                 if (_hasLeftNub)
                 {
-                    _leftNub = new Nubber(base.x - 24f, base.y - 8f, left: true, _tileset);
+                    _leftNub = new Nubber(base.X - 24f, base.Y - 8f, left: true, _tileset);
                     Level.Add(_leftNub);
                 }
                 break;
             case 52:
                 if (_hasRightNub)
                 {
-                    _rightNub = new Nubber(base.x + 8f, base.y - 8f, left: false, _tileset);
+                    _rightNub = new Nubber(base.X + 8f, base.Y - 8f, left: false, _tileset);
                     Level.Add(_rightNub);
                 }
                 break;
         }
         if (_leftNub != null)
         {
-            _leftNub.depth = base.depth;
+            _leftNub.Depth = base.Depth;
             _leftNub.material = base.material;
         }
         if (_rightNub != null)
         {
-            _rightNub.depth = base.depth;
+            _rightNub.Depth = base.Depth;
             _rightNub.material = base.material;
         }
     }
@@ -443,14 +443,14 @@ public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontM
         {
             off2 = 10f;
         }
-        up = Level.CheckPointPlacementLayer<AutoPlatform>(base.x, base.y - 17f, this, base.placementLayer);
-        down = Level.CheckPointPlacementLayer<AutoPlatform>(base.x, base.y + off2, this, base.placementLayer);
-        left = Level.CheckPointPlacementLayer<AutoPlatform>(base.x - 16f, base.y, this, base.placementLayer);
-        right = Level.CheckPointPlacementLayer<AutoPlatform>(base.x + 16f, base.y, this, base.placementLayer);
-        topleft = Level.CheckPointPlacementLayer<AutoPlatform>(base.x - 16f, base.y - 17f, this, base.placementLayer);
-        topright = Level.CheckPointPlacementLayer<AutoPlatform>(base.x + 16f, base.y - 17f, this, base.placementLayer);
-        bottomleft = Level.CheckPointPlacementLayer<AutoPlatform>(base.x - 16f, base.y + off2, this, base.placementLayer);
-        bottomright = Level.CheckPointPlacementLayer<AutoPlatform>(base.x + 16f, base.y + off2, this, base.placementLayer);
+        up = Level.CheckPointPlacementLayer<AutoPlatform>(base.X, base.Y - 17f, this, base.placementLayer);
+        down = Level.CheckPointPlacementLayer<AutoPlatform>(base.X, base.Y + off2, this, base.placementLayer);
+        left = Level.CheckPointPlacementLayer<AutoPlatform>(base.X - 16f, base.Y, this, base.placementLayer);
+        right = Level.CheckPointPlacementLayer<AutoPlatform>(base.X + 16f, base.Y, this, base.placementLayer);
+        topleft = Level.CheckPointPlacementLayer<AutoPlatform>(base.X - 16f, base.Y - 17f, this, base.placementLayer);
+        topright = Level.CheckPointPlacementLayer<AutoPlatform>(base.X + 16f, base.Y - 17f, this, base.placementLayer);
+        bottomleft = Level.CheckPointPlacementLayer<AutoPlatform>(base.X - 16f, base.Y + off2, this, base.placementLayer);
+        bottomright = Level.CheckPointPlacementLayer<AutoPlatform>(base.X + 16f, base.Y + off2, this, base.placementLayer);
         if (up != null && up._tileset != _tileset)
         {
             up = null;

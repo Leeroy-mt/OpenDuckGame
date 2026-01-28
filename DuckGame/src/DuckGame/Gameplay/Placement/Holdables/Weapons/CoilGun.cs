@@ -76,7 +76,7 @@ public class CoilGun : Gun
     {
         ammo = 30;
         _type = "gun";
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-11f, -8f);
         collisionSize = new Vec2(22f, 12f);
         _barrelOffsetTL = new Vec2(25f, 13f);
@@ -212,7 +212,7 @@ public class CoilGun : Gun
             SFX.Play("laserBlast");
             for (int i = 0; i < 4; i++)
             {
-                Level.Add(new ElectricalCharge(base.barrelPosition.x, base.barrelPosition.y, offDir, this));
+                Level.Add(new ElectricalCharge(base.barrelPosition.X, base.barrelPosition.Y, offDir, this));
             }
         }
     }

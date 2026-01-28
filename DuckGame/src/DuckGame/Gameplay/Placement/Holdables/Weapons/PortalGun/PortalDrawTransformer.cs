@@ -18,21 +18,21 @@ public class PortalDrawTransformer : Thing
 
     public override void Draw()
     {
-        Vec2 pos = _thing.position;
+        Vec2 pos = _thing.Position;
         foreach (PortalDoor d in _portal.GetDoors())
         {
             if (Graphics.currentLayer == d.layer)
             {
-                if (d.isLeft && _thing.x > d.center.x + 32f)
+                if (d.isLeft && _thing.X > d.center.X + 32f)
                 {
-                    _thing.position += d.center - _portal.GetOtherDoor(d).center;
+                    _thing.Position += d.center - _portal.GetOtherDoor(d).center;
                 }
-                else if (!d.isLeft && _thing.x < d.center.x - 32f)
+                else if (!d.isLeft && _thing.X < d.center.X - 32f)
                 {
-                    _thing.position += _portal.GetOtherDoor(d).center - d.center;
+                    _thing.Position += _portal.GetOtherDoor(d).center - d.center;
                 }
                 _thing.DoDraw();
-                _thing.position = pos;
+                _thing.Position = pos;
             }
         }
     }

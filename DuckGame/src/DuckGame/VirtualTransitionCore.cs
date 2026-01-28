@@ -5,84 +5,75 @@ namespace DuckGame;
 
 public class VirtualTransitionCore
 {
-    private Sprite _scanner;
+    #region Public Fields
 
-    private BitmapFont _smallBios;
-
-    private BackgroundUpdater _realBackground;
+    public bool _fullyVirtual = true;
+    public bool _fullyNonVirtual;
+    public bool _virtualMode;
+    public bool _visible = true;
 
     public int _scanStage = -1;
 
     public float _stick;
 
-    public bool _fullyVirtual = true;
+    public Level _transitionLevel;
 
-    public bool _fullyNonVirtual;
+    #endregion
 
-    public bool _virtualMode;
+    #region Private Fields
 
-    public bool _visible = true;
+    bool _done = true;
+    bool _incStage;
+    bool _decStage;
 
-    private ParallaxBackground _parallax;
+    Color _backgroundColor;
+    Rectangle _scissor;
+    Color _curBackgroundColor;
+    Vec2 _position;
 
-    private Color _backgroundColor;
+    Sprite _scanner;
+    BackgroundUpdater _realBackground;
+    ParallaxBackground _parallax;
+
+    #endregion
 
     protected float _lastCameraX;
 
-    private Rectangle _scissor = new Rectangle(0f, 0f, 0f, 0f);
+    #region Public Properties
 
-    private bool _done = true;
-
-    private bool _incStage;
-
-    private bool _decStage;
-
-    private Color _curBackgroundColor;
-
-    public Level _transitionLevel;
-
-    private Vec2 _position;
-
-    public bool doingVirtualTransition
-    {
-        get
-        {
-            if (_virtualMode)
-            {
-                return !_done;
-            }
-            return false;
-        }
-    }
+    public bool doingVirtualTransition => _virtualMode && !_done;
 
     public bool active => !_done;
+
+    #endregion
+
+    #region Public Methods
 
     public void Initialize()
     {
         _fullyVirtual = false;
         _fullyNonVirtual = false;
         _virtualMode = false;
-        _smallBios = new BitmapFont("smallBiosFont", 7, 6);
-        _parallax = new ParallaxBackground("background/virtual", 0f, 0f, 3);
-        float speed = 0.4f;
-        float rearDist = 0.8f;
+        _parallax = new ParallaxBackground("background/virtual", 0, 0, 3);
+        float speed = .4f;
+        float rearDist = .8f;
         _parallax.AddZone(0, rearDist, speed);
         _parallax.AddZone(1, rearDist, speed);
         _parallax.AddZone(2, rearDist, speed);
         _parallax.AddZone(3, rearDist, speed);
-        float closeDist = 0.6f;
-        float div = (rearDist - closeDist) / 4f;
-        float speedo = 0.6f;
-        _parallax.AddZone(4, rearDist - div * 1f, speedo, moving: true);
-        _parallax.AddZone(5, rearDist - div * 2f, 0f - speedo, moving: true);
-        _parallax.AddZone(6, rearDist - div * 3f, speedo, moving: true);
+        float closeDist = .6f;
+        float div = (rearDist - closeDist) / 4;
+        float speedo = .6f;
+        _parallax.AddZone(4, rearDist - div, speedo, moving: true);
+        _parallax.AddZone(5, rearDist - div * 2, -speedo, moving: true);
+        _parallax.AddZone(6, rearDist - div * 3, speedo, moving: true);
         _parallax.AddZone(7, closeDist, speed);
         _parallax.AddZone(8, closeDist, speed);
         _parallax.AddZone(19, closeDist, speed);
         _parallax.AddZone(20, closeDist, speed);
-        _parallax.AddZone(21, rearDist - div * 3f, 0f - speedo, moving: true);
-        _parallax.AddZone(22, rearDist - div * 2f, speedo, moving: true);
-        _parallax.AddZone(23, rearDist - div * 1f, 0f - speedo, moving: true);
+        _parallax.AddZone(21, rearDist - div * 3, -speedo, moving: true);
+        _parallax.AddZone(22, rearDist - div * 2, speedo, moving: true);
+        _parallax.AddZone(23, rearDist - div, -speedo, moving: true);
         _parallax.AddZone(24, rearDist, speed);
         _parallax.AddZone(25, rearDist, speed);
         _parallax.AddZone(26, rearDist, speed);
@@ -96,7 +87,7 @@ public class VirtualTransitionCore
         _parallax.AddZone(34, rearDist, speed);
         _parallax.restrictBottom = false;
         _visible = true;
-        _parallax.y = 0f;
+        _parallax.Y = 0;
         _scanner = new Sprite("background/scanbeam");
         _backgroundColor = Color.Black;
         _parallax.layer = Layer.Virtual;
@@ -106,29 +97,23 @@ public class VirtualTransitionCore
     {
         _parallax.scissor = _scissor;
         _parallax.visible = vis;
-        if (_scissor.width != 0f)
-        {
+        if (_scissor.width != 0)
             _parallax.layer.scissor = _scissor;
-        }
     }
 
     public void GoVirtual()
     {
         if (_virtualMode)
-        {
             return;
-        }
         _scanStage = 2;
-        _stick = 1f;
+        _stick = 1;
         _virtualMode = true;
         _done = false;
         if (_realBackground == null)
         {
             using IEnumerator<Thing> enumerator = Level.activeLevel.things[typeof(BackgroundUpdater)].GetEnumerator();
             if (enumerator.MoveNext())
-            {
                 _curBackgroundColor = (_realBackground = (BackgroundUpdater)enumerator.Current).backgroundColor;
-            }
         }
         _transitionLevel = Level.activeLevel;
     }
@@ -140,7 +125,7 @@ public class VirtualTransitionCore
             _realBackground = null;
             _virtualMode = false;
             _scanStage = 0;
-            _stick = 0f;
+            _stick = 0;
             _done = false;
         }
     }
@@ -153,15 +138,13 @@ public class VirtualTransitionCore
             if (_realBackground != null)
             {
                 Level.activeLevel.backgroundColor = _realBackground.backgroundColor;
-                _realBackground.scissor = new Rectangle(0f, 0f, Resolution.current.x, Resolution.current.y);
+                _realBackground.scissor = new Rectangle(0, 0, Resolution.current.x, Resolution.current.y);
                 _realBackground = null;
             }
             return;
         }
         if (Level.current._waitingOnTransition)
-        {
             _realBackground = null;
-        }
         if (_realBackground == null)
         {
             using IEnumerator<Thing> enumerator = Level.activeLevel.things[typeof(BackgroundUpdater)].GetEnumerator();
@@ -176,36 +159,30 @@ public class VirtualTransitionCore
         {
             _backgroundColor = _curBackgroundColor;
             Level.activeLevel.backgroundColor = Lerp.ColorSmoothNoAlpha(_backgroundColor, _curBackgroundColor, _stick);
-            Layer.Glow.fade = Lerp.FloatSmooth(Layer.Glow.fade, 0f, _stick);
+            Layer.Glow.fade = Lerp.FloatSmooth(Layer.Glow.fade, 0, _stick);
         }
         if (_scanStage == 0 && !_virtualMode && _realBackground != null)
         {
             Level.activeLevel.backgroundColor = Lerp.ColorSmoothNoAlpha(_backgroundColor, _realBackground.backgroundColor, _stick);
-            Layer.Glow.fade = Lerp.FloatSmooth(Layer.Glow.fade, 1f, _stick);
+            Layer.Glow.fade = Lerp.FloatSmooth(Layer.Glow.fade, 1, _stick);
         }
         if (_scanStage == -1)
-        {
-            Level.activeLevel.backgroundColor = Lerp.ColorSmoothNoAlpha(_backgroundColor, Color.Black, 0.1f);
-        }
+            Level.activeLevel.backgroundColor = Lerp.ColorSmoothNoAlpha(_backgroundColor, Color.Black, .1f);
         if (_scanStage < 2)
-        {
-            backStick = 0f;
-        }
-        Rectangle sc = new Rectangle((int)((1f - backStick) * (float)Resolution.current.x), 0f, Resolution.current.x - (int)((1f - backStick) * (float)Resolution.current.x), Resolution.current.y);
+            backStick = 0;
+        Rectangle sc = new((int)((1 - backStick) * Resolution.current.x), 0, Resolution.current.x - (int)((1 - backStick) * Resolution.current.x), Resolution.current.y);
         if (_realBackground != null)
         {
-            if (sc.width == 0f)
-            {
+            if (sc.width == 0)
                 _realBackground.SetVisible(vis: false);
-            }
             else
             {
                 _realBackground.scissor = sc;
                 _realBackground.SetVisible(vis: true);
             }
         }
-        Rectangle sc2 = new Rectangle(0f, 0f, (float)Resolution.current.x - sc.width, Resolution.current.y);
-        if (sc2.width == 0f)
+        Rectangle sc2 = new(0, 0, Resolution.current.x - sc.width, Resolution.current.y);
+        if (sc2.width == 0)
         {
             SetVisible(vis: false);
             _visible = false;
@@ -216,8 +193,8 @@ public class VirtualTransitionCore
             SetVisible(vis: true);
             _visible = true;
         }
-        float lerpSpeed = 0.04f;
-        float outLerpSpeed = 0.06f;
+        float lerpSpeed = .04f;
+        float outLerpSpeed = .06f;
         if (Level.activeLevel != null)
         {
             lerpSpeed *= Level.activeLevel.transitionSpeedMultiplier;
@@ -227,33 +204,31 @@ public class VirtualTransitionCore
         {
             if (_scanStage == 0)
             {
-                _stick = Lerp.Float(_stick, 1f, lerpSpeed);
-                if (_stick > 0.99f)
+                _stick = Lerp.Float(_stick, 1, lerpSpeed);
+                if (_stick > .99f)
                 {
-                    _stick = 1f;
+                    _stick = 1;
                     _incStage = true;
                 }
             }
             else if (_scanStage == 1)
             {
-                _stick = Lerp.Float(_stick, 0f, lerpSpeed);
-                if (_stick < 0.01f)
+                _stick = Lerp.Float(_stick, 0, lerpSpeed);
+                if (_stick < .01f)
                 {
-                    _stick = 0f;
+                    _stick = 0;
                     _incStage = true;
                 }
             }
             else if (_scanStage == 2)
             {
-                Layer.basicWireframeEffect.effect.Parameters["screenCross"].SetValue(0f);
+                Layer.basicWireframeEffect.effect.Parameters["screenCross"].SetValue(0);
                 if (Layer.basicWireframeTex)
+                    Layer.basicWireframeEffect.effect.Parameters["scanMul"].SetValue(0);
+                _stick = Lerp.Float(_stick, 1, lerpSpeed);
+                if (_stick > .99f)
                 {
-                    Layer.basicWireframeEffect.effect.Parameters["scanMul"].SetValue(0f);
-                }
-                _stick = Lerp.Float(_stick, 1f, lerpSpeed);
-                if (_stick > 0.99f)
-                {
-                    _stick = 1f;
+                    _stick = 1;
                     _incStage = true;
                     _done = true;
                 }
@@ -261,33 +236,31 @@ public class VirtualTransitionCore
         }
         else if (_scanStage == 2)
         {
-            Layer.basicWireframeEffect.effect.Parameters["screenCross"].SetValue(0f);
+            Layer.basicWireframeEffect.effect.Parameters["screenCross"].SetValue(0);
             if (Layer.basicWireframeTex)
+                Layer.basicWireframeEffect.effect.Parameters["scanMul"].SetValue(0);
+            _stick = Lerp.Float(_stick, 0, outLerpSpeed);
+            if (_stick < .01f)
             {
-                Layer.basicWireframeEffect.effect.Parameters["scanMul"].SetValue(0f);
-            }
-            _stick = Lerp.Float(_stick, 0f, outLerpSpeed);
-            if (_stick < 0.01f)
-            {
-                _stick = 0f;
+                _stick = 0;
                 _decStage = true;
             }
         }
         else if (_scanStage == 1)
         {
-            _stick = Lerp.Float(_stick, 1f, outLerpSpeed);
-            if (_stick > 0.99f)
+            _stick = Lerp.Float(_stick, 1, outLerpSpeed);
+            if (_stick > .99f)
             {
-                _stick = 1f;
+                _stick = 1;
                 _decStage = true;
             }
         }
         else if (_scanStage == 0)
         {
-            _stick = Lerp.Float(_stick, 0f, outLerpSpeed);
-            if (_stick < 0.01f)
+            _stick = Lerp.Float(_stick, 0, outLerpSpeed);
+            if (_stick < .01f)
             {
-                _stick = 0f;
+                _stick = 0;
                 _decStage = true;
                 _done = true;
             }
@@ -305,35 +278,20 @@ public class VirtualTransitionCore
         if (_scanStage < 2)
         {
             Layer.doVirtualEffect = true;
-            if (_scanStage == 1)
-            {
-                Layer.basicWireframeTex = true;
-            }
-            else
-            {
-                Layer.basicWireframeTex = false;
-            }
+            Layer.basicWireframeTex = _scanStage == 1;
             Layer.basicWireframeEffect.effect.Parameters["screenCross"].SetValue(_stick);
             if (Layer.basicWireframeTex)
-            {
-                Layer.basicWireframeEffect.effect.Parameters["scanMul"].SetValue(1f);
-            }
+                Layer.basicWireframeEffect.effect.Parameters["scanMul"].SetValue(1);
         }
         _fullyVirtual = false;
         _fullyNonVirtual = false;
         if (_scanStage == 3)
-        {
             _fullyNonVirtual = true;
-        }
         else if (_scanStage == -1)
-        {
             _fullyVirtual = true;
-        }
         _lastCameraX = Level.activeLevel.camera.centerX;
-        if (_scissor.width != 0f)
-        {
+        if (_scissor.width != 0)
             _parallax.scissor = _scissor;
-        }
     }
 
     public void Draw()
@@ -346,21 +304,23 @@ public class VirtualTransitionCore
                 return;
             }
             Graphics.PushMarker("TransitionDraw");
-            _position = _parallax.position;
-            float scannerX = _stick * 300f;
-            float scannerFrontX = 360f - _stick * 400f;
-            Vec2 scannerPos = new Vec2(_position.x + scannerX, _position.y + 72f);
-            Graphics.Draw(_scanner, scannerPos.x, scannerPos.y);
-            float scanMiddle = Math.Abs(_stick - 0.5f);
-            float a = 0.5f - scanMiddle;
-            Graphics.DrawLine(scannerPos + new Vec2(18f, 20f), new Vec2(scannerFrontX, scannerPos.y - 100f + scanMiddle * 250f), Color.Red * a, 2f, 0.9f);
-            Graphics.DrawLine(scannerPos + new Vec2(18f, 34f), new Vec2(scannerFrontX, scannerPos.y - 10f + 80f * scanMiddle), Color.Red * a, 2f, 0.9f);
-            Vec2 scannerPosBottom = scannerPos + new Vec2(0f, _scanner.height);
-            Graphics.DrawLine(scannerPosBottom + new Vec2(18f, -20f), new Vec2(scannerFrontX, scannerPosBottom.y + 100f - scanMiddle * 250f), Color.Red * a, 2f, 0.9f);
-            Graphics.DrawLine(scannerPosBottom + new Vec2(18f, -34f), new Vec2(scannerFrontX, scannerPosBottom.y + 10f - 80f * scanMiddle), Color.Red * a, 2f, 0.9f);
+            _position = _parallax.Position;
+            float scannerX = _stick * 300;
+            float scannerFrontX = 360 - _stick * 400;
+            Vec2 scannerPos = new(_position.X + scannerX, _position.Y + 72);
+            Graphics.Draw(_scanner, scannerPos.X, scannerPos.Y);
+            float scanMiddle = Math.Abs(_stick - .5f);
+            float a = .5f - scanMiddle;
+            Graphics.DrawLine(scannerPos + new Vec2(18, 20), new Vec2(scannerFrontX, scannerPos.Y - 100 + scanMiddle * 250), Color.Red * a, 2, .9f);
+            Graphics.DrawLine(scannerPos + new Vec2(18, 34), new Vec2(scannerFrontX, scannerPos.Y - 10 + 80 * scanMiddle), Color.Red * a, 2, .9f);
+            Vec2 scannerPosBottom = scannerPos + new Vec2(0, _scanner.height);
+            Graphics.DrawLine(scannerPosBottom + new Vec2(18, -20), new Vec2(scannerFrontX, scannerPosBottom.Y + 100 - scanMiddle * 250), Color.Red * a, 2, .9f);
+            Graphics.DrawLine(scannerPosBottom + new Vec2(18, -34), new Vec2(scannerFrontX, scannerPosBottom.Y + 10 - 80 * scanMiddle), Color.Red * a, 2, .9f);
             _parallax.Update();
             _parallax.Draw();
             Graphics.PopMarker();
         }
     }
+
+    #endregion
 }

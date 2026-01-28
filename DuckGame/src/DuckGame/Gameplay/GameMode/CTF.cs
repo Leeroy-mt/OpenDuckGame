@@ -59,7 +59,7 @@ public class CTF : GameMode
                         }
                         continue;
                     }
-                    p.duck.position = p.duck.respawnPos;
+                    p.duck.Position = p.duck.respawnPos;
                     if (Level.current.camera is FollowCam)
                     {
                         (Level.current.camera as FollowCam).Add(p.duck);
@@ -73,7 +73,7 @@ public class CTF : GameMode
                         {
                             p.duck.ragdoll.Unragdoll();
                         }
-                        p.duck.position = p.duck.respawnPos;
+                        p.duck.Position = p.duck.respawnPos;
                         p.duck.isGhost = true;
                         p.duck.immobilized = false;
                         p.duck.crouch = false;
@@ -106,7 +106,7 @@ public class CTF : GameMode
     protected override List<Duck> AssignSpawns()
     {
         return (from sp in Spawn.SpawnCTF()
-                orderby sp.x
+                orderby sp.X
                 select sp).ToList();
     }
 

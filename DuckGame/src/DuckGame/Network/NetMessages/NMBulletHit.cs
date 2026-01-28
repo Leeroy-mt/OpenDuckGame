@@ -12,8 +12,8 @@ public class NMBulletHit : NMEvent
 
     public NMBulletHit(Vec2 pos)
     {
-        x = pos.x;
-        y = pos.y;
+        x = pos.X;
+        y = pos.Y;
     }
 
     public override void Activate()

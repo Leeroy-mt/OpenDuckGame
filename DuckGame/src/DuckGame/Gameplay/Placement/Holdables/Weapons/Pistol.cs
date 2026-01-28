@@ -20,7 +20,7 @@ public class Pistol : Gun
         _sprite.AddAnimation("fire", 0.8f, false, 1, 2, 2, 3, 3);
         _sprite.AddAnimation("empty", 1f, true, 2);
         graphic = _sprite;
-        center = new Vec2(10f, 3f);
+        Center = new Vec2(10f, 3f);
         collisionOffset = new Vec2(-8f, -3f);
         collisionSize = new Vec2(16f, 9f);
         _barrelOffsetTL = new Vec2(18f, 2f);
@@ -54,7 +54,7 @@ public class Pistol : Gun
             {
                 Vec2 pos = Offset(new Vec2(-9f, 0f));
                 Vec2 rot = base.barrelVector.Rotate(Rando.Float(1f), Vec2.Zero);
-                Level.Add(Spark.New(pos.x, pos.y, rot, 0.1f));
+                Level.Add(Spark.New(pos.X, pos.Y, rot, 0.1f));
             }
         }
         else

@@ -1,48 +1,49 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DuckGame;
 
 public class UIConnectionInfo : UIMenuItem
 {
-    private UIMenu _kickMenu;
+    #region Private Fields
 
-    private UIMenu _banMenu;
+    bool _showKickMenu;
 
-    private UIMenu _blockMenu;
+    bool _showMuteMenu;
 
-    private UIMenu _rootMenu;
+    int _additionalOptionIndex;
 
-    private Profile _profile;
+    int _muteOptionIndex;
 
-    private BitmapFont _littleFont;
+    int _aoKickIndex;
 
-    private string _nameText;
+    int _aoBanIndex;
 
-    private string _nameTextWithoutColor;
+    int _aoMuteIndex;
 
-    private string _name;
+    int _aoBlockIndex;
 
-    private bool _showKickMenu;
+    string _nameText;
 
-    private bool _showMuteMenu;
+    UIMenu _kickMenu;
 
-    private int _additionalOptionIndex;
+    UIMenu _banMenu;
 
-    private int _muteOptionIndex;
+    UIMenu _blockMenu;
 
-    private int _aoKickIndex;
+    UIMenu _rootMenu;
 
-    private int _aoBanIndex;
+    Profile _profile;
 
-    private int _aoMuteIndex;
+    BitmapFont _littleFont;
 
-    private int _aoBlockIndex;
+    List<string> _additionalOptions = new List<string> { "Kick", "Ban", "Mute", "Block" };
 
-    private List<string> _additionalOptions = new List<string> { "Kick", "Ban", "Mute", "Block" };
+    List<string> _muteOptions = new List<string> { "Chat", "Hats", "Room", "Name" };
 
-    private List<string> _muteOptions = new List<string> { "Chat", "Hats", "Room", "Name" };
+    #endregion
+
+    #region Public Constructors
 
     public UIConnectionInfo(Profile p, UIMenu rootMenu, UIMenu kickMenu, UIMenu banMenu, UIMenu blockMenu)
         : base(p.nameUI)
@@ -57,124 +58,14 @@ public class UIConnectionInfo : UIMenuItem
         _rootMenu = rootMenu;
     }
 
-    private void UpdateName()
-    {
-        Profile p = _profile;
-        string colorString = "|" + p.persona.colorUsable.r + "," + p.persona.colorUsable.g + "," + p.persona.colorUsable.b + "|";
-        if (p.slotType == SlotType.Spectator)
-        {
-            colorString = "|DGPURPLE|";
-        }
-        string name = p.nameUI;
-        int nameCount = name.Count();
-        bool host = false;
-        if (p.connection != null && p.connection.isHost)
-        {
-            host = true;
-            nameCount++;
-        }
-        int maxName = 17;
-        if (host)
-        {
-            maxName = 16;
-        }
-        if (nameCount > maxName)
-        {
-            name = name.Substring(0, maxName - 1) + ".";
-            nameCount = maxName;
-        }
-        for (; nameCount < maxName + 2; nameCount++)
-        {
-            name += " ";
-        }
-        if (host)
-        {
-            name = "@HOSTCROWN@" + name;
-        }
-        if (p.slotType == SlotType.Spectator)
-        {
-            name = "@SPECTATOR@" + name;
-        }
-        if (_profile.muteChat || _profile.muteHat || _profile.muteName || _profile.muteRoom)
-        {
-            name = "@MUTEICON@" + name;
-        }
-        if (_profile.blocked)
-        {
-            name = "@BLOCKICON@" + name;
-        }
-        _nameTextWithoutColor = name;
-        _nameText = colorString + name;
-        int pingval = GetPing();
-        string ping = pingval.ToString();
-        ping += "|WHITE|MS";
-        int count = ping.Count();
-        ping = ((pingval < 150) ? ("|DGGREEN|" + ping + "@SIGNALGOOD@") : ((pingval < 250) ? ("|DGYELLOW|" + ping + "@SIGNALNORMAL@") : ((_profile.connection == null) ? ("|DGRED|" + ping + "@SIGNALDEAD@") : ("|DGRED|" + ping + "@SIGNALBAD@"))));
-        for (; count < 5; count++)
-        {
-            ping = " " + ping;
-        }
-        string text = colorString + name + ping;
-        _textElement.text = text;
-        controlString = "";
-        if (p.connection != DuckNetwork.localConnection)
-        {
-            if (Network.isServer)
-            {
-                if (p.blocked)
-                {
-                    _additionalOptions = new List<string> { "Kick", "Ban", "Mute..", "|DGRED|Un-block" };
-                }
-                else
-                {
-                    _additionalOptions = new List<string> { "Kick", "Ban", "Mute..", "|DGRED|Block" };
-                }
-                _aoKickIndex = 0;
-                _aoBanIndex = 1;
-                _aoMuteIndex = 2;
-                _aoBlockIndex = 3;
-                controlString = "@MENU2@KICK..";
-            }
-            else
-            {
-                if (p.blocked)
-                {
-                    _additionalOptions = new List<string> { "Mute..", "|DGRED|Un-block" };
-                }
-                else
-                {
-                    _additionalOptions = new List<string> { "Mute..", "|DGRED|Block" };
-                }
-                _aoKickIndex = 99;
-                _aoBanIndex = 99;
-                _aoMuteIndex = 0;
-                _aoBlockIndex = 1;
-                controlString = "@MENU2@MUTE..";
-            }
-        }
-        if (Network.canSetObservers)
-        {
-            if (p.slotType == SlotType.Spectator)
-            {
-                controlString += " @MENU1@PLAYER";
-            }
-            else
-            {
-                controlString += " @MENU1@SPECTATOR";
-            }
-        }
-        if (p.connection.data is User || NetworkDebugger.enabled)
-        {
-            controlString += " @SELECT@@STEAMICON@";
-        }
-    }
+    #endregion
+
+    #region Public Methods
 
     public override void Activate(string trigger)
     {
         if (_showKickMenu)
-        {
             return;
-        }
         if (_profile.connection != null)
         {
             if (_profile.connection != DuckNetwork.localConnection && trigger == "MENU2")
@@ -204,13 +95,9 @@ public class UIConnectionInfo : UIMenuItem
             if (trigger == "SELECT")
             {
                 if (_profile.connection.data is User)
-                {
                     Steam.OverlayOpenURL("http://steamcommunity.com/profiles/" + (_profile.connection.data as User).id);
-                }
                 else if (NetworkDebugger.enabled && Steam.user != null)
-                {
                     Steam.OverlayOpenURL("http://steamcommunity.com/profiles/" + Steam.user.id);
-                }
             }
         }
         base.Activate(trigger);
@@ -225,9 +112,7 @@ public class UIConnectionInfo : UIMenuItem
             _ = _profile.connection.status;
         }
         else
-        {
             pingval = 1000;
-        }
         return pingval;
     }
 
@@ -236,9 +121,7 @@ public class UIConnectionInfo : UIMenuItem
         if (_showMuteMenu)
         {
             if (Input.Pressed("CANCEL"))
-            {
                 _showMuteMenu = false;
-            }
             else if (Input.Pressed("UP"))
             {
                 if (_muteOptionIndex > 0)
@@ -258,21 +141,13 @@ public class UIConnectionInfo : UIMenuItem
             else if (Input.Pressed("SELECT"))
             {
                 if (_muteOptionIndex == 0)
-                {
                     _profile.muteChat = !_profile.muteChat;
-                }
                 else if (_muteOptionIndex == 1)
-                {
                     _profile.muteHat = !_profile.muteHat;
-                }
                 else if (_muteOptionIndex == 2)
-                {
                     _profile.muteRoom = !_profile.muteRoom;
-                }
                 else if (_muteOptionIndex == 3)
-                {
                     _profile.muteName = !_profile.muteName;
-                }
                 _profile._blockStatusDirty = true;
                 SFX.Play("textLetter", 0.7f);
             }
@@ -295,18 +170,14 @@ public class UIConnectionInfo : UIMenuItem
                     _rootMenu.Close();
                     _kickMenu.Open();
                     if (MonoMain.pauseMenu == _rootMenu)
-                    {
                         MonoMain.pauseMenu = _kickMenu;
-                    }
                 }
                 else if (_additionalOptionIndex == _aoBanIndex)
                 {
                     _rootMenu.Close();
                     _banMenu.Open();
                     if (MonoMain.pauseMenu == _rootMenu)
-                    {
                         MonoMain.pauseMenu = _banMenu;
-                    }
                 }
                 else if (_additionalOptionIndex == _aoMuteIndex)
                 {
@@ -326,9 +197,7 @@ public class UIConnectionInfo : UIMenuItem
                         _rootMenu.Close();
                         _blockMenu.Open();
                         if (MonoMain.pauseMenu == _rootMenu)
-                        {
                             MonoMain.pauseMenu = _blockMenu;
-                        }
                     }
                 }
                 if (close)
@@ -358,48 +227,128 @@ public class UIConnectionInfo : UIMenuItem
     public override void Draw()
     {
         _textElement.text = "";
-        _littleFont.Draw(_nameText, position + new Vec2(-88f, -3f), Color.White, base.depth + 10);
+        _littleFont.Draw(_nameText, Position + new Vec2(-88, -3), Color.White, Depth + 10);
         int pingval = GetPing();
         string ping = pingval.ToString();
         ping += "|WHITE|MS";
-        ping.Count();
-        ping = ((pingval < 150) ? ("|DGGREEN|" + ping + "@SIGNALGOOD@") : ((pingval < 250) ? ("|DGYELLOW|" + ping + "@SIGNALNORMAL@") : ((_profile.connection == null) ? ("|DGRED|" + ping + "@SIGNALDEAD@") : ("|DGRED|" + ping + "@SIGNALBAD@"))));
-        _littleFont.Draw(ping, position + new Vec2(90f - _littleFont.GetWidth(ping), -3f), Color.White, base.depth + 10);
+        ping = (pingval < 150) ? ("|DGGREEN|" + ping + "@SIGNALGOOD@") : ((pingval < 250) ? ("|DGYELLOW|" + ping + "@SIGNALNORMAL@") : ((_profile.connection == null) ? ("|DGRED|" + ping + "@SIGNALDEAD@") : ("|DGRED|" + ping + "@SIGNALBAD@")));
+        _littleFont.Draw(ping, Position + new Vec2(90 - _littleFont.GetWidth(ping), -3), Color.White, Depth + 10);
         if (_showKickMenu)
         {
-            Graphics.DrawRect(new Vec2(0f, 0f), new Vec2(Layer.HUD.width, Layer.HUD.height), Color.Black * 0.5f, 0.85f);
-            Vec2 posTL = position + new Vec2(-60f, 4f);
-            Vec2 posBR = posTL + new Vec2(76f, _additionalOptions.Count * 8 + 3);
+            Graphics.DrawRect(new Vec2(0), new Vec2(Layer.HUD.width, Layer.HUD.height), Color.Black * 0.5f, 0.85f);
+            Vec2 posTL = Position + new Vec2(-60, 4);
+            Vec2 posBR = posTL + new Vec2(76, _additionalOptions.Count * 8 + 3);
             Graphics.DrawRect(posTL, posBR, Color.Black, 0.9f);
             Graphics.DrawRect(posTL, posBR, Color.White, 0.9f, filled: false);
             for (int i = 0; i < _additionalOptions.Count; i++)
             {
-                _littleFont.Draw(_additionalOptions[i], posTL + new Vec2(10f, 3 + i * 8), (_additionalOptionIndex == i) ? Color.White : (Color.White * 0.6f), 0.91f);
+                _littleFont.Draw(_additionalOptions[i], posTL + new Vec2(10, 3 + i * 8), (_additionalOptionIndex == i) ? Color.White : (Color.White * 0.6f), 0.91f);
                 if (_additionalOptionIndex == i)
-                {
-                    Graphics.Draw(_arrow._image, posTL.x + 4f, posTL.y + 6f + (float)(i * 8), 0.91f);
-                }
+                    Graphics.Draw(_arrow._image, posTL.X + 4, posTL.Y + 6 + i * 8, 0.91f);
                 if (i != _aoMuteIndex || !_showMuteMenu)
-                {
                     continue;
-                }
-                Graphics.DrawRect(new Vec2(0f, 0f), new Vec2(Layer.HUD.width, Layer.HUD.height), Color.Black * 0.5f, 0.92f);
-                Vec2 muteTL = posTL + new Vec2(8f, 26f);
-                Vec2 muteBR = muteTL + new Vec2(60f, _muteOptions.Count * 8 + 4);
+                Graphics.DrawRect(new Vec2(0), new Vec2(Layer.HUD.width, Layer.HUD.height), Color.Black * 0.5f, 0.92f);
+                Vec2 muteTL = posTL + new Vec2(8, 26);
+                Vec2 muteBR = muteTL + new Vec2(60, _muteOptions.Count * 8 + 4);
                 Graphics.DrawRect(muteTL, muteBR, Color.Black, 0.93f);
                 Graphics.DrawRect(muteTL, muteBR, Color.White, 0.93f, filled: false);
                 for (int j = 0; j < _muteOptions.Count; j++)
                 {
                     string muteText = _muteOptions[j];
-                    muteText = ((j == 0 && _profile.muteChat) ? ("@DELETEFLAG_ON@" + muteText) : ((j == 1 && _profile.muteHat) ? ("@DELETEFLAG_ON@" + muteText) : ((j == 2 && _profile.muteRoom) ? ("@DELETEFLAG_ON@" + muteText) : ((j != 3 || !_profile.muteName) ? ("@DELETEFLAG_OFF@" + muteText) : ("@DELETEFLAG_ON@" + muteText)))));
-                    _littleFont.Draw(muteText, muteTL + new Vec2(10f, 4 + j * 8), (_muteOptionIndex == j) ? Color.White : (Color.White * 0.6f), 0.94f);
+                    muteText = (j == 0 && _profile.muteChat) ? ("@DELETEFLAG_ON@" + muteText) : ((j == 1 && _profile.muteHat) ? ("@DELETEFLAG_ON@" + muteText) : ((j == 2 && _profile.muteRoom) ? ("@DELETEFLAG_ON@" + muteText) : ((j != 3 || !_profile.muteName) ? ("@DELETEFLAG_OFF@" + muteText) : ("@DELETEFLAG_ON@" + muteText))));
+                    _littleFont.Draw(muteText, muteTL + new Vec2(10, 4 + j * 8), (_muteOptionIndex == j) ? Color.White : (Color.White * 0.6f), 0.94f);
                     if (_muteOptionIndex == j)
-                    {
-                        Graphics.Draw(_arrow._image, muteTL.x + 4f, muteTL.y + 6f + (float)(j * 8), 0.94f);
-                    }
+                        Graphics.Draw(_arrow._image, muteTL.X + 4, muteTL.Y + 6 + j * 8, 0.94f);
                 }
             }
         }
         base.Draw();
     }
+
+    #endregion
+
+    #region Private Methods
+
+    void UpdateName()
+    {
+        Profile p = _profile;
+        string colorString = "|" + p.persona.colorUsable.r + "," + p.persona.colorUsable.g + "," + p.persona.colorUsable.b + "|";
+        if (p.slotType == SlotType.Spectator)
+            colorString = "|DGPURPLE|";
+        string name = p.nameUI;
+        int nameCount = name.Length;
+        bool host = false;
+        if (p.connection != null && p.connection.isHost)
+        {
+            host = true;
+            nameCount++;
+        }
+        int maxName = 17;
+        if (host)
+            maxName = 16;
+        if (nameCount > maxName)
+        {
+            name = $"{name[..(maxName - 1)]}.";
+            nameCount = maxName;
+        }
+        for (; nameCount < maxName + 2; nameCount++)
+            name += " ";
+        if (host)
+            name = "@HOSTCROWN@" + name;
+        if (p.slotType == SlotType.Spectator)
+            name = "@SPECTATOR@" + name;
+        if (_profile.muteChat || _profile.muteHat || _profile.muteName || _profile.muteRoom)
+            name = "@MUTEICON@" + name;
+        if (_profile.blocked)
+            name = "@BLOCKICON@" + name;
+        _nameText = colorString + name;
+        int pingval = GetPing();
+        string ping = pingval.ToString();
+        ping += "|WHITE|MS";
+        int count = ping.Length;
+        ping = (pingval < 150) ? ("|DGGREEN|" + ping + "@SIGNALGOOD@") : ((pingval < 250) ? ("|DGYELLOW|" + ping + "@SIGNALNORMAL@") : ((_profile.connection == null) ? ("|DGRED|" + ping + "@SIGNALDEAD@") : ("|DGRED|" + ping + "@SIGNALBAD@")));
+        for (; count < 5; count++)
+            ping = " " + ping;
+        string text = colorString + name + ping;
+        _textElement.text = text;
+        controlString = "";
+        if (p.connection != DuckNetwork.localConnection)
+        {
+            if (Network.isServer)
+            {
+                if (p.blocked)
+                    _additionalOptions = ["Kick", "Ban", "Mute..", "|DGRED|Un-block"];
+                else
+                    _additionalOptions = ["Kick", "Ban", "Mute..", "|DGRED|Block"];
+                _aoKickIndex = 0;
+                _aoBanIndex = 1;
+                _aoMuteIndex = 2;
+                _aoBlockIndex = 3;
+                controlString = "@MENU2@KICK..";
+            }
+            else
+            {
+                if (p.blocked)
+                    _additionalOptions = ["Mute..", "|DGRED|Un-block"];
+                else
+                    _additionalOptions = ["Mute..", "|DGRED|Block"];
+                _aoKickIndex = 99;
+                _aoBanIndex = 99;
+                _aoMuteIndex = 0;
+                _aoBlockIndex = 1;
+                controlString = "@MENU2@MUTE..";
+            }
+        }
+        if (Network.canSetObservers)
+        {
+            if (p.slotType == SlotType.Spectator)
+                controlString += " @MENU1@PLAYER";
+            else
+                controlString += " @MENU1@SPECTATOR";
+        }
+        if (p.connection.data is User || NetworkDebugger.enabled)
+            controlString += " @SELECT@@STEAMICON@";
+    }
+
+    #endregion
 }

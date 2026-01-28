@@ -53,11 +53,11 @@ public class MindControlRay : Gun
         _sprite = new SpriteMap("mindControlGun", 16, 16);
         _sprite.frame = 2;
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-7f, -4f);
         collisionSize = new Vec2(14f, 10f);
         _hat = new SpriteMap("mindControlHelmet", 32, 32);
-        _hat.center = new Vec2(16f, 16f);
+        _hat.Center = new Vec2(16f, 16f);
         _barrelOffsetTL = new Vec2(18f, 8f);
         _fireSound = "smg";
         _fullAuto = true;
@@ -115,7 +115,7 @@ public class MindControlRay : Gun
                     return;
                 }
                 _triggerHeld = true;
-                if (_controlledDuck.x < d.x)
+                if (_controlledDuck.X < d.X)
                 {
                     d.offDir = -1;
                 }
@@ -159,13 +159,13 @@ public class MindControlRay : Gun
         if (_triggerHeld && _beamTimer.hit)
         {
             Vec2 pos = Offset(base.barrelOffset);
-            Level.Add(new ControlWave(pos.x, pos.y, base.barrelAngle, this, base.isServerForObject));
+            Level.Add(new ControlWave(pos.X, pos.Y, base.barrelAngle, this, base.isServerForObject));
             if (_controlledDuck != null)
             {
                 _boltWait++;
                 if (_boltWait > 2)
                 {
-                    Level.Add(new MindControlBolt(pos.x, pos.y, _controlledDuck));
+                    Level.Add(new MindControlBolt(pos.X, pos.Y, _controlledDuck));
                     _boltWait = 0;
                 }
             }
@@ -197,19 +197,19 @@ public class MindControlRay : Gun
         base.Draw();
         if (owner != null && owner is Duck d && !d.HasEquipment(typeof(Hat)))
         {
-            _hat.alpha = d._sprite.alpha;
+            _hat.Alpha = d._sprite.Alpha;
             _hat.flipH = d._sprite.flipH;
-            _hat.depth = d.depth + 1;
+            _hat.Depth = d.Depth + 1;
             if (d._sprite.imageIndex > 11 && d._sprite.imageIndex < 14)
             {
-                _hat.angleDegrees = (d._sprite.flipH ? 90 : (-90));
+                _hat.AngleDegrees = (d._sprite.flipH ? 90 : (-90));
             }
             else
             {
-                _hat.angleDegrees = 0f;
+                _hat.AngleDegrees = 0f;
             }
             Vec2 offset = DuckRig.GetHatPoint(d._sprite.imageIndex);
-            Graphics.Draw(_hat, d.x + offset.x * d._sprite.flipMultH, d.y + offset.y * d._sprite.flipMultV);
+            Graphics.Draw(_hat, d.X + offset.X * d._sprite.flipMultH, d.Y + offset.Y * d._sprite.flipMultV);
         }
     }
 

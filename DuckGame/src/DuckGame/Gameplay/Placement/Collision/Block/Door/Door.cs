@@ -122,17 +122,17 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         _hitPoints = 50f;
         _sprite = new SpriteMap("door", 32, 32);
         graphic = _sprite;
-        center = new Vec2(16f, 25f);
+        Center = new Vec2(16f, 25f);
         collisionSize = new Vec2(6f, 32f);
         collisionOffset = new Vec2(-3f, -25f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Door";
         thickness = 2f;
         _lock = new Sprite("lock");
         _lock.CenterOrigin();
         _impactThreshold = 0f;
         _key = new SpriteMap("keyInDoor", 16, 16);
-        _key.center = new Vec2(2f, 8f);
+        _key.Center = new Vec2(2f, 8f);
         _canFlip = false;
         physicsMaterial = PhysicsMaterial.Wood;
         base.sequence = new SequenceItem(this);
@@ -154,7 +154,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         }
         else
         {
-            _frame = new DoorFrame(base.x, base.y - 1f, secondaryFrame);
+            _frame = new DoorFrame(base.X, base.Y - 1f, secondaryFrame);
             Level.Add(_frame);
         }
     }
@@ -200,15 +200,15 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         }
         else
         {
-            door = new DoorOffHinges(base.x, base.y - 8f, secondaryFrame);
+            door = new DoorOffHinges(base.X, base.Y - 8f, secondaryFrame);
         }
         if (door != null)
         {
             if (type is DTShot { bullet: not null } shot)
             {
-                door.hSpeed = shot.bullet.travelDirNormalized.x * 2f;
-                door.vSpeed = shot.bullet.travelDirNormalized.y * 2f - 1f;
-                door.offDir = (sbyte)((shot.bullet.travelDirNormalized.x > 0f) ? 1 : (-1));
+                door.hSpeed = shot.bullet.travelDirNormalized.X * 2f;
+                door.vSpeed = shot.bullet.travelDirNormalized.Y * 2f - 1f;
+                door.offDir = (sbyte)((shot.bullet.travelDirNormalized.X > 0f) ? 1 : (-1));
             }
             else
             {
@@ -240,9 +240,9 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         {
             for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
             {
-                WoodDebris woodDebris = WoodDebris.New(hitPos.x, hitPos.y);
-                woodDebris.hSpeed = (0f - bullet.travelDirNormalized.x) * 2f * (Rando.Float(1f) + 0.3f);
-                woodDebris.vSpeed = (0f - bullet.travelDirNormalized.y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
+                WoodDebris woodDebris = WoodDebris.New(hitPos.X, hitPos.Y);
+                woodDebris.hSpeed = (0f - bullet.travelDirNormalized.X) * 2f * (Rando.Float(1f) + 0.3f);
+                woodDebris.vSpeed = (0f - bullet.travelDirNormalized.Y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
                 Level.Add(woodDebris);
             }
             SFX.Play("woodHit");
@@ -264,9 +264,9 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         exitPos += bullet.travelDirNormalized;
         for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
         {
-            WoodDebris woodDebris = WoodDebris.New(exitPos.x, exitPos.y);
-            woodDebris.hSpeed = bullet.travelDirNormalized.x * 3f * (Rando.Float(1f) + 0.3f);
-            woodDebris.vSpeed = bullet.travelDirNormalized.y * 3f * (Rando.Float(1f) + 0.3f) - (-1f + Rando.Float(2f));
+            WoodDebris woodDebris = WoodDebris.New(exitPos.X, exitPos.Y);
+            woodDebris.hSpeed = bullet.travelDirNormalized.X * 3f * (Rando.Float(1f) + 0.3f);
+            woodDebris.vSpeed = bullet.travelDirNormalized.Y * 3f * (Rando.Float(1f) + 0.3f) - (-1f + Rando.Float(2f));
             Level.Add(woodDebris);
         }
     }
@@ -299,7 +299,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
             Level.Remove(with);
             if (!Network.isActive)
             {
-                DoUnlock(with.position);
+                DoUnlock(with.Position);
             }
         }
     }
@@ -307,10 +307,10 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
     public void DoUnlock(Vec2 keyPos)
     {
         SFX.Play("deedleBeep");
-        Level.Add(SmallSmoke.New(keyPos.x, keyPos.y));
+        Level.Add(SmallSmoke.New(keyPos.X, keyPos.Y));
         for (int i = 0; i < 3; i++)
         {
-            Level.Add(SmallSmoke.New(base.x + Rando.Float(-3f, 3f), base.y + Rando.Float(-3f, 3f)));
+            Level.Add(SmallSmoke.New(base.X + Rando.Float(-3f, 3f), base.Y + Rando.Float(-3f, 3f)));
         }
         didUnlock = true;
     }
@@ -319,7 +319,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
     {
         if (_doorInstance == null && Network.isActive && base.isServerForObject)
         {
-            _doorInstance = new DoorOffHinges(base.x, base.y - 8f, secondaryFrame);
+            _doorInstance = new DoorOffHinges(base.X, base.Y - 8f, secondaryFrame);
             _doorInstance.active = false;
             _doorInstance.visible = false;
             _doorInstance.solid = false;
@@ -338,7 +338,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         }
         if (Network.isActive && !locked && prevLocked && !didUnlock)
         {
-            DoUnlock(position);
+            DoUnlock(Position);
         }
         prevLocked = locked;
         if (_lockDoor)
@@ -401,7 +401,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
             if (hit != null)
             {
                 (hit as Duck).Fondle(this);
-                if (hit.x < base.x)
+                if (hit.X < base.X)
                 {
                     _coll.Clear();
                     Level.CheckRectAll(_topRight, _bottomRight + new Vec2(10f, 0f), _coll);
@@ -419,7 +419,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
                             thing.hSpeed = 2f;
                             continue;
                         }
-                        float jamVal = Maths.Clamp((thing.left - _bottomRight.x) / 14f, 0f, 1f);
+                        float jamVal = Maths.Clamp((thing.left - _bottomRight.X) / 14f, 0f, 1f);
                         if (jamVal < 0.1f)
                         {
                             jamVal = 0.1f;
@@ -552,11 +552,11 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
                     hit2.hSpeed = -3f;
                 }
             }
-            if (_open < -0f && hit2 != null && (hit2 is Duck || (hit2.right > _topLeft.x - 10f && hit2.left < _topRight.x)))
+            if (_open < -0f && hit2 != null && (hit2 is Duck || (hit2.right > _topLeft.X - 10f && hit2.left < _topRight.X)))
             {
                 keepOpen = true;
             }
-            if (_open > 0f && hit2 != null && (hit2 is Duck || (hit2.left < _topRight.x + 10f && hit2.right > _topLeft.x)))
+            if (_open > 0f && hit2 != null && (hit2 is Duck || (hit2.left < _topRight.X + 10f && hit2.right > _topLeft.X)))
             {
                 keepOpen = true;
             }
@@ -675,14 +675,14 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
             collisionSize = new Vec2(0f, 0f);
             solid = false;
             collisionOffset = new Vec2(0f, -999999f);
-            base.depth = -0.7f;
+            base.Depth = -0.7f;
         }
         else
         {
             collisionSize = new Vec2(colWide, 32f);
             solid = true;
             collisionOffset = new Vec2((0f - colWide) / 2f, -24f);
-            base.depth = -0.5f;
+            base.Depth = -0.5f;
         }
         if (_hitPoints <= 0f && !base._destroyed)
         {
@@ -723,14 +723,14 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
             _key.frame = _sprite.frame;
             if (_key.frame > 12)
             {
-                _key.depth = base.depth - 1;
+                _key.Depth = base.Depth - 1;
             }
             else
             {
-                _key.depth = base.depth + 1;
+                _key.Depth = base.Depth + 1;
             }
             _key.flipH = graphic.flipH;
-            Graphics.Draw(_key, base.x + _open * 12f, base.y - 8f);
+            Graphics.Draw(_key, base.X + _open * 12f, base.Y - 8f);
         }
     }
 

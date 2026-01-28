@@ -64,17 +64,17 @@ public class PointLight : Thing, ILight
         if (!_initialized)
         {
             DrawLightNew();
-            foreach (Door d in Level.CheckCircleAll<Door>(position, _range * 0.8f))
+            foreach (Door d in Level.CheckCircleAll<Door>(Position, _range * 0.8f))
             {
-                if (Level.CheckLine<Block>(position, d.position, d) == null || Level.CheckLine<Block>(position, d.topLeft, d) == null || Level.CheckLine<Block>(position, d.bottomRight, d) == null)
+                if (Level.CheckLine<Block>(Position, d.Position, d) == null || Level.CheckLine<Block>(Position, d.topLeft, d) == null || Level.CheckLine<Block>(Position, d.bottomRight, d) == null)
                 {
                     _doors[d] = false;
                     _doorList.Add(d);
                 }
             }
-            foreach (VerticalDoor d2 in Level.CheckCircleAll<VerticalDoor>(position, _range * 0.8f))
+            foreach (VerticalDoor d2 in Level.CheckCircleAll<VerticalDoor>(Position, _range * 0.8f))
             {
-                if (Level.CheckLine<Block>(position, d2.position, d2) == null || Level.CheckLine<Block>(position, d2.topLeft, d2) == null || Level.CheckLine<Block>(position, d2.bottomRight, d2) == null)
+                if (Level.CheckLine<Block>(Position, d2.Position, d2) == null || Level.CheckLine<Block>(Position, d2.topLeft, d2) == null || Level.CheckLine<Block>(Position, d2.bottomRight, d2) == null)
                 {
                     _verticalDoors[d2] = false;
                     _verticalDoorList.Add(d2);
@@ -136,7 +136,7 @@ public class PointLight : Thing, ILight
         bool hasPrev = false;
         if (_objectsInRange == null)
         {
-            _objectsInRange = Level.CheckCircleAll<Block>(position, _range).ToList();
+            _objectsInRange = Level.CheckCircleAll<Block>(Position, _range).ToList();
         }
         int loops = 64;
         for (int i = 0; i <= loops; i++)
@@ -145,7 +145,7 @@ public class PointLight : Thing, ILight
             float a = (float)i / (float)loops * 360f;
             Vec2 dir = new Vec2((float)Math.Cos(Maths.DegToRad(a)), 0f - (float)Math.Sin(Maths.DegToRad(a)));
             Vec2 rayPos = Vec2.Zero;
-            Vec2 castTo = position + dir * _range;
+            Vec2 castTo = Position + dir * _range;
             if (_strangeFalloff)
             {
                 rayPos = castTo;
@@ -156,14 +156,14 @@ public class PointLight : Thing, ILight
                 float nearestRay = 9999999f;
                 for (int iBlock = 0; iBlock < _objectsInRange.Count; iBlock++)
                 {
-                    if (_objectsInRange[iBlock] is Window || !_objectsInRange[iBlock].solid || !Collision.Line(position, castTo, _objectsInRange[iBlock]))
+                    if (_objectsInRange[iBlock] is Window || !_objectsInRange[iBlock].solid || !Collision.Line(Position, castTo, _objectsInRange[iBlock]))
                     {
                         continue;
                     }
-                    Vec2 point = Collision.LinePoint(position, castTo, _objectsInRange[iBlock]);
+                    Vec2 point = Collision.LinePoint(Position, castTo, _objectsInRange[iBlock]);
                     if (point != Vec2.Zero)
                     {
-                        float len = (point - position).lengthSq;
+                        float len = (point - Position).lengthSq;
                         if (len < nearestRay)
                         {
                             rayPos = point;
@@ -177,7 +177,7 @@ public class PointLight : Thing, ILight
                 }
             }
             Color nearColor = _lightColor;
-            float lightLength = (rayPos - position).length;
+            float lightLength = (rayPos - Position).Length();
             if (_strangeFalloff)
             {
                 lightLength += 30f;
@@ -197,7 +197,7 @@ public class PointLight : Thing, ILight
             Color darkOccluder = Color.White;
             foreach (LightOccluder occluder in _occluders)
             {
-                if (Collision.LineIntersect(occluder.p1, occluder.p2, position, rayPos) && (!hasPrev || Collision.LineIntersect(occluder.p1, occluder.p2, position, prevPos)))
+                if (Collision.LineIntersect(occluder.p1, occluder.p2, Position, rayPos) && (!hasPrev || Collision.LineIntersect(occluder.p1, occluder.p2, Position, prevPos)))
                 {
                     Vec3 nc = (nearColor * 0.5f).ToVector3();
                     darkOccluder = occluder.color;
@@ -218,10 +218,10 @@ public class PointLight : Thing, ILight
             {
                 if (!Layer.lightingTwoPointOh)
                 {
-                    rayPos.x = (float)Math.Round(rayPos.x);
-                    rayPos.y = (float)Math.Round(rayPos.y);
+                    rayPos.X = (float)Math.Round(rayPos.X);
+                    rayPos.Y = (float)Math.Round(rayPos.Y);
                 }
-                _geo.AddTriangle(position, rayPos, prevPos, nearColor, farColor, farColPrev);
+                _geo.AddTriangle(Position, rayPos, prevPos, nearColor, farColor, farColPrev);
             }
             hasPrev = true;
             prevPos = rayPos;

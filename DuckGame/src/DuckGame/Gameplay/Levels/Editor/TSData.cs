@@ -17,7 +17,7 @@ public class TSData
     public TSData(int initValue)
     {
         fingerId = initValue;
-        touchXY.x = (touchXY.y = initValue);
+        touchXY.X = (touchXY.Y = initValue);
         diameterX = initValue;
         diameterY = initValue;
         rotationAngle = initValue;

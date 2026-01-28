@@ -21,19 +21,19 @@ public class Altar : Platform
     {
         if ((graphic as SpriteMap).frame == 0)
         {
-            center = new(8, 8);
+            Center = new(8, 8);
             collisionSize = new(12, 13);
             collisionOffset = new(-6, -5);
         }
         else if ((graphic as SpriteMap).frame == 1)
         {
-            center = new(16, 8);
+            Center = new(16, 8);
             collisionSize = new(28, 13);
             collisionOffset = new(-14, -5);
         }
         else if ((graphic as SpriteMap).frame == 2)
         {
-            center = new(24, 8);
+            Center = new(24, 8);
             collisionSize = new(44, 13);
             collisionOffset = new(-22, -5);
         }
@@ -47,7 +47,7 @@ public class Altar : Platform
         hugWalls = WallHug.Floor;
         UpdateSize();
         thickness = 0;
-        depth = -0.05f;
+        Depth = -0.05f;
         placementLayerOverride = Layer.Blocks;
     }
 

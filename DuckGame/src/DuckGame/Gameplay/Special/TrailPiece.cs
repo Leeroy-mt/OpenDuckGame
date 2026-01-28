@@ -14,8 +14,8 @@ public class TrailPiece
 
     internal TrailPiece(float _x, float _y, float _width, Vec2 _p1, Vec2 _p2)
     {
-        position.x = _x;
-        position.y = _y;
+        position.X = _x;
+        position.Y = _y;
         wide = _width;
         p1 = _p1;
         p2 = _p2;

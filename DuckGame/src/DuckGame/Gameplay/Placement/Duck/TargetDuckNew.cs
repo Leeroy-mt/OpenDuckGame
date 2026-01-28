@@ -76,11 +76,11 @@ public class TargetDuckNew : TargetDuck
         {
             foreach (Duck d in Level.current.things[typeof(Duck)].Where((Thing thing) => !(thing is TargetDuck)))
             {
-                if (!Collision.Line(holdObject.position + new Vec2(0f, -5f), at + new Vec2(0f, -5f), d.rectangle) && !Collision.Line(holdObject.position + new Vec2(0f, 5f), at + new Vec2(0f, 5f), d.rectangle))
+                if (!Collision.Line(holdObject.Position + new Vec2(0f, -5f), at + new Vec2(0f, -5f), d.rectangle) && !Collision.Line(holdObject.Position + new Vec2(0f, 5f), at + new Vec2(0f, 5f), d.rectangle))
                 {
                     continue;
                 }
-                IEnumerable<Block> enumerable = Level.CheckLineAll<Block>(holdObject.position, d.position);
+                IEnumerable<Block> enumerable = Level.CheckLineAll<Block>(holdObject.Position, d.Position);
                 bool blocked = false;
                 foreach (Block item in enumerable)
                 {

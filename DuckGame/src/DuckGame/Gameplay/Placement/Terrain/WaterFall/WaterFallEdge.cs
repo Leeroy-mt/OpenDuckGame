@@ -8,12 +8,12 @@ public class WaterFallEdge : Thing
     {
         SpriteMap flow = new SpriteMap("waterFallEdge", 16, 16);
         graphic = flow;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(8f, 8f);
         _collisionOffset = new Vec2(-8f, -8f);
         base.layer = Layer.Foreground;
-        base.depth = 0.9f;
-        base.alpha = 0.8f;
+        base.Depth = 0.9f;
+        base.Alpha = 0.8f;
     }
 
     public override void Draw()

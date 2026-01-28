@@ -46,7 +46,7 @@ public class Chaingun : Gun
         _type = "gun";
         _sprite = new SpriteMap("chaingun", 42, 28);
         graphic = _sprite;
-        center = new Vec2(14f, 14f);
+        Center = new Vec2(14f, 14f);
         collisionOffset = new Vec2(-8f, -3f);
         collisionSize = new Vec2(24f, 10f);
         _tip = new SpriteMap("chaingunTip", 42, 28);
@@ -66,14 +66,14 @@ public class Chaingun : Gun
     public override void Initialize()
     {
         base.Initialize();
-        _bullets = new ChaingunBullet(base.x, base.y);
+        _bullets = new ChaingunBullet(base.X, base.Y);
         _bullets.parentThing = this;
         _topBullet = _bullets;
         float add = 0.1f;
         ChaingunBullet lastBullet = null;
         for (int i = 0; i < 9; i++)
         {
-            ChaingunBullet b = new ChaingunBullet(base.x, base.y);
+            ChaingunBullet b = new ChaingunBullet(base.X, base.Y);
             b.parentThing = _bullets;
             _bullets = b;
             b.waveAdd = add;
@@ -186,11 +186,11 @@ public class Chaingun : Gun
         base.Draw();
         Graphics.material = base.material;
         _tip.flipH = graphic.flipH;
-        _tip.center = graphic.center;
-        _tip.depth = base.depth + 1;
-        _tip.alpha = Math.Min(_barrelHeat * 1.5f / 10f, 1f);
-        _tip.angle = angle;
-        Graphics.Draw(_tip, base.x, base.y);
+        _tip.Center = graphic.Center;
+        _tip.Depth = base.Depth + 1;
+        _tip.Alpha = Math.Min(_barrelHeat * 1.5f / 10f, 1f);
+        _tip.Angle = Angle;
+        Graphics.Draw(_tip, base.X, base.Y);
         if (_topBullet != null)
         {
             _topBullet.material = base.material;

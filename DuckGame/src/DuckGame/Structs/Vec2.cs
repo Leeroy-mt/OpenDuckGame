@@ -7,375 +7,306 @@ namespace DuckGame;
 [Serializable]
 public struct Vec2 : IEquatable<Vec2>
 {
-    private static Vec2 zeroVector = new Vec2(0f, 0f);
+    #region Public Fields
+    public float X;
 
-    private static Vec2 unitVector = new Vec2(1f, 1f);
+    public float Y;
+    #endregion
 
-    private static Vec2 unitxVector = new Vec2(1f, 0f);
+    #region Private Fields
+    static Vec2 zeroVector = new(0);
 
-    private static Vec2 unityVector = new Vec2(0f, 1f);
+    static Vec2 unitVector = new(1);
 
-    private static Vec2 maxVector = new Vec2(float.MaxValue, float.MaxValue);
+    static Vec2 unitxVector = new(1, 0);
 
-    private static Vec2 minVector = new Vec2(float.MinValue, float.MinValue);
+    static Vec2 unityVector = new(0, 1);
 
-    public float x;
+    static Vec2 maxVector = new(float.MaxValue, float.MaxValue);
 
-    public float y;
+    static Vec2 minVector = new(float.MinValue, float.MinValue);
+    #endregion
 
-    public float length => Length();
-
-    public float lengthSq => LengthSquared();
-
+    #region Public Properties
     public static Vec2 Zero => zeroVector;
 
     public static Vec2 One => unitVector;
 
-    public static Vec2 MaxValue => maxVector;
-
     public static Vec2 MinValue => minVector;
 
-    public static Vec2 Unitx => unitxVector;
+    public static Vec2 MaxValue => maxVector;
 
-    public static Vec2 Unity => unityVector;
+    public static Vec2 UnitX => unitxVector;
 
-    public static Vec2 NetMin => new Vec2(-10000f, -10000f);
+    public static Vec2 UnitY => unityVector;
 
-    public static Vec2 NetMax => new Vec2(10000f, 10000f);
+    public static Vec2 NetMin => new(-10000);
 
-    public Vec2 normalized
+    public static Vec2 NetMax => new(10000);
+
+    public float lengthSq => LengthSquared();
+
+    public Vec2 Normalized
     {
         get
         {
-            float len = (float)Math.Sqrt(x * x + y * y);
-            if (len != 0f)
-            {
-                float val = 1f / len;
-                return new Vec2(x * val, y * val);
-            }
+            var len = Length();
+            if (len != 0)
+                return this / len;
             return Zero;
         }
     }
+    #endregion
 
-    public Vec2(float x, float y)
-    {
-        this.x = x;
-        this.y = y;
-    }
+    #region Public Constructors
+    public Vec2(float x, float y) =>
+        (X, Y) = (x, y);
 
-    public Vec2(float value)
-    {
-        x = value;
-        y = value;
-    }
+    public Vec2(float value) =>
+        X = Y = value;
 
-    public Vec2(Vec2 vec)
-    {
-        x = vec.x;
-        y = vec.y;
-    }
+    public Vec2(Vec2 vec) =>
+        (X, Y) = (vec.X, vec.Y);
+    #endregion
 
-    public static Vec2 Add(Vec2 value1, Vec2 value2)
-    {
-        value1.x += value2.x;
-        value1.y += value2.y;
-        return value1;
-    }
+    #region Public Methods
+    public static Vec2 Add(Vec2 value1, Vec2 value2) =>
+        new(value1.X + value2.X, value1.Y + value2.Y);
 
     public static void Add(ref Vec2 value1, ref Vec2 value2, out Vec2 result)
     {
-        result.x = value1.x + value2.x;
-        result.y = value1.y + value2.y;
+        result.X = value1.X + value2.X;
+        result.Y = value1.Y + value2.Y;
     }
 
-    public static Vec2 Barycentric(Vec2 value1, Vec2 value2, Vec2 value3, float amount1, float amount2)
-    {
-        return new Vec2(MathHelper.Barycentric(value1.x, value2.x, value3.x, amount1, amount2), MathHelper.Barycentric(value1.y, value2.y, value3.y, amount1, amount2));
-    }
+    public static Vec2 Barycentric(Vec2 value1, Vec2 value2, Vec2 value3, float amount1, float amount2) =>
+        new(MathHelper.Barycentric(value1.X, value2.X, value3.X, amount1, amount2), MathHelper.Barycentric(value1.Y, value2.Y, value3.Y, amount1, amount2));
 
-    public static void Barycentric(ref Vec2 value1, ref Vec2 value2, ref Vec2 value3, float amount1, float amount2, out Vec2 result)
-    {
-        result = new Vec2(MathHelper.Barycentric(value1.x, value2.x, value3.x, amount1, amount2), MathHelper.Barycentric(value1.y, value2.y, value3.y, amount1, amount2));
-    }
+    public static void Barycentric(ref Vec2 value1, ref Vec2 value2, ref Vec2 value3, float amount1, float amount2, out Vec2 result) =>
+        result = new(MathHelper.Barycentric(value1.X, value2.X, value3.X, amount1, amount2), MathHelper.Barycentric(value1.Y, value2.Y, value3.Y, amount1, amount2));
 
-    public static Vec2 CatmullRom(Vec2 value1, Vec2 value2, Vec2 value3, Vec2 value4, float amount)
-    {
-        return new Vec2(MathHelper.CatmullRom(value1.x, value2.x, value3.x, value4.x, amount), MathHelper.CatmullRom(value1.y, value2.y, value3.y, value4.y, amount));
-    }
+    public static Vec2 CatmullRom(Vec2 value1, Vec2 value2, Vec2 value3, Vec2 value4, float amount) =>
+        new(MathHelper.CatmullRom(value1.X, value2.X, value3.X, value4.X, amount), MathHelper.CatmullRom(value1.Y, value2.Y, value3.Y, value4.Y, amount));
 
-    public static void CatmullRom(ref Vec2 value1, ref Vec2 value2, ref Vec2 value3, ref Vec2 value4, float amount, out Vec2 result)
-    {
-        result = new Vec2(MathHelper.CatmullRom(value1.x, value2.x, value3.x, value4.x, amount), MathHelper.CatmullRom(value1.y, value2.y, value3.y, value4.y, amount));
-    }
+    public static void CatmullRom(ref Vec2 value1, ref Vec2 value2, ref Vec2 value3, ref Vec2 value4, float amount, out Vec2 result) =>
+        result = new(MathHelper.CatmullRom(value1.X, value2.X, value3.X, value4.X, amount), MathHelper.CatmullRom(value1.Y, value2.Y, value3.Y, value4.Y, amount));
 
-    public static Vec2 Clamp(Vec2 value1, Vec2 min, Vec2 max)
-    {
-        return new Vec2(MathHelper.Clamp(value1.x, min.x, max.x), MathHelper.Clamp(value1.y, min.y, max.y));
-    }
+    public static Vec2 Clamp(Vec2 value1, Vec2 min, Vec2 max) =>
+        new(MathHelper.Clamp(value1.X, min.X, max.X), MathHelper.Clamp(value1.Y, min.Y, max.Y));
 
-    public static void Clamp(ref Vec2 value1, ref Vec2 min, ref Vec2 max, out Vec2 result)
-    {
-        result = new Vec2(MathHelper.Clamp(value1.x, min.x, max.x), MathHelper.Clamp(value1.y, min.y, max.y));
-    }
+    public static void Clamp(ref Vec2 value1, ref Vec2 min, ref Vec2 max, out Vec2 result) =>
+        result = new(MathHelper.Clamp(value1.X, min.X, max.X), MathHelper.Clamp(value1.Y, min.Y, max.Y));
 
     public static float Distance(Vec2 value1, Vec2 value2)
     {
-        float num = value1.x - value2.x;
-        float v2 = value1.y - value2.y;
-        return (float)Math.Sqrt(num * num + v2 * v2);
+        float num = value1.X - value2.X;
+        float v2 = value1.Y - value2.Y;
+        return float.Sqrt(num * num + v2 * v2);
     }
 
     public static void Distance(ref Vec2 value1, ref Vec2 value2, out float result)
     {
-        float v1 = value1.x - value2.x;
-        float v2 = value1.y - value2.y;
-        result = (float)Math.Sqrt(v1 * v1 + v2 * v2);
+        float v1 = value1.X - value2.X;
+        float v2 = value1.Y - value2.Y;
+        result = float.Sqrt(v1 * v1 + v2 * v2);
     }
 
     public static float DistanceSquared(Vec2 value1, Vec2 value2)
     {
-        float num = value1.x - value2.x;
-        float v2 = value1.y - value2.y;
+        float num = value1.X - value2.X;
+        float v2 = value1.Y - value2.Y;
         return num * num + v2 * v2;
     }
 
     public static void DistanceSquared(ref Vec2 value1, ref Vec2 value2, out float result)
     {
-        float v1 = value1.x - value2.x;
-        float v2 = value1.y - value2.y;
+        float v1 = value1.X - value2.X;
+        float v2 = value1.Y - value2.Y;
         result = v1 * v1 + v2 * v2;
     }
 
     public static Vec2 Divide(Vec2 value1, Vec2 value2)
     {
-        value1.x /= value2.x;
-        value1.y /= value2.y;
+        value1.X /= value2.X;
+        value1.Y /= value2.Y;
         return value1;
     }
 
     public static void Divide(ref Vec2 value1, ref Vec2 value2, out Vec2 result)
     {
-        result.x = value1.x / value2.x;
-        result.y = value1.y / value2.y;
+        result.X = value1.X / value2.X;
+        result.Y = value1.Y / value2.Y;
     }
 
     public static Vec2 Divide(Vec2 value1, float divider)
     {
         float factor = 1f / divider;
-        value1.x *= factor;
-        value1.y *= factor;
+        value1.X *= factor;
+        value1.Y *= factor;
         return value1;
     }
 
     public static void Divide(ref Vec2 value1, float divider, out Vec2 result)
     {
         float factor = 1f / divider;
-        result.x = value1.x * factor;
-        result.y = value1.y * factor;
+        result.X = value1.X * factor;
+        result.Y = value1.Y * factor;
     }
 
-    public static float Dot(Vec2 value1, Vec2 value2)
-    {
-        return value1.x * value2.x + value1.y * value2.y;
-    }
+    public static float Dot(Vec2 value1, Vec2 value2) =>
+        value1.X * value2.X + value1.Y * value2.Y;
 
-    public static void Dot(ref Vec2 value1, ref Vec2 value2, out float result)
-    {
-        result = value1.x * value2.x + value1.y * value2.y;
-    }
+    public static void Dot(ref Vec2 value1, ref Vec2 value2, out float result) =>
+        result = value1.X * value2.X + value1.Y * value2.Y;
 
     public override bool Equals(object obj)
     {
-        if (obj is Vec2)
-        {
-            return Equals((Vec2)obj);
-        }
+        if (obj is Vec2 vec)
+            return Equals(vec);
         return false;
     }
 
-    public bool Equals(Vec2 other)
-    {
-        if (x == other.x)
-        {
-            return y == other.y;
-        }
-        return false;
-    }
+    public readonly bool Equals(Vec2 other) =>
+        X == other.X && Y == other.Y;
 
     public static Vec2 Reflect(Vec2 vector, Vec2 normal)
     {
-        float val = 2f * (vector.x * normal.x + vector.y * normal.y);
-        Vec2 result = default(Vec2);
-        result.x = vector.x - normal.x * val;
-        result.y = vector.y - normal.y * val;
+        float val = 2f * (vector.X * normal.X + vector.Y * normal.Y);
+        Vec2 result = default;
+        result.X = vector.X - normal.X * val;
+        result.Y = vector.Y - normal.Y * val;
         return result;
     }
 
     public static void Reflect(ref Vec2 vector, ref Vec2 normal, out Vec2 result)
     {
-        float val = 2f * (vector.x * normal.x + vector.y * normal.y);
-        result.x = vector.x - normal.x * val;
-        result.y = vector.y - normal.y * val;
+        float val = 2f * (vector.X * normal.X + vector.Y * normal.Y);
+        result.X = vector.X - normal.X * val;
+        result.Y = vector.Y - normal.Y * val;
     }
 
-    public override int GetHashCode()
-    {
-        return x.GetHashCode() + y.GetHashCode();
-    }
+    public override readonly int GetHashCode() =>
+        X.GetHashCode() + Y.GetHashCode();
 
     public static Vec2 Hermite(Vec2 value1, Vec2 tangent1, Vec2 value2, Vec2 tangent2, float amount)
     {
-        Vec2 result = default(Vec2);
-        Hermite(ref value1, ref tangent1, ref value2, ref tangent2, amount, out result);
+        Hermite(ref value1, ref tangent1, ref value2, ref tangent2, amount, out Vec2 result);
         return result;
     }
 
     public static void Hermite(ref Vec2 value1, ref Vec2 tangent1, ref Vec2 value2, ref Vec2 tangent2, float amount, out Vec2 result)
     {
-        result.x = MathHelper.Hermite(value1.x, tangent1.x, value2.x, tangent2.x, amount);
-        result.y = MathHelper.Hermite(value1.y, tangent1.y, value2.y, tangent2.y, amount);
+        result.X = MathHelper.Hermite(value1.X, tangent1.X, value2.X, tangent2.X, amount);
+        result.Y = MathHelper.Hermite(value1.Y, tangent1.Y, value2.Y, tangent2.Y, amount);
     }
 
-    public float Length()
-    {
-        return (float)Math.Sqrt(x * x + y * y);
-    }
+    public readonly float Length() =>
+        float.Sqrt(X * X + Y * Y);
 
-    public float LengthSquared()
-    {
-        return x * x + y * y;
-    }
+    public readonly float LengthSquared() =>
+        X * X + Y * Y;
 
-    public static Vec2 Lerp(Vec2 value1, Vec2 value2, float amount)
-    {
-        return DuckGame.Lerp.Vec2Smooth(value1, value2, amount);
-    }
+    public static Vec2 Lerp(Vec2 value1, Vec2 value2, float amount) =>
+        DuckGame.Lerp.Vec2Smooth(value1, value2, amount);
 
-    public static void Lerp(ref Vec2 value1, ref Vec2 value2, float amount, out Vec2 result)
-    {
-        result = new Vec2(MathHelper.Lerp(value1.x, value2.x, amount), MathHelper.Lerp(value1.y, value2.y, amount));
-    }
+    public static void Lerp(ref Vec2 value1, ref Vec2 value2, float amount, out Vec2 result) =>
+        result = new Vec2(MathHelper.Lerp(value1.X, value2.X, amount), MathHelper.Lerp(value1.Y, value2.Y, amount));
 
-    public static Vec2 Max(Vec2 value1, Vec2 value2)
-    {
-        return new Vec2((value1.x > value2.x) ? value1.x : value2.x, (value1.y > value2.y) ? value1.y : value2.y);
-    }
+    public static Vec2 Max(Vec2 value1, Vec2 value2) =>
+        new((value1.X > value2.X) ? value1.X : value2.X, (value1.Y > value2.Y) ? value1.Y : value2.Y);
 
     public static void Max(ref Vec2 value1, ref Vec2 value2, out Vec2 result)
     {
-        result.x = ((value1.x > value2.x) ? value1.x : value2.x);
-        result.y = ((value1.y > value2.y) ? value1.y : value2.y);
+        result.X = ((value1.X > value2.X) ? value1.X : value2.X);
+        result.Y = ((value1.Y > value2.Y) ? value1.Y : value2.Y);
     }
 
-    public static Vec2 Min(Vec2 value1, Vec2 value2)
-    {
-        return new Vec2((value1.x < value2.x) ? value1.x : value2.x, (value1.y < value2.y) ? value1.y : value2.y);
-    }
+    public static Vec2 Min(Vec2 value1, Vec2 value2) =>
+        new((value1.X < value2.X) ? value1.X : value2.X, (value1.Y < value2.Y) ? value1.Y : value2.Y);
 
     public static void Min(ref Vec2 value1, ref Vec2 value2, out Vec2 result)
     {
-        result.x = ((value1.x < value2.x) ? value1.x : value2.x);
-        result.y = ((value1.y < value2.y) ? value1.y : value2.y);
+        result.X = ((value1.X < value2.X) ? value1.X : value2.X);
+        result.Y = ((value1.Y < value2.Y) ? value1.Y : value2.Y);
     }
 
     public static Vec2 Multiply(Vec2 value1, Vec2 value2)
     {
-        value1.x *= value2.x;
-        value1.y *= value2.y;
+        value1.X *= value2.X;
+        value1.Y *= value2.Y;
         return value1;
     }
 
     public static Vec2 Multiply(Vec2 value1, float scaleFactor)
     {
-        value1.x *= scaleFactor;
-        value1.y *= scaleFactor;
+        value1.X *= scaleFactor;
+        value1.Y *= scaleFactor;
         return value1;
     }
 
     public static void Multiply(ref Vec2 value1, float scaleFactor, out Vec2 result)
     {
-        result.x = value1.x * scaleFactor;
-        result.y = value1.y * scaleFactor;
+        result.X = value1.X * scaleFactor;
+        result.Y = value1.Y * scaleFactor;
     }
 
     public static void Multiply(ref Vec2 value1, ref Vec2 value2, out Vec2 result)
     {
-        result.x = value1.x * value2.x;
-        result.y = value1.y * value2.y;
+        result.X = value1.X * value2.X;
+        result.Y = value1.Y * value2.Y;
     }
 
     public static Vec2 Negate(Vec2 value)
     {
-        value.x = 0f - value.x;
-        value.y = 0f - value.y;
+        value.X = -value.X;
+        value.Y = -value.Y;
         return value;
     }
 
     public static void Negate(ref Vec2 value, out Vec2 result)
     {
-        result.x = 0f - value.x;
-        result.y = 0f - value.y;
+        result.X = -value.X;
+        result.Y = -value.Y;
     }
 
     public void Normalize()
     {
-        float len = (float)Math.Sqrt(x * x + y * y);
-        if (len != 0f)
-        {
-            float val = 1f / len;
-            x *= val;
-            y *= val;
-        }
+        float len = Length();
+        if (len != 0)
+            this /= len;
     }
 
     public static Vec2 Normalize(Vec2 value)
     {
-        float len = (float)Math.Sqrt(value.x * value.x + value.y * value.y);
-        if (len != 0f)
-        {
-            float val = 1f / len;
-            value.x *= val;
-            value.y *= val;
-        }
+        float len = float.Sqrt(value.X * value.X + value.Y * value.Y);
+        if (len != 0)
+            value /= len;
         return value;
     }
 
     public static void Normalize(ref Vec2 value, out Vec2 result)
     {
-        float len = (float)Math.Sqrt(value.x * value.x + value.y * value.y);
-        if (len != 0f)
-        {
-            float val = 1f / len;
-            result.x = value.x * val;
-            result.y = value.y * val;
-        }
-        else
-        {
-            result = Zero;
-        }
+        float len = float.Sqrt(value.X * value.X + value.Y * value.Y);
+        result = len != 0 ? value / len : Zero;
     }
 
-    public static Vec2 SmoothStep(Vec2 value1, Vec2 value2, float amount)
-    {
-        return new Vec2(MathHelper.SmoothStep(value1.x, value2.x, amount), MathHelper.SmoothStep(value1.y, value2.y, amount));
-    }
+    public static Vec2 SmoothStep(Vec2 value1, Vec2 value2, float amount) =>
+        new(MathHelper.SmoothStep(value1.X, value2.X, amount), MathHelper.SmoothStep(value1.Y, value2.Y, amount));
 
-    public static void SmoothStep(ref Vec2 value1, ref Vec2 value2, float amount, out Vec2 result)
-    {
-        result = new Vec2(MathHelper.SmoothStep(value1.x, value2.x, amount), MathHelper.SmoothStep(value1.y, value2.y, amount));
-    }
+    public static void SmoothStep(ref Vec2 value1, ref Vec2 value2, float amount, out Vec2 result) =>
+        result = new(MathHelper.SmoothStep(value1.X, value2.X, amount), MathHelper.SmoothStep(value1.Y, value2.Y, amount));
 
     public static Vec2 Subtract(Vec2 value1, Vec2 value2)
     {
-        value1.x -= value2.x;
-        value1.y -= value2.y;
+        value1.X -= value2.X;
+        value1.Y -= value2.Y;
         return value1;
     }
 
     public static void Subtract(ref Vec2 value1, ref Vec2 value2, out Vec2 result)
     {
-        result.x = value1.x - value2.x;
-        result.y = value1.y - value2.y;
+        result.X = value1.X - value2.X;
+        result.Y = value1.Y - value2.Y;
     }
 
     public static Vec2 Transform(Vec2 position, Matrix matrix)
@@ -386,7 +317,7 @@ public struct Vec2 : IEquatable<Vec2>
 
     public static void Transform(ref Vec2 position, ref Matrix matrix, out Vec2 result)
     {
-        result = new Vec2(position.x * matrix.M11 + position.y * matrix.M21 + matrix.M41, position.x * matrix.M12 + position.y * matrix.M22 + matrix.M42);
+        result = new Vec2(position.X * matrix.M11 + position.Y * matrix.M21 + matrix.M41, position.X * matrix.M12 + position.Y * matrix.M22 + matrix.M42);
     }
 
     public static Vec2 Transform(Vec2 position, Quaternion quat)
@@ -397,7 +328,7 @@ public struct Vec2 : IEquatable<Vec2>
 
     public static void Transform(ref Vec2 position, ref Quaternion quat, out Vec2 result)
     {
-        Quaternion v = new Quaternion(position.x, position.y, 0f, 0f);
+        Quaternion v = new Quaternion(position.X, position.Y, 0f, 0f);
         Quaternion.Inverse(ref quat, out var i);
         Quaternion.Multiply(ref quat, ref v, out var t);
         Quaternion.Multiply(ref t, ref i, out v);
@@ -415,8 +346,8 @@ public struct Vec2 : IEquatable<Vec2>
         {
             Vec2 position = sourceArray[sourceIndex + x];
             Vec2 destination = destinationArray[destinationIndex + x];
-            destination.x = position.x * matrix.M11 + position.y * matrix.M21 + matrix.M41;
-            destination.y = position.x * matrix.M12 + position.y * matrix.M22 + matrix.M42;
+            destination.X = position.X * matrix.M11 + position.Y * matrix.M21 + matrix.M41;
+            destination.Y = position.X * matrix.M12 + position.Y * matrix.M22 + matrix.M42;
             destinationArray[destinationIndex + x] = destination;
         }
     }
@@ -429,7 +360,7 @@ public struct Vec2 : IEquatable<Vec2>
 
     public static void TransformNormal(ref Vec2 normal, ref Matrix matrix, out Vec2 result)
     {
-        result = new Vec2(normal.x * matrix.M11 + normal.y * matrix.M21, normal.x * matrix.M12 + normal.y * matrix.M22);
+        result = new Vec2(normal.X * matrix.M11 + normal.Y * matrix.M21, normal.X * matrix.M12 + normal.Y * matrix.M22);
     }
 
     public override string ToString()
@@ -437,84 +368,9 @@ public struct Vec2 : IEquatable<Vec2>
         CultureInfo currentCulture = CultureInfo.CurrentCulture;
         return string.Format(currentCulture, "{{x:{0} y:{1}}}", new object[2]
         {
-            x.ToString(currentCulture),
-            y.ToString(currentCulture)
+            X.ToString(currentCulture),
+            Y.ToString(currentCulture)
         });
-    }
-
-    public static Vec2 operator -(Vec2 value)
-    {
-        value.x = 0f - value.x;
-        value.y = 0f - value.y;
-        return value;
-    }
-
-    public static bool operator ==(Vec2 value1, Vec2 value2)
-    {
-        if (value1.x == value2.x)
-        {
-            return value1.y == value2.y;
-        }
-        return false;
-    }
-
-    public static bool operator !=(Vec2 value1, Vec2 value2)
-    {
-        if (value1.x == value2.x)
-        {
-            return value1.y != value2.y;
-        }
-        return true;
-    }
-
-    public static Vec2 operator +(Vec2 value1, Vec2 value2)
-    {
-        value1.x += value2.x;
-        value1.y += value2.y;
-        return value1;
-    }
-
-    public static Vec2 operator -(Vec2 value1, Vec2 value2)
-    {
-        value1.x -= value2.x;
-        value1.y -= value2.y;
-        return value1;
-    }
-
-    public static Vec2 operator *(Vec2 value1, Vec2 value2)
-    {
-        value1.x *= value2.x;
-        value1.y *= value2.y;
-        return value1;
-    }
-
-    public static Vec2 operator *(Vec2 value, float scaleFactor)
-    {
-        value.x *= scaleFactor;
-        value.y *= scaleFactor;
-        return value;
-    }
-
-    public static Vec2 operator *(float scaleFactor, Vec2 value)
-    {
-        value.x *= scaleFactor;
-        value.y *= scaleFactor;
-        return value;
-    }
-
-    public static Vec2 operator /(Vec2 value1, Vec2 value2)
-    {
-        value1.x /= value2.x;
-        value1.y /= value2.y;
-        return value1;
-    }
-
-    public static Vec2 operator /(Vec2 value1, float divider)
-    {
-        float factor = 1f / divider;
-        value1.x *= factor;
-        value1.y *= factor;
-        return value1;
     }
 
     public Vec2 Rotate(float radians, Vec2 pivot)
@@ -523,23 +379,101 @@ public struct Vec2 : IEquatable<Vec2>
         float sinRadians = (float)Math.Sin(radians);
         Vec2 translatedPoint = new Vec2
         {
-            x = x - pivot.x,
-            y = y - pivot.y
+            X = X - pivot.X,
+            Y = Y - pivot.Y
         };
         return new Vec2
         {
-            x = translatedPoint.x * cosRadians - translatedPoint.y * sinRadians + pivot.x,
-            y = translatedPoint.x * sinRadians + translatedPoint.y * cosRadians + pivot.y
+            X = translatedPoint.X * cosRadians - translatedPoint.Y * sinRadians + pivot.X,
+            Y = translatedPoint.X * sinRadians + translatedPoint.Y * cosRadians + pivot.Y
         };
+    }
+    #endregion
+
+    #region Operators
+    public static Vec2 operator -(Vec2 value)
+    {
+        value.X = 0f - value.X;
+        value.Y = 0f - value.Y;
+        return value;
+    }
+
+    public static bool operator ==(Vec2 value1, Vec2 value2)
+    {
+        if (value1.X == value2.X)
+        {
+            return value1.Y == value2.Y;
+        }
+        return false;
+    }
+
+    public static bool operator !=(Vec2 value1, Vec2 value2)
+    {
+        if (value1.X == value2.X)
+        {
+            return value1.Y != value2.Y;
+        }
+        return true;
+    }
+
+    public static Vec2 operator +(Vec2 value1, Vec2 value2)
+    {
+        value1.X += value2.X;
+        value1.Y += value2.Y;
+        return value1;
+    }
+
+    public static Vec2 operator -(Vec2 value1, Vec2 value2)
+    {
+        value1.X -= value2.X;
+        value1.Y -= value2.Y;
+        return value1;
+    }
+
+    public static Vec2 operator *(Vec2 value1, Vec2 value2)
+    {
+        value1.X *= value2.X;
+        value1.Y *= value2.Y;
+        return value1;
+    }
+
+    public static Vec2 operator *(Vec2 value, float scaleFactor)
+    {
+        value.X *= scaleFactor;
+        value.Y *= scaleFactor;
+        return value;
+    }
+
+    public static Vec2 operator *(float scaleFactor, Vec2 value)
+    {
+        value.X *= scaleFactor;
+        value.Y *= scaleFactor;
+        return value;
+    }
+
+    public static Vec2 operator /(Vec2 value1, Vec2 value2)
+    {
+        value1.X /= value2.X;
+        value1.Y /= value2.Y;
+        return value1;
+    }
+
+    public static Vec2 operator /(Vec2 value1, float divider)
+    {
+        float factor = 1f / divider;
+        value1.X *= factor;
+        value1.Y *= factor;
+        return value1;
     }
 
     public static implicit operator Vector2(Vec2 vec)
     {
-        return new Vector2(vec.x, vec.y);
+        return new Vector2(vec.X, vec.Y);
     }
 
     public static implicit operator Vec2(Vector2 vec)
     {
         return new Vec2(vec.X, vec.Y);
     }
+    #endregion
 }

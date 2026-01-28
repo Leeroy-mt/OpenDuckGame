@@ -14,13 +14,13 @@ public class GraphicList : Sprite
             float right = 0f;
             foreach (Sprite s in _objects)
             {
-                if (s.x - s.centerx < left)
+                if (s.X - s.CenterX < left)
                 {
-                    left = s.x - s.centerx;
+                    left = s.X - s.CenterX;
                 }
-                if (s.x - s.centerx + (float)s.width > right)
+                if (s.X - s.CenterX + (float)s.width > right)
                 {
-                    right = s.x - s.centerx + (float)s.width;
+                    right = s.X - s.CenterX + (float)s.width;
                 }
             }
             return (int)(right - left + 0.5f);
@@ -37,13 +37,13 @@ public class GraphicList : Sprite
             float bottom = 0f;
             foreach (Sprite s in _objects)
             {
-                if (s.y - s.centery < top)
+                if (s.Y - s.CenterY < top)
                 {
-                    top = s.x - s.centery;
+                    top = s.X - s.CenterY;
                 }
-                if (s.y - s.centery + (float)s.height > bottom)
+                if (s.Y - s.CenterY + (float)s.height > bottom)
                 {
-                    bottom = s.y - s.centery + (float)s.width;
+                    bottom = s.Y - s.CenterY + (float)s.width;
                 }
             }
             return (int)(bottom - top + 0.5f);
@@ -76,25 +76,25 @@ public class GraphicList : Sprite
     {
         foreach (Sprite g in _objects)
         {
-            Vec2 pos = new Vec2(g.position);
-            g.position -= center;
-            g.position.x *= base.xscale;
-            g.position.y *= base.yscale;
-            g.position += position;
-            float alph = g.alpha;
-            g.alpha *= base.alpha;
-            Vec2 scl = new Vec2(g.scale);
-            g.xscale *= base.xscale;
-            g.yscale *= base.yscale;
-            float ang = g.angle;
-            g.angle *= angle;
+            Vec2 pos = new Vec2(g.Position);
+            g.Position -= Center;
+            g.X *= ScaleX;
+            g.Y *= ScaleY;
+            g.Position += Position;
+            float alph = g.Alpha;
+            g.Alpha *= Alpha;
+            Vec2 scl = new Vec2(g.Scale);
+            g.ScaleX *= ScaleX;
+            g.ScaleY *= ScaleY;
+            float ang = g.Angle;
+            g.Angle *= Angle;
             bool flip = g.flipH;
             g.flipH = base.flipH;
             g.Draw();
-            g.angle = ang;
-            g.scale = scl;
-            g.alpha = alph;
-            g.position = pos;
+            g.Angle = ang;
+            g.Scale = scl;
+            g.Alpha = alph;
+            g.Position = pos;
             g.flipH = flip;
         }
     }

@@ -18,7 +18,7 @@ public class ATFailedPellet : AmmoType
         bulletThickness = 1f;
         bulletColor = Color.White;
         sprite = new Sprite("pellet");
-        sprite.center = new Vec2(1f, 1f);
+        sprite.Center = new Vec2(1f, 1f);
         bulletType = typeof(PelletBullet);
         flawlessPipeTravel = true;
     }

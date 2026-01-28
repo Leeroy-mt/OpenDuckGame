@@ -8,17 +8,17 @@ public class DrumStick : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("drumset/drumStick");
-        center = new Vec2(graphic.w / 2, graphic.h / 2);
+        Center = new Vec2(graphic.w / 2, graphic.h / 2);
         _startY = ypos;
         vSpeed = -3f;
     }
 
     public override void Update()
     {
-        angle += 0.6f;
-        base.y += vSpeed;
+        Angle += 0.6f;
+        base.Y += vSpeed;
         vSpeed += 0.2f;
-        if (base.y > _startY)
+        if (base.Y > _startY)
         {
             Level.Remove(this);
         }

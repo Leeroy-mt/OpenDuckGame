@@ -26,16 +26,16 @@ public class NetDebugSlider : NetDebugElement
     protected override bool Draw(Vec2 position, bool allowInput)
     {
         bool tookInput = !allowInput;
-        position.x += indent;
+        position.X += indent;
         Graphics.DrawString(_name, position, Color.White, depth + 10);
         float val = _getValue();
         int points = 20;
         int level = (int)Math.Round(val * (float)points);
-        Rectangle rect = new Rectangle(position.x + 100f, position.y, points * 5, 8f);
+        Rectangle rect = new Rectangle(position.X + 100f, position.Y, points * 5, 8f);
         float hoverLevel = -1f;
         if (rect.Contains(Mouse.positionConsole) && allowInput)
         {
-            hoverLevel = (int)((Mouse.positionConsole.x - rect.Left) / rect.width * (float)points);
+            hoverLevel = (int)((Mouse.positionConsole.X - rect.Left) / rect.width * (float)points);
             if (Mouse.left == InputState.Down)
             {
                 _setValue(hoverLevel / (float)points);
@@ -55,9 +55,9 @@ public class NetDebugSlider : NetDebugElement
                 c = new Color(200, 200, 200);
             }
             Graphics.DrawRect(barPos, barPos + new Vec2(4f, 8f), c, depth + 5);
-            barPos.x += 5f;
+            barPos.X += 5f;
         }
-        barPos.x += 2f;
+        barPos.X += 2f;
         Graphics.DrawString("(" + _formatter(val) + ")", barPos, Color.White, depth + 5);
         return tookInput;
     }

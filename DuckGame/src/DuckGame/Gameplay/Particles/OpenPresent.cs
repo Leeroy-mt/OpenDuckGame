@@ -10,11 +10,11 @@ public class OpenPresent : PhysicsParticle
         _sprite = new SpriteMap("presents", 16, 16);
         _sprite.frame = frame + 8;
         graphic = _sprite;
-        center = new Vec2(8f, 13f);
+        Center = new Vec2(8f, 13f);
         hSpeed = 0f;
         vSpeed = 0f;
         _bounceEfficiency = 0f;
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         _life = 5f;
     }
 

@@ -58,22 +58,22 @@ public class BigTitle : Thing
         _sprite = new("duckGameTitle");
         _demo = new("demoPro");
         graphic = _sprite;
-        depth = 0.6f;
+        Depth = 0.6f;
         graphic.color = Color.Black;
-        centery = graphic.height / 2;
-        alpha = 0;
+        CenterY = graphic.height / 2;
+        Alpha = 0;
         layer = Layer.HUD;
         _currentColor = _lerpColors[0];
     }
 
     public override void Draw()
     {
-        Graphics.DrawRect(position + new Vec2(-300, -30), position + new Vec2(300, 30), Color.Black * 0.6f * alpha, depth - 100);
+        Graphics.DrawRect(Position + new Vec2(-300, -30), Position + new Vec2(300, 30), Color.Black * 0.6f * Alpha, Depth - 100);
         if (_showFart)
         {
-            _demo.alpha = alpha;
-            _demo.depth = 0.7f;
-            Graphics.Draw(_demo, x + 28, y + 32);
+            _demo.Alpha = Alpha;
+            _demo.Depth = 0.7f;
+            Graphics.Draw(_demo, X + 28, Y + 32);
         }
         base.Draw();
     }
@@ -94,8 +94,8 @@ public class BigTitle : Thing
         _ = 30;
         if (_fade)
         {
-            alpha -= 0.05f;
-            if (alpha < 0f)
+            Alpha -= 0.05f;
+            if (Alpha < 0f)
                 Level.Remove(this);
         }
         else if (_wait > 30 && _count < _maxCount)

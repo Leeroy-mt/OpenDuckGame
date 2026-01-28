@@ -8,7 +8,7 @@ public class CustomCamera : Thing
     public CustomCamera()
     {
         graphic = new Sprite("swirl");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionSize = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -8f);
         _canFlip = false;
@@ -19,7 +19,7 @@ public class CustomCamera : Thing
     {
         if (!(Level.current is Editor))
         {
-            base.alpha = 0f;
+            base.Alpha = 0f;
         }
         base.Initialize();
     }
@@ -31,7 +31,7 @@ public class CustomCamera : Thing
         {
             float wid = wide.value;
             float hig = wid * 0.5625f;
-            Graphics.DrawRect(position + new Vec2((0f - wid) / 2f, (0f - hig) / 2f), position + new Vec2(wid / 2f, hig / 2f), Color.Blue * 0.5f, 1f, filled: false);
+            Graphics.DrawRect(Position + new Vec2((0f - wid) / 2f, (0f - hig) / 2f), Position + new Vec2(wid / 2f, hig / 2f), Color.Blue * 0.5f, 1f, filled: false);
         }
     }
 }

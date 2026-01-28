@@ -13,11 +13,11 @@ public class ContextFile : ContextMenu
     public ContextFile(string text, IContextListener owner, FieldBinding field, ContextFileType type, string valTooltip)
         : base(owner)
     {
-        itemSize.x = 150f;
-        itemSize.y = 16f;
+        itemSize.X = 150f;
+        itemSize.Y = 16f;
         _text = text;
         _field = field;
-        base.depth = 0.8f;
+        base.Depth = 0.8f;
         _type = type;
         fancy = true;
         if (field == null)
@@ -30,11 +30,11 @@ public class ContextFile : ContextMenu
     public ContextFile(string text, IContextListener owner, FieldBinding field = null, ContextFileType type = ContextFileType.Level)
         : base(owner)
     {
-        itemSize.x = 150f;
-        itemSize.y = 16f;
+        itemSize.X = 150f;
+        itemSize.Y = 16f;
         _text = text;
         _field = field;
-        base.depth = 0.8f;
+        base.Depth = 0.8f;
         _type = type;
         fancy = true;
         if (field == null)
@@ -146,23 +146,23 @@ public class ContextFile : ContextMenu
         }
         if (_hover)
         {
-            Graphics.DrawRect(position, position + itemSize, new Color(70, 70, 70), 0.83f);
+            Graphics.DrawRect(Position, Position + itemSize, new Color(70, 70, 70), 0.83f);
             if (val.Length > 0)
             {
-                Vec2 pos = new Vec2(base.x, base.y);
-                pos.x += itemSize.x + 4f;
-                pos.y -= 2f;
+                Vec2 pos = new Vec2(base.X, base.Y);
+                pos.X += itemSize.X + 4f;
+                pos.Y -= 2f;
                 int last = val.LastIndexOf("/") + 1;
                 string t = val.Substring(last, val.Length - last);
                 if (t.Length > 20)
                 {
                     t = t.Substring(0, 20);
                 }
-                Graphics.DrawString(t + "...", position + new Vec2(2f, 5f), Color.White, 0.85f);
+                Graphics.DrawString(t + "...", Position + new Vec2(2f, 5f), Color.White, 0.85f);
             }
             else
             {
-                Graphics.DrawString("NO FILE", position + new Vec2(2f, 5f), Color.White, 0.85f);
+                Graphics.DrawString("NO FILE", Position + new Vec2(2f, 5f), Color.White, 0.85f);
             }
         }
         else if (val.Length > 0)
@@ -173,11 +173,11 @@ public class ContextFile : ContextMenu
             {
                 t2 = t2.Substring(0, 20);
             }
-            Graphics.DrawString(t2, position + new Vec2(2f, 5f), Color.LimeGreen, 0.85f);
+            Graphics.DrawString(t2, Position + new Vec2(2f, 5f), Color.LimeGreen, 0.85f);
         }
         else
         {
-            Graphics.DrawString(_text, position + new Vec2(2f, 5f), Color.Red, 0.85f);
+            Graphics.DrawString(_text, Position + new Vec2(2f, 5f), Color.Red, 0.85f);
         }
     }
 }

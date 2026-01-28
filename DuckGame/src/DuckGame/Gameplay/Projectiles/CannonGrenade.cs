@@ -21,7 +21,7 @@ public class CannonGrenade : Grenade
 
     public override void Draw()
     {
-        tail.Add(position);
+        tail.Add(Position);
         if (tail.Count > 10)
         {
             tail.RemoveAt(0);

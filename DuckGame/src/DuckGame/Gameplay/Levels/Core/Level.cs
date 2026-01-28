@@ -664,7 +664,7 @@ public class Level
                     _core.currentLevel.AddThing(DuckNetwork.duckNetUIGroup);
                 }
                 current._networkStatus = NetLevelStatus.WaitingForDataTransfer;
-                if (!(_core.currentLevel is IOnlyTransitionIn) && _core.currentLevel is IHaveAVirtualTransition && !(_core.currentLevel is TeamSelect2) && VirtualTransition.isVirtual)
+                if (_core.currentLevel is not IOnlyTransitionIn && _core.currentLevel is IHaveAVirtualTransition && _core.currentLevel is not TeamSelect2 && VirtualTransition.isVirtual)
                 {
                     if (current._readyForTransition)
                     {
@@ -793,60 +793,60 @@ public class Level
         CameraBounds bounds = FirstOfType<CameraBounds>();
         if (bounds != null)
         {
-            _topLeft = new Vec2(bounds.x - (float)((int)bounds.wide / 2), bounds.y - (float)((int)bounds.high / 2));
-            _bottomRight = new Vec2(bounds.x + (float)((int)bounds.wide / 2), bounds.y + (float)((int)bounds.high / 2));
-            lowestPoint = _bottomRight.y;
-            highestPoint = _topLeft.y;
+            _topLeft = new Vec2(bounds.X - (float)((int)bounds.wide / 2), bounds.Y - (float)((int)bounds.high / 2));
+            _bottomRight = new Vec2(bounds.X + (float)((int)bounds.wide / 2), bounds.Y + (float)((int)bounds.high / 2));
+            lowestPoint = _bottomRight.Y;
+            highestPoint = _topLeft.Y;
             return;
         }
         _topLeft = new Vec2(99999f, 99999f);
         _bottomRight = new Vec2(-99999f, -99999f);
         foreach (Block b in _things[typeof(Block)])
         {
-            if (!(b is RockWall) && !(b.y > 7500f))
+            if (!(b is RockWall) && !(b.Y > 7500f))
             {
-                if (b.right > _bottomRight.x)
+                if (b.right > _bottomRight.X)
                 {
-                    _bottomRight.x = b.right;
+                    _bottomRight.X = b.right;
                 }
-                if (b.left < _topLeft.x)
+                if (b.left < _topLeft.X)
                 {
-                    _topLeft.x = b.left;
+                    _topLeft.X = b.left;
                 }
-                if (b.bottom > _bottomRight.y)
+                if (b.bottom > _bottomRight.Y)
                 {
-                    _bottomRight.y = b.bottom;
+                    _bottomRight.Y = b.bottom;
                 }
-                if (b.top < _topLeft.y)
+                if (b.top < _topLeft.Y)
                 {
-                    _topLeft.y = b.top;
+                    _topLeft.Y = b.top;
                 }
             }
         }
         foreach (AutoPlatform b2 in _things[typeof(AutoPlatform)])
         {
-            if (!(b2.y > 7500f))
+            if (!(b2.Y > 7500f))
             {
-                if (b2.right > _bottomRight.x)
+                if (b2.right > _bottomRight.X)
                 {
-                    _bottomRight.x = b2.right;
+                    _bottomRight.X = b2.right;
                 }
-                if (b2.left < _topLeft.x)
+                if (b2.left < _topLeft.X)
                 {
-                    _topLeft.x = b2.left;
+                    _topLeft.X = b2.left;
                 }
-                if (b2.bottom > _bottomRight.y)
+                if (b2.bottom > _bottomRight.Y)
                 {
-                    _bottomRight.y = b2.bottom;
+                    _bottomRight.Y = b2.bottom;
                 }
-                if (b2.top < _topLeft.y)
+                if (b2.top < _topLeft.Y)
                 {
-                    _topLeft.y = b2.top;
+                    _topLeft.Y = b2.top;
                 }
             }
         }
-        lowestPoint = _bottomRight.y;
-        highestPoint = topLeft.y;
+        lowestPoint = _bottomRight.Y;
+        highestPoint = topLeft.Y;
     }
 
     public bool HasChecksumReply(NetworkConnection pConnection)
@@ -962,63 +962,28 @@ public class Level
     public virtual void UpdateThings()
     {
         Network.PostDraw();
-        IEnumerable<Thing> complexUpdatables = things[typeof(IComplexUpdate)];
         if (Network.isActive)
         {
-            foreach (Thing t in complexUpdatables)
-            {
-                if (t.shouldRunUpdateLocally)
-                {
-                    (t as IComplexUpdate).OnPreUpdate();
-                }
-            }
             foreach (Thing t2 in _things.updateList)
             {
                 if (t2.active)
                 {
                     if (t2.shouldRunUpdateLocally)
-                    {
                         t2.DoUpdate();
-                    }
                 }
                 else
-                {
                     t2.InactiveUpdate();
-                }
                 if (_core.nextLevel != null)
-                {
                     break;
-                }
             }
-            {
-                foreach (Thing t3 in complexUpdatables)
-                {
-                    if (t3.shouldRunUpdateLocally)
-                    {
-                        (t3 as IComplexUpdate).OnPostUpdate();
-                    }
-                }
-                return;
-            }
-        }
-        foreach (Thing item in complexUpdatables)
-        {
-            (item as IComplexUpdate).OnPreUpdate();
+            return;
         }
         foreach (Thing t4 in _things.updateList)
         {
             if (t4.active && t4.level != null)
-            {
                 t4.DoUpdate();
-            }
             if (_core.nextLevel != null)
-            {
                 break;
-            }
-        }
-        foreach (Thing item2 in complexUpdatables)
-        {
-            (item2 as IComplexUpdate).OnPostUpdate();
         }
     }
 
@@ -1096,12 +1061,12 @@ public class Level
         if (l == Layer.HUD && _centeredView)
         {
             float aspect = 0.5625f;
-            float dif = Resolution.size.x * Graphics.aspect - Resolution.size.x * aspect;
+            float dif = Resolution.size.X * Graphics.aspect - Resolution.size.X * aspect;
             if (dif > 0f)
             {
                 Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Matrix.Identity);
-                Graphics.DrawRect(Vec2.Zero, new Vec2(Resolution.size.x, dif / 2f), Color.Black, 0.9f);
-                Graphics.DrawRect(new Vec2(0f, Resolution.size.y - dif / 2f), new Vec2(Resolution.size.x, Resolution.size.y), Color.Black, 0.9f);
+                Graphics.DrawRect(Vec2.Zero, new Vec2(Resolution.size.X, dif / 2f), Color.Black, 0.9f);
+                Graphics.DrawRect(new Vec2(0f, Resolution.size.Y - dif / 2f), new Vec2(Resolution.size.X, Resolution.size.Y), Color.Black, 0.9f);
                 Graphics.screen.End();
             }
         }
@@ -1174,17 +1139,17 @@ public class Level
                             _burnGlow = new Sprite("redHotGlow");
                             _burnGlow.CenterOrigin();
                         }
-                        _burnGlow.alpha = Math.Min(t.heat, 1f) / 1f - 0.2f;
+                        _burnGlow.Alpha = Math.Min(t.heat, 1f) / 1f - 0.2f;
                         Vec2 scale = new Vec2((t.width + 22f) / (float)_burnGlow.width, (t.height + 22f) / (float)_burnGlow.height);
-                        _burnGlow.scale = scale;
+                        _burnGlow.Scale = scale;
                         Vec2 center = t.rectangle.Center;
-                        Graphics.Draw(_burnGlow, center.x, center.y);
-                        Graphics.Draw(_burnGlow, center.x, center.y);
+                        Graphics.Draw(_burnGlow, center.X, center.Y);
+                        Graphics.Draw(_burnGlow, center.X, center.Y);
                     }
                     else if (t is FluidPuddle)
                     {
                         FluidPuddle fp = t as FluidPuddle;
-                        if ((fp.onFire || fp.data.heat > 0.5f) && fp.alpha > 0.5f)
+                        if ((fp.onFire || fp.data.heat > 0.5f) && fp.Alpha > 0.5f)
                         {
                             float num = fp.right - fp.left;
                             float gap = 16f;
@@ -1193,21 +1158,21 @@ public class Level
                             {
                                 _burnGlowWide = new Sprite("redGlowWideSharp");
                                 _burnGlowWide.CenterOrigin();
-                                _burnGlowWide.alpha = 0.75f;
+                                _burnGlowWide.Alpha = 0.75f;
                                 _burnGlowWideLeft = new Sprite("redGlowWideLeft");
-                                _burnGlowWideLeft.center = new Vec2(_burnGlowWideLeft.width, _burnGlowWideLeft.height / 2);
-                                _burnGlowWideLeft.alpha = 0.75f;
+                                _burnGlowWideLeft.Center = new Vec2(_burnGlowWideLeft.width, _burnGlowWideLeft.height / 2);
+                                _burnGlowWideLeft.Alpha = 0.75f;
                                 _burnGlowWideRight = new Sprite("redGlowWideRight");
-                                _burnGlowWideRight.center = new Vec2(0f, _burnGlowWideRight.height / 2);
-                                _burnGlowWideRight.alpha = 0.75f;
+                                _burnGlowWideRight.Center = new Vec2(0f, _burnGlowWideRight.height / 2);
+                                _burnGlowWideRight.Alpha = 0.75f;
                             }
                             int num2 = (int)Math.Floor(num / gap);
-                            if (fp.collisionSize.y > 8f)
+                            if (fp.collisionSize.Y > 8f)
                             {
-                                _burnGlowWide.xscale = 16f;
+                                _burnGlowWide.ScaleX = 16f;
                                 for (int i = 0; i < num2; i++)
                                 {
-                                    float xpos = fp.bottomLeft.x + (float)i * gap + 11f - 8f;
+                                    float xpos = fp.bottomLeft.X + (float)i * gap + 11f - 8f;
                                     float ypos = fp.top - 1f + (float)Math.Sin(fp.fluidWave + (float)i * 0.7f);
                                     Graphics.Draw(_burnGlowWide, xpos, ypos);
                                     if (i == 0)
@@ -1223,7 +1188,7 @@ public class Level
                             else
                             {
                                 Graphics.doSnap = false;
-                                _burnGlowWide.xscale = fp.collisionSize.x;
+                                _burnGlowWide.ScaleX = fp.collisionSize.X;
                                 Graphics.Draw(_burnGlowWide, fp.left, fp.bottom - 2f);
                                 Graphics.Draw(_burnGlowWideLeft, fp.left, fp.bottom - 2f);
                                 Graphics.Draw(_burnGlowWideRight, fp.right, fp.bottom - 2f);
@@ -1241,8 +1206,8 @@ public class Level
                             _burnGlow = new Sprite("redGlow");
                             _burnGlow.CenterOrigin();
                         }
-                        _burnGlow.alpha = 0.65f * t2.alpha;
-                        Graphics.Draw(_burnGlow, t2.x, t2.y - 4f);
+                        _burnGlow.Alpha = 0.65f * t2.Alpha;
+                        Graphics.Draw(_burnGlow, t2.X, t2.Y - 4f);
                     }
                     return;
                 }
@@ -1516,7 +1481,7 @@ public class Level
         {
             if (!t.removeFromLevel && t != ignore && (layer == null || ((placementLayer || t.layer == layer) && t.placementLayer == layer)))
             {
-                float curDist = (point - t.position).lengthSq;
+                float curDist = (point - t.Position).lengthSq;
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1535,7 +1500,7 @@ public class Level
         {
             if (!t.removeFromLevel && t != ignore)
             {
-                float curDist = (point - t.position).lengthSq;
+                float curDist = (point - t.Position).lengthSq;
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1554,7 +1519,7 @@ public class Level
         {
             if (!t.removeFromLevel)
             {
-                float curDist = (point - t.position).lengthSq;
+                float curDist = (point - t.Position).lengthSq;
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1573,7 +1538,7 @@ public class Level
         {
             if (!t.removeFromLevel && t != ignore && (layer == null || ((placementLayer || t.layer == layer) && t.placementLayer == layer)))
             {
-                float curDist = (point - t.position).lengthSq;
+                float curDist = (point - t.Position).lengthSq;
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1592,7 +1557,7 @@ public class Level
         {
             if (!t.removeFromLevel && t != ignore)
             {
-                float curDist = (point - t.position).lengthSq;
+                float curDist = (point - t.Position).lengthSq;
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1611,7 +1576,7 @@ public class Level
         {
             if (!t.removeFromLevel)
             {
-                float curDist = (point - t.position).lengthSq;
+                float curDist = (point - t.Position).lengthSq;
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1629,7 +1594,7 @@ public class Level
         {
             if (!t.removeFromLevel && t != ignore && (layer == null || ((placementLayer || t.layer == layer) && t.placementLayer == layer)))
             {
-                dists.Add(new KeyValuePair<float, Thing>((point - t.position).lengthSq, t));
+                dists.Add(new KeyValuePair<float, Thing>((point - t.Position).lengthSq, t));
             }
         }
         dists.Sort((KeyValuePair<float, Thing> x, KeyValuePair<float, Thing> y) => (!(x.Key < y.Key)) ? 1 : (-1));
@@ -1643,7 +1608,7 @@ public class Level
         {
             if (!t.removeFromLevel && t != ignore)
             {
-                dists.Add(new KeyValuePair<float, Thing>((point - t.position).lengthSq, t));
+                dists.Add(new KeyValuePair<float, Thing>((point - t.Position).lengthSq, t));
             }
         }
         dists.Sort((KeyValuePair<float, Thing> x, KeyValuePair<float, Thing> y) => (!(x.Key < y.Key)) ? 1 : (-1));
@@ -1657,7 +1622,7 @@ public class Level
         {
             if (!t.removeFromLevel)
             {
-                dists.Add(new KeyValuePair<float, Thing>((point - t.position).lengthSq, t));
+                dists.Add(new KeyValuePair<float, Thing>((point - t.Position).lengthSq, t));
             }
         }
         dists.Sort((KeyValuePair<float, Thing> x, KeyValuePair<float, Thing> y) => (!(x.Key < y.Key)) ? 1 : (-1));
@@ -1746,7 +1711,7 @@ public class Level
         {
             if (!t.removeFromLevel)
             {
-                float curDist = (point - t.position).lengthSq;
+                float curDist = (point - t.Position).lengthSq;
                 if (curDist < dist && filter(t))
                 {
                     dist = curDist;
@@ -1770,7 +1735,7 @@ public class Level
         {
             if (!t.removeFromLevel)
             {
-                float curDist = (point - t.position).lengthSq;
+                float curDist = (point - t.Position).lengthSq;
                 if (curDist < dist && curDist < maxDistance && filter(t))
                 {
                     dist = curDist;
@@ -2342,7 +2307,7 @@ public class Level
     public T CollisionRay<T>(Vec2 start, Vec2 end, out Vec2 hitPos)
     {
         Vec2 travelDirNormalized = end - start;
-        float length = travelDirNormalized.length;
+        float length = travelDirNormalized.Length();
         travelDirNormalized.Normalize();
         Math.Ceiling(length);
         Stack<TravelInfo> tests = new Stack<TravelInfo>();
@@ -2378,7 +2343,7 @@ public class Level
     public T CollisionRay<T>(Vec2 start, Vec2 end, Thing ignore, out Vec2 hitPos)
     {
         Vec2 travelDirNormalized = end - start;
-        float length = travelDirNormalized.length;
+        float length = travelDirNormalized.Length();
         travelDirNormalized.Normalize();
         Math.Ceiling(length);
         Stack<TravelInfo> tests = new Stack<TravelInfo>();
@@ -2454,7 +2419,7 @@ public class Level
     private T Rectcast<T>(Vec2 p1, Vec2 p2, Rectangle rect, out Vec2 hit)
     {
         Vec2 dir = p2 - p1;
-        int steps = (int)Math.Ceiling(dir.length);
+        int steps = (int)Math.Ceiling(dir.Length());
         dir.Normalize();
         Vec2 s = p1;
         do

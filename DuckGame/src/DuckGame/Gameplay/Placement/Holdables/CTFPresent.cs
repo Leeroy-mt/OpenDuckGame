@@ -10,7 +10,7 @@ public class CTFPresent : Present
         _sprite = new SpriteMap("ctf/present", 18, 17);
         _sprite.frame = ((!team) ? 1 : 0);
         graphic = _sprite;
-        center = new Vec2(9f, 8f);
+        Center = new Vec2(9f, 8f);
         collisionOffset = new Vec2(-9f, -6f);
         collisionSize = new Vec2(18f, 14f);
         weight = 7f;
@@ -30,7 +30,7 @@ public class CTFPresent : Present
         if (type is DTIncinerate)
         {
             Level.Remove(this);
-            Level.Add(SmallSmoke.New(base.x, base.y));
+            Level.Add(SmallSmoke.New(base.X, base.Y));
         }
         return false;
     }

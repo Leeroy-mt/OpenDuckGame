@@ -7,9 +7,9 @@ public class EffectAnimation : Thing
     public Color color = Color.White;
 
     public EffectAnimation(Vec2 pos, SpriteMap spr, float deep)
-        : base(pos.x, pos.y)
+        : base(pos.X, pos.Y)
     {
-        base.depth = deep;
+        base.Depth = deep;
         _sprite = spr;
         _sprite.CenterOrigin();
         base.layer = Layer.Foreground;
@@ -26,12 +26,12 @@ public class EffectAnimation : Thing
 
     public override void Draw()
     {
-        _sprite.scale = base.scale;
-        _sprite.alpha = base.alpha;
+        _sprite.Scale = base.Scale;
+        _sprite.Alpha = base.Alpha;
         _sprite.color = color;
-        _sprite.depth = base.depth;
+        _sprite.Depth = base.Depth;
         _sprite.flipH = flipHorizontal;
-        Graphics.Draw(_sprite, base.x, base.y);
+        Graphics.Draw(_sprite, base.X, base.Y);
         base.Draw();
     }
 }

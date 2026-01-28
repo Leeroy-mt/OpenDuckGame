@@ -19,8 +19,8 @@ public class MaterialKatanaman : Material
     {
         Graphics.device.Textures[1] = (Texture2D)_lighting;
         Graphics.device.SamplerStates[1] = SamplerState.PointWrap;
-        SetValue("xpos", _hat.position.x - 32f);
-        SetValue("ypos", _hat.position.y - 32f);
+        SetValue("xpos", _hat.Position.X - 32f);
+        SetValue("ypos", _hat.Position.Y - 32f);
         if (_hat.graphic != null)
         {
             SetValue("flipSub", _hat.graphic.flipH ? 1f : 0f);
@@ -29,19 +29,19 @@ public class MaterialKatanaman : Material
         float mul = size / 64f;
         Vec2 lightOffset = new Vec2(15f, 11f) * mul;
         Vec2 gridTL = lightOffset - new Vec2(size / 2f);
-        Vec2 snap = Maths.Snap(_hat.position - gridTL, size, size);
-        SetValue("light1x", snap.x + lightOffset.x);
-        SetValue("light1y", snap.y + lightOffset.y);
+        Vec2 snap = Maths.Snap(_hat.Position - gridTL, size, size);
+        SetValue("light1x", snap.X + lightOffset.X);
+        SetValue("light1y", snap.Y + lightOffset.Y);
         lightOffset = new Vec2(49f, 25f) * mul;
         gridTL = lightOffset - new Vec2(size / 2f);
-        snap = Maths.Snap(_hat.position - gridTL, size, size);
-        SetValue("light2x", snap.x + lightOffset.x);
-        SetValue("light2y", snap.y + lightOffset.y);
+        snap = Maths.Snap(_hat.Position - gridTL, size, size);
+        SetValue("light2x", snap.X + lightOffset.X);
+        SetValue("light2y", snap.Y + lightOffset.Y);
         lightOffset = new Vec2(21f, 49f) * mul;
         gridTL = lightOffset - new Vec2(size / 2f);
-        snap = Maths.Snap(_hat.position - gridTL, size, size);
-        SetValue("light3x", snap.x + lightOffset.x);
-        SetValue("light3y", snap.y + lightOffset.y);
+        snap = Maths.Snap(_hat.Position - gridTL, size, size);
+        SetValue("light3x", snap.X + lightOffset.X);
+        SetValue("light3y", snap.Y + lightOffset.Y);
         SetValue("add", Layer.kGameLayerAdd);
         SetValue("fade", Layer.kGameLayerFade);
         foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)

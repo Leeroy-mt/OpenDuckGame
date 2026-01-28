@@ -89,8 +89,8 @@ public class MainPage : Page, IPageListener
         if (layer == Layer.HUD)
         {
             BitmapFont font = _font;
-            float xscale = (_font.yscale = 1f);
-            font.xscale = xscale;
+            float xscale = (_font.ScaleY = 1f);
+            font.ScaleX = xscale;
             _font.Draw("Workshop", 8f, 8f, Color.White, 0.95f);
         }
     }

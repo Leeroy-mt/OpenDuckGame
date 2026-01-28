@@ -50,11 +50,11 @@ public class PositronShooter : Gun
         _ammoType.affectedByGravity = true;
         _type = "gun";
         graphic = new Sprite("positronShooter");
-        center = new Vec2(10f, 4f);
+        Center = new Vec2(10f, 4f);
         collisionOffset = new Vec2(-8f, -3f);
         collisionSize = new Vec2(16f, 7f);
         _positronWinder = new Sprite("positronWinder");
-        _positronWinder.center = new Vec2(1.5f, 6.5f);
+        _positronWinder.Center = new Vec2(1.5f, 6.5f);
         _barrelOffsetTL = new Vec2(27f, 4f);
         _fireSound = "laserRifle";
         _fullAuto = true;
@@ -63,7 +63,7 @@ public class PositronShooter : Gun
         _fireRumble = RumbleIntensity.Kick;
         _holdOffset = new Vec2(-4f, -2f);
         _flare = new SpriteMap("laserFlareOrange", 16, 16);
-        _flare.center = new Vec2(0f, 8f);
+        _flare.Center = new Vec2(0f, 8f);
         editorTooltip = "A futuristic weapon from the WORLD OF TOMORROW!";
     }
 
@@ -159,8 +159,8 @@ public class PositronShooter : Gun
     public override void Draw()
     {
         Vec2 pos = Offset(new Vec2(0.5f, 0.5f));
-        _positronWinder.angle = _wind * (float)offDir;
-        Graphics.Draw(_positronWinder, pos.x, pos.y, base.depth + 10);
+        _positronWinder.Angle = _wind * (float)offDir;
+        Graphics.Draw(_positronWinder, pos.X, pos.Y, base.Depth + 10);
         base.Draw();
     }
 

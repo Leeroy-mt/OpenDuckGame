@@ -18,15 +18,15 @@ public class SnubbyPistol : Gun
 
     public float _angleOffset;
 
-    public override float angle
+    public override float Angle
     {
         get
         {
-            return base.angle + _angleOffset * (float)offDir;
+            return base.Angle + _angleOffset * (float)offDir;
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
@@ -42,7 +42,7 @@ public class SnubbyPistol : Gun
         _type = "gun";
         _sprite = new SpriteMap("snubby", 14, 10);
         graphic = _sprite;
-        center = new Vec2(7f, 4f);
+        Center = new Vec2(7f, 4f);
         collisionOffset = new Vec2(-7f, -4f);
         collisionSize = new Vec2(14f, 9f);
         _barrelOffsetTL = new Vec2(13f, 3f);

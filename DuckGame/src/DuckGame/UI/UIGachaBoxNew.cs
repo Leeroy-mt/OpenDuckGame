@@ -162,7 +162,7 @@ public class UIGachaBoxNew : UIMenu
         _frame = new Sprite("unlockFrame");
         _frame.CenterOrigin();
         _furni = new Sprite("furni/stone");
-        _furni.center = new Vec2(_furni.width / 2, _furni.height);
+        _furni.Center = new Vec2(_furni.width / 2, _furni.height);
         _star = new Sprite("prettyStar");
         _star.CenterOrigin();
         _font = new BitmapFont("biosFontUI", 8, 7);
@@ -349,15 +349,15 @@ public class UIGachaBoxNew : UIMenu
                             gachaSpeed = (0f - gachaSpeed) * 0.4f;
                         }
                         float capsuleRadius = 8f;
-                        _toyVelocity.y += 0.2f;
+                        _toyVelocity.Y += 0.2f;
                         Vec2 dif = _toyPosition;
-                        if (dif.length > capsuleRadius)
+                        if (dif.Length() > capsuleRadius)
                         {
                             Vec2 prevToy = _toyPosition;
-                            _toyPosition = dif.normalized * capsuleRadius;
+                            _toyPosition = dif.Normalized * capsuleRadius;
                             Vec2 velChange = _toyPosition - prevToy;
                             _toyVelocity += velChange;
-                            if ((double)velChange.length > 1.0)
+                            if ((double)velChange.Length() > 1.0)
                             {
                                 SFX.Play("gachaBounce", 1f, 0.7f + Rando.Float(0.2f));
                             }
@@ -368,25 +368,25 @@ public class UIGachaBoxNew : UIMenu
                         {
                             if (InputProfile.active.Down("LEFT"))
                             {
-                                leftStick.x = -1f;
+                                leftStick.X = -1f;
                             }
                             if (InputProfile.active.Down("RIGHT"))
                             {
-                                leftStick.x = 1f;
+                                leftStick.X = 1f;
                             }
                             if (InputProfile.active.Down("UP"))
                             {
-                                leftStick.y = 1f;
+                                leftStick.Y = 1f;
                             }
                             if (InputProfile.active.Down("DOWN"))
                             {
-                                leftStick.y = -1f;
+                                leftStick.Y = -1f;
                             }
                         }
                         _toyVelocity += (_lastStick - leftStick) * new Vec2(2f, -2f);
                         _lastStick = leftStick;
-                        _toyVelocity.x = Math.Max(Math.Min(_toyVelocity.x, 3f), -3f);
-                        _toyVelocity.y = Math.Max(Math.Min(_toyVelocity.y, 3f), -3f);
+                        _toyVelocity.X = Math.Max(Math.Min(_toyVelocity.X, 3f), -3f);
+                        _toyVelocity.Y = Math.Max(Math.Min(_toyVelocity.Y, 3f), -3f);
                         _toyPosition += _toyVelocity;
                         if (!opened)
                         {
@@ -502,14 +502,14 @@ public class UIGachaBoxNew : UIMenu
         {
             return;
         }
-        base.y += yOffset;
+        base.Y += yOffset;
         Random r = Rando.generator;
         Rando.generator = new Random(seed);
-        _gachaMachine.depth = -0.8f;
-        Graphics.Draw(_gachaMachine, base.x - 14f, base.y);
-        _coinSlot.depth = -0.795f;
-        Graphics.Draw(_coinSlot, base.x - 13f, base.y - 13f);
-        _coin.depth = 0.9f;
+        _gachaMachine.Depth = -0.8f;
+        Graphics.Draw(_gachaMachine, base.X - 14f, base.Y);
+        _coinSlot.Depth = -0.795f;
+        Graphics.Draw(_coinSlot, base.X - 13f, base.Y - 13f);
+        _coin.Depth = 0.9f;
         for (int i = 0; i < numGenerate + numGenerateRare - (_prizesGiven + 1); i++)
         {
             if (numGenerate - (_prizesGiven + 1) > 0 && i < numGenerate - (_prizesGiven + 1))
@@ -520,7 +520,7 @@ public class UIGachaBoxNew : UIMenu
             {
                 _coin.frame = 1;
             }
-            _coin.depth = 0.9f - (float)i * 0.01f;
+            _coin.Depth = 0.9f - (float)i * 0.01f;
             Graphics.Draw(_coin, 16 + i * 4, 16f);
         }
         if (_contains.rareGen)
@@ -532,89 +532,89 @@ public class UIGachaBoxNew : UIMenu
             _coin.frame = 0;
         }
         float coinRot = Math.Min(_gachaWait * 2f, 1f);
-        _coin.depth = -0.798f;
-        Graphics.Draw(_coin, base.x - 15f + coinRot * 21f, base.y - 25f - 40f * (1f - _insertCoin) + coinRot * 4f);
-        _gachaGlass.depth = -0.9f;
-        Graphics.Draw(_gachaGlass, base.x - 14f, base.y - 10f);
-        _gachaDoor.depth = -0.84f;
-        Graphics.Draw(_gachaDoor, base.x - 14f, base.y);
+        _coin.Depth = -0.798f;
+        Graphics.Draw(_coin, base.X - 15f + coinRot * 21f, base.Y - 25f - 40f * (1f - _insertCoin) + coinRot * 4f);
+        _gachaGlass.Depth = -0.9f;
+        Graphics.Draw(_gachaGlass, base.X - 14f, base.Y - 10f);
+        _gachaDoor.Depth = -0.84f;
+        Graphics.Draw(_gachaDoor, base.X - 14f, base.Y);
         Vec2 ballOffset = Vec2.Zero;
-        _gachaBall.depth = -0.85f;
-        _gachaBall.alpha = 0.3f;
-        _gachaBall.angleDegrees = Rando.Float(360f);
+        _gachaBall.Depth = -0.85f;
+        _gachaBall.Alpha = 0.3f;
+        _gachaBall.AngleDegrees = Rando.Float(360f);
         _gachaBall.frame = Rando.Int(2);
         float mul = Rando.Float(4f, 8f);
         ballOffset = new Vec2((float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f), (float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f));
-        Graphics.Draw(_gachaBall, base.x - 56f + ballOffset.x, base.y - 54f + ballOffset.y);
-        _gachaBall.angleDegrees = Rando.Float(360f);
+        Graphics.Draw(_gachaBall, base.X - 56f + ballOffset.X, base.Y - 54f + ballOffset.Y);
+        _gachaBall.AngleDegrees = Rando.Float(360f);
         _gachaBall.frame = Rando.Int(2);
         mul = Rando.Float(4f, 8f);
         ballOffset = new Vec2((float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f), (float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f));
-        Graphics.Draw(_gachaBall, base.x - 26f + ballOffset.x, base.y - 74f + ballOffset.y);
-        _gachaBall.angleDegrees = Rando.Float(360f);
+        Graphics.Draw(_gachaBall, base.X - 26f + ballOffset.X, base.Y - 74f + ballOffset.Y);
+        _gachaBall.AngleDegrees = Rando.Float(360f);
         _gachaBall.frame = Rando.Int(2);
         mul = Rando.Float(4f, 8f);
         ballOffset = new Vec2((float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f), (float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f));
-        Graphics.Draw(_gachaBall, base.x - 62f + ballOffset.x, base.y - 94f + ballOffset.y);
-        _gachaBall.angleDegrees = Rando.Float(360f);
+        Graphics.Draw(_gachaBall, base.X - 62f + ballOffset.X, base.Y - 94f + ballOffset.Y);
+        _gachaBall.AngleDegrees = Rando.Float(360f);
         _gachaBall.frame = Rando.Int(2);
         mul = Rando.Float(4f, 8f);
         ballOffset = new Vec2((float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f), (float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f));
-        Graphics.Draw(_gachaBall, base.x + 6f + ballOffset.x, base.y - 44f + ballOffset.y);
-        _gachaBall.angleDegrees = Rando.Float(360f);
+        Graphics.Draw(_gachaBall, base.X + 6f + ballOffset.X, base.Y - 44f + ballOffset.Y);
+        _gachaBall.AngleDegrees = Rando.Float(360f);
         _gachaBall.frame = Rando.Int(2);
         mul = Rando.Float(4f, 8f);
         ballOffset = new Vec2((float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f), (float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f));
-        Graphics.Draw(_gachaBall, base.x + 31f + ballOffset.x, base.y - 64f + ballOffset.y);
-        _gachaBall.angleDegrees = Rando.Float(360f);
+        Graphics.Draw(_gachaBall, base.X + 31f + ballOffset.X, base.Y - 64f + ballOffset.Y);
+        _gachaBall.AngleDegrees = Rando.Float(360f);
         _gachaBall.frame = Rando.Int(2);
         mul = Rando.Float(4f, 8f);
         ballOffset = new Vec2((float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f), (float)Math.Sin(_gachaWait * mul + Rando.Float(4f)) * Rando.Float(1f, 2f));
-        Graphics.Draw(_gachaBall, base.x + 8f + ballOffset.x, base.y - 92f + ballOffset.y);
-        _gachaBall.angleDegrees = prizes[2].ballRot;
+        Graphics.Draw(_gachaBall, base.X + 8f + ballOffset.X, base.Y - 92f + ballOffset.Y);
+        _gachaBall.AngleDegrees = prizes[2].ballRot;
         _gachaBall.frame = FigureFrame(prizes[2]);
-        Graphics.Draw(_gachaBall, base.x + 31f - 42f + _gachaWait * 42f, base.y - 16f - 12f + _gachaWait * 12f);
-        _gachaBall.angleDegrees = prizes[1].ballRot;
+        Graphics.Draw(_gachaBall, base.X + 31f - 42f + _gachaWait * 42f, base.Y - 16f - 12f + _gachaWait * 12f);
+        _gachaBall.AngleDegrees = prizes[1].ballRot;
         _gachaBall.frame = FigureFrame(prizes[1]);
-        Graphics.Draw(_gachaBall, base.x + 31f, base.y - 16f + _gachaWait * 42f);
-        _gachaBall.angleDegrees = prizes[0].ballRot;
+        Graphics.Draw(_gachaBall, base.X + 31f, base.Y - 16f + _gachaWait * 42f);
+        _gachaBall.AngleDegrees = prizes[0].ballRot;
         _gachaBall.frame = FigureFrame(prizes[0]);
-        Graphics.Draw(_gachaBall, base.x + 31f - _gachaWait * 42f, base.y - 16f + 42f);
-        _gachaBall.alpha = 1f;
-        _gachaBall.angleDegrees = 0f;
+        Graphics.Draw(_gachaBall, base.X + 31f - _gachaWait * 42f, base.Y - 16f + 42f);
+        _gachaBall.Alpha = 1f;
+        _gachaBall.AngleDegrees = 0f;
         _gachaBall.frame = Rando.Int(2);
         Sprite gachaTwister = _gachaTwister;
-        float num = (_gachaTwisterShadow.angleDegrees = _gachaWait * 360f);
-        gachaTwister.angleDegrees = num;
+        float num = (_gachaTwisterShadow.AngleDegrees = _gachaWait * 360f);
+        gachaTwister.AngleDegrees = num;
         Vec2 twisterPos = new Vec2(0f, -4f);
-        _gachaTwister.depth = -0.1f;
-        Graphics.Draw(_gachaTwister, base.x - 14f + twisterPos.x, base.y + twisterPos.y);
+        _gachaTwister.Depth = -0.1f;
+        Graphics.Draw(_gachaTwister, base.X - 14f + twisterPos.X, base.Y + twisterPos.Y);
         Vec2 shadowOffset = new Vec2(2f, 2f);
-        _gachaTwisterShadow.depth = -0.11f;
-        _gachaTwisterShadow.alpha = 0.5f;
-        Graphics.Draw(_gachaTwisterShadow, base.x - 14f + twisterPos.x + shadowOffset.x, base.y + twisterPos.y + shadowOffset.y);
+        _gachaTwisterShadow.Depth = -0.11f;
+        _gachaTwisterShadow.Alpha = 0.5f;
+        Graphics.Draw(_gachaTwisterShadow, base.X - 14f + twisterPos.X + shadowOffset.X, base.Y + twisterPos.Y + shadowOffset.Y);
         Material obj = Graphics.material;
         Graphics.material = _rainbowMaterial;
         _rainbowMaterial.offset += 0.05f;
         _rainbowMaterial.offset2 += 0.02f;
-        _rainbow.alpha = 0.25f;
-        _rainbow.depth = -0.95f;
+        _rainbow.Alpha = 0.25f;
+        _rainbow.Depth = -0.95f;
         Graphics.Draw(_rainbow, 0f, 0f);
         Graphics.material = obj;
         Rando.generator = r;
-        _frame.depth = -0.9f;
+        _frame.Depth = -0.9f;
         if (_swapped)
         {
-            _contains.Draw(position + new Vec2(0f, 10f), base.depth - 20);
+            _contains.Draw(Position + new Vec2(0f, 10f), base.Depth - 20);
             _whiteCircle.color = _contains.group.color;
-            _whiteCircle.depth = base.depth - 30;
-            Graphics.Draw(_whiteCircle, position.x, position.y + 10f);
+            _whiteCircle.Depth = base.Depth - 30;
+            Graphics.Draw(_whiteCircle, Position.X, Position.Y + 10f);
             if (_starGrow <= 1f)
             {
-                _star.depth = 0.9f;
-                _star.scale = new Vec2(2.5f + _starGrow * 3f);
-                _star.alpha = 1f - _starGrow;
-                Graphics.Draw(_star, base.x, base.y + 10f);
+                _star.Depth = 0.9f;
+                _star.Scale = new Vec2(2.5f + _starGrow * 3f);
+                _star.Alpha = 1f - _starGrow;
+                Graphics.Draw(_star, base.X, base.Y + 10f);
             }
         }
         else if (gachaY > 10f)
@@ -625,21 +625,21 @@ public class UIGachaBoxNew : UIMenu
             {
                 sep = 3f;
             }
-            _capsule.depth = -0.84f;
-            Graphics.Draw(_capsule, base.x + _eggOffset.x + additionalEgg.x, base.y - 38f + gachaY - _eggOffset.y - (10f + sep) + additionalEgg.y);
+            _capsule.Depth = -0.84f;
+            Graphics.Draw(_capsule, base.X + _eggOffset.X + additionalEgg.X, base.Y - 38f + gachaY - _eggOffset.Y - (10f + sep) + additionalEgg.Y);
             Material obj2 = Graphics.material;
             Graphics.material = _flatColor;
-            _contains.Draw(new Vec2(base.x + _eggOffset.x + _toyPosition.x + additionalEgg.x, base.y - 38f + gachaY - _eggOffset.y - 10f + _toyPosition.y + 8f + additionalEgg.y), -0.835f, 0, null, affectScale: true, !_swapped, Maths.DegToRad(_toyAngle + 90f));
+            _contains.Draw(new Vec2(base.X + _eggOffset.X + _toyPosition.X + additionalEgg.X, base.Y - 38f + gachaY - _eggOffset.Y - 10f + _toyPosition.Y + 8f + additionalEgg.Y), -0.835f, 0, null, affectScale: true, !_swapped, Maths.DegToRad(_toyAngle + 90f));
             Graphics.material = obj2;
-            _capsule.depth = -0.83f;
+            _capsule.Depth = -0.83f;
             _capsule.frame += 3;
-            Graphics.Draw(_capsule, base.x + _eggOffset.x + additionalEgg.x, base.y - 38f + gachaY - _eggOffset.y + (11f + sep) + additionalEgg.y, new Rectangle(0f, 2f, _capsule.width, _capsule.height - 2));
+            Graphics.Draw(_capsule, base.X + _eggOffset.X + additionalEgg.X, base.Y - 38f + gachaY - _eggOffset.Y + (11f + sep) + additionalEgg.Y, new Rectangle(0f, 2f, _capsule.width, _capsule.height - 2));
             _capsule.frame -= 3;
             if (gachaY > 30f && !opened)
             {
-                _capsuleBorder.depth = -0.81f;
+                _capsuleBorder.Depth = -0.81f;
                 _capsuleBorder.frame = 0;
-                Graphics.Draw(_capsuleBorder, base.x + _eggOffset.x + additionalEgg.x, base.y - 38f + gachaY - _eggOffset.y - 2f + additionalEgg.y);
+                Graphics.Draw(_capsuleBorder, base.X + _eggOffset.X + additionalEgg.X, base.Y - 38f + gachaY - _eggOffset.Y - 2f + additionalEgg.Y);
             }
         }
         if (_swapped)
@@ -655,16 +655,16 @@ public class UIGachaBoxNew : UIMenu
             {
                 unlockText = "} " + _contains.name + " }";
             }
-            _fancyFont.scale = new Vec2(1f, 1f);
+            _fancyFont.Scale = new Vec2(1f, 1f);
             Vec2 unlockFontPos = new Vec2(0f - _fancyFont.GetWidth(unlockText) / 2f, -25f);
-            _fancyFont.DrawOutline(unlockText, position + unlockFontPos, (_rare || (_swapped && _rareCapsule)) ? Colors.DGYellow : Color.White, Color.Black, base.depth + 2);
-            Graphics.DrawRect(position + new Vec2(0f - (_fancyFont.GetWidth(unlockText) / 2f + 4f), -26f), position + new Vec2(_fancyFont.GetWidth(unlockText) / 2f + 4f, -14f), Color.Black, base.depth - 4);
-            _fancyFont.scale = new Vec2(0.5f, 0.5f);
+            _fancyFont.DrawOutline(unlockText, Position + unlockFontPos, (_rare || (_swapped && _rareCapsule)) ? Colors.DGYellow : Color.White, Color.Black, base.Depth + 2);
+            Graphics.DrawRect(Position + new Vec2(0f - (_fancyFont.GetWidth(unlockText) / 2f + 4f), -26f), Position + new Vec2(_fancyFont.GetWidth(unlockText) / 2f + 4f, -14f), Color.Black, base.Depth - 4);
+            _fancyFont.Scale = new Vec2(0.5f, 0.5f);
             if (_insertCoin > 0.01f)
             {
                 _duckCoin.frame = (_rare ? 1 : 0);
-                _duckCoin.depth = -0.8f;
-                Graphics.Draw(_duckCoin, base.x + 40f, base.y - 100f + _insertCoin * 65f);
+                _duckCoin.Depth = -0.8f;
+                Graphics.Draw(_duckCoin, base.X + 40f, base.Y - 100f + _insertCoin * 65f);
             }
             string descriptionText = _contains.description;
             int num3 = Profiles.experienceProfile.GetNumFurnitures(_contains.index) - 1;
@@ -673,10 +673,10 @@ public class UIGachaBoxNew : UIMenu
                 descriptionText = "I've already got " + ((num3 - 1 >= numberNames.Count) ? (num3 - 1).ToString() : numberNames[num3 - 1]) + " of these...";
             }
             Vec2 descFontPos = new Vec2(0f - _fancyFont.GetWidth(descriptionText) / 2f, 38f);
-            _fancyFont.DrawOutline(descriptionText, position + descFontPos, (num3 > 0) ? Colors.DGYellow : Colors.DGGreen, Color.Black, base.depth + 2, 0.5f);
-            Graphics.DrawRect(position + new Vec2(0f - (_fancyFont.GetWidth(descriptionText) / 2f + 4f), 37f), position + new Vec2(_fancyFont.GetWidth(descriptionText) / 2f + 4f, 44f), Color.Black, base.depth - 4);
-            Graphics.DrawRect(new Vec2(-100f, -100f), new Vec2(2000f, 2000f), Color.Black * 0.6f, base.depth - 100);
+            _fancyFont.DrawOutline(descriptionText, Position + descFontPos, (num3 > 0) ? Colors.DGYellow : Colors.DGGreen, Color.Black, base.Depth + 2, 0.5f);
+            Graphics.DrawRect(Position + new Vec2(0f - (_fancyFont.GetWidth(descriptionText) / 2f + 4f), 37f), Position + new Vec2(_fancyFont.GetWidth(descriptionText) / 2f + 4f, 44f), Color.Black, base.Depth - 4);
+            Graphics.DrawRect(new Vec2(-100f, -100f), new Vec2(2000f, 2000f), Color.Black * 0.6f, base.Depth - 100);
         }
-        base.y -= yOffset;
+        base.Y -= yOffset;
     }
 }

@@ -31,10 +31,10 @@ public class WaterCooler : MaterialThing, IPlatform
     {
         _sprite = new SpriteMap("waterCoolerJug", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-5f, -5f);
         collisionSize = new Vec2(10f, 10f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Water Cooler";
         editorTooltip = "Looking for all the latest hot gossip? This is the place to hang.";
         thickness = 2f;
@@ -56,14 +56,14 @@ public class WaterCooler : MaterialThing, IPlatform
     public override bool Hit(Bullet bullet, Vec2 hitPos)
     {
         hitPos += bullet.travelDirNormalized * 2f;
-        if (1f - (hitPos.y - base.top) / (base.bottom - base.top) < _fluidLevel)
+        if (1f - (hitPos.Y - base.top) / (base.bottom - base.top) < _fluidLevel)
         {
             thickness = 2f;
-            Vec2 offset = hitPos - position;
+            Vec2 offset = hitPos - Position;
             bool found = false;
             foreach (FluidStream hole in _holes)
             {
-                if ((hole.offset - offset).length < 2f)
+                if ((hole.offset - offset).Length() < 2f)
                 {
                     hole.offset = offset;
                     hole.holeThickness += 0.5f;
@@ -89,11 +89,11 @@ public class WaterCooler : MaterialThing, IPlatform
     public override void ExitHit(Bullet bullet, Vec2 exitPos)
     {
         exitPos -= bullet.travelDirNormalized * 2f;
-        Vec2 offset = exitPos - position;
+        Vec2 offset = exitPos - Position;
         bool found = false;
         foreach (FluidStream hole in _holes)
         {
-            if ((hole.offset - offset).length < 2f)
+            if ((hole.offset - offset).Length() < 2f)
             {
                 hole.offset = offset;
                 hole.holeThickness += 0.5f;
@@ -122,10 +122,10 @@ public class WaterCooler : MaterialThing, IPlatform
                 hole.hSpeed = hSpeed;
                 hole.vSpeed = vSpeed;
                 hole.DoUpdate();
-                hole.position = Offset(hole.offset);
+                hole.Position = Offset(hole.offset);
                 hole.sprayAngle = OffsetLocal(hole.startSprayAngle);
-                float level = 1f - (hole.offset.y - base.topLocal) / (base.bottomLocal - base.topLocal);
-                if (hole.x > base.left - 2f && hole.x < base.right + 2f && level < _fluidLevel)
+                float level = 1f - (hole.offset.Y - base.topLocal) / (base.bottomLocal - base.topLocal);
+                if (hole.X > base.left - 2f && hole.X < base.right + 2f && level < _fluidLevel)
                 {
                     level = Maths.Clamp(_fluidLevel - level, 0.1f, 1f);
                     float loss = level * 0.0012f * hole.holeThickness;
@@ -147,16 +147,16 @@ public class WaterCooler : MaterialThing, IPlatform
     public override void Draw()
     {
         _sprite.frame = (int)((1f - _fluidLevel) * 10f);
-        Vec2 pos = position;
+        Vec2 pos = Position;
         float shakeOffset = (float)Math.Sin(_shakeInc) * _shakeMult * 1f;
-        position.x += shakeOffset;
+        X += shakeOffset;
         base.Draw();
-        position = pos;
-        _bottom.depth = base.depth + 1;
-        Graphics.Draw(_bottom, base.x, base.y + 9f);
-        _jugLine.depth = base.depth + 1;
+        Position = pos;
+        _bottom.Depth = base.Depth + 1;
+        Graphics.Draw(_bottom, base.X, base.Y + 9f);
+        _jugLine.Depth = base.Depth + 1;
         _jugLine.imageIndex = _sprite.imageIndex;
-        _jugLine.alpha = _fluidLevel * 10f % 1f;
-        Graphics.Draw(_jugLine, base.x + shakeOffset, base.y);
+        _jugLine.Alpha = _fluidLevel * 10f % 1f;
+        Graphics.Draw(_jugLine, base.X + shakeOffset, base.Y);
     }
 }

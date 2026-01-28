@@ -72,9 +72,9 @@ public class PhysicsRope : Thing
     {
         _vine = new SpriteMap("vine", 16, 16);
         graphic = _vine;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _vineEnd = new Sprite("vineStretchEnd");
-        _vineEnd.center = new Vec2(8f, 0f);
+        _vineEnd.Center = new Vec2(8f, 0f);
         collisionOffset = new Vec2(-5f, -4f);
         collisionSize = new Vec2(11f, 7f);
         graphic = _vine;
@@ -86,16 +86,16 @@ public class PhysicsRope : Thing
 
     public override void Initialize()
     {
-        if (!(Level.current is Editor))
+        if (Level.current is not Editor)
         {
-            position.y -= 8f;
-            _length = (float)length.value / 6.5f;
-            _divisions = (int)((float)length.value * 16f / 8f);
-            _lenDiv = _length / (float)_divisions;
+            Y -= 8;
+            _length = length.value / 6.5f;
+            _divisions = (int)(length.value * 16F / 8);
+            _lenDiv = _length / _divisions;
             for (int i = 0; i <= _divisions; i++)
             {
-                _nodes.Add(new PhysicsRopeSection(base.x + _lenDiv * (float)i, base.y, this));
-                Level.Add(_nodes[_nodes.Count - 1]);
+                _nodes.Add(new PhysicsRopeSection(X + _lenDiv * i, Y, this));
+                Level.Add(_nodes[^1]);
             }
         }
     }
@@ -127,8 +127,8 @@ public class PhysicsRope : Thing
             {
                 int div = i;
                 Vine newLowest = _lowestVine;
-                Vec2 pos = new Vec2(base.x, base.y + 8f);
-                _lowestVine = GetSection(pos.x, pos.y, div * 8);
+                Vec2 pos = new Vec2(base.X, base.Y + 8f);
+                _lowestVine = GetSection(pos.X, pos.Y, div * 8);
                 _lowestVine.length.value = div / 2;
                 _lowestVine.owner = d;
                 _lowestVine.sectionIndex = i;
@@ -136,7 +136,7 @@ public class PhysicsRope : Thing
                 if (newLowest != null)
                 {
                     newLowest._rope.attach2 = _lowestVine.owner;
-                    newLowest._rope.properLength = (newLowest._rope.attach2Point - newLowest._rope.attach1Point).length;
+                    newLowest._rope.properLength = (newLowest._rope.attach2Point - newLowest._rope.attach1Point).Length();
                     _lowestVine.nextVine = newLowest;
                     newLowest.prevVine = _lowestVine;
                 }
@@ -154,12 +154,12 @@ public class PhysicsRope : Thing
             }
             int div2 = i - _lowestVineSection;
             Vine prevLowest = _lowestVine;
-            Vec2 pos2 = new Vec2(base.x, base.y + 8f);
+            Vec2 pos2 = new Vec2(base.X, base.Y + 8f);
             if (_lowestVine != null)
             {
                 pos2 = _lowestVine._rope.attach1Point;
             }
-            _lowestVine = GetSection(pos2.x, pos2.y, div2 * 8);
+            _lowestVine = GetSection(pos2.X, pos2.Y, div2 * 8);
             _lowestVine.length.value = div2 / 2;
             _lowestVine.owner = d;
             _lowestVine.sectionIndex = i;
@@ -188,7 +188,7 @@ public class PhysicsRope : Thing
     {
         if (_lowestVine != null && _lowestVine.owner != null)
         {
-            _nodes[_lowestVineSection].position = _lowestVine.owner.position;
+            _nodes[_lowestVineSection].Position = _lowestVine.owner.Position;
         }
         else if (_lowestVine != null && _lowestVine.prevVine != null)
         {
@@ -209,7 +209,7 @@ public class PhysicsRope : Thing
             int idx = 0;
             foreach (PhysicsRopeSection node in _nodes)
             {
-                node.position = position + new Vec2(0f, idx * 8);
+                node.Position = Position + new Vec2(0f, idx * 8);
                 idx++;
             }
             _create = false;
@@ -224,33 +224,33 @@ public class PhysicsRope : Thing
             return;
         }
         UpdateVineProgress();
-        _nodes[0].position = position;
+        _nodes[0].Position = Position;
         foreach (PhysicsRopeSection node2 in _nodes)
         {
-            node2.accel.y = _gravity;
-            node2.calcPos = node2.position;
+            node2.accel.Y = _gravity;
+            node2.calcPos = node2.Position;
         }
         for (int j = 1; j <= _divisions; j++)
         {
-            float tempX = _nodes[j].position.x;
-            _nodes[j].calcPos.x += 0.999f * _nodes[j].calcPos.x - 0.999f * _nodes[j].tempPos.x + _nodes[j].accel.x;
-            float tempY = _nodes[j].position.y;
-            _nodes[j].calcPos.y += 0.999f * _nodes[j].calcPos.y - 0.999f * _nodes[j].tempPos.y + _nodes[j].accel.y;
-            _nodes[j].tempPos.x = tempX;
-            _nodes[j].tempPos.y = tempY;
+            float tempX = _nodes[j].Position.X;
+            _nodes[j].calcPos.X += 0.999f * _nodes[j].calcPos.X - 0.999f * _nodes[j].tempPos.X + _nodes[j].accel.X;
+            float tempY = _nodes[j].Position.Y;
+            _nodes[j].calcPos.Y += 0.999f * _nodes[j].calcPos.Y - 0.999f * _nodes[j].tempPos.Y + _nodes[j].accel.Y;
+            _nodes[j].tempPos.X = tempX;
+            _nodes[j].tempPos.Y = tempY;
         }
         for (int k = 1; k <= _divisions; k++)
         {
             for (int l = 1; l <= _divisions; l++)
             {
-                float dx = (_nodes[l].calcPos.x - _nodes[l - 1].calcPos.x) / 100f;
-                float dy = (_nodes[l].calcPos.y - _nodes[l - 1].calcPos.y) / 100f;
+                float dx = (_nodes[l].calcPos.X - _nodes[l - 1].calcPos.X) / 100f;
+                float dy = (_nodes[l].calcPos.Y - _nodes[l - 1].calcPos.Y) / 100f;
                 float d = (float)Math.Sqrt(dx * dx + dy * dy);
                 float diff = (d - _lenDiv) * 50f;
-                _nodes[l].calcPos.x -= dx / d * diff;
-                _nodes[l].calcPos.y -= dy / d * diff;
-                _nodes[l - 1].calcPos.x += dx / d * diff;
-                _nodes[l - 1].calcPos.y += dy / d * diff;
+                _nodes[l].calcPos.X -= dx / d * diff;
+                _nodes[l].calcPos.Y -= dy / d * diff;
+                _nodes[l - 1].calcPos.X += dx / d * diff;
+                _nodes[l - 1].calcPos.Y += dy / d * diff;
             }
         }
         Vine highestSection = highestVine;
@@ -279,15 +279,15 @@ public class PhysicsRope : Thing
                 {
                     Vec2 vec = section.pos2 - section.pos1;
                     vec.Normalize();
-                    _nodes[m].position = section.pos1 + vec * moveIndex * 8f;
-                    _nodes[m].calcPos = _nodes[m].position;
+                    _nodes[m].Position = section.pos1 + vec * moveIndex * 8f;
+                    _nodes[m].calcPos = _nodes[m].Position;
                 }
             }
             moveIndex++;
             _nodes[m].frictionMult = 0f;
             _nodes[m].gravMultiplier = 0f;
-            _nodes[m].hSpeed = _nodes[m].calcPos.x - _nodes[m].position.x;
-            _nodes[m].vSpeed = _nodes[m].calcPos.y - _nodes[m].position.y;
+            _nodes[m].hSpeed = _nodes[m].calcPos.X - _nodes[m].Position.X;
+            _nodes[m].vSpeed = _nodes[m].calcPos.Y - _nodes[m].Position.Y;
             float max = 5f;
             if (_nodes[m].hSpeed > 0f && _nodes[m].hSpeed > max)
             {
@@ -297,7 +297,7 @@ public class PhysicsRope : Thing
             {
                 _nodes[m].hSpeed = 0f - max;
             }
-            foreach (PhysicsObject obj in Level.CheckPointAll<PhysicsObject>(_nodes[m].position))
+            foreach (PhysicsObject obj in Level.CheckPointAll<PhysicsObject>(_nodes[m].Position))
             {
                 if (obj.hSpeed > 0f && _nodes[m].hSpeed < obj.hSpeed)
                 {
@@ -377,23 +377,23 @@ public class PhysicsRope : Thing
     {
         if (Level.current is Editor)
         {
-            graphic.center = new Vec2(8f, 8f);
-            graphic.depth = base.depth;
+            graphic.Center = new Vec2(8f, 8f);
+            graphic.Depth = base.Depth;
             for (int i = 0; i < (int)length; i++)
             {
-                Graphics.Draw(graphic, base.x, base.y + (float)(i * 16));
+                Graphics.Draw(graphic, base.X, base.Y + (float)(i * 16));
             }
             return;
         }
         UpdateVineProgress();
         Depth deep = -0.5f;
-        Vec2 prevPos = position + new Vec2(0f, -4f);
+        Vec2 prevPos = Position + new Vec2(0f, -4f);
         if (_lowestVine != null && _lowestVine.owner != null)
         {
-            prevPos = _lowestVine.owner.position;
+            prevPos = _lowestVine.owner.Position;
             if (highestVine != null && highestVine._rope.attach2 is Harpoon)
             {
-                Graphics.DrawTexturedLine(_beam.texture, position + new Vec2(0f, -4f), _nodes[0].position + new Vec2(0f, 2f), Color.White, 1f, deep);
+                Graphics.DrawTexturedLine(_beam.texture, Position + new Vec2(0f, -4f), _nodes[0].Position + new Vec2(0f, 2f), Color.White, 1f, deep);
             }
         }
         int index = -1;
@@ -403,16 +403,16 @@ public class PhysicsRope : Thing
             index++;
             if (index >= _lowestVineSection)
             {
-                Vec2 vec = (s.position - prevPos).normalized;
+                Vec2 vec = (s.Position - prevPos).Normalized;
                 if (index == _nodes.Count - 1)
                 {
-                    Graphics.DrawTexturedLine(_vineEnd.texture, prevPos, s.position + vec, Color.White, 1f, deep);
+                    Graphics.DrawTexturedLine(_vineEnd.texture, prevPos, s.Position + vec, Color.White, 1f, deep);
                 }
                 else
                 {
-                    Graphics.DrawTexturedLine(_beam.texture, prevPos, s.position + vec, Color.White, 1f, deep);
+                    Graphics.DrawTexturedLine(_beam.texture, prevPos, s.Position + vec, Color.White, 1f, deep);
                 }
-                prevPos = s.position;
+                prevPos = s.Position;
             }
         }
     }

@@ -7,16 +7,16 @@ public class GlassParticle : PhysicsParticle
     public GlassParticle(float xpos, float ypos, Vec2 hitAngle, int tint = -1)
         : base(xpos, ypos)
     {
-        hSpeed = (0f - hitAngle.x) * 2f * (Rando.Float(1f) + 0.3f);
-        vSpeed = (0f - hitAngle.y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
+        hSpeed = (0f - hitAngle.X) * 2f * (Rando.Float(1f) + 0.3f);
+        vSpeed = (0f - hitAngle.Y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
         _bounceEfficiency = 0.6f;
         _tint = tint;
     }
 
     public override void Update()
     {
-        base.alpha -= 0.01f;
-        if (base.alpha < 0f)
+        base.Alpha -= 0.01f;
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }
@@ -25,6 +25,6 @@ public class GlassParticle : PhysicsParticle
 
     public override void Draw()
     {
-        Graphics.DrawRect(position, position + new Vec2(1f, 1f), ((_tint > 0) ? Window.windowColors[_tint] : Color.LightBlue) * base.alpha, base.depth);
+        Graphics.DrawRect(Position, Position + new Vec2(1f, 1f), ((_tint > 0) ? Window.windowColors[_tint] : Color.LightBlue) * base.Alpha, base.Depth);
     }
 }

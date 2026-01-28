@@ -190,13 +190,13 @@ public class DeviceInputMapping : DataClass
             {
                 case "LSTICK":
                 case "RSTICK":
-                    if (pad.leftStick.length > 0.1f)
+                    if (pad.leftStick.Length() > 0.1f)
                     {
                         CleanDupes(trigger, 64, allowDupes);
                         MapInput(trigger, 64);
                         finished = true;
                     }
-                    else if (pad.rightStick.length > 0.1f)
+                    else if (pad.rightStick.Length() > 0.1f)
                     {
                         CleanDupes(trigger, 128, allowDupes);
                         MapInput(trigger, 128);

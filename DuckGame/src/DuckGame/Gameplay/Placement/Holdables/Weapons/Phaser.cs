@@ -20,7 +20,7 @@ public class Phaser : Gun
         _ammoType = new ATPhaser();
         _type = "gun";
         graphic = new Sprite("phaser");
-        center = new Vec2(7f, 4f);
+        Center = new Vec2(7f, 4f);
         collisionOffset = new Vec2(-7f, -4f);
         collisionSize = new Vec2(15f, 9f);
         _barrelOffsetTL = new Vec2(14f, 3f);
@@ -30,7 +30,7 @@ public class Phaser : Gun
         _kickForce = 0.5f;
         _holdOffset = new Vec2(0f, 0f);
         _flare = new SpriteMap("laserFlare", 16, 16);
-        _flare.center = new Vec2(0f, 8f);
+        _flare.Center = new Vec2(0f, 8f);
         _phaserCharge = new SpriteMap("phaserCharge", 8, 8);
         _phaserCharge.frame = 1;
         editorTooltip = "Like a laser, only...phasery? Hold the trigger to charge a more powerful shot.";
@@ -56,10 +56,10 @@ public class Phaser : Gun
         base.Draw();
         if (_chargeFade > 0.01f)
         {
-            float a = base.alpha;
-            base.alpha = (_chargeFade * 0.6f + _chargeFade * _chargeWaver.normalized * 0.4f) * 0.8f;
+            float a = base.Alpha;
+            base.Alpha = (_chargeFade * 0.6f + _chargeFade * _chargeWaver.normalized * 0.4f) * 0.8f;
             Draw(_phaserCharge, new Vec2(3f + _chargeFade * (float)_chargeWaver * 0.5f, -4f), -1);
-            base.alpha = a;
+            base.Alpha = a;
         }
     }
 

@@ -55,9 +55,9 @@ public class AnalogGamePad : InputDevice
 
     public virtual float rightTrigger => Maths.NormalizeSection(_state.triggers.right, 0.1f, 1f);
 
-    public virtual Vec2 leftStick => new Vec2(_state.sticks.left.x, _state.sticks.left.y);
+    public virtual Vec2 leftStick => new Vec2(_state.sticks.left.X, _state.sticks.left.Y);
 
-    public virtual Vec2 rightStick => new Vec2(_state.sticks.right.x, _state.sticks.right.y);
+    public virtual Vec2 rightStick => new Vec2(_state.sticks.right.X, _state.sticks.right.Y);
 
     public AnalogGamePad(int idx)
         : base(idx)
@@ -82,13 +82,13 @@ public class AnalogGamePad : InputDevice
             return;
         }
         _rumble = new Vec2(leftIntensity, rightIntensity);
-        if (_rumble.x > _highestRumble.x)
+        if (_rumble.X > _highestRumble.X)
         {
-            _highestRumble.x = _rumble.x;
+            _highestRumble.X = _rumble.X;
         }
-        if (_rumble.y > _highestRumble.y)
+        if (_rumble.Y > _highestRumble.Y)
         {
-            _highestRumble.y = _rumble.y;
+            _highestRumble.Y = _rumble.Y;
         }
     }
 
@@ -109,9 +109,9 @@ public class AnalogGamePad : InputDevice
             if (_rumbleWait <= 0)
             {
                 _rumbleWait = 4;
-                if (_rumble != _prevRumble || _highestRumble.x > _rumble.x || _highestRumble.y > _rumble.y)
+                if (_rumble != _prevRumble || _highestRumble.X > _rumble.X || _highestRumble.Y > _rumble.Y)
                 {
-                    RumbleNow(_highestRumble.x, _highestRumble.y);
+                    RumbleNow(_highestRumble.X, _highestRumble.Y);
                 }
             }
         }

@@ -2,61 +2,68 @@ namespace DuckGame;
 
 public class UIFuneral : UIMenu
 {
-    private Sprite _frame;
-
-    private BitmapFont _font;
-
-    private FancyBitmapFont _fancyFont;
-
-    private float yOffset = 150f;
-
-    public bool down = true;
-
-    private float _downWait = 1f;
-
-    private SpriteMap _portraitSprite;
-
-    private Sprite _portraitFrame;
-
-    private bool _shown;
-
-    private UIMenu _link;
+    #region Public Fields
 
     public static string oldSong;
 
-    private bool _doneDown;
-
-    private float _openWait = 1f;
-
     public bool finished;
 
-    public UIFuneral(float xpos, float ypos, float wide = -1f, float high = -1f, UIMenu link = null)
+    public bool down = true;
+
+    #endregion
+
+    #region Private Fields
+
+    bool _shown;
+
+    bool _doneDown;
+
+    float _downWait = 1;
+
+    float yOffset = 150;
+
+    Sprite _frame;
+
+    Sprite _portraitFrame;
+
+    SpriteMap _portraitSprite;
+
+    BitmapFont _font;
+
+    FancyBitmapFont _fancyFont;
+
+    UIMenu _link;
+
+    #endregion
+
+    #region Public Constructors
+
+    public UIFuneral(float xpos, float ypos, float wide = -1, float high = -1, UIMenu link = null)
         : base("", xpos, ypos, wide, high)
     {
-        Graphics.fade = 1f;
+        Graphics.fade = 1;
         _frame = new Sprite("deathFrame");
         _frame.CenterOrigin();
         _link = link;
         _font = new BitmapFont("biosFontUI", 8, 7);
         _fancyFont = new FancyBitmapFont("smallFont");
         _portraitFrame = new Sprite("funeralPic");
-        _portraitSprite = new SpriteMap("littleMan", 16, 16);
-        _portraitSprite.frame = UILevelBox.LittleManFrame(Profiles.experienceProfile.numLittleMen - 9, -1, 0uL);
+        _portraitSprite = new SpriteMap("littleMan", 16, 16)
+        {
+            frame = UILevelBox.LittleManFrame(Profiles.experienceProfile.numLittleMen - 9, -1, 0)
+        };
     }
+
+    #endregion
+
+    #region Public Methods
 
     public override void OnClose()
     {
         base.OnClose();
         Profiles.Save(Profiles.experienceProfile);
         if (_link != null)
-        {
             MonoMain.pauseMenu = _link;
-        }
-    }
-
-    public override void Open()
-    {
-        base.Open();
     }
 
     public override void Update()
@@ -66,11 +73,11 @@ public class UIFuneral : UIMenu
             _animating = false;
             return;
         }
-        yOffset = Lerp.FloatSmooth(yOffset, down ? 150f : 0f, 0.3f, 1.1f);
+        yOffset = Lerp.FloatSmooth(yOffset, down ? 150 : 0, 0.3f, 1.1f);
         if (down)
         {
             _downWait -= 0.06f;
-            if (_downWait <= 0f)
+            if (_downWait <= 0)
             {
                 if (_doneDown)
                 {
@@ -78,8 +85,7 @@ public class UIFuneral : UIMenu
                     Close();
                     return;
                 }
-                _openWait = 1f;
-                _downWait = 1f;
+                _downWait = 1;
                 down = false;
                 SFX.Play("pause", 0.6f);
             }
@@ -106,22 +112,24 @@ public class UIFuneral : UIMenu
 
     public override void Draw()
     {
-        base.y += yOffset;
-        _frame.depth = base.depth;
-        Graphics.Draw(_frame, base.x, base.y);
+        Y += yOffset;
+        _frame.Depth = Depth;
+        Graphics.Draw(_frame, X, Y);
         string text = "FAREWELL";
-        Vec2 fontPos = new Vec2(0f - _font.GetWidth(text) / 2f, -34f);
-        _font.DrawOutline(text, position + fontPos, Color.White, Color.Black, base.depth + 2);
+        Vec2 fontPos = new(0 - _font.GetWidth(text) / 2, -34);
+        _font.DrawOutline(text, Position + fontPos, Color.White, Color.Black, Depth + 2);
         string descriptionText = "Little man who's come to pass,\nRest in peace beneath the grass.\nHeavy souls weigh on this day,\nwe send a little man on his way.\n\n\nMay Angles Lead You In.";
-        Vec2 descFontPos = new Vec2(-33f, -15f);
-        _fancyFont.scale = new Vec2(0.5f, 0.5f);
-        _fancyFont.Draw(descriptionText, position + descFontPos, new Color(27, 38, 50), base.depth + 2);
-        Vec2 portraitPos = new Vec2(-53f, -4f);
-        _portraitSprite.depth = base.depth + 2;
-        _portraitFrame.depth = base.depth + 4;
-        Graphics.Draw(_portraitSprite, position.x + portraitPos.x + 1f, position.y + portraitPos.y + 1f, new Rectangle(2f, 0f, 12f, 10f));
-        Graphics.Draw(_portraitFrame, position.x + portraitPos.x - 2f, position.y + portraitPos.y - 2f);
-        Graphics.DrawRect(position + portraitPos, position + portraitPos + new Vec2(13f, 13f), Colors.DGBlue, base.depth + 1);
-        base.y -= yOffset;
+        Vec2 descFontPos = new(-33, -15);
+        _fancyFont.Scale = new Vec2(0.5f, 0.5f);
+        _fancyFont.Draw(descriptionText, Position + descFontPos, new Color(27, 38, 50), Depth + 2);
+        Vec2 portraitPos = new(-53, -4);
+        _portraitSprite.Depth = Depth + 2;
+        _portraitFrame.Depth = Depth + 4;
+        Graphics.Draw(_portraitSprite, Position.X + portraitPos.X + 1, Position.Y + portraitPos.Y + 1, new Rectangle(2, 0, 12, 10));
+        Graphics.Draw(_portraitFrame, Position.X + portraitPos.X - 2, Position.Y + portraitPos.Y - 2);
+        Graphics.DrawRect(Position + portraitPos, Position + portraitPos + new Vec2(13), Colors.DGBlue, Depth + 1);
+        Y -= yOffset;
     }
+
+    #endregion
 }

@@ -19,7 +19,7 @@ public class OldPistol : Gun
         _type = "gun";
         _sprite = new SpriteMap("oldPistol", 32, 32);
         graphic = _sprite;
-        center = new Vec2(16f, 17f);
+        Center = new Vec2(16f, 17f);
         collisionOffset = new Vec2(-8f, -4f);
         collisionSize = new Vec2(16f, 8f);
         _barrelOffsetTL = new Vec2(24f, 16f);
@@ -97,8 +97,8 @@ public class OldPistol : Gun
         }
         else if (_loadState == 2)
         {
-            handOffset.y -= 0.28f;
-            if (!(handOffset.y < -4f))
+            handOffset.Y -= 0.28f;
+            if (!(handOffset.Y < -4f))
             {
                 return;
             }
@@ -119,13 +119,13 @@ public class OldPistol : Gun
         }
         else if (_loadState == 3)
         {
-            handOffset.y += 0.15f;
-            if (!(handOffset.y >= 0f))
+            handOffset.Y += 0.15f;
+            if (!(handOffset.Y >= 0f))
             {
                 return;
             }
             _loadState++;
-            handOffset.y = 0f;
+            handOffset.Y = 0f;
             if (Network.isActive)
             {
                 if (base.isServerForObject)
@@ -177,11 +177,11 @@ public class OldPistol : Gun
             base.OnPressAction();
             for (int i = 0; i < 4; i++)
             {
-                Level.Add(Spark.New((offDir > 0) ? (base.x - 9f) : (base.x + 9f), base.y - 6f, new Vec2(Rando.Float(-1f, 1f), -0.5f), 0.05f));
+                Level.Add(Spark.New((offDir > 0) ? (base.X - 9f) : (base.X + 9f), base.Y - 6f, new Vec2(Rando.Float(-1f, 1f), -0.5f), 0.05f));
             }
             for (int j = 0; j < 4; j++)
             {
-                Level.Add(SmallSmoke.New(base.barrelPosition.x + (float)offDir * 4f, base.barrelPosition.y));
+                Level.Add(SmallSmoke.New(base.barrelPosition.X + (float)offDir * 4f, base.barrelPosition.Y));
             }
             ammo = 1;
         }
@@ -193,16 +193,16 @@ public class OldPistol : Gun
 
     public override void Draw()
     {
-        float ang = angle;
+        float ang = Angle;
         if (offDir > 0)
         {
-            angle -= _angleOffset;
+            Angle -= _angleOffset;
         }
         else
         {
-            angle += _angleOffset;
+            Angle += _angleOffset;
         }
         base.Draw();
-        angle = ang;
+        Angle = ang;
     }
 }

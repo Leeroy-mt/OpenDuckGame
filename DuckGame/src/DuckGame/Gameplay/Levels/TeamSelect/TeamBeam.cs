@@ -30,13 +30,13 @@ public class TeamBeam : MaterialThing
         : base(xpos, ypos)
     {
         _selectBeam = new Sprite("selectBeam");
-        _selectBeam.alpha = 0.9f;
-        _selectBeam.depth = -0.8f;
-        _selectBeam.center = new Vec2(_selectBeam.w / 2, 0f);
-        base.depth = 0f;
+        _selectBeam.Alpha = 0.9f;
+        _selectBeam.Depth = -0.8f;
+        _selectBeam.Center = new Vec2(_selectBeam.w / 2, 0f);
+        base.Depth = 0f;
         _collisionOffset = new Vec2(0f - (float)(_selectBeam.w / 2) * 0.8f, 0f);
         _collisionSize = new Vec2((float)_selectBeam.w * 0.8f, 180f);
-        center = new Vec2(_selectBeam.w / 2);
+        Center = new Vec2(_selectBeam.w / 2);
         thickness = 10f;
     }
 
@@ -50,7 +50,7 @@ public class TeamBeam : MaterialThing
         if (!_ducks.Any((BeamDuck t) => t.duck == d))
         {
             float entry = 0f;
-            entry = ((d.y < 100f) ? 40f : ((!(d.y < 150f)) ? 220f : 130f));
+            entry = ((d.Y < 100f) ? 40f : ((!(d.Y < 150f)) ? 220f : 130f));
             SFX.Play("stepInBeam");
             d.beammode = true;
             d.immobilized = true;
@@ -69,7 +69,7 @@ public class TeamBeam : MaterialThing
                 duck = d,
                 entryHeight = entry,
                 leaving = false,
-                entryDir = ((!(d.x < base.x)) ? 1 : (-1)),
+                entryDir = ((!(d.X < base.X)) ? 1 : (-1)),
                 sin = new SinWave(0.1f),
                 sin2 = new SinWave(0.05f)
             });
@@ -117,8 +117,8 @@ public class TeamBeam : MaterialThing
         _spawnWait -= 0.1f;
         if (_spawnWait < 0f)
         {
-            Level.Add(new BeamParticle(base.x, base.y + 290f, -0.8f - _wave.normalized, inverse: false, Color.Cyan * 0.8f));
-            Level.Add(new BeamParticle(base.x, base.y + 290f, -0.8f - _wave2.normalized, inverse: true, Color.LightBlue * 0.8f));
+            Level.Add(new BeamParticle(base.X, base.Y + 290f, -0.8f - _wave.normalized, inverse: false, Color.Cyan * 0.8f));
+            Level.Add(new BeamParticle(base.X, base.Y + 290f, -0.8f - _wave2.normalized, inverse: true, Color.LightBlue * 0.8f));
             _spawnWait = 1f;
         }
         waitFrames++;
@@ -164,7 +164,7 @@ public class TeamBeam : MaterialThing
                 int num = 0;
                 foreach (ProfileBox2 b in t2._profiles)
                 {
-                    if (!b.ready || b.duck == null || !(Math.Abs(b.duck.x - base.x) < 16f))
+                    if (!b.ready || b.duck == null || !(Math.Abs(b.duck.X - base.X) < 16f))
                     {
                         continue;
                     }
@@ -184,8 +184,8 @@ public class TeamBeam : MaterialThing
             }
         }
         int duckNum = 0;
-        float topOffset = _beamHeight / (float)numDucks / 2f + 20f * (float)((numDucks > 1) ? 1 : 0);
-        float span = (_beamHeight - topOffset * 2f) / (float)((numDucks <= 1) ? 1 : (numDucks - 1));
+        float topOffset = _beamHeight / numDucks / 2 + 20 * (float)((numDucks > 1) ? 1 : 0);
+        float span = (_beamHeight - topOffset * 2) / ((numDucks <= 1) ? 1 : (numDucks - 1));
         for (int i = 0; i < _ducks.Count; i++)
         {
             BeamDuck d4 = _ducks[i];
@@ -198,17 +198,17 @@ public class TeamBeam : MaterialThing
             if (d4.leaving)
             {
                 d4.duck.solid = true;
-                d4.duck.y = MathHelper.Lerp(d4.duck.position.y, d4.entryHeight, 0.35f);
+                d4.duck.Y = MathHelper.Lerp(d4.duck.Y, d4.entryHeight, 0.35f);
                 d4.duck.vSpeed = 0f;
-                if (Math.Abs(d4.duck.position.y - d4.entryHeight) < 4f)
+                if (Math.Abs(d4.duck.Y - d4.entryHeight) < 4)
                 {
-                    d4.duck.position.y = d4.entryHeight;
-                    d4.duck.hSpeed = (float)d4.entryDir * 3f;
-                    d4.duck.vSpeed = 0f;
+                    d4.duck.Y = d4.entryHeight;
+                    d4.duck.hSpeed = d4.entryDir * 3F;
+                    d4.duck.vSpeed = 0;
                 }
-                if (Math.Abs(d4.duck.position.x - base.x) > 24f)
+                if (Math.Abs(d4.duck.X - X) > 24)
                 {
-                    d4.duck.gravMultiplier = 1f;
+                    d4.duck.gravMultiplier = 1;
                     d4.duck.immobilized = false;
                     d4.duck.beammode = false;
                     _ducks.RemoveAt(i);
@@ -218,7 +218,7 @@ public class TeamBeam : MaterialThing
             }
             else
             {
-                if (Math.Abs(d4.duck.position.x - base.x) <= 24f)
+                if (Math.Abs(d4.duck.Position.X - base.X) <= 24f)
                 {
                     d4.duck.beammode = true;
                 }
@@ -227,13 +227,13 @@ public class TeamBeam : MaterialThing
                 {
                     floatIndex = d4.floatOrder;
                 }
-                d4.duck.position.x = Lerp.FloatSmooth(d4.duck.position.x, position.x + (float)d4.sin2 * 1f, 0.4f);
-                d4.duck.position.y = Lerp.FloatSmooth(d4.duck.position.y, topOffset + span * (float)floatIndex + (float)d4.sin * 2f, 0.1f);
+                d4.duck.X = Lerp.FloatSmooth(d4.duck.Position.X, Position.X + (float)d4.sin2 * 1f, 0.4f);
+                d4.duck.Y = Lerp.FloatSmooth(d4.duck.Position.Y, topOffset + span * (float)floatIndex + (float)d4.sin * 2f, 0.1f);
                 d4.duck.vSpeed = 0f;
                 d4.duck.hSpeed = 0f;
                 d4.duck.gravMultiplier = 0f;
             }
-            if (d4.duck.inputProfile != null && d4.duck.inputProfile.Pressed("CANCEL") && Math.Abs(d4.duck.position.x - base.x) < 2f)
+            if (d4.duck.inputProfile != null && d4.duck.inputProfile.Pressed("CANCEL") && Math.Abs(d4.duck.Position.X - base.X) < 2f)
             {
                 d4.leaving = true;
             }
@@ -252,20 +252,20 @@ public class TeamBeam : MaterialThing
             Thing g = _guns[j];
             g.vSpeed = 0f;
             g.hSpeed = 0f;
-            if (Math.Abs(position.x - g.position.x) < 6f)
+            if (Math.Abs(Position.X - g.Position.X) < 6f)
             {
-                g.position = Vec2.Lerp(g.position, new Vec2(position.x, g.position.y - 3f), 0.1f);
-                g.alpha = Maths.LerpTowards(g.alpha, 0f, 0.1f);
-                if (g.alpha <= 0f)
+                g.Position = Vec2.Lerp(g.Position, new Vec2(Position.X, g.Position.Y - 3f), 0.1f);
+                g.Alpha = Maths.LerpTowards(g.Alpha, 0f, 0.1f);
+                if (g.Alpha <= 0f)
                 {
-                    g.y = -200f;
+                    g.Y = -200f;
                     _guns.RemoveAt(j);
                     j--;
                 }
             }
             else
             {
-                g.position = Vec2.Lerp(g.position, new Vec2(position.x, g.position.y), 0.2f);
+                g.Position = Vec2.Lerp(g.Position, new Vec2(Position.X, g.Position.Y), 0.2f);
             }
         }
         base.Update();
@@ -275,7 +275,7 @@ public class TeamBeam : MaterialThing
     {
         for (int i = 0; i < 6; i++)
         {
-            Level.Add(new GlassParticle(hitPos.x, hitPos.y, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+            Level.Add(new GlassParticle(hitPos.X, hitPos.Y, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
         }
         _flash = 1f;
         if (bullet != null)
@@ -290,7 +290,7 @@ public class TeamBeam : MaterialThing
         base.Draw();
         for (int i = 0; i < 10; i++)
         {
-            Graphics.Draw(_selectBeam, base.x, base.y - 32f + (float)(i * 32));
+            Graphics.Draw(_selectBeam, base.X, base.Y - 32f + (float)(i * 32));
         }
     }
 }

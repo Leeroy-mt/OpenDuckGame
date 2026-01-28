@@ -6,7 +6,7 @@ public class BassDrum : Drum
         : base(xpos, ypos)
     {
         graphic = new Sprite("drumset/bassDrum");
-        center = new Vec2(graphic.w / 2, graphic.h / 2);
+        Center = new Vec2(graphic.w / 2, graphic.h / 2);
         _sound = "kick";
     }
 }

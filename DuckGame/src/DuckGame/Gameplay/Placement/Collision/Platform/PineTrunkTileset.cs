@@ -13,7 +13,7 @@ public class PineTrunkTileset : AutoPlatform
         verticalWidthThick = 15f;
         horizontalHeight = 8f;
         _hasNubs = false;
-        base.depth = -0.6f;
+        base.Depth = -0.6f;
         placementLayerOverride = Layer.Blocks;
     }
 
@@ -21,8 +21,8 @@ public class PineTrunkTileset : AutoPlatform
     {
         if (with.impactPowerV > 2.4f)
         {
-            Level.CheckPoint<PineTree>(base.x, base.y)?.KnockOffSnow(with.velocity, vertShake: true);
-            Level.CheckPoint<PineTree>(base.x, base.y - 16f)?.KnockOffSnow(with.velocity, vertShake: true);
+            Level.CheckPoint<PineTree>(base.X, base.Y)?.KnockOffSnow(with.velocity, vertShake: true);
+            Level.CheckPoint<PineTree>(base.X, base.Y - 16f)?.KnockOffSnow(with.velocity, vertShake: true);
         }
         base.OnSoftImpact(with, from);
     }

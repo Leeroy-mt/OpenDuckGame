@@ -11,7 +11,7 @@ public class Matchbox : Gun
         ammo = 20;
         _type = "gun";
         graphic = new Sprite("matchbox");
-        center = new Vec2(8f, 14f);
+        Center = new Vec2(8f, 14f);
         collisionOffset = new Vec2(-6f, -3f);
         collisionSize = new Vec2(12f, 5f);
         _barrelOffsetTL = new Vec2(15f, 6f);
@@ -38,7 +38,7 @@ public class Matchbox : Gun
         {
             for (int i = 0; i < 5; i++)
             {
-                Level.Add(SmallFire.New(base.x - 6f + Rando.Float(12f), base.y - 8f + Rando.Float(4f), -2f + Rando.Float(4f), 0f - (1f + Rando.Float(2f)), shortLife: false, null, canMultiply: true, this));
+                Level.Add(SmallFire.New(base.X - 6f + Rando.Float(12f), base.Y - 8f + Rando.Float(4f), -2f + Rando.Float(4f), 0f - (1f + Rando.Float(2f)), shortLife: false, null, canMultiply: true, this));
             }
             SFX.Play("ignite", 1f, -0.3f + Rando.Float(0.3f));
             if (owner is Duck duckOwner)
@@ -85,17 +85,17 @@ public class Matchbox : Gun
                 {
                     if (duckOwner.crouch)
                     {
-                        Level.Add(SmallFire.New(base.x + (float)offDir * 11f, base.y, 0f, 0f, shortLife: false, null, canMultiply: true, this));
+                        Level.Add(SmallFire.New(base.X + (float)offDir * 11f, base.Y, 0f, 0f, shortLife: false, null, canMultiply: true, this));
                     }
                     else
                     {
-                        Level.Add(SmallFire.New(base.x + (float)offDir * 11f, base.y, (float)offDir * (1f + Rando.Float(0.3f)) + addSpeedX, -0.6f - Rando.Float(0.5f) + addSpeedY, shortLife: false, null, canMultiply: true, this));
+                        Level.Add(SmallFire.New(base.X + (float)offDir * 11f, base.Y, (float)offDir * (1f + Rando.Float(0.3f)) + addSpeedX, -0.6f - Rando.Float(0.5f) + addSpeedY, shortLife: false, null, canMultiply: true, this));
                     }
                 }
             }
             else
             {
-                OnBurn(position, this);
+                OnBurn(Position, this);
             }
         }
         else

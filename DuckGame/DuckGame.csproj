@@ -11,6 +11,7 @@
 	  <OutDir>$(SolutionDir)bin</OutDir>
 	  <ApplicationIcon>app.ico</ApplicationIcon>
 	  <PlatformTarget>AnyCPU</PlatformTarget>
+	  <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,4 +31,13 @@
     <ProjectReference Include="..\Steam\Steam.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Content\*.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="Call $(ProjectDir)Content\Shaders\Compile-FXC.bat $(OutDir)Content\Shaders\" />
+  </Target>
 </Project>

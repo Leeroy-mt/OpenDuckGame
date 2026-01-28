@@ -41,11 +41,11 @@ public class Icicles : MaterialThing
         }
         if (background.value)
         {
-            base.depth = -0.1f;
+            base.Depth = -0.1f;
         }
         else
         {
-            base.depth = 0.1f;
+            base.Depth = 0.1f;
         }
     }
 
@@ -56,13 +56,13 @@ public class Icicles : MaterialThing
         background = new EditorProperty<bool>(val: false, this);
         graphic = new SpriteMap("icicles", 16, 21);
         base.hugWalls = WallHug.Ceiling;
-        center = new Vec2(8f, 5f);
+        Center = new Vec2(8f, 5f);
         collisionSize = new Vec2(10f, 8f);
         collisionOffset = new Vec2(-5f, -3f);
         thickness = 0.1f;
         physicsMaterial = PhysicsMaterial.Glass;
         base.layer = Layer.Blocks;
-        base.depth = 0.1f;
+        base.Depth = 0.1f;
     }
 
     public override void Initialize()
@@ -71,12 +71,12 @@ public class Icicles : MaterialThing
         {
             if (background.value)
             {
-                base.depth = -0.8f;
+                base.Depth = -0.8f;
                 base.layer = Layer.Game;
             }
             else
             {
-                base.depth = 0.1f;
+                base.Depth = 0.1f;
                 base.layer = Layer.Blocks;
             }
         }
@@ -89,7 +89,7 @@ public class Icicles : MaterialThing
         {
             if ((graphic as SpriteMap).frame == 3 && _deadlyIcicleInstance == null && Network.isServer)
             {
-                _deadlyIcicleInstance = new DeadlyIcicle(base.x, base.y + 8f);
+                _deadlyIcicleInstance = new DeadlyIcicle(base.X, base.Y + 8f);
                 _deadlyIcicleInstance.active = false;
                 _deadlyIcicleInstance.visible = false;
                 _deadlyIcicleInstance.solid = false;
@@ -141,7 +141,7 @@ public class Icicles : MaterialThing
         }
         for (int i = 0; i < 4; i++)
         {
-            GlassParticle glassParticle = new GlassParticle(base.x + (float)Rando.Int(-3, 3), base.y + (float)Rando.Int(-3, 3), Vec2.Zero);
+            GlassParticle glassParticle = new GlassParticle(base.X + (float)Rando.Int(-3, 3), base.Y + (float)Rando.Int(-3, 3), Vec2.Zero);
             Level.Add(glassParticle);
             glassParticle.hSpeed = Rando.Float(-1f, 1f);
             glassParticle.vSpeed = Rando.Float(-1f, 1f);
@@ -163,7 +163,7 @@ public class Icicles : MaterialThing
             }
             else
             {
-                Level.Add(new DeadlyIcicle(base.x, base.y + 8f));
+                Level.Add(new DeadlyIcicle(base.X, base.Y + 8f));
             }
         }
         (graphic as SpriteMap).frame += 4;

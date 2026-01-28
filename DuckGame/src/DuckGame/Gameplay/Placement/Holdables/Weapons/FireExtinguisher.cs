@@ -22,7 +22,7 @@ public class FireExtinguisher : Gun
         ammo = _maxAmmo;
         _type = "gun";
         graphic = new Sprite("extinguisher");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-3f, -8f);
         collisionSize = new Vec2(6f, 16f);
         _barrelOffsetTL = new Vec2(15f, 2f);
@@ -48,11 +48,11 @@ public class FireExtinguisher : Gun
             if (_smoke)
             {
                 Vec2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.5f, 0.5f));
-                Vec2 moveSpeed = new Vec2(travelDir.x * Rando.Float(0.9f, 3f), travelDir.y * Rando.Float(0.9f, 3f));
-                ExtinguisherSmoke thing = new ExtinguisherSmoke(base.barrelPosition.x, base.barrelPosition.y)
+                Vec2 moveSpeed = new Vec2(travelDir.X * Rando.Float(0.9f, 3f), travelDir.Y * Rando.Float(0.9f, 3f));
+                ExtinguisherSmoke thing = new ExtinguisherSmoke(base.barrelPosition.X, base.barrelPosition.Y)
                 {
-                    hSpeed = moveSpeed.x,
-                    vSpeed = moveSpeed.y
+                    hSpeed = moveSpeed.X,
+                    vSpeed = moveSpeed.Y
                 };
                 ammo--;
                 _guage.frame = 3 - (int)((float)ammo / (float)_maxAmmo * 4f);
@@ -71,8 +71,8 @@ public class FireExtinguisher : Gun
     {
         base.Draw();
         _guage.flipH = graphic.flipH;
-        _guage.alpha = graphic.alpha;
-        _guage.depth = base.depth + 1;
+        _guage.Alpha = graphic.Alpha;
+        _guage.Depth = base.Depth + 1;
         Draw(_guage, new Vec2(-6f, -8f));
     }
 

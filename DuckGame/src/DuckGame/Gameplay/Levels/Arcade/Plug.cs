@@ -329,8 +329,8 @@ public class Plug
         for (int i = _lineProgress.Count - 1; i >= 0; i--)
         {
             float wide = _font.GetWidth(_lineProgress[i].text);
-            float ypos = descPos.y + 2f + (float)(index * 9);
-            float xpos = descPos.x + descSize.x / 2f - wide / 2f;
+            float ypos = descPos.Y + 2f + (float)(index * 9);
+            float xpos = descPos.X + descSize.X / 2f - wide / 2f;
             for (int j = _lineProgress[i].segments.Count - 1; j >= 0; j--)
             {
                 _font.Draw(_lineProgress[i].segments[j].text, new Vec2(xpos, ypos), _lineProgress[i].segments[j].color, 0.98f);
@@ -338,9 +338,9 @@ public class Plug
             }
             index++;
         }
-        _dealer.depth = 0.96f;
-        _dealer.alpha = 1f;
-        Graphics.Draw(_dealer, 214f + dealerOffset.x, 6f + dealerOffset.y);
+        _dealer.Depth = 0.96f;
+        _dealer.Alpha = 1f;
+        Graphics.Draw(_dealer, 214f + dealerOffset.X, 6f + dealerOffset.Y);
         Graphics.DrawRect(descPos + new Vec2(-2f, 0f), descPos + descSize + new Vec2(2f, 0f), Color.Black, 0.97f);
     }
 }

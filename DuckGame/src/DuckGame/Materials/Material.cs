@@ -42,6 +42,11 @@ public class Material
         _effect.effect.Parameters[name]?.SetValue(value.ToVector4());
     }
 
+    public virtual void SetValue(string name, Rectangle value)
+    {
+        _effect.effect.Parameters[name]?.SetValue(value.ToVector4());
+    }
+
     public virtual void SetValue(string name, Matrix value)
     {
         _effect.effect.Parameters[name]?.SetValue(value);

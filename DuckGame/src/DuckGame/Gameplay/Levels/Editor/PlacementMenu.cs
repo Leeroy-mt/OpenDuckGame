@@ -10,8 +10,8 @@ public class PlacementMenu : EditorGroupMenu
         : base(null)
     {
         _alwaysDrawLast = true;
-        base.x = xpos;
-        base.y = ypos;
+        base.X = xpos;
+        base.Y = ypos;
         _root = true;
         willOnlineGrayout = false;
         _noneMenu = new ContextMenu(this);

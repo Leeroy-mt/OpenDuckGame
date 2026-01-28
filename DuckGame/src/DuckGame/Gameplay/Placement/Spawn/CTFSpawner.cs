@@ -12,7 +12,7 @@ public class CTFSpawner : ItemSpawner
     {
         _sprite = new SpriteMap("ctf/spawner", 16, 4);
         graphic = _sprite;
-        center = new Vec2(8f, 2f);
+        Center = new Vec2(8f, 2f);
         collisionOffset = new Vec2(-8f, -2f);
         collisionSize = new Vec2(16f, 4f);
         randomSpawn = true;
@@ -35,7 +35,7 @@ public class CTFSpawner : ItemSpawner
         }
         CTFPresent otherPres = null;
         CTFPresent yourPres = null;
-        foreach (CTFPresent pres in Level.CheckCircleAll<CTFPresent>(position, 16f))
+        foreach (CTFPresent pres in Level.CheckCircleAll<CTFPresent>(Position, 16f))
         {
             if (pres != _present)
             {
@@ -53,7 +53,7 @@ public class CTFSpawner : ItemSpawner
                 yourPres.duck.ThrowItem();
             }
             Level.Remove(yourPres);
-            Level.Add(SmallSmoke.New(yourPres.x, yourPres.y));
+            Level.Add(SmallSmoke.New(yourPres.X, yourPres.Y));
             CTF.CaptureFlag(team);
             SFX.Play("equip");
         }
@@ -71,9 +71,9 @@ public class CTFSpawner : ItemSpawner
         if (_present == null)
         {
             _spawnWait = 0f;
-            _present = new CTFPresent(base.x, base.y, team);
-            _present.x = base.x;
-            _present.y = base.top + (_present.y - _present.bottom) - 6f;
+            _present = new CTFPresent(base.X, base.Y, team);
+            _present.X = base.X;
+            _present.Y = base.top + (_present.Y - _present.bottom) - 6f;
             _present.vSpeed = -2f;
             Level.Add(_present);
             if (_seated)

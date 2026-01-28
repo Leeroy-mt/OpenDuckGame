@@ -11,16 +11,16 @@ public class CityWall : RockWall
         : base(xpos, ypos)
     {
         graphic = new Sprite("laserSpawner");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionSize = new Vec2(12f, 12f);
         collisionOffset = new Vec2(-6f, -6f);
-        base.depth = -0.6f;
+        base.Depth = -0.6f;
         base.hugWalls = WallHug.None;
         base.layer = Layer.Foreground;
         physicsMaterial = PhysicsMaterial.Metal;
         _visibleInGame = true;
         _wall = new Sprite("citywall");
-        _wall.center = new Vec2(_wall.w - 4, _wall.h / 2);
+        _wall.Center = new Vec2(_wall.w - 4, _wall.h / 2);
         editorTooltip = "Adds an infinite vertical building.";
     }
 
@@ -39,19 +39,19 @@ public class CityWall : RockWall
         _wall.flipH = flipHorizontal;
         if (!(Level.current is Editor))
         {
-            Graphics.Draw(_wall, base.x, base.y);
-            if (Level.current.topLeft.y < base.y - 500f)
+            Graphics.Draw(_wall, base.X, base.Y);
+            if (Level.current.topLeft.Y < base.Y - 500f)
             {
-                Graphics.Draw(_wall, base.x, base.y - (float)_wall.h);
+                Graphics.Draw(_wall, base.X, base.Y - (float)_wall.h);
             }
-            if (Level.current.bottomRight.y > base.y + 500f)
+            if (Level.current.bottomRight.Y > base.Y + 500f)
             {
-                Graphics.Draw(_wall, base.x, base.y + (float)_wall.h);
+                Graphics.Draw(_wall, base.X, base.Y + (float)_wall.h);
             }
         }
         else
         {
-            Graphics.DrawLine(position, position + new Vec2(flipHorizontal ? 16 : (-16), 0f), Color.Red);
+            Graphics.DrawLine(Position, Position + new Vec2(flipHorizontal ? 16 : (-16), 0f), Color.Red);
             base.Draw();
         }
     }

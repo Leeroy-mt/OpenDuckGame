@@ -7,7 +7,7 @@ public class Ragdoll : Thing
 {
     public bool inSleepingBag;
 
-    public StateBinding _positionBinding = new InterpolatedVec2Binding(nameof(position));
+    public StateBinding _positionBinding = new InterpolatedVec2Binding(nameof(Position));
 
     public StateBinding _part1Binding = new StateBinding(nameof(part1));
 
@@ -409,7 +409,7 @@ public class Ragdoll : Thing
         _duck = who;
         _slide = slide;
         offDir = (sbyte)off;
-        base.angleDegrees = degrees;
+        base.AngleDegrees = degrees;
         base.velocity = v;
         persona = p;
     }
@@ -453,7 +453,7 @@ public class Ragdoll : Thing
         _duck = who;
         _slide = slide;
         offDir = (sbyte)off;
-        base.angleDegrees = degrees;
+        base.AngleDegrees = degrees;
         base.velocity = v;
         _makeActive = false;
         RunInit();
@@ -461,20 +461,20 @@ public class Ragdoll : Thing
 
     public void Organize()
     {
-        Vec2 vec = Maths.AngleToVec(angle);
+        Vec2 vec = Maths.AngleToVec(Angle);
         if (_part1 == null)
         {
-            _part1 = new RagdollPart(base.x - vec.x * partSep, base.y - vec.y * partSep, 0, (_duck != null) ? _duck.persona : persona, offDir, this);
+            _part1 = new RagdollPart(base.X - vec.X * partSep, base.Y - vec.Y * partSep, 0, (_duck != null) ? _duck.persona : persona, offDir, this);
             if (Network.isActive && !GhostManager.inGhostLoop)
             {
                 GhostManager.context.MakeGhost(_part1);
             }
-            _part2 = new RagdollPart(base.x, base.y, 2, (_duck != null) ? _duck.persona : persona, offDir, this);
+            _part2 = new RagdollPart(base.X, base.Y, 2, (_duck != null) ? _duck.persona : persona, offDir, this);
             if (Network.isActive && !GhostManager.inGhostLoop)
             {
                 GhostManager.context.MakeGhost(_part2);
             }
-            _part3 = new RagdollPart(base.x + vec.x * partSep, base.y + vec.y * partSep, 1, (_duck != null) ? _duck.persona : persona, offDir, this);
+            _part3 = new RagdollPart(base.X + vec.X * partSep, base.Y + vec.Y * partSep, 1, (_duck != null) ? _duck.persona : persona, offDir, this);
             if (Network.isActive && !GhostManager.inGhostLoop)
             {
                 GhostManager.context.MakeGhost(_part3);
@@ -485,9 +485,9 @@ public class Ragdoll : Thing
         }
         else
         {
-            _part1.SortOutDetails(base.x - vec.x * partSep, base.y - vec.y * partSep, 0, (_duck != null) ? _duck.persona : persona, offDir, this);
-            _part2.SortOutDetails(base.x, base.y, 2, (_duck != null) ? _duck.persona : persona, offDir, this);
-            _part3.SortOutDetails(base.x + vec.x * partSep, base.y + vec.y * partSep, 1, (_duck != null) ? _duck.persona : persona, offDir, this);
+            _part1.SortOutDetails(base.X - vec.X * partSep, base.Y - vec.Y * partSep, 0, (_duck != null) ? _duck.persona : persona, offDir, this);
+            _part2.SortOutDetails(base.X, base.Y, 2, (_duck != null) ? _duck.persona : persona, offDir, this);
+            _part3.SortOutDetails(base.X + vec.X * partSep, base.Y + vec.Y * partSep, 1, (_duck != null) ? _duck.persona : persona, offDir, this);
         }
         _part1.joint = _part2;
         _part3.joint = _part2;
@@ -504,8 +504,8 @@ public class Ragdoll : Thing
                 _duck.ReturnItemToWorld(_part2);
                 _duck.ReturnItemToWorld(_part3);
             }
-            _part3.depth = new Depth(_duck.depth.value);
-            _part1.depth = _part3.depth - 1;
+            _part3.Depth = new Depth(_duck.Depth.value);
+            _part1.Depth = _part3.Depth - 1;
         }
     }
 
@@ -551,8 +551,8 @@ public class Ragdoll : Thing
         }
         if (_duck != null && _duck.onFire)
         {
-            _part1.Burn(_part1.position, _duck.lastBurnedBy);
-            _part2.Burn(_part2.position, _duck.lastBurnedBy);
+            _part1.Burn(_part1.Position, _duck.lastBurnedBy);
+            _part2.Burn(_part2.Position, _duck.lastBurnedBy);
         }
     }
 
@@ -560,8 +560,8 @@ public class Ragdoll : Thing
     {
         if (_duck != null)
         {
-            _part1.Burn(_part1.position, _duck.lastBurnedBy);
-            _part2.Burn(_part2.position, _duck.lastBurnedBy);
+            _part1.Burn(_part1.Position, _duck.lastBurnedBy);
+            _part2.Burn(_part2.Position, _duck.lastBurnedBy);
         }
     }
 
@@ -575,16 +575,16 @@ public class Ragdoll : Thing
         _duck.visible = true;
         if (Network.isActive)
         {
-            _part2.UpdateLastReasonablePosition(_part2.position);
-            _duck.position = _part2._lastReasonablePosition;
+            _part2.UpdateLastReasonablePosition(_part2.Position);
+            _duck.Position = _part2._lastReasonablePosition;
         }
         else
         {
-            _duck.position = _part2.position;
+            _duck.Position = _part2.Position;
         }
         if (!num)
         {
-            _duck.position.y -= 20f;
+            _duck.Y -= 20f;
         }
         _duck.hSpeed = _part2.hSpeed;
         _duck.immobilized = false;
@@ -598,12 +598,12 @@ public class Ragdoll : Thing
             active = false;
             visible = false;
             owner = null;
-            if (base.y > -1000f)
+            if (base.Y > -1000f)
             {
-                base.y = -9999f;
-                _part1.y = -9999f;
-                _part2.y = -9999f;
-                _part3.y = -9999f;
+                base.Y = -9999f;
+                _part1.Y = -9999f;
+                _part2.Y = -9999f;
+                _part3.Y = -9999f;
             }
             _part1.owner = null;
             _part2.owner = null;
@@ -635,9 +635,9 @@ public class Ragdoll : Thing
     {
         if (_duck != null && !_duck.dead)
         {
-            _duck.position = _part2.position;
+            _duck.Position = _part2.Position;
             _duck.Kill(new DTShot(bullet));
-            _duck.y -= 5000f;
+            _duck.Y -= 5000f;
         }
     }
 
@@ -645,9 +645,9 @@ public class Ragdoll : Thing
     {
         if (_duck != null && !_duck.dead && t != null)
         {
-            _duck.position = _part2.position;
+            _duck.Position = _part2.Position;
             _duck.Destroy(t);
-            _duck.y -= 5000f;
+            _duck.Y -= 5000f;
         }
     }
 
@@ -655,7 +655,7 @@ public class Ragdoll : Thing
     {
         if (_duck != null && !_duck.onFire)
         {
-            _duck.Burn(position, litBy);
+            _duck.Burn(Position, litBy);
         }
     }
 
@@ -671,8 +671,8 @@ public class Ragdoll : Thing
 
     public void Solve(PhysicsObject body1, PhysicsObject body2, float dist)
     {
-        Vec2 axis = body2.position - body1.position;
-        float currentDistance = axis.length;
+        Vec2 axis = body2.Position - body1.Position;
+        float currentDistance = axis.Length();
         if (currentDistance < 0.0001f)
         {
             currentDistance = 0.0001f;
@@ -698,13 +698,13 @@ public class Ragdoll : Thing
         vel2 -= impulseVector * invMass2;
         if (body1.owner == null)
         {
-            body1.hSpeed = vel1.x;
-            body1.vSpeed = vel1.y;
+            body1.hSpeed = vel1.X;
+            body1.vSpeed = vel1.Y;
         }
         if (body2.owner == null)
         {
-            body2.hSpeed = vel2.x;
-            body2.vSpeed = vel2.y;
+            body2.hSpeed = vel2.X;
+            body2.vSpeed = vel2.Y;
         }
     }
 
@@ -721,8 +721,8 @@ public class Ragdoll : Thing
     {
         Thing body1 = ((b1.owner != null) ? b1.owner : b1);
         Thing body2 = ((b2.owner != null) ? b2.owner : b2);
-        Vec2 axis = b2.position - b1.position;
-        float currentDistance = axis.length;
+        Vec2 axis = b2.Position - b1.Position;
+        float currentDistance = axis.Length();
         if (currentDistance < 0.0001f)
         {
             currentDistance = 0.0001f;
@@ -765,17 +765,17 @@ public class Ragdoll : Thing
         Vec2 impulseVector = unitAxis * impulse;
         vel1 += impulseVector * invMass1;
         vel2 -= impulseVector * invMass2;
-        body1.hSpeed = vel1.x;
-        body1.vSpeed = vel1.y;
-        body2.hSpeed = vel2.x;
-        body2.vSpeed = vel2.y;
-        if (body1 is ChainLink && (body2.position - body1.position).length > dist * 12f)
+        body1.hSpeed = vel1.X;
+        body1.vSpeed = vel1.Y;
+        body2.hSpeed = vel2.X;
+        body2.vSpeed = vel2.Y;
+        if (body1 is ChainLink && (body2.Position - body1.Position).Length() > dist * 12f)
         {
-            body1.position = position;
+            body1.Position = Position;
         }
-        if (body2 is ChainLink && (body2.position - body1.position).length > dist * 12f)
+        if (body2 is ChainLink && (body2.Position - body1.Position).Length() > dist * 12f)
         {
-            body2.position = position;
+            body2.Position = Position;
         }
         return impulse;
     }
@@ -783,8 +783,8 @@ public class Ragdoll : Thing
     public float SpecialSolve(PhysicsObject b1, Vec2 stuck, float dist)
     {
         Thing body1 = ((b1.owner != null) ? b1.owner : b1);
-        Vec2 axis = stuck - b1.position;
-        float currentDistance = axis.length;
+        Vec2 axis = stuck - b1.Position;
+        float currentDistance = axis.Length();
         if (currentDistance < 0.0001f)
         {
             currentDistance = 0.0001f;
@@ -808,8 +808,8 @@ public class Ragdoll : Thing
         Vec2 impulseVector = unitAxis * impulse;
         vel1 += impulseVector * invMass1;
         _ = vec - impulseVector * invMass2;
-        body1.hSpeed = vel1.x;
-        body1.vSpeed = vel1.y;
+        body1.hSpeed = vel1.X;
+        body1.vSpeed = vel1.Y;
         return impulse;
     }
 
@@ -832,12 +832,12 @@ public class Ragdoll : Thing
             _part2.hSpeed += Rando.Float(-0.5f, 0.5f);
             _part3.vSpeed += Rando.Float(-1f, 0.5f);
             _part3.hSpeed += Rando.Float(-0.5f, 0.5f);
-            _part1.x += Rando.Int(-2, 2);
-            _part1.y += Rando.Int(-2, 2);
-            _part2.x += Rando.Int(-2, 2);
-            _part2.y += Rando.Int(-2, 2);
-            _part3.x += Rando.Int(-2, 2);
-            _part3.y += Rando.Int(-2, 2);
+            _part1.X += Rando.Int(-2, 2);
+            _part1.Y += Rando.Int(-2, 2);
+            _part2.X += Rando.Int(-2, 2);
+            _part2.Y += Rando.Int(-2, 2);
+            _part3.X += Rando.Int(-2, 2);
+            _part3.Y += Rando.Int(-2, 2);
             _zap -= 0.05f;
             _wasZapping = true;
         }
@@ -873,19 +873,19 @@ public class Ragdoll : Thing
         {
             partSep = 4f;
         }
-        if ((_part1.position - _part3.position).length > partSep * 5f)
+        if ((_part1.Position - _part3.Position).Length() > partSep * 5f)
         {
             if (_part1.owner != null)
             {
-                _part2.position = (_part3.position = _part1.position);
+                _part2.Position = (_part3.Position = _part1.Position);
             }
             else if (_part3.owner != null)
             {
-                _part1.position = (_part2.position = _part3.position);
+                _part1.Position = (_part2.Position = _part3.Position);
             }
             else
             {
-                _part1.position = (_part3.position = _part2.position);
+                _part1.Position = (_part3.Position = _part2.Position);
             }
             RagdollPart ragdollPart = _part1;
             RagdollPart ragdollPart2 = _part2;
@@ -922,17 +922,17 @@ public class Ragdoll : Thing
                 SpecialSolve(_part1, _part3.owner as Duck, 16f);
                 SpecialSolve(_part3, t, 16f);
             }
-            if ((part1.position - t).length > 4f)
+            if ((part1.Position - t).Length() > 4f)
             {
                 SpecialSolve(_part1, t, 4f);
-                _ = (t - part1.position).normalized;
-                if ((part1.position - t).length > 12f)
+                _ = (t - part1.Position).Normalized;
+                if ((part1.Position - t).Length() > 12f)
                 {
-                    part1.position = Lerp.Vec2Smooth(part1.position, t, 0.2f);
+                    part1.Position = Lerp.Vec2Smooth(part1.Position, t, 0.2f);
                 }
             }
         }
-        position = (_part1.position + _part2.position + _part3.position) / 3f;
+        Position = (_part1.Position + _part2.Position + _part3.Position) / 3f;
         if (_duck == null || !(_zap <= 0f))
         {
             return;
@@ -957,8 +957,8 @@ public class Ragdoll : Thing
         }
         if (wellAndTrulyKilled)
         {
-            _duck.y = _part2.y - 9999f;
-            _duck.x = _part2.x;
+            _duck.Y = _part2.Y - 9999f;
+            _duck.X = _part2.X;
         }
     }
 
@@ -993,16 +993,16 @@ public class Ragdoll : Thing
             {
                 if (captureDuck.inputProfile.Pressed("RIGHT"))
                 {
-                    Vec2 velVec = (_part1.position - _part2.position).Rotate((float)Math.PI / 2f, Vec2.Zero);
+                    Vec2 velVec = (_part1.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vec2.Zero);
                     part1.velocity += velVec * 0.2f;
-                    velVec = (_part3.position - _part2.position).Rotate((float)Math.PI / 2f, Vec2.Zero);
+                    velVec = (_part3.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vec2.Zero);
                     part3.velocity += velVec * 0.2f;
                 }
                 else if (captureDuck.inputProfile.Pressed("LEFT"))
                 {
-                    Vec2 velVec2 = (_part1.position - _part2.position).Rotate((float)Math.PI / 2f, Vec2.Zero);
+                    Vec2 velVec2 = (_part1.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vec2.Zero);
                     part1.velocity += velVec2 * -0.2f;
-                    velVec2 = (_part3.position - _part2.position).Rotate((float)Math.PI / 2f, Vec2.Zero);
+                    velVec2 = (_part3.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vec2.Zero);
                     part3.velocity += velVec2 * -0.2f;
                 }
             }
@@ -1038,7 +1038,7 @@ public class Ragdoll : Thing
             }
         }
         bool canRise = false;
-        if (captureDuck.HasEquipment(typeof(FancyShoes)) && Math.Abs(_part1.x - _part3.x) < 9f && _part1.y < _part3.y)
+        if (captureDuck.HasEquipment(typeof(FancyShoes)) && Math.Abs(_part1.X - _part3.X) < 9f && _part1.Y < _part3.Y)
         {
             canRise = true;
         }

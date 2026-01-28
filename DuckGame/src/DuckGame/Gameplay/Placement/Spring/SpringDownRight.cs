@@ -8,15 +8,15 @@ public class SpringDownRight : SpringUpRight
         : base(xpos, ypos)
     {
         UpdateSprite();
-        center = new Vec2(8f, 7f);
+        Center = new Vec2(8f, 7f);
         collisionOffset = new Vec2(-8f, 0f);
         collisionSize = new Vec2(16f, 8f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Spring DownRight";
         editorTooltip = "Can't reach a low platform or want to get falling fast? That's why we built (down) springs.";
         physicsMaterial = PhysicsMaterial.Metal;
         editorCycleType = typeof(SpringDown);
-        base.angleDegrees = 135f;
+        base.AngleDegrees = 135f;
     }
 
     public override void Touch(MaterialThing with)
@@ -70,11 +70,11 @@ public class SpringDownRight : SpringUpRight
     {
         if (flipHorizontal)
         {
-            base.angleDegrees = 225f;
+            base.AngleDegrees = 225f;
         }
         else
         {
-            base.angleDegrees = 135f;
+            base.AngleDegrees = 135f;
         }
     }
 

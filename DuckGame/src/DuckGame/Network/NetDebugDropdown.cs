@@ -34,24 +34,24 @@ public class NetDebugDropdown : NetDebugElement
     protected override bool Draw(Vec2 position, bool allowInput)
     {
         bool tookInput = !allowInput;
-        position.x += indent;
+        position.X += indent;
         Vec2 size = new Vec2(160f, 12f);
         Graphics.DrawString(_name, position, Color.White, depth + 10);
-        position.x += 100f;
-        position.y -= 2f;
+        position.X += 100f;
+        position.Y -= 2f;
         width = 280f;
         List<Element> elements = _elements();
-        Rectangle dropButton = new Rectangle(position.x + (size.x - size.y), position.y, size.y, size.y);
-        Rectangle fullRect = new Rectangle(position.x, position.y, size.x, size.y);
+        Rectangle dropButton = new Rectangle(position.X + (size.X - size.Y), position.Y, size.Y, size.Y);
+        Rectangle fullRect = new Rectangle(position.X, position.Y, size.X, size.Y);
         if (_dropped)
         {
             tookInput = true;
-            Rectangle dropList = new Rectangle(position.x, position.y + size.y + 4f, size.x, size.y * (float)elements.Count);
+            Rectangle dropList = new Rectangle(position.X, position.Y + size.Y + 4f, size.X, size.Y * (float)elements.Count);
             Graphics.DrawRect(dropList, Color.White, depth + 2, filled: false);
             Graphics.DrawRect(dropList, Color.Black * 0.8f, depth + 1);
             foreach (Element e in elements)
             {
-                Rectangle elementRect = new Rectangle(dropList.x, dropList.y, size.x, size.y);
+                Rectangle elementRect = new Rectangle(dropList.x, dropList.y, size.X, size.Y);
                 if (elementRect.Contains(Mouse.positionConsole))
                 {
                     Graphics.DrawRect(elementRect, Color.White * 0.5f, depth + 3);
@@ -62,7 +62,7 @@ public class NetDebugDropdown : NetDebugElement
                     }
                 }
                 Graphics.DrawString(e.name, dropList.tl + new Vec2(2f, 2f), Color.White, depth + 5);
-                dropList.y += size.y;
+                dropList.y += size.Y;
             }
             if (Mouse.right == InputState.Pressed || (Mouse.left == InputState.Pressed && !dropList.Contains(Mouse.positionConsole)))
             {
@@ -79,7 +79,7 @@ public class NetDebugDropdown : NetDebugElement
         Graphics.DrawRect(position, position + size, Color.Black * 0.8f, depth + 1);
         Graphics.DrawRect(dropButton, Color.White, depth + 6, filled: false);
         Graphics.DrawRect(dropButton, hoverDropButton ? (Color.White * 0.6f) : (Color.Gray * 0.5f), depth + 5);
-        Graphics.Draw(_downArrow, dropButton.Center.x, dropButton.Center.y, depth + 8);
+        Graphics.Draw(_downArrow, dropButton.Center.X, dropButton.Center.Y, depth + 8);
         string selectedName = "-";
         if (selected != null)
         {

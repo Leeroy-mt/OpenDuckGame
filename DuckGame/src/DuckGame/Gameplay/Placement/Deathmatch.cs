@@ -672,18 +672,18 @@ public class Deathmatch : Thing
             usedSpawns.Add(teamSpawn);
             for (int i = 0; i < team.numMembers; i++)
             {
-                Vec2 pos = teamSpawn.position;
+                Vec2 pos = teamSpawn.Position;
                 if (team.numMembers == 2)
                 {
                     float spread = 18.823528f;
-                    pos.x = teamSpawn.position.x - 16f + spread * (float)i;
+                    pos.X = teamSpawn.Position.X - 16f + spread * (float)i;
                 }
                 else if (team.numMembers == 3)
                 {
                     float spread2 = 9.411764f;
-                    pos.x = teamSpawn.position.x - 16f + spread2 * (float)i;
+                    pos.X = teamSpawn.Position.X - 16f + spread2 * (float)i;
                 }
-                Duck player = new Duck(pos.x, pos.y - 7f, team.activeProfiles[i]);
+                Duck player = new Duck(pos.X, pos.Y - 7f, team.activeProfiles[i]);
                 player.offDir = teamSpawn.offDir;
                 spawned.Add(player);
             }
@@ -709,7 +709,7 @@ public class Deathmatch : Thing
         }
         SpawnPoint freeSpawn = validFreeSpawns[Rando.Int(validFreeSpawns.Count - 1)];
         usedSpawns.Add(freeSpawn);
-        Duck player = new Duck(freeSpawn.x, freeSpawn.y - 7f, profile);
+        Duck player = new Duck(freeSpawn.X, freeSpawn.Y - 7f, profile);
         player.offDir = freeSpawn.offDir;
         spawned.Add(player);
         return freeSpawn;
@@ -736,7 +736,7 @@ public class Deathmatch : Thing
         }
         SpawnPoint freeSpawn = validFreeSpawns[Rando.Int(validFreeSpawns.Count - 1)];
         usedSpawns.Add(freeSpawn);
-        Duck player = new Duck(freeSpawn.x, freeSpawn.y - 7f, profile);
+        Duck player = new Duck(freeSpawn.X, freeSpawn.Y - 7f, profile);
         player.offDir = freeSpawn.offDir;
         spawned.Add(player);
         return freeSpawn;

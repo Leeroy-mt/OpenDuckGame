@@ -542,11 +542,11 @@ public class DuckFile
         }
         if (s.width <= 16)
         {
-            s.scale = new Vec2(2f, 2f);
+            s.Scale = new Vec2(2f, 2f);
         }
         else
         {
-            s.scale = new Vec2(1f, 1f);
+            s.Scale = new Vec2(1f, 1f);
         }
         if (s.width > 28 || s.height > 28)
         {

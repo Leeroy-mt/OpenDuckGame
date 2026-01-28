@@ -50,40 +50,40 @@ public class FluidPuddle : MaterialThing
     public FluidPuddle(float xpos, float ypos, Block b)
         : base(xpos, ypos)
     {
-        _collisionOffset.y = -4f;
-        _collisionSize.y = 1f;
+        _collisionOffset.Y = -4f;
+        _collisionSize.Y = 1f;
         _block = b;
-        base.depth = 0.3f;
+        base.Depth = 0.3f;
         flammable = 0.9f;
-        base.alpha = 0f;
+        base.Alpha = 0f;
         List<BlockCorner> groupCorners = b.GetGroupCorners();
         _coll = new List<PhysicsObject>();
         _leftCorner = null;
         _rightCorner = null;
         foreach (BlockCorner corner in groupCorners)
         {
-            if (!(Math.Abs(ypos - corner.corner.y) < 4f))
+            if (!(Math.Abs(ypos - corner.corner.Y) < 4f))
             {
                 continue;
             }
-            if (corner.corner.x > xpos)
+            if (corner.corner.X > xpos)
             {
                 if (_rightCorner == null)
                 {
                     _rightCorner = corner;
                 }
-                else if (corner.corner.x < _rightCorner.corner.x)
+                else if (corner.corner.X < _rightCorner.corner.X)
                 {
                     _rightCorner = corner;
                 }
             }
-            else if (corner.corner.x < xpos)
+            else if (corner.corner.X < xpos)
             {
                 if (_leftCorner == null)
                 {
                     _leftCorner = corner;
                 }
-                else if (corner.corner.x > _leftCorner.corner.x)
+                else if (corner.corner.X > _leftCorner.corner.X)
                 {
                     _leftCorner = corner;
                 }
@@ -98,7 +98,7 @@ public class FluidPuddle : MaterialThing
             _fireID = FireManager.GetFireID();
             SFX.Play("ignite", 1f, -0.3f + Rando.Float(0.3f));
             _onFire = true;
-            base.alpha = 1f;
+            base.Alpha = 1f;
         }
         return true;
     }
@@ -108,7 +108,7 @@ public class FluidPuddle : MaterialThing
         SpriteMap surfaceFire = new SpriteMap("surfaceFire", 16, 10);
         surfaceFire.AddAnimation("idle", 0.2f, true, 0, 1, 2, 3);
         surfaceFire.SetAnimation("idle");
-        surfaceFire.center = new Vec2(8f, 10f);
+        surfaceFire.Center = new Vec2(8f, 10f);
         surfaceFire.frame = Rando.Int(3);
         _surfaceFire.Add(surfaceFire);
     }
@@ -121,7 +121,7 @@ public class FluidPuddle : MaterialThing
         }
         else
         {
-            base.y = _leftCorner.corner.y;
+            base.Y = _leftCorner.corner.Y;
         }
     }
 
@@ -136,15 +136,15 @@ public class FluidPuddle : MaterialThing
             _lava = new SpriteMap(dat.sprite, 16, 16);
             _lava.AddAnimation("idle", 0.1f, true, 0, 1, 2, 3);
             _lava.SetAnimation("idle");
-            _lava.center = new Vec2(8f, 10f);
+            _lava.Center = new Vec2(8f, 10f);
             _lavaAlternate = new SpriteMap(dat.sprite, 16, 16);
             _lavaAlternate.AddAnimation("idle", 0.1f, true, 2, 3, 0, 1);
             _lavaAlternate.SetAnimation("idle");
-            _lavaAlternate.center = new Vec2(8f, 10f);
+            _lavaAlternate.Center = new Vec2(8f, 10f);
         }
         if (_lightRect == null && Layer.lighting)
         {
-            _lightRect = new WhiteRectangle(base.x, base.y, base.width, base.height, !(dat.heat > 0f));
+            _lightRect = new WhiteRectangle(base.X, base.Y, base.width, base.height, !(dat.heat > 0f));
             Level.Add(_lightRect);
         }
         if (dat.amount > 0f)
@@ -155,17 +155,17 @@ public class FluidPuddle : MaterialThing
         data.amount = Maths.Clamp(data.amount, 0f, MaxFluidFill());
         _wide = FeedAmountToDistance(data.amount);
         float size = _wide + 4f;
-        _collisionOffset.x = 0f - size / 2f;
-        _collisionSize.x = size;
+        _collisionOffset.X = 0f - size / 2f;
+        _collisionSize.X = size;
         FeedEdges();
-        if (_leftCorner != null && _rightCorner != null && _wide > _rightCorner.corner.x - _leftCorner.corner.x)
+        if (_leftCorner != null && _rightCorner != null && _wide > _rightCorner.corner.X - _leftCorner.corner.X)
         {
-            _wide = _rightCorner.corner.x - _leftCorner.corner.x;
-            base.x = _leftCorner.corner.x + (_rightCorner.corner.x - _leftCorner.corner.x) / 2f;
+            _wide = _rightCorner.corner.X - _leftCorner.corner.X;
+            base.X = _leftCorner.corner.X + (_rightCorner.corner.X - _leftCorner.corner.X) / 2f;
         }
         size = _wide + 4f;
-        _collisionOffset.x = 0f - size / 2f;
-        _collisionSize.x = size;
+        _collisionOffset.X = 0f - size / 2f;
+        _collisionSize.X = size;
         if (!(data.sprite == "water") || _leftCorner == null)
         {
             return;
@@ -200,58 +200,58 @@ public class FluidPuddle : MaterialThing
     {
         if (_topLeftCorner != null && _topRightCorner != null)
         {
-            float topY = _topLeftCorner.corner.y + 8f;
-            if (_topRightCorner.corner.y > topY)
+            float topY = _topLeftCorner.corner.Y + 8f;
+            if (_topRightCorner.corner.Y > topY)
             {
-                topY = _topRightCorner.corner.y + 8f;
+                topY = _topRightCorner.corner.Y + 8f;
             }
-            return DistanceToFeedAmount((_leftCorner.corner.y - topY) * _collisionSize.x);
+            return DistanceToFeedAmount((_leftCorner.corner.Y - topY) * _collisionSize.X);
         }
         return 999999f;
     }
 
     public void FeedEdges()
     {
-        if (_rightCorner != null && base.right > _rightCorner.corner.x && _rightCorner.wallCorner)
+        if (_rightCorner != null && base.right > _rightCorner.corner.X && _rightCorner.wallCorner)
         {
-            base.x -= base.right - _rightCorner.corner.x;
+            base.X -= base.right - _rightCorner.corner.X;
         }
-        if (_leftCorner != null && base.left < _leftCorner.corner.x && _leftCorner.wallCorner)
+        if (_leftCorner != null && base.left < _leftCorner.corner.X && _leftCorner.wallCorner)
         {
-            base.x += _leftCorner.corner.x - base.left;
+            base.X += _leftCorner.corner.X - base.left;
         }
-        if (_rightCorner != null && base.right > _rightCorner.corner.x && !_rightCorner.wallCorner)
+        if (_rightCorner != null && base.right > _rightCorner.corner.X && !_rightCorner.wallCorner)
         {
-            float feedVal = DistanceToFeedAmount(base.right - _rightCorner.corner.x);
-            base.x -= (base.right - _rightCorner.corner.x) / 2f;
+            float feedVal = DistanceToFeedAmount(base.right - _rightCorner.corner.X);
+            base.X -= (base.right - _rightCorner.corner.X) / 2f;
             if (_rightStream == null)
             {
-                _rightStream = new FluidStream(_rightCorner.corner.x - 2f, base.y, new Vec2(1f, 0f), 1f);
+                _rightStream = new FluidStream(_rightCorner.corner.X - 2f, base.Y, new Vec2(1f, 0f), 1f);
             }
-            _rightStream.position.y = base.y - _collisionOffset.y;
-            _rightStream.position.x = _rightCorner.corner.x + 2f;
+            _rightStream.Y = base.Y - _collisionOffset.Y;
+            _rightStream.X = _rightCorner.corner.X + 2f;
             _rightStream.Feed(data.Take(feedVal));
         }
         _wide = FeedAmountToDistance(data.amount);
         float size = _wide + 4f;
-        _collisionOffset.x = 0f - size / 2f;
-        _collisionSize.x = size;
-        if (_leftCorner != null && base.left < _leftCorner.corner.x && !_leftCorner.wallCorner)
+        _collisionOffset.X = 0f - size / 2f;
+        _collisionSize.X = size;
+        if (_leftCorner != null && base.left < _leftCorner.corner.X && !_leftCorner.wallCorner)
         {
-            float feedVal2 = DistanceToFeedAmount(_leftCorner.corner.x - base.left);
-            base.x += (_leftCorner.corner.x - base.left) / 2f;
+            float feedVal2 = DistanceToFeedAmount(_leftCorner.corner.X - base.left);
+            base.X += (_leftCorner.corner.X - base.left) / 2f;
             if (_leftStream == null)
             {
-                _leftStream = new FluidStream(_leftCorner.corner.x - 2f, base.y, new Vec2(-1f, 0f), 1f);
+                _leftStream = new FluidStream(_leftCorner.corner.X - 2f, base.Y, new Vec2(-1f, 0f), 1f);
             }
-            _leftStream.position.y = base.y - _collisionOffset.y;
-            _leftStream.position.x = _leftCorner.corner.x - 2f;
+            _leftStream.Y = base.Y - _collisionOffset.Y;
+            _leftStream.X = _leftCorner.corner.X - 2f;
             _leftStream.Feed(data.Take(feedVal2));
         }
         _wide = FeedAmountToDistance(data.amount);
         size = _wide + 4f;
-        _collisionOffset.x = 0f - size / 2f;
-        _collisionSize.x = size;
+        _collisionOffset.X = 0f - size / 2f;
+        _collisionSize.X = size;
     }
 
     public float CalculateDepth()
@@ -266,13 +266,13 @@ public class FluidPuddle : MaterialThing
 
     public void PrepareFloaters()
     {
-        if (!(collisionSize.y > 10f))
+        if (!(collisionSize.Y > 10f))
         {
             return;
         }
         foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(base.topLeft + new Vec2(0f, -8f), base.topRight + new Vec2(0f, -8f)))
         {
-            item.position.y = base.top;
+            item.Y = base.top;
             item.DoFloat();
         }
     }
@@ -285,12 +285,12 @@ public class FluidPuddle : MaterialThing
         {
             Level.Remove(this);
         }
-        if (collisionSize.y > 10f)
+        if (collisionSize.Y > 10f)
         {
             bubbleWait++;
             if (bubbleWait > Rando.Int(15, 25))
             {
-                for (int i = 0; i < (int)Math.Floor(collisionSize.x / 16f); i++)
+                for (int i = 0; i < (int)Math.Floor(collisionSize.X / 16f); i++)
                 {
                     if (Rando.Float(1f) > 0.85f)
                     {
@@ -306,13 +306,13 @@ public class FluidPuddle : MaterialThing
                 item.sleeping = false;
             }
         }
-        FluidPuddle puddle = Level.CheckLine<FluidPuddle>(new Vec2(base.left, base.y), new Vec2(base.right, base.y), this);
+        FluidPuddle puddle = Level.CheckLine<FluidPuddle>(new Vec2(base.left, base.Y), new Vec2(base.right, base.Y), this);
         if (puddle != null && puddle.data.amount < data.amount)
         {
             puddle.active = false;
             float leftMost = Math.Min(puddle.left, base.left);
             float rightMost = Math.Max(puddle.right, base.right);
-            base.x = leftMost + (rightMost - leftMost) / 2f;
+            base.X = leftMost + (rightMost - leftMost) / 2f;
             Feed(puddle.data);
             Level.Remove(puddle);
         }
@@ -343,13 +343,13 @@ public class FluidPuddle : MaterialThing
                 if (data.amount <= 0f)
                 {
                     data.amount = 0f;
-                    base.alpha = Lerp.Float(base.alpha, 0f, 0.04f);
+                    base.Alpha = Lerp.Float(base.Alpha, 0f, 0.04f);
                 }
                 else
                 {
-                    base.alpha = Lerp.Float(base.alpha, 1f, 0.04f);
+                    base.Alpha = Lerp.Float(base.Alpha, 1f, 0.04f);
                 }
-                if (base.alpha <= 0f)
+                if (base.Alpha <= 0f)
                 {
                     Level.Remove(this);
                 }
@@ -357,7 +357,7 @@ public class FluidPuddle : MaterialThing
         }
         else
         {
-            base.alpha = Lerp.Float(base.alpha, 1f, 0.04f);
+            base.Alpha = Lerp.Float(base.Alpha, 1f, 0.04f);
             if (thick < 3f)
             {
                 FluidData dat2 = data;
@@ -371,24 +371,24 @@ public class FluidPuddle : MaterialThing
             _initializedUpperCorners = true;
             foreach (BlockCorner b in _block.GetGroupCorners())
             {
-                if (_leftCorner != null && b.corner.x == _leftCorner.corner.x && b.corner.y < _leftCorner.corner.y)
+                if (_leftCorner != null && b.corner.X == _leftCorner.corner.X && b.corner.Y < _leftCorner.corner.Y)
                 {
                     if (_topLeftCorner == null)
                     {
                         _topLeftCorner = b;
                     }
-                    else if (b.corner.y > _topLeftCorner.corner.y)
+                    else if (b.corner.Y > _topLeftCorner.corner.Y)
                     {
                         _topLeftCorner = b;
                     }
                 }
-                else if (_rightCorner != null && b.corner.x == _rightCorner.corner.x && b.corner.y < _rightCorner.corner.y)
+                else if (_rightCorner != null && b.corner.X == _rightCorner.corner.X && b.corner.Y < _rightCorner.corner.Y)
                 {
                     if (_topRightCorner == null)
                     {
                         _topRightCorner = b;
                     }
-                    else if (b.corner.y > _topRightCorner.corner.y)
+                    else if (b.corner.Y > _topRightCorner.corner.Y)
                     {
                         _topRightCorner = b;
                     }
@@ -397,27 +397,27 @@ public class FluidPuddle : MaterialThing
         }
         if (_leftStream != null)
         {
-            _leftStream.position.y = base.y - _collisionOffset.y;
+            _leftStream.Y = base.Y - _collisionOffset.Y;
         }
         if (_rightStream != null)
         {
-            _rightStream.position.y = base.y - _collisionOffset.y;
+            _rightStream.Y = base.Y - _collisionOffset.Y;
         }
-        _collisionOffset.y = 0f - thick - 1f;
-        _collisionSize.y = thick;
+        _collisionOffset.Y = 0f - thick - 1f;
+        _collisionSize.Y = thick;
     }
 
     public override void Draw()
     {
-        Graphics.DrawLine(position + new Vec2(0f - _collisionOffset.x, collisionOffset.y / 2f + 0.5f), position + new Vec2(_collisionOffset.x, collisionOffset.y / 2f + 0.5f), new Color(data.color) * data.transparent, _collisionSize.y, 0.9f);
-        Graphics.DrawLine(position + new Vec2(0f - _collisionOffset.x, collisionOffset.y / 2f + 0.5f), position + new Vec2(_collisionOffset.x, collisionOffset.y / 2f + 0.5f), new Color(data.color), _collisionSize.y, -0.99f);
+        Graphics.DrawLine(Position + new Vec2(0f - _collisionOffset.X, collisionOffset.Y / 2f + 0.5f), Position + new Vec2(_collisionOffset.X, collisionOffset.Y / 2f + 0.5f), new Color(data.color) * data.transparent, _collisionSize.Y, 0.9f);
+        Graphics.DrawLine(Position + new Vec2(0f - _collisionOffset.X, collisionOffset.Y / 2f + 0.5f), Position + new Vec2(_collisionOffset.X, collisionOffset.Y / 2f + 0.5f), new Color(data.color), _collisionSize.Y, -0.99f);
         if (_lightRect != null)
         {
-            _lightRect.position = base.topLeft;
+            _lightRect.Position = base.topLeft;
             _lightRect.size = new Vec2(base.width, base.height);
         }
-        int val = (int)Math.Ceiling(_collisionSize.x / 16f);
-        float inc = _collisionSize.x / (float)val;
+        int val = (int)Math.Ceiling(_collisionSize.X / 16f);
+        float inc = _collisionSize.X / (float)val;
         if (_onFire)
         {
             while (_surfaceFire.Count < val)
@@ -425,19 +425,19 @@ public class FluidPuddle : MaterialThing
                 AddFire();
             }
             float minus = 0f;
-            if (_collisionSize.y > 2f)
+            if (_collisionSize.Y > 2f)
             {
                 minus = 2f;
             }
             for (int i = 0; i < val; i++)
             {
-                _surfaceFire[i].alpha = base.alpha;
-                _surfaceFire[i].yscale = _fireRise;
-                _surfaceFire[i].depth = base.depth + 1;
-                Graphics.Draw(_surfaceFire[i], base.left + 8f + (float)i * inc, base.y + _collisionOffset.y + 1f - minus);
+                _surfaceFire[i].Alpha = base.Alpha;
+                _surfaceFire[i].ScaleY = _fireRise;
+                _surfaceFire[i].Depth = base.Depth + 1;
+                Graphics.Draw(_surfaceFire[i], base.left + 8f + (float)i * inc, base.Y + _collisionOffset.Y + 1f - minus);
             }
         }
-        if (_lava != null && collisionSize.y > 2f)
+        if (_lava != null && collisionSize.Y > 2f)
         {
             bool alternate = false;
             for (int j = 0; j < val; j++)
@@ -447,10 +447,10 @@ public class FluidPuddle : MaterialThing
                 {
                     draw = _lavaAlternate;
                 }
-                draw.depth = -0.7f;
-                draw.depth += j;
-                draw.alpha = 1f;
-                Graphics.DrawWithoutUpdate(draw, (float)Math.Round(base.left + 8f + (float)j * inc), base.y + _collisionOffset.y - 4.5f);
+                draw.Depth = -0.7f;
+                draw.Depth += j;
+                draw.Alpha = 1f;
+                Graphics.DrawWithoutUpdate(draw, (float)Math.Round(base.left + 8f + (float)j * inc), base.Y + _collisionOffset.Y - 4.5f);
                 alternate = !alternate;
             }
             _lava.UpdateFrame();

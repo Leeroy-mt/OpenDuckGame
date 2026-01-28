@@ -10,7 +10,7 @@ public class QuadLaser : Gun
         _ammoType = new AT9mm();
         _type = "gun";
         graphic = new Sprite("quadLaser");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -3f);
         collisionSize = new Vec2(16f, 8f);
         _barrelOffsetTL = new Vec2(20f, 8f);
@@ -34,14 +34,14 @@ public class QuadLaser : Gun
         Vec2 barrel = Offset(base.barrelOffset);
         if (base.isServerForObject)
         {
-            QuadLaserBullet b = new QuadLaserBullet(barrel.x, barrel.y, base.barrelVector);
+            QuadLaserBullet b = new QuadLaserBullet(barrel.X, barrel.Y, base.barrelVector);
             b.killThingType = GetType();
             Level.Add(b);
             if (base.duck != null)
             {
                 RumbleManager.AddRumbleEvent(base.duck.profile, new RumbleEvent(_fireRumble, RumbleDuration.Pulse, RumbleFalloff.None));
-                base.duck.hSpeed = (0f - base.barrelVector.x) * 8f;
-                base.duck.vSpeed = (0f - base.barrelVector.y) * 4f - 2f;
+                base.duck.hSpeed = (0f - base.barrelVector.X) * 8f;
+                base.duck.vSpeed = (0f - base.barrelVector.Y) * 4f - 2f;
                 b.responsibleProfile = base.duck.profile;
             }
         }

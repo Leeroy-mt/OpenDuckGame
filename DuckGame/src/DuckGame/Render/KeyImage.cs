@@ -18,13 +18,13 @@ public class KeyImage : Sprite
 
     public override void Draw()
     {
-        _keySprite.position = position;
-        _keySprite.alpha = base.alpha;
+        _keySprite.Position = Position;
+        _keySprite.Alpha = base.Alpha;
         _keySprite.color = base.color;
-        _keySprite.depth = base.depth;
-        _keySprite.scale = base.scale;
+        _keySprite.Depth = base.Depth;
+        _keySprite.Scale = base.Scale;
         _keySprite.Draw();
-        _font.scale = base.scale;
-        _font.Draw(_keyString, position + new Vec2((float)_keySprite.width * _keySprite.scale.x / 2f - _font.GetWidth(_keyString) / 2f - 1f, 2f * _keySprite.scale.y), new Color(20, 32, 34), base.depth + 2);
+        _font.Scale = base.Scale;
+        _font.Draw(_keyString, Position + new Vec2((float)_keySprite.width * _keySprite.Scale.X / 2f - _font.GetWidth(_keyString) / 2f - 1f, 2f * _keySprite.Scale.Y), new Color(20, 32, 34), base.Depth + 2);
     }
 }

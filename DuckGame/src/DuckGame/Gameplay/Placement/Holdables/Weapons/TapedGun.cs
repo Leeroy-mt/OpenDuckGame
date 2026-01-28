@@ -242,21 +242,21 @@ public class TapedGun : Gun
             }
             if (gun1.addVerticalTapeOffset)
             {
-                gun1.position = Offset(new Vec2(0f, splitSize) + gun1.tapedOffset);
+                gun1.Position = Offset(new Vec2(0f, splitSize) + gun1.tapedOffset);
             }
             else
             {
-                gun1.position = Offset(gun1.tapedOffset);
+                gun1.Position = Offset(gun1.tapedOffset);
             }
-            gun1.depth = base.depth - 8;
+            gun1.Depth = base.Depth - 8;
             if (taping)
             {
-                gun1.angleDegrees = base.angleDegrees + (float)(90 * offDir);
+                gun1.AngleDegrees = base.AngleDegrees + (float)(90 * offDir);
                 gun1.offDir = offDir;
             }
             else
             {
-                gun1.angleDegrees = base.angleDegrees - 180f;
+                gun1.AngleDegrees = base.AngleDegrees - 180f;
                 gun1.offDir = (sbyte)(-offDir);
             }
             gun1.grounded = base.grounded;
@@ -288,8 +288,8 @@ public class TapedGun : Gun
             gun1.UpdateTapedPositioning(this);
             if (!(gun1 is Gun))
             {
-                float val = 1f - ((float)Math.Sin(Maths.DegToRad(gun1.angleDegrees + 90f)) + 1f) / 2f;
-                gun1._extraOffset.y = val * (gun1.collisionOffset.y + gun1.collisionSize.y + gun1.collisionOffset.y);
+                float val = 1f - ((float)Math.Sin(Maths.DegToRad(gun1.AngleDegrees + 90f)) + 1f) / 2f;
+                gun1._extraOffset.Y = val * (gun1.collisionOffset.Y + gun1.collisionSize.Y + gun1.collisionOffset.Y);
             }
             if (gun1 is Gun)
             {
@@ -308,14 +308,14 @@ public class TapedGun : Gun
             }
             if (gun2.addVerticalTapeOffset)
             {
-                gun2.position = Offset(new Vec2(0f, 0f - splitSize) + gun2.tapedOffset);
+                gun2.Position = Offset(new Vec2(0f, 0f - splitSize) + gun2.tapedOffset);
             }
             else
             {
-                gun2.position = Offset(gun2.tapedOffset);
+                gun2.Position = Offset(gun2.tapedOffset);
             }
-            gun2.depth = base.depth - 4;
-            gun2.angleDegrees = base.angleDegrees;
+            gun2.Depth = base.Depth - 4;
+            gun2.AngleDegrees = base.AngleDegrees;
             gun2.offDir = offDir;
             gun2.grounded = base.grounded;
             gun2.hSpeed = hSpeed;
@@ -346,8 +346,8 @@ public class TapedGun : Gun
             gun2.UpdateTapedPositioning(this);
             if (!(gun2 is Gun))
             {
-                float val2 = 1f - ((float)Math.Sin(Maths.DegToRad(gun2.angleDegrees + 90f)) + 1f) / 2f;
-                gun2._extraOffset.y = val2 * (gun2.collisionOffset.y + gun2.collisionSize.y + gun2.collisionOffset.y);
+                float val2 = 1f - ((float)Math.Sin(Maths.DegToRad(gun2.AngleDegrees + 90f)) + 1f) / 2f;
+                gun2._extraOffset.Y = val2 * (gun2.collisionOffset.Y + gun2.collisionSize.Y + gun2.collisionOffset.Y);
             }
             if (gun2 is Gun)
             {
@@ -366,18 +366,18 @@ public class TapedGun : Gun
         {
             weight = 8f;
         }
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         if (gun1 != null && gun2 != null)
         {
             if (_firstCalc)
             {
-                float val3 = 1f - ((float)Math.Sin(Maths.DegToRad(gun1.angleDegrees + 90f)) + 1f) / 2f;
-                gun1._extraOffset.y = val3 * (gun1.collisionOffset.y + gun1.collisionSize.y + gun1.collisionOffset.y);
-                val3 = 1f - ((float)Math.Sin(Maths.DegToRad(gun2.angleDegrees + 90f)) + 1f) / 2f;
-                gun2._extraOffset.y = val3 * (gun2.collisionOffset.y + gun2.collisionSize.y + gun2.collisionOffset.y);
-                float highest = Math.Min(gun1.top - gun1._extraOffset.y, gun2.top - gun2._extraOffset.y);
-                float lowest = Math.Max(gun1.bottom - gun1._extraOffset.y, gun2.bottom - gun2._extraOffset.y);
-                float highDif = base.y - highest;
+                float val3 = 1f - ((float)Math.Sin(Maths.DegToRad(gun1.AngleDegrees + 90f)) + 1f) / 2f;
+                gun1._extraOffset.Y = val3 * (gun1.collisionOffset.Y + gun1.collisionSize.Y + gun1.collisionOffset.Y);
+                val3 = 1f - ((float)Math.Sin(Maths.DegToRad(gun2.AngleDegrees + 90f)) + 1f) / 2f;
+                gun2._extraOffset.Y = val3 * (gun2.collisionOffset.Y + gun2.collisionSize.Y + gun2.collisionOffset.Y);
+                float highest = Math.Min(gun1.top - gun1._extraOffset.Y, gun2.top - gun2._extraOffset.Y);
+                float lowest = Math.Max(gun1.bottom - gun1._extraOffset.Y, gun2.bottom - gun2._extraOffset.Y);
+                float highDif = base.Y - highest;
                 collisionOffset = new Vec2(-6f, 0f - highDif);
                 collisionSize = new Vec2(12f, lowest - highest);
                 _firstCalc = false;
@@ -466,11 +466,11 @@ public class TapedGun : Gun
         {
             if (base.isServerForObject && taping && base.duck != null && base.duck.inputProfile != null && base.duck.inputProfile.Pressed("SHOOT"))
             {
-                Holdable g = Level.current.NearestThingFilter<Holdable>(position, (Thing t) => t.owner == null && t != this && t != gun1 && !(t is Equipment) && !(t is RagdollPart) && !(t is TapedGun) && (t as Holdable).tapeable && (gun1 == null || gun1.CanTapeTo(t)));
+                Holdable g = Level.current.NearestThingFilter<Holdable>(Position, (Thing t) => t.owner == null && t != this && t != gun1 && !(t is Equipment) && !(t is RagdollPart) && !(t is TapedGun) && (t as Holdable).tapeable && (gun1 == null || gun1.CanTapeTo(t)));
                 if (Distance(g) < 16f)
                 {
-                    Level.Add(SmallSmoke.New(position.x, position.y));
-                    Level.Add(SmallSmoke.New(position.x, position.y));
+                    Level.Add(SmallSmoke.New(Position.X, Position.Y));
+                    Level.Add(SmallSmoke.New(Position.X, Position.Y));
                     SFX.PlaySynchronized("equip", 0.8f);
                     Thing.ExtraFondle(g, connection);
                     gun2 = g;
@@ -484,7 +484,7 @@ public class TapedGun : Gun
                     if (monster != null)
                     {
                         Thing.Fondle(monster, DuckNetwork.localConnection);
-                        monster.position = position;
+                        monster.Position = Position;
                         Level.Add(monster);
                         if (base.duck != null)
                         {
@@ -531,18 +531,18 @@ public class TapedGun : Gun
             base.duck.resetAction = true;
         }
         UpdatePositioning();
-        _tape.depth = base.depth + 16;
-        _tape.angleDegrees = base.angleDegrees;
+        _tape.Depth = base.Depth + 16;
+        _tape.AngleDegrees = base.AngleDegrees;
         _tape.flipH = offDir < 0;
         new Vec2(0f, base.bottom - base.top);
         if (gun2 != null)
         {
-            Vec2 pos = gun2.Offset(new Vec2(0f, 0f - collisionOffset.y / 2f));
-            Graphics.Draw(_tape, pos.x, pos.y);
+            Vec2 pos = gun2.Offset(new Vec2(0f, 0f - collisionOffset.Y / 2f));
+            Graphics.Draw(_tape, pos.X, pos.Y);
         }
         else
         {
-            Graphics.Draw(_tape, position.x, position.y);
+            Graphics.Draw(_tape, Position.X, Position.Y);
         }
         if (base.level == null || Duck.renderingIcon)
         {

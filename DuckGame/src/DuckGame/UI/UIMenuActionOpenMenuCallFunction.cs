@@ -1,30 +1,26 @@
+using System;
+
 namespace DuckGame;
 
-public class UIMenuActionOpenMenuCallFunction : UIMenuAction
+public class UIMenuActionOpenMenuCallFunction(UIComponent menu, UIComponent open, Action f) 
+    : UIMenuAction
 {
-    public delegate void Function();
+    #region Private Fields
 
-    private UIComponent _menu;
+    UIComponent _menu = menu;
 
-    private UIComponent _open;
+    UIComponent _open = open;
 
-    private Function _function;
+    Action _function = f;
 
-    public UIMenuActionOpenMenuCallFunction(UIComponent menu, UIComponent open, Function f)
-    {
-        _menu = menu;
-        _open = open;
-        _function = f;
-    }
+    #endregion
 
     public override void Activate()
     {
         _menu.Close();
         _open.Open();
         if (MonoMain.pauseMenu == _menu || (MonoMain.pauseMenu != null && MonoMain.pauseMenu.GetType() != typeof(UIComponent)) || MonoMain.pauseMenu == null)
-        {
             MonoMain.pauseMenu = _open;
-        }
         _function();
     }
 }

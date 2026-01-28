@@ -15,7 +15,7 @@ public class GinormoScreen : Thing
         : base(xpos, ypos)
     {
         base.layer = Layer.Foreground;
-        base.depth = 0f;
+        base.Depth = 0f;
         _font = new BitmapFont("biosFont", 8);
         _collisionSize = new Vec2(184f, 102f);
         List<Team> teams = new List<Team>();
@@ -31,12 +31,12 @@ public class GinormoScreen : Thing
         bool smallMode = teams.Count > 4;
         foreach (Team t2 in teams)
         {
-            float ySlot = base.y + 2f + (float)((smallMode ? 12 : 25) * index);
+            float ySlot = base.Y + 2f + (float)((smallMode ? 12 : 25) * index);
             if (Graphics.aspect > 0.59f)
             {
                 ySlot += 10f;
             }
-            GinormoCard c = new GinormoCard((float)index * 1f, new Vec2(300f, ySlot), new Vec2(base.x + (float)((mode == BoardMode.Points) ? 2 : 2), ySlot), t2, mode, index, smallMode);
+            GinormoCard c = new GinormoCard((float)index * 1f, new Vec2(300f, ySlot), new Vec2(base.X + (float)((mode == BoardMode.Points) ? 2 : 2), ySlot), t2, mode, index, smallMode);
             Level.current.AddThing(c);
             index++;
         }

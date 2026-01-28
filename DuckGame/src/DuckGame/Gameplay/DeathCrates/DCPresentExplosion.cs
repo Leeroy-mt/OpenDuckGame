@@ -6,8 +6,8 @@ public class DCPresentExplosion : DeathCrateSetting
 {
     public override void Activate(DeathCrate c, bool server = true)
     {
-        float cx = c.x;
-        float cy = c.y - 2f;
+        float cx = c.X;
+        float cy = c.Y - 2f;
         Level.Add(new ExplosionPart(cx, cy));
         int num = 6;
         if (Graphics.effectsLevel < 2)
@@ -24,7 +24,7 @@ public class DCPresentExplosion : DeathCrateSetting
         {
             for (int j = 0; j < 8; j++)
             {
-                Present present = new Present(c.x, c.y);
+                Present present = new Present(c.X, c.Y);
                 float norm = (float)j / 7f;
                 present.hSpeed = (-15f + norm * 30f) * Rando.Float(0.5f, 1f);
                 present.vSpeed = Rando.Float(-3f, -11f);
@@ -32,7 +32,7 @@ public class DCPresentExplosion : DeathCrateSetting
             }
             for (int k = 0; k < 4; k++)
             {
-                Flower flower = new Flower(c.x, c.y);
+                Flower flower = new Flower(c.X, c.Y);
                 float norm2 = (float)k / 3f;
                 flower.hSpeed = (-10f + norm2 * 20f) * Rando.Float(0.5f, 1f);
                 flower.vSpeed = Rando.Float(-3f, -11f);

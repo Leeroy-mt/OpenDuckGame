@@ -13,7 +13,7 @@ public class LoadingAction
 
     public object context;
 
-    public Queue<LoadingAction> actions = new Queue<LoadingAction>();
+    public Queue<LoadingAction> actions = new();
 
     public Action action;
 

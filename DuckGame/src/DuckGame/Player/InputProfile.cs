@@ -377,13 +377,13 @@ public class InputProfile
                 if (Mouse.left == InputState.Down)
                 {
                     Vec2 dif = (Mouse.position - _mouseAnchor) / 16f;
-                    dif.y *= -1f;
-                    float len = dif.length;
+                    dif.Y *= -1f;
+                    float len = dif.Length();
                     if (len > 1f)
                     {
                         len = 1f;
                     }
-                    return dif.normalized * len;
+                    return dif.Normalized * len;
                 }
                 if (Mouse.left == InputState.None)
                 {
@@ -578,10 +578,10 @@ public class InputProfile
 
     protected virtual void UpdateStickPress()
     {
-        StickPress(PadButton.DPadLeft, leftStick.x < -0.6f);
-        StickPress(PadButton.DPadRight, leftStick.x > 0.6f);
-        StickPress(PadButton.DPadUp, leftStick.y > 0.6f);
-        StickPress(PadButton.DPadDown, leftStick.y < -0.6f);
+        StickPress(PadButton.DPadLeft, leftStick.X < -0.6f);
+        StickPress(PadButton.DPadRight, leftStick.X > 0.6f);
+        StickPress(PadButton.DPadUp, leftStick.Y > 0.6f);
+        StickPress(PadButton.DPadDown, leftStick.Y < -0.6f);
     }
 
     protected void StickPress(PadButton b, bool press)

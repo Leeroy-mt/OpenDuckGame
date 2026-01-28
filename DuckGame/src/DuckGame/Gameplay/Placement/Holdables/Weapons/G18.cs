@@ -21,7 +21,7 @@ public class G18 : Gun
         _sprite.AddAnimation("fire", 0.8f, false, 1, 2, 3);
         _sprite.AddAnimation("empty", 1f, true, 2);
         graphic = _sprite;
-        center = new Vec2(7f, 3f);
+        Center = new Vec2(7f, 3f);
         collisionOffset = new Vec2(-7f, -3f);
         collisionSize = new Vec2(14f, 7f);
         _barrelOffsetTL = new Vec2(12f, 2f);
@@ -58,7 +58,7 @@ public class G18 : Gun
             {
                 Vec2 pos = Offset(new Vec2(-9f, 0f));
                 Vec2 rot = base.barrelVector.Rotate(Rando.Float(1f), Vec2.Zero);
-                Level.Add(Spark.New(pos.x, pos.y, rot, 0.1f));
+                Level.Add(Spark.New(pos.X, pos.Y, rot, 0.1f));
             }
         }
         else

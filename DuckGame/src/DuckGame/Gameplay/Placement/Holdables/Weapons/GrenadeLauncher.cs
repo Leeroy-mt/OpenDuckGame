@@ -23,15 +23,15 @@ public class GrenadeLauncher : Gun
 
     public float _cooldown;
 
-    public override float angle
+    public override float Angle
     {
         get
         {
-            return base.angle + _aimAngle;
+            return base.Angle + _aimAngle;
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
@@ -42,7 +42,7 @@ public class GrenadeLauncher : Gun
         ammo = 6;
         _type = "gun";
         graphic = new Sprite("grenadeLauncher");
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-6f, -4f);
         collisionSize = new Vec2(16f, 7f);
         _barrelOffsetTL = new Vec2(28f, 14f);
@@ -119,7 +119,7 @@ public class GrenadeLauncher : Gun
             _aiming = false;
             Fire();
             _cooldown = 1f;
-            angle = 0f;
+            Angle = 0f;
             _fireAngle = 0f;
         }
     }

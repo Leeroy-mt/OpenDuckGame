@@ -100,8 +100,8 @@ public class IceBlock : Holdable, IPlatform
             }
             Material obj = Graphics.material;
             Graphics.material = _frozen;
-            _previewSprite.alpha = 0.5f;
-            Graphics.Draw(_previewSprite, base.x, base.y, base.depth + 10);
+            _previewSprite.Alpha = 0.5f;
+            Graphics.Draw(_previewSprite, base.X, base.Y, base.Depth + 10);
             Graphics.material = obj;
         }
         base.EditorRender();
@@ -112,10 +112,10 @@ public class IceBlock : Holdable, IPlatform
     {
         _sprite = new SpriteMap("iceBlock", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -8f);
         collisionSize = new Vec2(16f, 16f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Ice Block";
         editorTooltip = "Slippery, slidery, fun. Also great for keeping your (gigantic) drinks cold.";
         thickness = 2f;
@@ -183,10 +183,10 @@ public class IceBlock : Holdable, IPlatform
         }
         for (int i = 0; i < 4; i++)
         {
-            GlassParticle glassParticle = new GlassParticle(hitPos.x, hitPos.y, bullet.travelDirNormalized);
+            GlassParticle glassParticle = new GlassParticle(hitPos.X, hitPos.Y, bullet.travelDirNormalized);
             Level.Add(glassParticle);
-            glassParticle.hSpeed = (0f - bullet.travelDirNormalized.x) * 2f * (Rando.Float(1f) + 0.3f);
-            glassParticle.vSpeed = (0f - bullet.travelDirNormalized.y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
+            glassParticle.hSpeed = (0f - bullet.travelDirNormalized.X) * 2f * (Rando.Float(1f) + 0.3f);
+            glassParticle.vSpeed = (0f - bullet.travelDirNormalized.Y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
             Level.Add(glassParticle);
         }
         SFX.Play("glassHit", 0.6f);
@@ -198,7 +198,7 @@ public class IceBlock : Holdable, IPlatform
                 base.duck.ThrowItem();
             }
             Destroy(new DTShot(bullet));
-            Level.Add(new GrenadeExplosion(base.x, base.y));
+            Level.Add(new GrenadeExplosion(base.X, base.Y));
         }
         if (base.isServerForObject && bullet.isLocal)
         {
@@ -209,8 +209,8 @@ public class IceBlock : Holdable, IPlatform
                 Destroy(new DTShot(bullet));
             }
             vSpeed -= 1f;
-            hSpeed += bullet.travelDirNormalized.x;
-            vSpeed += bullet.travelDirNormalized.y;
+            hSpeed += bullet.travelDirNormalized.X;
+            vSpeed += bullet.travelDirNormalized.Y;
         }
         return base.Hit(bullet, hitPos);
     }
@@ -236,15 +236,15 @@ public class IceBlock : Holdable, IPlatform
         }
         for (int i = 0; i < 8; i++)
         {
-            GlassParticle glassParticle = new GlassParticle(base.x + Rando.Float(-4f, 4f), base.y + Rando.Float(-4f, 4f), flyDir);
+            GlassParticle glassParticle = new GlassParticle(base.X + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f), flyDir);
             Level.Add(glassParticle);
-            glassParticle.hSpeed = flyDir.x * 2f * (Rando.Float(1f) + 0.3f);
-            glassParticle.vSpeed = flyDir.y * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
+            glassParticle.hSpeed = flyDir.X * 2f * (Rando.Float(1f) + 0.3f);
+            glassParticle.vSpeed = flyDir.Y * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
             Level.Add(glassParticle);
         }
         for (int j = 0; j < 5; j++)
         {
-            SmallSmoke smallSmoke = SmallSmoke.New(base.x + Rando.Float(-6f, 6f), base.y + Rando.Float(-6f, 6f));
+            SmallSmoke smallSmoke = SmallSmoke.New(base.X + Rando.Float(-6f, 6f), base.Y + Rando.Float(-6f, 6f));
             smallSmoke.hSpeed += Rando.Float(-0.3f, 0.3f);
             smallSmoke.vSpeed -= Rando.Float(0.1f, 0.2f);
             Level.Add(smallSmoke);
@@ -257,10 +257,10 @@ public class IceBlock : Holdable, IPlatform
     {
         for (int i = 0; i < 4; i++)
         {
-            GlassParticle glassParticle = new GlassParticle(exitPos.x, exitPos.y, bullet.travelDirNormalized);
+            GlassParticle glassParticle = new GlassParticle(exitPos.X, exitPos.Y, bullet.travelDirNormalized);
             Level.Add(glassParticle);
-            glassParticle.hSpeed = bullet.travelDirNormalized.x * 2f * (Rando.Float(1f) + 0.3f);
-            glassParticle.vSpeed = bullet.travelDirNormalized.y * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
+            glassParticle.hSpeed = bullet.travelDirNormalized.X * 2f * (Rando.Float(1f) + 0.3f);
+            glassParticle.vSpeed = bullet.travelDirNormalized.Y * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
             Level.Add(glassParticle);
         }
     }
@@ -270,7 +270,7 @@ public class IceBlock : Holdable, IPlatform
         if (base.isServerForObject && _containedThing != null)
         {
             Fondle(_containedThing);
-            _containedThing.alpha = 1f;
+            _containedThing.Alpha = 1f;
             _containedThing.active = true;
             _containedThing.material = null;
             _containedThing.visible = true;
@@ -294,7 +294,7 @@ public class IceBlock : Holdable, IPlatform
             {
                 FluidData dat = Fluid.Water;
                 dat.amount = 0.001f;
-                Level.Add(new Fluid(base.x + (float)Rando.Int(-6, 6), base.y + (float)Rando.Int(-6, 6), Vec2.Zero, dat)
+                Level.Add(new Fluid(base.X + (float)Rando.Int(-6, 6), base.Y + (float)Rando.Int(-6, 6), Vec2.Zero, dat)
                 {
                     hSpeed = ((float)i / 16f - 0.5f) * Rando.Float(0.3f, 0.4f),
                     vSpeed = Rando.Float(-1.5f, 0.5f)
@@ -303,7 +303,7 @@ public class IceBlock : Holdable, IPlatform
         }
         FluidData dat2 = Fluid.Water;
         dat2.amount = 0.001f;
-        Level.Add(new Fluid(base.x + (float)Rando.Int(-6, 6), base.y + (float)Rando.Int(-6, 6), Vec2.Zero, dat2)
+        Level.Add(new Fluid(base.X + (float)Rando.Int(-6, 6), base.Y + (float)Rando.Int(-6, 6), Vec2.Zero, dat2)
         {
             hSpeed = Rando.Float(-0.1f, 0.1f),
             vSpeed = Rando.Float(-0.3f, 0.3f)
@@ -315,8 +315,8 @@ public class IceBlock : Holdable, IPlatform
     {
         if (_containedThing != null)
         {
-            Depth d = base.depth;
-            base.depth = d - 8;
+            Depth d = base.Depth;
+            base.Depth = d - 8;
             base.Draw();
             if (_frozen == null)
             {
@@ -325,32 +325,32 @@ public class IceBlock : Holdable, IPlatform
             }
             Material obj = Graphics.material;
             Graphics.material = _frozen;
-            _containedThing.position = position;
-            _containedThing.alpha = 1f;
-            _containedThing.depth = d - 4;
-            _containedThing.angle = angle;
+            _containedThing.Position = Position;
+            _containedThing.Alpha = 1f;
+            _containedThing.Depth = d - 4;
+            _containedThing.Angle = Angle;
             _containedThing.offDir = offDir;
             _containedThing.Draw();
             Graphics.material = obj;
-            base.depth = d;
-            base.alpha = 0.5f;
+            base.Depth = d;
+            base.Alpha = 0.5f;
             base.Draw();
-            base.alpha = 1f;
-            base.depth = d;
+            base.Alpha = 1f;
+            base.Depth = d;
         }
         else if (didCarve)
         {
-            float ypos = base.y;
+            float ypos = base.Y;
             graphic.flipH = offDir <= 0;
-            _graphic.position = position;
-            _graphic.alpha = base.alpha;
-            _graphic.angle = angle;
-            _graphic.depth = base.depth;
-            _graphic.scale = base.scale;
-            _graphic.center = center;
+            _graphic.Position = Position;
+            _graphic.Alpha = base.Alpha;
+            _graphic.Angle = Angle;
+            _graphic.Depth = base.Depth;
+            _graphic.Scale = base.Scale;
+            _graphic.Center = Center;
             int yOffset = (int)((1f - _hitPoints) * 12f);
-            Graphics.Draw(_graphic.texture, position + new Vec2(0f, yOffset), new Rectangle(0f, 0f, 16f, 24 - yOffset), Color.White, angle, _graphic.center, base.scale, graphic.flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.depth);
-            base.y = ypos;
+            Graphics.Draw(_graphic.texture, Position + new Vec2(0f, yOffset), new Rectangle(0f, 0f, 16f, 24 - yOffset), Color.White, Angle, _graphic.Center, base.Scale, graphic.flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.Depth);
+            base.Y = ypos;
         }
         else
         {
@@ -385,10 +385,10 @@ public class IceBlock : Holdable, IPlatform
             {
                 _sprite = new SpriteMap("iceSculpture", 16, 24);
                 graphic = _sprite;
-                center = new Vec2(8f, 15f);
+                Center = new Vec2(8f, 15f);
                 for (int i = 0; i < 12; i++)
                 {
-                    SmallSmoke smallSmoke = SmallSmoke.New(base.x + Rando.Float(-9f, 9f), base.y + Rando.Float(-9f, 9f));
+                    SmallSmoke smallSmoke = SmallSmoke.New(base.X + Rando.Float(-9f, 9f), base.Y + Rando.Float(-9f, 9f));
                     smallSmoke._sprite.color = Color.White;
                     Level.Add(smallSmoke);
                 }

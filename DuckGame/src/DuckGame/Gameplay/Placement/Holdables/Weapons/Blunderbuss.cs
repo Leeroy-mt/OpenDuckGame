@@ -16,7 +16,7 @@ public class Blunderbuss : TampingWeapon
         _ammoType.penetration = 0.4f;
         _type = "gun";
         graphic = new Sprite("blunderbuss");
-        center = new Vec2(19f, 5f);
+        Center = new Vec2(19f, 5f);
         collisionOffset = new Vec2(-8f, -3f);
         collisionSize = new Vec2(16f, 7f);
         _barrelOffsetTL = new Vec2(34f, 4f);
@@ -40,8 +40,8 @@ public class Blunderbuss : TampingWeapon
             int num = 0;
             for (int i = 0; i < 14; i++)
             {
-                MusketSmoke smoke = new MusketSmoke(base.barrelPosition.x - 16f + Rando.Float(32f), base.barrelPosition.y - 16f + Rando.Float(32f));
-                smoke.depth = 0.9f + (float)i * 0.001f;
+                MusketSmoke smoke = new MusketSmoke(base.barrelPosition.X - 16f + Rando.Float(32f), base.barrelPosition.Y - 16f + Rando.Float(32f));
+                smoke.Depth = 0.9f + (float)i * 0.001f;
                 if (num < 6)
                 {
                     smoke.move -= base.barrelVector * Rando.Float(0.1f);

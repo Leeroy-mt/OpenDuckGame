@@ -207,7 +207,7 @@ public class NetDebugInterface
         {
             e.depth = depth;
             _tookInput |= e.DoDraw(offset, !_tookInput);
-            offset.y += 10f + e.leading;
+            offset.Y += 10f + e.leading;
             depth -= 0.01f;
         }
         if (Mouse.left == InputState.Released)

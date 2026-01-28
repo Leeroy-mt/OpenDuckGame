@@ -23,7 +23,7 @@ public class NMEyeCloseWing : NMEvent
     {
         if (closer != null && closee != null && closee.ragdoll != null && closee.ragdoll.part1 != null)
         {
-            Level.Add(new EyeCloseWing((closee.ragdoll.part1.angle < 0f) ? (position.x - 4f) : (position.x - 11f), position.y + 7f, (closee.ragdoll.part1.angle < 0f) ? 1 : (-1), closer._spriteArms, closer, closee));
+            Level.Add(new EyeCloseWing((closee.ragdoll.part1.Angle < 0f) ? (position.X - 4f) : (position.X - 11f), position.Y + 7f, (closee.ragdoll.part1.Angle < 0f) ? 1 : (-1), closer._spriteArms, closer, closee));
         }
         base.Activate();
     }

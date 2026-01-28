@@ -36,18 +36,18 @@ public class MetalRebound : Thing
 
     private void Init(float xpos, float ypos, int offDir)
     {
-        position.x = xpos;
-        position.y = ypos;
-        base.alpha = 1f;
+        X = xpos;
+        Y = ypos;
+        base.Alpha = 1f;
         _sprite.frame = Rando.Int(3);
         _sprite.flipH = offDir < 0;
-        center = new Vec2(16f, 8f);
+        Center = new Vec2(16f, 8f);
     }
 
     public override void Update()
     {
-        base.alpha -= 0.1f;
-        if (base.alpha < 0f)
+        base.Alpha -= 0.1f;
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }

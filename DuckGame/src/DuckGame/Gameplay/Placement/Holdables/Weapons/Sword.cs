@@ -114,19 +114,19 @@ public class Sword : Gun
 
     protected float _timeSinceSwing;
 
-    public override float angle
+    public override float Angle
     {
         get
         {
             if (_drawing)
             {
-                return _angle;
+                return AngleValue;
             }
-            return base.angle + (_swing + _hold) * (float)offDir;
+            return base.Angle + (_swing + _hold) * (float)offDir;
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
@@ -140,13 +140,13 @@ public class Sword : Gun
         {
             if (owner == null)
             {
-                return position - (Offset(base.barrelOffset) - position).normalized * 6f;
+                return Position - (Offset(base.barrelOffset) - Position).Normalized * 6f;
             }
             if (_slamStance)
             {
-                return position + (Offset(base.barrelOffset) - position).normalized * 12f;
+                return Position + (Offset(base.barrelOffset) - Position).Normalized * 12f;
             }
-            return position + (Offset(base.barrelOffset) - position).normalized * 2f;
+            return Position + (Offset(base.barrelOffset) - Position).Normalized * 2f;
         }
     }
 
@@ -185,7 +185,7 @@ public class Sword : Gun
         _ammoType.accuracy = 0.8f;
         _type = "gun";
         graphic = new Sprite("sword");
-        center = new Vec2(4f, 21f);
+        Center = new Vec2(4f, 21f);
         collisionOffset = new Vec2(-2f, -16f);
         collisionSize = new Vec2(4f, 18f);
         _barrelOffsetTL = new Vec2(4f, 1f);
@@ -200,7 +200,7 @@ public class Sword : Gun
         _swordSwing.AddAnimation("swing", 0.6f, false, 0, 1, 1, 2);
         _swordSwing.currentAnimation = "swing";
         _swordSwing.speed = 0f;
-        _swordSwing.center = new Vec2(9f, 25f);
+        _swordSwing.Center = new Vec2(9f, 25f);
         holsterAngle = 180f;
         tapedIndexPreference = 0;
         _bouncy = 0.5f;
@@ -217,7 +217,7 @@ public class Sword : Gun
     {
         if (pTaped.gun1 != null && pTaped.gun2 != null)
         {
-            base.angleDegrees = pTaped.angleDegrees - (float)(90 * offDir);
+            base.AngleDegrees = pTaped.AngleDegrees - (float)(90 * offDir);
         }
         if (base.tapedCompatriot is Gun)
         {
@@ -227,7 +227,7 @@ public class Sword : Gun
         }
         collisionOffset = new Vec2(-4f, 0f);
         collisionSize = new Vec2(4f, 4f);
-        center = centerHeld;
+        Center = centerHeld;
         thickness = 0f;
     }
 
@@ -244,7 +244,7 @@ public class Sword : Gun
     {
         if (pTaped.gun1 is Sword && pTaped.gun2 is Sword)
         {
-            return new TapedSword(base.x, base.y);
+            return new TapedSword(base.X, base.Y);
         }
         return null;
     }
@@ -282,11 +282,11 @@ public class Sword : Gun
             _playedShing = true;
             SFX.Play("swordClash", Rando.Float(0.6f, 0.7f), Rando.Float(-0.1f, 0.1f), Rando.Float(-0.1f, 0.1f));
         }
-        Vec2 vec = (position - base.barrelPosition).normalized;
+        Vec2 vec = (Position - base.barrelPosition).Normalized;
         Vec2 start = base.barrelPosition;
         for (int i = 0; i < 6; i++)
         {
-            Spark s = Spark.New(start.x, start.y, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f)));
+            Spark s = Spark.New(start.X, start.Y, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f)));
             if (this is OldEnergyScimi)
             {
                 s._color = (this as OldEnergyScimi).swordColor;
@@ -446,13 +446,13 @@ public class Sword : Gun
         bayonetLethal = false;
         if (tape != null && base.tapedCompatriot != null)
         {
-            if (base.tapedCompatriot != null && (Math.Abs(_prevAngle - base.angleDegrees) > 1f || (_prevPos - position).length > 2f))
+            if (base.tapedCompatriot != null && (Math.Abs(_prevAngle - base.AngleDegrees) > 1f || (_prevPos - Position).Length() > 2f))
             {
                 bayonetLethal = true;
             }
             if (base.isServerForObject && bayonetLethal)
             {
-                foreach (IAmADuck d in Level.CheckLineAll<IAmADuck>(Offset(new Vec2(4f, 10f) - center + _extraOffset), base.barrelPosition))
+                foreach (IAmADuck d in Level.CheckLineAll<IAmADuck>(Offset(new Vec2(4f, 10f) - Center + _extraOffset), base.barrelPosition))
                 {
                     if (d == base.duck || !(d is MaterialThing realThing))
                     {
@@ -479,8 +479,8 @@ public class Sword : Gun
                 ResetTrailHistory();
             }
             _prevOffdir = offDir;
-            _prevPos = position;
-            _prevAngle = base.angleDegrees;
+            _prevPos = Position;
+            _prevAngle = base.AngleDegrees;
             return;
         }
         _tapeOffset = Vec2.Zero;
@@ -514,7 +514,7 @@ public class Sword : Gun
                 _hold = -0.4f;
             }
             _wasLifted = true;
-            center = centerHeld;
+            Center = centerHeld;
             _framesSinceThrown = 0;
             _volatile = false;
         }
@@ -522,7 +522,7 @@ public class Sword : Gun
         {
             if (_framesSinceThrown == 1)
             {
-                _throwSpin = Maths.RadToDeg(angle) - 90f;
+                _throwSpin = Maths.RadToDeg(Angle) - 90f;
                 _hold = 0f;
                 _swing = 0f;
             }
@@ -530,14 +530,14 @@ public class Sword : Gun
             {
                 if (enablePhysics)
                 {
-                    base.angleDegrees = 90f + _throwSpin;
+                    base.AngleDegrees = 90f + _throwSpin;
                 }
-                center = centerUnheld;
+                Center = centerUnheld;
                 if (base.duck != null || owner is Holster)
                 {
                     _hold = 0f;
                     _swing = 0f;
-                    base.angleDegrees = 0f;
+                    base.AngleDegrees = 0f;
                     _throwSpin = 0f;
                     return;
                 }
@@ -547,7 +547,7 @@ public class Sword : Gun
             bool againstWall = false;
             if (Math.Abs(hSpeed) + Math.Abs(vSpeed) > 2f || !base.grounded)
             {
-                if (!base.grounded && Level.CheckRect<Block>(position + new Vec2(-6f, -6f), position + new Vec2(6f, -2f)) != null)
+                if (!base.grounded && Level.CheckRect<Block>(Position + new Vec2(-6f, -6f), Position + new Vec2(6f, -2f)) != null)
                 {
                     againstWall = true;
                     if (vSpeed > 4f && !(this is OldEnergyScimi))
@@ -555,7 +555,7 @@ public class Sword : Gun
                         _volatile = true;
                     }
                 }
-                if (!againstWall && !_grounded && (Level.CheckPoint<IPlatform>(position + new Vec2(0f, 8f)) == null || vSpeed < 0f))
+                if (!againstWall && !_grounded && (Level.CheckPoint<IPlatform>(Position + new Vec2(0f, 8f)) == null || vSpeed < 0f))
                 {
                     PerformAirSpin();
                     spinning = true;
@@ -598,12 +598,12 @@ public class Sword : Gun
             }
             if (_volatile && _hitWait == 0)
             {
-                (Offset(base.barrelOffset) - position).Normalize();
+                (Offset(base.barrelOffset) - Position).Normalize();
                 Offset(base.barrelOffset);
                 bool rebound = false;
                 foreach (Sword s in Level.current.things[typeof(Sword)])
                 {
-                    if (s != this && s.owner != null && s._crouchStance && !s._jabStance && !s._jabStance && ((hSpeed > 0f && s.x > base.x - 4f) || (hSpeed < 0f && s.x < base.x + 4f)) && Collision.LineIntersect(barrelStartPos, base.barrelPosition, s.barrelStartPos, s.barrelPosition))
+                    if (s != this && s.owner != null && s._crouchStance && !s._jabStance && !s._jabStance && ((hSpeed > 0f && s.X > base.X - 4f) || (hSpeed < 0f && s.X < base.X + 4f)) && Collision.LineIntersect(barrelStartPos, base.barrelPosition, s.barrelStartPos, s.barrelPosition))
                     {
                         Shing();
                         s.Shing();
@@ -851,18 +851,18 @@ public class Sword : Gun
         }
         if (((!(this is OldEnergyScimi) && _swung) || _swinging) && !_shing)
         {
-            (Offset(base.barrelOffset) - position).Normalize();
+            (Offset(base.barrelOffset) - Position).Normalize();
             Offset(base.barrelOffset);
             IEnumerable<IAmADuck> hit = Level.CheckLineAll<IAmADuck>(barrelStartPos, base.barrelPosition);
             Block wallHit = Level.CheckLine<Block>(barrelStartPos, base.barrelPosition);
             Level.CheckRect<Icicles>(barrelStartPos, base.barrelPosition)?.Hurt(100f);
             if (!(this is OldEnergyScimi) && wallHit != null && !_slamStance)
             {
-                if (offDir < 0 && wallHit.x > base.x)
+                if (offDir < 0 && wallHit.X > base.X)
                 {
                     wallHit = null;
                 }
-                else if (offDir > 0 && wallHit.x < base.x)
+                else if (offDir > 0 && wallHit.X < base.X)
                 {
                     wallHit = null;
                 }
@@ -893,8 +893,8 @@ public class Sword : Gun
                     ignore = base.duck.GetEquipment(typeof(Helmet));
                 }
                 Vec2 barrel = base.barrelPosition + base.barrelVector * 3f;
-                Vec2 p = new Vec2((position.x < barrel.x) ? position.x : barrel.x, (position.y < barrel.y) ? position.y : barrel.y);
-                Vec2 p2 = new Vec2((position.x > barrel.x) ? position.x : barrel.x, (position.y > barrel.y) ? position.y : barrel.y);
+                Vec2 p = new Vec2((Position.X < barrel.X) ? Position.X : barrel.X, (Position.Y < barrel.Y) ? Position.Y : barrel.Y);
+                Vec2 p2 = new Vec2((Position.X > barrel.X) ? Position.X : barrel.X, (Position.Y > barrel.Y) ? Position.Y : barrel.Y);
                 QuadLaserBullet laserHit = Level.CheckRect<QuadLaserBullet>(p, p2);
                 if (laserHit != null)
                 {
@@ -902,7 +902,7 @@ public class Sword : Gun
                     Fondle(laserHit);
                     laserHit.safeFrames = 8;
                     laserHit.safeDuck = base.duck;
-                    float mag = laserHit.travel.length;
+                    float mag = laserHit.travel.Length();
                     float mul = 1.5f;
                     Vec2 travel = ((offDir <= 0) ? new Vec2((0f - mag) * mul, 0f) : new Vec2(mag * mul, 0f));
                     laserHit.travel = travel;
@@ -963,17 +963,17 @@ public class Sword : Gun
                         base.duck.vSpeed -= 4f;
                         if (base.isServerForObject)
                         {
-                            EnergyScimitarBlast b = new EnergyScimitarBlast((s3.owner.position + owner.position) / 2f + new Vec2(0f, -16f), new Vec2(0f, -2000f));
+                            EnergyScimitarBlast b = new EnergyScimitarBlast((s3.owner.Position + owner.Position) / 2f + new Vec2(0f, -16f), new Vec2(0f, -2000f));
                             Level.Add(b);
                             if (Network.isActive)
                             {
-                                Send.Message(new NMEnergyScimitarBlast(b.position, b._target));
+                                Send.Message(new NMEnergyScimitarBlast(b.Position, b._target));
                             }
-                            b = new EnergyScimitarBlast((s3.owner.position + owner.position) / 2f + new Vec2(0f, 16f), new Vec2(0f, 2000f));
+                            b = new EnergyScimitarBlast((s3.owner.Position + owner.Position) / 2f + new Vec2(0f, 16f), new Vec2(0f, 2000f));
                             Level.Add(b);
                             if (Network.isActive)
                             {
-                                Send.Message(new NMEnergyScimitarBlast(b.position, b._target));
+                                Send.Message(new NMEnergyScimitarBlast(b.Position, b._target));
                             }
                         }
                     }
@@ -1022,7 +1022,7 @@ public class Sword : Gun
             {
                 continue;
             }
-            if (realThing5.vSpeed > 0.5f && realThing5.bottom < position.y - 8f && realThing5.left < base.barrelPosition.x && realThing5.right > base.barrelPosition.x)
+            if (realThing5.vSpeed > 0.5f && realThing5.bottom < Position.Y - 8f && realThing5.left < base.barrelPosition.X && realThing5.right > base.barrelPosition.X)
             {
                 if (realThing5 is Duck { destroyed: false })
                 {
@@ -1033,7 +1033,7 @@ public class Sword : Gun
             }
             else
             {
-                if (_jabStance || realThing5.destroyed || ((offDir <= 0 || !(realThing5.x > base.duck.x)) && (offDir >= 0 || !(realThing5.x < base.duck.x))))
+                if (_jabStance || realThing5.destroyed || ((offDir <= 0 || !(realThing5.X > base.duck.X)) && (offDir >= 0 || !(realThing5.X < base.duck.X))))
                 {
                     continue;
                 }
@@ -1041,7 +1041,7 @@ public class Sword : Gun
                 {
                     (realThing5 as Duck).crippleTimer = 1f;
                 }
-                else if ((base.duck.x > realThing5.x && realThing5.hSpeed > 1.5f) || (base.duck.x < realThing5.x && realThing5.hSpeed < -1.5f))
+                else if ((base.duck.X > realThing5.X && realThing5.hSpeed > 1.5f) || (base.duck.X < realThing5.X && realThing5.hSpeed < -1.5f))
                 {
                     if (realThing5 is Duck { destroyed: false })
                     {
@@ -1111,22 +1111,22 @@ public class Sword : Gun
             {
                 _swordSwing.flipH = base.duck.offDir <= 0;
             }
-            _swordSwing.alpha = 0.4f;
-            _swordSwing.position = position;
-            _swordSwing.depth = base.depth + 1;
+            _swordSwing.Alpha = 0.4f;
+            _swordSwing.Position = Position;
+            _swordSwing.Depth = base.Depth + 1;
             _swordSwing.Draw();
         }
-        Vec2 pos = position;
-        Depth d = base.depth;
+        Vec2 pos = Position;
+        Depth d = base.Depth;
         graphic.color = Color.White;
-        if ((owner == null && base.velocity.length > 1f) || _swing != 0f || (tape != null && bayonetLethal))
+        if ((owner == null && base.velocity.Length() > 1f) || _swing != 0f || (tape != null && bayonetLethal))
         {
-            float al = base.alpha;
-            base.alpha = 1f;
-            float rlAngle = angle;
+            float al = base.Alpha;
+            base.Alpha = 1f;
+            float rlAngle = Angle;
             _drawing = true;
-            float a = _angle;
-            angle = rlAngle;
+            float a = AngleValue;
+            Angle = rlAngle;
             for (int i = 0; i < 7; i++)
             {
                 base.Draw();
@@ -1135,24 +1135,24 @@ public class Sword : Gun
                     break;
                 }
                 int idx = historyIndex(i);
-                _angle = _lastAngles[idx];
-                position = _lastPositions[idx];
-                base.depth -= 2;
-                base.alpha -= 0.15f;
+                AngleValue = _lastAngles[idx];
+                Position = _lastPositions[idx];
+                base.Depth -= 2;
+                base.Alpha -= 0.15f;
                 graphic.color = Color.Red;
             }
-            position = pos;
-            base.depth = d;
-            base.alpha = al;
-            _angle = a;
-            base.xscale = 1f;
+            Position = pos;
+            base.Depth = d;
+            base.Alpha = al;
+            AngleValue = a;
+            base.ScaleX = 1f;
             _drawing = false;
         }
         else
         {
             base.Draw();
         }
-        addHistory(angle, position);
+        addHistory(Angle, Position);
     }
 
     protected virtual void OnSwing()

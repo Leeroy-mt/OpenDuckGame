@@ -41,10 +41,10 @@ public class Equipper : Thing
     {
         serverOnly = true;
         graphic = new Sprite("equipper");
-        center = new(8);
+        Center = new(8);
         collisionSize = new(14);
         collisionOffset = new(-7);
-        depth = 0.5f;
+        Depth = 0.5f;
         _canFlip = false;
         _visibleInGame = false;
         editorTooltip = "Allows equipment to automatically be equipped to all ducks on level start.";
@@ -60,8 +60,8 @@ public class Equipper : Thing
         object[] p = Editor.GetConstructorParameters(Contains);
         if (p.Length > 1)
         {
-            p[0] = pos.x;
-            p[1] = pos.y;
+            p[0] = pos.X;
+            p[1] = pos.Y;
         }
         PhysicsObject o = Editor.CreateThing(Contains, p) as PhysicsObject;
         if (o is Gun gun)
@@ -149,10 +149,10 @@ public class Equipper : Thing
         {
             containString = Contains.Name;
         }
-        Graphics.DrawString(containString, position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
+        Graphics.DrawString(containString, Position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
         if (radius.value != 0)
         {
-            Graphics.DrawCircle(position, radius.value, Color.Red, 1f, 0.9f);
+            Graphics.DrawCircle(Position, radius.value, Color.Red, 1f, 0.9f);
         }
     }
 
@@ -161,10 +161,10 @@ public class Equipper : Thing
         base.Draw();
         if (_previewSprite != null)
         {
-            _previewSprite.depth = base.depth + 1;
-            _previewSprite.scale = new Vec2(0.5f, 0.5f);
+            _previewSprite.Depth = base.Depth + 1;
+            _previewSprite.Scale = new Vec2(0.5f, 0.5f);
             _previewSprite.CenterOrigin();
-            Graphics.Draw(_previewSprite, base.x, base.y);
+            Graphics.Draw(_previewSprite, base.X, base.Y);
         }
     }
 }

@@ -210,30 +210,30 @@ public class ContextToolbarItem : ContextMenu, IContextListener
         _playButton = new ToolbarButton(this, 10, "TEST LEVEL");
         _gridButton = new ToolbarButton(this, 11, "CHANGE GRID");
         _quitButton = new ToolbarButton(this, 12, "EXIT EDITOR");
-        itemSize.y = 16f;
-        float xpos = position.x;
-        _playButton.x = xpos;
-        _playButton.y = position.y;
+        itemSize.Y = 16f;
+        float xpos = Position.X;
+        _playButton.X = xpos;
+        _playButton.Y = Position.Y;
         _buttons.Add(_playButton);
         xpos += 18f;
-        _saveButton.x = xpos;
-        _saveButton.y = position.y;
+        _saveButton.X = xpos;
+        _saveButton.Y = Position.Y;
         _buttons.Add(_saveButton);
         xpos += 18f;
-        _loadButton.x = xpos;
-        _loadButton.y = position.y;
+        _loadButton.X = xpos;
+        _loadButton.Y = Position.Y;
         _buttons.Add(_loadButton);
         xpos += 18f;
-        _newButton.x = xpos;
-        _newButton.y = position.y;
+        _newButton.X = xpos;
+        _newButton.Y = Position.Y;
         _buttons.Add(_newButton);
         xpos += 18f;
-        _gridButton.x = xpos;
-        _gridButton.y = position.y;
+        _gridButton.X = xpos;
+        _gridButton.Y = Position.Y;
         _buttons.Add(_gridButton);
         xpos += 18f;
-        _quitButton.x = xpos;
-        _quitButton.y = position.y;
+        _quitButton.X = xpos;
+        _quitButton.Y = Position.Y;
         _buttons.Add(_quitButton);
     }
 
@@ -333,24 +333,24 @@ public class ContextToolbarItem : ContextMenu, IContextListener
                 index++;
             }
         }
-        float xpos = position.x;
-        _playButton.x = xpos;
-        _playButton.y = position.y;
+        float xpos = Position.X;
+        _playButton.X = xpos;
+        _playButton.Y = Position.Y;
         xpos += 18f;
-        _saveButton.x = xpos;
-        _saveButton.y = position.y;
+        _saveButton.X = xpos;
+        _saveButton.Y = Position.Y;
         xpos += 18f;
-        _loadButton.x = xpos;
-        _loadButton.y = position.y;
+        _loadButton.X = xpos;
+        _loadButton.Y = Position.Y;
         xpos += 18f;
-        _newButton.x = xpos;
-        _newButton.y = position.y;
+        _newButton.X = xpos;
+        _newButton.Y = Position.Y;
         xpos += 18f;
-        _gridButton.x = xpos;
-        _gridButton.y = position.y;
+        _gridButton.X = xpos;
+        _gridButton.Y = Position.Y;
         xpos += 18f;
-        _quitButton.x = xpos;
-        _quitButton.y = position.y;
+        _quitButton.X = xpos;
+        _quitButton.Y = Position.Y;
         foreach (ToolbarButton button3 in _buttons)
         {
             button3.DoUpdate();
@@ -383,30 +383,30 @@ public class ContextToolbarItem : ContextMenu, IContextListener
         if (button == _newButton)
         {
             Closed();
-            _newMenu = new ContextMenu(this, null, hasToproot: true, button.position);
-            _newMenu.x = position.x - menuOffset.x;
-            _newMenu.y = position.y + menuOffset.y;
+            _newMenu = new ContextMenu(this, null, hasToproot: true, button.Position);
+            _newMenu.X = Position.X - menuOffset.X;
+            _newMenu.Y = Position.Y + menuOffset.Y;
             _newMenu.root = true;
-            _newMenu.depth = base.depth + 10;
+            _newMenu.Depth = base.Depth + 10;
             Selected();
             ContextMenu confirmItem = new ContextMenu(this);
-            confirmItem.itemSize.x = 60f;
+            confirmItem.itemSize.X = 60f;
             confirmItem.text = "NEW";
             _newMenu.AddItem(confirmItem);
             confirmItem = new ContextMenu(this);
-            confirmItem.itemSize.x = 60f;
+            confirmItem.itemSize.X = 60f;
             confirmItem.text = "NEW ONLINE";
             _newMenu.AddItem(confirmItem);
             confirmItem = new ContextMenu(this);
-            confirmItem.itemSize.x = 60f;
+            confirmItem.itemSize.X = 60f;
             confirmItem.text = "SPECIAL";
             ContextMenu subItem = new ContextMenu(this);
-            subItem.itemSize.x = 90f;
+            subItem.itemSize.X = 90f;
             subItem.text = "NEW ARCADE MACHINE";
             confirmItem.AddItem(subItem);
             _newMenu.AddItem(confirmItem);
             ContextMenu cancelItem = new ContextMenu(this);
-            cancelItem.itemSize.x = 60f;
+            cancelItem.itemSize.X = 60f;
             cancelItem.text = "CANCEL";
             _newMenu.AddItem(cancelItem);
             Level.Add(_newMenu);
@@ -416,24 +416,24 @@ public class ContextToolbarItem : ContextMenu, IContextListener
         if (button == _saveButton)
         {
             Closed();
-            _saveMenu = new ContextMenu(this, null, hasToproot: true, button.position);
-            _saveMenu.x = position.x - menuOffset.x;
-            _saveMenu.y = position.y + menuOffset.y;
+            _saveMenu = new ContextMenu(this, null, hasToproot: true, button.Position);
+            _saveMenu.X = Position.X - menuOffset.X;
+            _saveMenu.Y = Position.Y + menuOffset.Y;
             _saveMenu.root = true;
-            _saveMenu.depth = base.depth + 10;
+            _saveMenu.Depth = base.Depth + 10;
             Selected();
             ContextMenu saveItem = new ContextMenu(this);
-            saveItem.itemSize.x = 40f;
+            saveItem.itemSize.X = 40f;
             saveItem.text = "SAVE";
             _saveMenu.AddItem(saveItem);
             ContextMenu loadItem = new ContextMenu(this);
-            loadItem.itemSize.x = 40f;
+            loadItem.itemSize.X = 40f;
             loadItem.text = "SAVE AS";
             _saveMenu.AddItem(loadItem);
             if (Steam.IsInitialized())
             {
                 ContextMenu publishItem = new ContextMenu(this);
-                publishItem.itemSize.x = 40f;
+                publishItem.itemSize.X = 40f;
                 publishItem.text = "@STEAMICON@ PUBLISH";
                 _saveMenu.AddItem(publishItem);
             }
@@ -444,22 +444,22 @@ public class ContextToolbarItem : ContextMenu, IContextListener
         if (button == _gridButton)
         {
             Closed();
-            _gridMenu = new ContextMenu(this, null, hasToproot: true, button.position);
-            _gridMenu.x = position.x - menuOffset.x;
-            _gridMenu.y = position.y + menuOffset.y;
+            _gridMenu = new ContextMenu(this, null, hasToproot: true, button.Position);
+            _gridMenu.X = Position.X - menuOffset.X;
+            _gridMenu.Y = Position.Y + menuOffset.Y;
             _gridMenu.root = true;
-            _gridMenu.depth = base.depth + 10;
+            _gridMenu.Depth = base.Depth + 10;
             Selected();
             ContextMenu item = new ContextMenu(this);
-            item.itemSize.x = 60f;
+            item.itemSize.X = 60f;
             item.text = "8x8";
             _gridMenu.AddItem(item);
             item = new ContextMenu(this);
-            item.itemSize.x = 60f;
+            item.itemSize.X = 60f;
             item.text = "16x16";
             _gridMenu.AddItem(item);
             item = new ContextMenu(this);
-            item.itemSize.x = 60f;
+            item.itemSize.X = 60f;
             item.text = "32x32";
             _gridMenu.AddItem(item);
             Level.Add(_gridMenu);
@@ -481,35 +481,35 @@ public class ContextToolbarItem : ContextMenu, IContextListener
         if (button == _quitButton)
         {
             Closed();
-            _quitMenu = new ContextMenu(this, null, hasToproot: true, button.position);
-            _quitMenu.x = position.x - menuOffset.x;
-            _quitMenu.y = position.y + menuOffset.y;
+            _quitMenu = new ContextMenu(this, null, hasToproot: true, button.Position);
+            _quitMenu.X = Position.X - menuOffset.X;
+            _quitMenu.Y = Position.Y + menuOffset.Y;
             _quitMenu.root = true;
-            _quitMenu.depth = base.depth + 10;
+            _quitMenu.Depth = base.Depth + 10;
             Selected();
             ContextMenu confirmItem2 = new ContextMenu(this);
-            confirmItem2.itemSize.x = 60f;
+            confirmItem2.itemSize.X = 60f;
             confirmItem2.text = "QUIT";
             _quitMenu.AddItem(confirmItem2);
             ContextMenu cancelItem2 = new ContextMenu(this);
-            cancelItem2.itemSize.x = 60f;
+            cancelItem2.itemSize.X = 60f;
             cancelItem2.text = "CANCEL";
             _quitMenu.AddItem(cancelItem2);
             Level.Add(_quitMenu);
             _quitMenu.opened = true;
             menu = _quitMenu;
         }
-        if (menu != null && menu.y + menu.menuSize.y > base.layer.camera.height - 4f)
+        if (menu != null && menu.Y + menu.menuSize.Y > base.layer.camera.height - 4f)
         {
             isPushingUp = true;
-            float oldY = menu.y;
-            menu.y = base.layer.camera.height - 4f - menu.menuSize.y;
-            menu._toprootPosition.y += menu.y - oldY;
+            float oldY = menu.Y;
+            menu.Y = base.layer.camera.height - 4f - menu.menuSize.Y;
+            menu._toprootPosition.Y += menu.Y - oldY;
             ContextMenu m = owner as ContextMenu;
             if (m != null)
             {
                 m._openedOffset = 0f;
-                m.y = menu.y - 16f - m.menuSize.y;
+                m.Y = menu.Y - 16f - m.menuSize.Y;
             }
             m.PositionItems();
             menu.PositionItems();
@@ -551,35 +551,35 @@ public class ContextToolbarItem : ContextMenu, IContextListener
     {
         if (toolBarToolTip != "" && toolBarToolTip != null && !menuOpen)
         {
-            Vec2 toolBarPosition = new Vec2(position.x - 2f, position.y + 18f);
-            Graphics.DrawRect(toolBarPosition, toolBarPosition + new Vec2(100f, 15f), Color.Black * base.alpha, base.depth + 10);
+            Vec2 toolBarPosition = new Vec2(Position.X - 2f, Position.Y + 18f);
+            Graphics.DrawRect(toolBarPosition, toolBarPosition + new Vec2(100f, 15f), Color.Black * base.Alpha, base.Depth + 10);
             if (Editor.inputMode == EditorInput.Mouse)
             {
-                Graphics.DrawString(toolBarToolTip, toolBarPosition + new Vec2(4f, 4f), Color.White * base.alpha, base.depth + 11);
+                Graphics.DrawString(toolBarToolTip, toolBarPosition + new Vec2(4f, 4f), Color.White * base.Alpha, base.Depth + 11);
             }
             else
             {
-                Graphics.DrawString("@SELECT@" + toolBarToolTip, toolBarPosition + new Vec2(0f, 4f), Color.White * base.alpha, base.depth + 11);
+                Graphics.DrawString("@SELECT@" + toolBarToolTip, toolBarPosition + new Vec2(0f, 4f), Color.White * base.Alpha, base.Depth + 11);
             }
         }
-        float xpos = position.x;
-        _playButton.x = xpos;
-        _playButton.y = position.y;
+        float xpos = Position.X;
+        _playButton.X = xpos;
+        _playButton.Y = Position.Y;
         xpos += 18f;
-        _saveButton.x = xpos;
-        _saveButton.y = position.y;
+        _saveButton.X = xpos;
+        _saveButton.Y = Position.Y;
         xpos += 18f;
-        _loadButton.x = xpos;
-        _loadButton.y = position.y;
+        _loadButton.X = xpos;
+        _loadButton.Y = Position.Y;
         xpos += 18f;
-        _newButton.x = xpos;
-        _newButton.y = position.y;
+        _newButton.X = xpos;
+        _newButton.Y = Position.Y;
         xpos += 18f;
-        _gridButton.x = xpos;
-        _gridButton.y = position.y;
+        _gridButton.X = xpos;
+        _gridButton.Y = Position.Y;
         xpos += 18f;
-        _quitButton.x = xpos;
-        _quitButton.y = position.y;
+        _quitButton.X = xpos;
+        _quitButton.Y = Position.Y;
         foreach (ToolbarButton button in _buttons)
         {
             button.DoDraw();

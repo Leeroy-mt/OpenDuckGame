@@ -19,7 +19,7 @@ public class FireCrackers : Gun
         _type = "gun";
         _sprite = new SpriteMap("fireCrackers", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-4f, -4f);
         collisionSize = new Vec2(8f, 8f);
         _barrelOffsetTL = new Vec2(12f, 6f);
@@ -54,7 +54,7 @@ public class FireCrackers : Gun
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    Level.Add(new Firecracker(base.barrelPosition.x, base.barrelPosition.y)
+                    Level.Add(new Firecracker(base.barrelPosition.X, base.barrelPosition.Y)
                     {
                         hSpeed = Rando.Float(-4f, 4f),
                         vSpeed = Rando.Float(-1f, -6f)
@@ -103,7 +103,7 @@ public class FireCrackers : Gun
             {
                 addSpeedY += 2f;
             }
-            Firecracker f = new Firecracker(base.barrelPosition.x, base.barrelPosition.y);
+            Firecracker f = new Firecracker(base.barrelPosition.X, base.barrelPosition.Y);
             if (!duckOwner.crouch)
             {
                 f.hSpeed = (float)offDir * Rando.Float(2f, 2.5f) + addSpeedX;
@@ -125,7 +125,7 @@ public class FireCrackers : Gun
             {
                 for (int i = 0; i < Math.Min(ammo, _ammoMax); i++)
                 {
-                    Level.Add(new Firecracker(base.barrelPosition.x, base.barrelPosition.y)
+                    Level.Add(new Firecracker(base.barrelPosition.X, base.barrelPosition.Y)
                     {
                         hSpeed = Rando.Float(-4f, 4f),
                         vSpeed = Rando.Float(-1f, -6f)

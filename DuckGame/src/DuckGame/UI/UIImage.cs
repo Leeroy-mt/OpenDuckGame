@@ -30,17 +30,17 @@ public class UIImage : UIComponent
         _image = imageVal;
         _collisionSize = new Vec2((float)_image.w * s, (float)_image.h * s);
         _image.CenterOrigin();
-        base.scale = new Vec2(s);
+        base.Scale = new Vec2(s);
         base.align = al;
         yOffset = yOff;
     }
 
     public override void Draw()
     {
-        _image.scale = base.scale;
-        _image.alpha = base.alpha;
-        _image.depth = base.depth;
-        Graphics.Draw(_image, base.x, base.y + yOffset);
+        _image.Scale = base.Scale;
+        _image.Alpha = base.Alpha;
+        _image.Depth = base.Depth;
+        Graphics.Draw(_image, base.X, base.Y + yOffset);
         base.Draw();
     }
 }

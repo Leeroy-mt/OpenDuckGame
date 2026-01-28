@@ -62,10 +62,10 @@ public class DeathCrate : Holdable, IPlatform
         _hitPoints = 15f;
         _sprite = new SpriteMap("deathcrate", 16, 19);
         graphic = _sprite;
-        center = new Vec2(8f, 11f);
+        Center = new Vec2(8f, 11f);
         collisionOffset = new Vec2(-8f, -11f);
         collisionSize = new Vec2(16f, 18f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Death Crate";
         editorTooltip = "Explodes in a violent surprise when triggered.";
         thickness = 2f;
@@ -92,7 +92,7 @@ public class DeathCrate : Holdable, IPlatform
         {
             with.Fondle(this);
         }
-        if (from == ImpactedFrom.Top || (Math.Abs(base.angleDegrees) > 90f && Math.Abs(base.angleDegrees) < 270f && from == ImpactedFrom.Bottom && with.totalImpactPower + base.totalImpactPower > 0.1f && _sprite.currentAnimation == "idle"))
+        if (from == ImpactedFrom.Top || (Math.Abs(base.AngleDegrees) > 90f && Math.Abs(base.AngleDegrees) < 270f && from == ImpactedFrom.Bottom && with.totalImpactPower + base.totalImpactPower > 0.1f && _sprite.currentAnimation == "idle"))
         {
             activated = true;
             _sprite.SetAnimation("activate");

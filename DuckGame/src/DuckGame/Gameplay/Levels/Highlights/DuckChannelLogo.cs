@@ -105,12 +105,12 @@ public class DuckChannelLogo : Thing
         Vec2 duckOffset = new Vec2(-200f * (1f - _duckLerp), 0f);
         Vec2 channelOffset = new Vec2(200f * (1f - _channelLerp), 0f);
         Vec2 fiveOffset = new Vec2(300f * (1f - _channelLerp), 0f);
-        _duck.depth = 0.85f;
-        Graphics.Draw(_duck, posOffset.x + 80f + duckOffset.x, posOffset.y + 60f + duckOffset.y);
-        _channel.depth = 0.86f;
-        Graphics.Draw(_channel, posOffset.x + 64f + channelOffset.x, posOffset.y + 74f + channelOffset.y);
-        _five.depth = 0.85f;
-        Graphics.Draw(_five, posOffset.x + 144f + fiveOffset.x, posOffset.y + 64f + fiveOffset.y);
+        _duck.Depth = 0.85f;
+        Graphics.Draw(_duck, posOffset.X + 80f + duckOffset.X, posOffset.Y + 60f + duckOffset.Y);
+        _channel.Depth = 0.86f;
+        Graphics.Draw(_channel, posOffset.X + 64f + channelOffset.X, posOffset.Y + 74f + channelOffset.Y);
+        _five.Depth = 0.85f;
+        Graphics.Draw(_five, posOffset.X + 144f + fiveOffset.X, posOffset.Y + 64f + fiveOffset.Y);
         Vec2 swipeStart = new Vec2(30f, 20f);
         float lineWidth = 500f;
         float lineHeight = 16f;
@@ -118,7 +118,7 @@ public class DuckChannelLogo : Thing
         for (int i = 0; i < _swipeLines.Count; i++)
         {
             float xOff = _swipeLines[i] * -1200f;
-            Graphics.DrawRect(new Vec2(swipeStart.x + offRight + xOff, swipeStart.y + (float)i * lineHeight), new Vec2(swipeStart.x + lineWidth + offRight + xOff, swipeStart.y + (float)i * lineHeight + lineHeight), Color.Black, 0.83f);
+            Graphics.DrawRect(new Vec2(swipeStart.X + offRight + xOff, swipeStart.Y + (float)i * lineHeight), new Vec2(swipeStart.X + lineWidth + offRight + xOff, swipeStart.Y + (float)i * lineHeight + lineHeight), Color.Black, 0.83f);
         }
     }
 }

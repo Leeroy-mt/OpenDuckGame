@@ -15,7 +15,7 @@ public class Helmet : Hat
         _pickupSprite = new Sprite("helmetPickup");
         _sprite = new SpriteMap("helmet", 32, 32);
         graphic = _pickupSprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-5f, -2f);
         collisionSize = new Vec2(12f, 8f);
         _sprite.CenterOrigin();

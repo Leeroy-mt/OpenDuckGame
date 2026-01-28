@@ -49,8 +49,8 @@ public struct Vec4 : IEquatable<Vec4>
 
     public Vec4(Vec2 value, float z, float w)
     {
-        x = value.x;
-        y = value.y;
+        x = value.X;
+        y = value.Y;
         this.z = z;
         this.w = w;
     }
@@ -440,7 +440,7 @@ public struct Vec4 : IEquatable<Vec4>
 
     public static void Transform(ref Vec2 position, ref Matrix matrix, out Vec4 result)
     {
-        result = new Vec4(position.x * matrix.M11 + position.y * matrix.M21 + matrix.M41, position.x * matrix.M12 + position.y * matrix.M22 + matrix.M42, position.x * matrix.M13 + position.y * matrix.M23 + matrix.M43, position.x * matrix.M14 + position.y * matrix.M24 + matrix.M44);
+        result = new Vec4(position.X * matrix.M11 + position.Y * matrix.M21 + matrix.M41, position.X * matrix.M12 + position.Y * matrix.M22 + matrix.M42, position.X * matrix.M13 + position.Y * matrix.M23 + matrix.M43, position.X * matrix.M14 + position.Y * matrix.M24 + matrix.M44);
     }
 
     public static void Transform(ref Vec3 position, ref Matrix matrix, out Vec4 result)

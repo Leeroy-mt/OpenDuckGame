@@ -12,10 +12,10 @@ public class NatureBackground : BackgroundUpdater
         {
             frame = 0
         };
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
         _editorName = "Nature BG";
@@ -30,24 +30,24 @@ public class NatureBackground : BackgroundUpdater
             _parallax = new ParallaxBackground("background/forest5", 0f, 0f, 3);
             float speed = 0.4f;
             Sprite s = new Sprite("background/cloud1");
-            s.depth = -0.9f;
-            s.position = new Vec2(50f, 60f);
+            s.Depth = -0.9f;
+            s.Position = new Vec2(50f, 60f);
             _parallax.AddZoneSprite(s, 6, 0.72f, speed, moving: true);
             s = new Sprite("background/cloud4");
-            s.depth = -0.9f;
-            s.position = new Vec2(200f, 95f);
+            s.Depth = -0.9f;
+            s.Position = new Vec2(200f, 95f);
             _parallax.AddZoneSprite(s, 5, 0.72f, speed, moving: true);
             s = new Sprite("background/cloud2");
-            s.depth = -0.9f;
-            s.position = new Vec2(170f, 72f);
+            s.Depth = -0.9f;
+            s.Position = new Vec2(170f, 72f);
             _parallax.AddZoneSprite(s, 8, 0.82f, speed, moving: true);
             s = new Sprite("background/cloud5");
-            s.depth = -0.9f;
-            s.position = new Vec2(30f, 45f);
+            s.Depth = -0.9f;
+            s.Position = new Vec2(30f, 45f);
             _parallax.AddZoneSprite(s, 4, 0.82f, speed, moving: true);
             s = new Sprite("background/cloud3");
-            s.depth = -0.9f;
-            s.position = new Vec2(150f, 30f);
+            s.Depth = -0.9f;
+            s.Position = new Vec2(150f, 30f);
             _parallax.AddZoneSprite(s, 7, 0.91f, speed, moving: true);
             int zoneOffset = 1;
             float cloudSpeed = 0.1f;

@@ -128,8 +128,8 @@ public abstract class PhysicsParticle : Thing
 
     public virtual void NetSerialize(BitBuffer b)
     {
-        b.Write((short)base.x);
-        b.Write((short)base.y);
+        b.Write((short)base.X);
+        b.Write((short)base.Y);
     }
 
     public virtual void NetDeserialize(BitBuffer d)
@@ -145,7 +145,7 @@ public abstract class PhysicsParticle : Thing
         _grounded = false;
         _spinAngle = 0f;
         _foreverGrounded = false;
-        base.alpha = 1f;
+        base.Alpha = 1f;
         _airFriction = 0.03f;
         vSpeed = 0f;
         hSpeed = 0f;
@@ -164,19 +164,19 @@ public abstract class PhysicsParticle : Thing
     {
         if (!isLocal)
         {
-            Vec2 me = position;
+            Vec2 me = Position;
             Vec2 targ = netLerpPosition;
             if ((me - targ).lengthSq > 2048f || (me - targ).lengthSq < 1f)
             {
-                position = targ;
+                Position = targ;
             }
             else
             {
-                position = Lerp.Vec2Smooth(me, targ, 0.5f);
+                Position = Lerp.Vec2Smooth(me, targ, 0.5f);
             }
             return;
         }
-        if (Network.isActive && (base.y < Level.current.highestPoint - 200f || base.y > Level.current.lowestPoint + 200f))
+        if (Network.isActive && (base.Y < Level.current.highestPoint - 200f || base.Y > Level.current.lowestPoint + 200f))
         {
             Level.Remove(this);
             return;
@@ -189,8 +189,8 @@ public abstract class PhysicsParticle : Thing
             _life -= 0.005f;
             if (_life < 0f)
             {
-                base.alpha -= 0.1f;
-                if (base.alpha < 0f)
+                base.Alpha -= 0.1f;
+                if (base.Alpha < 0f)
                 {
                     Level.Remove(this);
                 }
@@ -229,7 +229,7 @@ public abstract class PhysicsParticle : Thing
                 hSpeed = 0f;
             }
             _spinAngle -= 10 * Math.Sign(hSpeed);
-            Thing col = Level.CheckPoint<Block>(base.x + hSpeed, base.y + vSpeed);
+            Thing col = Level.CheckPoint<Block>(base.X + hSpeed, base.Y + vSpeed);
             if (col != null && _framesAlive < 2f)
             {
                 _waitForNoCollide = true;
@@ -249,7 +249,7 @@ public abstract class PhysicsParticle : Thing
                 {
                     SFX.Play(_bounceSound, 0.5f, -0.1f + Rando.Float(0.2f));
                 }
-                if (vSpeed > 0f && col.top > base.y)
+                if (vSpeed > 0f && col.top > base.Y)
                 {
                     vSpeed = 0f - vSpeed * _bounceEfficiency;
                     _hit = true;
@@ -259,12 +259,12 @@ public abstract class PhysicsParticle : Thing
                         _grounded = true;
                     }
                 }
-                else if (vSpeed < 0f && col.bottom < base.y)
+                else if (vSpeed < 0f && col.bottom < base.Y)
                 {
                     vSpeed = 0f - vSpeed * _bounceEfficiency;
                     _hit = true;
                 }
-                if (hSpeed > 0f && col.left > base.x)
+                if (hSpeed > 0f && col.left > base.X)
                 {
                     hSpeed = 0f - hSpeed * _bounceEfficiency;
                     _hit = true;
@@ -276,7 +276,7 @@ public abstract class PhysicsParticle : Thing
                         _stickDir = 1f;
                     }
                 }
-                else if (hSpeed < 0f && col.right < base.x)
+                else if (hSpeed < 0f && col.right < base.X)
                 {
                     hSpeed = 0f - hSpeed * _bounceEfficiency;
                     _hit = true;
@@ -295,8 +295,8 @@ public abstract class PhysicsParticle : Thing
             }
             else
             {
-                base.x += hSpeed;
-                base.y += vSpeed;
+                base.X += hSpeed;
+                base.Y += vSpeed;
             }
         }
         if (_spinAngle > 360f)

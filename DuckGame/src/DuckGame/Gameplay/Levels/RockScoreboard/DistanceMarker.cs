@@ -18,14 +18,14 @@ public class DistanceMarker : Thing
         _distanceSign.CenterOrigin();
         collisionOffset = new(-8, -6);
         collisionSize = new(16, 13);
-        center = new(_distanceSign.w / 2, _distanceSign.h / 2);
+        Center = new(_distanceSign.w / 2, _distanceSign.h / 2);
     }
 
     public override void Draw()
     {
-        _distanceSign.depth = depth;
-        Graphics.Draw(_distanceSign, x, y);
+        _distanceSign.Depth = Depth;
+        Graphics.Draw(_distanceSign, X, Y);
         string text = Change.ToString(_distance);
-        _font.Draw(text, x - _font.GetWidth(text) / 2f, y - _font.height / 2f + 1f, Color.DarkSlateGray, depth + 1);
+        _font.Draw(text, X - _font.GetWidth(text) / 2f, Y - _font.height / 2f + 1f, Color.DarkSlateGray, Depth + 1);
     }
 }

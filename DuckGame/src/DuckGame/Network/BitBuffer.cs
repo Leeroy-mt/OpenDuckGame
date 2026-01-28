@@ -579,8 +579,8 @@ public class BitBuffer
     {
         return new Vec2
         {
-            x = ReadFloat(),
-            y = ReadFloat()
+            X = ReadFloat(),
+            Y = ReadFloat()
         };
     }
 
@@ -826,13 +826,13 @@ public class BitBuffer
             if (levelIndex != Level.core.currentLevel.networkIndex)
             {
                 ghost = new GhostObject(t, GhostManager.context, index);
-                t.position = new Vec2(-2000f, -2000f);
+                t.Position = new Vec2(-2000f, -2000f);
                 GhostManager.context.pendingBitBufferGhosts.Add(ghost);
             }
             else
             {
                 ghost = GhostManager.context.MakeGhost(t, index);
-                t.position = new Vec2(-2000f, -2000f);
+                t.Position = new Vec2(-2000f, -2000f);
                 ghost.ClearStateMask(NetworkConnection.context);
                 t.level = Level.current;
                 t.isBitBufferCreatedGhostThing = true;
@@ -1148,8 +1148,8 @@ public class BitBuffer
 
     public void Write(Vec2 val)
     {
-        Write(val.x);
-        Write(val.y);
+        Write(val.X);
+        Write(val.Y);
     }
 
     public void Write(Color val)

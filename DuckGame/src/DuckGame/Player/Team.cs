@@ -167,25 +167,25 @@ public class Team
                     }
                     if (randomizerX != Vec2.Zero)
                     {
-                        modified.x = Rando.Float(_value.x * randomizerX.x, _value.x * randomizerX.y);
+                        modified.X = Rando.Float(_value.X * randomizerX.X, _value.X * randomizerX.Y);
                     }
                     if (randomizerY == Vec2.MaxValue)
                     {
-                        modified.y = modified.x;
+                        modified.Y = modified.X;
                     }
                     else if (randomizerY != Vec2.Zero)
                     {
-                        modified.y = Rando.Float(_value.y * randomizerY.x, _value.y * randomizerY.y);
+                        modified.Y = Rando.Float(_value.Y * randomizerY.X, _value.Y * randomizerY.Y);
                     }
                     if (allowNegative)
                     {
-                        modified.x = Maths.Clamp(modified.x, 0f - range, range);
-                        modified.y = Maths.Clamp(modified.y, 0f - range, range);
+                        modified.X = Maths.Clamp(modified.X, 0f - range, range);
+                        modified.Y = Maths.Clamp(modified.Y, 0f - range, range);
                     }
                     else
                     {
-                        modified.x = Maths.Clamp(modified.x, 0f, range);
-                        modified.y = Maths.Clamp(modified.y, 0f, range);
+                        modified.X = Maths.Clamp(modified.X, 0f, range);
+                        modified.Y = Maths.Clamp(modified.Y, 0f, range);
                     }
                     return modified;
                 }
@@ -281,7 +281,7 @@ public class Team
                     }
                     if (randomizerX != Vec2.Zero)
                     {
-                        modified = Rando.Float(_value * randomizerX.x, _value * randomizerX.y);
+                        modified = Rando.Float(_value * randomizerX.X, _value * randomizerX.Y);
                     }
                     if (allowNegative)
                     {
@@ -326,7 +326,7 @@ public class Team
                     }
                     if (randomizerX != Vec2.Zero)
                     {
-                        modified = Rando.Float((float)_value * randomizerX.x, (float)_value * randomizerX.y);
+                        modified = Rando.Float((float)_value * randomizerX.X, (float)_value * randomizerX.Y);
                     }
                     return (int)Math.Round(modified);
                 }
@@ -369,15 +369,15 @@ public class Team
                     }
                     if (randomizerX != Vec2.Zero)
                     {
-                        modified.x = (float)Math.Round(Rando.Float(_value.x * randomizerX.x, _value.x * randomizerX.y));
+                        modified.X = (float)Math.Round(Rando.Float(_value.X * randomizerX.X, _value.X * randomizerX.Y));
                     }
                     if (randomizerY == Vec2.MaxValue)
                     {
-                        modified.y = modified.x;
+                        modified.Y = modified.X;
                     }
                     else if (randomizerY != Vec2.Zero)
                     {
-                        modified.y = (float)Math.Round(Rando.Float(_value.y * randomizerY.x, _value.y * randomizerY.y));
+                        modified.Y = (float)Math.Round(Rando.Float(_value.Y * randomizerY.X, _value.Y * randomizerY.Y));
                     }
                     return modified;
                 }
@@ -391,16 +391,16 @@ public class Team
             {
                 if (allowNegative)
                 {
-                    _value.x = pColor.g - 128;
-                    _value.y = pColor.b - 128;
+                    _value.X = pColor.g - 128;
+                    _value.Y = pColor.b - 128;
                 }
                 else
                 {
-                    _value.x = (int)pColor.g;
-                    _value.y = (int)pColor.b;
+                    _value.X = (int)pColor.g;
+                    _value.Y = (int)pColor.b;
                 }
-                _value.x = Maths.Clamp(value.x, -rangeX, rangeX);
-                _value.y = Maths.Clamp(value.y, -rangeY, rangeY);
+                _value.X = Maths.Clamp(value.X, -rangeX, rangeX);
+                _value.Y = Maths.Clamp(value.Y, -rangeY, rangeY);
             }
         }
 

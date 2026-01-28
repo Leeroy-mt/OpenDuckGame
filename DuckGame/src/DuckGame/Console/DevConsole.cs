@@ -197,9 +197,9 @@ public class DevConsole
             timeString += "0";
         }
         timeString += line.timestamp.Second;
-        core.font.scale = new Vec2(1f);
-        core.font.Draw((times ? ("|GRAY|" + timeString + " ") : "") + (section ? line.SectionString(colored: true, small: true) : "") + line.line, pos.x, pos.y, line.color * 0.8f, 0.9f);
-        core.font.scale = new Vec2(2f);
+        core.font.Scale = new Vec2(1f);
+        core.font.Draw((times ? ("|GRAY|" + timeString + " ") : "") + (section ? line.SectionString(colored: true, small: true) : "") + line.line, pos.X, pos.Y, line.color * 0.8f, 0.9f);
+        core.font.Scale = new Vec2(2f);
     }
 
     public static void InitializeFont()
@@ -224,9 +224,9 @@ public class DevConsole
         if (_core.font == null)
         {
             _core.font = new BitmapFont("biosFont", 8);
-            _core.font.scale = new Vec2(2f, 2f);
+            _core.font.Scale = new Vec2(2f, 2f);
             _core.fancyFont = new FancyBitmapFont("smallFont");
-            _core.fancyFont.scale = new Vec2(2f, 2f);
+            _core.fancyFont.Scale = new Vec2(2f, 2f);
         }
         if (!(_core.alpha > 0.01f))
         {
@@ -237,66 +237,66 @@ public class DevConsole
         {
             return;
         }
-        _tray.alpha = _core.alpha;
-        _tray.scale = new Vec2((float)(Math.Round((float)Resolution.current.x / 1280f * 2f) / 2.0) * 2f) * (consoleScale + 1) / 2f;
-        _tray.depth = 0.75f;
-        int numSectionsVert = (int)(Layer.core._console.camera.height * dimensions.y / (16f * _tray.scale.y)) - 2;
-        int numSectionsHor = (int)(Layer.core._console.camera.width * dimensions.x / (16f * _tray.scale.x)) - 2;
+        _tray.Alpha = _core.alpha;
+        _tray.Scale = new Vec2((float)(Math.Round((float)Resolution.current.x / 1280f * 2f) / 2.0) * 2f) * (consoleScale + 1) / 2f;
+        _tray.Depth = 0.75f;
+        int numSectionsVert = (int)(Layer.core._console.camera.height * dimensions.Y / (16f * _tray.Scale.Y)) - 2;
+        int numSectionsHor = (int)(Layer.core._console.camera.width * dimensions.X / (16f * _tray.Scale.X)) - 2;
         Graphics.Draw(_tray, 0f, 0f, new Rectangle(0f, 0f, 18f, 18f));
-        Graphics.Draw(_tray, 0f, 18f * _tray.scale.y + (float)numSectionsVert * (16f * _tray.scale.y), new Rectangle(0f, _tray.height - 18, 18f, 18f));
-        Graphics.Draw(_tray, 18f * _tray.scale.x + (float)(numSectionsHor - 6) * (16f * _tray.scale.x), 18f * _tray.scale.y + (float)numSectionsVert * (16f * _tray.scale.y), new Rectangle(_tray.width - 114, _tray.height - 18, 114f, 18f));
+        Graphics.Draw(_tray, 0f, 18f * _tray.Scale.Y + (float)numSectionsVert * (16f * _tray.Scale.Y), new Rectangle(0f, _tray.height - 18, 18f, 18f));
+        Graphics.Draw(_tray, 18f * _tray.Scale.X + (float)(numSectionsHor - 6) * (16f * _tray.Scale.X), 18f * _tray.Scale.Y + (float)numSectionsVert * (16f * _tray.Scale.Y), new Rectangle(_tray.width - 114, _tray.height - 18, 114f, 18f));
         for (int i = 0; i < numSectionsHor; i++)
         {
-            Graphics.Draw(_tray, 18f * _tray.scale.x + 16f * _tray.scale.x * (float)i, 0f, new Rectangle(16f, 0f, 16f, 18f));
+            Graphics.Draw(_tray, 18f * _tray.Scale.X + 16f * _tray.Scale.X * (float)i, 0f, new Rectangle(16f, 0f, 16f, 18f));
             if (i < numSectionsHor - 6)
             {
-                Graphics.Draw(_tray, 18f * _tray.scale.x + 16f * _tray.scale.x * (float)i, 18f * _tray.scale.y + (float)numSectionsVert * (16f * _tray.scale.y), new Rectangle(16f, _tray.height - 18, 16f, 18f));
+                Graphics.Draw(_tray, 18f * _tray.Scale.X + 16f * _tray.Scale.X * (float)i, 18f * _tray.Scale.Y + (float)numSectionsVert * (16f * _tray.Scale.Y), new Rectangle(16f, _tray.height - 18, 16f, 18f));
             }
         }
-        Graphics.Draw(_tray, 18f * _tray.scale.x + (float)numSectionsHor * (16f * _tray.scale.x), 0f, new Rectangle(_tray.width - 18, 0f, 18f, 18f));
+        Graphics.Draw(_tray, 18f * _tray.Scale.X + (float)numSectionsHor * (16f * _tray.Scale.X), 0f, new Rectangle(_tray.width - 18, 0f, 18f, 18f));
         for (int j = 0; j < numSectionsVert; j++)
         {
-            Graphics.Draw(_tray, 0f, 18f * _tray.scale.y + 16f * _tray.scale.y * (float)j, new Rectangle(0f, 18f, 18f, 16f));
-            Graphics.Draw(_tray, 18f * _tray.scale.x + (float)numSectionsHor * (16f * _tray.scale.x), 18f * _tray.scale.y + 16f * _tray.scale.y * (float)j, new Rectangle(_tray.width - 18, 18f, 18f, 16f));
+            Graphics.Draw(_tray, 0f, 18f * _tray.Scale.Y + 16f * _tray.Scale.Y * (float)j, new Rectangle(0f, 18f, 18f, 16f));
+            Graphics.Draw(_tray, 18f * _tray.Scale.X + (float)numSectionsHor * (16f * _tray.Scale.X), 18f * _tray.Scale.Y + 16f * _tray.Scale.Y * (float)j, new Rectangle(_tray.width - 18, 18f, 18f, 16f));
         }
-        Graphics.DrawRect(Vec2.Zero, new Vec2(18f * _tray.scale.x + (float)numSectionsHor * (16f * _tray.scale.x) + _tray.scale.y * 4f, (float)(numSectionsVert + 2) * (16f * _tray.scale.y)), Color.Black * 0.8f * _core.alpha, 0.7f);
-        _core.fancyFont.scale = new Vec2(_tray.scale.x / 2f);
-        _core.fancyFont.depth = 0.98f;
-        _core.fancyFont.alpha = _core.alpha;
-        float height = (float)((numSectionsVert + 1) * 16) * _tray.scale.y + 5f * _tray.scale.y;
-        float width = (float)(numSectionsHor + 2) * (16f * _tray.scale.x);
+        Graphics.DrawRect(Vec2.Zero, new Vec2(18f * _tray.Scale.X + (float)numSectionsHor * (16f * _tray.Scale.X) + _tray.Scale.Y * 4f, (float)(numSectionsVert + 2) * (16f * _tray.Scale.Y)), Color.Black * 0.8f * _core.alpha, 0.7f);
+        _core.fancyFont.Scale = new Vec2(_tray.Scale.X / 2f);
+        _core.fancyFont.Depth = 0.98f;
+        _core.fancyFont.Alpha = _core.alpha;
+        float height = (float)((numSectionsVert + 1) * 16) * _tray.Scale.Y + 5f * _tray.Scale.Y;
+        float width = (float)(numSectionsHor + 2) * (16f * _tray.Scale.X);
         string ver = DG.version;
-        _core.fancyFont.Draw(ver, new Vec2(82f * _tray.scale.x + (float)(numSectionsHor - 6) * (16f * _tray.scale.x), height + 7f * _tray.scale.y), new Color(62, 114, 122), 0.98f);
+        _core.fancyFont.Draw(ver, new Vec2(82f * _tray.Scale.X + (float)(numSectionsHor - 6) * (16f * _tray.Scale.X), height + 7f * _tray.Scale.Y), new Color(62, 114, 122), 0.98f);
         _core.cursorPosition = Math.Min(Math.Max(_core.cursorPosition, 0), _core.typing.Length);
         if (_raster != null)
         {
-            _raster.scale = new Vec2(0.5f);
-            _raster.alpha = _core.alpha;
-            _raster.Draw(_core.typing, 4f * _tray.scale.x, height + _tray.scale.y * 8f - (float)_raster.characterHeight * _raster.scale.y / 2f, Color.White, 0.9f);
-            Vec2 vec = new Vec2(_raster.GetWidth(_core.typing.Substring(0, _core.cursorPosition)) + 4f * _tray.scale.x + 1f, height + 6f * _tray.scale.y);
-            Graphics.DrawLine(vec, vec + new Vec2(0f, 4f * _tray.scale.x), Color.White, 1f, 1f);
+            _raster.Scale = new Vec2(0.5f);
+            _raster.Alpha = _core.alpha;
+            _raster.Draw(_core.typing, 4f * _tray.Scale.X, height + _tray.Scale.Y * 8f - (float)_raster.characterHeight * _raster.Scale.Y / 2f, Color.White, 0.9f);
+            Vec2 vec = new Vec2(_raster.GetWidth(_core.typing.Substring(0, _core.cursorPosition)) + 4f * _tray.Scale.X + 1f, height + 6f * _tray.Scale.Y);
+            Graphics.DrawLine(vec, vec + new Vec2(0f, 4f * _tray.Scale.X), Color.White, 1f, 1f);
         }
         else
         {
-            _core.font.scale = new Vec2(_tray.scale.x / 2f);
-            _core.font.alpha = _core.alpha;
-            _core.font.Draw(_core.typing, 4f * _tray.scale.x, height + 6f * _tray.scale.y, Color.White, 0.9f);
-            Vec2 vec2 = new Vec2(_core.font.GetWidth(_core.typing.Substring(0, _core.cursorPosition)) + 4f * _tray.scale.x, height + 6f * _tray.scale.y);
-            Graphics.DrawLine(vec2, vec2 + new Vec2(0f, 4f * _tray.scale.x), Color.White, 2f, 1f);
+            _core.font.Scale = new Vec2(_tray.Scale.X / 2f);
+            _core.font.Alpha = _core.alpha;
+            _core.font.Draw(_core.typing, 4f * _tray.Scale.X, height + 6f * _tray.Scale.Y, Color.White, 0.9f);
+            Vec2 vec2 = new Vec2(_core.font.GetWidth(_core.typing.Substring(0, _core.cursorPosition)) + 4f * _tray.Scale.X, height + 6f * _tray.Scale.Y);
+            Graphics.DrawLine(vec2, vec2 + new Vec2(0f, 4f * _tray.Scale.X), Color.White, 2f, 1f);
         }
         int index = _core.lines.Count - 1 - _core.viewOffset;
         float vOffset = 0f;
-        _core.font.scale = new Vec2((float)Math.Max(Math.Round(_tray.scale.x / 4f), 1.0));
-        float mul = _core.font.scale.x / 2f;
+        _core.font.Scale = new Vec2((float)Math.Max(Math.Round(_tray.Scale.X / 4f), 1.0));
+        float mul = _core.font.Scale.X / 2f;
         float lineHeight = 18f * mul;
-        float numWidth = 20f * (_core.font.scale.x * 2f);
+        float numWidth = 20f * (_core.font.Scale.X * 2f);
         if (_raster != null)
         {
-            lineHeight = (float)(_raster.characterHeight - 2) * _raster.scale.y;
+            lineHeight = (float)(_raster.characterHeight - 2) * _raster.Scale.Y;
             vOffset = lineHeight;
             numWidth = _raster.GetWidth("0000  ");
         }
-        for (int k = 0; (float)k < (height - 2f * _tray.scale.y) / lineHeight - 1f; k++)
+        for (int k = 0; (float)k < (height - 2f * _tray.Scale.Y) / lineHeight - 1f; k++)
         {
             if (index < 0)
             {
@@ -310,25 +310,25 @@ public class DevConsole
             }
             if (_raster != null)
             {
-                _raster.maxWidth = (int)(width - 35f * _tray.scale.x);
+                _raster.maxWidth = (int)(width - 35f * _tray.Scale.X);
                 _raster.singleLine = true;
                 _raster.enforceWidthByWord = false;
-                _raster.Draw(lineNumber, 4f * _tray.scale.x, height - vOffset + 2f, (index % 2 > 0) ? (Color.Gray * 0.4f) : (Color.Gray * 0.6f), 0.9f);
-                _raster.Draw(line.SectionString() + line.line, 4f * _tray.scale.x + numWidth, height - vOffset + 2f, line.color, 0.9f);
+                _raster.Draw(lineNumber, 4f * _tray.Scale.X, height - vOffset + 2f, (index % 2 > 0) ? (Color.Gray * 0.4f) : (Color.Gray * 0.6f), 0.9f);
+                _raster.Draw(line.SectionString() + line.line, 4f * _tray.Scale.X + numWidth, height - vOffset + 2f, line.color, 0.9f);
                 vOffset += lineHeight;
             }
             else
             {
-                _core.font.maxWidth = (int)(width - 35f * _tray.scale.x);
+                _core.font.maxWidth = (int)(width - 35f * _tray.Scale.X);
                 _core.font.singleLine = true;
                 _core.font.enforceWidthByWord = false;
-                _core.font.Draw(lineNumber, 4f * _tray.scale.x, height - 18f * mul - vOffset + 2f, (index % 2 > 0) ? (Color.Gray * 0.4f) : (Color.Gray * 0.6f), 0.9f);
-                _core.font.Draw(line.SectionString() + line.line, 4f * _tray.scale.x + numWidth, height - 18f * mul - vOffset + 2f, line.color * 0.8f, 0.9f);
+                _core.font.Draw(lineNumber, 4f * _tray.Scale.X, height - 18f * mul - vOffset + 2f, (index % 2 > 0) ? (Color.Gray * 0.4f) : (Color.Gray * 0.6f), 0.9f);
+                _core.font.Draw(line.SectionString() + line.line, 4f * _tray.Scale.X + numWidth, height - 18f * mul - vOffset + 2f, line.color * 0.8f, 0.9f);
                 vOffset += 18f * mul;
             }
             index--;
         }
-        _core.font.scale = new Vec2(2f);
+        _core.font.Scale = new Vec2(2f);
     }
     public static Profile ProfileByName(string findName)
     {
@@ -551,8 +551,8 @@ public class DevConsole
                 Thing newThing = Editor.CreateThing(t) as PhysicsObject;
                 if (newThing != null)
                 {
-                    newThing.x = xpos;
-                    newThing.y = ypos;
+                    newThing.X = xpos;
+                    newThing.Y = ypos;
                     Level.Add(newThing);
                     SFX.Play("hitBox");
                 }
@@ -740,7 +740,7 @@ public class DevConsole
                                         int pts = Convert.ToInt32(val);
                                         _raster = new RasterFont(fontName, pts);
                                         Options.Data.consoleFontSize = pts;
-                                        _raster.scale = new Vec2(0.5f);
+                                        _raster.Scale = new Vec2(0.5f);
                                         Options.Save();
                                     }
                                     catch (Exception)
@@ -769,7 +769,7 @@ public class DevConsole
                                 {
                                     _raster = new RasterFont(val, fontPoints);
                                     Options.Data.consoleFont = val;
-                                    _raster.scale = new Vec2(0.5f);
+                                    _raster.Scale = new Vec2(0.5f);
                                     Options.Save();
                                     if (_raster.data.name == "Comic Sans MS")
                                     {
@@ -2047,14 +2047,14 @@ public class DevConsole
         });
         AddCommand(new CMD("downpour", (Action<CMD>)delegate
         {
-            float num = Level.current.bottomRight.x - Level.current.topLeft.x + 128f;
+            float num = Level.current.bottomRight.X - Level.current.topLeft.X + 128f;
             int num2 = 10;
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < num2; j++)
                 {
                     PhysicsObject randomItem = ItemBoxRandom.GetRandomItem();
-                    randomItem.position = Level.current.topLeft + new Vec2(-64f + (num / (float)num2 * (float)j + Rando.Float(-128f, 128f)), Level.current.topLeft.y - 2000f - (float)(512 * i) + Rando.Float(-256f, 256f));
+                    randomItem.Position = Level.current.topLeft + new Vec2(-64f + (num / (float)num2 * (float)j + Rando.Float(-128f, 128f)), Level.current.topLeft.Y - 2000f - (float)(512 * i) + Rando.Float(-256f, 256f));
                     Level.Add(randomItem);
                 }
             }

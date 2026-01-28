@@ -6,8 +6,8 @@ public class DCExplodeFire : DeathCrateSetting
 {
     public override void Activate(DeathCrate c, bool server = true)
     {
-        float cx = c.x;
-        float cy = c.y - 2f;
+        float cx = c.X;
+        float cy = c.Y - 2f;
         Level.Add(new ExplosionPart(cx, cy));
         int num = 6;
         if (Graphics.effectsLevel < 2)
@@ -24,12 +24,12 @@ public class DCExplodeFire : DeathCrateSetting
         {
             for (int j = 0; j < 16; j++)
             {
-                Level.Add(SmallFire.New(c.x - 6f + Rando.Float(12f), c.y - 8f + Rando.Float(4f), -6f + Rando.Float(12f), 2f - Rando.Float(8.5f), shortLife: false, null, canMultiply: true, c));
+                Level.Add(SmallFire.New(c.X - 6f + Rando.Float(12f), c.Y - 8f + Rando.Float(4f), -6f + Rando.Float(12f), 2f - Rando.Float(8.5f), shortLife: false, null, canMultiply: true, c));
             }
             Level.Remove(c);
         }
         Graphics.FlashScreen();
         SFX.Play("explode");
-        RumbleManager.AddRumbleEvent(c.position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
+        RumbleManager.AddRumbleEvent(c.Position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
     }
 }

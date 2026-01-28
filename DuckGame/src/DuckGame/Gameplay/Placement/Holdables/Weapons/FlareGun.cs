@@ -12,7 +12,7 @@ public class FlareGun : Gun
         wideBarrel = true;
         _type = "gun";
         graphic = new Sprite("flareGun");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -4f);
         collisionSize = new Vec2(16f, 9f);
         _barrelOffsetTL = new Vec2(18f, 6f);
@@ -56,11 +56,11 @@ public class FlareGun : Gun
             if (!receivingPress && base.isServerForObject)
             {
                 Vec2 pos = Offset(base.barrelOffset);
-                Flare d = new Flare(pos.x, pos.y, this);
+                Flare d = new Flare(pos.X, pos.Y, this);
                 Fondle(d);
                 Vec2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.2f, 0.2f));
-                d.hSpeed = travelDir.x * 14f;
-                d.vSpeed = travelDir.y * 14f;
+                d.hSpeed = travelDir.X * 14f;
+                d.vSpeed = travelDir.Y * 14f;
                 Level.Add(d);
             }
         }

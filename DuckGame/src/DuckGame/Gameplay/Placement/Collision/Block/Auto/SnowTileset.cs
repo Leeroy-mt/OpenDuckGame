@@ -70,7 +70,7 @@ public class SnowTileset : AutoBlock
             DoPositioning();
             if (Network.isActive && !pNetMessage)
             {
-                Send.Message(new NMMeltTile(position));
+                Send.Message(new NMMeltTile(Position));
             }
         }
     }
@@ -92,7 +92,7 @@ public class SnowTileset : AutoBlock
             melt = 0f;
             if (!melted && Network.isActive && !pNetMessage)
             {
-                Send.Message(new NMFreezeTile(position));
+                Send.Message(new NMFreezeTile(Position));
             }
         }
     }
@@ -125,7 +125,7 @@ public class SnowTileset : AutoBlock
                     {
                         for (int l = 0; l < num; l++)
                         {
-                            Level.Add(new SnowFallParticle(base.left - Rando.Float(0f, 1f), with.y + Rando.Float(-6f, 6f), new Vec2(0f - Rando.Float(0.3f, 1f), Rando.Float(-0.5f, 0.5f))));
+                            Level.Add(new SnowFallParticle(base.left - Rando.Float(0f, 1f), with.Y + Rando.Float(-6f, 6f), new Vec2(0f - Rando.Float(0.3f, 1f), Rando.Float(-0.5f, 0.5f))));
                         }
                         break;
                     }
@@ -133,7 +133,7 @@ public class SnowTileset : AutoBlock
                     {
                         for (int j = 0; j < num; j++)
                         {
-                            Level.Add(new SnowFallParticle(base.right - Rando.Float(0f, 1f), with.y + Rando.Float(-6f, 6f), new Vec2(Rando.Float(0.3f, 1f), Rando.Float(-0.5f, 0.5f))));
+                            Level.Add(new SnowFallParticle(base.right - Rando.Float(0f, 1f), with.Y + Rando.Float(-6f, 6f), new Vec2(Rando.Float(0.3f, 1f), Rando.Float(-0.5f, 0.5f))));
                         }
                         break;
                     }
@@ -141,7 +141,7 @@ public class SnowTileset : AutoBlock
                     {
                         for (int k = 0; k < num; k++)
                         {
-                            Level.Add(new SnowFallParticle(with.x + Rando.Float(-6f, 6f), base.top - Rando.Float(0f, 1f), new Vec2(Rando.Float(-0.5f, 0.5f), 0f - Rando.Float(0.3f, 1f))));
+                            Level.Add(new SnowFallParticle(with.X + Rando.Float(-6f, 6f), base.top - Rando.Float(0f, 1f), new Vec2(Rando.Float(-0.5f, 0.5f), 0f - Rando.Float(0.3f, 1f))));
                         }
                         break;
                     }
@@ -149,7 +149,7 @@ public class SnowTileset : AutoBlock
                     {
                         for (int i = 0; i < num; i++)
                         {
-                            Level.Add(new SnowFallParticle(with.x + Rando.Float(-6f, 6f), base.bottom + Rando.Float(0f, 1f), new Vec2(Rando.Float(-0.5f, 0.5f), Rando.Float(0.3f, 1f))));
+                            Level.Add(new SnowFallParticle(with.X + Rando.Float(-6f, 6f), base.bottom + Rando.Float(0f, 1f), new Vec2(Rando.Float(-0.5f, 0.5f), Rando.Float(0.3f, 1f))));
                         }
                         break;
                     }

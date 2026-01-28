@@ -48,11 +48,11 @@ public class PrizeTable : Thing
     {
         _sprite = new SpriteMap("arcade/prizeCounter", 69, 30);
         graphic = _sprite;
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _outline = new Sprite("arcade/prizeCounterOutline");
-        _outline.depth = base.depth + 1;
+        _outline.Depth = base.Depth + 1;
         _outline.CenterOrigin();
-        center = new Vec2(_sprite.width / 2, _sprite.h / 2);
+        Center = new Vec2(_sprite.width / 2, _sprite.h / 2);
         _collisionSize = new Vec2(16f, 15f);
         _collisionOffset = new Vec2(-8f, 0f);
         _light = new SpriteMap("arcade/prizeLights", 107, 55);
@@ -66,10 +66,10 @@ public class PrizeTable : Thing
     {
         if (!(Level.current is Editor))
         {
-            _dust = new DustSparkleEffect(base.x - 54f, base.y - 40f, wide: true, lit: true);
+            _dust = new DustSparkleEffect(base.X - 54f, base.Y - 40f, wide: true, lit: true);
             Level.Add(_dust);
-            _dust.depth = base.depth - 2;
-            _lighting = new ArcadeTableLight(base.x, base.y - 43f);
+            _dust.Depth = base.Depth - 2;
+            _lighting = new ArcadeTableLight(base.X, base.Y - 43f);
             Level.Add(_lighting);
         }
     }
@@ -81,10 +81,10 @@ public class PrizeTable : Thing
             return;
         }
         _hasEligibleChallenges = Challenges.GetEligibleChancyChallenges(Profiles.active[0]).Count > 0;
-        Duck d = Level.Nearest<Duck>(base.x, base.y);
+        Duck d = Level.Nearest<Duck>(base.X, base.Y);
         if (d != null)
         {
-            if (d.grounded && (d.position - position).length < 20f)
+            if (d.grounded && (d.Position - Position).Length() < 20f)
             {
                 _hoverFade = Lerp.Float(_hoverFade, 1f, 0.1f);
                 hover = true;
@@ -98,10 +98,10 @@ public class PrizeTable : Thing
         if (_hasEligibleChallenges)
         {
             Vec2 hoverOffset = new Vec2(40f, 0f);
-            d = Level.Nearest<Duck>(base.x + hoverOffset.x, base.y + hoverOffset.y);
+            d = Level.Nearest<Duck>(base.X + hoverOffset.X, base.Y + hoverOffset.Y);
             if (d != null)
             {
-                if (d.grounded && (d.position - (position + hoverOffset)).length < 20f)
+                if (d.grounded && (d.Position - (Position + hoverOffset)).Length() < 20f)
                 {
                     hoverChancyChallenge = true;
                 }
@@ -117,9 +117,9 @@ public class PrizeTable : Thing
 
     public override void Draw()
     {
-        _light.depth = base.depth - 9;
-        _prizes.depth = base.depth - 7;
-        Graphics.Draw(_prizes, base.x - 28f, base.y - 33f);
+        _light.Depth = base.Depth - 9;
+        _prizes.Depth = base.Depth - 7;
+        Graphics.Draw(_prizes, base.X - 28f, base.Y - 33f);
         if (_unlocked)
         {
             graphic.color = Color.White;
@@ -128,7 +128,7 @@ public class PrizeTable : Thing
         {
             graphic.color = Color.Black;
         }
-        Graphics.Draw(_light, base.x - 53f, base.y - 40f);
+        Graphics.Draw(_light, base.X - 53f, base.Y - 40f);
         if (Chancy.atCounter && !(Level.current is Editor))
         {
             Vec2 offset = new Vec2(32f, -15f);
@@ -138,35 +138,35 @@ public class PrizeTable : Thing
                 offset = new Vec2(42f, -10f);
                 Chancy.body.flipH = false;
             }
-            Chancy.body.depth = base.depth - 6;
-            Graphics.Draw(Chancy.body, base.x + offset.x, base.y + offset.y);
+            Chancy.body.Depth = base.Depth - 6;
+            Graphics.Draw(Chancy.body, base.X + offset.X, base.Y + offset.Y);
             if (hoverChancyChallenge)
             {
-                _hoverSprite.alpha = Lerp.Float(_hoverSprite.alpha, 1f, 0.05f);
+                _hoverSprite.Alpha = Lerp.Float(_hoverSprite.Alpha, 1f, 0.05f);
             }
             else
             {
-                _hoverSprite.alpha = Lerp.Float(_hoverSprite.alpha, 0f, 0.05f);
+                _hoverSprite.Alpha = Lerp.Float(_hoverSprite.Alpha, 0f, 0.05f);
             }
-            if (_hoverSprite.alpha > 0.01f)
+            if (_hoverSprite.Alpha > 0.01f)
             {
-                _hoverSprite.depth = 0f;
+                _hoverSprite.Depth = 0f;
                 _hoverSprite.flipH = Chancy.body.flipH;
                 if (_hoverSprite.flipH)
                 {
-                    Graphics.Draw(_hoverSprite, base.x + offset.x + 1f, base.y + offset.y - 1f);
+                    Graphics.Draw(_hoverSprite, base.X + offset.X + 1f, base.Y + offset.Y - 1f);
                 }
                 else
                 {
-                    Graphics.Draw(_hoverSprite, base.x + offset.x - 1f, base.y + offset.y - 1f);
+                    Graphics.Draw(_hoverSprite, base.X + offset.X - 1f, base.Y + offset.Y - 1f);
                 }
             }
         }
         base.Draw();
         if (_hoverFade > 0f)
         {
-            _outline.alpha = _hoverFade;
-            Graphics.Draw(_outline, base.x + 1f, base.y);
+            _outline.Alpha = _hoverFade;
+            Graphics.Draw(_outline, base.X + 1f, base.Y);
         }
     }
 }

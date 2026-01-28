@@ -5,32 +5,42 @@ namespace DuckGame;
 
 public class UIStringEntryMenu : UIMenu
 {
-    public string password = "";
+    #region Public Fields
 
     public bool _directional;
 
-    private FieldBinding _binding;
+    public string password = "";
 
-    private int _maxLength = 24;
+    #endregion
 
-    private int _minNumber;
+    #region Private Fields
 
-    private int _maxNumber;
+    bool _cancelled = true;
 
-    private bool _numeric;
+    bool _numeric;
 
-    private bool _cancelled = true;
+    bool wasOpen;
 
-    private string _originalValue = "";
+    int _maxLength = 24;
 
-    private float blink;
+    int _minNumber;
 
-    private bool wasOpen;
+    int _maxNumber;
+
+    float blink;
+
+    string _originalValue = "";
+
+    FieldBinding _binding;
+
+    #endregion
+
+    #region Public Constructors
 
     public UIStringEntryMenu(bool directional, string title, FieldBinding pBinding, int pMaxLength = 24, bool pNumeric = false, int pMinNumber = int.MinValue, int pMaxNumber = int.MaxValue)
-        : base(title, Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, directional ? 160 : 220, 60f, directional ? "@WASD@SET @SELECT@ACCEPT" : "@ENTERKEY@ACCEPT @ESCAPEKEY@")
+        : base(title, Layer.HUD.camera.width / 2, Layer.HUD.camera.height / 2, directional ? 160 : 220, 60, directional ? "@WASD@SET @SELECT@ACCEPT" : "@ENTERKEY@ACCEPT @ESCAPEKEY@")
     {
-        Add(new UIBox(0f, 0f, 100f, 16f, vert: true, isVisible: false));
+        Add(new UIBox(0, 0, 100, 16, vert: true, isVisible: false));
         _binding = pBinding;
         _directional = directional;
         _numeric = pNumeric;
@@ -39,17 +49,14 @@ public class UIStringEntryMenu : UIMenu
         _maxNumber = pMaxNumber;
     }
 
-    public void SetValue(string pValue)
-    {
-        password = pValue;
-    }
+    #endregion
+
+    #region Public Methods
 
     public override void Open()
     {
         if (_directional)
-        {
             password = "";
-        }
         _originalValue = password;
         Keyboard.keyString = password;
         _cancelled = true;
@@ -60,16 +67,14 @@ public class UIStringEntryMenu : UIMenu
     {
         Keyboard.repeat = false;
         if (wasOpen && _cancelled)
-        {
-            _binding.value = (_directional ? "" : _originalValue);
-        }
+            _binding.value = _directional ? "" : _originalValue;
         wasOpen = false;
         base.OnClose();
     }
 
     public override void Update()
     {
-        if (base.open)
+        if (open)
         {
             Input._imeAllowed = true;
             Keyboard.repeat = true;
@@ -80,21 +85,13 @@ public class UIStringEntryMenu : UIMenu
                 if (password.Length < 6)
                 {
                     if (Input.Pressed("LEFT"))
-                    {
                         password += "L";
-                    }
                     else if (Input.Pressed("RIGHT"))
-                    {
                         password += "R";
-                    }
                     else if (Input.Pressed("UP"))
-                    {
                         password += "U";
-                    }
                     else if (Input.Pressed("DOWN"))
-                    {
                         password += "D";
-                    }
                 }
                 if (Input.Pressed("SELECT"))
                 {
@@ -105,15 +102,11 @@ public class UIStringEntryMenu : UIMenu
             }
             else
             {
-                UIMenu.globalUILock = true;
+                globalUILock = true;
                 if (Keyboard.keyString.Length > _maxLength)
-                {
-                    Keyboard.keyString = Keyboard.keyString.Substring(0, _maxLength);
-                }
+                    Keyboard.keyString = Keyboard.keyString[.._maxLength];
                 if (_numeric)
-                {
                     Keyboard.keyString = Regex.Replace(Keyboard.keyString, "[^0-9]", "");
-                }
                 InputProfile.ignoreKeyboard = true;
                 password = Keyboard.keyString;
                 if (Keyboard.Pressed(Keys.Enter))
@@ -144,7 +137,7 @@ public class UIStringEntryMenu : UIMenu
                     }
                     if (!invalid)
                     {
-                        UIMenu.globalUILock = false;
+                        globalUILock = false;
                         _binding.value = password;
                         _cancelled = false;
                         _backFunction.Activate();
@@ -152,7 +145,7 @@ public class UIStringEntryMenu : UIMenu
                 }
                 else if (Keyboard.Pressed(Keys.Escape) || Input.Pressed("CANCEL"))
                 {
-                    UIMenu.globalUILock = false;
+                    globalUILock = false;
                     _cancelled = true;
                     _backFunction.Activate();
                 }
@@ -165,13 +158,16 @@ public class UIStringEntryMenu : UIMenu
     public override void Draw()
     {
         if (_directional)
-        {
-            Graphics.DrawPassword(password, new Vec2(base.x - (float)(password.Length * 8 / 2), base.y - 6f), Color.White, base.depth + 10);
-        }
+            Graphics.DrawPassword(password, new Vec2(X - (password.Length * 8 / 2), Y - 6), Color.White, Depth + 10);
         else
-        {
-            Graphics.DrawString(password + ((blink % 1f > 0.5f) ? "_" : ""), new Vec2(base.x - (float)(password.Length * 8 / 2), base.y - 6f), Color.White, base.depth + 10);
-        }
+            Graphics.DrawString(password + ((blink % 1f > 0.5f) ? "_" : ""), new Vec2(X - (password.Length * 8 / 2), Y - 6), Color.White, Depth + 10);
         base.Draw();
     }
+
+    public void SetValue(string pValue)
+    {
+        password = pValue;
+    }
+
+    #endregion
 }

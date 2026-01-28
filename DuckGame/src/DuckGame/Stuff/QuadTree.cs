@@ -46,7 +46,7 @@ public class QuadTree
         _max = max;
         _parent = parent;
         _center = _position + new Vec2(_halfWidth, _halfWidth);
-        _rectangle = new Rectangle((int)position.x, (int)position.y, (int)width, (int)width);
+        _rectangle = new Rectangle((int)position.X, (int)position.Y, (int)width, (int)width);
         if (_depth != 0)
         {
             for (int i = 0; i < 4; i++)
@@ -55,11 +55,11 @@ public class QuadTree
                 Vec2 newPos = new Vec2(_position);
                 if (i == 1 || i == 3)
                 {
-                    newPos.x += _halfWidth;
+                    newPos.X += _halfWidth;
                 }
                 if (i == 2 || i == 3)
                 {
-                    newPos.y += _halfWidth;
+                    newPos.Y += _halfWidth;
                 }
                 _children.Add(new QuadTree(_depth - 1, newPos, _halfWidth, _max, this));
             }
@@ -85,20 +85,20 @@ public class QuadTree
                 }
                 return null;
             }
-            if (pos.x > current._position.x + current._width)
+            if (pos.X > current._position.X + current._width)
             {
                 return null;
             }
-            if (pos.y > current._position.y + current._width)
+            if (pos.Y > current._position.Y + current._width)
             {
                 return null;
             }
             index = 0;
-            if (pos.x > current._position.x + current._halfWidth)
+            if (pos.X > current._position.X + current._halfWidth)
             {
                 index = 1;
             }
-            if (pos.y > current._position.y + current._halfWidth)
+            if (pos.Y > current._position.Y + current._halfWidth)
             {
                 index += 2;
             }
@@ -125,20 +125,20 @@ public class QuadTree
                 }
                 return default(T);
             }
-            if (pos.x > current._position.x + current._width)
+            if (pos.X > current._position.X + current._width)
             {
                 return default(T);
             }
-            if (pos.y > current._position.y + current._width)
+            if (pos.Y > current._position.Y + current._width)
             {
                 return default(T);
             }
             index = 0;
-            if (pos.x > current._position.x + current._halfWidth)
+            if (pos.X > current._position.X + current._halfWidth)
             {
                 index = 1;
             }
-            if (pos.y > current._position.y + current._halfWidth)
+            if (pos.Y > current._position.Y + current._halfWidth)
             {
                 index += 2;
             }
@@ -165,20 +165,20 @@ public class QuadTree
                 }
                 return default(T);
             }
-            if (pos.x > current._position.x + current._width)
+            if (pos.X > current._position.X + current._width)
             {
                 return default(T);
             }
-            if (pos.y > current._position.y + current._width)
+            if (pos.Y > current._position.Y + current._width)
             {
                 return default(T);
             }
             index = 0;
-            if (pos.x > current._position.x + current._halfWidth)
+            if (pos.X > current._position.X + current._halfWidth)
             {
                 index = 1;
             }
-            if (pos.y > current._position.y + current._halfWidth)
+            if (pos.Y > current._position.Y + current._halfWidth)
             {
                 index += 2;
             }
@@ -205,20 +205,20 @@ public class QuadTree
                 }
                 return default(T);
             }
-            if (pos.x > current._position.x + current._width)
+            if (pos.X > current._position.X + current._width)
             {
                 return default(T);
             }
-            if (pos.y > current._position.y + current._width)
+            if (pos.Y > current._position.Y + current._width)
             {
                 return default(T);
             }
             index = 0;
-            if (pos.x > current._position.x + current._halfWidth)
+            if (pos.X > current._position.X + current._halfWidth)
             {
                 index = 1;
             }
-            if (pos.y > current._position.y + current._halfWidth)
+            if (pos.Y > current._position.Y + current._halfWidth)
             {
                 index += 2;
             }
@@ -245,20 +245,20 @@ public class QuadTree
                 }
                 return default(T);
             }
-            if (pos.x > current._position.x + current._width)
+            if (pos.X > current._position.X + current._width)
             {
                 return default(T);
             }
-            if (pos.y > current._position.y + current._width)
+            if (pos.Y > current._position.Y + current._width)
             {
                 return default(T);
             }
             index = 0;
-            if (pos.x > current._position.x + current._halfWidth)
+            if (pos.X > current._position.X + current._halfWidth)
             {
                 index = 1;
             }
-            if (pos.y > current._position.y + current._halfWidth)
+            if (pos.Y > current._position.Y + current._halfWidth)
             {
                 index += 2;
             }
@@ -284,20 +284,20 @@ public class QuadTree
                 }
                 return null;
             }
-            if (pos.x > current._position.x + current._width)
+            if (pos.X > current._position.X + current._width)
             {
                 return null;
             }
-            if (pos.y > current._position.y + current._width)
+            if (pos.Y > current._position.Y + current._width)
             {
                 return null;
             }
             index = 0;
-            if (pos.x > current._position.x + current._halfWidth)
+            if (pos.X > current._position.X + current._halfWidth)
             {
                 index = 1;
             }
-            if (pos.y > current._position.y + current._halfWidth)
+            if (pos.Y > current._position.Y + current._halfWidth)
             {
                 index += 2;
             }
@@ -323,20 +323,20 @@ public class QuadTree
                 }
                 return null;
             }
-            if (pos.x > current._position.x + current._width)
+            if (pos.X > current._position.X + current._width)
             {
                 return null;
             }
-            if (pos.y > current._position.y + current._width)
+            if (pos.Y > current._position.Y + current._width)
             {
                 return null;
             }
             index = 0;
-            if (pos.x > current._position.x + current._halfWidth)
+            if (pos.X > current._position.X + current._halfWidth)
             {
                 index = 1;
             }
-            if (pos.y > current._position.y + current._halfWidth)
+            if (pos.Y > current._position.Y + current._halfWidth)
             {
                 index += 2;
             }
@@ -362,20 +362,20 @@ public class QuadTree
                 }
                 return null;
             }
-            if (pos.x > current._position.x + current._width)
+            if (pos.X > current._position.X + current._width)
             {
                 return null;
             }
-            if (pos.y > current._position.y + current._width)
+            if (pos.Y > current._position.Y + current._width)
             {
                 return null;
             }
             index = 0;
-            if (pos.x > current._position.x + current._halfWidth)
+            if (pos.X > current._position.X + current._halfWidth)
             {
                 index = 1;
             }
-            if (pos.y > current._position.y + current._halfWidth)
+            if (pos.Y > current._position.Y + current._halfWidth)
             {
                 index += 2;
             }
@@ -402,20 +402,20 @@ public class QuadTree
                 }
                 return default(T);
             }
-            if (pos.x > current._position.x + current._width)
+            if (pos.X > current._position.X + current._width)
             {
                 return default(T);
             }
-            if (pos.y > current._position.y + current._width)
+            if (pos.Y > current._position.Y + current._width)
             {
                 return default(T);
             }
             index = 0;
-            if (pos.x > current._position.x + current._halfWidth)
+            if (pos.X > current._position.X + current._halfWidth)
             {
                 index = 1;
             }
-            if (pos.y > current._position.y + current._halfWidth)
+            if (pos.Y > current._position.Y + current._halfWidth)
             {
                 index += 2;
             }
@@ -442,20 +442,20 @@ public class QuadTree
                 }
                 return default(T);
             }
-            if (pos.x > current._position.x + current._width)
+            if (pos.X > current._position.X + current._width)
             {
                 return default(T);
             }
-            if (pos.y > current._position.y + current._width)
+            if (pos.Y > current._position.Y + current._width)
             {
                 return default(T);
             }
             index = 0;
-            if (pos.x > current._position.x + current._halfWidth)
+            if (pos.X > current._position.X + current._halfWidth)
             {
                 index = 1;
             }
-            if (pos.y > current._position.y + current._halfWidth)
+            if (pos.Y > current._position.Y + current._halfWidth)
             {
                 index += 2;
             }
@@ -1158,7 +1158,7 @@ public class QuadTree
             foreach (Thing t in _objects)
             {
                 Graphics.DrawRect(t.rectangle, Color.Blue, 0f, filled: false);
-                Graphics.DrawString(Change.ToString(_personalIDX), t.position, Color.Green, 0.9f, null, 0.5f);
+                Graphics.DrawString(Change.ToString(_personalIDX), t.Position, Color.Green, 0.9f, null, 0.5f);
             }
         }
         if (_depth == 0 || !_split)

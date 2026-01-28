@@ -25,7 +25,7 @@ public class MagnaLine : Thing
         _length = length;
         _startLength = length;
         _move = (float)Math.PI / 2f * percent;
-        base.alpha = 0f;
+        base.Alpha = 0f;
     }
 
     public override void Update()
@@ -45,12 +45,12 @@ public class MagnaLine : Thing
         }
         _alphaFade = Lerp.Float(_alphaFade, show ? 1f : 0f, 0.1f);
         _length = _startLength * (float)Math.Sin(_move);
-        base.alpha = (1f - _length / _startLength) * _alphaFade;
-        if (!(base.alpha < 0.01f))
+        base.Alpha = (1f - _length / _startLength) * _alphaFade;
+        if (!(base.Alpha < 0.01f))
         {
-            position = _attach.barrelPosition + _attach.barrelVector * _length;
+            Position = _attach.barrelPosition + _attach.barrelVector * _length;
             Vec2 off = _attach.barrelVector.Rotate(Maths.DegToRad(90f), Vec2.Zero);
-            Graphics.DrawLine(position + off * 7f, position - off * 7f, Color.Blue * base.alpha, 1f + (1f - _length / _startLength) * 4f, 0.9f);
+            Graphics.DrawLine(Position + off * 7f, Position - off * 7f, Color.Blue * base.Alpha, 1f + (1f - _length / _startLength) * 4f, 0.9f);
         }
     }
 }

@@ -50,27 +50,27 @@ public class BlockGroup : AutoBlock
         Vec2 br = new Vec2(-99999f, -99999f);
         foreach (Block b in _blocks)
         {
-            if (b.left < tl.x)
+            if (b.left < tl.X)
             {
-                tl.x = b.left;
+                tl.X = b.left;
             }
-            if (b.right > br.x)
+            if (b.right > br.X)
             {
-                br.x = b.right;
+                br.X = b.right;
             }
-            if (b.top < tl.y)
+            if (b.top < tl.Y)
             {
-                tl.y = b.top;
+                tl.Y = b.top;
             }
-            if (b.bottom > br.y)
+            if (b.bottom > br.Y)
             {
-                br.y = b.bottom;
+                br.Y = b.bottom;
             }
             physicsMaterial = b.physicsMaterial;
             thickness = b.thickness;
         }
-        position = (tl + br) / 2f;
-        collisionOffset = tl - position;
+        Position = (tl + br) / 2f;
+        collisionOffset = tl - Position;
         collisionSize = br - tl;
     }
 

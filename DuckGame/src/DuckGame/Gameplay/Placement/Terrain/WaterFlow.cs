@@ -29,12 +29,12 @@ public class WaterFlow : Thing
     {
         SpriteMap flow = new SpriteMap("waterFlow", 16, 16);
         graphic = flow;
-        center = new Vec2(8f, 14f);
+        Center = new Vec2(8f, 14f);
         _collisionSize = new Vec2(16f, 4f);
         _collisionOffset = new Vec2(-8f, -2f);
         base.layer = Layer.Blocks;
-        base.depth = 0.3f;
-        base.alpha = 0.8f;
+        base.Depth = 0.3f;
+        base.Alpha = 0.8f;
         base.hugWalls = WallHug.Floor;
     }
 
@@ -54,7 +54,7 @@ public class WaterFlow : Thing
             processed = true;
             if (!_wallLeft)
             {
-                WaterFlow lef = Level.CheckPoint<WaterFlow>(new Vec2(base.x - 16f, base.y));
+                WaterFlow lef = Level.CheckPoint<WaterFlow>(new Vec2(base.X - 16f, base.Y));
                 if (lef != null && lef != this && lef.flipHorizontal == flipHorizontal)
                 {
                     rect = lef.ProcessGroupRect(rect);
@@ -67,7 +67,7 @@ public class WaterFlow : Thing
             }
             if (!_wallRight)
             {
-                WaterFlow rig = Level.CheckPoint<WaterFlow>(new Vec2(base.x + 16f, base.y));
+                WaterFlow rig = Level.CheckPoint<WaterFlow>(new Vec2(base.X + 16f, base.Y));
                 if (rig != null && rig != this && rig.flipHorizontal == flipHorizontal)
                 {
                     rect = rig.ProcessGroupRect(rect);
@@ -88,11 +88,11 @@ public class WaterFlow : Thing
         if (!_initialized)
         {
             _initialized = true;
-            if (Level.CheckPoint<Block>(new Vec2(base.x - 16f, base.y)) != null)
+            if (Level.CheckPoint<Block>(new Vec2(base.X - 16f, base.Y)) != null)
             {
                 _wallLeft = true;
             }
-            else if (Level.CheckPoint<Block>(new Vec2(base.x + 16f, base.y)) != null)
+            else if (Level.CheckPoint<Block>(new Vec2(base.X + 16f, base.Y)) != null)
             {
                 _wallRight = true;
             }
@@ -108,7 +108,7 @@ public class WaterFlow : Thing
                         item._extraWater.Clear();
                     }
                     _collisionSize = new Vec2(group.width, group.height);
-                    _collisionOffset = new Vec2(group.x - base.x, _collisionOffset.y);
+                    _collisionOffset = new Vec2(group.x - base.X, _collisionOffset.Y);
                 }
             }
         }
@@ -159,22 +159,22 @@ public class WaterFlow : Thing
         {
             if (_wallLeft)
             {
-                Graphics.Draw(graphic, base.x - 4f, base.y, new Rectangle(graphic.w - 4, 0f, 4f, graphic.h));
+                Graphics.Draw(graphic, base.X - 4f, base.Y, new Rectangle(graphic.w - 4, 0f, 4f, graphic.h));
             }
             if (_wallRight)
             {
-                Graphics.Draw(graphic, base.x + 16f, base.y, new Rectangle(0f, 0f, 4f, graphic.h));
+                Graphics.Draw(graphic, base.X + 16f, base.Y, new Rectangle(0f, 0f, 4f, graphic.h));
             }
         }
         else
         {
             if (_wallRight)
             {
-                Graphics.Draw(graphic, base.x + 4f, base.y, new Rectangle(graphic.w - 4, 0f, 4f, graphic.h));
+                Graphics.Draw(graphic, base.X + 4f, base.Y, new Rectangle(graphic.w - 4, 0f, 4f, graphic.h));
             }
             if (_wallLeft)
             {
-                Graphics.Draw(graphic, base.x - 16f, base.y, new Rectangle(0f, 0f, 4f, graphic.h));
+                Graphics.Draw(graphic, base.X - 16f, base.Y, new Rectangle(0f, 0f, 4f, graphic.h));
             }
         }
         foreach (WaterFlow water in _extraWater)

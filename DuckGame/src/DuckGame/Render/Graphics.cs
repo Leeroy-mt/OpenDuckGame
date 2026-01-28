@@ -2,495 +2,208 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 namespace DuckGame;
 
-public class Graphics
+public static class Graphics
 {
-    public static List<GraphicsResource> objectsToDispose = new List<GraphicsResource>();
+    #region Public Fields
 
-    public static bool disposingObjects = false;
-
-    private static List<Action>[] _renderTasks = new List<Action>[2]
-    {
-        new List<Action>(),
-        new List<Action>()
-    };
-
-    private static int _targetFlip = 0;
-
-    private static int _currentStateIndex = 0;
-
-    private static Vec2 _currentDrawOffset = Vec2.Zero;
-
-    private static int _currentDrawIndex = 0;
-
-    public static uint currentDepthSpan;
+    public static bool disposingObjects;
+    public static bool drawing;
+    public static bool caseSensitiveStringDrawing;
+    public static bool didCalc;
+    public static bool skipReplayRender;
+    public static bool recordMetadata;
+    public static bool doSnap = true;
 
     public static int effectsLevel = 2;
 
-    private static RenderTarget2D _screenTarget;
+    public static uint currentDepthSpan;
 
-    public static bool drawing = false;
-
-    private static bool _recordOnly = false;
-
-    private static GraphicsDevice _base;
-
-    public static GraphicsDeviceManager _manager;
-
-    private static SpriteMap _passwordFont;
-
-    public static BitmapFont _biosFont;
-
-    private static BitmapFont _biosFontCaseSensitive;
-
-    private static FancyBitmapFont _fancyBiosFont;
-
-    private static MTSpriteBatch _defaultBatch;
-
-    private static MTSpriteBatch _currentBatch;
-
-    private static Layer _currentLayer;
-
-    private static int _width;
-
-    private static int _height;
-
-    public static Sprite tounge;
-
-    private static bool _frameFlipFlop = false;
-
-    private static RenderTarget2D _screenCapture;
-
-    private static Tex2D _blank;
-
-    private static Tex2D _blank2;
-
-    private static float _depthBias = 0f;
-
-    private static Matrix _projectionMatrix;
-
-    public static float kSpanIncrement = 0.0001f;
-
-    public static bool caseSensitiveStringDrawing = false;
-
-    public static Vec2 topLeft;
-
-    public static Vec2 bottomRight;
-
-    public static bool didCalc = false;
-
-    public static Material material;
-
-    public static Effect tempEffect;
-
-    public static float snap = 4f;
-
-    public static bool skipReplayRender = false;
-
-    public static bool recordMetadata = false;
-
-    public static bool doSnap = true;
+    public static float kSpanIncrement = .0001f;
+    public static float snap = 4;
 
     public static long frame;
 
-    private static Dictionary<Tex2D, Dictionary<Vec3, Tex2D>> _recolorMap = new Dictionary<Tex2D, Dictionary<Vec3, Tex2D>>();
-
-    private static float _baseDeviceWidth = 0f;
-
-    private static float _baseDeviceHeight = 0f;
-
-    private static RenderTarget2D _currentRenderTarget;
-
-    public static RenderTarget2D _screenBufferTarget;
-
-    private static RenderTarget2D _defaultRenderTarget;
-
-    private static bool _settingScreenTarget;
-
-    private static Rectangle _currentTargetSize;
-
-    private static Viewport _oldViewport;
-
+    public static Vec2 topLeft;
+    public static Vec2 bottomRight;
     public static Viewport? _screenViewport;
 
-    private static Viewport _lastViewport;
+    public static GraphicsDeviceManager _manager;
+    public static Sprite tounge;
+    public static BitmapFont _biosFont;
+    public static Material material;
+    public static Effect tempEffect;
+    public static RenderTarget2D _screenBufferTarget;
 
-    private static bool _lastViewportSet = false;
+    public static List<GraphicsResource> objectsToDispose = [];
 
-    private static Stack<Rectangle> _scissorStack = new Stack<Rectangle>();
+    #endregion
 
-    public static int currentStateIndex
-    {
-        get
-        {
-            return _currentStateIndex;
-        }
-        set
-        {
-            _currentStateIndex = value;
-        }
-    }
+    #region Private Fields
 
-    public static Vec2 currentDrawOffset
-    {
-        get
-        {
-            return _currentDrawOffset;
-        }
-        set
-        {
-            _currentDrawOffset = value;
-        }
-    }
+    static bool _recordOnly;
+    static bool _frameFlipFlop;
+    static bool _settingScreenTarget;
+    static bool _lastViewportSet;
 
-    public static int currentDrawIndex
-    {
-        get
-        {
-            return _currentDrawIndex;
-        }
-        set
-        {
-            _currentDrawIndex = value;
-        }
-    }
+    static int _targetFlip;
+    static int _currentStateIndex;
+    static int _currentDrawIndex;
+    static int _width;
+    static int _height;
 
-    public static int fps => FPSCounter.GetFPS(0);
+    static float _baseDeviceWidth;
+    static float _baseDeviceHeight;
 
-    public static RenderTarget2D screenTarget
-    {
-        get
-        {
-            return _screenTarget;
-        }
-        set
-        {
-            _screenTarget = value;
-        }
-    }
+    static Vec2 _currentDrawOffset = Vec2.Zero;
+    static Matrix _projectionMatrix;
+    static Rectangle _currentTargetSize;
+    static Viewport _oldViewport;
+    static Viewport _lastViewport;
+
+    static RenderTarget2D _screenTarget;
+    static GraphicsDevice _base;
+    static SpriteMap _passwordFont;
+    static BitmapFont _biosFontCaseSensitive;
+    static FancyBitmapFont _fancyBiosFont;
+    static MTSpriteBatch _defaultBatch;
+    static MTSpriteBatch _currentBatch;
+    static Layer _currentLayer;
+    static RenderTarget2D _screenCapture;
+    static Tex2D _blank;
+    static Tex2D _blank2;
+    static RenderTarget2D _currentRenderTarget;
+    static RenderTarget2D _defaultRenderTarget;
+
+    static readonly List<Action>[] _renderTasks = [[], []];
+    static Dictionary<Tex2D, Dictionary<Vec3, Tex2D>> _recolorMap = [];
+    static Stack<Rectangle> _scissorStack = new();
+
+    #endregion
+
+    #region Public Properties
 
     public static bool inFocus => MonoMain.framesBackInFocus > 4;
-
     public static bool recordOnly
     {
-        get
-        {
-            return _recordOnly;
-        }
-        set
-        {
-            _recordOnly = value;
-        }
+        get => _recordOnly;
+        set => _recordOnly = value;
     }
-
-    public static GraphicsDevice device
-    {
-        get
-        {
-            if (Thread.CurrentThread != MonoMain.mainThread && Thread.CurrentThread != MonoMain.initializeThread && Thread.CurrentThread != MonoMain.lazyLoadThread)
-            {
-                throw new Exception("accessing graphics device from thread other than main thread.");
-            }
-            return _base;
-        }
-        set
-        {
-            _base = value;
-        }
-    }
-
-    public static MTSpriteBatch screen
-    {
-        get
-        {
-            return _currentBatch;
-        }
-        set
-        {
-            _currentBatch = value;
-            if (_currentBatch == null)
-            {
-                _currentBatch = _defaultBatch;
-            }
-        }
-    }
-
-    public static Layer currentLayer
-    {
-        get
-        {
-            return _currentLayer;
-        }
-        set
-        {
-            _currentLayer = value;
-        }
-    }
-
     public static bool mouseVisible
     {
-        get
-        {
-            return MonoMain.instance.IsMouseVisible;
-        }
-        set
-        {
-            MonoMain.instance.IsMouseVisible = value;
-        }
+        get => MonoMain.instance.IsMouseVisible;
+        set => MonoMain.instance.IsMouseVisible = value;
     }
-
-    public static int width
-    {
-        get
-        {
-            if (!_screenViewport.HasValue)
-            {
-                return device.Viewport.Width;
-            }
-            return _screenViewport.Value.Width;
-        }
-        set
-        {
-            _width = value;
-        }
-    }
-
-    public static int height
-    {
-        get
-        {
-            if (!_screenViewport.HasValue)
-            {
-                return device.Viewport.Height;
-            }
-            return _screenViewport.Value.Height;
-        }
-        set
-        {
-            _height = value;
-        }
-    }
-
     public static bool frameFlipFlop
     {
-        get
-        {
-            return _frameFlipFlop;
-        }
-        set
-        {
-            _frameFlipFlop = value;
-        }
+        get => _frameFlipFlop;
+        set => _frameFlipFlop = value;
     }
-
-    public static RenderTarget2D screenCapture
-    {
-        get
-        {
-            return _screenCapture;
-        }
-        set
-        {
-            _screenCapture = value;
-        }
-    }
-
-    private static float _fade
-    {
-        get
-        {
-            return MonoMain.core._fade;
-        }
-        set
-        {
-            MonoMain.core._fade = value;
-        }
-    }
-
-    public static float fade
-    {
-        get
-        {
-            return _fade;
-        }
-        set
-        {
-            _fade = value;
-        }
-    }
-
-    private static float _fadeAdd
-    {
-        get
-        {
-            return MonoMain.core._fadeAdd;
-        }
-        set
-        {
-            MonoMain.core._fadeAdd = value;
-        }
-    }
-
-    public static float fadeAdd
-    {
-        get
-        {
-            return _fadeAdd;
-        }
-        set
-        {
-            _fadeAdd = value;
-        }
-    }
-
-    public static float fadeAddRenderValue
-    {
-        get
-        {
-            if (!Options.Data.flashing)
-            {
-                return 0f;
-            }
-            return _fadeAdd;
-        }
-    }
-
-    private static float _flashAdd
-    {
-        get
-        {
-            return MonoMain.core._flashAdd;
-        }
-        set
-        {
-            MonoMain.core._flashAdd = value;
-        }
-    }
-
-    public static float flashAdd
-    {
-        get
-        {
-            return _flashAdd;
-        }
-        set
-        {
-            _flashAdd = value;
-        }
-    }
-
-    public static float flashAddRenderValue
-    {
-        get
-        {
-            if (!Options.Data.flashing)
-            {
-                return 0f;
-            }
-            return _flashAdd;
-        }
-    }
-
-    public static Tex2D blankWhiteSquare => _blank;
-
-    public static Matrix projectionMatrix => _projectionMatrix;
-
-    public static Queue<List<DrawCall>> drawCalls
-    {
-        get
-        {
-            return Level.core.drawCalls;
-        }
-        set
-        {
-            Level.core.drawCalls = value;
-        }
-    }
-
-    public static List<DrawCall> currentFrameCalls
-    {
-        get
-        {
-            return Level.core.currentFrameCalls;
-        }
-        set
-        {
-            Level.core.currentFrameCalls = value;
-        }
-    }
-
     public static bool skipFrameLog
     {
-        get
-        {
-            return Level.core.skipFrameLog;
-        }
-        set
-        {
-            Level.core.skipFrameLog = value;
-        }
+        get => Level.core.skipFrameLog;
+        set => Level.core.skipFrameLog = value;
     }
-
-    public static float baseDeviceWidth => _baseDeviceWidth;
-
-    public static float baseDeviceHeight => _baseDeviceHeight;
-
     public static bool fixedAspect
     {
         get
         {
             if (!(Resolution.current.aspect > 1.8f))
             {
-                if (!(Level.current is XMLLevel))
-                {
-                    return !(Level.current is Editor);
-                }
+                if (Level.current is not XMLLevel)
+                    return Level.current is not Editor;
                 return false;
             }
             return true;
         }
     }
+    public static bool sixteenTen => aspect > .57f;
 
-    public static float aspect => 0.5625f;
-
-    public static bool sixteenTen => aspect > 0.57f;
-
-    public static float barSize => ((float)width * aspect - (float)width * 0.5625f) / 2f;
-
-    public static RenderTarget2D currentRenderTarget => _currentRenderTarget;
-
-    public static RenderTarget2D defaultRenderTarget
+    public static int currentStateIndex
+    {
+        get => _currentStateIndex;
+        set => _currentStateIndex = value;
+    }
+    public static int currentDrawIndex
+    {
+        get => _currentDrawIndex;
+        set => _currentDrawIndex = value;
+    }
+    public static int fps => FPSCounter.GetFPS(0);
+    public static int width
     {
         get
         {
-            if (_settingScreenTarget)
-            {
-                return null;
-            }
-            if (_defaultRenderTarget == null)
-            {
-                return _screenBufferTarget;
-            }
-            return _defaultRenderTarget;
+            if (!_screenViewport.HasValue)
+                return device.Viewport.Width;
+            return _screenViewport.Value.Width;
         }
-        set
+        set => _width = value;
+    }
+    public static int height
+    {
+        get
         {
-            _defaultRenderTarget = value;
+            if (!_screenViewport.HasValue)
+                return device.Viewport.Height;
+            return _screenViewport.Value.Height;
         }
+        set => _height = value;
     }
 
+    public static float flashAdd
+    {
+        get => _flashAdd;
+        set => _flashAdd = value;
+    }
+    public static float flashAddRenderValue
+    {
+        get
+        {
+            if (!Options.Data.flashing)
+                return 0;
+            return _flashAdd;
+        }
+    }
+    public static float fade
+    {
+        get => _fade;
+        set => _fade = value;
+    }
+    public static float fadeAdd
+    {
+        get => _fadeAdd;
+        set => _fadeAdd = value;
+    }
+    public static float fadeAddRenderValue
+    {
+        get
+        {
+            if (!Options.Data.flashing)
+                return 0;
+            return _fadeAdd;
+        }
+    }
+    public static float baseDeviceWidth => _baseDeviceWidth;
+    public static float baseDeviceHeight => _baseDeviceHeight;
+    public static float aspect => .5625f;
+    public static float barSize => (width * aspect - width * .5625f) / 2f;
+
+    public static Vec2 currentDrawOffset
+    {
+        get => _currentDrawOffset;
+        set => _currentDrawOffset = value;
+    }
+    public static Matrix projectionMatrix => _projectionMatrix;
     public static Viewport viewport
     {
         get
         {
             if (device == null || device.IsDisposed)
-            {
                 return _lastViewport;
-            }
             return device.Viewport;
         }
         set
@@ -504,13 +217,9 @@ public class Graphics
             {
                 Rectangle r = value.Bounds;
                 if (_currentRenderTarget != null)
-                {
-                    ClipRectangle(r, new Rectangle(0f, 0f, _currentRenderTarget.width, _currentRenderTarget.height));
-                }
+                    ClipRectangle(r, new Rectangle(0, 0, _currentRenderTarget.width, _currentRenderTarget.height));
                 else
-                {
                     ClipRectangle(r, device.PresentationParameters.Bounds);
-                }
                 value.X = (int)r.x;
                 value.Y = (int)r.y;
                 value.Width = (int)r.width;
@@ -521,19 +230,103 @@ public class Graphics
         }
     }
 
+    public static RenderTarget2D screenTarget
+    {
+        get => _screenTarget;
+        set => _screenTarget = value;
+    }
+    public static GraphicsDevice device
+    {
+        get
+        {
+            if (Thread.CurrentThread != MonoMain.mainThread && Thread.CurrentThread != MonoMain.initializeThread && Thread.CurrentThread != MonoMain.lazyLoadThread)
+                throw new("accessing graphics device from thread other than main thread.");
+            return _base;
+        }
+        set => _base = value;
+    }
+    public static MTSpriteBatch screen
+    {
+        get => _currentBatch;
+        set
+        {
+            _currentBatch = value;
+            _currentBatch ??= _defaultBatch;
+        }
+    }
+    public static Layer currentLayer
+    {
+        get => _currentLayer;
+        set => _currentLayer = value;
+    }
+    public static RenderTarget2D screenCapture
+    {
+        get => _screenCapture;
+        set => _screenCapture = value;
+    }
+    public static Tex2D blankWhiteSquare => _blank;
+    public static RenderTarget2D currentRenderTarget => _currentRenderTarget;
+    public static RenderTarget2D defaultRenderTarget
+    {
+        get
+        {
+            if (_settingScreenTarget)
+                return null;
+            if (_defaultRenderTarget == null)
+                return _screenBufferTarget;
+            return _defaultRenderTarget;
+        }
+        set => _defaultRenderTarget = value;
+    }
+
+    public static Queue<List<DrawCall>> drawCalls
+    {
+        get => Level.core.drawCalls;
+        set => Level.core.drawCalls = value;
+    }
+    public static List<DrawCall> currentFrameCalls
+    {
+        get => Level.core.currentFrameCalls;
+        set => Level.core.currentFrameCalls = value;
+    }
+
+    #endregion
+
+    #region Private Properties
+
+    static float _fade
+    {
+        get => MonoMain.core._fade;
+        set => MonoMain.core._fade = value;
+    }
+
+    static float _fadeAdd
+    {
+        get => MonoMain.core._fadeAdd;
+        set => MonoMain.core._fadeAdd = value;
+    }
+
+    static float _flashAdd
+    {
+        get => MonoMain.core._flashAdd;
+        set => MonoMain.core._flashAdd = value;
+    }
+
+    #endregion
+
+    #region Public Methods
+
     public static void GarbageDisposal(bool pLevelTransition)
     {
         lock (objectsToDispose)
         {
             if (!pLevelTransition && objectsToDispose.Count <= 128)
-            {
                 return;
-            }
+
             disposingObjects = true;
             foreach (GraphicsResource item in objectsToDispose)
-            {
                 item.Dispose();
-            }
+
             objectsToDispose.Clear();
             disposingObjects = false;
         }
@@ -542,10 +335,6 @@ public class Graphics
     public static void GarbageDisposal()
     {
         GarbageDisposal(pLevelTransition: true);
-    }
-
-    public void Transition(TransitionDirection pDirection, Level pTarget)
-    {
     }
 
     public static void AddRenderTask(Action a)
@@ -557,9 +346,7 @@ public class Graphics
     {
         _targetFlip++;
         foreach (Action item in _renderTasks[(_targetFlip + 1) % 2])
-        {
             item();
-        }
         _renderTasks[(_targetFlip + 1) % 2].Clear();
     }
 
@@ -581,19 +368,6 @@ public class Graphics
         _height = h;
     }
 
-    public static bool IsBlankTexture(Tex2D tex)
-    {
-        if (tex != _blank)
-        {
-            return tex == _blank2;
-        }
-        return true;
-    }
-
-    public static void IncrementSpanAdjust()
-    {
-    }
-
     public static void ResetSpanAdjust()
     {
         Depth.ResetSpan();
@@ -601,108 +375,96 @@ public class Graphics
 
     public static float AdjustDepth(Depth depth)
     {
-        float fDepth = (depth.value + 1f) / 2f * (1f - Depth.kDepthSpanMax) + depth.span;
-        return 1f - fDepth;
+        float fDepth = (depth.value + 1) / 2 * (1 - Depth.kDepthSpanMax) + depth.span;
+        return 1 - fDepth;
     }
 
-    public static void ResetDepthBias()
-    {
-    }
-
-    public static void DrawString(string text, Vec2 position, Color color, Depth depth = default(Depth), InputProfile pro = null, float scale = 1f)
+    public static void DrawString(string text, Vec2 position, Color color, Depth depth = default, InputProfile pro = null, float scale = 1)
     {
         if (caseSensitiveStringDrawing)
         {
-            _biosFontCaseSensitive.scale = new Vec2(scale);
-            _biosFontCaseSensitive.Draw(text, position.x, position.y, color, depth, pro);
-            _biosFontCaseSensitive.scale = new Vec2(1f);
+            _biosFontCaseSensitive.Scale = new Vec2(scale);
+            _biosFontCaseSensitive.Draw(text, position.X, position.Y, color, depth, pro);
+            _biosFontCaseSensitive.Scale = Vec2.One;
         }
         else
         {
-            _biosFont.scale = new Vec2(scale);
-            _biosFont.Draw(text, position.x, position.y, color, depth, pro);
-            _biosFont.scale = new Vec2(1f);
+            _biosFont.Scale = new Vec2(scale);
+            _biosFont.Draw(text, position.X, position.Y, color, depth, pro);
+            _biosFont.Scale = Vec2.One;
         }
     }
 
-    public static void DrawPassword(string text, Vec2 position, Color color, Depth depth = default(Depth), float scale = 1f)
+    public static void DrawPassword(string text, Vec2 position, Color color, Depth depth = default, float scale = 1)
     {
         for (int i = 0; i < text.Length; i++)
         {
             if (text[i] == 'L')
-            {
                 _passwordFont.frame = 0;
-            }
             if (text[i] == 'R')
-            {
                 _passwordFont.frame = 1;
-            }
             if (text[i] == 'U')
-            {
                 _passwordFont.frame = 2;
-            }
             if (text[i] == 'D')
-            {
                 _passwordFont.frame = 3;
-            }
-            _passwordFont.scale = new Vec2(scale);
+            _passwordFont.Scale = new Vec2(scale);
             _passwordFont.color = color;
-            _passwordFont.depth = depth;
-            Draw(_passwordFont, position.x, position.y);
-            position.x += 8f * scale;
+            _passwordFont.Depth = depth;
+            Draw(_passwordFont, position.X, position.Y);
+            position.X += 8 * scale;
         }
     }
 
-    public static void DrawStringColoredSymbols(string text, Vec2 position, Color color, Depth depth = default(Depth), InputProfile pro = null, float scale = 1f)
+    public static void DrawStringColoredSymbols(string text, Vec2 position, Color color, Depth depth = default, InputProfile pro = null, float scale = 1)
     {
         if (caseSensitiveStringDrawing)
         {
-            _biosFontCaseSensitive.scale = new Vec2(scale);
-            _biosFontCaseSensitive.Draw(text, position.x, position.y, color, depth, pro, colorSymbols: true);
-            _biosFontCaseSensitive.scale = new Vec2(1f);
+            _biosFontCaseSensitive.Scale = new Vec2(scale);
+            _biosFontCaseSensitive.Draw(text, position.X, position.Y, color, depth, pro, colorSymbols: true);
+            _biosFontCaseSensitive.Scale = Vec2.One;
         }
         else
         {
-            _biosFont.scale = new Vec2(scale);
-            _biosFont.Draw(text, position.x, position.y, color, depth, pro, colorSymbols: true);
-            _biosFont.scale = new Vec2(1f);
+            _biosFont.Scale = new Vec2(scale);
+            _biosFont.Draw(text, position.X, position.Y, color, depth, pro, colorSymbols: true);
+            _biosFont.Scale = Vec2.One;
         }
     }
 
-    public static void DrawStringOutline(string text, Vec2 position, Color color, Color outline, Depth depth = default(Depth), InputProfile pro = null, float scale = 1f)
+    public static void DrawStringOutline(string text, Vec2 position, Color color, Color outline, Depth depth = default, float scale = 1)
     {
-        _biosFont.scale = new Vec2(scale);
+        _biosFont.Scale = new Vec2(scale);
         _biosFont.DrawOutline(text, position, color, outline, depth);
-        _biosFont.scale = new Vec2(1f);
+        _biosFont.Scale = Vec2.One;
     }
 
-    public static float GetStringWidth(string text, bool thinButtons = false, float scale = 1f)
+    public static float GetStringWidth(string text, bool thinButtons = false, float scale = 1)
     {
-        _biosFont.scale = new Vec2(scale);
+        _biosFont.Scale = new Vec2(scale);
         text = text.ToUpperInvariant();
         float result = _biosFont.GetWidth(text, thinButtons);
-        _biosFont.scale = new Vec2(1f);
+        _biosFont.Scale = Vec2.One;
         return result;
     }
 
     public static float GetStringHeight(string text)
     {
-        return (float)text.Split('\n').Count() * _biosFont.height;
+        return text.Split('\n').Length * _biosFont.height;
     }
 
-    public static void DrawFancyString(string text, Vec2 position, Color color, Depth depth = default(Depth), float scale = 1f)
+    public static void DrawFancyString(string text, Vec2 position, Color color, Depth depth = default, float scale = 1)
     {
-        _fancyBiosFont.scale = new Vec2(scale);
-        _fancyBiosFont.Draw(text, position.x, position.y, color, depth);
-        _fancyBiosFont.scale = new Vec2(1f);
+        _fancyBiosFont.Scale = new Vec2(scale);
+        _fancyBiosFont.Draw(text, position.X, position.Y, color, depth);
+        _fancyBiosFont.Scale = Vec2.One;
     }
 
-    public static float GetFancyStringWidth(string text, bool thinButtons = false, float scale = 1f)
+    public static float GetFancyStringWidth(string text, bool thinButtons = false, float scale = 1)
     {
-        _fancyBiosFont.scale = new Vec2(scale);
+        _fancyBiosFont.Scale = new Vec2(scale);
         text = text.ToUpperInvariant();
         float result = _fancyBiosFont.GetWidth(text, thinButtons);
-        _fancyBiosFont.scale = new Vec2(1f);
+        _fancyBiosFont.Scale = Vec2.One;
         return result;
     }
 
@@ -716,24 +478,16 @@ public class Graphics
         RecorderFrameItem lerped = item;
         lerped.topLeft = Vec2.Lerp(item.topLeft, lerpTo.topLeft, dist);
         lerped.bottomRight = Vec2.Lerp(item.bottomRight, lerpTo.bottomRight, dist);
-        float rot1 = item.rotation % 360f;
-        float rot2 = lerpTo.rotation % 360f;
-        if (rot1 > 180f)
-        {
-            rot1 -= 360f;
-        }
-        else if (rot1 < -180f)
-        {
-            rot1 += 360f;
-        }
-        if (rot2 > 180f)
-        {
-            rot2 -= 360f;
-        }
-        else if (rot2 < -180f)
-        {
-            rot2 += 360f;
-        }
+        float rot1 = item.rotation % 360;
+        float rot2 = lerpTo.rotation % 360;
+        if (rot1 > 180)
+            rot1 -= 360;
+        else if (rot1 < -180)
+            rot1 += 360;
+        if (rot2 > 180)
+            rot2 -= 360;
+        else if (rot2 < -180)
+            rot2 += 360;
         lerped.rotation = MathHelper.Lerp(rot1, rot2, dist);
         lerped.color = Color.Lerp(item.color, lerpTo.color, dist);
         _currentBatch.DrawRecorderItem(ref lerped);
@@ -744,13 +498,13 @@ public class Graphics
         if (!didCalc)
         {
             didCalc = true;
-            Viewport vp = new Viewport(0, 0, 32, 32);
-            Matrix.CreateOrthographicOffCenter(0f, vp.Width, vp.Height, 0f, 0f, -1f, out var projection);
-            projection.M41 += -0.5f * projection.M11;
-            projection.M42 += -0.5f * projection.M22;
-            bottomRight = new Vec2(32f, 32f);
+            Viewport vp = new(0, 0, 32, 32);
+            Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, 0, -1, out var projection);
+            projection.M41 += -.5f * projection.M11;
+            projection.M42 += -.5f * projection.M22;
+            bottomRight = new Vec2(32);
             bottomRight = Vec2.Transform(bottomRight, projection);
-            topLeft = new Vec2(0f, 0f);
+            topLeft = Vec2.Zero;
             topLeft = Vec2.Transform(topLeft, projection);
         }
     }
@@ -760,131 +514,117 @@ public class Graphics
         _currentBatch.DrawExistingBatchItem(item);
     }
 
-    public static void Draw(Tex2D texture, Vec2 position, Rectangle? sourceRectangle, Color color, float rotation, Vec2 origin, Vec2 scale, SpriteEffects effects, Depth depth = default(Depth))
+    public static void Draw(Tex2D texture, Vec2 position, Rectangle? sourceRectangle, Color color, float rotation, Vec2 origin, Vec2 scale, SpriteEffects effects, Depth depth = default)
     {
         if (texture.nativeObject is Microsoft.Xna.Framework.Graphics.RenderTarget2D)
         {
             if ((texture.nativeObject as Microsoft.Xna.Framework.Graphics.RenderTarget2D).IsDisposed)
-            {
                 return;
-            }
             if (texture.textureIndex == 0)
-            {
                 Content.AssignTextureIndex(texture);
-            }
         }
         if (doSnap)
         {
-            position.x = (float)Math.Round(position.x * snap) / snap;
-            position.y = (float)Math.Round(position.y * snap) / snap;
+            position.X = float.Round(position.X * snap) / snap;
+            position.Y = float.Round(position.Y * snap) / snap;
         }
         if (effects == SpriteEffects.FlipHorizontally)
-        {
-            origin.x = (sourceRectangle.HasValue ? sourceRectangle.Value.width : ((float)texture.w)) - origin.x;
-        }
+            origin.X = (sourceRectangle.HasValue ? sourceRectangle.Value.width : texture.w) - origin.X;
         float deep = AdjustDepth(depth);
         if (material != null)
-        {
             _currentBatch.DrawWithMaterial(texture, position, sourceRectangle, color, rotation, origin, scale, effects, deep, material);
-        }
         else
-        {
             _currentBatch.Draw(texture, position, sourceRectangle, color, rotation, origin, scale, effects, deep);
-        }
     }
 
     public static void Draw(Sprite g, float x, float y)
     {
-        g.x = x;
-        g.y = y;
+        g.X = x;
+        g.Y = y;
         g.Draw();
     }
 
     public static void Draw(Sprite g, float x, float y, Rectangle sourceRectangle)
     {
-        g.x = x;
-        g.y = y;
+        g.X = x;
+        g.Y = y;
         g.Draw(sourceRectangle);
     }
 
     public static void Draw(Sprite g, float x, float y, Rectangle sourceRectangle, Vec2 scale)
     {
-        g.x = x;
-        g.y = y;
-        g.scale = scale;
+        g.X = x;
+        g.Y = y;
+        g.Scale = scale;
         g.Draw(sourceRectangle);
     }
 
     public static void Draw(Sprite g, float x, float y, Rectangle sourceRectangle, Depth depth)
     {
-        g.x = x;
-        g.y = y;
-        g.depth = depth;
+        g.X = x;
+        g.Y = y;
+        g.Depth = depth;
         g.Draw(sourceRectangle);
     }
 
-    public static void Draw(Sprite g, float x, float y, Depth depth = default(Depth))
+    public static void Draw(Sprite g, float x, float y, Depth depth = default)
     {
-        g.x = x;
-        g.y = y;
-        g.depth = depth;
+        g.X = x;
+        g.Y = y;
+        g.Depth = depth;
         g.Draw();
     }
 
     public static void Draw(Sprite g, float x, float y, float scaleX, float scaleY)
     {
-        g.x = x;
-        g.y = y;
-        g.xscale = scaleX;
-        g.yscale = scaleY;
+        g.X = x;
+        g.Y = y;
+        g.ScaleX = scaleX;
+        g.ScaleY = scaleY;
         g.Draw();
     }
 
-    public static void Draw(Tex2D target, float x, float y, float xscale = 1f, float yscale = 1f, Depth depth = default(Depth))
+    public static void Draw(Tex2D target, float x, float y, float xscale = 1, float yscale = 1, Depth depth = default)
     {
-        Draw(target, new Vec2(x, y), null, Color.White, 0f, Vec2.Zero, new Vec2(xscale, yscale), SpriteEffects.None, depth);
+        Draw(target, new Vec2(x, y), null, Color.White, 0, Vec2.Zero, new Vec2(xscale, yscale), SpriteEffects.None, depth);
     }
 
-    public static void Draw(SpriteMap g, int frame, float x, float y, float scaleX = 1f, float scaleY = 1f, bool maintainFrame = false)
+    public static void Draw(SpriteMap g, int frame, float x, float y, float scaleX = 1, float scaleY = 1, bool maintainFrame = false)
     {
-        g.x = x;
-        g.y = y;
-        g.xscale = scaleX;
-        g.yscale = scaleY;
+        g.X = x;
+        g.Y = y;
+        g.ScaleX = scaleX;
+        g.ScaleY = scaleY;
         int fr = g.frame;
         g.SetFrameWithoutReset(frame);
         g.Draw();
         if (maintainFrame)
-        {
             g.SetFrameWithoutReset(fr);
-        }
     }
 
-    public static void DrawWithoutUpdate(SpriteMap g, float x, float y, float scaleX = 1f, float scaleY = 1f, bool maintainFrame = false)
+    public static void DrawWithoutUpdate(SpriteMap g, float x, float y, float scaleX = 1, float scaleY = 1)
     {
-        g.x = x;
-        g.y = y;
-        g.xscale = scaleX;
-        g.yscale = scaleY;
+        g.X = x;
+        g.Y = y;
+        g.ScaleX = scaleX;
+        g.ScaleY = scaleY;
         g.DrawWithoutUpdate();
     }
 
-    public static void DrawLine(Vec2 p1, Vec2 p2, Color col, float width = 1f, Depth depth = default(Depth))
+    public static void DrawLine(Vec2 p1, Vec2 p2, Color col, float width = 1, Depth depth = default)
     {
         currentDrawIndex++;
-        p1 = new Vec2(p1.x, p1.y);
-        p2 = new Vec2(p2.x, p2.y);
-        float angle = (float)Math.Atan2(p2.y - p1.y, p2.x - p1.x);
-        float length = (p1 - p2).length;
-        Draw(_blank, p1, null, col, angle, new Vec2(0f, 0.5f), new Vec2(length, width), SpriteEffects.None, depth);
+        float angle = float.Atan2(p2.Y - p1.Y, p2.X - p1.X);
+        float length = (p1 - p2).Length();
+        Draw(_blank, p1, null, col, angle, new Vec2(0, .5f), new Vec2(length, width), SpriteEffects.None, depth);
     }
 
-    public static void DrawDottedLine(Vec2 p1, Vec2 p2, Color col, float width = 1f, float dotLength = 8f, Depth depth = default(Depth))
+    public static void DrawDottedLine(Vec2 p1, Vec2 p2, Color col, float width = 1, float dotLength = 8, Depth depth = default)
     {
         currentDrawIndex++;
         Vec2 start = p1;
         Vec2 travel = p2 - p1;
-        float length = travel.length;
+        float length = travel.Length();
         int num = (int)(length / dotLength);
         travel.Normalize();
         bool off = false;
@@ -892,95 +632,89 @@ public class Graphics
         {
             Vec2 end = start;
             end += travel * dotLength;
-            if ((end - p1).length > length)
-            {
+            if ((end - p1).Length() > length)
                 end = p2;
-            }
             if (!off)
-            {
-                DrawLine(new Vec2(start.x, start.y), new Vec2(end.x, end.y), col, width, depth);
-            }
+                DrawLine(new Vec2(start.X, start.Y), new Vec2(end.X, end.Y), col, width, depth);
             off = !off;
             start = end;
         }
     }
 
-    public static void DrawCircle(Vec2 pos, float radius, Color col, float width = 1f, Depth depth = default(Depth), int iterations = 32)
+    public static void DrawCircle(Vec2 pos, float radius, Color col, float width = 1, Depth depth = default, int iterations = 32)
     {
         Vec2 prev = Vec2.Zero;
         for (int i = 0; i < iterations; i++)
         {
-            float val = Maths.DegToRad(360f / (float)(iterations - 1) * (float)i);
-            Vec2 cur = new Vec2((float)Math.Cos(val) * radius, (0f - (float)Math.Sin(val)) * radius);
+            float val = Maths.DegToRad(360f / (iterations - 1) * i);
+            Vec2 cur = new(float.Cos(val) * radius, -float.Sin(val) * radius);
             if (i > 0)
-            {
                 DrawLine(pos + cur, pos + prev, col, width, depth);
-            }
             prev = cur;
         }
     }
 
-    public static void DrawTexturedLine(Tex2D texture, Vec2 p1, Vec2 p2, Color col, float width = 1f, Depth depth = default(Depth))
+    public static void DrawTexturedLine(Tex2D texture, Vec2 p1, Vec2 p2, Color col, float width = 1, Depth depth = default)
     {
         currentDrawIndex++;
         if (texture.width > 1)
         {
-            p1 = new Vec2(p1.x, p1.y);
-            p2 = new Vec2(p2.x, p2.y);
-            float angle = (float)Math.Atan2(p2.y - p1.y, p2.x - p1.x);
-            float length = (p1 - p2).length / (float)texture.width;
+            p1 = new Vec2(p1.X, p1.Y);
+            p2 = new Vec2(p2.X, p2.Y);
+            float angle = (float)Math.Atan2(p2.Y - p1.Y, p2.X - p1.X);
+            float length = (p1 - p2).Length() / texture.width;
             Draw(texture, p1, null, col, angle, new Vec2(0f, texture.height / 2), new Vec2(length, width), SpriteEffects.None, depth);
         }
         else
         {
-            p1 = new Vec2(p1.x, p1.y);
-            p2 = new Vec2(p2.x, p2.y);
-            float angle2 = (float)Math.Atan2(p2.y - p1.y, p2.x - p1.x);
-            float length2 = (p1 - p2).length;
-            Draw(texture, p1, null, col, angle2, new Vec2(0f, texture.height / 2), new Vec2(length2, width), SpriteEffects.None, depth);
+            p1 = new Vec2(p1.X, p1.Y);
+            p2 = new Vec2(p2.X, p2.Y);
+            float angle2 = (float)Math.Atan2(p2.Y - p1.Y, p2.X - p1.X);
+            float length2 = (p1 - p2).Length();
+            Draw(texture, p1, null, col, angle2, new Vec2(0, texture.height / 2), new Vec2(length2, width), SpriteEffects.None, depth);
         }
     }
 
-    public static void DrawRect(Vec2 p1, Vec2 p2, Color col, Depth depth = default(Depth), bool filled = true, float borderWidth = 1f)
+    public static void DrawRect(Vec2 p1, Vec2 p2, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
     {
         currentDrawIndex++;
         if (filled)
         {
-            Draw(_blank2, p1, null, col, 0f, Vec2.Zero, new Vec2(0f - (p1.x - p2.x), 0f - (p1.y - p2.y)), SpriteEffects.None, depth);
+            Draw(_blank2, p1, null, col, 0, Vec2.Zero, new Vec2(-(p1.X - p2.X), -(p1.Y - p2.Y)), SpriteEffects.None, depth);
             return;
         }
-        float wideDiv = borderWidth / 2f;
-        DrawLine(new Vec2(p1.x, p1.y + wideDiv), new Vec2(p2.x, p1.y + wideDiv), col, borderWidth, depth);
-        DrawLine(new Vec2(p1.x + wideDiv, p1.y + borderWidth), new Vec2(p1.x + wideDiv, p2.y - borderWidth), col, borderWidth, depth);
-        DrawLine(new Vec2(p2.x, p2.y - wideDiv), new Vec2(p1.x, p2.y - wideDiv), col, borderWidth, depth);
-        DrawLine(new Vec2(p2.x - wideDiv, p2.y - borderWidth), new Vec2(p2.x - wideDiv, p1.y + borderWidth), col, borderWidth, depth);
+        float wideDiv = borderWidth / 2;
+        DrawLine(new Vec2(p1.X, p1.Y + wideDiv), new Vec2(p2.X, p1.Y + wideDiv), col, borderWidth, depth);
+        DrawLine(new Vec2(p1.X + wideDiv, p1.Y + borderWidth), new Vec2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, depth);
+        DrawLine(new Vec2(p2.X, p2.Y - wideDiv), new Vec2(p1.X, p2.Y - wideDiv), col, borderWidth, depth);
+        DrawLine(new Vec2(p2.X - wideDiv, p2.Y - borderWidth), new Vec2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, depth);
     }
 
-    public static void DrawRect(Rectangle r, Color col, Depth depth = default(Depth), bool filled = true, float borderWidth = 1f)
+    public static void DrawRect(Rectangle r, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
     {
         currentDrawIndex++;
-        Vec2 p1 = new Vec2(r.Left, r.Top);
-        Vec2 p2 = new Vec2(r.Right, r.Bottom);
+        Vec2 p1 = new(r.Left, r.Top);
+        Vec2 p2 = new(r.Right, r.Bottom);
         if (filled)
         {
-            Draw(_blank2, p1, null, col, 0f, Vec2.Zero, new Vec2(0f - (p1.x - p2.x), 0f - (p1.y - p2.y)), SpriteEffects.None, depth);
+            Draw(_blank2, p1, null, col, 0, Vec2.Zero, new Vec2(-(p1.X - p2.X), -(p1.Y - p2.Y)), SpriteEffects.None, depth);
             return;
         }
-        float wideDiv = borderWidth / 2f;
-        DrawLine(new Vec2(p1.x, p1.y + wideDiv), new Vec2(p2.x, p1.y + wideDiv), col, borderWidth, depth);
-        DrawLine(new Vec2(p1.x + wideDiv, p1.y + borderWidth), new Vec2(p1.x + wideDiv, p2.y - borderWidth), col, borderWidth, depth);
-        DrawLine(new Vec2(p2.x, p2.y - wideDiv), new Vec2(p1.x, p2.y - wideDiv), col, borderWidth, depth);
-        DrawLine(new Vec2(p2.x - wideDiv, p2.y - borderWidth), new Vec2(p2.x - wideDiv, p1.y + borderWidth), col, borderWidth, depth);
+        float wideDiv = borderWidth / 2;
+        DrawLine(new Vec2(p1.X, p1.Y + wideDiv), new Vec2(p2.X, p1.Y + wideDiv), col, borderWidth, depth);
+        DrawLine(new Vec2(p1.X + wideDiv, p1.Y + borderWidth), new Vec2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, depth);
+        DrawLine(new Vec2(p2.X, p2.Y - wideDiv), new Vec2(p1.X, p2.Y - wideDiv), col, borderWidth, depth);
+        DrawLine(new Vec2(p2.X - wideDiv, p2.Y - borderWidth), new Vec2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, depth);
     }
 
-    public static void DrawDottedRect(Vec2 p1, Vec2 p2, Color col, Depth depth = default(Depth), float borderWidth = 1f, float dotLength = 8f)
+    public static void DrawDottedRect(Vec2 p1, Vec2 p2, Color col, Depth depth = default, float borderWidth = 1, float dotLength = 8)
     {
         currentDrawIndex++;
-        float wideDiv = borderWidth / 2f;
-        DrawDottedLine(new Vec2(p1.x, p1.y + wideDiv), new Vec2(p2.x, p1.y + wideDiv), col, borderWidth, dotLength, depth);
-        DrawDottedLine(new Vec2(p1.x + wideDiv, p1.y + borderWidth), new Vec2(p1.x + wideDiv, p2.y - borderWidth), col, borderWidth, dotLength, depth);
-        DrawDottedLine(new Vec2(p2.x, p2.y - wideDiv), new Vec2(p1.x, p2.y - wideDiv), col, borderWidth, dotLength, depth);
-        DrawDottedLine(new Vec2(p2.x - wideDiv, p2.y - borderWidth), new Vec2(p2.x - wideDiv, p1.y + borderWidth), col, borderWidth, dotLength, depth);
+        float wideDiv = borderWidth / 2;
+        DrawDottedLine(new Vec2(p1.X, p1.Y + wideDiv), new Vec2(p2.X, p1.Y + wideDiv), col, borderWidth, dotLength, depth);
+        DrawDottedLine(new Vec2(p1.X + wideDiv, p1.Y + borderWidth), new Vec2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, dotLength, depth);
+        DrawDottedLine(new Vec2(p2.X, p2.Y - wideDiv), new Vec2(p1.X, p2.Y - wideDiv), col, borderWidth, dotLength, depth);
+        DrawDottedLine(new Vec2(p2.X - wideDiv, p2.Y - borderWidth), new Vec2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, dotLength, depth);
     }
 
     public static Tex2D Recolor(string sprite, Vec3 color)
@@ -990,29 +724,23 @@ public class Graphics
 
     public static Tex2D Recolor(Tex2D sprite, Vec3 color)
     {
-        Dictionary<Vec3, Tex2D> innerMap = null;
-        if (_recolorMap.TryGetValue(sprite, out innerMap))
+        if (_recolorMap.TryGetValue(sprite, out Dictionary<Vec3, Tex2D> innerMap))
         {
-            Tex2D ret = null;
-            if (innerMap.TryGetValue(color, out ret))
-            {
+            if (innerMap.TryGetValue(color, out Tex2D ret))
                 return ret;
-            }
         }
         else
-        {
-            _recolorMap[sprite] = new Dictionary<Vec3, Tex2D>();
-        }
-        Material mat = new MaterialRecolor(new Vec3(color.x / 255f, color.y / 255f, color.z / 255f));
-        RenderTarget2D target = new RenderTarget2D(sprite.w, sprite.h);
+            _recolorMap[sprite] = [];
+        MaterialRecolor mat = new(new Vec3(color.x / 255, color.y / 255, color.z / 255));
+        RenderTarget2D target = new(sprite.w, sprite.h);
         SetRenderTarget(target);
         Clear(new Color(0, 0, 0, 0));
         mat.Apply();
         screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, mat.effect, Matrix.Identity);
-        Draw(sprite, default(Vec2), null, Color.White, 0f, default(Vec2), new Vec2(1f, 1f), SpriteEffects.None, 0.5f);
+        Draw(sprite, default, null, Color.White, 0, default, Vec2.One, SpriteEffects.None, .5f);
         screen.End();
         device.SetRenderTarget(null);
-        Tex2D tex = new Tex2D(sprite.w, sprite.h);
+        Tex2D tex = new(sprite.w, sprite.h);
         tex.SetData(target.GetData());
         tex.AssignTextureName("RESKIN");
         target.Dispose();
@@ -1022,16 +750,16 @@ public class Graphics
 
     public static Tex2D RecolorOld(Tex2D sprite, Vec3 color)
     {
-        Material mat = new MaterialRecolor(new Vec3(color.x / 255f, color.y / 255f, color.z / 255f));
-        RenderTarget2D target = new RenderTarget2D(sprite.w, sprite.h);
+        MaterialRecolor mat = new(new Vec3(color.x / 255, color.y / 255, color.z / 255));
+        RenderTarget2D target = new(sprite.w, sprite.h);
         SetRenderTarget(target);
         Clear(new Color(0, 0, 0, 0));
         mat.Apply();
         screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, mat.effect, Matrix.Identity);
-        Draw(sprite, default(Vec2), null, Color.White, 0f, default(Vec2), new Vec2(1f, 1f), SpriteEffects.None, 0.5f);
+        Draw(sprite, default, null, Color.White, 0, default, Vec2.One, SpriteEffects.None, .5f);
         screen.End();
         device.SetRenderTarget(null);
-        Tex2D tex2D = new Tex2D(sprite.w, sprite.h);
+        Tex2D tex2D = new(sprite.w, sprite.h);
         tex2D.SetData(target.GetData());
         target.Dispose();
         return tex2D;
@@ -1039,92 +767,70 @@ public class Graphics
 
     public static Tex2D RecolorNew(Tex2D sprite, Color color1, Color color2)
     {
-        Color replace1 = new Color(255, 255, 255);
-        Color replace2 = new Color(157, 157, 157);
+        Color replace1 = new(255, 255, 255);
+        Color replace2 = new(157, 157, 157);
         Color[] colors = sprite.GetData();
         for (int i = 0; i < colors.Length; i++)
         {
             if (colors[i] == replace1)
-            {
                 colors[i] = color1;
-            }
             else if (colors[i] == replace2)
-            {
                 colors[i] = color2;
-            }
         }
-        Tex2D tex2D = new Tex2D(sprite.w, sprite.h);
+        Tex2D tex2D = new(sprite.w, sprite.h);
         tex2D.SetData(colors);
         return tex2D;
     }
 
     public static Tex2D RecolorM(Tex2D sprite, Color color1, Color color2)
     {
-        Color replace1 = new Color(195, 184, 172);
-        Color replace2 = new Color(163, 147, 128);
+        Color replace1 = new(195, 184, 172);
+        Color replace2 = new(163, 147, 128);
         Color[] colors = sprite.GetData();
         for (int i = 0; i < colors.Length; i++)
         {
             if (colors[i] == replace1)
-            {
                 colors[i] = color1;
-            }
             else if (colors[i] == replace2)
-            {
                 colors[i] = color2;
-            }
         }
-        Tex2D tex2D = new Tex2D(sprite.w, sprite.h);
+        Tex2D tex2D = new(sprite.w, sprite.h);
         tex2D.SetData(colors);
         return tex2D;
     }
 
     public static Tex2D RecolorM(Tex2D sprite, Color color1, Color color2, Color color3)
     {
-        Color replace1 = new Color(161, 146, 130);
-        Color replace2 = new Color(128, 113, 96);
-        Color replace3 = new Color(191, 181, 171);
-        Color foot1 = new Color(236, 89, 60);
-        Color foot2 = new Color(248, 131, 99);
-        Color footr1 = new Color(235, 137, 49);
-        Color footr2 = new Color(247, 224, 90);
-        Color beak1 = new Color(219, 88, 31);
-        Color beak2 = new Color(236, 116, 60);
-        Color beakr1 = new Color(164, 100, 34);
-        Color beakr2 = new Color(235, 137, 49);
+        Color replace1 = new(161, 146, 130);
+        Color replace2 = new(128, 113, 96);
+        Color replace3 = new(191, 181, 171);
+        Color foot1 = new(236, 89, 60);
+        Color foot2 = new(248, 131, 99);
+        Color footr1 = new(235, 137, 49);
+        Color footr2 = new(247, 224, 90);
+        Color beak1 = new(219, 88, 31);
+        Color beak2 = new(236, 116, 60);
+        Color beakr1 = new(164, 100, 34);
+        Color beakr2 = new(235, 137, 49);
         Color[] colors = sprite.GetData();
         for (int i = 0; i < colors.Length; i++)
         {
             if (colors[i] == replace1)
-            {
                 colors[i] = color1;
-            }
             else if (colors[i] == replace2)
-            {
                 colors[i] = color2;
-            }
             else if (colors[i] == replace3)
-            {
                 colors[i] = color3;
-            }
             else if (colors[i] == foot1)
-            {
                 colors[i] = footr1;
-            }
             else if (colors[i] == foot2)
-            {
                 colors[i] = footr2;
-            }
             else if (colors[i] == beak1)
-            {
                 colors[i] = beakr1;
-            }
             else if (colors[i] == beak2)
-            {
                 colors[i] = beakr2;
-            }
         }
-        Tex2D tex2D = new Tex2D(sprite.w, sprite.h);
+        Tex2D tex2D = new(sprite.w, sprite.h);
         tex2D.SetData(colors);
         return tex2D;
     }
@@ -1144,16 +850,16 @@ public class Graphics
         _defaultBatch = new MTSpriteBatch(_base);
         screen = _defaultBatch;
         _blank = new Tex2D(1, 1);
-        _blank.SetData(new Color[1] { Color.White });
+        _blank.SetData([Color.White]);
         _blank2 = new Tex2D(1, 1);
-        _blank2.SetData(new Color[1] { Color.White });
+        _blank2.SetData([Color.White]);
         _biosFont = new BitmapFont("biosFont", 8);
         _biosFontCaseSensitive = new BitmapFont("biosFontCaseSensitive", 8);
         _fancyBiosFont = new FancyBitmapFont("smallFont");
         _passwordFont = new SpriteMap("passwordFont", 8, 8);
-        Matrix.CreateOrthographicOffCenter(0f, d.Viewport.Width, d.Viewport.Height, 0f, 0f, 1f, out _projectionMatrix);
-        _projectionMatrix.M41 += -0.5f * _projectionMatrix.M11;
-        _projectionMatrix.M42 += -0.5f * _projectionMatrix.M22;
+        Matrix.CreateOrthographicOffCenter(0, d.Viewport.Width, d.Viewport.Height, 0, 0, 1, out _projectionMatrix);
+        _projectionMatrix.M41 += -.5f * _projectionMatrix.M11;
+        _projectionMatrix.M42 += -.5f * _projectionMatrix.M22;
         tounge = new Sprite("tounge");
     }
 
@@ -1167,9 +873,8 @@ public class Graphics
     public static void SetRenderTarget(RenderTarget2D t)
     {
         if (t != null && t.IsDisposed)
-        {
             return;
-        }
+
         if (t == null)
         {
             Microsoft.Xna.Framework.Graphics.RenderTarget2D screenTarget = ((defaultRenderTarget != null) ? (defaultRenderTarget.nativeObject as Microsoft.Xna.Framework.Graphics.RenderTarget2D) : null);
@@ -1185,9 +890,7 @@ public class Graphics
             }
             device.SetRenderTarget(screenTarget);
             if (!_settingScreenTarget && _defaultRenderTarget == null)
-            {
                 UpdateScreenViewport();
-            }
         }
         else
         {
@@ -1221,25 +924,13 @@ public class Graphics
         Internal_ViewportSet(_oldViewport);
     }
 
-    private static void Internal_ViewportSet(Viewport pViewport)
-    {
-        try
-        {
-            device.Viewport = pViewport;
-        }
-        catch (Exception)
-        {
-            DevConsole.Log("Error: Invalid Viewport (x = " + pViewport.X + ", y = " + pViewport.Y + ", w = " + pViewport.Width + ", h = " + pViewport.Height + ", minDepth = " + pViewport.MinDepth + ", maxDepth = " + pViewport.MaxDepth + ")");
-        }
-    }
-
     public static void UpdateScreenViewport(bool pForceReset = false)
     {
         try
         {
             if (pForceReset || !_screenViewport.HasValue)
             {
-                Viewport v = default(Viewport);
+                Viewport v = default;
                 if (_currentTargetSize.aspect < 1.77f)
                 {
                     v.Width = (int)_currentTargetSize.width;
@@ -1250,10 +941,10 @@ public class Graphics
                     v.Height = (int)_currentTargetSize.height;
                     v.Width = Math.Min((int)Math.Round(_currentTargetSize.height * 1.77777f), (int)_currentTargetSize.width);
                 }
-                v.X = Math.Max((int)((_currentTargetSize.width - (float)v.Width) / 2f), 0);
-                v.Y = Math.Max((int)((_currentTargetSize.height - (float)v.Height) / 2f), 0);
-                v.MinDepth = 0f;
-                v.MaxDepth = 1f;
+                v.X = Math.Max((int)((_currentTargetSize.width - v.Width) / 2), 0);
+                v.Y = Math.Max((int)((_currentTargetSize.height - v.Height) / 2), 0);
+                v.MinDepth = 0;
+                v.MaxDepth = 1;
                 _screenViewport = v;
             }
             Internal_ViewportSet(_screenViewport.Value);
@@ -1266,21 +957,21 @@ public class Graphics
 
     public static void SetScreenTargetViewport()
     {
-        Viewport v = default(Viewport);
+        Viewport v = default;
         if (Resolution.adapterResolution.aspect < Resolution.current.aspect)
         {
             v.Width = Resolution.adapterResolution.x;
-            v.Height = Math.Min((int)Math.Round((float)Resolution.adapterResolution.x / Resolution.current.aspect), Resolution.adapterResolution.y);
+            v.Height = Math.Min((int)Math.Round(Resolution.adapterResolution.x / Resolution.current.aspect), Resolution.adapterResolution.y);
         }
         else
         {
             v.Height = Resolution.adapterResolution.y;
-            v.Width = Math.Min((int)Math.Round((float)Resolution.adapterResolution.y * Resolution.current.aspect), Resolution.adapterResolution.x);
+            v.Width = Math.Min((int)Math.Round(Resolution.adapterResolution.y * Resolution.current.aspect), Resolution.adapterResolution.x);
         }
         v.X = Math.Max((Resolution.adapterResolution.x - v.Width) / 2, 0);
         v.Y = Math.Max((Resolution.adapterResolution.y - v.Height) / 2, 0);
-        v.MinDepth = 0f;
-        v.MaxDepth = 1f;
+        v.MinDepth = 0;
+        v.MaxDepth = 1;
         Internal_ViewportSet(v);
     }
 
@@ -1291,8 +982,8 @@ public class Graphics
 
     public static void SetScissorRectangle(Rectangle r)
     {
-        float mul = (float)device.Viewport.Bounds.Width / (float)width;
-        if (r.width >= 0f && r.height >= 0f)
+        float mul = (float)device.Viewport.Bounds.Width / width;
+        if (r.width >= 0 && r.height >= 0)
         {
             r.width *= mul;
             r.height *= mul;
@@ -1306,13 +997,10 @@ public class Graphics
 
     public static void PushLayerScissor(Rectangle pRect)
     {
-        if (screen != null)
-        {
-            screen.FlushSettingScissor();
-        }
+        screen?.FlushSettingScissor();
         _scissorStack.Push(pRect);
-        float widthDif = (float)width / currentLayer.width;
-        float heightDif = (float)height / currentLayer.height;
+        float widthDif = width / currentLayer.width;
+        float heightDif = height / currentLayer.height;
         pRect.x *= widthDif;
         pRect.y *= heightDif;
         pRect.width *= widthDif;
@@ -1322,63 +1010,36 @@ public class Graphics
 
     public static void PopLayerScissor()
     {
-        if (screen != null)
-        {
-            screen.FlushAndClearScissor();
-        }
+        screen?.FlushAndClearScissor();
         _scissorStack.Pop();
         if (_scissorStack.Count == 0)
-        {
-            SetScissorRectangle(new Rectangle(0f, 0f, width, height));
-        }
+            SetScissorRectangle(new Rectangle(0, 0, width, height));
         else
-        {
             SetScissorRectangle(_scissorStack.Peek());
-        }
     }
 
     public static Rectangle ClipRectangle(Rectangle r, Rectangle clipTo)
     {
         if (r.x > clipTo.Right)
-        {
             r.x = clipTo.Right - r.width;
-        }
         if (r.y > clipTo.Bottom)
-        {
             r.y = clipTo.Bottom - r.height;
-        }
         if (r.x < clipTo.Left)
-        {
             r.x = clipTo.Left;
-        }
         if (r.y < clipTo.Top)
-        {
             r.y = clipTo.Top;
-        }
-        if (r.x < 0f)
-        {
-            r.x = 0f;
-        }
-        if (r.y < 0f)
-        {
-            r.y = 0f;
-        }
+        if (r.x < 0)
+            r.x = 0;
+        if (r.y < 0)
+            r.y = 0;
         if (r.x + r.width > clipTo.x + clipTo.width)
-        {
             r.width = clipTo.Right - r.x;
-        }
         if (r.y + r.height > clipTo.y + clipTo.height)
-        {
             r.height = clipTo.Bottom - r.y;
-        }
-        if (r.width < 0f)
-        {
-            r.width = 0f;
-        }
-        if (r.height < 0f)
-        {
-            r.height = 0f;
-        }
+        if (r.width < 0)
+            r.width = 0;
+        if (r.height < 0)
+            r.height = 0;
         return r;
     }
 
@@ -1393,5 +1054,19 @@ public class Graphics
 
     public static void PopMarker()
     {
+    }
+
+    #endregion
+
+    static void Internal_ViewportSet(Viewport pViewport)
+    {
+        try
+        {
+            device.Viewport = pViewport;
+        }
+        catch (Exception)
+        {
+            DevConsole.Log($"Error: Invalid Viewport (x = {pViewport.X}, y = {pViewport.Y}, w = {pViewport.Width}, h = {pViewport.Height}, minDepth = {pViewport.MinDepth}, maxDepth = {pViewport.MaxDepth})");
+        }
     }
 }

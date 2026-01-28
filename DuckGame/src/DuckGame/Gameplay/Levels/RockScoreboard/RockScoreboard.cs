@@ -279,7 +279,7 @@ public class RockScoreboard : Level
         }
     }
 
-    public Vec2 sunPos => sunThing.position;
+    public Vec2 sunPos => sunThing.Position;
 
     public Layer sunLayer => _sunLayer;
 
@@ -379,22 +379,22 @@ public class RockScoreboard : Level
             _sunLayer = new Layer("SUN LAYER", 99999);
             Layer.Add(_sunLayer);
             Thing tthing = new SpriteThing(150f, 120f, new Sprite("sun"));
-            tthing.z = -9999f;
-            tthing.depth = -0.99f;
+            tthing.Z = -9999f;
+            tthing.Depth = -0.99f;
             tthing.layer = _sunLayer;
-            tthing.xscale = 1f;
-            tthing.yscale = 1f;
+            tthing.ScaleX = 1f;
+            tthing.ScaleY = 1f;
             tthing.collisionSize = new Vec2(1f, 1f);
             tthing.collisionOffset = new Vec2(0f, 0f);
             Level.Add(tthing);
             sunThing = tthing;
             SpriteThing rbow = new SpriteThing(150f, 80f, new Sprite("rainbow"));
-            rbow.alpha = 0.15f;
-            rbow.z = -9999f;
-            rbow.depth = -0.99f;
+            rbow.Alpha = 0.15f;
+            rbow.Z = -9999f;
+            rbow.Depth = -0.99f;
             rbow.layer = _sunLayer;
-            rbow.xscale = 1f;
-            rbow.yscale = 1f;
+            rbow.ScaleX = 1f;
+            rbow.ScaleY = 1f;
             rbow.color = new Color(100, 100, 100);
             rbow.collisionSize = new Vec2(1f, 1f);
             rbow.collisionOffset = new Vec2(0f, 0f);
@@ -402,11 +402,11 @@ public class RockScoreboard : Level
             rainbowThing = rbow;
             rainbowThing.visible = false;
             SpriteThing rbow2 = new SpriteThing(150f, 80f, new Sprite("rainbow"));
-            rbow2.z = -9999f;
-            rbow2.depth = -0.99f;
+            rbow2.Z = -9999f;
+            rbow2.Depth = -0.99f;
             rbow2.layer = _sunLayer;
-            rbow2.xscale = 1f;
-            rbow2.yscale = 1f;
+            rbow2.ScaleX = 1f;
+            rbow2.ScaleY = 1f;
             rbow2.color = new Color(255, 255, 255, 90);
             rbow2.collisionSize = new Vec2(1f, 1f);
             rbow2.collisionOffset = new Vec2(0f, 0f);
@@ -438,7 +438,7 @@ public class RockScoreboard : Level
         {
             _bleachers = new Sprite("bleacherBack");
         }
-        _bleachers.center = new Vec2(_bleachers.w / 2, _bleachers.height - 3);
+        _bleachers.Center = new Vec2(_bleachers.w / 2, _bleachers.height - 3);
         _intermissionText = new Sprite("rockThrow/intermission");
         _winnerPost = new Sprite("rockThrow/winnerPost");
         _winnerBanner = new Sprite("rockThrow/winnerBanner");
@@ -573,8 +573,8 @@ public class RockScoreboard : Level
                         {
                             h.ignoreGhosting = true;
                         }
-                        _slots[_slots.Count - 1].duck.z = zpos;
-                        _slots[_slots.Count - 1].duck.depth = deep;
+                        _slots[_slots.Count - 1].duck.Z = zpos;
+                        _slots[_slots.Count - 1].duck.Depth = deep;
                         _slots[_slots.Count - 1].ai = new DuckAI(p3.inputProfile);
                         if (Network.isActive && p3.connection != DuckNetwork.localConnection)
                         {
@@ -586,8 +586,8 @@ public class RockScoreboard : Level
                         _slots[_slots.Count - 1].rock.planeOfExistence = plane;
                         _slots[_slots.Count - 1].rock.ignoreGhosting = true;
                         Level.Add(_slots[_slots.Count - 1].rock);
-                        _slots[_slots.Count - 1].rock.z = zpos;
-                        _slots[_slots.Count - 1].rock.depth = _slots[_slots.Count - 1].duck.depth + 1;
+                        _slots[_slots.Count - 1].rock.Z = zpos;
+                        _slots[_slots.Count - 1].rock.Depth = _slots[_slots.Count - 1].duck.Depth + 1;
                         _slots[_slots.Count - 1].rock.grounded = true;
                         _slots[_slots.Count - 1].duck.isRockThrowDuck = true;
                     }
@@ -600,8 +600,8 @@ public class RockScoreboard : Level
                         d.ignoreGhosting = true;
                         Level.Add(d);
                         initializingDucks = false;
-                        d.depth = deep;
-                        d.z = zpos;
+                        d.Depth = deep;
+                        d.Z = zpos;
                         d.derpMindControl = false;
                         DuckAI ai = new DuckAI(p3.inputProfile);
                         if (Network.isActive && p3.connection != DuckNetwork.localConnection)
@@ -782,7 +782,7 @@ public class RockScoreboard : Level
         _bottomRight = new Vec2(1000f, 1000f);
         lowestPoint = 1000f;
         _scoreBoard = new GinormoBoard(300f, -320f, (_mode == ScoreBoardMode.ShowScores) ? BoardMode.Points : BoardMode.Wins, teams.Count > 4);
-        _scoreBoard.z = -130f;
+        _scoreBoard.Z = -130f;
         Level.Add(_scoreBoard);
         base.backgroundColor = new Color(0, 0, 0);
         Music.volume = 1f;
@@ -793,15 +793,15 @@ public class RockScoreboard : Level
         cameraY = 0f;
         Sprite field = null;
         field = ((RockWeather.weather == Weather.Snowing) ? new Sprite("fieldNoiseSnow") : ((RockWeather.weather != Weather.Raining) ? new Sprite("fieldNoise") : new Sprite("fieldNoiseRain")));
-        field.scale = new Vec2(4f, 4f);
-        field.depth = 0.5f;
-        field.y -= 16f;
+        field.Scale = new Vec2(4f, 4f);
+        field.Depth = 0.5f;
+        field.Y -= 16f;
         _field.AddSprite(field);
         Sprite fieldWall = null;
         fieldWall = new Sprite("fieldWall");
-        fieldWall.scale = new Vec2(4f, 4f);
-        fieldWall.depth = 0.5f;
-        fieldWall.y -= 16f;
+        fieldWall.Scale = new Vec2(4f, 4f);
+        fieldWall.Depth = 0.5f;
+        fieldWall.Y -= 16f;
         _wall = new WallLayer("FIELDWALL", 80);
         if (wallMode)
         {
@@ -818,97 +818,97 @@ public class RockScoreboard : Level
         {
             Sprite teevee = new Sprite("rockThrow/chairSeat");
             teevee.CenterOrigin();
-            teevee.x = 300f;
-            teevee.y = 20f;
-            teevee.scale = new Vec2(1.2f, 1.2f);
+            teevee.X = 300f;
+            teevee.Y = 20f;
+            teevee.Scale = new Vec2(1.2f, 1.2f);
             _fieldForeground.AddSprite(teevee);
             teevee = new Sprite("rockThrow/tableTop");
             teevee.CenterOrigin();
-            teevee.x = 450f;
-            teevee.y = 14f;
-            teevee.scale = new Vec2(1.2f, 1.4f);
+            teevee.X = 450f;
+            teevee.Y = 14f;
+            teevee.Scale = new Vec2(1.2f, 1.4f);
             _fieldForeground2.AddSprite(teevee);
             int ychange = -95;
             Sprite c = new Sprite("rockThrow/chairBottomBack");
             Level.Add(new SpriteThing(300f, -10f, c)
             {
-                center = new Vec2(c.w / 2, c.h / 2),
-                z = 106 + ychange,
-                depth = 0.5f,
+                Center = new Vec2(c.w / 2, c.h / 2),
+                Z = 106 + ychange,
+                Depth = 0.5f,
                 layer = Layer.Background
             });
             c = new Sprite("rockThrow/chairBottom");
             Level.Add(new SpriteThing(300f, -6f, c)
             {
-                center = new Vec2(c.w / 2, c.h / 2),
-                z = 120 + ychange,
-                depth = 0.8f,
+                Center = new Vec2(c.w / 2, c.h / 2),
+                Z = 120 + ychange,
+                Depth = 0.8f,
                 layer = Layer.Background
             });
             c = new Sprite("rockThrow/chairFront");
             Level.Add(new SpriteThing(300f, -9f, c)
             {
-                center = new Vec2(c.w / 2, c.h / 2),
-                z = 122 + ychange,
-                depth = 0.9f,
+                Center = new Vec2(c.w / 2, c.h / 2),
+                Z = 122 + ychange,
+                Depth = 0.9f,
                 layer = Layer.Background
             });
             c = new Sprite("rockThrow/tableBottomBack");
             Level.Add(new SpriteThing(450f, -7f, c)
             {
-                center = new Vec2(c.w / 2, c.h / 2),
-                z = 106 + ychange,
-                depth = 0.5f,
+                Center = new Vec2(c.w / 2, c.h / 2),
+                Z = 106 + ychange,
+                Depth = 0.5f,
                 layer = Layer.Background
             });
             c = new Sprite("rockThrow/tableBottom");
             Level.Add(new SpriteThing(450f, -7f, c)
             {
-                center = new Vec2(c.w / 2, c.h / 2),
-                z = 120 + ychange,
-                depth = 0.8f,
+                Center = new Vec2(c.w / 2, c.h / 2),
+                Z = 120 + ychange,
+                Depth = 0.8f,
                 layer = Layer.Background
             });
             c = new Sprite("rockThrow/keg");
             Level.Add(new SpriteThing(460f, -24f, c)
             {
-                center = new Vec2(c.w / 2, c.h / 2),
-                z = 120 + ychange - 4,
-                depth = -0.4f,
+                Center = new Vec2(c.w / 2, c.h / 2),
+                Z = 120 + ychange - 4,
+                Depth = -0.4f,
                 layer = Layer.Game
             });
             c = new Sprite("rockThrow/cup");
             Level.Add(new SpriteThing(445f, -21f, c)
             {
-                center = new Vec2(c.w / 2, c.h / 2),
-                z = 120 + ychange - 6,
-                depth = -0.5f,
+                Center = new Vec2(c.w / 2, c.h / 2),
+                Z = 120 + ychange - 6,
+                Depth = -0.5f,
                 layer = Layer.Game
             });
             c = new Sprite("rockThrow/cup");
             Level.Add(new SpriteThing(437f, -20f, c)
             {
-                center = new Vec2(c.w / 2, c.h / 2),
-                z = 120 + ychange,
-                depth = -0.3f,
+                Center = new Vec2(c.w / 2, c.h / 2),
+                Z = 120 + ychange,
+                Depth = -0.3f,
                 layer = Layer.Game
             });
             c = new Sprite("rockThrow/cup");
             Level.Add(new SpriteThing(472f, -20f, c)
             {
-                center = new Vec2(c.w / 2, c.h / 2),
-                z = 120 + ychange - 7,
-                depth = -0.5f,
+                Center = new Vec2(c.w / 2, c.h / 2),
+                Z = 120 + ychange - 7,
+                Depth = -0.5f,
                 layer = Layer.Game,
-                angleDegrees = 80f
+                AngleDegrees = 80f
             });
         }
         for (int i3 = 0; i3 < 3; i3++)
         {
             Level.Add(new DistanceMarker(230 + i3 * 175, -25f, (int)Math.Round((float)(i3 * GameMode.winsPerSet) / 2f))
             {
-                z = 0f,
-                depth = 0.34f,
+                Z = 0f,
+                Depth = 0.34f,
                 layer = Layer.Background
             });
         }
@@ -918,22 +918,22 @@ public class RockScoreboard : Level
         {
             SpriteThing obj = new SpriteThing(100 + i4 * (cs.w + 13), cs.h + 15, cs)
             {
-                center = new Vec2(cs.w / 2, cs.h - 1)
+                Center = new Vec2(cs.w / 2, cs.h - 1)
             };
-            obj.collisionOffset = new Vec2(obj.collisionOffset.x, -cs.h);
-            obj.z = 0f;
-            obj.depth = 0.33f;
+            obj.collisionOffset = new Vec2(obj.collisionOffset.X, -cs.h);
+            obj.Z = 0f;
+            obj.Depth = 0.33f;
             obj.layer = Layer.Background;
             Level.Add(obj);
         }
         Level.Add(new SpriteThing(600f, 0f, new Sprite("blackSquare"))
         {
-            z = -90f,
-            centery = 7f,
-            depth = 0.1f,
+            Z = -90f,
+            CenterY = 7f,
+            Depth = 0.1f,
             layer = Layer.Background,
-            xscale = 100f,
-            yscale = 7f
+            ScaleX = 100f,
+            ScaleY = 7f
         });
         _weather.Update();
     }
@@ -981,8 +981,8 @@ public class RockScoreboard : Level
         Layer.Background.colorAdd = Vec3.Zero;
         fieldAddColor = Vec3.Zero;
         Layer.blurry = true;
-        sunThing.alpha = RockWeather.sunOpacity;
-        ((SpriteThing)rainbowThing2).alpha = 0f;
+        sunThing.Alpha = RockWeather.sunOpacity;
+        ((SpriteThing)rainbowThing2).Alpha = 0f;
         _drawingLighting = true;
         MonoMain.RenderGame(_sunshineTarget);
         _drawingLighting = false;
@@ -991,7 +991,7 @@ public class RockScoreboard : Level
             _sunshineMaterialBare = new MaterialSunshineBare();
         }
         Vec2 pos = sunPos;
-        Vec3 newPos = new Vec3(pos.x, -9999f, pos.y);
+        Vec3 newPos = new Vec3(pos.X, -9999f, pos.Y);
         Viewport v = new Viewport(0, 0, (int)Layer.HUD.width, (int)Layer.HUD.height);
         newPos = v.Project(newPos, sunLayer.projection, sunLayer.view, Matrix.Identity);
         newPos.y -= 256f;
@@ -1029,18 +1029,18 @@ public class RockScoreboard : Level
         Layer.Background.colorAdd = colorAdd;
         fieldAddColor = colorAdd;
         _drawingSunTarget = false;
-        sunThing.x = 290f + RockWeather.sunPos.x * 8000f;
-        sunThing.y = 10000f - RockWeather.sunPos.y * 8000f;
+        sunThing.X = 290f + RockWeather.sunPos.X * 8000f;
+        sunThing.Y = 10000f - RockWeather.sunPos.Y * 8000f;
         Thing thing = rainbowThing;
-        float y = (rainbowThing2.y = 2000f + _fieldScroll * 12f);
-        thing.y = y;
+        float y = (rainbowThing2.Y = 2000f + _fieldScroll * 12f);
+        thing.Y = y;
         Thing thing2 = rainbowThing;
-        y = (rainbowThing2.x = (0f - _field.scroll) * 15f + 6800f);
-        thing2.x = y;
-        rainbowThing.alpha = _weather.rainbowLight;
-        ((SpriteThing)rainbowThing2).alpha = _weather.rainbowLight2;
-        rainbowThing.visible = rainbowThing.alpha > 0.01f;
-        rainbowThing2.visible = rainbowThing2.alpha > 0.01f;
+        y = (rainbowThing2.X = (0f - _field.scroll) * 15f + 6800f);
+        thing2.X = y;
+        rainbowThing.Alpha = _weather.rainbowLight;
+        ((SpriteThing)rainbowThing2).Alpha = _weather.rainbowLight2;
+        rainbowThing.visible = rainbowThing.Alpha > 0.01f;
+        rainbowThing2.visible = rainbowThing2.Alpha > 0.01f;
         _drawingSunTarget = true;
         Layer.Game.camera.width = 320f;
         Layer.Game.camera.height = 180f;
@@ -1153,17 +1153,17 @@ public class RockScoreboard : Level
             }
             else if (_state == ScoreBoardState.MatchOver)
             {
-                if (_highestSlot.duck.position.x < _highestSlot.rock.x - 16f)
+                if (_highestSlot.duck.Position.X < _highestSlot.rock.X - 16f)
                 {
                     _highestSlot.ai.Release("LEFT");
                     _highestSlot.ai.Press("RIGHT");
                 }
-                if (_highestSlot.duck.position.x > _highestSlot.rock.x + 16f)
+                if (_highestSlot.duck.Position.X > _highestSlot.rock.X + 16f)
                 {
                     _highestSlot.ai.Release("RIGHT");
                     _highestSlot.ai.Press("LEFT");
                 }
-                if (_highestSlot.duck.position.x > _highestSlot.rock.position.x - 16f || _highestSlot.duck.profile.team == null)
+                if (_highestSlot.duck.Position.X > _highestSlot.rock.Position.X - 16f || _highestSlot.duck.profile.team == null)
                 {
                     _focusRock = true;
                 }
@@ -1171,12 +1171,12 @@ public class RockScoreboard : Level
                 {
                     DuckAI ai = _highestSlot.subAIs[i];
                     Duck duck = _highestSlot.subDucks[i];
-                    if (duck.position.x < _highestSlot.rock.x - 16f)
+                    if (duck.Position.X < _highestSlot.rock.X - 16f)
                     {
                         ai.Release("LEFT");
                         ai.Press("RIGHT");
                     }
-                    if (duck.position.x > _highestSlot.rock.x + 16f)
+                    if (duck.Position.X > _highestSlot.rock.X + 16f)
                     {
                         ai.Release("RIGHT");
                         ai.Press("LEFT");
@@ -1201,15 +1201,15 @@ public class RockScoreboard : Level
                     }
                     if (!_droppedConfetti)
                     {
-                        _desiredScroll = _highestSlot.duck.position.x;
-                        if (_desiredScroll >= _highestSlot.rock.position.x)
+                        _desiredScroll = _highestSlot.duck.Position.X;
+                        if (_desiredScroll >= _highestSlot.rock.Position.X)
                         {
-                            _desiredScroll = _highestSlot.rock.position.x;
+                            _desiredScroll = _highestSlot.rock.Position.X;
                             Crowd.mood = Mood.Extatic;
                             _droppedConfetti = true;
                             for (int k = 0; k < 64; k++)
                             {
-                                Level.Add(new Confetti(_confettiDrop + Rando.Float(-32f, 32f), _highestSlot.rock.y - 220f - Rando.Float(50f)));
+                                Level.Add(new Confetti(_confettiDrop + Rando.Float(-32f, 32f), _highestSlot.rock.Y - 220f - Rando.Float(50f)));
                             }
                         }
                     }
@@ -1225,7 +1225,7 @@ public class RockScoreboard : Level
                 }
                 else
                 {
-                    _desiredScroll = _highestSlot.duck.position.x;
+                    _desiredScroll = _highestSlot.duck.Position.X;
                     Crowd.mood = Mood.Excited;
                 }
             }
@@ -1264,23 +1264,19 @@ public class RockScoreboard : Level
                     }
                     if (slot.state == RockThrow.PickUpRock)
                     {
-                        if (slot.duck.position.x < slot.rock.position.x)
+                        if (slot.duck.X < slot.rock.X)
                         {
                             slot.ai.Press("RIGHT");
                         }
                         else
                         {
                             slot.state = RockThrow.ThrowRock;
-                            slot.duck.position.x = slot.rock.position.x;
+                            slot.duck.X = slot.rock.X;
                             slot.duck.hSpeed = 0f;
                             if (TeamSelect2.eightPlayersActive)
-                            {
                                 _throwWait = 0.5f;
-                            }
                             else
-                            {
                                 _throwWait = 0.9f;
-                            }
                         }
                     }
                     if (slot.state == RockThrow.ThrowRock)
@@ -1317,7 +1313,7 @@ public class RockScoreboard : Level
                                     {
                                         dif = (float)(total - 2) + Math.Min((float)(slot.duck.profile.team.rockScore - GameMode.winsPerSet * 2) / 16f, 1f);
                                     }
-                                    float distance = slot.startX + 30f + dif / (float)total * _fieldWidth - slot.rock.x;
+                                    float distance = slot.startX + 30f + dif / (float)total * _fieldWidth - slot.rock.X;
                                     slot.rock.vSpeed = -2f - Maths.Clamp(distance / 300f, 0f, 1f) * 4f;
                                     float airTime = Math.Abs(2f * slot.rock.vSpeed) / slot.rock.currentGravity;
                                     _ = slot.rock.currentFriction;
@@ -1373,11 +1369,11 @@ public class RockScoreboard : Level
                                 {
                                     Sprite s = null;
                                     s = ((RockWeather.weather == Weather.Snowing) ? new Sprite("rockThrow/rockSmudgeSnow") : ((RockWeather.weather != Weather.Raining) ? new Sprite("rockThrow/rockSmudge") : new Sprite("rockThrow/rockSmudgeMud")));
-                                    s.position = new Vec2(slot.rock.x - 12f, slot.rock.z - 10f);
-                                    s.depth = 0.9f;
-                                    s.xscale = 0.8f;
-                                    s.yscale = 1.4f;
-                                    s.alpha = 0.9f;
+                                    s.Position = new Vec2(slot.rock.X - 12f, slot.rock.Z - 10f);
+                                    s.Depth = 0.9f;
+                                    s.ScaleX = 0.8f;
+                                    s.ScaleY = 1.4f;
+                                    s.Alpha = 0.9f;
                                     _field.AddSprite(s);
                                 }
                                 slot.slideWait++;
@@ -1385,11 +1381,11 @@ public class RockScoreboard : Level
                                 {
                                     Sprite s2 = null;
                                     s2 = ((RockWeather.weather == Weather.Snowing) ? new Sprite("rockThrow/rockSmearSnow") : ((RockWeather.weather != Weather.Raining) ? new Sprite("rockThrow/rockSmear") : new Sprite("rockThrow/rockSmearMud")));
-                                    s2.position = new Vec2(slot.rock.x - 5f, slot.rock.z - 10f);
-                                    s2.depth = 0.9f;
-                                    s2.xscale = 0.6f;
-                                    s2.yscale = 1.4f;
-                                    s2.alpha = 0.9f;
+                                    s2.Position = new Vec2(slot.rock.X - 5f, slot.rock.Z - 10f);
+                                    s2.Depth = 0.9f;
+                                    s2.ScaleX = 0.6f;
+                                    s2.ScaleY = 1.4f;
+                                    s2.Alpha = 0.9f;
                                     slot.slideWait = 0;
                                     _field.AddSprite(s2);
                                 }
@@ -1417,8 +1413,8 @@ public class RockScoreboard : Level
                                         slot.showScore = true;
                                         Level.Add(new PointBoard(slot.rock, slot.duck.profile.team)
                                         {
-                                            depth = slot.rock.depth + 1,
-                                            z = slot.rock.z
+                                            Depth = slot.rock.Depth + 1,
+                                            Z = slot.rock.Z
                                         });
                                     }
                                 }
@@ -1431,9 +1427,9 @@ public class RockScoreboard : Level
                             {
                                 int dif2 = slot.duck.profile.team.rockScore;
                                 int total2 = GameMode.winsPerSet * 2;
-                                if (!_misfire && slot.rock.x > slot.startX + 30f + (float)dif2 / (float)total2 * _fieldWidth)
+                                if (!_misfire && slot.rock.X > slot.startX + 30f + (float)dif2 / (float)total2 * _fieldWidth)
                                 {
-                                    slot.rock.x = slot.startX + 30f + (float)dif2 / (float)total2 * _fieldWidth;
+                                    slot.rock.X = slot.startX + 30f + (float)dif2 / (float)total2 * _fieldWidth;
                                 }
                             }
                         }
@@ -1467,13 +1463,13 @@ public class RockScoreboard : Level
                         {
                             slot.follow = false;
                         }
-                        if (slot.duck.position.x > slot.startX)
+                        if (slot.duck.Position.X > slot.startX)
                         {
                             slot.ai.Press("LEFT");
                         }
                         else
                         {
-                            slot.duck.position.x = slot.startX;
+                            slot.duck.X = slot.startX;
                             slot.duck.hSpeed = 0f;
                             slot.duck.offDir = 1;
                             slot.ai.Release("LEFT");
@@ -1498,11 +1494,11 @@ public class RockScoreboard : Level
                 {
                     if (slot.state == RockThrow.ThrowRock || slot.state == RockThrow.ShowScore)
                     {
-                        _desiredScroll = slot.rock.position.x;
+                        _desiredScroll = slot.rock.Position.X;
                     }
                     else
                     {
-                        _desiredScroll = slot.duck.position.x;
+                        _desiredScroll = slot.duck.Position.X;
                     }
                 }
                 if (Input.Pressed("START"))
@@ -1607,10 +1603,10 @@ public class RockScoreboard : Level
                                 {
                                     dif3 = (float)(total3 - 2) + Math.Min((float)(slot2.duck.profile.team.rockScore - GameMode.winsPerSet * 2) / 16f, 1f);
                                 }
-                                slot2.rock.x = slot2.startX + 30f + dif3 / (float)total3 * _fieldWidth;
+                                slot2.rock.X = slot2.startX + 30f + dif3 / (float)total3 * _fieldWidth;
                                 if (wallMode && slot2.duck.profile.team.rockScore >= GameMode.winsPerSet)
                                 {
-                                    slot2.rock.x -= 10f;
+                                    slot2.rock.X -= 10f;
                                 }
                             }
                             slot2.rock.hSpeed = 0f;
@@ -1760,7 +1756,7 @@ public class RockScoreboard : Level
                             finalImage = new RenderTarget2D(wide, high);
                             Layer.Game.visible = false;
                             Rectangle sciss = _field.scissor;
-                            _field.scissor = new Rectangle(0f, 0f, Resolution.size.x, yCut);
+                            _field.scissor = new Rectangle(0f, 0f, Resolution.size.X, yCut);
                             _field.visible = true;
                             MonoMain.RenderGame(finalImage);
                             Layer.Game.visible = true;
@@ -1947,12 +1943,12 @@ public class RockScoreboard : Level
         {
             if (_getScreenshot && Graphics.screenCapture == null)
             {
-                _finalSprite.scale = new Vec2(0.25f, 0.25f);
+                _finalSprite.Scale = new Vec2(0.25f, 0.25f);
                 Graphics.Draw(_finalSprite, 0f, 0f);
             }
             if (_intermissionSlide > 0.01f)
             {
-                _intermissionText.depth = 0.91f;
+                _intermissionText.Depth = 0.91f;
                 float xpos = -320f + _intermissionSlide * 320f;
                 float ypos = 60f;
                 Graphics.DrawRect(new Vec2(xpos, ypos), new Vec2(xpos + 320f, ypos + 30f), Color.Black, 0.9f);
@@ -1966,30 +1962,30 @@ public class RockScoreboard : Level
         {
             if (_mode == ScoreBoardMode.ShowWinner && !_afterHighlights)
             {
-                _winnerPost.depth = -0.962f;
-                _winnerBanner.depth = -0.858f;
+                _winnerPost.Depth = -0.962f;
+                _winnerBanner.Depth = -0.858f;
                 float yOff = -10f;
                 Graphics.Draw(_winnerPost, 63f, 40f + yOff);
                 Graphics.Draw(_winnerPost, 248f, 40f + yOff);
                 Graphics.Draw(_winnerBanner, 70f, 43f + yOff);
                 string text = Results.winner.name;
                 BitmapFont font = Results.winner.font;
-                font.scale = new Vec2(2f, 2f);
+                font.Scale = new Vec2(2f, 2f);
                 float hOffset = 0f;
                 float vOffset = 0f;
                 if (text.Length > 12)
                 {
-                    font.scale = new Vec2(1f);
+                    font.Scale = new Vec2(1f);
                     vOffset = 3f;
                 }
                 else if (text.Length > 9)
                 {
-                    font.scale = new Vec2(1.5f);
+                    font.Scale = new Vec2(1.5f);
                     hOffset = 2f;
                     vOffset = 1f;
                 }
-                font.Draw(text, 160f - font.GetWidth(text) / 2f + hOffset, 50f + yOff + vOffset, Color.Black, _winnerBanner.depth + 1);
-                font.scale = new Vec2(1f, 1f);
+                font.Draw(text, 160f - font.GetWidth(text) / 2f + hOffset, 50f + yOff + vOffset, Color.Black, _winnerBanner.Depth + 1);
+                font.Scale = new Vec2(1f, 1f);
             }
         }
         else if (layer == Layer.Foreground)

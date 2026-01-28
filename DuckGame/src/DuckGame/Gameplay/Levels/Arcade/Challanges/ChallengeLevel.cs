@@ -160,7 +160,7 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
         }
         Deathmatch d = new Deathmatch(this);
         _pendingSpawns = d.SpawnPlayers(recordStats: false);
-        _pendingSpawns = _pendingSpawns.OrderBy((Duck sp) => sp.x).ToList();
+        _pendingSpawns = _pendingSpawns.OrderBy((Duck sp) => sp.X).ToList();
         foreach (Duck duck in _pendingSpawns)
         {
             followCam.Add(duck);
@@ -374,7 +374,7 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
                                 float frameMult = frame.GetRenderTargetZoom();
                                 if (_captureTarget == null)
                                 {
-                                    _captureTarget = new RenderTarget2D((int)(frameSize.x * 6f), (int)(frameSize.y * 6f));
+                                    _captureTarget = new RenderTarget2D((int)(frameSize.X * 6f), (int)(frameSize.Y * 6f));
                                 }
                                 _ = Graphics.width / 320;
                                 Camera cam = new Camera(0f, 0f, (float)_captureTarget.width * frameMult, (float)_captureTarget.height * frameMult);
@@ -387,7 +387,7 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
                                     projMatrix.M41 += -0.5f * projMatrix.M11;
                                     projMatrix.M42 += -0.5f * projMatrix.M22;
                                     Matrix mat = Level.current.camera.getMatrix();
-                                    Vec3 pos = Graphics.viewport.Project(new Vec3(_duck.cameraPosition.x, _duck.cameraPosition.y, 0f), projMatrix, mat, Matrix.Identity);
+                                    Vec3 pos = Graphics.viewport.Project(new Vec3(_duck.cameraPosition.X, _duck.cameraPosition.Y, 0f), projMatrix, mat, Matrix.Identity);
                                     Graphics.SetRenderTarget(_captureTarget);
                                     cam.center = new Vec2(pos.x, pos.y);
                                     if (cam.bottom > (float)MonoMain.screenCapture.height)
@@ -442,7 +442,7 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
                     UIDivider trophyBox = new UIDivider(vert: true, 0f);
                     SpriteMap trophy = new SpriteMap("challengeTrophy", 60, 58);
                     menuBox.leftSection.vertical = false;
-                    menuBox.leftSection.borderSize.y = 2f;
+                    menuBox.leftSection.borderSize.Y = 2f;
                     bool shouldSaveSnapshot = false;
                     int prevTargets = 0;
                     int prevGoodies = 0;
@@ -644,9 +644,9 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
                 AddThing(spawn);
                 _pendingSpawns.RemoveAt(0);
                 Vec3 col = spawn.profile.persona.color;
-                Level.Add(new SpawnLine(spawn.x, spawn.y, 0, 0f, new Color((int)col.x, (int)col.z, (int)col.z), 32f));
-                Level.Add(new SpawnLine(spawn.x, spawn.y, 0, -4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
-                Level.Add(new SpawnLine(spawn.x, spawn.y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 0f, new Color((int)col.x, (int)col.z, (int)col.z), 32f));
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, -4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
                 SFX.Play("pullPin", 0.7f);
                 _duck = spawn;
                 _challenge = base.things[typeof(ChallengeMode)].First() as ChallengeMode;
@@ -853,8 +853,8 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
     {
         if (layer == Layer.HUD && (!_started || _finished) && _waitAfterSpawnDings > 0 && _fontFade > 0.01f)
         {
-            _font.scale = new Vec2(2f, 2f);
-            _font.alpha = _fontFade;
+            _font.Scale = new Vec2(2f, 2f);
+            _font.Alpha = _fontFade;
             string s = "GET";
             if (_finished)
             {

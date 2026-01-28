@@ -13,10 +13,10 @@ public class UndergroundRocksBackground : BackgroundUpdater
         {
             frame = 1
         };
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
         _speedMult = speedMult;
@@ -45,7 +45,7 @@ public class UndergroundRocksBackground : BackgroundUpdater
             {
                 _parallax.AddZone(21 + j, rockDist, speed);
             }
-            _parallax.depth = -0.9f;
+            _parallax.Depth = -0.9f;
             _parallax.layer = new Layer("PARALLAX2", 110, new Camera(0f, 0f, 320f, 200f));
             _parallax.layer.aspectReliesOnGameLayer = true;
             _parallax.layer.allowTallAspect = true;

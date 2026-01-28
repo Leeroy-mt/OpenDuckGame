@@ -25,14 +25,14 @@ public class LauncherGrenade : PhysicsObject
         : base(xpos, ypos)
     {
         graphic = new Sprite("launcherGrenade");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionSize = new Vec2(8f, 6f);
         collisionOffset = new Vec2(-4f, -3f);
         for (int i = 0; i < 17; i++)
         {
             _trail.Add(new Vec2(0f, 0f));
         }
-        _prevPosition = new Vec2(position);
+        _prevPosition = new Vec2(Position);
         base.bouncy = 1f;
         friction = 0f;
         _dontCrush = true;
@@ -40,7 +40,7 @@ public class LauncherGrenade : PhysicsObject
 
     public override void Initialize()
     {
-        if (Level.CheckPoint<Block>(position) != null)
+        if (Level.CheckPoint<Block>(Position) != null)
         {
             _blowUp = true;
         }
@@ -55,15 +55,15 @@ public class LauncherGrenade : PhysicsObject
         }
         base.Update();
         _startWait -= 0.1f;
-        angle = 0f - Maths.DegToRad(Maths.PointDirection(base.x, base.y, _prevPosition.x, _prevPosition.y));
+        Angle = 0f - Maths.DegToRad(Maths.PointDirection(base.X, base.Y, _prevPosition.X, _prevPosition.Y));
         _isVolatile -= 0.06f;
         for (int i = 15; i >= 0; i--)
         {
-            _trail[i + 1] = new Vec2(_trail[i].x, _trail[i].y);
+            _trail[i + 1] = new Vec2(_trail[i].X, _trail[i].Y);
         }
         if (!_fade)
         {
-            _trail[0] = new Vec2(base.x, base.y);
+            _trail[0] = new Vec2(base.X, base.Y);
             _numTrail++;
         }
         else
@@ -75,8 +75,8 @@ public class LauncherGrenade : PhysicsObject
                 Level.Remove(this);
             }
         }
-        _prevPosition.x = position.x;
-        _prevPosition.y = position.y;
+        _prevPosition.X = Position.X;
+        _prevPosition.Y = Position.Y;
     }
 
     public override void OnSoftImpact(MaterialThing with, ImpactedFrom from)
@@ -94,26 +94,26 @@ public class LauncherGrenade : PhysicsObject
             int i = 0;
             for (int repeat = 0; repeat < 1; repeat++)
             {
-                ExplosionPart explosionPart = new ExplosionPart(base.x - 8f + Rando.Float(16f), base.y - 8f + Rando.Float(16f));
-                explosionPart.xscale *= 0.7f;
-                explosionPart.yscale *= 0.7f;
+                ExplosionPart explosionPart = new ExplosionPart(base.X - 8f + Rando.Float(16f), base.Y - 8f + Rando.Float(16f));
+                explosionPart.ScaleX *= 0.7f;
+                explosionPart.ScaleY *= 0.7f;
                 Level.Add(explosionPart);
                 i++;
             }
             SFX.Play("explode");
-            RumbleManager.AddRumbleEvent(position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
+            RumbleManager.AddRumbleEvent(Position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
             for (i = 0; i < 12; i++)
             {
                 float dir = (float)i * 30f - 10f + Rando.Float(20f);
                 ATShrapnel shrap = new ATShrapnel();
                 shrap.range = 25f + Rando.Float(10f);
-                Level.Add(new Bullet(base.x + (float)(Math.Cos(Maths.DegToRad(dir)) * 8.0), base.y - (float)(Math.Sin(Maths.DegToRad(dir)) * 8.0), shrap, dir)
+                Level.Add(new Bullet(base.X + (float)(Math.Cos(Maths.DegToRad(dir)) * 8.0), base.Y - (float)(Math.Sin(Maths.DegToRad(dir)) * 8.0), shrap, dir)
                 {
                     firedFrom = this
                 });
             }
             _fade = true;
-            base.y += 10000f;
+            base.Y += 10000f;
         }
         else if (!(with is IPlatform))
         {
@@ -139,7 +139,7 @@ public class LauncherGrenade : PhysicsObject
             if (i < _numTrail)
             {
                 float al = (1f - (float)i / 16f) * _fadeVal * 0.8f;
-                Graphics.DrawLine(new Vec2(_trail[i - 1].x, _trail[i - 1].y), new Vec2(_trail[i].x, _trail[i].y), Color.White * al);
+                Graphics.DrawLine(new Vec2(_trail[i - 1].X, _trail[i - 1].Y), new Vec2(_trail[i].X, _trail[i].Y), Color.White * al);
             }
         }
     }

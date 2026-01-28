@@ -14,8 +14,8 @@ public class SnowGenerator : Thing
     {
         _editorName = "Snow Machine";
         graphic = new Sprite("snowGenerator");
-        center = new Vec2(8f, 8f);
-        base.depth = 0.55f;
+        Center = new Vec2(8f, 8f);
+        base.Depth = 0.55f;
         _visibleInGame = false;
         snowWait = Rando.Float(4f);
         editorTooltip = "Let it snow!";
@@ -52,7 +52,7 @@ public class SnowGenerator : Thing
         if (snowWait <= 0f)
         {
             snowWait = Rando.Float(2f, 4f);
-            Level.Add(new SnowFallParticle(base.x + Rando.Float(-8f, 8f), base.y + Rando.Float(-8f, 8f), new Vec2(0f, 0f)));
+            Level.Add(new SnowFallParticle(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-8f, 8f), new Vec2(0f, 0f)));
         }
         base.Update();
     }

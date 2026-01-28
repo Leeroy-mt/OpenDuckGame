@@ -34,15 +34,15 @@ public class TampingWeapon : Gun
 
     private Duck _prevDuckOwner;
 
-    public override float angle
+    public override float Angle
     {
         get
         {
-            return base.angle + Maths.DegToRad(0f - _rotAngle);
+            return base.Angle + Maths.DegToRad(0f - _rotAngle);
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
@@ -50,7 +50,7 @@ public class TampingWeapon : Gun
         : base(xval, yval)
     {
         _tampingHand = new Sprite("tampingHand");
-        _tampingHand.center = new Vec2(4f, 8f);
+        _tampingHand.Center = new Vec2(4f, 8f);
     }
 
     public override void Update()
@@ -84,7 +84,7 @@ public class TampingWeapon : Gun
                         if (tampPos < -1f && !_puffed)
                         {
                             Vec2 pos = Offset(base.barrelOffset) - base.barrelVector * 8f;
-                            Level.Add(SmallSmoke.New(pos.x, pos.y));
+                            Level.Add(SmallSmoke.New(pos.X, pos.Y));
                             _puffed = true;
                         }
                         if (tampPos > -1f)
@@ -125,7 +125,7 @@ public class TampingWeapon : Gun
                         if (tampPos < -1f && !_puffed)
                         {
                             Vec2 pos2 = Offset(base.barrelOffset) - base.barrelVector * 8f;
-                            Level.Add(SmallSmoke.New(pos2.x, pos2.y));
+                            Level.Add(SmallSmoke.New(pos2.X, pos2.Y));
                             _puffed = true;
                         }
                         if (tampPos > -1f)
@@ -175,31 +175,31 @@ public class TampingWeapon : Gun
 
     public override void Draw()
     {
-        base.y += _offsetY;
+        base.Y += _offsetY;
         base.Draw();
         if (base.duck != null && tamping)
         {
             if (offDir < 0)
             {
-                _tampingHand.x = base.x + 3f;
-                _tampingHand.y = base.y - 16f + tampPos;
+                _tampingHand.X = base.X + 3f;
+                _tampingHand.Y = base.Y - 16f + tampPos;
                 _tampingHand.flipH = true;
             }
             else
             {
-                _tampingHand.x = base.x - 3f;
-                _tampingHand.y = base.y - 16f + tampPos;
+                _tampingHand.X = base.X - 3f;
+                _tampingHand.Y = base.Y - 16f + tampPos;
                 _tampingHand.flipH = false;
             }
-            _tampingHand.depth = base.depth - 1;
-            float rot = base.duck._spriteArms.angle;
+            _tampingHand.Depth = base.Depth - 1;
+            float rot = base.duck._spriteArms.Angle;
             Vec2 vec = Offset(base.barrelOffset);
             Vec2 end = vec + base.barrelVector * (tampPos * 2f + 3f);
-            Graphics.DrawLine(vec - base.barrelVector * 6f, end, Color.Gray, 1f, base.depth - 2);
-            base.duck._spriteArms.depth = base.depth - 1;
-            Graphics.Draw(base.duck._spriteArms, end.x, end.y);
-            base.duck._spriteArms.angle = rot;
+            Graphics.DrawLine(vec - base.barrelVector * 6f, end, Color.Gray, 1f, base.Depth - 2);
+            base.duck._spriteArms.Depth = base.Depth - 1;
+            Graphics.Draw(base.duck._spriteArms, end.X, end.Y);
+            base.duck._spriteArms.Angle = rot;
         }
-        position = new Vec2(position.x, position.y - _offsetY);
+        Position = new Vec2(Position.X, Position.Y - _offsetY);
     }
 }

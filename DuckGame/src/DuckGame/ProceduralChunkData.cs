@@ -4,7 +4,7 @@ public class ProceduralChunkData : BinaryClassChunk
 {
     public int sideMask;
 
-    public float chance = 1f;
+    public float chance = 1;
 
     public int maxPerLevel = 1;
 

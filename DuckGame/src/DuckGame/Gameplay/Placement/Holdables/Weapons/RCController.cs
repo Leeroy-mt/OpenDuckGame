@@ -36,7 +36,7 @@ public class RCController : Gun
         _type = "gun";
         _sprite = new SpriteMap("rcController", 32, 32);
         graphic = _sprite;
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-6f, -4f);
         collisionSize = new Vec2(12f, 9f);
         _barrelOffsetTL = new Vec2(26f, 14f);
@@ -58,7 +58,7 @@ public class RCController : Gun
     {
         if (_car == null && !(Level.current is Editor) && base.isServerForObject)
         {
-            _car = new RCCar(base.x, base.y);
+            _car = new RCCar(base.X, base.Y);
             _car._controller = this;
             Level.Add(_car);
         }
@@ -68,7 +68,7 @@ public class RCController : Gun
             _inc = 0;
             if (_car.receivingSignal && !_car.destroyed)
             {
-                Level.Add(new RCControlBolt(base.x, base.y, _car));
+                Level.Add(new RCControlBolt(base.X, base.Y, _car));
             }
         }
         if (lockedOwner != owner)

@@ -141,12 +141,12 @@ public class HighlightPlayback : Level
         if (_keepPaused > 0f && _currentHighlight >= 0)
         {
             Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Resolution.getTransformationMatrix());
-            _font.scale = new Vec2(8f, 8f);
+            _font.Scale = new Vec2(8f, 8f);
             _font.GetWidth(Change.ToString(_currentHighlight + 1));
             _ = _font.height;
             _numbers.frame = 4 - _currentHighlight;
-            _numbers.depth = 1f;
-            _numbers.scale = new Vec2(4f, 4f);
+            _numbers.Depth = 1f;
+            _numbers.Scale = new Vec2(4f, 4f);
             Graphics.Draw(_numbers, 32f, 32f);
             Graphics.screen.End();
         }

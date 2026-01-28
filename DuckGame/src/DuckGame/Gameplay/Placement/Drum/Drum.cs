@@ -36,8 +36,8 @@ public class Drum : Thing
 
     public override void Draw()
     {
-        position.x += (float)_shakeWave * _shake;
+        X += (float)_shakeWave * _shake;
         base.Draw();
-        position.x -= (float)_shakeWave * _shake;
+        X -= (float)_shakeWave * _shake;
     }
 }

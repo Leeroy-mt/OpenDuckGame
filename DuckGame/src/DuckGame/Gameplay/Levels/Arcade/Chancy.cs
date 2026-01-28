@@ -191,7 +191,7 @@ public class Chancy
             MemoryStream stream = new MemoryStream(Convert.FromBase64String(challenge.preview));
             Texture2D tex = Texture2D.FromStream(Graphics.device, stream);
             _previewPhoto = new SpriteMap(tex, tex.Width, tex.Height);
-            _previewPhoto.scale = new Vec2(0.25f);
+            _previewPhoto.Scale = new Vec2(0.25f);
         }
         _challengeData = challenge;
         _realSave = Profiles.active[0].GetSaveData(_challengeData.levelID);
@@ -202,8 +202,8 @@ public class Chancy
         bool found = false;
         if (Level.CheckLine<Block>(duckPos, duckPos + new Vec2(36f, 0f), out var hit) != null)
         {
-            hit.x -= 8f;
-            if ((hit - duckPos).length > 16f)
+            hit.X -= 8f;
+            if ((hit - duckPos).Length() > 16f)
             {
                 realPos = hit;
                 found = true;
@@ -230,7 +230,7 @@ public class Chancy
         {
             if (Level.CheckLine<Block>(duckPos, duckPos + new Vec2(-36f, 0f), out hit) != null)
             {
-                hit.x += 8f;
+                hit.X += 8f;
                 realPos = hit;
                 found = true;
             }
@@ -265,7 +265,7 @@ public class Chancy
             _completeStamp = new Sprite("arcade/completeStamp");
             _completeStamp.CenterOrigin();
             _pencil = new Sprite("arcade/pencil");
-            _pencil.center = new Vec2(127f, 4f);
+            _pencil.Center = new Vec2(127f, 4f);
             _tape = new Sprite("arcade/tape");
             _tape.CenterOrigin();
             _tapePaper = new Sprite("arcade/tapePaper");
@@ -742,10 +742,10 @@ public class Chancy
         Vec2 paperPos = new Vec2(-200f + _listLerp * 270f, 20f);
         if (lookingAtList || _listLerp > 0.01f)
         {
-            listPaper.depth = 0.8f;
-            Graphics.Draw(listPaper, paperPos.x, paperPos.y);
-            _font.depth = 0.85f;
-            _font.scale = new Vec2(1f);
+            listPaper.Depth = 0.8f;
+            Graphics.Draw(listPaper, paperPos.X, paperPos.Y);
+            _font.Depth = 0.85f;
+            _font.Scale = new Vec2(1f);
             _font.Draw("Chancy Challenges", paperPos + new Vec2(11f, 6f), Colors.BlueGray, 0.85f);
             float yOff = 9f;
             List<ChallengeData> chancyChallenges = _chancyChallenges;
@@ -756,16 +756,16 @@ public class Chancy
                 Vec2 pencilPos = paperPos + new Vec2(12f, 12f + yOff + 4f);
                 if (idx == _challengeSelection)
                 {
-                    _pencil.depth = 0.9f;
-                    Graphics.Draw(_pencil, pencilPos.x, pencilPos.y);
+                    _pencil.Depth = 0.9f;
+                    Graphics.Draw(_pencil, pencilPos.X, pencilPos.Y);
                     Graphics.DrawLine(paperPos + new Vec2(19f, 12f + yOff + 8.5f), paperPos + new Vec2(19f + _font.GetWidth(c.name), 12f + yOff + 8.5f), Colors.SuperDarkBlueGray, 1f, 0.9f);
                 }
                 ChallengeSaveData savedat = Profiles.active[0].GetSaveData(_chancyChallenges[idx].levelID);
                 if (savedat != null && savedat.trophy > TrophyType.Baseline)
                 {
                     _tinyStars.frame = (int)(savedat.trophy - 1);
-                    _tinyStars.depth = 0.85f;
-                    Graphics.Draw(_tinyStars, pencilPos.x + 2f, pencilPos.y);
+                    _tinyStars.Depth = 0.85f;
+                    Graphics.Draw(_tinyStars, pencilPos.X + 2f, pencilPos.Y);
                 }
                 yOff += 9f;
                 idx++;
@@ -783,8 +783,8 @@ public class Chancy
         for (int i = _lineProgress.Count - 1; i >= 0; i--)
         {
             float wide = Graphics.GetStringWidth(_lineProgress[i].text);
-            float ypos = descPos.y + 2f + (float)(index * 9);
-            float xpos = descPos.x + descSize.x / 2f - wide / 2f;
+            float ypos = descPos.Y + 2f + (float)(index * 9);
+            float xpos = descPos.X + descSize.X / 2f - wide / 2f;
             for (int j = _lineProgress[i].segments.Count - 1; j >= 0; j--)
             {
                 Graphics.DrawString(_lineProgress[i].segments[j].text, new Vec2(xpos, ypos), _lineProgress[i].segments[j].color, 0.85f);
@@ -796,52 +796,52 @@ public class Chancy
         {
             paperPos = new Vec2(40f, 28f);
             paperPos = new Vec2(-200f + _challengeLerp * 240f, 28f);
-            challengePaper.depth = 0.8f;
-            Graphics.Draw(challengePaper, paperPos.x, paperPos.y);
-            _paperclip.depth = 0.92f;
-            _photo.depth = 0.87f;
-            Graphics.Draw(_photo, paperPos.x + 135f, paperPos.y - 3f);
-            Graphics.Draw(_paperclip, paperPos.x + 140f, paperPos.y - 10f);
+            challengePaper.Depth = 0.8f;
+            Graphics.Draw(challengePaper, paperPos.X, paperPos.Y);
+            _paperclip.Depth = 0.92f;
+            _photo.Depth = 0.87f;
+            Graphics.Draw(_photo, paperPos.X + 135f, paperPos.Y - 3f);
+            Graphics.Draw(_paperclip, paperPos.X + 140f, paperPos.Y - 10f);
             if (_previewPhoto != null)
             {
-                _previewPhoto.depth = 0.89f;
-                _previewPhoto.angleDegrees = 12f;
-                Graphics.Draw(_previewPhoto, paperPos.x + 146f, paperPos.y + 0f);
+                _previewPhoto.Depth = 0.89f;
+                _previewPhoto.AngleDegrees = 12f;
+                Graphics.Draw(_previewPhoto, paperPos.X + 146f, paperPos.Y + 0f);
             }
             if (_save != null)
             {
                 if (_save.trophy > TrophyType.Baseline)
                 {
-                    _sticker.depth = 0.9f;
+                    _sticker.Depth = 0.9f;
                     _sticker.frame = (int)(_save.trophy - 1);
-                    Graphics.Draw(_sticker, paperPos.x + 123f, paperPos.y + 2f);
-                    _completeStamp.depth = 0.9f;
-                    _completeStamp.angleDegrees = _stampAngle;
-                    _completeStamp.alpha = 0.9f;
-                    Graphics.Draw(_completeStamp, paperPos.x + 72f, paperPos.y + 82f);
+                    Graphics.Draw(_sticker, paperPos.X + 123f, paperPos.Y + 2f);
+                    _completeStamp.Depth = 0.9f;
+                    _completeStamp.AngleDegrees = _stampAngle;
+                    _completeStamp.Alpha = 0.9f;
+                    Graphics.Draw(_completeStamp, paperPos.X + 72f, paperPos.Y + 82f);
                 }
                 string bestString = GetChallengeBestString(_save, _challengeData, canNull: true);
                 if (bestString != null && bestString != "")
                 {
-                    _tapePaper.depth = 0.9f;
-                    _tapePaper.angleDegrees = _paperAngle;
-                    Graphics.Draw(_tapePaper, paperPos.x + 64f, paperPos.y + 22f);
-                    _tape.depth = 0.95f;
-                    _tape.angleDegrees = _tapeAngle;
-                    Graphics.Draw(_tape, paperPos.x + 64f, paperPos.y + 22f);
+                    _tapePaper.Depth = 0.9f;
+                    _tapePaper.AngleDegrees = _paperAngle;
+                    Graphics.Draw(_tapePaper, paperPos.X + 64f, paperPos.Y + 22f);
+                    _tape.Depth = 0.95f;
+                    _tape.AngleDegrees = _tapeAngle;
+                    Graphics.Draw(_tape, paperPos.X + 64f, paperPos.Y + 22f);
                     if (_bestTextTarget != null)
                     {
-                        Graphics.Draw((Texture2D)_bestTextTarget, new Vec2(paperPos.x + 64f, paperPos.y + 22f), null, Color.White, Maths.DegToRad(_paperAngle), new Vec2(_bestTextTarget.width / 2, _bestTextTarget.height / 2), new Vec2(1f, 1f), SpriteEffects.None, 0.92f);
+                        Graphics.Draw((Texture2D)_bestTextTarget, new Vec2(paperPos.X + 64f, paperPos.Y + 22f), null, Color.White, Maths.DegToRad(_paperAngle), new Vec2(_bestTextTarget.width / 2, _bestTextTarget.height / 2), new Vec2(1f, 1f), SpriteEffects.None, 0.92f);
                     }
                 }
             }
-            _font.depth = 0.85f;
-            _font.scale = new Vec2(1f);
+            _font.Depth = 0.85f;
+            _font.Scale = new Vec2(1f);
             _font.Draw(_challengeData.name, paperPos + new Vec2(9f, 7f), Colors.DGRed, 0.85f);
-            _font.scale = new Vec2(1f);
+            _font.Scale = new Vec2(1f);
             _font.maxWidth = 120;
             _font.Draw(_challengeData.description, paperPos + new Vec2(5f, 30f), Colors.BlueGray, 0.85f);
-            _font.scale = new Vec2(1f);
+            _font.Scale = new Vec2(1f);
             _font.maxWidth = 300;
             Unlockable u = Unlockables.GetUnlock(_challengeData.reward);
             if (u != null)
@@ -866,7 +866,7 @@ public class Chancy
             }
         }
         _tail.flipV = true;
-        Graphics.Draw(_tail, 222f + dealerOffset.x, 117f + dealerOffset.y);
+        Graphics.Draw(_tail, 222f + dealerOffset.X, 117f + dealerOffset.Y);
         bool hasKey = true;
         if (Unlocks.IsUnlocked("BASEMENTKEY", Profiles.active[0]))
         {
@@ -876,9 +876,9 @@ public class Chancy
         {
             _dealer.frame += 6;
         }
-        _dealer.depth = 0.5f;
-        _dealer.alpha = alpha;
-        Graphics.Draw(_dealer, 216f + dealerOffset.x, 32f + dealerOffset.y);
+        _dealer.Depth = 0.5f;
+        _dealer.Alpha = alpha;
+        Graphics.Draw(_dealer, 216f + dealerOffset.X, 32f + dealerOffset.Y);
         if (!hasKey)
         {
             _dealer.frame -= 6;
@@ -891,27 +891,27 @@ public class Chancy
         {
             return;
         }
-        body.depth = 0f;
-        Graphics.Draw(body, standingPosition.x, standingPosition.y);
+        body.Depth = 0f;
+        Graphics.Draw(body, standingPosition.X, standingPosition.Y);
         if (hover)
         {
-            hoverSprite.alpha = Lerp.Float(hoverSprite.alpha, 1f, 0.05f);
+            hoverSprite.Alpha = Lerp.Float(hoverSprite.Alpha, 1f, 0.05f);
         }
         else
         {
-            hoverSprite.alpha = Lerp.Float(hoverSprite.alpha, 0f, 0.05f);
+            hoverSprite.Alpha = Lerp.Float(hoverSprite.Alpha, 0f, 0.05f);
         }
-        if (hoverSprite.alpha > 0.01f)
+        if (hoverSprite.Alpha > 0.01f)
         {
-            hoverSprite.depth = 0f;
+            hoverSprite.Depth = 0f;
             hoverSprite.flipH = body.flipH;
             if (hoverSprite.flipH)
             {
-                Graphics.Draw(hoverSprite, standingPosition.x + 1f, standingPosition.y - 1f);
+                Graphics.Draw(hoverSprite, standingPosition.X + 1f, standingPosition.Y - 1f);
             }
             else
             {
-                Graphics.Draw(hoverSprite, standingPosition.x - 1f, standingPosition.y - 1f);
+                Graphics.Draw(hoverSprite, standingPosition.X - 1f, standingPosition.Y - 1f);
             }
         }
     }

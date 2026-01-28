@@ -20,7 +20,7 @@ public class Sharpshot : Gun
         _ammoType = new ATHighCalSniper();
         _type = "gun";
         graphic = new Sprite("highPowerRifle");
-        center = new Vec2(16f, 7f);
+        Center = new Vec2(16f, 7f);
         collisionOffset = new Vec2(-8f, -5f);
         collisionSize = new Vec2(16f, 9f);
         _holdOffset = new Vec2(3f, 0f);
@@ -78,8 +78,8 @@ public class Sharpshot : Gun
             }
             else if (_loadState == 2)
             {
-                handOffset.x += 0.8f;
-                if (handOffset.x > 4f)
+                handOffset.X += 0.8f;
+                if (handOffset.X > 4f)
                 {
                     _loadState++;
                     Reload();
@@ -88,11 +88,11 @@ public class Sharpshot : Gun
             }
             else if (_loadState == 3)
             {
-                handOffset.x -= 0.8f;
-                if (handOffset.x <= 0f)
+                handOffset.X -= 0.8f;
+                if (handOffset.X <= 0f)
                 {
                     _loadState++;
-                    handOffset.x = 0f;
+                    handOffset.X = 0f;
                 }
             }
             else if (_loadState == 4)
@@ -143,16 +143,16 @@ public class Sharpshot : Gun
 
     public override void Draw()
     {
-        float ang = angle;
+        float ang = Angle;
         if (offDir > 0)
         {
-            angle -= _angleOffset;
+            Angle -= _angleOffset;
         }
         else
         {
-            angle += _angleOffset;
+            Angle += _angleOffset;
         }
         base.Draw();
-        angle = ang;
+        Angle = ang;
     }
 }

@@ -260,7 +260,7 @@ public class HighlightLevel : Level
                 try
                 {
                     _tie = new SpriteMap(ContentPack.LoadTexture2D("tieTest.png"), 64, 64);
-                    _tie.center = new Vec2(26f, 27f);
+                    _tie.Center = new Vec2(26f, 27f);
                 }
                 catch (Exception)
                 {
@@ -319,7 +319,7 @@ public class HighlightLevel : Level
                 _askedQuestion = true;
             }
         }
-        _cameraOffset.x = Lerp.Float(_cameraOffset.x, (_image != null) ? 20 : 0, 2f);
+        _cameraOffset.X = Lerp.Float(_cameraOffset.X, (_image != null) ? 20 : 0, 2f);
         Teleprompter talker = _talker;
         bool active = (_talker.visible = _state != TVState.ShowPedestals);
         talker.active = active;
@@ -357,7 +357,7 @@ public class HighlightLevel : Level
                     float sizeNeg = 0f;
                     float size = (Layer.HUD.camera.width - sizeNeg) / (float)_rockImage2.texture.width;
                     _rockImage2.color = new Color(_tvFade, _tvFade, _tvFade);
-                    _rockImage2.scale = new Vec2(size, size);
+                    _rockImage2.Scale = new Vec2(size, size);
                     Graphics.Draw(_rockImage2, -10f + drawOffX, drawOffY, 0.8f);
                 }
             }
@@ -367,29 +367,29 @@ public class HighlightLevel : Level
                 _duck.color = new Color(_tvFade, _tvFade, _tvFade);
                 _tie.color = new Color(_tvFade, _tvFade, _tvFade);
                 _newsTable.color = new Color(_tvFade, _tvFade, _tvFade);
-                Graphics.Draw(_background, 0f + _cameraOffset.x, 3f + _cameraOffset.y, 0.5f);
-                Graphics.Draw(_newsTable, 0f + _cameraOffset.x, 116f + _cameraOffset.y, 0.6f);
-                _duck.depth = 0.8f;
-                Vec2 mallardPos = new Vec2(63f + _cameraOffset.x, 35f + _cameraOffset.y);
-                Graphics.Draw(_duck, mallardPos.x, mallardPos.y);
+                Graphics.Draw(_background, 0f + _cameraOffset.X, 3f + _cameraOffset.Y, 0.5f);
+                Graphics.Draw(_newsTable, 0f + _cameraOffset.X, 116f + _cameraOffset.Y, 0.6f);
+                _duck.Depth = 0.8f;
+                Vec2 mallardPos = new Vec2(63f + _cameraOffset.X, 35f + _cameraOffset.Y);
+                Graphics.Draw(_duck, mallardPos.X, mallardPos.Y);
                 if (_duck.frame == 6)
                 {
-                    mallardPos.x -= 3f;
+                    mallardPos.X -= 3f;
                 }
                 else if (_duck.frame == 7)
                 {
-                    mallardPos.x += 3f;
+                    mallardPos.X += 3f;
                 }
                 else if (_duck.frame == 8)
                 {
-                    mallardPos.x += 1f;
+                    mallardPos.X += 1f;
                 }
                 if (DG.isHalloween)
                 {
-                    _pumpkin.depth = 0.81f;
-                    Graphics.Draw(_pumpkin, mallardPos.x + 69f, mallardPos.y + 22f);
+                    _pumpkin.Depth = 0.81f;
+                    Graphics.Draw(_pumpkin, mallardPos.X + 69f, mallardPos.Y + 22f);
                 }
-                _tie.depth = 0.805f;
+                _tie.Depth = 0.805f;
                 float tieOff = 0f;
                 if (_duck.frame == 7)
                 {
@@ -399,17 +399,17 @@ public class HighlightLevel : Level
                 {
                     tieOff += 1f;
                 }
-                Graphics.Draw(_tie, 130f + _cameraOffset.x + tieOff, 96f + _cameraOffset.y);
+                Graphics.Draw(_tie, 130f + _cameraOffset.X + tieOff, 96f + _cameraOffset.Y);
                 if (!DG.isHalloween)
                 {
-                    _duckBeak.depth = 0.81f;
+                    _duckBeak.Depth = 0.81f;
                     _duckBeak.frame = _duck.frame;
-                    Graphics.Draw(_duckBeak, 63f + _cameraOffset.x, 35f + _cameraOffset.y);
+                    Graphics.Draw(_duckBeak, 63f + _cameraOffset.X, 35f + _cameraOffset.Y);
                 }
                 if (_image != null)
                 {
-                    _image.depth = 0.65f;
-                    if (_cameraOffset.x > 19f)
+                    _image.Depth = 0.65f;
+                    if (_cameraOffset.X > 19f)
                     {
                         Graphics.Draw(_image, 50f, 40f);
                     }
@@ -421,7 +421,7 @@ public class HighlightLevel : Level
             }
             else if (_state == TVState.ShowInterview)
             {
-                _image.scale = new Vec2(2f);
+                _image.Scale = new Vec2(2f);
                 Graphics.Draw(_image, 40f, 30f);
             }
             Graphics.Draw(_tv, 0f, -10f, 0.9f);

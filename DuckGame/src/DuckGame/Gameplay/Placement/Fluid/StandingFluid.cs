@@ -56,10 +56,10 @@ public class StandingFluid : Thing
         if (!_filled && w8 > 2)
         {
             _filled = true;
-            Block b = Level.CheckRay<Block>(new Vec2(base.x, base.y), new Vec2(base.x, base.y + 64f));
+            Block b = Level.CheckRay<Block>(new Vec2(base.X, base.Y), new Vec2(base.X, base.Y + 64f));
             if (b != null)
             {
-                FluidPuddle p = new FluidPuddle(base.x, b.top, b);
+                FluidPuddle p = new FluidPuddle(base.X, b.top, b);
                 Level.Add(p);
                 float lastDeep = 0f;
                 while (true)
@@ -91,14 +91,14 @@ public class StandingFluid : Thing
     {
         if (Level.current is Editor)
         {
-            Graphics.Draw(_editorIcon, base.x - 8f, base.y - 8f);
-            if (_prevPos != position)
+            Graphics.Draw(_editorIcon, base.X - 8f, base.Y - 8f);
+            if (_prevPos != Position)
             {
                 _isValid = false;
-                _prevPos = position;
-                if (Level.CheckRay<Block>(position, position - new Vec2(1000f, 0f), out var left) != null && Level.CheckRay<Block>(position, position + new Vec2(1000f, 0f), out var right) != null && Level.CheckRay<Block>(position, position + new Vec2(0f, 64f), out var bottom) != null)
+                _prevPos = Position;
+                if (Level.CheckRay<Block>(Position, Position - new Vec2(1000f, 0f), out var left) != null && Level.CheckRay<Block>(Position, Position + new Vec2(1000f, 0f), out var right) != null && Level.CheckRay<Block>(Position, Position + new Vec2(0f, 64f), out var bottom) != null)
                 {
-                    _floor = bottom.y;
+                    _floor = bottom.Y;
                     _leftSide = left;
                     _rightSide = right;
                     _isValid = true;
@@ -106,7 +106,7 @@ public class StandingFluid : Thing
             }
             if (_isValid)
             {
-                Graphics.DrawRect(new Vec2(_leftSide.x, _floor - (float)((int)deep * 8)), new Vec2(_rightSide.x, _floor), new Color(GetFluidType().color) * 0.5f, 0.9f);
+                Graphics.DrawRect(new Vec2(_leftSide.X, _floor - (float)((int)deep * 8)), new Vec2(_rightSide.X, _floor), new Color(GetFluidType().color) * 0.5f, 0.9f);
             }
         }
         base.Draw();

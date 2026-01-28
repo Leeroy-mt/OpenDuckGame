@@ -13,7 +13,7 @@ public class TreeTileset : AutoPlatform
         verticalWidthThick = 15f;
         horizontalHeight = 8f;
         _hasNubs = false;
-        base.depth = -0.15f;
+        base.Depth = -0.15f;
         placementLayerOverride = Layer.Blocks;
         treeLike = true;
     }

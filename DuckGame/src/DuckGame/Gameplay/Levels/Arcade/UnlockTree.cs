@@ -53,7 +53,7 @@ public class UnlockTree : Thing
 
     public override void Update()
     {
-        if (base.alpha < 0.01f)
+        if (base.Alpha < 0.01f)
         {
             return;
         }
@@ -196,7 +196,7 @@ public class UnlockTree : Thing
 
     public override void Draw()
     {
-        if (base.alpha < 0.01f)
+        if (base.Alpha < 0.01f)
         {
             return;
         }
@@ -251,29 +251,29 @@ public class UnlockTree : Thing
             }
             lineColor = new Color((byte)((float)(int)lineColor.r * fade), (byte)((float)(int)lineColor.g * fade), (byte)((float)(int)lineColor.b * fade));
             float centerAdd = 0f;
-            centerAdd = ((unlocks.Count == 1) ? (treeSize.x / 2f) : ((unlocks.Count != 2) ? ((float)i * (treeSize.x / (float)(unlocks.Count - 1))) : (treeSize.x / 2f - treeSize.x / 4f + (float)i * (treeSize.x / 2f))));
-            Vec2 boxPos = new Vec2(treePos.x + centerAdd, treePos.y + (float)(unlockLayer * 60));
-            _box.depth = 0.1f;
+            centerAdd = ((unlocks.Count == 1) ? (treeSize.X / 2f) : ((unlocks.Count != 2) ? ((float)i * (treeSize.X / (float)(unlocks.Count - 1))) : (treeSize.X / 2f - treeSize.X / 4f + (float)i * (treeSize.X / 2f))));
+            Vec2 boxPos = new Vec2(treePos.X + centerAdd, treePos.Y + (float)(unlockLayer * 60));
+            _box.Depth = 0.1f;
             _box.frame = 2;
-            _box.alpha = base.alpha;
+            _box.Alpha = base.Alpha;
             _box.color = lineColor;
-            Graphics.Draw(_box, boxPos.x, boxPos.y);
-            _box.depth = 0.2f;
+            Graphics.Draw(_box, boxPos.X, boxPos.Y);
+            _box.Depth = 0.2f;
             _box.frame = 1;
             _box.color = new Color(fade, fade, fade);
-            Graphics.Draw(_box, boxPos.x, boxPos.y);
+            Graphics.Draw(_box, boxPos.X, boxPos.Y);
             if (unlock.icon != -1)
             {
-                _icons.depth = 0.2f;
+                _icons.Depth = 0.2f;
                 _icons.frame = (parentUnlocked ? unlock.icon : 25);
                 _icons.color = new Color(fade, fade, fade);
-                _icons.alpha = base.alpha;
-                Graphics.Draw(_icons, boxPos.x - 1f, boxPos.y - 1f);
+                _icons.Alpha = base.Alpha;
+                Graphics.Draw(_icons, boxPos.X - 1f, boxPos.Y - 1f);
             }
             if (unlock == _selected)
             {
                 _box.frame = 0;
-                Graphics.Draw(_box, boxPos.x, boxPos.y);
+                Graphics.Draw(_box, boxPos.X, boxPos.Y);
             }
             foreach (UnlockData dat in unlock.children)
             {
@@ -308,15 +308,15 @@ public class UnlockTree : Thing
                     lineColor = new Color(90, 90, 90);
                 }
                 lineColor = new Color((byte)((float)(int)lineColor.r * fade), (byte)((float)(int)lineColor.g * fade), (byte)((float)(int)lineColor.b * fade));
-                centerAdd = ((unlocks.Count == 1) ? (treeSize.x / 2f) : ((unlocks.Count != 2) ? ((float)j * (treeSize.x / (float)(unlocks.Count - 1))) : (treeSize.x / 2f - treeSize.x / 4f + (float)j * (treeSize.x / 2f))));
-                boxPos = new Vec2(treePos.x + centerAdd, treePos.y + (float)(unlockLayer * 60));
-                Graphics.DrawLine(boxPos, boxPos + new Vec2(0f, 30f), lineColor * base.alpha, 6f, -0.2f);
+                centerAdd = ((unlocks.Count == 1) ? (treeSize.X / 2f) : ((unlocks.Count != 2) ? ((float)j * (treeSize.X / (float)(unlocks.Count - 1))) : (treeSize.X / 2f - treeSize.X / 4f + (float)j * (treeSize.X / 2f))));
+                boxPos = new Vec2(treePos.X + centerAdd, treePos.Y + (float)(unlockLayer * 60));
+                Graphics.DrawLine(boxPos, boxPos + new Vec2(0f, 30f), lineColor * base.Alpha, 6f, -0.2f);
                 Color afterUnlockColor = new Color(50, 50, 50);
                 if (!parent.ProfileUnlocked(Profiles.active[0]))
                 {
-                    _lock.depth = 0.5f;
-                    _lock.alpha = base.alpha;
-                    Graphics.Draw(_lock, boxPos.x, boxPos.y + 30f);
+                    _lock.Depth = 0.5f;
+                    _lock.Alpha = base.Alpha;
+                    Graphics.Draw(_lock, boxPos.X, boxPos.Y + 30f);
                 }
                 else
                 {
@@ -328,28 +328,28 @@ public class UnlockTree : Thing
                     UnlockData child = nextLayer[iChild];
                     if (parent.children.Contains(child))
                     {
-                        centerAdd = ((nextLayer.Count == 1) ? (treeSize.x / 2f) : ((nextLayer.Count != 2) ? ((float)iChild * (treeSize.x / (float)(nextLayer.Count - 1))) : (treeSize.x / 2f - treeSize.x / 4f + (float)iChild * (treeSize.x / 2f))));
-                        Vec2 childBoxPos = new Vec2(treePos.x + centerAdd, treePos.y + (float)((unlockLayer + 1) * 60));
+                        centerAdd = ((nextLayer.Count == 1) ? (treeSize.X / 2f) : ((nextLayer.Count != 2) ? ((float)iChild * (treeSize.X / (float)(nextLayer.Count - 1))) : (treeSize.X / 2f - treeSize.X / 4f + (float)iChild * (treeSize.X / 2f))));
+                        Vec2 childBoxPos = new Vec2(treePos.X + centerAdd, treePos.Y + (float)((unlockLayer + 1) * 60));
                         float xOff = 0f;
-                        if (childBoxPos.x < boxPos.x)
+                        if (childBoxPos.X < boxPos.X)
                         {
                             xOff = -3f;
                         }
-                        else if (childBoxPos.x > boxPos.x)
+                        else if (childBoxPos.X > boxPos.X)
                         {
                             xOff = 3f;
                         }
                         float xOff2 = 0f;
-                        if (childBoxPos.x < boxPos.x)
+                        if (childBoxPos.X < boxPos.X)
                         {
                             xOff2 = 3f;
                         }
-                        else if (childBoxPos.x > boxPos.x)
+                        else if (childBoxPos.X > boxPos.X)
                         {
                             xOff2 = -3f;
                         }
-                        Graphics.DrawLine(new Vec2(childBoxPos.x + xOff, boxPos.y + 30f), new Vec2(boxPos.x + xOff2, boxPos.y + 30f), afterUnlockColor * base.alpha, 6f, -0.2f + ((_selected == parent) ? 0.1f : 0f));
-                        Graphics.DrawLine(new Vec2(childBoxPos.x, boxPos.y + 30f), new Vec2(childBoxPos.x, childBoxPos.y), afterUnlockColor * base.alpha, 6f, -0.2f + ((_selected == parent) ? 0.1f : 0f));
+                        Graphics.DrawLine(new Vec2(childBoxPos.X + xOff, boxPos.Y + 30f), new Vec2(boxPos.X + xOff2, boxPos.Y + 30f), afterUnlockColor * base.Alpha, 6f, -0.2f + ((_selected == parent) ? 0.1f : 0f));
+                        Graphics.DrawLine(new Vec2(childBoxPos.X, boxPos.Y + 30f), new Vec2(childBoxPos.X, childBoxPos.Y), afterUnlockColor * base.Alpha, 6f, -0.2f + ((_selected == parent) ? 0.1f : 0f));
                     }
                 }
             }

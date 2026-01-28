@@ -112,17 +112,17 @@ public class LevelInfo : Card
         }
         if (_specialText != null)
         {
-            _font.scale = new Vec2(0.5f, 0.5f);
-            _font.Draw(_specialText, position.x + width / 2f - _font.GetWidth(_specialText) / 2f, position.y + height / 2f - 3f, Color.White * alpha, 0.95f);
+            _font.Scale = new Vec2(0.5f, 0.5f);
+            _font.Draw(_specialText, position.X + width / 2f - _font.GetWidth(_specialText) / 2f, position.Y + height / 2f - 3f, Color.White * alpha, 0.95f);
             return;
         }
-        _font.scale = new Vec2(0.5f, 0.5f);
-        _font.Draw(_name, position.x + 3f, position.y + height - 6f, Color.White * alpha, 0.95f);
+        _font.Scale = new Vec2(0.5f, 0.5f);
+        _font.Draw(_name, position.X + 3f, position.Y + height - 6f, Color.White * alpha, 0.95f);
         Sprite sprite = _sprite;
-        float xscale = (_sprite.yscale = width / (float)_sprite.width);
-        sprite.xscale = xscale;
-        _sprite.depth = 0.95f;
-        _sprite.alpha = alpha;
-        Graphics.Draw(_sprite, position.x, position.y);
+        float xscale = (_sprite.ScaleY = width / (float)_sprite.width);
+        sprite.ScaleX = xscale;
+        _sprite.Depth = 0.95f;
+        _sprite.Alpha = alpha;
+        Graphics.Draw(_sprite, position.X, position.Y);
     }
 }

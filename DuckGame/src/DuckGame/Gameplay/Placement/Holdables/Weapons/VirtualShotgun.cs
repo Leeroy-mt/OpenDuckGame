@@ -30,7 +30,7 @@ public class VirtualShotgun : Shotgun
         ammo = 99;
         graphic = new Sprite("virtualShotgun");
         _loaderSprite = new SpriteMap("virtualShotgunLoader", 8, 8);
-        _loaderSprite.center = new Vec2(4f, 4f);
+        _loaderSprite.Center = new Vec2(4f, 4f);
         editorTooltip = "The perfect shotgun for life inside a computer simulation. Virtually infinite ammo.";
     }
 

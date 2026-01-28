@@ -18,10 +18,10 @@ public class Basketball : Holdable
     {
         _sprite = new SpriteMap("basketBall", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -8f);
         collisionSize = new Vec2(15f, 15f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         thickness = 1f;
         weight = 3f;
         flammable = 0.3f;
@@ -67,12 +67,12 @@ public class Basketball : Holdable
             }
             if (_bounceDuck != null)
             {
-                float dist = (_bounceDuck.position - position).length;
+                float dist = (_bounceDuck.Position - Position).Length();
                 if (dist < 16f)
                 {
                     hSpeed = _bounceDuck.hSpeed;
                 }
-                if (_bounceDuck.holdObject == null && vSpeed < 1f && _bounceDuck.top + 8f > base.y && dist < 16f)
+                if (_bounceDuck.holdObject == null && vSpeed < 1f && _bounceDuck.top + 8f > base.Y && dist < 16f)
                 {
                     _bounceDuck.GiveHoldable(this);
                     _framesInHand = 0;

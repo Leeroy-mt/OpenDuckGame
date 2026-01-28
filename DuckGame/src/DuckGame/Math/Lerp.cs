@@ -49,21 +49,21 @@ public static class Lerp
         }
         c3norm.Normalize();
         Vec2 ret = c + c3norm * amount;
-        if (c2.x > c.x && ret.x > c2.x)
+        if (c2.X > c.X && ret.X > c2.X)
         {
-            ret.x = c2.x;
+            ret.X = c2.X;
         }
-        if (c2.x < c.x && ret.x < c2.x)
+        if (c2.X < c.X && ret.X < c2.X)
         {
-            ret.x = c2.x;
+            ret.X = c2.X;
         }
-        if (c2.y > c.y && ret.y > c2.y)
+        if (c2.Y > c.Y && ret.Y > c2.Y)
         {
-            ret.y = c2.y;
+            ret.Y = c2.Y;
         }
-        if (c2.y < c.y && ret.y < c2.y)
+        if (c2.Y < c.Y && ret.Y < c2.Y)
         {
-            ret.y = c2.y;
+            ret.Y = c2.Y;
         }
         return ret;
     }
@@ -76,7 +76,7 @@ public static class Lerp
     public static Vec2 Vec2Smooth(Vec2 current, Vec2 to, float amount, float thresh = 0f)
     {
         Vec2 newval = current + amount * (to - current);
-        if ((newval - to).length < thresh)
+        if ((newval - to).Length() < thresh)
         {
             return to;
         }

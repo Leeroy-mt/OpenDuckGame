@@ -9,17 +9,17 @@ public class CowboyPistol : Gun
 
     private float _angleOffset;
 
-    public override float angle
+    public override float Angle
     {
         get
         {
             if (!_raised && base.duck != null)
             {
                 Vec2 stick = base.duck.inputProfile.rightStick;
-                if (stick.length < 0.1f)
+                if (stick.Length() < 0.1f)
                 {
                     stick = Vec2.Zero;
-                    return base.angle;
+                    return base.Angle;
                 }
                 if (offDir > 0)
                 {
@@ -27,11 +27,11 @@ public class CowboyPistol : Gun
                 }
                 return Maths.DegToRad(Maths.PointDirection(Vec2.Zero, stick) + 180f);
             }
-            return base.angle;
+            return base.Angle;
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
@@ -42,7 +42,7 @@ public class CowboyPistol : Gun
         _ammoType = new ATMagnum();
         _type = "gun";
         graphic = new Sprite("cowboyPistol");
-        center = new Vec2(6f, 7f);
+        Center = new Vec2(6f, 7f);
         collisionOffset = new Vec2(-5f, -7f);
         collisionSize = new Vec2(18f, 11f);
         _barrelOffsetTL = new Vec2(21f, 3f);

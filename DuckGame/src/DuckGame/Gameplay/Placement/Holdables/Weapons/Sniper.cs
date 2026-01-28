@@ -24,7 +24,7 @@ public class Sniper : Gun
         _ammoType = new ATSniper();
         _type = "gun";
         graphic = new Sprite("sniper");
-        center = new Vec2(16f, 4f);
+        Center = new Vec2(16f, 4f);
         collisionOffset = new Vec2(-8f, -4f);
         collisionSize = new Vec2(16f, 8f);
         _barrelOffsetTL = new Vec2(30f, 3f);
@@ -80,8 +80,8 @@ public class Sniper : Gun
             }
             else if (_loadState == 2)
             {
-                handOffset.x += 0.4f;
-                if (handOffset.x > 4f)
+                handOffset.X += 0.4f;
+                if (handOffset.X > 4f)
                 {
                     _loadState++;
                     Reload();
@@ -90,11 +90,11 @@ public class Sniper : Gun
             }
             else if (_loadState == 3)
             {
-                handOffset.x -= 0.4f;
-                if (handOffset.x <= 0f)
+                handOffset.X -= 0.4f;
+                if (handOffset.X <= 0f)
                 {
                     _loadState++;
-                    handOffset.x = 0f;
+                    handOffset.X = 0f;
                 }
             }
             else if (_loadState == 4)
@@ -136,16 +136,16 @@ public class Sniper : Gun
 
     public override void Draw()
     {
-        float ang = angle;
+        float ang = Angle;
         if (offDir > 0)
         {
-            angle -= _angleOffset;
+            Angle -= _angleOffset;
         }
         else
         {
-            angle += _angleOffset;
+            Angle += _angleOffset;
         }
         base.Draw();
-        angle = ang;
+        Angle = ang;
     }
 }

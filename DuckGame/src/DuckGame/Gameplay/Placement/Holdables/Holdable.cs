@@ -116,7 +116,7 @@ public abstract class Holdable : PhysicsObject
             }
             if (value != null && _hoverSpawner != value)
             {
-                _prevHoverPos = position;
+                _prevHoverPos = Position;
             }
             _hoverSpawner = value;
         }
@@ -132,19 +132,19 @@ public abstract class Holdable : PhysicsObject
             }
             if (hoverSpawner == null)
             {
-                return position;
+                return Position;
             }
-            return hoverSpawner.position + new Vec2(0f, -8f);
+            return hoverSpawner.Position + new Vec2(0f, -8f);
         }
         set
         {
-            Math.Abs(value.x);
+            Math.Abs(value.X);
             _ = 1000f;
-            if (value.x > -9000f)
+            if (value.X > -9000f)
             {
-                if (hoverSpawner == null || _lastReceivedPosition != value || (_lastReceivedPosition - position).length > 25f)
+                if (hoverSpawner == null || _lastReceivedPosition != value || (_lastReceivedPosition - Position).Length() > 25f)
                 {
-                    position = value;
+                    Position = value;
                 }
                 _lastReceivedPosition = value;
             }
@@ -171,18 +171,12 @@ public abstract class Holdable : PhysicsObject
 
     public bool hasTrigger => _hasTrigger;
 
-    public Vec2 holdOffset => new Vec2(_holdOffset.x * (float)offDir, _holdOffset.y);
+    public Vec2 holdOffset => new Vec2(_holdOffset.X * (float)offDir, _holdOffset.Y);
 
-    public override Vec2 center
+    public override Vec2 Center
     {
-        get
-        {
-            return _center + _extraOffset;
-        }
-        set
-        {
-            _center = value;
-        }
+        get => CenterValue + _extraOffset;
+        set => CenterValue = value;
     }
 
     public override bool action
@@ -190,9 +184,7 @@ public abstract class Holdable : PhysicsObject
         get
         {
             if (_owner == null || _owner.owner == this || (_owner is Duck && !(_owner as Duck).Held(this, ignorePowerHolster: true)) || !_owner.action)
-            {
                 return triggerAction;
-            }
             return true;
         }
     }
@@ -339,17 +331,17 @@ public abstract class Holdable : PhysicsObject
 
     public override Vec2 OffsetLocal(Vec2 pos)
     {
-        Vec2 offset = pos * base.scale - _extraOffset;
+        Vec2 offset = pos * base.Scale - _extraOffset;
         if (offDir < 0)
         {
-            offset.x *= -1f;
+            offset.X *= -1f;
         }
-        return offset.Rotate(angle, new Vec2(0f, 0f));
+        return offset.Rotate(Angle, new Vec2(0f, 0f));
     }
 
     public override Vec2 ReverseOffsetLocal(Vec2 pos)
     {
-        return (pos * base.scale - _extraOffset).Rotate(0f - angle, new Vec2(0f, 0f));
+        return (pos * base.Scale - _extraOffset).Rotate(0f - Angle, new Vec2(0f, 0f));
     }
 
     public virtual bool CanTapeTo(Thing pThing)
@@ -390,7 +382,7 @@ public abstract class Holdable : PhysicsObject
 
     public virtual void Thrown()
     {
-        angle = 0f;
+        Angle = 0f;
     }
 
     public virtual void CheckIfHoldObstructed()
@@ -401,7 +393,7 @@ public abstract class Holdable : PhysicsObject
         }
         if (offDir > 0)
         {
-            Block hit = Level.CheckLine<Block>(new Vec2(duckOwner.x, base.y), new Vec2(base.right, base.y));
+            Block hit = Level.CheckLine<Block>(new Vec2(duckOwner.X, base.Y), new Vec2(base.right, base.Y));
             if (hit is Door && ((hit as Door)._jam == 1f || (hit as Door)._jam == -1f))
             {
                 hit = null;
@@ -410,7 +402,7 @@ public abstract class Holdable : PhysicsObject
         }
         else
         {
-            Block hit2 = Level.CheckLine<Block>(new Vec2(base.left, base.y), new Vec2(duckOwner.x, base.y));
+            Block hit2 = Level.CheckLine<Block>(new Vec2(base.left, base.Y), new Vec2(duckOwner.X, base.Y));
             if (hit2 is Door && ((hit2 as Door)._jam == 1f || (hit2 as Door)._jam == -1f))
             {
                 hit2 = null;
@@ -502,7 +494,7 @@ public abstract class Holdable : PhysicsObject
             SFX.Play("flameExplode");
             for (int i = 0; i < 3; i++)
             {
-                Level.Add(SmallSmoke.New(base.x + Rando.Float(-2f, 2f), base.y + Rando.Float(-2f, 2f)));
+                Level.Add(SmallSmoke.New(base.X + Rando.Float(-2f, 2f), base.Y + Rando.Float(-2f, 2f)));
             }
         }
         else if (base.material == null && heat > 0.1f && physicsMaterial == PhysicsMaterial.Metal)
@@ -544,7 +536,7 @@ public abstract class Holdable : PhysicsObject
         {
             if (!_hasOldDepth)
             {
-                _oldDepth = base.depth;
+                _oldDepth = base.Depth;
                 _hasOldDepth = true;
             }
             Thing ownerThing = owner;
@@ -554,7 +546,7 @@ public abstract class Holdable : PhysicsObject
             }
             if (duck == null || duck.holdObject == this || this is Equipment)
             {
-                base.depth = ownerThing.depth + ((_equippedDuck != null) ? _equippedDepth : 9);
+                base.Depth = ownerThing.Depth + ((_equippedDuck != null) ? _equippedDepth : 9);
             }
             if ((duck == null || duck.holdObject == this) && !(ownerThing is TapedGun))
             {
@@ -587,7 +579,7 @@ public abstract class Holdable : PhysicsObject
         {
             if (_hasOldDepth)
             {
-                base.depth = _oldDepth;
+                base.Depth = _oldDepth;
                 _hasOldDepth = false;
             }
             if (owner == null || owner is TapedGun)

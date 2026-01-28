@@ -394,7 +394,6 @@ public class Music
             {
                 DevConsole.Log(DCSection.General, "Failed to load song: " + path);
             }
-            MonoMain.loadyBits++;
         }
     }
 

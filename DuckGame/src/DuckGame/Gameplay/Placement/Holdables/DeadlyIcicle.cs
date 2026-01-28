@@ -9,10 +9,10 @@ public class DeadlyIcicle : Holdable, IPlatform
     {
         _sprite = new SpriteMap("icicleBig", 10, 18);
         graphic = _sprite;
-        center = new Vec2(5f, 5f);
+        Center = new Vec2(5f, 5f);
         collisionOffset = new Vec2(-3f, -4f);
         collisionSize = new Vec2(6f, 12f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         thickness = 4f;
         weight = 5f;
         flammable = 0f;
@@ -34,10 +34,10 @@ public class DeadlyIcicle : Holdable, IPlatform
         }
         for (int i = 0; i < 4; i++)
         {
-            GlassParticle glassParticle = new GlassParticle(hitPos.x, hitPos.y, bullet.travelDirNormalized);
+            GlassParticle glassParticle = new GlassParticle(hitPos.X, hitPos.Y, bullet.travelDirNormalized);
             Level.Add(glassParticle);
-            glassParticle.hSpeed = (0f - bullet.travelDirNormalized.x) * 2f * (Rando.Float(1f) + 0.3f);
-            glassParticle.vSpeed = (0f - bullet.travelDirNormalized.y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
+            glassParticle.hSpeed = (0f - bullet.travelDirNormalized.X) * 2f * (Rando.Float(1f) + 0.3f);
+            glassParticle.vSpeed = (0f - bullet.travelDirNormalized.Y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
             Level.Add(glassParticle);
         }
         SFX.Play("glassHit", 0.6f);

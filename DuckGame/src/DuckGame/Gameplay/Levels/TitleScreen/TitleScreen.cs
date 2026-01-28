@@ -648,71 +648,71 @@ public class TitleScreen : Level
         _duckGameUpdateMenu = new UIMenu("DUCK GAME 1.5!", Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 220f, -1f, "@SELECT@OK!");
         _duckGameUpdateMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("Duck Game has received a major update!", Color.White, UIAlign.Center, -4f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("Some of the biggest changes include:", Color.White, UIAlign.Center, -4f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Support for up to 8 players and 4 spectators".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-New hats, weapons, equipment and furniture".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-New city themed levels".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Custom font support for chat".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-4K and custom resolution support".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Host Migration, Invite Links, LAN play".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Major online synchronization improvements".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Major performance improvements".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Hundreds and hundreds of bug fixes".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("Thank you for all your support!", Color.White, UIAlign.Center, -4f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _duckGameUpdateMenu.SetAcceptFunction(new UIMenuActionCloseMenu(_pauseGroup));
         _duckGameUpdateMenu.SetBackFunction(new UIMenuActionCloseMenu(_pauseGroup));
@@ -721,35 +721,35 @@ public class TitleScreen : Level
         _steamWarningMessage = new UIMenu("Steam Not Connected!", Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 220f, -1f, "@SELECT@ I see...");
         _steamWarningMessage.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("It seems that either you're not logged in", Color.White, UIAlign.Center, -4f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("to Steam, or Steam failed to authenticate.", Color.White, UIAlign.Center, -4f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("You can still play- but realtime", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("features like Online Play and the Workshop", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("will be |DGRED|unavailable|PREV|.", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _steamWarningMessage.SetAcceptFunction(new UIMenuActionCloseMenu(_pauseGroup));
         _steamWarningMessage.SetBackFunction(new UIMenuActionCloseMenu(_pauseGroup));
@@ -758,63 +758,63 @@ public class TitleScreen : Level
         _modsDisabledMenu = new UIMenu("MODS CHANGED!", Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 240f, -1f, "@SELECT@I see...");
         _modsDisabledMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("To ensure a smooth update, all enabled", Color.White, UIAlign.Center, -4f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("mods have been temporarily set to |DGRED|disabled|PREV|.", Color.White, UIAlign.Center, -4f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("Mod compatibility has been a high priority, and", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("most mods should work no problem with the new version.", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("They can be re-enabled through the |DGORANGE|MANAGE MODS|PREV| menu", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("accessible via the top left options console.", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("Some older mods may |DGRED|not|PREV| work...", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("Please be mindful of any crashes caused by", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("re-enabling specific mods, and use the '|DGBLUE|-nomods|PREV|'", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("launch option if you run into trouble!", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _modsDisabledMenu.SetAcceptFunction(new UIMenuActionCloseMenu(_pauseGroup));
         _modsDisabledMenu.SetBackFunction(new UIMenuActionCloseMenu(_pauseGroup));
@@ -837,31 +837,31 @@ public class TitleScreen : Level
         _font = new BitmapFont("biosFont", 8);
         _background = new Sprite("title/background");
         _optionsPlatform = new Sprite("title/optionsPlatform");
-        _optionsPlatform.depth = 0.9f;
+        _optionsPlatform.Depth = 0.9f;
         _rightPlatform = new Sprite("title/rightPlatform");
-        _rightPlatform.depth = 0.9f;
+        _rightPlatform.Depth = 0.9f;
         _beamPlatform = new Sprite("title/beamPlatform");
-        _beamPlatform.depth = 0.9f;
+        _beamPlatform.Depth = 0.9f;
         _upperMonitor = new Sprite("title/upperMonitor");
-        _upperMonitor.depth = 0.85f;
+        _upperMonitor.Depth = 0.85f;
         _airlock = new Sprite("title/airlock");
-        _airlock.depth = -0.85f;
+        _airlock.Depth = -0.85f;
         _leftPlatform = new Sprite("title/leftPlatform");
-        _leftPlatform.depth = 0.9f;
+        _leftPlatform.Depth = 0.9f;
         _optionsTV = new Sprite("title/optionsTV");
-        _optionsTV.depth = -0.9f;
+        _optionsTV.Depth = -0.9f;
         _libraryBookcase = new Sprite("title/libraryBookcase");
-        _libraryBookcase.depth = -0.9f;
+        _libraryBookcase.Depth = -0.9f;
         _editorBench = new Sprite("title/editorBench");
-        _editorBench.depth = -0.9f;
+        _editorBench.Depth = -0.9f;
         _editorBenchPaint = new Sprite("title/editorBenchPaint");
-        _editorBenchPaint.depth = 0.9f;
+        _editorBenchPaint.Depth = 0.9f;
         _bigUButton = new Sprite("title/bigUButtonPC");
         _bigUButton.CenterOrigin();
-        _bigUButton.depth = 0.95f;
+        _bigUButton.Depth = 0.95f;
         _controls = new SpriteMap("title/controlsPC", 100, 11);
         _controls.CenterOrigin();
-        _controls.depth = 0.95f;
+        _controls.Depth = 0.95f;
         _multiBeam = new MultiBeam(160f, -30f);
         Level.Add(_multiBeam);
         _optionsBeam = new OptionsBeam(28f, -110f);
@@ -872,14 +872,14 @@ public class TitleScreen : Level
         Level.Add(_editorBeam);
         for (int j = 0; j < 21; j++)
         {
-            SpaceTileset t = new SpaceTileset(j * 16 - 6, 176f);
+            SpaceTileset t = new SpaceTileset(j * 16 - 6, 176);
             t.frame = 3;
             t.layer = Layer.Game;
             t.setLayer = false;
             AddThing(t);
         }
         new SpriteMap("duck", 32, 32);
-        _space = new SpaceBackgroundMenu(-999f, -999f, moving: true, 0.6f);
+        _space = new SpaceBackgroundMenu(-999, -999, moving: true, 0.6f);
         _space.update = false;
         Level.Add(_space);
         _things.RefreshState();
@@ -1032,7 +1032,7 @@ public class TitleScreen : Level
             foreach (StarParticle p in particles)
             {
                 p.pos += p.speed * (0.5f + (1f - extraFade) * 0.5f);
-                if ((p.pos.x > 300f && !_enterCredits) || p.pos.x > 680f)
+                if ((p.pos.X > 300f && !_enterCredits) || p.pos.X > 680f)
                 {
                     remove.Add(p);
                 }
@@ -1056,7 +1056,7 @@ public class TitleScreen : Level
         }
         if (_enterArcade)
         {
-            _duck.x += 1f;
+            _duck.X += 1f;
             _duck.immobilized = true;
             _duck.enablePhysics = false;
             Graphics.fade = Lerp.Float(Graphics.fade, 0f, 0.05f);
@@ -1079,7 +1079,7 @@ public class TitleScreen : Level
                     base.camera.x += 330f;
                     foreach (StarParticle particle in particles)
                     {
-                        particle.pos.x += 320f;
+                        particle.pos.X += 320f;
                     }
                 }
                 else
@@ -1136,7 +1136,7 @@ public class TitleScreen : Level
             if (_duck != null)
             {
                 _duck.updatePhysics = true;
-                if (_duck.x > 324f)
+                if (_duck.X > 324f)
                 {
                     _enterArcade = true;
                 }
@@ -1148,7 +1148,7 @@ public class TitleScreen : Level
                 base.camera.x = 0f;
                 foreach (StarParticle particle2 in particles)
                 {
-                    particle2.pos.x -= 320f;
+                    particle2.pos.X -= 320f;
                 }
                 base.camera.y = 0f;
                 Layer.Parallax.camera.y = 0f;
@@ -1329,11 +1329,11 @@ public class TitleScreen : Level
             {
                 _fadeIn = true;
                 _title = new BigTitle();
-                _title.x = Layer.HUD.camera.width / 2f - (float)(_title.graphic.w / 2) + 3f;
-                _title.y = Layer.HUD.camera.height / 2f;
+                _title.X = Layer.HUD.camera.width / 2f - (float)(_title.graphic.w / 2) + 3f;
+                _title.Y = Layer.HUD.camera.height / 2f;
                 AddThing(_title);
                 _title.Fade = true;
-                _title.alpha = 0f;
+                _title.Alpha = 0f;
                 Layer.Game.fade = 1f;
                 Layer.Foreground.fade = 1f;
                 Layer.Background.fade = 1f;
@@ -1391,15 +1391,15 @@ public class TitleScreen : Level
                 Level.Add(_duck);
             }
         }
-        _space.parallax.y = -80f;
+        _space.parallax.Y = -80f;
         moveWait -= 0.02f;
         if (moveWait < 0f)
         {
             if (_title == null)
             {
                 _title = new BigTitle();
-                _title.x = Layer.HUD.camera.width / 2f - (float)(_title.graphic.w / 2) + 3f;
-                _title.y = Layer.HUD.camera.height / 2f;
+                _title.X = Layer.HUD.camera.width / 2f - (float)(_title.graphic.w / 2) + 3f;
+                _title.Y = Layer.HUD.camera.height / 2f;
                 AddThing(_title);
             }
             moveSpeed = Maths.LerpTowards(moveSpeed, 0f, 0.0015f);
@@ -1418,7 +1418,7 @@ public class TitleScreen : Level
         if (wait == 60)
         {
             _title.graphic.color = Color.White;
-            _title.alpha = 1f;
+            _title.Alpha = 1f;
             _fadeIn = true;
         }
         if (flash > 0f)
@@ -1443,7 +1443,7 @@ public class TitleScreen : Level
             Graphics.Draw(_upperMonitor, 84f, 0f);
             if (_fadeInFull)
             {
-                _font.alpha = _selectionFade;
+                _font.Alpha = _selectionFade;
                 _font.inputProfile = _duck.inputProfile;
                 if (_selection == TitleMenuSelection.None)
                 {
@@ -1538,7 +1538,7 @@ public class TitleScreen : Level
             if (base.camera.y > 4f)
             {
                 backFade += (base.camera.y - 4f) / 13f;
-                _starField.alpha = backFade - extraFade * 0.7f;
+                _starField.Alpha = backFade - extraFade * 0.7f;
                 Graphics.Draw(_starField, 0f, -58f + layer.camera.y, -0.99f);
             }
         }
@@ -1546,7 +1546,7 @@ public class TitleScreen : Level
         {
             foreach (StarParticle p in particles)
             {
-                float flickerDist = Math.Max(1f - Math.Min(Math.Abs(p.pos.x - p.flicker) / 10f, 1f), 0f);
+                float flickerDist = Math.Max(1f - Math.Min(Math.Abs(p.pos.X - p.flicker) / 10f, 1f), 0f);
                 float starFade = 0.2f;
                 if (base.camera.y > 0f)
                 {
@@ -1562,12 +1562,12 @@ public class TitleScreen : Level
                 int trailNum = 4;
                 for (int i = 0; i < trailNum; i++)
                 {
-                    float move = p.speed.x * 8f;
+                    float move = p.speed.X * 8f;
                     Graphics.DrawLine(trailPos + new Vec2(0f - move, 0.5f), trailPos + new Vec2(0f, 0.5f), p.color * ((1f - (float)i / (float)trailNum) * trailFade) * (0.3f + (1f - extraFade) * 0.7f), 1f, -0.4f);
-                    trailPos.x -= move;
+                    trailPos.X -= move;
                 }
             }
-            _background.depth = 0f;
+            _background.Depth = 0f;
             Graphics.Draw(sourceRectangle: new Rectangle(0f, 0f, 90f, _background.height), g: _background, x: 0f, y: 0f);
             Rectangle area = new Rectangle(63f, 107f, 194f, 61f);
             Graphics.Draw(_background, area.x, area.y, area);

@@ -29,7 +29,7 @@ internal class MirrorMode : Thing
         mode.value = Setting.Vertical;
         collisionSize = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-4f, -4f);
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         base.editorOffset = new Vec2(8f, 8f);
         _visibleInGame = false;
     }

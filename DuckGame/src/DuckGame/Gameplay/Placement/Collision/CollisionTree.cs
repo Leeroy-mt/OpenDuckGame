@@ -28,10 +28,10 @@ public class CollisionTree
         if (_depth > 0)
         {
             _children = new CollisionTree[4];
-            _children[0] = new CollisionTree(_position.x, _position.y, _width * 0.5f, _depth - 1);
-            _children[1] = new CollisionTree(_position.x + _width * 0.5f, _position.y, _width * 0.5f, _depth - 1);
-            _children[2] = new CollisionTree(_position.x, _position.y + _width * 0.5f, _width * 0.5f, _depth - 1);
-            _children[3] = new CollisionTree(_position.x + _width * 0.5f, _position.y + _width * 0.5f, _width * 0.5f, _depth - 1);
+            _children[0] = new CollisionTree(_position.X, _position.Y, _width * 0.5f, _depth - 1);
+            _children[1] = new CollisionTree(_position.X + _width * 0.5f, _position.Y, _width * 0.5f, _depth - 1);
+            _children[2] = new CollisionTree(_position.X, _position.Y + _width * 0.5f, _width * 0.5f, _depth - 1);
+            _children[3] = new CollisionTree(_position.X + _width * 0.5f, _position.Y + _width * 0.5f, _width * 0.5f, _depth - 1);
         }
     }
 

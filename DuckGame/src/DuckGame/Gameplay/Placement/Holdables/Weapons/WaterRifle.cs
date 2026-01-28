@@ -17,7 +17,7 @@ public class WaterRifle : Gun
         _ammoType = new AT9mm();
         _type = "gun";
         graphic = new Sprite("waterGun");
-        center = new Vec2(11f, 7f);
+        Center = new Vec2(11f, 7f);
         collisionOffset = new Vec2(-11f, -6f);
         collisionSize = new Vec2(23f, 13f);
         _barrelOffsetTL = new Vec2(24f, 6f);
@@ -29,7 +29,7 @@ public class WaterRifle : Gun
         _bio = "";
         _editorName = "Water Blaster";
         physicsMaterial = PhysicsMaterial.Metal;
-        _stream = new FluidStream(base.x, base.y, new Vec2(1f, 0f), 2f);
+        _stream = new FluidStream(base.X, base.Y, new Vec2(1f, 0f), 2f);
         isFatal = false;
     }
 
@@ -58,7 +58,7 @@ public class WaterRifle : Gun
         if (_wait == 3)
         {
             _stream.sprayAngle = base.barrelVector * 2f;
-            _stream.position = base.barrelPosition;
+            _stream.Position = base.barrelPosition;
             FluidData dat = Fluid.Water;
             dat.amount = 0.01f;
             _stream.Feed(dat);

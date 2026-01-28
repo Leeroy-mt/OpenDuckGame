@@ -24,18 +24,18 @@ public class Spawn
             usedSpawns.Add(teamSpawn);
             for (int i = 0; i < team.numMembers; i++)
             {
-                Vec2 pos = teamSpawn.position;
+                Vec2 pos = teamSpawn.Position;
                 if (team.numMembers == 2)
                 {
                     float spread = 18.823528f;
-                    pos.x = teamSpawn.position.x - 16f + spread * (float)i;
+                    pos.X = teamSpawn.Position.X - 16f + spread * (float)i;
                 }
                 else if (team.numMembers == 3)
                 {
                     float spread2 = 9.411764f;
-                    pos.x = teamSpawn.position.x - 16f + spread2 * (float)i;
+                    pos.X = teamSpawn.Position.X - 16f + spread2 * (float)i;
                 }
-                Duck player = new Duck(pos.x, pos.y - 7f, team.activeProfiles[i]);
+                Duck player = new Duck(pos.X, pos.Y - 7f, team.activeProfiles[i]);
                 player.offDir = teamSpawn.offDir;
                 spawned.Add(player);
             }
@@ -70,7 +70,7 @@ public class Spawn
         }
         SpawnPoint freeSpawn = validFreeSpawns[Rando.Int(validFreeSpawns.Count - 1)];
         usedSpawns.Add(freeSpawn);
-        Duck player = new Duck(freeSpawn.x, freeSpawn.y - 7f, profile);
+        Duck player = new Duck(freeSpawn.X, freeSpawn.Y - 7f, profile);
         player.offDir = freeSpawn.offDir;
         spawned.Add(player);
         runningSecondSpawn = !runningSecondSpawn;
@@ -94,7 +94,7 @@ public class Spawn
         }
         SpawnPoint freeSpawn = validFreeSpawns[Rando.Int(validFreeSpawns.Count - 1)];
         usedSpawns.Add(freeSpawn);
-        Duck player = new Duck(freeSpawn.x, freeSpawn.y - 7f, profile);
+        Duck player = new Duck(freeSpawn.X, freeSpawn.Y - 7f, profile);
         player.offDir = freeSpawn.offDir;
         spawned.Add(player);
         return freeSpawn;
@@ -120,7 +120,7 @@ public class Spawn
         }
         SpawnPoint freeSpawn = validFreeSpawns[Rando.Int(validFreeSpawns.Count - 1)];
         usedSpawns.Add(freeSpawn);
-        Duck player = new Duck(freeSpawn.x, freeSpawn.y - 7f, profile);
+        Duck player = new Duck(freeSpawn.X, freeSpawn.Y - 7f, profile);
         player.offDir = freeSpawn.offDir;
         spawned.Add(player);
         return freeSpawn;
@@ -223,11 +223,11 @@ public class Spawn
         List<Duck> movedDucks = new List<Duck>();
         foreach (Duck d in spawns)
         {
-            Duck d2 = spawns.FirstOrDefault((Duck x) => x != d && x.position == d.position);
+            Duck d2 = spawns.FirstOrDefault((Duck x) => x != d && x.Position == d.Position);
             if (d2 != null && !movedDucks.Contains(d2) && !movedDucks.Contains(d))
             {
-                d.x += 4f;
-                d2.x -= 4f;
+                d.X += 4f;
+                d2.X -= 4f;
                 movedDucks.Add(d);
                 movedDucks.Add(d2);
             }

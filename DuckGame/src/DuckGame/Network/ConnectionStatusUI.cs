@@ -50,7 +50,7 @@ public class ConnectionStatusUI
                 spectatorNum++;
             }
         }
-        _core.bars = new List<ConnectionStatusBar>(_core.bars.OrderBy((ConnectionStatusBar x) => x.profile.slotType == SlotType.Spectator || x.profile.pendingSpectatorMode == SlotType.Spectator));
+        _core.bars = [.. _core.bars.OrderBy((ConnectionStatusBar x) => x.profile.slotType == SlotType.Spectator || x.profile.pendingSpectatorMode == SlotType.Spectator)];
         _core.open = true;
     }
 
@@ -124,11 +124,11 @@ public class ConnectionStatusUI
             }
             if (bar.position > 0.01f)
             {
-                Vec2 meDraw = new Vec2(drawPos.x, drawPos.y + (float)(i * 14));
-                meDraw.x -= Layer.HUD.width * (1f - bar.position);
-                _bar.depth = 0.84f;
-                Graphics.Draw(_bar, meDraw.x, meDraw.y);
-                _smallBios.depth = 0.9f;
+                Vec2 meDraw = new Vec2(drawPos.X, drawPos.Y + (float)(i * 14));
+                meDraw.X -= Layer.HUD.width * (1f - bar.position);
+                _bar.Depth = 0.84f;
+                Graphics.Draw(_bar, meDraw.X, meDraw.Y);
+                _smallBios.Depth = 0.9f;
                 string type = "CUSTOM";
                 int transferProgress = 0;
                 int transferSize = 0;
@@ -158,25 +158,25 @@ public class ConnectionStatusUI
                 }
                 if (transferProgress != transferSize)
                 {
-                    _smallBios.scale = new Vec2(0.5f, 0.5f);
+                    _smallBios.Scale = new Vec2(0.5f, 0.5f);
                     if (type == "LOG")
                     {
                         if (local)
                         {
-                            _smallBios.Draw("@ONLINENEUTRAL@|DGYELLOW|SENDING LOG   " + transferProgress + "\\" + transferSize + "B", new Vec2(meDraw.x + 3f, meDraw.y + 3f), Color.White, 0.9f);
+                            _smallBios.Draw("@ONLINENEUTRAL@|DGYELLOW|SENDING LOG   " + transferProgress + "\\" + transferSize + "B", new Vec2(meDraw.X + 3f, meDraw.Y + 3f), Color.White, 0.9f);
                         }
                         else
                         {
-                            _smallBios.Draw("@ONLINENEUTRAL@|DGYELLOW|DOWNLOADING LOG " + type + " " + transferProgress + "\\" + transferSize + "B", new Vec2(meDraw.x + 3f, meDraw.y + 3f), Color.White, 0.9f);
+                            _smallBios.Draw("@ONLINENEUTRAL@|DGYELLOW|DOWNLOADING LOG " + type + " " + transferProgress + "\\" + transferSize + "B", new Vec2(meDraw.X + 3f, meDraw.Y + 3f), Color.White, 0.9f);
                         }
                     }
                     else if (local)
                     {
-                        _smallBios.Draw("@ONLINENEUTRAL@|DGYELLOW|DOWNLOADING   " + transferProgress + "\\" + transferSize + "B", new Vec2(meDraw.x + 3f, meDraw.y + 3f), Color.White, 0.9f);
+                        _smallBios.Draw("@ONLINENEUTRAL@|DGYELLOW|DOWNLOADING   " + transferProgress + "\\" + transferSize + "B", new Vec2(meDraw.X + 3f, meDraw.Y + 3f), Color.White, 0.9f);
                     }
                     else
                     {
-                        _smallBios.Draw("@ONLINENEUTRAL@|DGYELLOW|SENDING " + type + " " + transferProgress + "\\" + transferSize + "B", new Vec2(meDraw.x + 3f, meDraw.y + 3f), Color.White, 0.9f);
+                        _smallBios.Draw("@ONLINENEUTRAL@|DGYELLOW|SENDING " + type + " " + transferProgress + "\\" + transferSize + "B", new Vec2(meDraw.X + 3f, meDraw.Y + 3f), Color.White, 0.9f);
                     }
                     float progress = (float)transferProgress / (float)transferSize;
                     int barHeight = 3;
@@ -189,13 +189,13 @@ public class ConnectionStatusUI
                 }
                 else if (bar.profile.connection.levelIndex != DuckNetwork.levelIndex)
                 {
-                    _smallBios.Draw("@ONLINENEUTRAL@|DGYELLOW|SENDING...", new Vec2(meDraw.x + 3f, meDraw.y + 3f), Color.White, 0.9f);
+                    _smallBios.Draw("@ONLINENEUTRAL@|DGYELLOW|SENDING...", new Vec2(meDraw.X + 3f, meDraw.Y + 3f), Color.White, 0.9f);
                 }
                 else
                 {
-                    _smallBios.Draw("@ONLINEGOOD@|DGGREEN|READY!", new Vec2(meDraw.x + 3f, meDraw.y + 3f), Color.White, 0.9f);
+                    _smallBios.Draw("@ONLINEGOOD@|DGGREEN|READY!", new Vec2(meDraw.X + 3f, meDraw.Y + 3f), Color.White, 0.9f);
                 }
-                _smallBios.scale = new Vec2(1f, 1f);
+                _smallBios.Scale = new Vec2(1f, 1f);
                 string name = bar.profile.nameUI;
                 if (name.Length > 14)
                 {
@@ -212,7 +212,7 @@ public class ConnectionStatusUI
                     colorString = "|DGPURPLE|";
                 }
                 name = colorString + name;
-                _smallBios.Draw(name, new Vec2(meDraw.x + (float)_bar.width - 3f - _smallBios.GetWidth(name) - 60f, meDraw.y + 3f), Color.White, 0.9f);
+                _smallBios.Draw(name, new Vec2(meDraw.X + (float)_bar.width - 3f - _smallBios.GetWidth(name) - 60f, meDraw.Y + 3f), Color.White, 0.9f);
                 int pingval = (int)Math.Round(bar.profile.connection.manager.ping * 1000f);
                 if (bar.profile.connection == DuckNetwork.localConnection)
                 {
@@ -222,7 +222,7 @@ public class ConnectionStatusUI
                 ping += "|WHITE|MS";
                 ping.Count();
                 ping = ((pingval < 150) ? ("|DGGREEN|" + ping + "@SIGNALGOOD@") : ((pingval < 250) ? ("|DGYELLOW|" + ping + "@SIGNALNORMAL@") : ((bar.profile.connection.status != ConnectionStatus.Connected) ? ("|DGRED|" + ping + "@SIGNALDEAD@") : ("|DGRED|" + ping + "@SIGNALBAD@"))));
-                _smallBios.Draw(ping, new Vec2(meDraw.x + (float)_bar.width - 3f - _smallBios.GetWidth(ping), meDraw.y + 3f), Color.White, 0.9f);
+                _smallBios.Draw(ping, new Vec2(meDraw.X + (float)_bar.width - 3f - _smallBios.GetWidth(ping), meDraw.Y + 3f), Color.White, 0.9f);
             }
             i++;
         }

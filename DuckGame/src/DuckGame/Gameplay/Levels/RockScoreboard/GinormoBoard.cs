@@ -45,7 +45,7 @@ public class GinormoBoard : Thing
     {
         _smallMode = smallMode;
         _board = new Sprite("rockThrow/boardMiddle");
-        _board.center = new Vec2(_board.w / 2, _board.h / 2 - 30);
+        _board.Center = new Vec2(_board.w / 2, _board.h / 2 - 30);
         _lighting = new SpriteMap("rockThrow/lighting", 191, 23);
         _lighting.frame = 1;
         boardLightingLayer = new Layer("LIGHTING", -85);
@@ -60,7 +60,7 @@ public class GinormoBoard : Thing
         };
         boardLightingLayer.blend = blend;
         Layer.Add(boardLightingLayer);
-        Level.Add(new BoardLighting(base.x + 0.5f, base.y - 125f)
+        Level.Add(new BoardLighting(base.X + 0.5f, base.Y - 125f)
         {
             layer = boardLightingLayer
         });
@@ -74,22 +74,22 @@ public class GinormoBoard : Thing
             _boardTop = new Sprite("rockThrow/boardTop");
             _boardBottom = new Sprite("rockThrow/boardBottom");
         }
-        _boardTop.center = new Vec2(_boardTop.w / 2, _boardTop.h / 2 - 30);
-        _boardBottom.center = new Vec2(_boardBottom.w / 2, _boardBottom.h / 2 - 30);
+        _boardTop.Center = new Vec2(_boardTop.w / 2, _boardTop.h / 2 - 30);
+        _boardBottom.Center = new Vec2(_boardBottom.w / 2, _boardBottom.h / 2 - 30);
         base.layer = Layer.Background;
         _pos = new Vec2(xpos, ypos);
         _mode = mode;
-        boardLayer = new Layer("BOARD", -85, null, targetLayer: true, new Vec2(GinormoScreen.GetSize(_smallMode).x, GinormoScreen.GetSize(_smallMode).y));
-        boardLayer.camera = new Camera(0f, 0f, GinormoScreen.GetSize(_smallMode).x, GinormoScreen.GetSize(_smallMode).y);
+        boardLayer = new Layer("BOARD", -85, null, targetLayer: true, new Vec2(GinormoScreen.GetSize(_smallMode).X, GinormoScreen.GetSize(_smallMode).Y));
+        boardLayer.camera = new Camera(0f, 0f, GinormoScreen.GetSize(_smallMode).X, GinormoScreen.GetSize(_smallMode).Y);
         boardLayer.targetOnly = true;
         boardLayer.targetClearColor = new Color(0.05f, 0.05f, 0.05f);
         Layer.Add(boardLayer);
         overlayLayer = new Layer("OVERLAY", 10);
         Layer.Add(overlayLayer);
-        Level.Add(new GinormoOverlay(base.x - 182f, base.y - 65f, _smallMode)
+        Level.Add(new GinormoOverlay(base.X - 182f, base.Y - 65f, _smallMode)
         {
-            z = -130f,
-            position = position,
+            Z = -130f,
+            Position = Position,
             layer = overlayLayer
         });
     }
@@ -123,13 +123,13 @@ public class GinormoBoard : Thing
         {
             _lighting.frame = 0;
         }
-        _board.depth = base.depth;
-        Graphics.Draw(_board, base.x, base.y - 12f);
-        Graphics.Draw(_boardBottom, base.x, base.y + 58f);
-        Graphics.Draw(_boardTop, base.x, base.y - 68f);
+        _board.Depth = base.Depth;
+        Graphics.Draw(_board, base.X, base.Y - 12f);
+        Graphics.Draw(_boardBottom, base.X, base.Y + 58f);
+        Graphics.Draw(_boardTop, base.X, base.Y - 68f);
         if (RockScoreboard._sunEnabled)
         {
-            Graphics.Draw(_lighting, base.x - 95f, base.y - 67f);
+            Graphics.Draw(_lighting, base.X - 95f, base.Y - 67f);
         }
     }
 }

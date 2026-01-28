@@ -6,8 +6,8 @@ public class DCHighEnergySurprise : DeathCrateSetting
 {
     public override void Activate(DeathCrate c, bool server = true)
     {
-        float cx = c.x;
-        float cy = c.y - 2f;
+        float cx = c.X;
+        float cy = c.Y - 2f;
         Level.Add(new ExplosionPart(cx, cy));
         int num = 6;
         if (Graphics.effectsLevel < 2)
@@ -22,22 +22,22 @@ public class DCHighEnergySurprise : DeathCrateSetting
         }
         if (server)
         {
-            EnergyScimitar energyScimitar = new EnergyScimitar(c.x, c.y - 8f);
+            EnergyScimitar energyScimitar = new EnergyScimitar(c.X, c.Y - 8f);
             Level.Add(energyScimitar);
             energyScimitar.StartFlying(TileConnection.Left);
-            EnergyScimitar energyScimitar2 = new EnergyScimitar(c.x, c.y - 8f);
+            EnergyScimitar energyScimitar2 = new EnergyScimitar(c.X, c.Y - 8f);
             Level.Add(energyScimitar2);
             energyScimitar2.StartFlying(TileConnection.Right);
-            EnergyScimitar energyScimitar3 = new EnergyScimitar(c.x, c.y - 8f);
+            EnergyScimitar energyScimitar3 = new EnergyScimitar(c.X, c.Y - 8f);
             Level.Add(energyScimitar3);
             energyScimitar3.StartFlying(TileConnection.Up);
-            EnergyScimitar energyScimitar4 = new EnergyScimitar(c.x, c.y - 8f);
+            EnergyScimitar energyScimitar4 = new EnergyScimitar(c.X, c.Y - 8f);
             Level.Add(energyScimitar4);
             energyScimitar4.StartFlying(TileConnection.Down);
             Level.Remove(c);
         }
         Graphics.FlashScreen();
         SFX.Play("explode");
-        RumbleManager.AddRumbleEvent(c.position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
+        RumbleManager.AddRumbleEvent(c.Position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
     }
 }

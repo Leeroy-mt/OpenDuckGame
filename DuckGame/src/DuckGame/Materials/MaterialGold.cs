@@ -22,8 +22,8 @@ public class MaterialGold : Material
             Tex2D tex = Graphics.device.Textures[0] as Texture2D;
             SetValue("width", tex.frameWidth / (float)tex.width);
             SetValue("height", tex.frameHeight / (float)tex.height);
-            SetValue("xpos", _thing.x);
-            SetValue("ypos", _thing.y);
+            SetValue("xpos", _thing.X);
+            SetValue("ypos", _thing.Y);
         }
         Graphics.device.Textures[1] = (Texture2D)_goldTexture;
         Graphics.device.SamplerStates[1] = SamplerState.PointWrap;

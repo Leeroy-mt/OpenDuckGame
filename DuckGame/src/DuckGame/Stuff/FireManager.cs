@@ -32,7 +32,7 @@ public class FireManager
     {
         foreach (SmallFire f in Level.current.things[typeof(SmallFire)])
         {
-            if (f.y < -2000f || f.fireID != _curUpdateID || !(f.alpha > 0.5f))
+            if (f.Y < -2000f || f.fireID != _curUpdateID || !(f.Alpha > 0.5f))
             {
                 continue;
             }
@@ -42,13 +42,13 @@ public class FireManager
                 dontBurn = f.stick.owner;
             }
             f.doFloat = false;
-            foreach (MaterialThing t in Level.CheckCircleAll<MaterialThing>(f.position + new Vec2(0f, -4f), 6f))
+            foreach (MaterialThing t in Level.CheckCircleAll<MaterialThing>(f.Position + new Vec2(0f, -4f), 6f))
             {
                 if (t == dontBurn)
                 {
                     continue;
                 }
-                t.DoHeatUp(0.05f, f.position);
+                t.DoHeatUp(0.05f, f.Position);
                 if (!t.isServerForObject)
                 {
                     continue;
@@ -66,14 +66,14 @@ public class FireManager
                 Duck d = t as Duck;
                 if (d != null && ((d.slideBuildup > 0f && d.sliding) || (d.holdObject is Sword && (d.holdObject as Sword)._slamStance)))
                 {
-                    SmallSmoke smallSmoke = SmallSmoke.New(f.x + Rando.Float(-1f, 1f), f.y + Rando.Float(-1f, 1f));
+                    SmallSmoke smallSmoke = SmallSmoke.New(f.X + Rando.Float(-1f, 1f), f.Y + Rando.Float(-1f, 1f));
                     smallSmoke.vSpeed -= Rando.Float(0.1f, 0.2f);
                     Level.Add(smallSmoke);
                     Level.Remove(f);
                 }
                 else if (Rando.Float(1000f) < t.flammable * 1000f && (f.whoWait == null || d != f.whoWait))
                 {
-                    t.Burn(f.position + new Vec2(0f, 4f), f);
+                    t.Burn(f.Position + new Vec2(0f, 4f), f);
                 }
             }
         }
@@ -83,7 +83,7 @@ public class FireManager
             {
                 f2.onFire = false;
             }
-            else if (f2.onFire && f2.fireID == (float)_curUpdateID && f2.alpha > 0.5f)
+            else if (f2.onFire && f2.fireID == (float)_curUpdateID && f2.Alpha > 0.5f)
             {
                 foreach (MaterialThing t2 in Level.CheckRectAll<MaterialThing>(f2.topLeft + new Vec2(0f, -4f), f2.topRight + new Vec2(0f, 2f)))
                 {
@@ -91,9 +91,9 @@ public class FireManager
                     {
                         if (!(t2 is Duck { slideBuildup: > 0f }) && Rando.Float(1000f) < t2.flammable * 1000f)
                         {
-                            t2.Burn(f2.position + new Vec2(0f, 4f), f2);
+                            t2.Burn(f2.Position + new Vec2(0f, 4f), f2);
                         }
-                        t2.DoHeatUp(0.05f, f2.position);
+                        t2.DoHeatUp(0.05f, f2.Position);
                     }
                 }
             }
@@ -106,9 +106,9 @@ public class FireManager
                 Rectangle r = f2.rectangle;
                 foreach (Spark s in Level.current.things[typeof(Spark)])
                 {
-                    if (s.x > r.x && s.x < r.x + r.width && s.y > r.y && s.y < r.y + r.height)
+                    if (s.X > r.x && s.X < r.x + r.width && s.Y > r.y && s.Y < r.y + r.height)
                     {
-                        f2.Burn(f2.position, s);
+                        f2.Burn(f2.Position, s);
                         break;
                     }
                 }
@@ -120,22 +120,22 @@ public class FireManager
             {
                 continue;
             }
-            foreach (SmallFire t3 in Level.CheckCircleAll<SmallFire>(f3.position + new Vec2(0f, -8f), 12f))
+            foreach (SmallFire t3 in Level.CheckCircleAll<SmallFire>(f3.Position + new Vec2(0f, -8f), 12f))
             {
-                if (f3.scale.x > 1f)
+                if (f3.Scale.X > 1f)
                 {
                     t3.SuckLife(10f);
                 }
             }
-            foreach (MaterialThing t4 in Level.CheckCircleAll<MaterialThing>(f3.position + new Vec2(0f, -8f), 4f))
+            foreach (MaterialThing t4 in Level.CheckCircleAll<MaterialThing>(f3.Position + new Vec2(0f, -8f), 4f))
             {
-                if (f3.scale.x > 1f)
+                if (f3.Scale.X > 1f)
                 {
                     t4.spreadExtinguisherSmoke = 1f;
                 }
                 if (t4.physicsMaterial == PhysicsMaterial.Metal)
                 {
-                    t4.DoFreeze(0.03f, f3.position);
+                    t4.DoFreeze(0.03f, f3.Position);
                 }
                 if (t4.onFire && Rando.Float(1000f) > t4.flammable * 650f)
                 {

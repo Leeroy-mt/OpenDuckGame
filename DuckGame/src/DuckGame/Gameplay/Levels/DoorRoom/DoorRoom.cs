@@ -214,15 +214,15 @@ public class DoorRoom : Level
                 {
                     name = _profiles[index].name;
                 }
-                float middle = pos.x + xOff + 3f * itemWidth;
-                float xpos = pos.x + xOff + (float)i * itemWidth + (0f - _slide) * itemWidth;
+                float middle = pos.X + xOff + 3f * itemWidth;
+                float xpos = pos.X + xOff + (float)i * itemWidth + (0f - _slide) * itemWidth;
                 float num = Maths.Clamp((100f - Math.Abs(xpos - middle)) / 100f, 0f, 1f);
                 float colorMult = num * Maths.NormalizeSection(num, 0f, 0.9f);
                 _door.color = Color.White * colorMult * _fade;
-                _door.depth = colorMult * 0.8f;
+                _door.Depth = colorMult * 0.8f;
                 if (colorMult < 1f)
                 {
-                    _unlitDoor.alpha = (1f - colorMult) * 0.5f * _fade;
+                    _unlitDoor.Alpha = (1f - colorMult) * 0.5f * _fade;
                     Graphics.Draw(_unlitDoor, xpos, 90f);
                 }
                 if (colorMult > 0f)
@@ -246,10 +246,10 @@ public class DoorRoom : Level
                     vOffset = 2f;
                     hOffset = 1f;
                 }
-                Graphics.DrawString(text, new Vec2(xpos - Graphics.GetStringWidth(text, thinButtons: false, fontscale.x) / 2f + hOffset, 35f + vOffset), new Color((byte)Math.Round(165f * mul), (byte)Math.Round(100f * mul), (byte)Math.Round(34f * mul)) * _fade, 0.9f, null, fontscale.x);
+                Graphics.DrawString(text, new Vec2(xpos - Graphics.GetStringWidth(text, thinButtons: false, fontscale.X) / 2f + hOffset, 35f + vOffset), new Color((byte)Math.Round(165f * mul), (byte)Math.Round(100f * mul), (byte)Math.Round(34f * mul)) * _fade, 0.9f, null, fontscale.X);
             }
-            _door.scale = new Vec2(1f, 1f);
-            _door.depth = 0.4f;
+            _door.Scale = new Vec2(1f, 1f);
+            _door.Depth = 0.4f;
         }
         base.PostDrawLayer(layer);
     }

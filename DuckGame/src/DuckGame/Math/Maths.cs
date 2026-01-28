@@ -35,8 +35,8 @@ public class Maths
 
     public static Vec2 RoundToPixel(Vec2 pos)
     {
-        pos.x = (float)Math.Round(pos.x / 1f) * 1f;
-        pos.y = (float)Math.Round(pos.y / 1f) * 1f;
+        pos.X = (float)Math.Round(pos.X / 1f) * 1f;
+        pos.Y = (float)Math.Round(pos.Y / 1f) * 1f;
         return pos;
     }
 
@@ -137,18 +137,18 @@ public class Maths
         intersection = Vec2.Zero;
         Vec2 b3 = a2 - a1;
         Vec2 d = b2 - b1;
-        float bDotDPerp = b3.x * d.y - b3.y * d.x;
+        float bDotDPerp = b3.X * d.Y - b3.Y * d.X;
         if (bDotDPerp == 0f)
         {
             return false;
         }
         Vec2 c = b1 - a1;
-        float t = (c.x * d.y - c.y * d.x) / bDotDPerp;
+        float t = (c.X * d.Y - c.Y * d.X) / bDotDPerp;
         if (t < 0f || t > 1f)
         {
             return false;
         }
-        float u = (c.x * b3.y - c.y * b3.x) / bDotDPerp;
+        float u = (c.X * b3.Y - c.Y * b3.X) / bDotDPerp;
         if (u < 0f || u > 1f)
         {
             return false;
@@ -169,17 +169,17 @@ public class Maths
 
     public static float PointDirection(Vec2 p1, Vec2 p2)
     {
-        return RadToDeg((float)Math.Atan2(p1.y - p2.y, p2.x - p1.x));
+        return RadToDeg((float)Math.Atan2(p1.Y - p2.Y, p2.X - p1.X));
     }
 
     public static float PointDirectionRad(Vec2 p1, Vec2 p2)
     {
-        return (float)Math.Atan2(p1.y - p2.y, p2.x - p1.x);
+        return (float)Math.Atan2(p1.Y - p2.Y, p2.X - p1.X);
     }
 
     public static float PointDirection2(Vec2 p1, Vec2 p2)
     {
-        return (float)Math.Atan2(p2.y, p2.x) - (float)Math.Atan2(p1.y, p1.x);
+        return (float)Math.Atan2(p2.Y, p2.X) - (float)Math.Atan2(p1.Y, p1.X);
     }
 
     public static float PointDirection(float x1, float y1, float x2, float y2)
@@ -208,20 +208,20 @@ public class Maths
 
     public static Vec2 AngleToVec(float radians)
     {
-        return new Vec2((float)Math.Cos(radians), (float)(0.0 - Math.Sin(radians)));
+        return new Vec2(float.Cos(radians), -float.Sin(radians));
     }
 
     public static Vec2 Snap(Vec2 pPosition, float xSnap, float ySnap)
     {
-        pPosition.x = (float)(int)Math.Floor(pPosition.x / xSnap) * xSnap;
-        pPosition.y = (float)(int)Math.Floor(pPosition.y / ySnap) * ySnap;
+        pPosition.X = (float)(int)Math.Floor(pPosition.X / xSnap) * xSnap;
+        pPosition.Y = (float)(int)Math.Floor(pPosition.Y / ySnap) * ySnap;
         return pPosition;
     }
 
     public static Vec2 SnapRound(Vec2 pPosition, float xSnap, float ySnap)
     {
-        pPosition.x = (float)(int)Math.Round(pPosition.x / xSnap) * xSnap;
-        pPosition.y = (float)(int)Math.Round(pPosition.y / ySnap) * ySnap;
+        pPosition.X = (float)(int)Math.Round(pPosition.X / xSnap) * xSnap;
+        pPosition.Y = (float)(int)Math.Round(pPosition.Y / ySnap) * ySnap;
         return pPosition;
     }
 

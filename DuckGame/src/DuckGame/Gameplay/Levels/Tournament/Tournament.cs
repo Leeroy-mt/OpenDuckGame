@@ -207,14 +207,14 @@ public class Tournament : Level
                     t.prevTreeDraw = drawPos + curDrawOffset + new Vec2(96f, 4f);
                     Graphics.DrawLine(drawPos + curDrawOffset + new Vec2(90f, 4f), drawPos + curDrawOffset + new Vec2(96f, 4f), Color.White);
                     Graphics.DrawString(name, drawPos + curDrawOffset + new Vec2(88 - name.Length * 8, 0f), Color.White, 1f);
-                    curDrawOffset.y += lastSpacing + 8f;
+                    curDrawOffset.Y += lastSpacing + 8f;
                     curNumPlayers++;
                 }
             }
-            curDrawOffset.x += 96f;
+            curDrawOffset.X += 96f;
             _ = (curNumPlayers * 16 + curDrawGroup.Count * 8) / 2;
-            curDrawOffset.y = lastOffsetVal + (float)(curDrawGroup[0].players.Count - 1) * (lastSpacing + 8f) / 2f;
-            lastOffsetVal = curDrawOffset.y;
+            curDrawOffset.Y = lastOffsetVal + (float)(curDrawGroup[0].players.Count - 1) * (lastSpacing + 8f) / 2f;
+            lastOffsetVal = curDrawOffset.Y;
             lastSpacing = lastSpacing * (float)curDrawGroup[0].players.Count + (float)(8 * (curDrawGroup[0].players.Count - 1));
             curDrawGroup = nextDrawGroup;
             nextDrawGroup = new List<TourneyGroup>();

@@ -35,13 +35,13 @@ public class WoodDebris : PhysicsParticle
     {
         _sprite = new SpriteMap("woodDebris", 8, 8);
         graphic = _sprite;
-        center = new Vec2(4f, 4f);
+        Center = new Vec2(4f, 4f);
     }
 
     private void Init(float xpos, float ypos)
     {
-        position.x = xpos;
-        position.y = ypos;
+        X = xpos;
+        Y = ypos;
         hSpeed = -4f - Rando.Float(3f);
         vSpeed = 0f - (Rando.Float(1.5f) + 1f);
         _sprite.frame = Rando.Int(4);

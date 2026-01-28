@@ -33,19 +33,19 @@ public class Confetti : Thing
         _sin = new SinWaveManualUpdate(0.01f + Rando.Float(0.03f), Rando.Float(7f));
         _size = 10f + Rando.Float(60f);
         _speed = 0.8f + Rando.Float(1.4f);
-        base.depth = 0.95f;
+        base.Depth = 0.95f;
     }
 
     public override void Update()
     {
         _sin.Update();
-        base.y += _speed;
+        base.Y += _speed;
     }
 
     public override void Draw()
     {
-        Vec2 pos = position;
-        pos.x += _sin.value * _size;
-        Graphics.DrawRect(pos, pos + new Vec2(2f, 2f), _color, base.depth);
+        Vec2 pos = Position;
+        pos.X += _sin.value * _size;
+        Graphics.DrawRect(pos, pos + new Vec2(2f, 2f), _color, base.Depth);
     }
 }

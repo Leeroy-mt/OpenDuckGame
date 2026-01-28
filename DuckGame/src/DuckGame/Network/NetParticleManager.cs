@@ -94,15 +94,15 @@ public class NetParticleManager
                 {
                     if (t == typeof(SmallFire))
                     {
-                        particle2 = SmallFire.New(Vec2.NetMin.x, Vec2.NetMin.y, 0f, 0f, shortLife: false, null, canMultiply: false, null, network: true);
+                        particle2 = SmallFire.New(Vec2.NetMin.X, Vec2.NetMin.Y, 0f, 0f, shortLife: false, null, canMultiply: false, null, network: true);
                     }
                     else if (t == typeof(ExtinguisherSmoke))
                     {
-                        particle2 = new ExtinguisherSmoke(Vec2.NetMin.x, Vec2.NetMin.y, network: true);
+                        particle2 = new ExtinguisherSmoke(Vec2.NetMin.X, Vec2.NetMin.Y, network: true);
                     }
                     else if (t == typeof(Firecracker))
                     {
-                        particle2 = new Firecracker(Vec2.NetMin.x, Vec2.NetMin.y, network: true);
+                        particle2 = new Firecracker(Vec2.NetMin.X, Vec2.NetMin.Y, network: true);
                     }
                     if (!oldPacket)
                     {

@@ -6,8 +6,8 @@ public class DCSwordAdventure : DeathCrateSetting
 {
     public override void Activate(DeathCrate c, bool server = true)
     {
-        float cx = c.x;
-        float cy = c.y - 2f;
+        float cx = c.X;
+        float cy = c.Y - 2f;
         Level.Add(new ExplosionPart(cx, cy));
         int num = 6;
         if (Graphics.effectsLevel < 2)
@@ -24,7 +24,7 @@ public class DCSwordAdventure : DeathCrateSetting
         {
             for (int j = 0; j < 8; j++)
             {
-                Sword sword = new Sword(c.x, c.y);
+                Sword sword = new Sword(c.X, c.Y);
                 float norm = (float)j / 7f;
                 sword.hSpeed = (-15f + norm * 30f) * Rando.Float(0.5f, 1f);
                 sword.vSpeed = Rando.Float(-10f, 10f);
@@ -36,6 +36,6 @@ public class DCSwordAdventure : DeathCrateSetting
         }
         Graphics.FlashScreen();
         SFX.Play("explode");
-        RumbleManager.AddRumbleEvent(c.position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
+        RumbleManager.AddRumbleEvent(c.Position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
     }
 }

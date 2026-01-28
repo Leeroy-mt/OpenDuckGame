@@ -11,10 +11,10 @@ public class WireFlipper : Block, IWirePeripheral
     {
         _sprite = new SpriteMap("wireFlipper", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -8f);
         collisionSize = new Vec2(16f, 16f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Wire Flipper";
         editorTooltip = "Alternates the direction a current will pass through when a connected Button is pressed.";
         thickness = 4f;

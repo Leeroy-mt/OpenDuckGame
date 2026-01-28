@@ -58,8 +58,8 @@ public class ThingContainer : Thing
             {
                 AutoBlock b = thing as AutoBlock;
                 b.InitializeNeighbors();
-                buf.Write(thing.x);
-                buf.Write(thing.y);
+                buf.Write(thing.X);
+                buf.Write(thing.Y);
                 buf.Write((byte)thing.frame);
                 buf.Write((short)((b.upBlock != null) ? _things.IndexOf(b.upBlock) : (-1)));
                 buf.Write((short)((b.downBlock != null) ? _things.IndexOf(b.downBlock) : (-1)));
@@ -74,12 +74,12 @@ public class ThingContainer : Thing
                 {
                     continue;
                 }
-                groupBuf.Write(group.x);
-                groupBuf.Write(group.y);
-                groupBuf.Write(group.collisionOffset.x);
-                groupBuf.Write(group.collisionOffset.y);
-                groupBuf.Write(group.collisionSize.x);
-                groupBuf.Write(group.collisionSize.y);
+                groupBuf.Write(group.X);
+                groupBuf.Write(group.Y);
+                groupBuf.Write(group.collisionOffset.X);
+                groupBuf.Write(group.collisionOffset.Y);
+                groupBuf.Write(group.collisionSize.X);
+                groupBuf.Write(group.collisionSize.Y);
                 groupBuf.Write(group.blocks.Count());
                 foreach (Block block in group.blocks)
                 {
@@ -108,8 +108,8 @@ public class ThingContainer : Thing
                 {
                     buf.Write(-999999f);
                 }
-                buf.Write(thing2.x);
-                buf.Write(thing2.y);
+                buf.Write(thing2.X);
+                buf.Write(thing2.Y);
                 if (thing2.flipHorizontal)
                 {
                     buf.Write(byte.MaxValue);
@@ -211,8 +211,8 @@ public class ThingContainer : Thing
             {
                 newThing.flipHorizontal = true;
             }
-            newThing.x = xpos;
-            newThing.y = ypos;
+            newThing.X = xpos;
+            newThing.Y = ypos;
             newThing.placed = true;
             if (newThing.isStatic)
             {
@@ -286,7 +286,7 @@ public class ThingContainer : Thing
                 for (i2 = 0; i2 < num; i2++)
                 {
                     BlockGroup group = new BlockGroup();
-                    group.position = new Vec2(groupData.ReadFloat(), groupData.ReadFloat());
+                    group.Position = new Vec2(groupData.ReadFloat(), groupData.ReadFloat());
                     bool flip2 = Level.flipH;
                     if (Level.loadingOppositeSymmetry)
                     {
@@ -294,7 +294,7 @@ public class ThingContainer : Thing
                     }
                     if (flip2)
                     {
-                        group.position.x = 192f - group.position.x - 16f;
+                        group.X = 192f - group.X - 16f;
                     }
                     group.collisionOffset = new Vec2(groupData.ReadFloat(), groupData.ReadFloat());
                     group.collisionSize = new Vec2(groupData.ReadFloat(), groupData.ReadFloat());
@@ -306,11 +306,11 @@ public class ThingContainer : Thing
                             if (group.left < cpos && group.right > cpos)
                             {
                                 float dif = group.right - cpos;
-                                float newWide = group.collisionSize.x - dif;
-                                group.position.x -= dif;
-                                group.position.x += newWide / 2f;
-                                group.collisionSize = new Vec2(newWide, group.collisionSize.y);
-                                group.collisionOffset = new Vec2(0f - newWide / 2f, group.collisionOffset.y);
+                                float newWide = group.collisionSize.X - dif;
+                                group.X -= dif;
+                                group.X += newWide / 2f;
+                                group.collisionSize = new Vec2(newWide, group.collisionSize.Y);
+                                group.collisionOffset = new Vec2(0f - newWide / 2f, group.collisionOffset.Y);
                                 group.right = cpos;
                             }
                         }
@@ -320,11 +320,11 @@ public class ThingContainer : Thing
                             if (group.right > cpos && group.left < cpos)
                             {
                                 float dif2 = cpos - group.left;
-                                float newWide2 = group.collisionSize.x - dif2;
-                                group.position.x += dif2;
-                                group.position.x -= newWide2 / 2f;
-                                group.collisionSize = new Vec2(newWide2, group.collisionSize.y);
-                                group.collisionOffset = new Vec2(0f - newWide2 / 2f, group.collisionOffset.y);
+                                float newWide2 = group.collisionSize.X - dif2;
+                                group.X += dif2;
+                                group.X -= newWide2 / 2f;
+                                group.collisionSize = new Vec2(newWide2, group.collisionSize.Y);
+                                group.collisionOffset = new Vec2(0f - newWide2 / 2f, group.collisionOffset.Y);
                                 group.left = cpos;
                             }
                         }
@@ -341,11 +341,11 @@ public class ThingContainer : Thing
                         bool add2 = true;
                         if (Level.symmetry)
                         {
-                            if (Level.leftSymmetry && b3.x > 80f)
+                            if (Level.leftSymmetry && b3.X > 80f)
                             {
                                 add2 = false;
                             }
-                            if (!Level.leftSymmetry && b3.x < 96f)
+                            if (!Level.leftSymmetry && b3.X < 96f)
                             {
                                 add2 = false;
                             }
@@ -421,8 +421,8 @@ public class ThingContainer : Thing
             {
                 AutoBlock b = thing as AutoBlock;
                 b.InitializeNeighbors();
-                blocks = blocks + Change.ToString(thing.x) + ",";
-                blocks = blocks + Change.ToString(thing.y) + ",";
+                blocks = blocks + Change.ToString(thing.X) + ",";
+                blocks = blocks + Change.ToString(thing.Y) + ",";
                 blocks = blocks + thing.frame + ",";
                 blocks = ((b.upBlock == null) ? (blocks + "-1,") : (blocks + Change.ToString(_things.IndexOf(b.upBlock)) + ","));
                 blocks = ((b.downBlock == null) ? (blocks + "-1,") : (blocks + Change.ToString(_things.IndexOf(b.downBlock)) + ","));
@@ -433,12 +433,12 @@ public class ThingContainer : Thing
                 {
                     continue;
                 }
-                groupInfo = groupInfo + Change.ToString(group.x) + ",";
-                groupInfo = groupInfo + Change.ToString(group.y) + ",";
-                groupInfo = groupInfo + Change.ToString(group.collisionOffset.x) + ",";
-                groupInfo = groupInfo + Change.ToString(group.collisionOffset.y) + ",";
-                groupInfo = groupInfo + Change.ToString(group.collisionSize.x) + ",";
-                groupInfo = groupInfo + Change.ToString(group.collisionSize.y) + ",";
+                groupInfo = groupInfo + Change.ToString(group.X) + ",";
+                groupInfo = groupInfo + Change.ToString(group.Y) + ",";
+                groupInfo = groupInfo + Change.ToString(group.collisionOffset.X) + ",";
+                groupInfo = groupInfo + Change.ToString(group.collisionOffset.Y) + ",";
+                groupInfo = groupInfo + Change.ToString(group.collisionSize.X) + ",";
+                groupInfo = groupInfo + Change.ToString(group.collisionSize.Y) + ",";
                 groupInfo = groupInfo + Change.ToString(group.blocks.Count()) + ",";
                 foreach (Block block in group.blocks)
                 {
@@ -461,8 +461,8 @@ public class ThingContainer : Thing
         {
             foreach (Thing thing2 in _things)
             {
-                blocks = blocks + Change.ToString(thing2.x) + ",";
-                blocks = blocks + Change.ToString(thing2.y) + ",";
+                blocks = blocks + Change.ToString(thing2.X) + ",";
+                blocks = blocks + Change.ToString(thing2.Y) + ",";
                 blocks = blocks + thing2.frame + ",";
             }
         }
@@ -507,8 +507,8 @@ public class ThingContainer : Thing
             {
                 (newThing as AutoPlatform).needsRefresh = true;
             }
-            newThing.x = xpos;
-            newThing.y = ypos;
+            newThing.X = xpos;
+            newThing.Y = ypos;
             newThing.placed = true;
             if (newThing.isStatic)
             {
@@ -580,7 +580,7 @@ public class ThingContainer : Thing
                 for (i2 = 0; i2 < groupElements.Count(); i2 += 7)
                 {
                     BlockGroup group = new BlockGroup();
-                    group.position = new Vec2(Change.ToSingle(groupElements[i2]), Change.ToSingle(groupElements[i2 + 1]));
+                    group.Position = new Vec2(Change.ToSingle(groupElements[i2]), Change.ToSingle(groupElements[i2 + 1]));
                     bool flip2 = Level.flipH;
                     if (Level.loadingOppositeSymmetry)
                     {
@@ -588,7 +588,7 @@ public class ThingContainer : Thing
                     }
                     if (flip2)
                     {
-                        group.position.x = 192f - group.position.x - 16f;
+                        group.X = 192 - group.X - 16;
                     }
                     group.collisionOffset = new Vec2(Change.ToSingle(groupElements[i2 + 2]), Change.ToSingle(groupElements[i2 + 3]));
                     group.collisionSize = new Vec2(Change.ToSingle(groupElements[i2 + 4]), Change.ToSingle(groupElements[i2 + 5]));
@@ -600,11 +600,11 @@ public class ThingContainer : Thing
                             if (group.left < cpos && group.right > cpos)
                             {
                                 float dif = group.right - cpos;
-                                float newWide = group.collisionSize.x - dif;
-                                group.position.x -= dif;
-                                group.position.x += newWide / 2f;
-                                group.collisionSize = new Vec2(newWide, group.collisionSize.y);
-                                group.collisionOffset = new Vec2(0f - newWide / 2f, group.collisionOffset.y);
+                                float newWide = group.collisionSize.X - dif;
+                                group.X -= dif;
+                                group.X += newWide / 2f;
+                                group.collisionSize = new Vec2(newWide, group.collisionSize.Y);
+                                group.collisionOffset = new Vec2(0f - newWide / 2f, group.collisionOffset.Y);
                                 group.right = cpos;
                             }
                         }
@@ -614,11 +614,11 @@ public class ThingContainer : Thing
                             if (group.right > cpos && group.left < cpos)
                             {
                                 float dif2 = cpos - group.left;
-                                float newWide2 = group.collisionSize.x - dif2;
-                                group.position.x += dif2;
-                                group.position.x -= newWide2 / 2f;
-                                group.collisionSize = new Vec2(newWide2, group.collisionSize.y);
-                                group.collisionOffset = new Vec2(0f - newWide2 / 2f, group.collisionOffset.y);
+                                float newWide2 = group.collisionSize.X - dif2;
+                                group.X += dif2;
+                                group.X -= newWide2 / 2f;
+                                group.collisionSize = new Vec2(newWide2, group.collisionSize.Y);
+                                group.collisionOffset = new Vec2(0f - newWide2 / 2f, group.collisionOffset.Y);
                                 group.left = cpos;
                             }
                         }
@@ -631,11 +631,11 @@ public class ThingContainer : Thing
                         bool add2 = true;
                         if (Level.symmetry)
                         {
-                            if (Level.leftSymmetry && b3.x > 80f)
+                            if (Level.leftSymmetry && b3.X > 80f)
                             {
                                 add2 = false;
                             }
-                            if (!Level.leftSymmetry && b3.x < 96f)
+                            if (!Level.leftSymmetry && b3.X < 96f)
                             {
                                 add2 = false;
                             }

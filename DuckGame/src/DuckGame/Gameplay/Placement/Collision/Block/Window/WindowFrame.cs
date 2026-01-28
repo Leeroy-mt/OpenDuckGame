@@ -10,28 +10,28 @@ public class WindowFrame : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("windowFrame");
-        center = new Vec2(5f, 26f);
-        base.depth = -0.95f;
+        Center = new Vec2(5f, 26f);
+        base.Depth = -0.95f;
         _editorCanModify = false;
         floor = f;
         if (floor)
         {
-            graphic.angleDegrees = -90f;
+            graphic.AngleDegrees = -90f;
         }
     }
 
     public override void Draw()
     {
-        graphic.depth = base.depth;
+        graphic.Depth = base.Depth;
         if (floor)
         {
-            Graphics.Draw(graphic, base.x + 14f, base.y + 5f, new Rectangle(0f, graphic.height - 2, graphic.width, 2f));
-            Graphics.Draw(graphic, base.x + 14f - high, base.y + 5f, new Rectangle(0f, 0f, graphic.width, 3f));
+            Graphics.Draw(graphic, base.X + 14f, base.Y + 5f, new Rectangle(0f, graphic.height - 2, graphic.width, 2f));
+            Graphics.Draw(graphic, base.X + 14f - high, base.Y + 5f, new Rectangle(0f, 0f, graphic.width, 3f));
         }
         else
         {
-            Graphics.Draw(graphic, base.x - 5f, base.y + 6f, new Rectangle(0f, graphic.height - 2, graphic.width, 2f));
-            Graphics.Draw(graphic, base.x - 5f, base.y + 6f - high, new Rectangle(0f, 0f, graphic.width, 3f));
+            Graphics.Draw(graphic, base.X - 5f, base.Y + 6f, new Rectangle(0f, graphic.height - 2, graphic.width, 2f));
+            Graphics.Draw(graphic, base.X - 5f, base.Y + 6f - high, new Rectangle(0f, 0f, graphic.width, 3f));
         }
     }
 }

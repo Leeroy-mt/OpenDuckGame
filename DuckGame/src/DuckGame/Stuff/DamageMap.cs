@@ -69,13 +69,13 @@ public class DamageMap
 
     public void Damage(Vec2 point, float radius)
     {
-        point.x -= thing.left;
-        point.y -= thing.top;
+        point.X -= thing.left;
+        point.Y -= thing.top;
         for (int y = 0; y < 16; y++)
         {
             for (int x = 0; x < 16; x++)
             {
-                if ((new Vec2(x, y) - point).length <= radius)
+                if ((new Vec2(x, y) - point).Length() <= radius)
                 {
                     SetPoint(x, y, val: false);
                 }

@@ -21,10 +21,10 @@ public class Dart : PhysicsObject, IPlatform
     {
         _sprite = new SpriteMap("dart", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-4f, -2f);
         collisionSize = new Vec2(9f, 4f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         thickness = 1f;
         weight = 3f;
         _owner = owner;
@@ -34,7 +34,7 @@ public class Dart : PhysicsObject, IPlatform
         {
             _stickTime += Rando.Float(15f);
         }
-        angle = fireAngle;
+        Angle = fireAngle;
         if (owner != null)
         {
             owner.clip.Add(this);
@@ -50,9 +50,9 @@ public class Dart : PhysicsObject, IPlatform
         }
         if (type is DTFade)
         {
-            DartShell obj = new DartShell(base.x, base.y, Rando.Float(0.1f) * (0f - _sprite.flipMultH), _sprite.flipH)
+            DartShell obj = new DartShell(base.X, base.Y, Rando.Float(0.1f) * (0f - _sprite.flipMultH), _sprite.flipH)
             {
-                angle = angle
+                Angle = Angle
             };
             Level.Add(obj);
             obj.hSpeed = (0.5f + Rando.Float(0.3f)) * (0f - _sprite.flipMultH);
@@ -131,19 +131,19 @@ public class Dart : PhysicsObject, IPlatform
                 }
                 if (with is IPlatform || duck != null || r != null)
                 {
-                    DartShell dartShell = new DartShell(base.x, base.y, (0f - _sprite.flipMultH) * Rando.Float(0.6f), _sprite.flipH);
+                    DartShell dartShell = new DartShell(base.X, base.Y, (0f - _sprite.flipMultH) * Rando.Float(0.6f), _sprite.flipH);
                     Level.Add(dartShell);
                     dartShell.hSpeed = (0f - hSpeed) / 3f * (0.3f + Rando.Float(0.8f));
                     dartShell.vSpeed = -2f + Rando.Float(4f);
                     Level.Remove(this);
                     if (burning)
                     {
-                        with.Burn(position, this);
+                        with.Burn(Position, this);
                     }
                     return;
                 }
             }
-            float deg = (0f - base.angleDegrees) % 360f;
+            float deg = (0f - base.AngleDegrees) % 360f;
             if (deg < 0f)
             {
                 deg += 360f;
@@ -152,22 +152,22 @@ public class Dart : PhysicsObject, IPlatform
             if ((with is Block || with is Spikes || with is Saws) && from == ImpactedFrom.Right && (deg < 45f || deg > 315f))
             {
                 stick = true;
-                base.angleDegrees = 0f;
+                base.AngleDegrees = 0f;
             }
             else if ((with is Block || with is Spikes || with is Saws) && from == ImpactedFrom.Top && deg > 45f && deg < 135f)
             {
                 stick = true;
-                base.angleDegrees = 270f;
+                base.AngleDegrees = 270f;
             }
             else if ((with is Block || with is Spikes || with is Saws) && from == ImpactedFrom.Left && deg > 135f && deg < 225f)
             {
                 stick = true;
-                base.angleDegrees = 180f;
+                base.AngleDegrees = 180f;
             }
             else if (from == ImpactedFrom.Bottom && deg > 225f && deg < 315f)
             {
                 stick = true;
-                base.angleDegrees = 90f;
+                base.AngleDegrees = 90f;
             }
             if (stick)
             {
@@ -198,12 +198,12 @@ public class Dart : PhysicsObject, IPlatform
         base.Update();
         if (!destroyed && !_stuck)
         {
-            if (!burning && Level.CheckCircle<SmallFire>(position, 8f) != null)
+            if (!burning && Level.CheckCircle<SmallFire>(Position, 8f) != null)
             {
                 LightOnFire();
             }
             _sprite.frame = 0;
-            base.angleDegrees = 0f - Maths.PointDirection(Vec2.Zero, new Vec2(hSpeed, vSpeed));
+            base.AngleDegrees = 0f - Maths.PointDirection(Vec2.Zero, new Vec2(hSpeed, vSpeed));
         }
         if (_stuck)
         {

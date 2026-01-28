@@ -15,37 +15,37 @@ public class EyeCloseWing : Thing
     {
         _sprite = s.CloneMap();
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _dir = dir;
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         if (_dir < 0)
         {
-            base.angleDegrees = 70f;
+            base.AngleDegrees = 70f;
         }
         else
         {
-            base.angleDegrees = 120f;
+            base.AngleDegrees = 120f;
         }
         owner = own;
         _closer = closer;
         if (_dir < 0)
         {
-            base.x += 14f;
+            base.X += 14f;
         }
     }
 
     public override void Update()
     {
         float inc = 0.3f;
-        base.x += (float)_dir * inc;
+        base.X += (float)_dir * inc;
         _move += inc;
         if (_dir < 0)
         {
-            base.angleDegrees += 2f;
+            base.AngleDegrees += 2f;
         }
         else
         {
-            base.angleDegrees -= 2f;
+            base.AngleDegrees -= 2f;
         }
         if (_move > 4f)
         {

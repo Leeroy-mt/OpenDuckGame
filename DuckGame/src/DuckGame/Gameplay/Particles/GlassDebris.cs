@@ -13,18 +13,18 @@ public class GlassDebris : PhysicsParticle
         _sprite.frame = Rando.Int(7);
         _sprite.color = Window.windowColors[tint] * 0.6f;
         graphic = _sprite;
-        center = new Vec2(4f, 4f);
+        Center = new Vec2(4f, 4f);
         _bounceEfficiency = 0.3f;
         if (rotate)
         {
-            angle -= 1.57f;
+            Angle -= 1.57f;
         }
     }
 
     public override void Update()
     {
-        base.alpha -= 0.01f;
-        if (base.alpha < 0f)
+        base.Alpha -= 0.01f;
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }

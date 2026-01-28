@@ -15,14 +15,14 @@ public class SpikesRight : Spikes
         _sprite = new SpriteMap("spikes", 16, 19);
         _sprite.speed = 0.1f;
         graphic = _sprite;
-        center = new Vec2(8f, 14f);
+        Center = new Vec2(8f, 14f);
         collisionOffset = new Vec2(-2f, -6f);
         collisionSize = new Vec2(5f, 13f);
         _editorName = "Spikes Right";
         editorTooltip = "Pointy and dangerous.";
         physicsMaterial = PhysicsMaterial.Metal;
         editorCycleType = typeof(SpikesDown);
-        angle = (float)Math.PI / 2f;
+        Angle = (float)Math.PI / 2f;
         up = false;
         base.editorOffset = new Vec2(-6f, 0f);
         base.hugWalls = WallHug.Left;

@@ -31,11 +31,11 @@ public class SnowDrift : MaterialThing
             (graphic as SpriteMap).frame = Rando.Int(3);
         }
         base.hugWalls = WallHug.Floor;
-        center = new Vec2(8f, 14f);
+        Center = new Vec2(8f, 14f);
         collisionSize = new Vec2(14f, 4f);
         collisionOffset = new Vec2(-7f, -2f);
         base.layer = Layer.Blocks;
-        base.depth = 0.5f;
+        base.Depth = 0.5f;
         editorTooltip = "The safest drift of all!";
     }
 
@@ -43,19 +43,19 @@ public class SnowDrift : MaterialThing
     {
         if (kill)
         {
-            base.alpha -= 0.012f;
-            base.yscale -= 0.15f;
-            base.xscale += 0.12f;
-            base.y += 0.44f;
+            base.Alpha -= 0.012f;
+            base.ScaleY -= 0.15f;
+            base.ScaleX += 0.12f;
+            base.Y += 0.44f;
         }
         if (melt)
         {
-            base.alpha -= 0.0036000002f;
-            base.yscale -= 0.045f;
-            base.xscale += 0.036000002f;
-            base.y += 0.16f;
+            base.Alpha -= 0.0036000002f;
+            base.ScaleY -= 0.045f;
+            base.ScaleX += 0.036000002f;
+            base.Y += 0.16f;
         }
-        if (base.yscale < 0f)
+        if (base.ScaleY < 0f)
         {
             Level.Remove(this);
         }
@@ -83,7 +83,7 @@ public class SnowDrift : MaterialThing
                 {
                     mul = 0.7f;
                 }
-                Level.Add(new SnowFallParticle(base.x + Rando.Float(-8f, 8f), base.y + Rando.Float(-6f, 0f), new Vec2(hPower * mul * 0.1f + Rando.Float(-0.2f * (vPower * mul), 0.2f * (vPower * mul)), (0f - Rando.Float(0.8f, 1.5f)) * (vPower * mul * 0.15f)), i < 6));
+                Level.Add(new SnowFallParticle(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-6f, 0f), new Vec2(hPower * mul * 0.1f + Rando.Float(-0.2f * (vPower * mul), 0.2f * (vPower * mul)), (0f - Rando.Float(0.8f, 1.5f)) * (vPower * mul * 0.15f)), i < 6));
             }
             kill = true;
         }

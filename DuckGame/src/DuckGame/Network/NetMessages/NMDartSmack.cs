@@ -22,8 +22,8 @@ public class NMDartSmack : NMEvent
         {
             return;
         }
-        hit.hSpeed += vector.x;
-        hit.vSpeed += vector.y;
+        hit.hSpeed += vector.X;
+        hit.vSpeed += vector.Y;
         Duck duck = hit as Duck;
         if (duck == null && hit is RagdollPart && (hit as RagdollPart).doll != null && (hit as RagdollPart).doll.captureDuck != null)
         {

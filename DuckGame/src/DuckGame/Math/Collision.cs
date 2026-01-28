@@ -10,7 +10,7 @@ public static class Collision
 
     public static bool Point(Vec2 point, Thing t)
     {
-        if (point.x >= t.left && point.x <= t.right && point.y >= t.top && point.y <= t.bottom)
+        if (point.X >= t.left && point.X <= t.right && point.Y >= t.top && point.Y <= t.bottom)
         {
             return true;
         }
@@ -19,7 +19,7 @@ public static class Collision
 
     public static bool Point(Vec2 point, Rectangle r)
     {
-        if (point.x >= r.Left && point.x <= r.Right && point.y >= r.Top && point.y <= r.Bottom)
+        if (point.X >= r.Left && point.X <= r.Right && point.Y >= r.Top && point.Y <= r.Bottom)
         {
             return true;
         }
@@ -32,12 +32,12 @@ public static class Collision
         double a_rectangleMinY = t.top;
         double a_rectangleMaxX = t.right;
         double a_rectangleMaxY = t.bottom;
-        double minX = point1.x;
-        double maxX = point2.x;
-        if (point1.x > point2.x)
+        double minX = point1.X;
+        double maxX = point2.X;
+        if (point1.X > point2.X)
         {
-            minX = point2.x;
-            maxX = point1.x;
+            minX = point2.X;
+            maxX = point1.X;
         }
         if (maxX > a_rectangleMaxX)
         {
@@ -51,13 +51,13 @@ public static class Collision
         {
             return false;
         }
-        double minY = point1.y;
-        double maxY = point2.y;
-        double dx = point2.x - point1.x;
+        double minY = point1.Y;
+        double maxY = point2.Y;
+        double dx = point2.X - point1.X;
         if (Math.Abs(dx) > 1E-07)
         {
-            double a = (double)(point2.y - point1.y) / dx;
-            double b = (double)point1.y - a * (double)point1.x;
+            double a = (double)(point2.Y - point1.Y) / dx;
+            double b = (double)point1.Y - a * (double)point1.X;
             minY = a * minX + b;
             maxY = a * maxX + b;
         }
@@ -88,12 +88,12 @@ public static class Collision
         double a_rectangleMinY = rect.y;
         double a_rectangleMaxX = rect.x + rect.width;
         double a_rectangleMaxY = rect.y + rect.height;
-        double minX = point1.x;
-        double maxX = point2.x;
-        if (point1.x > point2.x)
+        double minX = point1.X;
+        double maxX = point2.X;
+        if (point1.X > point2.X)
         {
-            minX = point2.x;
-            maxX = point1.x;
+            minX = point2.X;
+            maxX = point1.X;
         }
         if (maxX > a_rectangleMaxX)
         {
@@ -107,13 +107,13 @@ public static class Collision
         {
             return false;
         }
-        double minY = point1.y;
-        double maxY = point2.y;
-        double dx = point2.x - point1.x;
+        double minY = point1.Y;
+        double maxY = point2.Y;
+        double dx = point2.X - point1.X;
         if (Math.Abs(dx) > 1E-07)
         {
-            double a = (double)(point2.y - point1.y) / dx;
-            double b = (double)point1.y - a * (double)point1.x;
+            double a = (double)(point2.Y - point1.Y) / dx;
+            double b = (double)point1.Y - a * (double)point1.X;
             minY = a * minX + b;
             maxY = a * maxX + b;
         }
@@ -140,7 +140,7 @@ public static class Collision
 
     public static bool CCW(Vec2 A, Vec2 B, Vec2 C)
     {
-        return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x);
+        return (C.Y - A.Y) * (B.X - A.X) > (B.Y - A.Y) * (C.X - A.X);
     }
 
     public static bool LineIntersect(Vec2 p1, Vec2 p2, Vec2 p3, Vec2 p4)
@@ -155,24 +155,24 @@ public static class Collision
     public static bool Circle(Vec2 center, float radius, Thing t)
     {
         Vec2 closestPoint = new Vec2(center);
-        if (center.x < t.left)
+        if (center.X < t.left)
         {
-            closestPoint.x = t.left;
+            closestPoint.X = t.left;
         }
-        else if (center.x > t.right)
+        else if (center.X > t.right)
         {
-            closestPoint.x = t.right;
+            closestPoint.X = t.right;
         }
-        if (center.y < t.top)
+        if (center.Y < t.top)
         {
-            closestPoint.y = t.top;
+            closestPoint.Y = t.top;
         }
-        else if (center.y > t.bottom)
+        else if (center.Y > t.bottom)
         {
-            closestPoint.y = t.bottom;
+            closestPoint.Y = t.bottom;
         }
         Vec2 diff = closestPoint - center;
-        if (diff.x * diff.x + diff.y * diff.y > radius * radius)
+        if (diff.X * diff.X + diff.Y * diff.Y > radius * radius)
         {
             return false;
         }
@@ -182,24 +182,24 @@ public static class Collision
     public static bool Circle(Vec2 center, float radius, Rectangle t)
     {
         Vec2 closestPoint = new Vec2(center);
-        if (center.x < t.Left)
+        if (center.X < t.Left)
         {
-            closestPoint.x = t.Left;
+            closestPoint.X = t.Left;
         }
-        else if (center.x > t.Right)
+        else if (center.X > t.Right)
         {
-            closestPoint.x = t.Right;
+            closestPoint.X = t.Right;
         }
-        if (center.y < t.Top)
+        if (center.Y < t.Top)
         {
-            closestPoint.y = t.Top;
+            closestPoint.Y = t.Top;
         }
-        else if (center.y > t.Bottom)
+        else if (center.Y > t.Bottom)
         {
-            closestPoint.y = t.Bottom;
+            closestPoint.Y = t.Bottom;
         }
         Vec2 diff = closestPoint - center;
-        if (diff.x * diff.x + diff.y * diff.y > radius * radius)
+        if (diff.X * diff.X + diff.Y * diff.Y > radius * radius)
         {
             return false;
         }
@@ -208,18 +208,18 @@ public static class Collision
 
     public static bool Rect(Vec2 tl1, Vec2 br1, Thing t)
     {
-        if (!(br1.y < t.top) && !(tl1.y > t.bottom) && !(tl1.x > t.right))
+        if (!(br1.Y < t.top) && !(tl1.Y > t.bottom) && !(tl1.X > t.right))
         {
-            return !(br1.x < t.left);
+            return !(br1.X < t.left);
         }
         return false;
     }
 
     public static bool Rect(Vec2 tl1, Vec2 br1, Rectangle t)
     {
-        if (!(br1.y < t.y) && !(tl1.y > t.Bottom) && !(tl1.x > t.Right))
+        if (!(br1.Y < t.y) && !(tl1.Y > t.Bottom) && !(tl1.X > t.Right))
         {
-            return !(br1.x < t.x);
+            return !(br1.X < t.x);
         }
         return false;
     }
@@ -244,12 +244,12 @@ public static class Collision
 
     public static Vec2 LineIntersectPoint(Vec2 line1V1, Vec2 line1V2, Vec2 line2V1, Vec2 line2V2)
     {
-        float A1 = line1V2.y - line1V1.y;
-        float B1 = line1V1.x - line1V2.x;
-        float C1 = A1 * line1V1.x + B1 * line1V1.y;
-        float A2 = line2V2.y - line2V1.y;
-        float B2 = line2V1.x - line2V2.x;
-        float C2 = A2 * line2V1.x + B2 * line2V1.y;
+        float A1 = line1V2.Y - line1V1.Y;
+        float B1 = line1V1.X - line1V2.X;
+        float C1 = A1 * line1V1.X + B1 * line1V1.Y;
+        float A2 = line2V2.Y - line2V1.Y;
+        float B2 = line2V1.X - line2V2.X;
+        float C2 = A2 * line2V1.X + B2 * line2V1.Y;
         float det = A1 * B2 - A2 * B1;
         if (det == 0f)
         {
@@ -265,17 +265,17 @@ public static class Collision
         Vec2 dif = point2 - point1;
         float[] p = new float[4]
         {
-            0f - dif.x,
-            dif.x,
-            0f - dif.y,
-            dif.y
+            0f - dif.X,
+            dif.X,
+            0f - dif.Y,
+            dif.Y
         };
         float[] q = new float[4]
         {
-            point1.x - thing.left,
-            thing.right - point1.x,
-            point1.y - thing.top,
-            thing.bottom - point1.y
+            point1.X - thing.left,
+            thing.right - point1.X,
+            point1.Y - thing.top,
+            thing.bottom - point1.Y
         };
         float u1 = float.NegativeInfinity;
         float u2 = float.PositiveInfinity;
@@ -303,7 +303,7 @@ public static class Collision
         {
             return Vec2.Zero;
         }
-        return new Vec2(point1.x + u1 * dif.x, point1.y + u1 * dif.y);
+        return new Vec2(point1.X + u1 * dif.X, point1.Y + u1 * dif.Y);
     }
 
     public static Vec2 LinePoint(Vec2 point1, Vec2 point2, Rectangle rect)
@@ -311,17 +311,17 @@ public static class Collision
         Vec2 dif = point2 - point1;
         float[] p = new float[4]
         {
-            0f - dif.x,
-            dif.x,
-            0f - dif.y,
-            dif.y
+            0f - dif.X,
+            dif.X,
+            0f - dif.Y,
+            dif.Y
         };
         float[] q = new float[4]
         {
-            point1.x - rect.x,
-            rect.x + rect.width - point1.x,
-            point1.y - rect.y,
-            rect.y + rect.height - point1.y
+            point1.X - rect.x,
+            rect.x + rect.width - point1.X,
+            point1.Y - rect.y,
+            rect.y + rect.height - point1.Y
         };
         float u1 = float.NegativeInfinity;
         float u2 = float.PositiveInfinity;
@@ -349,6 +349,6 @@ public static class Collision
         {
             return Vec2.Zero;
         }
-        return new Vec2(point1.x + u1 * dif.x, point1.y + u1 * dif.y);
+        return new Vec2(point1.X + u1 * dif.X, point1.Y + u1 * dif.Y);
     }
 }

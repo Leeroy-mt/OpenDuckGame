@@ -59,21 +59,21 @@ public class BackgroundUpdater : Thing
         Matrix m = Level.current.camera.getMatrix();
         int xScissor = 0;
         int xRight = 0;
-        float xMul = (float)Graphics.width / Resolution.size.x;
+        float xMul = (float)Graphics.width / Resolution.size.X;
         foreach (RockWall wall in Level.current.things[typeof(RockWall)])
         {
             if (xRight == 0)
             {
-                xRight = (int)Resolution.size.x;
+                xRight = (int)Resolution.size.X;
             }
-            Vec2 wallPos = Vec2.Transform(wall.position, m) * xMul;
-            if (!wall.flipHorizontal && wallPos.x > (float)xScissor)
+            Vec2 wallPos = Vec2.Transform(wall.Position, m) * xMul;
+            if (!wall.flipHorizontal && wallPos.X > (float)xScissor)
             {
-                xScissor = (int)wallPos.x;
+                xScissor = (int)wallPos.X;
             }
-            else if (wall.flipHorizontal && wallPos.x < (float)xRight)
+            else if (wall.flipHorizontal && wallPos.X < (float)xRight)
             {
-                xRight = (int)wallPos.x;
+                xRight = (int)wallPos.X;
             }
         }
         if (xRight != 0)
@@ -82,7 +82,7 @@ public class BackgroundUpdater : Thing
         }
         if (xRight == 0)
         {
-            xRight = (int)Resolution.size.x;
+            xRight = (int)Resolution.size.X;
         }
         return new Vec2(xScissor, xRight);
     }
@@ -94,7 +94,7 @@ public class BackgroundUpdater : Thing
             Vec2 wallScissor = GetWallScissor();
             if (wallScissor != Vec2.Zero)
             {
-                scissor = new Rectangle((int)wallScissor.x, 0f, (int)wallScissor.y, Resolution.current.y);
+                scissor = new Rectangle((int)wallScissor.X, 0f, (int)wallScissor.Y, Resolution.current.y);
             }
         }
         if (!_update)
@@ -106,12 +106,12 @@ public class BackgroundUpdater : Thing
             float sfactor = Level.current.camera.width * 4f / (float)Graphics.width;
             if (_yParallax)
             {
-                _parallax.y = 0f - Level.current.camera.centerY / 12f - 5f + _yOffset;
+                _parallax.Y = 0f - Level.current.camera.centerY / 12f - 5f + _yOffset;
             }
             else
             {
                 Layer.Parallax.camera = Level.current.camera;
-                _parallax.y = -108f + _extraYOffset;
+                _parallax.Y = -108f + _extraYOffset;
             }
             float dif = _lastCameraX - Level.current.camera.centerX;
             _parallax.xmove = dif / sfactor;

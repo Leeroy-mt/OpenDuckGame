@@ -45,7 +45,7 @@ public abstract class JoyConBase : AnalogGamePad
 
     public override bool allowStartRemap => false;
 
-    public override Vec2 leftStick => new Vec2(_state.sticks.left.x, _state.sticks.left.y);
+    public override Vec2 leftStick => new Vec2(_state.sticks.left.X, _state.sticks.left.Y);
 
     public override Vec2 rightStick => Vec2.Zero;
 
@@ -62,7 +62,7 @@ public abstract class JoyConBase : AnalogGamePad
 
     protected Vec2 ReadRightStick()
     {
-        return new Vec2(_state.sticks.right.x, _state.sticks.right.y);
+        return new Vec2(_state.sticks.right.X, _state.sticks.right.Y);
     }
 
     public override Dictionary<int, string> GetTriggerNames()

@@ -17,10 +17,10 @@ public class Conveyor : Block
         _sprite.frame = Rando.Int(0, 7);
         _sprite.SetAnimation("convey");
         graphic = _sprite;
-        center = new Vec2(7f, 5f);
+        Center = new Vec2(7f, 5f);
         collisionOffset = new Vec2(-7f, -4f);
         collisionSize = new Vec2(14f, 8f);
-        base.depth = 0.5f;
+        base.Depth = 0.5f;
         _editorName = "Conveyor";
         thickness = 100f;
         physicsMaterial = PhysicsMaterial.Metal;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DuckGame;
 
-public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
+public class SpriteMap : Sprite, ICloneable
 {
     private int _globalIndex = Thing.GetGlobalIndex();
 
@@ -46,14 +46,8 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
 
     public new int globalIndex
     {
-        get
-        {
-            return _globalIndex;
-        }
-        set
-        {
-            _globalIndex = value;
-        }
+        get => _globalIndex;
+        set => _globalIndex = value;
     }
 
     public override int width => _width;
@@ -62,52 +56,31 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
 
     public float speed
     {
-        get
-        {
-            return _speed;
-        }
-        set
-        {
-            _speed = value;
-        }
+        get => _speed;
+        set => _speed = value;
     }
 
     public bool finished
     {
-        get
-        {
-            return _finished;
-        }
-        set
-        {
-            _finished = value;
-        }
+        get => _finished;
+        set => _finished = value;
     }
 
     public int frame
     {
-        get
-        {
-            return _frame;
-        }
+        get => _frame;
         set
         {
             SetFrameWithoutReset(value);
-            _frameInc = 0f;
+            _frameInc = 0;
             _finished = false;
         }
     }
 
     public int imageIndex
     {
-        get
-        {
-            return _imageIndex;
-        }
-        set
-        {
-            _imageIndex = value;
-        }
+        get => _imageIndex;
+        set => _imageIndex = value;
     }
 
     public int animationIndex
@@ -115,17 +88,13 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
         get
         {
             if (_currentAnimation.HasValue && _currentAnimation.HasValue && _animations.Contains(_currentAnimation.Value))
-            {
                 return _animations.IndexOf(_currentAnimation.Value);
-            }
             return 0;
         }
         set
         {
             if (_animations != null)
-            {
                 SetAnimation(_animations[value].name);
-            }
         }
     }
 
@@ -134,9 +103,7 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
         get
         {
             if (_texture == null || _texture.w <= 0 || w <= 0)
-            {
                 return false;
-            }
             return true;
         }
     }
@@ -146,23 +113,15 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
         get
         {
             if (!_currentAnimation.HasValue)
-            {
-                return "";
-            }
+                return string.Empty;
             return _currentAnimation.Value.name;
         }
-        set
-        {
-            SetAnimation(value);
-        }
+        set => SetAnimation(value);
     }
 
     public int cutWidth
     {
-        get
-        {
-            return _cutWidth;
-        }
+        get => _cutWidth;
         set
         {
             _cutWidth = value;
@@ -176,19 +135,12 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
         if (_currentAnimation.HasValue && valid)
         {
             if (_frame >= _currentAnimation.Value.frames.Length)
-            {
                 _frame = _currentAnimation.Value.frames.Length - 1;
-            }
-            if (_frame < 0)
-            {
-                _frame = 0;
-            }
+            _frame = int.Max(_frame, 0);
             _imageIndex = _currentAnimation.Value.frames[_frame];
         }
         else
-        {
             _imageIndex = _frame;
-        }
     }
 
     public SpriteMap(Tex2D tex, int frameWidth, int frameHeight)
@@ -198,7 +150,7 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
         frameHeight = Math.Min(_texture.height, frameHeight);
         tex.frameWidth = frameWidth;
         tex.frameHeight = frameHeight;
-        position = new Vec2(base.x, base.y);
+        Position = new Vec2(X, Y);
         _width = frameWidth;
         _height = frameHeight;
         AddDefaultAnimation();
@@ -217,7 +169,7 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
         frameHeight = Math.Min(_texture.height, frameHeight);
         _texture.frameWidth = frameWidth;
         _texture.frameHeight = frameHeight;
-        position = new Vec2(base.x, base.y);
+        Position = new Vec2(base.X, base.Y);
         _width = frameWidth;
         _height = frameHeight;
         AddDefaultAnimation();
@@ -380,7 +332,7 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
             _texture.currentObjectIndex = _globalIndex;
             if (w > 0)
             {
-                Graphics.Draw(_texture, position, _spriteBox, _color * base.alpha, angle, center, base.scale, base.flipH ? SpriteEffects.FlipHorizontally : (base.flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.depth);
+                Graphics.Draw(_texture, Position, _spriteBox, _color * base.Alpha, Angle, Center, base.Scale, base.flipH ? SpriteEffects.FlipHorizontally : (base.flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
             }
         }
     }
@@ -392,7 +344,7 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
             r.x += _spriteBox.x;
             r.y += _spriteBox.y;
             _texture.currentObjectIndex = _globalIndex;
-            Graphics.Draw(_texture, position, r, _color * base.alpha, angle, center, base.scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.depth);
+            Graphics.Draw(_texture, Position, r, _color * base.Alpha, Angle, Center, base.Scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
         }
     }
 
@@ -403,7 +355,7 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
             _texture.currentObjectIndex = _globalIndex;
             if (w > 0)
             {
-                Graphics.Draw(_texture, position, _spriteBox, _color * base.alpha, angle, center, base.scale, base.flipH ? SpriteEffects.FlipHorizontally : (base.flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.depth);
+                Graphics.Draw(_texture, Position, _spriteBox, _color * base.Alpha, Angle, Center, base.Scale, base.flipH ? SpriteEffects.FlipHorizontally : (base.flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
             }
         }
     }
@@ -413,7 +365,7 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
         if (valid)
         {
             _texture.currentObjectIndex = _globalIndex;
-            Graphics.Draw(_texture, position, _spriteBox, _color, angle, center, base.scale, flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.depth);
+            Graphics.Draw(_texture, Position, _spriteBox, _color, Angle, Center, base.Scale, flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.Depth);
         }
     }
 
@@ -433,7 +385,7 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
             UpdateFrame();
             Graphics.recordMetadata = true;
             _texture.currentObjectIndex = _globalIndex;
-            Graphics.Draw(_texture, position, _spriteBox, _color, angle, center, base.scale, flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.depth);
+            Graphics.Draw(_texture, Position, _spriteBox, _color, Angle, Center, base.Scale, flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.Depth);
             if (_waitFrames == 1)
             {
                 _batchItem = Graphics.screen.StealLastSpriteBatchItem();
@@ -456,7 +408,7 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
     {
         SpriteMap map = new SpriteMap(_texture, _width, _height);
         CloneAnimations(map);
-        map.center = center;
+        map.Center = Center;
         map.imageIndex = imageIndex;
         map.frame = frame;
         map._globalIndex = _globalIndex;
@@ -464,11 +416,6 @@ public class SpriteMap : Sprite, ICloneable<SpriteMap>, ICloneable
     }
 
     public SpriteMap CloneMap()
-    {
-        return (SpriteMap)Clone();
-    }
-
-    SpriteMap ICloneable<SpriteMap>.Clone()
     {
         return (SpriteMap)Clone();
     }

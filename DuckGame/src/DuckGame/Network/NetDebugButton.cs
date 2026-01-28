@@ -21,15 +21,15 @@ public class NetDebugButton : NetDebugElement
     protected override bool Draw(Vec2 position, bool allowInput)
     {
         bool tookInput = !allowInput;
-        position.y -= 2f;
+        position.Y -= 2f;
         Vec2 size = new Vec2(100f, 12f);
         width = 100f;
-        Rectangle elementRect = new Rectangle(position.x, position.y, size.x, size.y);
+        Rectangle elementRect = new Rectangle(position.X, position.Y, size.X, size.Y);
         if ((!tookInput && elementRect.Contains(Mouse.positionConsole)) || pressing)
         {
             Graphics.DrawRect(position, position + size, Color.White, depth + 2, filled: false);
             Graphics.DrawRect(position, position + size, Color.White * 0.3f, depth + 1);
-            Graphics.DrawString(_name, position + new Vec2(size.x / 2f - Graphics.GetStringWidth(_name) / 2f, 2f), Color.White * 1f, depth + 10);
+            Graphics.DrawString(_name, position + new Vec2(size.X / 2f - Graphics.GetStringWidth(_name) / 2f, 2f), Color.White * 1f, depth + 10);
             if (Mouse.left == InputState.Pressed)
             {
                 if (_pressAction != null)
@@ -52,7 +52,7 @@ public class NetDebugButton : NetDebugElement
         {
             Graphics.DrawRect(position, position + size, Color.White, depth + 2, filled: false);
             Graphics.DrawRect(position, position + size, Color.Black * 0.8f, depth + 1);
-            Graphics.DrawString(_name, position + new Vec2(size.x / 2f - Graphics.GetStringWidth(_name) / 2f, 2f), Color.White * 0.8f, depth + 10);
+            Graphics.DrawString(_name, position + new Vec2(size.X / 2f - Graphics.GetStringWidth(_name) / 2f, 2f), Color.White * 0.8f, depth + 10);
         }
         if (Mouse.left == InputState.Released)
         {

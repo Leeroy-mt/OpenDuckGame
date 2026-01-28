@@ -13,10 +13,10 @@ public class ATMissileShrapnel : AmmoType
 
     public override void MakeNetEffect(Vec2 pos, bool fromNetwork = false)
     {
-        Level.Add(new ExplosionPart(pos.x + Rando.Float(-2f, 2f), pos.y + Rando.Float(-2f, 2f), doWait: false));
+        Level.Add(new ExplosionPart(pos.X + Rando.Float(-2f, 2f), pos.Y + Rando.Float(-2f, 2f), doWait: false));
         for (int repeat = 0; repeat < 4; repeat++)
         {
-            Level.Add(new ExplosionPart(pos.x + Rando.Float(-11f, 11f), pos.y + Rando.Float(-11f, 11f), doWait: false));
+            Level.Add(new ExplosionPart(pos.X + Rando.Float(-11f, 11f), pos.Y + Rando.Float(-11f, 11f), doWait: false));
         }
         if (fromNetwork)
         {

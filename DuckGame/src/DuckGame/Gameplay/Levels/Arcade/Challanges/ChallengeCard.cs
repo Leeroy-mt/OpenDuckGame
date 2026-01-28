@@ -66,7 +66,7 @@ public class ChallengeCard : Thing
         _realSave = Profiles.active[0].GetSaveData(_challenge.levelID);
         _save = _realSave.Clone();
         _medalRibbon = new SpriteMap("arcade/medalRibbon", 18, 27);
-        _medalRibbon.center = new Vec2(6f, 3f);
+        _medalRibbon.Center = new Vec2(6f, 3f);
         _fancyFont = new FancyBitmapFont("smallFont");
     }
 
@@ -77,7 +77,7 @@ public class ChallengeCard : Thing
             MemoryStream stream = new MemoryStream(Convert.FromBase64String(_challenge.preview));
             Texture2D tex = Texture2D.FromStream(Graphics.device, stream);
             _preview = new SpriteMap(tex, tex.Width, tex.Height);
-            _preview.scale = new Vec2(0.25f);
+            _preview.Scale = new Vec2(0.25f);
         }
         _size = Lerp.Float(_size, contract ? 1 : (expand ? 130 : 42), 8f);
         _alphaMul = Lerp.Float(_alphaMul, contract ? 0f : 1f, 0.1f);
@@ -162,21 +162,21 @@ public class ChallengeCard : Thing
     public void UnlockAnimation()
     {
         SFX.Play("landTV", 1f, -0.3f);
-        SmallSmoke smallSmoke = SmallSmoke.New(base.x + 2f, base.y + 2f);
+        SmallSmoke smallSmoke = SmallSmoke.New(base.X + 2f, base.Y + 2f);
         smallSmoke.layer = Layer.HUD;
         Level.Add(smallSmoke);
     }
 
     public override void Draw()
     {
-        float mul = base.alpha * (hover ? 1f : 0.6f) * _alphaMul;
-        _font.alpha = mul;
-        Graphics.DrawRect(position, position + new Vec2(258f, _size), Color.White * mul, 0.8f + mul * 0.04f, filled: false);
+        float mul = base.Alpha * (hover ? 1f : 0.6f) * _alphaMul;
+        _font.Alpha = mul;
+        Graphics.DrawRect(Position, Position + new Vec2(258f, _size), Color.White * mul, 0.8f + mul * 0.04f, filled: false);
         if (_save.trophy != TrophyType.Baseline)
         {
-            _medalRibbon.depth = 0.81f + mul * 0.04f;
+            _medalRibbon.Depth = 0.81f + mul * 0.04f;
             _medalRibbon.color = new Color(mul, mul, mul);
-            _medalRibbon.alpha = ArcadeHUD.alphaVal;
+            _medalRibbon.Alpha = ArcadeHUD.alphaVal;
             if (_save.trophy == TrophyType.Bronze)
             {
                 _medalRibbon.frame = 0;
@@ -197,17 +197,17 @@ public class ChallengeCard : Thing
             {
                 _medalRibbon.frame = 4;
             }
-            Graphics.Draw(_medalRibbon, position.x, position.y);
+            Graphics.Draw(_medalRibbon, Position.X, Position.Y);
         }
         else if (!_unlocked)
         {
-            _medalRibbon.depth = 0.81f + mul * 0.04f;
+            _medalRibbon.Depth = 0.81f + mul * 0.04f;
             _medalRibbon.color = new Color(mul, mul, mul);
             _medalRibbon.frame = 5;
-            Graphics.Draw(_medalRibbon, position.x, position.y);
+            Graphics.Draw(_medalRibbon, Position.X, Position.Y);
         }
-        _thumb.alpha = mul;
-        _thumb.depth = 0.8f + mul * 0.04f;
+        _thumb.Alpha = mul;
+        _thumb.Depth = 0.8f + mul * 0.04f;
         if (!_unlocked)
         {
             _thumb.frame = 0;
@@ -218,13 +218,13 @@ public class ChallengeCard : Thing
         }
         if (_unlocked && _preview != null)
         {
-            _preview.alpha = mul;
-            _preview.depth = 0.8f + mul * 0.04f;
-            Graphics.Draw(_preview, base.x + 2f, base.y + 2f);
+            _preview.Alpha = mul;
+            _preview.Depth = 0.8f + mul * 0.04f;
+            Graphics.Draw(_preview, base.X + 2f, base.Y + 2f);
         }
         else
         {
-            Graphics.Draw(_thumb, base.x + 2f, base.y + 2f);
+            Graphics.Draw(_thumb, base.X + 2f, base.Y + 2f);
         }
         _font.maxWidth = 200;
         string drawName = _challenge.GetNameForDisplay();
@@ -232,7 +232,7 @@ public class ChallengeCard : Thing
         {
             drawName = MakeQuestionMarks(drawName);
         }
-        _font.Draw(drawName, base.x + 41f, base.y + 2f, Color.White * mul, 1f);
+        _font.Draw(drawName, base.X + 41f, base.Y + 2f, Color.White * mul, 1f);
         Color c = new Color(247, 224, 89);
         string drawDesc = _challenge.description;
         if (!_unlocked)
@@ -240,19 +240,19 @@ public class ChallengeCard : Thing
             drawDesc = MakeQuestionMarks(drawDesc);
         }
         _fancyFont.maxWidth = 200;
-        _fancyFont.alpha = mul;
+        _fancyFont.Alpha = mul;
         FancyBitmapFont fancyFont = _fancyFont;
-        float num = (_fancyFont.yscale = 0.75f);
-        fancyFont.xscale = num;
-        _fancyFont.Draw(drawDesc, base.x + 41f, base.y + 12f, c, 1f);
+        float num = (_fancyFont.ScaleY = 0.75f);
+        fancyFont.ScaleX = num;
+        _fancyFont.Draw(drawDesc, base.X + 41f, base.Y + 12f, c, 1f);
         if (!(_dataAlpha > 0.01f))
         {
             return;
         }
         float dataAlpha = _dataAlpha * mul;
-        Graphics.DrawLine(position + new Vec2(0f, 42f), position + new Vec2(258f, 42f), Color.White * dataAlpha, 1f, 0.8f + mul * 0.04f);
-        Graphics.DrawLine(position + new Vec2(0f, 64f), position + new Vec2(258f, 64f), Color.White * dataAlpha, 1f, 0.8f + mul * 0.04f);
-        _font.alpha = dataAlpha;
+        Graphics.DrawLine(Position + new Vec2(0f, 42f), Position + new Vec2(258f, 42f), Color.White * dataAlpha, 1f, 0.8f + mul * 0.04f);
+        Graphics.DrawLine(Position + new Vec2(0f, 64f), Position + new Vec2(258f, 64f), Color.White * dataAlpha, 1f, 0.8f + mul * 0.04f);
+        _font.Alpha = dataAlpha;
         Color bestColor = new Color(245, 165, 36);
         bestColor = Colors.DGRed;
         if (_save.trophy == TrophyType.Bronze)
@@ -275,14 +275,14 @@ public class ChallengeCard : Thing
         {
             bestColor = Colors.Developer;
         }
-        _fancyFont.Draw("|DGBLUE|" + _challenge.goal, base.x + 6f, base.y + 45f, Color.White, 1f);
-        _font.Draw(Chancy.GetChallengeBestString(_save, _challenge), base.x + 6f, base.y + 45f + 9f, bestColor, 1f);
+        _fancyFont.Draw("|DGBLUE|" + _challenge.goal, base.X + 6f, base.Y + 45f, Color.White, 1f);
+        _font.Draw(Chancy.GetChallengeBestString(_save, _challenge), base.X + 6f, base.Y + 45f + 9f, bestColor, 1f);
         bool prevTimeReq = false;
-        _medalNoRibbon.depth = 0.8f + mul * 0.04f;
-        _medalNoRibbon.alpha = dataAlpha;
+        _medalNoRibbon.Depth = 0.8f + mul * 0.04f;
+        _medalNoRibbon.Alpha = dataAlpha;
         _medalNoRibbon.frame = 2;
-        float medalX = base.x + 6f;
-        float medalY = base.y + 68f;
+        float medalX = base.X + 6f;
+        float medalY = base.Y + 68f;
         Graphics.Draw(_medalNoRibbon, medalX, medalY);
         Color medalColor = new Color(245, 165, 36);
         _font.Draw("GOLD", medalX + 22f, medalY, medalColor, 1f);
@@ -318,8 +318,8 @@ public class ChallengeCard : Thing
             reqString = reqString + "|ORANGE|" + dat.goodies + " " + prefix;
         }
         _font.Draw(reqString, medalX + 22f, medalY + 9f, Color.White, 1f);
-        medalY = base.y + 68f + 20f;
-        _medalNoRibbon.alpha = dataAlpha;
+        medalY = base.Y + 68f + 20f;
+        _medalNoRibbon.Alpha = dataAlpha;
         _medalNoRibbon.frame = 1;
         Graphics.Draw(_medalNoRibbon, medalX, medalY);
         medalColor = new Color(173, 173, 173);
@@ -363,8 +363,8 @@ public class ChallengeCard : Thing
             reqString = reqString + "|ORANGE|" + dat.goodies + " " + prefix2;
         }
         _font.Draw(reqString, medalX + 22f, medalY + 9f, Color.White, 1f);
-        medalY = base.y + 68f + 40f;
-        _medalNoRibbon.alpha = dataAlpha;
+        medalY = base.Y + 68f + 40f;
+        _medalNoRibbon.Alpha = dataAlpha;
         _medalNoRibbon.frame = 0;
         Graphics.Draw(_medalNoRibbon, medalX, medalY);
         medalColor = new Color(181, 86, 3);

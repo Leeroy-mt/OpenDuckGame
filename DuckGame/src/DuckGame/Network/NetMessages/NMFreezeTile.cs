@@ -12,8 +12,8 @@ public class NMFreezeTile : NMEvent
 
     public NMFreezeTile(Vec2 pPosition)
     {
-        x = (short)pPosition.x;
-        y = (short)pPosition.y;
+        x = (short)pPosition.X;
+        y = (short)pPosition.Y;
     }
 
     public override void Activate()

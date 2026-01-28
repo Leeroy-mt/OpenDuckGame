@@ -14,7 +14,7 @@ public class Boots : Equipment
         _pickupSprite = new Sprite("bootsPickup");
         _sprite = new SpriteMap("boots", 32, 32);
         graphic = _pickupSprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-6f, -6f);
         collisionSize = new Vec2(12f, 13f);
         _equippedDepth = 3;
@@ -36,7 +36,7 @@ public class Boots : Equipment
     {
         if (_equippedDuck != null && !destroyed)
         {
-            center = new Vec2(16f, 12f);
+            Center = new Vec2(16f, 12f);
             graphic = _sprite;
             collisionOffset = new Vec2(0f, -9999f);
             collisionSize = new Vec2(0f, 0f);
@@ -50,7 +50,7 @@ public class Boots : Equipment
         }
         else
         {
-            center = new Vec2(8f, 8f);
+            Center = new Vec2(8f, 8f);
             graphic = _pickupSprite;
             collisionOffset = new Vec2(-6f, -6f);
             collisionSize = new Vec2(12f, 13f);
@@ -60,9 +60,9 @@ public class Boots : Equipment
         }
         if (destroyed)
         {
-            base.alpha -= 0.05f;
+            base.Alpha -= 0.05f;
         }
-        if (base.alpha < 0f)
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }
@@ -73,7 +73,7 @@ public class Boots : Equipment
     {
         if (_equippedDuck != null && _equippedDuck._trapped != null)
         {
-            base.depth = _equippedDuck._trapped.depth + 2;
+            base.Depth = _equippedDuck._trapped.Depth + 2;
         }
         if (_equippedDuck != null)
         {

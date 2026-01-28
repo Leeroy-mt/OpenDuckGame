@@ -35,16 +35,16 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
         _maxHealth = 15f;
         _hitPoints = 15f;
         graphic = new Sprite("yellowBarrel");
-        center = new Vec2(7f, 8f);
+        Center = new Vec2(7f, 8f);
         _melting = new Sprite("yellowBarrelMelting");
         _toreUp = new SpriteMap("yellowBarrelToreUp", 14, 17);
         _toreUp.frame = 1;
-        _toreUp.center = new Vec2(0f, -6f);
+        _toreUp.Center = new Vec2(0f, -6f);
         base.sequence = new SequenceItem(this);
         base.sequence.type = SequenceItemType.Goody;
         collisionOffset = new Vec2(-7f, -8f);
         collisionSize = new Vec2(14f, 16f);
-        base.depth = -0.1f;
+        base.Depth = -0.1f;
         _editorName = "Barrel (Gasoline)";
         editorTooltip = "Do not smoke near this barrel. In fact, don't smoke at all. It's not cool, kids!";
         thickness = 4f;
@@ -71,7 +71,7 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
             return false;
         }
         hitPos += bullet.travelDirNormalized * 2f;
-        if (1f - (hitPos.y - base.top) / (base.bottom - base.top) < _fluidLevel)
+        if (1f - (hitPos.Y - base.top) / (base.bottom - base.top) < _fluidLevel)
         {
             thickness = 2f;
             MakeHole(hitPos, bullet.travelDirNormalized);
@@ -84,11 +84,11 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
 
     public void MakeHole(Vec2 pPos, Vec2 pImpaleDirection)
     {
-        Vec2 offset = pPos - position;
+        Vec2 offset = pPos - Position;
         bool found = false;
         foreach (FluidStream hole in _holes)
         {
-            if ((hole.offset - offset).length < 2f)
+            if ((hole.offset - offset).Length() < 2f)
             {
                 hole.offset = offset;
                 hole.holeThickness += 0.5f;
@@ -106,11 +106,11 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
     public override void ExitHit(Bullet bullet, Vec2 exitPos)
     {
         exitPos -= bullet.travelDirNormalized * 2f;
-        Vec2 offset = exitPos - position;
+        Vec2 offset = exitPos - Position;
         bool found = false;
         foreach (FluidStream hole in _holes)
         {
-            if ((hole.offset - offset).length < 2f)
+            if ((hole.offset - offset).Length() < 2f)
             {
                 hole.offset = offset;
                 hole.holeThickness += 0.5f;
@@ -140,11 +140,11 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
                 dat.amount = spray / 20f;
                 for (int i = 0; i < 20; i++)
                 {
-                    Level.Add(new Fluid(base.x + Rando.Float(-4f, 4f), base.y + Rando.Float(-4f, 4f), new Vec2(Rando.Float(-4f, 4f), Rando.Float(-4f, 0f)), dat));
+                    Level.Add(new Fluid(base.X + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f), new Vec2(Rando.Float(-4f, 4f), Rando.Float(-4f, 0f)), dat));
                 }
                 dat.amount = glob;
-                Level.Add(new Fluid(base.x, base.y - 8f, new Vec2(0f, -1f), dat));
-                Level.Add(SmallSmoke.New(base.x, base.y));
+                Level.Add(new Fluid(base.X, base.Y - 8f, new Vec2(0f, -1f), dat));
+                Level.Add(SmallSmoke.New(base.X, base.Y));
                 SFX.Play("bulletHitWater");
                 SFX.Play("crateDestroy");
             }
@@ -153,8 +153,8 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
             burnt = 0f;
             _fluidLevel = 0f;
             _weight = 0.1f;
-            _collisionSize.y = 10f;
-            _collisionOffset.y = -2f;
+            _collisionSize.Y = 10f;
+            _collisionOffset.Y = -2f;
         }
         burnSpeed = 0.0015f;
         if (_onFire && burnt < 0.9f)
@@ -163,10 +163,10 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
             {
                 graphic = _melting;
             }
-            base.yscale = 0.5f + (1f - burnt) * 0.5f;
-            base.centery = 8f - burnt * 7f;
-            _collisionOffset.y = -8f + burnt * 7f;
-            _collisionSize.y = 16f - burnt * 7f;
+            base.ScaleY = 0.5f + (1f - burnt) * 0.5f;
+            base.CenterY = 8f - burnt * 7f;
+            _collisionOffset.Y = -8f + burnt * 7f;
+            _collisionSize.Y = 16f - burnt * 7f;
         }
         if (!_bottomHoles && burnt > 0.6f)
         {
@@ -191,10 +191,10 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
                 hole2.hSpeed = hSpeed;
                 hole2.vSpeed = vSpeed;
                 hole2.DoUpdate();
-                hole2.position = Offset(hole2.offset);
+                hole2.Position = Offset(hole2.offset);
                 hole2.sprayAngle = OffsetLocal(hole2.startSprayAngle);
-                float level = 1f - (hole2.offset.y - base.topLocal) / (base.bottomLocal - base.topLocal);
-                if (!(hole2.x > base.left - 2f) || !(hole2.x < base.right + 2f) || !(level < _fluidLevel))
+                float level = 1f - (hole2.offset.Y - base.topLocal) / (base.bottomLocal - base.topLocal);
+                if (!(hole2.X > base.left - 2f) || !(hole2.X < base.right + 2f) || !(level < _fluidLevel))
                 {
                     continue;
                 }
@@ -232,12 +232,12 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
         if (_hitPoints > 0f)
         {
             graphic.color = new Color((byte)(255f * darken), (byte)(255f * darken), (byte)(255f * darken));
-            graphic.angle = angle;
-            graphic.depth = base.depth + 1;
-            graphic.scale = base.scale;
+            graphic.Angle = Angle;
+            graphic.Depth = base.Depth + 1;
+            graphic.Scale = base.Scale;
             float ypos = level * (float)graphic.height;
-            graphic.center = center - new Vec2(0f, (int)ypos);
-            Graphics.Draw(graphic, base.x, base.y, new Rectangle(0f, (int)ypos, graphic.w, (int)((float)graphic.h - ypos)));
+            graphic.Center = Center - new Vec2(0f, (int)ypos);
+            Graphics.Draw(graphic, base.X, base.Y, new Rectangle(0f, (int)ypos, graphic.w, (int)((float)graphic.h - ypos)));
         }
     }
 }

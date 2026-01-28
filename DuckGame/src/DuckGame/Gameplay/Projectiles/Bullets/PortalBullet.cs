@@ -32,20 +32,20 @@ public class PortalBullet : Bullet
         Vec2 backPos = pos - travelDirNormalized;
         PortalDoor door = new PortalDoor();
         door.center = pos;
-        if (Math.Abs(travelDirNormalized.y) < 0.5f)
+        if (Math.Abs(travelDirNormalized.Y) < 0.5f)
         {
             door.horizontal = false;
             door.point1 = new Vec2(pos + new Vec2(0f, -16f));
             door.point2 = new Vec2(pos + new Vec2(0f, 16f));
             AutoBlock b = Level.CheckLine<AutoBlock>(backPos, backPos + new Vec2(0f, 16f));
-            if (b != null && b.top < door.point2.y)
+            if (b != null && b.top < door.point2.Y)
             {
-                door.point2.y = b.top;
+                door.point2.Y = b.top;
             }
             b = Level.CheckLine<AutoBlock>(backPos, backPos + new Vec2(0f, -16f));
-            if (b != null && b.bottom > door.point1.y)
+            if (b != null && b.bottom > door.point1.Y)
             {
-                door.point1.y = b.bottom;
+                door.point1.Y = b.bottom;
             }
         }
         else
@@ -54,14 +54,14 @@ public class PortalBullet : Bullet
             door.point1 = new Vec2(pos + new Vec2(-16f, 0f));
             door.point2 = new Vec2(pos + new Vec2(16f, 0f));
             AutoBlock b2 = Level.CheckLine<AutoBlock>(backPos, backPos + new Vec2(16f, 0f));
-            if (b2 != null && b2.left < door.point2.x)
+            if (b2 != null && b2.left < door.point2.X)
             {
-                door.point2.x = b2.left;
+                door.point2.X = b2.left;
             }
             b2 = Level.CheckLine<AutoBlock>(backPos, backPos + new Vec2(-16f, 0f));
-            if (b2 != null && b2.right > door.point1.x)
+            if (b2 != null && b2.right > door.point1.X)
             {
-                door.point1.x = b2.right;
+                door.point1.X = b2.right;
             }
         }
         portal.AddPortalDoor(door);
@@ -73,7 +73,7 @@ public class PortalBullet : Bullet
         {
             return;
         }
-        float length = (drawStart - drawEnd).length;
+        float length = (drawStart - drawEnd).Length();
         float dist = 0f;
         float incs = 1f / (length / 8f);
         float alph = 0f;

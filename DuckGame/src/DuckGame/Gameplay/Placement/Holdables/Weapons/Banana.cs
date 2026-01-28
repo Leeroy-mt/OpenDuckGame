@@ -20,7 +20,7 @@ public class Banana : Gun
 
     public bool pin => _pin;
 
-    public override float angle
+    public override float Angle
     {
         get
         {
@@ -28,15 +28,15 @@ public class Banana : Gun
             {
                 if (offDir > 0)
                 {
-                    return base.angle + (float)Math.PI / 2f;
+                    return base.Angle + (float)Math.PI / 2f;
                 }
-                return base.angle - (float)Math.PI / 2f;
+                return base.Angle - (float)Math.PI / 2f;
             }
-            return base.angle;
+            return base.Angle;
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
@@ -48,7 +48,7 @@ public class Banana : Gun
         _type = "gun";
         _sprite = new SpriteMap("banana", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 13f);
+        Center = new Vec2(8f, 13f);
         collisionOffset = new Vec2(-6f, -3f);
         collisionSize = new Vec2(12f, 5f);
         _fireRumble = RumbleIntensity.Kick;
@@ -68,7 +68,7 @@ public class Banana : Gun
             _thrown = false;
             if (Math.Abs(hSpeed) + Math.Abs(vSpeed) > 0.4f)
             {
-                base.angleDegrees = 180f;
+                base.AngleDegrees = 180f;
             }
         }
         if (!_pin && owner == null && !_fade)
@@ -78,11 +78,11 @@ public class Banana : Gun
         }
         if (_fade)
         {
-            base.alpha -= 0.1f;
-            if (base.alpha <= 0f)
+            base.Alpha -= 0.1f;
+            if (base.Alpha <= 0f)
             {
                 Level.Remove(this);
-                base.alpha = 0f;
+                base.Alpha = 0f;
             }
         }
         if (!_pin && owner == null)
@@ -106,9 +106,9 @@ public class Banana : Gun
                     SFX.Play("smallSplat", 1f, Rando.Float(-0.2f, 0.2f));
                 }
             }
-            base.angleDegrees = 0f;
+            base.AngleDegrees = 0f;
             canPickUp = false;
-            foreach (Duck o in Level.CheckLineAll<Duck>(new Vec2(base.x - 5f, base.y + 2f), new Vec2(base.x + 5f, base.y + 2f)))
+            foreach (Duck o in Level.CheckLineAll<Duck>(new Vec2(base.X - 5f, base.Y + 2f), new Vec2(base.X + 5f, base.Y + 2f)))
             {
                 if (!o.grounded || o.crouch || o.sliding || o.bottom > base.bottom + 2f || !o.isServerForObject || !(Math.Abs(o.hSpeed) > 2.5f))
                 {
@@ -170,7 +170,7 @@ public class Banana : Gun
                 }
                 _sprite.frame = 3;
                 _fade = true;
-                Level.Add(new BananaSlip(base.x, base.y + 2f, o.offDir > 0));
+                Level.Add(new BananaSlip(base.X, base.Y + 2f, o.offDir > 0));
             }
         }
         if (_triggerHeld)

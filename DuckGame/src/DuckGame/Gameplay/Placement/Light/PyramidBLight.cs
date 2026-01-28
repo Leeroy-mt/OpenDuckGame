@@ -19,11 +19,11 @@ public class PyramidBLight : Thing
         _sprite.AddAnimation("go", 0.2f, true, 0, 1, 2, 3, 4);
         _sprite.SetAnimation("go");
         graphic = _sprite;
-        center = new Vec2(7f, 8f);
+        Center = new Vec2(7f, 8f);
         _collisionSize = new Vec2(8f, 8f);
         _collisionOffset = new Vec2(-4f, -4f);
-        base.depth = -0.9f;
-        base.alpha = 0.7f;
+        base.Depth = -0.9f;
+        base.Alpha = 0.7f;
         base.layer = Layer.Game;
         placementLayerOverride = Layer.Blocks;
     }
@@ -32,7 +32,7 @@ public class PyramidBLight : Thing
     {
         if (!(Level.current is Editor))
         {
-            Level.Add(new PointLight(base.x, base.y - 1f, PyramidWallLight.lightColor, 120f, null, strangeFalloff: true));
+            Level.Add(new PointLight(base.X, base.Y - 1f, PyramidWallLight.lightColor, 120f, null, strangeFalloff: true));
         }
     }
 }

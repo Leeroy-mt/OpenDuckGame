@@ -11,7 +11,7 @@ public class Bazooka : TampingWeapon
         _ammoType = new ATMissile();
         _type = "gun";
         graphic = new Sprite("bazooka");
-        center = new Vec2(15f, 5f);
+        Center = new Vec2(15f, 5f);
         collisionOffset = new Vec2(-15f, -4f);
         collisionSize = new Vec2(30f, 10f);
         _barrelOffsetTL = new Vec2(29f, 4f);
@@ -35,8 +35,8 @@ public class Bazooka : TampingWeapon
             int num = 0;
             for (int i = 0; i < 14; i++)
             {
-                MusketSmoke smoke = new MusketSmoke(base.barrelPosition.x - 16f + Rando.Float(32f), base.barrelPosition.y - 16f + Rando.Float(32f));
-                smoke.depth = 0.9f + (float)i * 0.001f;
+                MusketSmoke smoke = new MusketSmoke(base.barrelPosition.X - 16f + Rando.Float(32f), base.barrelPosition.Y - 16f + Rando.Float(32f));
+                smoke.Depth = 0.9f + (float)i * 0.001f;
                 if (num < 6)
                 {
                     smoke.move -= base.barrelVector * Rando.Float(0.1f);

@@ -19,7 +19,7 @@ public class PopEffect : Thing
         : base(xpos, ypos)
     {
         _sprite = new SpriteMap("popLine", 16, 16);
-        center = new Vec2(_sprite.w / 2, _sprite.h / 2);
+        Center = new Vec2(_sprite.w / 2, _sprite.h / 2);
         graphic = _sprite;
         int num = 8;
         for (int i = 0; i < num; i++)
@@ -31,15 +31,15 @@ public class PopEffect : Thing
                 rot = Maths.DegToRad(rot + Rando.Float(-10f, 10f))
             });
         }
-        base.scale = new Vec2(1.5f, 1.5f);
-        base.depth = 0.85f;
+        base.Scale = new Vec2(1.5f, 1.5f);
+        base.Depth = 0.85f;
     }
 
     public override void Update()
     {
-        base.xscale -= 0.24f;
-        base.yscale = base.xscale;
-        if (base.xscale < 0.01f)
+        base.ScaleX -= 0.24f;
+        base.ScaleY = base.ScaleX;
+        if (base.ScaleX < 0.01f)
         {
             Level.Remove(this);
         }
@@ -49,13 +49,13 @@ public class PopEffect : Thing
     {
         foreach (PopEffectPart part in parts)
         {
-            _sprite.angle = part.rot;
+            _sprite.Angle = part.rot;
             SpriteMap sprite = _sprite;
-            float num = (_sprite.yscale = base.xscale * part.scale);
-            sprite.xscale = num;
-            _sprite.center = new Vec2(_sprite.w / 2, _sprite.h / 2);
-            _sprite.alpha = 0.8f;
-            Graphics.Draw(_sprite, base.x, base.y);
+            float num = (_sprite.ScaleY = base.ScaleX * part.scale);
+            sprite.ScaleX = num;
+            _sprite.Center = new Vec2(_sprite.w / 2, _sprite.h / 2);
+            _sprite.Alpha = 0.8f;
+            Graphics.Draw(_sprite, base.X, base.Y);
         }
         base.Draw();
     }

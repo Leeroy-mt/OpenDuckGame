@@ -74,7 +74,7 @@ public class TeamsCore
     public void Initialize()
     {
         hats = new SpriteMap("hatCollection", 32, 32);
-        hats.center = new Vec2(16f, 16f);
+        hats.Center = new Vec2(16f, 16f);
         teams = new List<Team>
         {
             new Team("Player 1", "hats/noHat", demo: true)

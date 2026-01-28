@@ -16,10 +16,10 @@ public class Present : Holdable, IPlatform
         _sprite = new SpriteMap("presents", 16, 16);
         _sprite.frame = Rando.Int(0, 7);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-7f, -4f);
         collisionSize = new Vec2(14f, 11f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         thickness = 0f;
         weight = 3f;
         flammable = 0.3f;
@@ -35,7 +35,7 @@ public class Present : Holdable, IPlatform
             SFX.Play("flameExplode");
             for (int i = 0; i < 3; i++)
             {
-                Level.Add(SmallSmoke.New(base.x + Rando.Float(-2f, 2f), base.y + Rando.Float(-2f, 2f)));
+                Level.Add(SmallSmoke.New(base.X + Rando.Float(-2f, 2f), base.Y + Rando.Float(-2f, 2f)));
             }
             Holdable h = SpawnPresent(null);
             if (h != null)
@@ -56,10 +56,10 @@ public class Present : Holdable, IPlatform
 
     public static void OpenEffect(Vec2 pPosition, int pFrame, bool pIsNetMessage)
     {
-        Level.Add(new OpenPresent(pPosition.x, pPosition.y, pFrame));
+        Level.Add(new OpenPresent(pPosition.X, pPosition.Y, pFrame));
         for (int i = 0; i < 4; i++)
         {
-            Level.Add(SmallSmoke.New(pPosition.x + Rando.Float(-2f, 2f), pPosition.y + Rando.Float(-2f, 2f)));
+            Level.Add(SmallSmoke.New(pPosition.X + Rando.Float(-2f, 2f), pPosition.Y + Rando.Float(-2f, 2f)));
         }
         SFX.Play("harp", 0.8f);
         if (!pIsNetMessage)
@@ -87,13 +87,13 @@ public class Present : Holdable, IPlatform
                 }
                 if (pOwner != null)
                 {
-                    newThing.x = pOwner.x;
-                    newThing.y = pOwner.y;
+                    newThing.X = pOwner.X;
+                    newThing.Y = pOwner.Y;
                 }
                 else
                 {
-                    newThing.x = base.x;
-                    newThing.y = base.y;
+                    newThing.X = base.X;
+                    newThing.Y = base.Y;
                 }
                 Level.Add(newThing);
                 if (d != null)
@@ -120,7 +120,7 @@ public class Present : Holdable, IPlatform
                 base.duck.ThrowItem();
             }
             Level.Remove(this);
-            OpenEffect(position, _sprite.frame, pIsNetMessage: false);
+            OpenEffect(Position, _sprite.frame, pIsNetMessage: false);
             SpawnPresent(o);
         }
     }

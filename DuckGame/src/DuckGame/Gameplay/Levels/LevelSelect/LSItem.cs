@@ -292,11 +292,11 @@ public class LSItem : Thing
 
     public override void Draw()
     {
-        float xDraw = base.x;
+        float xDraw = base.X;
         if (_selected)
         {
             _icons.frame = 3;
-            Graphics.Draw(_icons, xDraw - 8f, base.y);
+            Graphics.Draw(_icons, xDraw - 8f, base.Y);
         }
         string text = _name;
         if (text.Length > 15)
@@ -306,7 +306,7 @@ public class LSItem : Thing
         if (_itemType != LSItemType.UpFolder)
         {
             _icons.frame = (_partiallyEnabled ? 4 : (_enabled ? 1 : 0));
-            Graphics.Draw(_icons, xDraw, base.y);
+            Graphics.Draw(_icons, xDraw, base.Y);
             xDraw += 10f;
         }
         bool makeBlue = false;
@@ -324,13 +324,13 @@ public class LSItem : Thing
                 _icons.frame = 7;
                 makeBlue = true;
             }
-            Graphics.Draw(_icons, xDraw, base.y);
+            Graphics.Draw(_icons, xDraw, base.Y);
             xDraw += 10f;
         }
         if (_itemType == LSItemType.Playlist)
         {
             _icons.frame = 5;
-            Graphics.Draw(_icons, xDraw, base.y);
+            Graphics.Draw(_icons, xDraw, base.Y);
             xDraw += 10f;
             makeBlue = true;
         }
@@ -340,8 +340,8 @@ public class LSItem : Thing
             {
                 _steamIcon = new Sprite("steamIcon");
             }
-            _steamIcon.scale = new Vec2(0.25f, 0.25f);
-            Graphics.Draw(_steamIcon, xDraw, base.y);
+            _steamIcon.Scale = new Vec2(0.25f, 0.25f);
+            Graphics.Draw(_steamIcon, xDraw, base.Y);
             xDraw += 10f;
             text = "Workshop";
         }
@@ -352,7 +352,7 @@ public class LSItem : Thing
         }
         if (_itemType == LSItemType.MapPack)
         {
-            Graphics.Draw(_customIcon, xDraw, base.y);
+            Graphics.Draw(_customIcon, xDraw, base.Y);
             xDraw += 10f;
             makeBlue = true;
         }
@@ -366,15 +366,15 @@ public class LSItem : Thing
         }
         if (makeVanilla)
         {
-            _font.Draw(text, xDraw, base.y, _selected ? Colors.DGVanilla : (Colors.DGVanilla * 0.75f), 0.8f);
+            _font.Draw(text, xDraw, base.Y, _selected ? Colors.DGVanilla : (Colors.DGVanilla * 0.75f), 0.8f);
         }
         else if (makeBlue)
         {
-            _font.Draw(text, xDraw, base.y, _selected ? Colors.DGBlue : (Colors.DGBlue * 0.75f), 0.8f);
+            _font.Draw(text, xDraw, base.Y, _selected ? Colors.DGBlue : (Colors.DGBlue * 0.75f), 0.8f);
         }
         else
         {
-            _font.Draw(text, xDraw, base.y, _selected ? Color.White : Color.Gray, 0.8f);
+            _font.Draw(text, xDraw, base.Y, _selected ? Color.White : Color.Gray, 0.8f);
         }
     }
 }

@@ -53,10 +53,10 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
     public TrappedDuck(float xpos, float ypos, Duck duckowner)
         : base(xpos, ypos)
     {
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -8f);
         collisionSize = new Vec2(16f, 16f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         thickness = 0.5f;
         weight = 5f;
         flammable = 1f;
@@ -117,11 +117,11 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
             {
                 _duckOwner.vSpeed = (wasKilled ? (vSpeed - 1f) : (-3f));
             }
-            _duckOwner.x = base.x;
-            _duckOwner.y = base.y - 10f;
+            _duckOwner.X = base.X;
+            _duckOwner.Y = base.Y - 10f;
             for (int i = 0; i < 4; i++)
             {
-                SmallSmoke smallSmoke = SmallSmoke.New(base.x + Rando.Float(-4f, 4f), base.y + Rando.Float(-4f, 4f));
+                SmallSmoke smallSmoke = SmallSmoke.New(base.X + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f));
                 smallSmoke.hSpeed += hSpeed * Rando.Float(0.3f, 0.5f);
                 smallSmoke.vSpeed -= Rando.Float(0.1f, 0.2f);
                 Level.Add(smallSmoke);
@@ -186,7 +186,7 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
     {
         if (base.isServerForObject)
         {
-            base.y = -9999f;
+            base.Y = -9999f;
             visible = false;
         }
     }
@@ -197,7 +197,7 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
         {
             for (int i = 0; i < 4; i++)
             {
-                SmallSmoke smallSmoke = SmallSmoke.New(base.x + Rando.Float(-4f, 4f), base.y + Rando.Float(-4f, 4f));
+                SmallSmoke smallSmoke = SmallSmoke.New(base.X + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f));
                 smallSmoke.hSpeed += hSpeed * Rando.Float(0.3f, 0.5f);
                 smallSmoke.vSpeed -= Rando.Float(0.1f, 0.2f);
                 Level.Add(smallSmoke);
@@ -229,7 +229,7 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
                 if (framesInvisible > 30)
                 {
                     framesInvisible = 0;
-                    base.y = -9999f;
+                    base.Y = -9999f;
                 }
             }
             if (!infinite)
@@ -281,11 +281,11 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
         }
         if (_duckOwner._trapped == this)
         {
-            _duckOwner.position = position;
+            _duckOwner.Position = Position;
         }
         if (owner == null)
         {
-            base.depth = _duckOwner.depth - 10;
+            base.Depth = _duckOwner.Depth - 10;
         }
     }
 
@@ -298,8 +298,8 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
         _duckOwner._sprite.SetAnimation("netted");
         _duckOwner._sprite.imageIndex = 14;
         _duckOwner._spriteQuack.frame = _duckOwner._sprite.frame;
-        _duckOwner._sprite.depth = base.depth;
-        _duckOwner._spriteQuack.depth = base.depth;
+        _duckOwner._sprite.Depth = base.Depth;
+        _duckOwner._spriteQuack.Depth = base.Depth;
         if (Network.isActive)
         {
             _duckOwner.DrawConnectionIndicators();
@@ -312,38 +312,38 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
         if (_duckOwner.quack > 0)
         {
             Vec2 rs = _duckOwner.tounge;
-            if (!_duckOwner._spriteQuack.flipH && rs.x < 0f)
+            if (!_duckOwner._spriteQuack.flipH && rs.X < 0f)
             {
-                rs.x = 0f;
+                rs.X = 0f;
             }
-            if (_duckOwner._spriteQuack.flipH && rs.x > 0f)
+            if (_duckOwner._spriteQuack.flipH && rs.X > 0f)
             {
-                rs.x = 0f;
+                rs.X = 0f;
             }
-            if (rs.y < -0.3f)
+            if (rs.Y < -0.3f)
             {
-                rs.y = -0.3f;
+                rs.Y = -0.3f;
             }
-            if (rs.y > 0.4f)
+            if (rs.Y > 0.4f)
             {
-                rs.y = 0.4f;
+                rs.Y = 0.4f;
             }
             _stickLerp = Lerp.Vec2Smooth(_stickLerp, rs, 0.2f);
             _stickSlowLerp = Lerp.Vec2Smooth(_stickSlowLerp, rs, 0.1f);
             Vec2 stick = _stickLerp;
-            stick.y *= -1f;
+            stick.Y *= -1f;
             Vec2 stick2 = _stickSlowLerp;
-            stick2.y *= -1f;
+            stick2.Y *= -1f;
             int additionalFrame = 0;
-            float length = stick.length;
+            float length = stick.Length();
             if (length > 0.5f)
             {
                 additionalFrame = 72;
             }
-            Graphics.Draw(_duckOwner._spriteQuack, _duckOwner._sprite.imageIndex + additionalFrame, base.x + shakeOffset, base.y - 8f);
+            Graphics.Draw(_duckOwner._spriteQuack, _duckOwner._sprite.imageIndex + additionalFrame, base.X + shakeOffset, base.Y - 8f);
             if (length > 0.05f)
             {
-                Vec2 mouthPos = position + new Vec2(shakeOffset + (float)((!_duckOwner._spriteQuack.flipH) ? 1 : (-1)), -2f);
+                Vec2 mouthPos = Position + new Vec2(shakeOffset + (float)((!_duckOwner._spriteQuack.flipH) ? 1 : (-1)), -2f);
                 List<Vec2> list = Curve.Bezier(8, mouthPos, mouthPos + stick2 * 6f, mouthPos + stick * 6f);
                 Vec2 prev = Vec2.Zero;
                 float lenMul = 1f;
@@ -352,18 +352,18 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
                     if (prev != Vec2.Zero)
                     {
                         Vec2 dir = prev - p;
-                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.normalized * 0.4f, p, new Color(223, 30, 30), 0.15f * lenMul, base.depth + 1);
-                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.normalized * 0.4f, p - dir.normalized * 0.4f, Color.Black, 0.3f * lenMul, base.depth - 1);
+                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.Normalized * 0.4f, p, new Color(223, 30, 30), 0.15f * lenMul, base.Depth + 1);
+                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.Normalized * 0.4f, p - dir.Normalized * 0.4f, Color.Black, 0.3f * lenMul, base.Depth - 1);
                     }
                     lenMul -= 0.1f;
                     prev = p;
                 }
                 if (_duckOwner._spriteQuack != null)
                 {
-                    _duckOwner._spriteQuack.alpha = base.alpha;
-                    _duckOwner._spriteQuack.angle = angle;
-                    _duckOwner._spriteQuack.depth = base.depth + 2;
-                    _duckOwner._spriteQuack.scale = base.scale;
+                    _duckOwner._spriteQuack.Alpha = base.Alpha;
+                    _duckOwner._spriteQuack.Angle = Angle;
+                    _duckOwner._spriteQuack.Depth = base.Depth + 2;
+                    _duckOwner._spriteQuack.Scale = base.Scale;
                     _duckOwner._spriteQuack.frame += 36;
                     _duckOwner._spriteQuack.Draw();
                     _duckOwner._spriteQuack.frame -= 36;
@@ -372,7 +372,7 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
         }
         else
         {
-            Graphics.Draw(_duckOwner._sprite, base.x + shakeOffset, base.y - 8f);
+            Graphics.Draw(_duckOwner._sprite, base.X + shakeOffset, base.Y - 8f);
         }
         base.Draw();
     }

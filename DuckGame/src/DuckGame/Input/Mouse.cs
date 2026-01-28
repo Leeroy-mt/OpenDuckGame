@@ -94,17 +94,17 @@ public class Mouse : InputDevice
 
     public static bool prevScrollUp => _prevScrollValue < 0f;
 
-    public static float x => _mouseScreenPos.x;
+    public static float x => _mouseScreenPos.X;
 
-    public static float y => _mouseScreenPos.y;
+    public static float y => _mouseScreenPos.Y;
 
-    public static float xScreen => positionScreen.x;
+    public static float xScreen => positionScreen.X;
 
-    public static float yScreen => positionScreen.y;
+    public static float yScreen => positionScreen.Y;
 
-    public static float xConsole => positionConsole.x;
+    public static float xConsole => positionConsole.X;
 
-    public static float yConsole => positionConsole.y;
+    public static float yConsole => positionConsole.Y;
 
     public static Vec2 position
     {
@@ -115,8 +115,8 @@ public class Mouse : InputDevice
         set
         {
             _mouseScreenPos = value;
-            value = new Vec2(value.x / Layer.HUD.camera.width * Resolution.size.x, value.y / Layer.HUD.camera.height * Resolution.size.y);
-            Microsoft.Xna.Framework.Input.Mouse.SetPosition((int)value.x, (int)value.y);
+            value = new Vec2(value.X / Layer.HUD.camera.width * Resolution.size.X, value.Y / Layer.HUD.camera.height * Resolution.size.Y);
+            Microsoft.Xna.Framework.Input.Mouse.SetPosition((int)value.X, (int)value.Y);
         }
     }
 
@@ -139,10 +139,10 @@ public class Mouse : InputDevice
         Vec3 mousePos = new Vec3(_mouseState.X, _mouseState.Y, 0f);
         if (Graphics._screenViewport.HasValue)
         {
-            _mouseScreenPos = new Vec2(mousePos.x / Resolution.size.x * Layer.HUD.camera.width, mousePos.y / Resolution.size.y * Layer.HUD.camera.height);
+            _mouseScreenPos = new Vec2(mousePos.x / Resolution.size.X * Layer.HUD.camera.width, mousePos.y / Resolution.size.Y * Layer.HUD.camera.height);
         }
-        _mouseScreenPos.x = (int)_mouseScreenPos.x;
-        _mouseScreenPos.y = (int)_mouseScreenPos.y;
+        _mouseScreenPos.X = (int)_mouseScreenPos.X;
+        _mouseScreenPos.Y = (int)_mouseScreenPos.Y;
         _mousePos = new Vec2(_mouseState.X, _mouseState.Y);
         if (_outOfFocus)
         {

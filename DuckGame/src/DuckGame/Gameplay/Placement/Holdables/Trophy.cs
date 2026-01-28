@@ -21,10 +21,10 @@ public class Trophy : Holdable
     {
         _sprite = new SpriteMap("trophy", 17, 20);
         graphic = _sprite;
-        center = new Vec2(8f, 10f);
+        Center = new Vec2(8f, 10f);
         collisionOffset = new Vec2(-7f, -10f);
         collisionSize = new Vec2(15f, 19f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         thickness = 4f;
         weight = 4f;
         flammable = 0.3f;
@@ -43,7 +43,7 @@ public class Trophy : Holdable
         if (base.duck != null && ownerAction)
         {
             _holdOffset = Lerp.Vec2(_holdOffset, new Vec2(-13f, -4f), 2f);
-            angle = Lerp.Float(angle, -1f, 0.1f);
+            Angle = Lerp.Float(Angle, -1f, 0.1f);
             handFlip = true;
             handOffset = Lerp.Vec2(handOffset, new Vec2(-3f, -4f), 1f);
             _canRaise = false;
@@ -53,7 +53,7 @@ public class Trophy : Holdable
             float lerpSpeed = 1f;
             if (base.duck != null)
             {
-                angle = Lerp.Float(angle, 0f, 0.1f * lerpSpeed);
+                Angle = Lerp.Float(Angle, 0f, 0.1f * lerpSpeed);
             }
             else
             {
@@ -68,14 +68,14 @@ public class Trophy : Holdable
         {
             if (_framesSinceThrown == 0)
             {
-                _throwSpin = base.angleDegrees;
+                _throwSpin = base.AngleDegrees;
             }
             _framesSinceThrown++;
             if (_framesSinceThrown > 15)
             {
                 _framesSinceThrown = 15;
             }
-            base.angleDegrees = _throwSpin;
+            base.AngleDegrees = _throwSpin;
             bool spinning = false;
             bool againstWall = false;
             if ((Math.Abs(hSpeed) + Math.Abs(vSpeed) > 2f || !base.grounded) && gravMultiplier > 0f && !againstWall && !_grounded)

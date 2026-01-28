@@ -23,8 +23,8 @@ internal static class TextureConverter
         lastLoadResultedInResize = false;
         if (_maxDimensions != Vec2.Zero)
         {
-            float width = _maxDimensions.x;
-            float height = _maxDimensions.y;
+            float width = _maxDimensions.X;
+            float height = _maxDimensions.Y;
             float scale = Math.Min(width / (float)bitmap.Width, height / (float)bitmap.Height);
             if (width < (float)bitmap.Width || height < (float)bitmap.Height)
             {

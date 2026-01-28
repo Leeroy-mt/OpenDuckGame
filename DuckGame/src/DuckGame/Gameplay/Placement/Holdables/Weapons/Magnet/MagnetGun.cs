@@ -78,7 +78,7 @@ public class MagnetGun : Gun
         _ammoType.penetration = -1f;
         _type = "gun";
         graphic = new Sprite("magnetGun");
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -4f);
         collisionSize = new Vec2(14f, 9f);
         _barrelOffsetTL = new Vec2(24f, 14f);
@@ -174,7 +174,7 @@ public class MagnetGun : Gun
                 float length = _ammoType.range;
                 if (_hasRay)
                 {
-                    length = (base.barrelPosition - _rayHit).length;
+                    length = (base.barrelPosition - _rayHit).Length();
                 }
                 line.dist = length;
             }
@@ -182,7 +182,7 @@ public class MagnetGun : Gun
             {
                 Holdable nearest = null;
                 float nearestDist = 0f;
-                Vec2 downVec = base.barrelVector.Rotate(Maths.DegToRad(90f), Vec2.Zero).normalized;
+                Vec2 downVec = base.barrelVector.Rotate(Maths.DegToRad(90f), Vec2.Zero).Normalized;
                 for (int i = 0; i < 3; i++)
                 {
                     Vec2 checkPos = pos;
@@ -204,7 +204,7 @@ public class MagnetGun : Gun
                             {
                                 realThing = thing.tape;
                             }
-                            float dist = (realThing.position - pos).length;
+                            float dist = (realThing.Position - pos).Length();
                             if (nearest == null || dist < nearestDist)
                             {
                                 nearestDist = dist;
@@ -214,7 +214,7 @@ public class MagnetGun : Gun
                     }
                 }
                 _hasRay = false;
-                if (nearest != null && Level.CheckLine<Block>(pos, nearest.position) == null)
+                if (nearest != null && Level.CheckLine<Block>(pos, nearest.Position) == null)
                 {
                     float power = (1f - Math.Min(nearestDist, _ammoType.range) / _ammoType.range) * 0.8f;
                     Duck duckOwner = nearest.owner as Duck;
@@ -231,7 +231,7 @@ public class MagnetGun : Gun
                             duckOwner = null;
                         }
                     }
-                    Vec2 vec = (pos - nearest.position).normalized;
+                    Vec2 vec = (pos - nearest.Position).Normalized;
                     if (duckOwner != null && nearest is Equipment)
                     {
                         if (duckOwner.ragdoll != null)
@@ -243,8 +243,8 @@ public class MagnetGun : Gun
                         {
                             return;
                         }
-                        nearest.owner.realObject.hSpeed += vec.x * power;
-                        nearest.owner.realObject.vSpeed += vec.y * power * 4f;
+                        nearest.owner.realObject.hSpeed += vec.X * power;
+                        nearest.owner.realObject.vSpeed += vec.Y * power * 4f;
                         if ((nearest.owner.realObject as PhysicsObject).grounded && nearest.owner.realObject.vSpeed > 0f)
                         {
                             nearest.owner.realObject.vSpeed = 0f;
@@ -253,15 +253,15 @@ public class MagnetGun : Gun
                     else
                     {
                         Fondle(nearest);
-                        nearest.hSpeed += vec.x * power;
-                        nearest.vSpeed += vec.y * power * 4f;
+                        nearest.hSpeed += vec.X * power;
+                        nearest.vSpeed += vec.Y * power * 4f;
                         if (nearest.grounded && nearest.vSpeed > 0f)
                         {
                             nearest.vSpeed = 0f;
                         }
                     }
                     _hasRay = true;
-                    _rayHit = nearest.position;
+                    _rayHit = nearest.Position;
                     if (base.isServerForObject && nearestDist < 20f)
                     {
                         if (nearest is Equipment && nearest.duck != null)
@@ -292,12 +292,12 @@ public class MagnetGun : Gun
                         attachIndex += 1;
                     }
                 }
-                else if (base.isServerForObject && _stuck == null && (Math.Abs(angle) < 0.05f || Math.Abs(angle) > 1.5f))
+                else if (base.isServerForObject && _stuck == null && (Math.Abs(Angle) < 0.05f || Math.Abs(Angle) > 1.5f))
                 {
-                    Vec2 checkPos2 = owner.position;
+                    Vec2 checkPos2 = owner.Position;
                     if (base.duck.sliding)
                     {
-                        checkPos2.y += 4f;
+                        checkPos2.Y += 4f;
                     }
                     Vec2 rayHit;
                     Block b = Level.CheckRay<Block>(checkPos2, checkPos2 + base.barrelVector * _ammoType.range, out rayHit);
@@ -305,12 +305,12 @@ public class MagnetGun : Gun
                     _rayHit = rayHit;
                     if (b != null && b.physicsMaterial == PhysicsMaterial.Metal)
                     {
-                        float power2 = (1f - Math.Min((b.position - checkPos2).length, _ammoType.range) / _ammoType.range) * 0.8f;
-                        Vec2 pull = rayHit - base.duck.position;
-                        float length2 = pull.length;
+                        float power2 = (1f - Math.Min((b.Position - checkPos2).Length(), _ammoType.range) / _ammoType.range) * 0.8f;
+                        Vec2 pull = rayHit - base.duck.Position;
+                        float length2 = pull.Length();
                         pull.Normalize();
-                        owner.hSpeed += pull.x * power2;
-                        owner.vSpeed += pull.y * power2;
+                        owner.hSpeed += pull.X * power2;
+                        owner.vSpeed += pull.Y * power2;
                         if (length2 < 20f)
                         {
                             _stuck = b;
@@ -331,7 +331,7 @@ public class MagnetGun : Gun
                 {
                     ReleaseGrab(_grabbed);
                     _grabbed = null;
-                    _collisionSize = new Vec2(14f, _collisionSize.y);
+                    _collisionSize = new Vec2(14f, _collisionSize.Y);
                 }
                 if (_stuck != null)
                 {
@@ -399,14 +399,14 @@ public class MagnetGun : Gun
             }
             _grabbed.hSpeed = owner.hSpeed;
             _grabbed.vSpeed = owner.vSpeed;
-            _grabbed.angle = angle;
+            _grabbed.Angle = Angle;
             _grabbed.offDir = offDir;
             _grabbed.enablePhysics = false;
             if (_grabbed is TapedGun)
             {
                 (_grabbed as TapedGun).UpdatePositioning();
             }
-            _collisionSize = new Vec2(16f + _grabbed.width, _collisionSize.y);
+            _collisionSize = new Vec2(16f + _grabbed.width, _collisionSize.Y);
             if (_grabbed is Duck d2)
             {
                 d2.grounded = true;
@@ -418,12 +418,12 @@ public class MagnetGun : Gun
         {
             for (int j = 0; j < 2; j++)
             {
-                Level.Add(SmallSmoke.New(pos.x + Rando.Float(-1f, 1f), pos.y + Rando.Float(-1f, 1f)));
+                Level.Add(SmallSmoke.New(pos.X + Rando.Float(-1f, 1f), pos.Y + Rando.Float(-1f, 1f)));
             }
             SFX.Play("grappleHook");
             for (int k = 0; k < 6; k++)
             {
-                Level.Add(Spark.New(pos.x - base.barrelVector.x * 2f + Rando.Float(-1f, 1f), pos.y - base.barrelVector.y * 2f + Rando.Float(-1f, 1f), base.barrelVector + new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+                Level.Add(Spark.New(pos.X - base.barrelVector.X * 2f + Rando.Float(-1f, 1f), pos.Y - base.barrelVector.Y * 2f + Rando.Float(-1f, 1f), base.barrelVector + new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
             }
             localAttachIndex = attachIndex;
         }
@@ -439,15 +439,15 @@ public class MagnetGun : Gun
             }
             if (_stuck != null && base.duck != null)
             {
-                if (_stickPos.y < owner.position.y - 8f)
+                if (_stickPos.Y < owner.Position.Y - 8f)
                 {
-                    owner.position = _stickPos + _stickNormal * 12f;
+                    owner.Position = _stickPos + _stickNormal * 12f;
                     _raised = true;
                     _keepRaised = true;
                 }
                 else
                 {
-                    owner.position = _stickPos + _stickNormal * 16f;
+                    owner.Position = _stickPos + _stickNormal * 16f;
                     _raised = false;
                     _keepRaised = false;
                 }
@@ -475,14 +475,14 @@ public class MagnetGun : Gun
             if (_grabbed is Duck)
             {
                 Vec2 poss = Offset(base.barrelOffset + new Vec2(0f, -6f));
-                _grabbed.position = poss + base.barrelVector * _grabbed.halfWidth;
+                _grabbed.Position = poss + base.barrelVector * _grabbed.halfWidth;
                 (_grabbed as Duck).UpdateSkeleton();
                 (_grabbed as Duck).gripped = true;
             }
             else
             {
                 Vec2 poss2 = Offset(base.barrelOffset);
-                _grabbed.position = poss2 + base.barrelVector * _grabbed.halfWidth;
+                _grabbed.Position = poss2 + base.barrelVector * _grabbed.halfWidth;
             }
         }
         base.Update();
@@ -490,7 +490,7 @@ public class MagnetGun : Gun
 
     private void ReleaseGrab(Thing pThing)
     {
-        pThing.angle = 0f;
+        pThing.Angle = 0f;
         if (pThing is Holdable h)
         {
             h.owner = null;
@@ -504,11 +504,11 @@ public class MagnetGun : Gun
             d.crippleTimer = 1f;
         }
         pThing.enablePhysics = true;
-        pThing.hSpeed = base.barrelVector.x * 5f;
-        pThing.vSpeed = base.barrelVector.y * 5f;
+        pThing.hSpeed = base.barrelVector.X * 5f;
+        pThing.vSpeed = base.barrelVector.Y * 5f;
         if (pThing is EnergyScimitar)
         {
-            (pThing as EnergyScimitar).StartFlying((offDir < 0) ? (0f - base.angleDegrees - 180f) : (0f - base.angleDegrees), pThrown: true);
+            (pThing as EnergyScimitar).StartFlying((offDir < 0) ? (0f - base.AngleDegrees - 180f) : (0f - base.AngleDegrees), pThrown: true);
         }
     }
 

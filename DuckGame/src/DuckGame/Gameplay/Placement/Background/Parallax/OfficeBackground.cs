@@ -10,10 +10,10 @@ public class OfficeBackground : BackgroundUpdater
         {
             frame = 1
         };
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
         _editorName = "Office BG";
@@ -40,16 +40,16 @@ public class OfficeBackground : BackgroundUpdater
                 _parallax.AddZone(8, 0.8f, speed);
                 _parallax.AddZone(9, 0.8f, speed);
                 Sprite s = new Sprite("background/officeBuilding01");
-                s.depth = -0.9f;
-                s.position = new Vec2(100f, 100f);
+                s.Depth = -0.9f;
+                s.Position = new Vec2(100f, 100f);
                 _parallax.AddZoneSprite(s, 15, 0.6f, speed);
                 s = new Sprite("background/officeBuilding01Porch");
-                s.depth = -0.9f;
-                s.position = new Vec2(84f, 160f);
+                s.Depth = -0.9f;
+                s.Position = new Vec2(84f, 160f);
                 _parallax.AddZoneSprite(s, 16, 0.6f, speed);
                 s = new Sprite("background/officeBuilding02");
-                s.depth = -0.9f;
-                s.position = new Vec2(300f, 120f);
+                s.Depth = -0.9f;
+                s.Position = new Vec2(300f, 120f);
                 _parallax.AddZoneSprite(s, 17, 0.6f, speed);
                 _parallax.AddZone(19, 0.6f, speed);
                 _parallax.AddZone(20, 0.6f, speed);

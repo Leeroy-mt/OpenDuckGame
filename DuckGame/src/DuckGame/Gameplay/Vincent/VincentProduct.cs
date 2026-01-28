@@ -101,24 +101,24 @@ public class VincentProduct
             }
             if (furnitureData.font != null && furnitureData.sprite == null)
             {
-                furnitureData.font.scale = new Vec2(1f, 1f);
+                furnitureData.font.Scale = new Vec2(1f, 1f);
                 furnitureData.font.Draw("F", pos + new Vec2(-3.5f, -3f), Color.Black, deep + 0.005f);
             }
-            spr.depth = deep;
+            spr.Depth = deep;
             spr.frame = 0;
-            spr.alpha = alpha;
-            Graphics.Draw(spr, pos.x, pos.y);
-            spr.alpha = 1f;
+            spr.Alpha = alpha;
+            Graphics.Draw(spr, pos.X, pos.Y);
+            spr.Alpha = 1f;
         }
         if (teamData != null)
         {
             SpriteMap hat = teamData.hat;
-            hat.depth = deep;
+            hat.Depth = deep;
             hat.frame = 0;
-            hat.alpha = alpha;
-            hat.center = new Vec2(16f, 16f) + teamData.hatOffset;
-            Graphics.Draw(hat, pos.x, pos.y);
-            hat.alpha = 1f;
+            hat.Alpha = alpha;
+            hat.Center = new Vec2(16f, 16f) + teamData.hatOffset;
+            Graphics.Draw(hat, pos.X, pos.Y);
+            hat.Alpha = 1f;
         }
     }
 }

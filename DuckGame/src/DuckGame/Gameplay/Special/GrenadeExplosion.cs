@@ -16,8 +16,8 @@ public class GrenadeExplosion : Thing
     {
         if (_explodeFrames < 0)
         {
-            float cx = base.x;
-            float cy = base.y - 2f;
+            float cx = base.X;
+            float cy = base.Y - 2f;
             Level.Add(new ExplosionPart(cx, cy));
             int num = 6;
             if (Graphics.effectsLevel < 2)
@@ -38,8 +38,8 @@ public class GrenadeExplosion : Thing
         {
             return;
         }
-        float cx2 = base.x;
-        float cy2 = base.y - 2f;
+        float cx2 = base.X;
+        float cy2 = base.Y - 2f;
         List<Bullet> firedBullets = new List<Bullet>();
         for (int j = 0; j < 20; j++)
         {
@@ -61,9 +61,9 @@ public class GrenadeExplosion : Thing
             Graphics.flashAdd = 1.3f;
             Layer.Game.darken = 1.3f;
         }
-        foreach (Window w in Level.CheckCircleAll<Window>(position, 40f))
+        foreach (Window w in Level.CheckCircleAll<Window>(Position, 40f))
         {
-            if (Level.CheckLine<Block>(position, w.position, w) == null)
+            if (Level.CheckLine<Block>(Position, w.Position, w) == null)
             {
                 w.Destroy(new DTImpact(this));
             }

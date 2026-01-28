@@ -44,21 +44,21 @@ public class SpawnAimer : Thing
         targetPos = new Vec2(xpos, ypos);
         if (_persona == Persona.Duck1)
         {
-            position = new Vec2(0f, 0f);
+            Position = new Vec2(0f, 0f);
         }
         else if (_persona == Persona.Duck2)
         {
-            position = new Vec2(320f, 0f);
+            Position = new Vec2(320f, 0f);
         }
         else if (_persona == Persona.Duck3)
         {
-            position = new Vec2(0f, 180f);
+            Position = new Vec2(0f, 180f);
         }
         else if (_persona == Persona.Duck4)
         {
-            position = new Vec2(320f, 180f);
+            Position = new Vec2(320f, 180f);
         }
-        prevPos.Add(position);
+        prevPos.Add(Position);
         base.layer = Layer.Foreground;
     }
 
@@ -83,10 +83,10 @@ public class SpawnAimer : Thing
         Level.current.camera.getMatrix();
         Vec2 pos = targetPos;
         aimerScale = base.layer.camera.width / Layer.HUD.width;
-        position = Lerp.Vec2Smooth(position, pos, 0.2f);
-        if ((position - pos).length > 16f)
+        Position = Lerp.Vec2Smooth(Position, pos, 0.2f);
+        if ((Position - pos).Length() > 16f)
         {
-            prevPos.Add(position);
+            prevPos.Add(Position);
         }
         sizeWaver += 0.2f;
     }
@@ -104,8 +104,8 @@ public class SpawnAimer : Thing
         {
             float a = rot + (float)i * 90f;
             Vec2 dir = new Vec2((float)Math.Cos(Maths.DegToRad(a)), (float)(0.0 - Math.Sin(Maths.DegToRad(a))));
-            Graphics.DrawLine(position + dir * rlDist, position + dir * (rlDist + distLen * aimerScale), _color * base.alpha, _thickness * aimerScale, 0.9f);
-            Graphics.DrawLine(position + dir * (rlDist - 1f * aimerScale), position + dir * (rlDist + 1f * aimerScale + distLen * aimerScale), Color.Black, (_thickness + 2f) * aimerScale, 0.8f);
+            Graphics.DrawLine(Position + dir * rlDist, Position + dir * (rlDist + distLen * aimerScale), _color * base.Alpha, _thickness * aimerScale, 0.9f);
+            Graphics.DrawLine(Position + dir * (rlDist - 1f * aimerScale), Position + dir * (rlDist + 1f * aimerScale + distLen * aimerScale), Color.Black, (_thickness + 2f) * aimerScale, 0.8f);
         }
         if (!(streamAlpha > 0.01f))
         {
@@ -118,7 +118,7 @@ public class SpawnAimer : Thing
         {
             if (hasPrev)
             {
-                Vec2 dir2 = (posPrev - pos).normalized;
+                Vec2 dir2 = (posPrev - pos).Normalized;
                 Graphics.DrawLine(posPrev - dir2, pos + dir2, _color * streamAlpha, (4f + (float)index * 2f) * aimerScale, 0.9f);
             }
             posPrev = pos;

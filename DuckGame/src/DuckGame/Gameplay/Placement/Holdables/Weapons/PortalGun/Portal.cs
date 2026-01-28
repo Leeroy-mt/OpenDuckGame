@@ -79,31 +79,31 @@ public class Portal : Thing
         if (lower != null)
         {
             Vec2 newTopLeft = lower.topLeft;
-            if (newTopLeft.y < door.bottom)
+            if (newTopLeft.Y < door.bottom)
             {
-                newTopLeft.y = door.bottom;
+                newTopLeft.Y = door.bottom;
             }
-            float high = lower.bottom - newTopLeft.y;
+            float high = lower.bottom - newTopLeft.Y;
             if (high < 8f)
             {
                 high = 8f;
             }
-            door.collision.Add(new Block(newTopLeft.x, newTopLeft.y, lower.width, high));
+            door.collision.Add(new Block(newTopLeft.X, newTopLeft.Y, lower.width, high));
         }
         AutoBlock upper = Level.CheckLine<AutoBlock>(door.point1 + new Vec2(-8f, 0f), door.point1 + new Vec2(8f, 0f));
         if (upper != null)
         {
             Vec2 newBottomLeft = lower.bottomLeft;
-            if (newBottomLeft.y > door.top)
+            if (newBottomLeft.Y > door.top)
             {
-                newBottomLeft.y = door.top;
+                newBottomLeft.Y = door.top;
             }
-            float high2 = newBottomLeft.y - upper.top;
+            float high2 = newBottomLeft.Y - upper.top;
             if (high2 < 8f)
             {
                 high2 = 8f;
             }
-            door.collision.Add(new Block(newBottomLeft.x, newBottomLeft.y - high2, upper.width, high2));
+            door.collision.Add(new Block(newBottomLeft.X, newBottomLeft.Y - high2, upper.width, high2));
         }
         if (door.layer == null)
         {
@@ -119,7 +119,7 @@ public class Portal : Thing
         {
             door.isLeft = false;
         }
-        door.rect = new Rectangle((int)door.point1.x - 8, (int)door.point1.y, 16f, (int)door.point2.y - (int)door.point1.y);
+        door.rect = new Rectangle((int)door.point1.X - 8, (int)door.point1.Y, 16f, (int)door.point2.Y - (int)door.point1.Y);
     }
 
     public override void Initialize()
@@ -185,13 +185,13 @@ public class Portal : Thing
             p.Update();
             foreach (PortalDrawTransformer t2 in _inPortal)
             {
-                if (p.isLeft && t2.thing.x < p.center.x)
+                if (p.isLeft && t2.thing.X < p.center.X)
                 {
-                    t2.thing.position += GetOtherDoor(p).center - p.center;
+                    t2.thing.Position += GetOtherDoor(p).center - p.center;
                 }
-                else if (!p.isLeft && t2.thing.x > p.center.x)
+                else if (!p.isLeft && t2.thing.X > p.center.X)
                 {
-                    t2.thing.position += GetOtherDoor(p).center - p.center;
+                    t2.thing.Position += GetOtherDoor(p).center - p.center;
                 }
             }
         }

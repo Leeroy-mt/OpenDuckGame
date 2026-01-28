@@ -10,7 +10,7 @@ public class CorkBullet : Bullet
         : base(xval, yval, type, ang, owner, rbound, distance, tracer, network)
     {
         _cork = new Sprite("cork");
-        _cork.center = new Vec2(3f, 2.5f);
+        _cork.Center = new Vec2(3f, 2.5f);
     }
 
     public override void Update()
@@ -18,7 +18,7 @@ public class CorkBullet : Bullet
         base.Update();
         if (doneTravelling && _corkObject == null)
         {
-            _corkObject = new CorkObject(drawEnd.x - travelDirNormalized.x * 4f, drawEnd.y - travelDirNormalized.y * 4f, base.firedFrom);
+            _corkObject = new CorkObject(drawEnd.X - travelDirNormalized.X * 4f, drawEnd.Y - travelDirNormalized.Y * 4f, base.firedFrom);
             if (base.firedFrom != null && base.firedFrom is CorkGun)
             {
                 (base.firedFrom as CorkGun).corkObject = _corkObject;
@@ -30,7 +30,7 @@ public class CorkBullet : Bullet
 
     public override void Draw()
     {
-        Graphics.Draw(_cork, drawEnd.x, drawEnd.y);
+        Graphics.Draw(_cork, drawEnd.X, drawEnd.Y);
         base.Draw();
     }
 }

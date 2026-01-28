@@ -90,7 +90,7 @@ public class DeathmatchLevel : XMLLevel, IHaveAVirtualTransition
         _deathmatch = new Deathmatch(this);
         AddThing(_deathmatch);
         _pendingSpawns = _deathmatch.SpawnPlayers(recordStats: true);
-        _pendingSpawns = _pendingSpawns.OrderBy((Duck sp) => sp.x).ToList();
+        _pendingSpawns = _pendingSpawns.OrderBy((Duck sp) => sp.X).ToList();
         foreach (Duck duck in _pendingSpawns)
         {
             followCam.Add(duck);
@@ -102,11 +102,11 @@ public class DeathmatchLevel : XMLLevel, IHaveAVirtualTransition
         int numDucks = 0;
         foreach (Duck duck2 in base.things[typeof(Duck)])
         {
-            if (duck2.x < _p1.x)
+            if (duck2.X < _p1.X)
             {
-                _p1 = duck2.position;
+                _p1 = duck2.Position;
             }
-            _p2 += duck2.position;
+            _p2 += duck2.Position;
             numDucks++;
         }
         _p2 /= (float)numDucks;
@@ -175,53 +175,53 @@ public class DeathmatchLevel : XMLLevel, IHaveAVirtualTransition
                 Send.Message(new NMSpawnDuck(spawn.netProfileIndex));
             }
             Vec3 col = spawn.profile.persona.color;
-            Level.Add(new SpawnLine(spawn.x, spawn.y, 0, 0f, new Color((int)col.x, (int)col.y, (int)col.z), 32f));
-            Level.Add(new SpawnLine(spawn.x, spawn.y, 0, -4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
-            Level.Add(new SpawnLine(spawn.x, spawn.y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
-            Level.Add(new SpawnAimer(spawn.x, spawn.y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), spawn.persona, 4f));
+            Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 0f, new Color((int)col.x, (int)col.y, (int)col.z), 32f));
+            Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, -4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
+            Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
+            Level.Add(new SpawnAimer(spawn.X, spawn.Y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), spawn.persona, 4f));
             SFX.Play("pullPin", 0.7f);
             if (Party.HasPerk(spawn.profile, PartyPerks.Present) || (TeamSelect2.Enabled("WINPRES") && Deathmatch.lastWinners.Contains(spawn.profile)))
             {
-                Present p = new Present(spawn.x, spawn.y);
+                Present p = new Present(spawn.X, spawn.Y);
                 Level.Add(p);
                 spawn.GiveHoldable(p);
             }
             if (Party.HasPerk(spawn.profile, PartyPerks.Jetpack) || TeamSelect2.Enabled("JETTY"))
             {
-                Jetpack j = new Jetpack(spawn.x, spawn.y);
+                Jetpack j = new Jetpack(spawn.X, spawn.Y);
                 Level.Add(j);
                 spawn.Equip(j);
             }
             if (TeamSelect2.Enabled("HELMY"))
             {
-                Helmet j2 = new Helmet(spawn.x, spawn.y);
+                Helmet j2 = new Helmet(spawn.X, spawn.Y);
                 Level.Add(j2);
                 spawn.Equip(j2);
             }
             if (TeamSelect2.Enabled("SHOESTAR"))
             {
-                Boots j3 = new Boots(spawn.x, spawn.y);
+                Boots j3 = new Boots(spawn.X, spawn.Y);
                 Level.Add(j3);
                 spawn.Equip(j3);
             }
             if (Party.HasPerk(spawn.profile, PartyPerks.Armor))
             {
-                Helmet j4 = new Helmet(spawn.x, spawn.y);
+                Helmet j4 = new Helmet(spawn.X, spawn.Y);
                 Level.Add(j4);
                 spawn.Equip(j4);
-                ChestPlate h = new ChestPlate(spawn.x, spawn.y);
+                ChestPlate h = new ChestPlate(spawn.X, spawn.Y);
                 Level.Add(h);
                 spawn.Equip(h);
             }
             if (Party.HasPerk(spawn.profile, PartyPerks.Pistol))
             {
-                Pistol j5 = new Pistol(spawn.x, spawn.y);
+                Pistol j5 = new Pistol(spawn.X, spawn.Y);
                 Level.Add(j5);
                 spawn.GiveHoldable(j5);
             }
             if (Party.HasPerk(spawn.profile, PartyPerks.NetGun))
             {
-                NetGun j6 = new NetGun(spawn.x, spawn.y);
+                NetGun j6 = new NetGun(spawn.X, spawn.Y);
                 Level.Add(j6);
                 spawn.GiveHoldable(j6);
             }
@@ -264,8 +264,8 @@ public class DeathmatchLevel : XMLLevel, IHaveAVirtualTransition
     {
         if (layer == Layer.HUD && _waitAfterSpawnDings > 0 && _fontFade > 0.01f)
         {
-            _font.scale = new Vec2(2f, 2f);
-            _font.alpha = _fontFade;
+            _font.Scale = new Vec2(2f, 2f);
+            _font.Alpha = _fontFade;
             string s = "GET";
             if (_waitAfterSpawnDings == 2)
             {

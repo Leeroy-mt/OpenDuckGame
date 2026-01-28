@@ -366,7 +366,7 @@ public class GhostManager
         if (obj == null)
         {
             Thing thing = Editor.CreateThing(t);
-            thing.position = new Vec2(-2000f, -2000f);
+            thing.Position = new Vec2(-2000f, -2000f);
             Level.Add(thing);
             thing.connection = pState.connection;
             obj = new GhostObject(thing, this, pState.id);
@@ -416,7 +416,7 @@ public class GhostManager
                 obj.DirtyStateMask(mask, c);
             }
         }
-        _ = obj.thing.position.x;
+        _ = obj.thing.Position.X;
         _ = -1000f;
     }
 
@@ -513,48 +513,20 @@ public class GhostManager
         _framesSinceClear++;
         inGhostLoop = true;
         inGhostLerpLoop = true;
-        int numComplexGhosts = 0;
-        foreach (GhostObject ghost in _ghosts)
-        {
-            if (ghost.thing is IComplexUpdate)
-            {
-                if (ghost.IsInitialized())
-                {
-                    (ghost.thing as IComplexUpdate).OnPreUpdate();
-                }
-                numComplexGhosts++;
-            }
-        }
         foreach (GhostObject ghost2 in _ghosts)
         {
             if (ghost2.thing.connection != DuckNetwork.localConnection)
             {
                 for (int i = 0; i < ghost2.constipation; i++)
-                {
                     ghost2.UpdateState();
-                }
                 ghost2.Update();
             }
             else
-            {
                 ghost2.UpdateTick();
-            }
-        }
-        if (numComplexGhosts > 0)
-        {
-            foreach (GhostObject ghost3 in _ghosts)
-            {
-                if (ghost3.thing is IComplexUpdate && ghost3.IsInitialized())
-                {
-                    (ghost3.thing as IComplexUpdate).OnPostUpdate();
-                }
-            }
         }
         inGhostLerpLoop = false;
         foreach (GhostObject g in _tempGhosts)
-        {
             _ghosts.Add(g);
-        }
         _tempGhosts.Clear();
         inGhostLoop = false;
     }
@@ -566,9 +538,7 @@ public class GhostManager
     public void UpdateRemoval()
     {
         if (_destroyedGhosts.Count > 0 || _destroyResends.Count > 0)
-        {
             Send.Message(new NMRemoveGhosts(this), NetMessagePriority.Volatile);
-        }
     }
 
     public void RemoveGhost(GhostObject ghost, bool makeOld)

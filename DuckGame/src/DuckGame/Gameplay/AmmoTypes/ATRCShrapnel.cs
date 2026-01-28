@@ -16,7 +16,7 @@ public class ATRCShrapnel : AmmoType
         int i;
         for (i = 0; i < 1; i++)
         {
-            Level.Add(new ExplosionPart(pos.x - 20f + Rando.Float(40f), pos.y - 20f + Rando.Float(40f)));
+            Level.Add(new ExplosionPart(pos.X - 20f + Rando.Float(40f), pos.Y - 20f + Rando.Float(40f)));
             i++;
         }
         SFX.Play("explode");

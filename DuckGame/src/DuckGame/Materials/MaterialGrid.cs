@@ -39,8 +39,8 @@ public class MaterialGrid : Material
     public override void Apply()
     {
         Matrix fullMatrix = Layer.Game.fullMatrix;
-        Vec3 trans = Vec3.Transform(new Vec3(_thing.x - 28f, _thing.y, 0f), fullMatrix);
-        Vec3 trans2 = Vec3.Transform(new Vec3(_thing.x + 28f, _thing.y, 0f), fullMatrix);
+        Vec3 trans = Vec3.Transform(new Vec3(_thing.X - 28f, _thing.Y, 0f), fullMatrix);
+        Vec3 trans2 = Vec3.Transform(new Vec3(_thing.X + 28f, _thing.Y, 0f), fullMatrix);
         SetValue("scan", trans.x + ((float)Math.Sin(transWave) + 1f) / 2f * (trans2.x - trans.x));
         SetValue("secondScan", secondScan ? 1f : 0f);
         foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)

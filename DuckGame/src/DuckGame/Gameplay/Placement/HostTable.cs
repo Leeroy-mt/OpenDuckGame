@@ -46,7 +46,7 @@ public class HostTable : Thing
     {
         base.layer = Layer.HUD;
         graphic.CenterOrigin();
-        center = new Vec2(graphic.w / 2, 0f);
+        Center = new Vec2(graphic.w / 2, 0f);
         _chair = new Sprite("hostChair");
         _beverage = new SpriteMap("beverages", 16, 18);
         _chair.CenterOrigin();
@@ -87,7 +87,7 @@ public class HostTable : Thing
                 Level.Add(m.duck);
                 m.duck.mindControl = (m.ai = new DuckAI());
                 m.duck.derpMindControl = false;
-                m.duck.depth = base.depth - 20;
+                m.duck.Depth = base.Depth - 20;
                 m.ai.virtualDevice = new VirtualInput(0);
                 m.ai.virtualQuack = true;
                 m.duck.connection = p2.connection;
@@ -166,7 +166,7 @@ public class HostTable : Thing
             t.DoDraw();
         }
         float wide = spectators.Count * 22;
-        float drawX = base.x - wide / 2f + 10f;
+        float drawX = base.X - wide / 2f + 10f;
         int idx = 0;
         foreach (Profile p in spectators)
         {
@@ -202,31 +202,31 @@ public class HostTable : Thing
                 {
                     yOff = 0;
                 }
-                Graphics.Draw(_beverage, drawX - randoOffset + (float)((idx >= spectators.Count / 2) ? 5 : (-16)), base.y - 15f + 16f * m.beverageLerp + (float)yOff, (m.beverageLerp < 0.05f) ? (base.depth + 1) : (base.depth - 1));
+                Graphics.Draw(_beverage, drawX - randoOffset + (float)((idx >= spectators.Count / 2) ? 5 : (-16)), base.Y - 15f + 16f * m.beverageLerp + (float)yOff, (m.beverageLerp < 0.05f) ? (base.Depth + 1) : (base.Depth - 1));
             }
             if (p == DuckNetwork.hostProfile)
             {
-                Graphics.Draw(_crown, drawX, base.y + 2f, base.depth + 2);
+                Graphics.Draw(_crown, drawX, base.Y + 2f, base.Depth + 2);
             }
-            Vec2 chairPos = new Vec2(drawX, base.y - 2f);
-            chairPos += new Vec2(m.tilt.x, (0f - m.tilt.y) * 0.25f) * 4f;
+            Vec2 chairPos = new Vec2(drawX, base.Y - 2f);
+            chairPos += new Vec2(m.tilt.X, (0f - m.tilt.Y) * 0.25f) * 4f;
             Vec2 drawPos = chairPos;
             Vec2 bob = m.bob;
-            if (bob.y < 0f)
+            if (bob.Y < 0f)
             {
-                bob.y *= 1.6f;
+                bob.Y *= 1.6f;
             }
-            drawPos += new Vec2(bob.x, (0f - bob.y) * 1.5f) * 4f;
+            drawPos += new Vec2(bob.X, (0f - bob.Y) * 1.5f) * 4f;
             m.tilt = Lerp.Vec2Smooth(m.tilt, p.netData.Get("spectatorTilt", Vec2.Zero), 0.15f);
             m.bob = Lerp.Vec2Smooth(m.bob, p.netData.Get("spectatorBob", Vec2.Zero), 0.15f);
             p.netData.Get("quack", pDefault: false);
             if (m.duck != null)
             {
-                m.duck.position = drawPos + new Vec2(0f, -5f);
+                m.duck.Position = drawPos + new Vec2(0f, -5f);
                 m.duck.offDir = (sbyte)((!flip) ? 1 : (-1));
             }
             _chair.flipH = flip;
-            Graphics.Draw(_chair, chairPos.x - (float)(flip ? (-4) : 4), chairPos.y - 4f, base.depth - 40);
+            Graphics.Draw(_chair, chairPos.X - (float)(flip ? (-4) : 4), chairPos.Y - 4f, base.Depth - 40);
             drawX += wide / (float)spectators.Count;
             idx++;
         }

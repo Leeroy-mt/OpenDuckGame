@@ -231,30 +231,30 @@ public class LockerRoom : Level
         {
             if (_screen == LockerScreen.Locker)
             {
-                _background.scale = new Vec2(1f, 1f);
-                _background.depth = 0.4f;
-                _background.alpha = _fade;
+                _background.Scale = new Vec2(1f, 1f);
+                _background.Depth = 0.4f;
+                _background.Alpha = _fade;
                 Graphics.Draw(_background, 0f, 0f);
                 string text = _profile.name;
                 Vec2 textPos = new Vec2(115f, 46f);
                 Graphics.DrawString(text, textPos + new Vec2((0f - Graphics.GetStringWidth(text)) / 2f, 0f), Color.Gray * _fade, 0.5f);
                 if (_selection == LockerSelection.Stats)
                 {
-                    _boardHighlight.depth = 0.5f;
-                    _boardHighlight.alpha = (0.5f + _pulse.normalized * 0.5f) * _fade;
+                    _boardHighlight.Depth = 0.5f;
+                    _boardHighlight.Alpha = (0.5f + _pulse.normalized * 0.5f) * _fade;
                     Sprite boardHighlight = _boardHighlight;
-                    float xscale = (_boardHighlight.yscale = 1f + _pulse.normalized * 0.1f);
-                    boardHighlight.xscale = xscale;
+                    float xscale = (_boardHighlight.ScaleY = 1f + _pulse.normalized * 0.1f);
+                    boardHighlight.ScaleX = xscale;
                     Graphics.Draw(_boardHighlight, 75 + _boardHighlight.w / 2, 60 + _boardHighlight.h / 2);
                     text = "STATISTICS";
                 }
                 else if (_selection == LockerSelection.Trophies)
                 {
-                    _trophiesHighlight.depth = 0.5f;
-                    _trophiesHighlight.alpha = (0.5f + _pulse.normalized * 0.5f) * _fade;
+                    _trophiesHighlight.Depth = 0.5f;
+                    _trophiesHighlight.Alpha = (0.5f + _pulse.normalized * 0.5f) * _fade;
                     Sprite trophiesHighlight = _trophiesHighlight;
-                    float xscale = (_trophiesHighlight.yscale = 1f + _pulse.normalized * 0.1f);
-                    trophiesHighlight.xscale = xscale;
+                    float xscale = (_trophiesHighlight.ScaleY = 1f + _pulse.normalized * 0.1f);
+                    trophiesHighlight.ScaleX = xscale;
                     Graphics.Draw(_trophiesHighlight, 161 + _trophiesHighlight.w / 2, 53 + _trophiesHighlight.h / 2);
                     text = "TROPHIES";
                 }

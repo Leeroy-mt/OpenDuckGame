@@ -18,25 +18,25 @@ public class AIStateFindGun : AIState
             if (_target == null)
             {
                 List<Thing> guns = Level.current.things[typeof(Gun)].Where((Thing x) => (x as Gun).ammo > 0 && (x as Gun).owner == null).ToList();
-                if (AI.Nearest(duck.position, guns) is Gun nearest)
+                if (AI.Nearest(duck.Position, guns) is Gun nearest)
                 {
                     _target = nearest;
-                    ai.SetTarget(nearest.position);
+                    ai.SetTarget(nearest.Position);
                 }
                 else
                 {
                     List<Thing> boxes = Level.current.things[typeof(ItemBox)].Where((Thing x) => !(x as ItemBox)._hit).ToList();
-                    if (!(AI.Nearest(duck.position, boxes) is ItemBox nearestBox))
+                    if (!(AI.Nearest(duck.Position, boxes) is ItemBox nearestBox))
                     {
                         return new AIStateWait(Rando.Float(0.8f, 1f));
                     }
                     _target = nearestBox;
-                    ai.SetTarget(nearestBox.position + new Vec2(0f, 32f));
+                    ai.SetTarget(nearestBox.Position + new Vec2(0f, 32f));
                 }
             }
             else if (_target is ItemBox)
             {
-                if (Math.Abs(_target.x - duck.x) < 8f)
+                if (Math.Abs(_target.X - duck.X) < 8f)
                 {
                     ai.locomotion.Jump(15);
                     return new AIStateWait(Rando.Float(0.8f, 1f));
@@ -46,7 +46,7 @@ public class AIStateFindGun : AIState
             {
                 _target = null;
             }
-            else if ((_target.position - duck.position).length < 18f)
+            else if ((_target.Position - duck.Position).Length() < 18f)
             {
                 ai.Press("GRAB");
             }

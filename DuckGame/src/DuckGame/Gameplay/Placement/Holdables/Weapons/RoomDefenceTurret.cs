@@ -15,10 +15,10 @@ public class RoomDefenceTurret : Gun
     private Sprite _base;
 
     public RoomDefenceTurret(Vec2 pPosition, Duck pOwner)
-        : base(pPosition.x, pPosition.y)
+        : base(pPosition.X, pPosition.Y)
     {
         graphic = new Sprite("turretHead");
-        center = new Vec2(7f, 4f);
+        Center = new Vec2(7f, 4f);
         collisionSize = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-4f, -4f);
         _friendly = pOwner;
@@ -42,7 +42,7 @@ public class RoomDefenceTurret : Gun
             ammo = 99;
             if (base.isServerForObject && _target == null)
             {
-                Duck d = Duck.GetAssociatedDuck(base.level.NearestThingFilter<IAmADuck>(position, (Thing x) => (_friendly == null || Duck.GetAssociatedDuck(x) != _friendly) && Level.CheckLine<Block>(position, x.position) == null && Level.CheckLine<TeamBeam>(position, x.position) == null) as PhysicsObject);
+                Duck d = Duck.GetAssociatedDuck(base.level.NearestThingFilter<IAmADuck>(Position, (Thing x) => (_friendly == null || Duck.GetAssociatedDuck(x) != _friendly) && Level.CheckLine<Block>(Position, x.Position) == null && Level.CheckLine<TeamBeam>(Position, x.Position) == null) as PhysicsObject);
                 if (d != null && !d.dead)
                 {
                     _target = d;
@@ -52,16 +52,16 @@ public class RoomDefenceTurret : Gun
             }
             if (_target != null)
             {
-                if (base.isServerForObject && (Level.CheckLine<Block>(position, _target.cameraPosition) != null || Level.CheckLine<TeamBeam>(position, _target.cameraPosition) != null))
+                if (base.isServerForObject && (Level.CheckLine<Block>(Position, _target.cameraPosition) != null || Level.CheckLine<TeamBeam>(Position, _target.cameraPosition) != null))
                 {
                     LoseTarget();
                 }
                 else
                 {
-                    base.angleDegrees = 0f - Maths.PointDirection(position, _target.cameraPosition);
+                    base.AngleDegrees = 0f - Maths.PointDirection(Position, _target.cameraPosition);
                     if (offDir < 0)
                     {
-                        base.angleDegrees += 180f;
+                        base.AngleDegrees += 180f;
                     }
                     if (base.isServerForObject)
                     {
@@ -84,7 +84,7 @@ public class RoomDefenceTurret : Gun
             }
             else
             {
-                base.angleDegrees = 10 * offDir;
+                base.AngleDegrees = 10 * offDir;
             }
         }
         base.Update();
@@ -102,12 +102,12 @@ public class RoomDefenceTurret : Gun
 
     public override void Draw()
     {
-        Vec2 kickVector = position + -base.barrelVector * (kick * 4f);
-        graphic.angleDegrees = base.angleDegrees;
-        graphic.center = center;
+        Vec2 kickVector = Position + -base.barrelVector * (kick * 4f);
+        graphic.AngleDegrees = base.AngleDegrees;
+        graphic.Center = Center;
         graphic.flipH = offDir < 0;
-        Graphics.Draw(graphic, kickVector.x, kickVector.y, base.depth);
-        _base.depth = base.depth - 10;
-        Graphics.Draw(_base, position.x, position.y - 6f);
+        Graphics.Draw(graphic, kickVector.X, kickVector.Y, base.Depth);
+        _base.Depth = base.Depth - 10;
+        Graphics.Draw(_base, Position.X, Position.Y - 6f);
     }
 }

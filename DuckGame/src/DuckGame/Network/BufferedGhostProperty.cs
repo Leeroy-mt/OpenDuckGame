@@ -66,7 +66,7 @@ public class BufferedGhostProperty<T> : BufferedGhostProperty
         {
             if (binding.name == "netPosition")
             {
-                _ = ((Vec2)value).x;
+                _ = ((Vec2)value).X;
                 _ = 47f;
             }
             binding.setTyped(_value);

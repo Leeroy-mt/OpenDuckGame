@@ -53,7 +53,7 @@ public class NMAssignWin : NMEvent
                 plusOne._duck = p.duck;
                 plusOne.anchor = p.duck;
                 plusOne.anchor.offset = new Vec2(0f, -16f);
-                plusOne.depth = 0.95f;
+                plusOne.Depth = 0.95f;
                 Level.Add(plusOne);
             }
         }

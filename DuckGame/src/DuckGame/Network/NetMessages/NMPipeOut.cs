@@ -20,7 +20,7 @@ public class NMPipeOut : NMEvent
     {
         for (int i = 0; i < 6; i++)
         {
-            SmallSmoke s = SmallSmoke.New(position.x + Rando.Float(-4f, 4f), position.y + Rando.Float(-4f, 4f));
+            SmallSmoke s = SmallSmoke.New(position.X + Rando.Float(-4f, 4f), position.Y + Rando.Float(-4f, 4f));
             if (direction == 0)
             {
                 s.velocity = new Vec2(Rando.Float(-0.5f, 0.5f), Rando.Float(0f, -0.5f));

@@ -217,7 +217,7 @@ public class FollowCam : Camera
             {
                 base.width = c.wide.value;
                 base.height = (float)c.wide.value * 0.5625f;
-                base.center = c.position;
+                base.center = c.Position;
                 _skipResize = true;
             }
             if (Level.First<CameraBounds>() != null)
@@ -311,17 +311,17 @@ public class FollowCam : Camera
                         overfollowVal = t.overfollow;
                     }
                     Vec2 move = (t.cameraPosition - pos) * 24f;
-                    if (move.length > 100f)
+                    if (move.Length() > 100f)
                     {
-                        move = move.normalized * 100f;
+                        move = move.Normalized * 100f;
                     }
                     Vec2 over = t.cameraPosition + move;
                     followPos = Lerp.Vec2Smooth(followPos, over, overfollowVal);
                 }
-                if ((pos - followPos).length > 2500f && !_allowWarps)
+                if ((pos - followPos).Length() > 2500f && !_allowWarps)
                 {
-                    followPos.x = pos.x;
-                    followPos.y = pos.y;
+                    followPos.X = pos.X;
+                    followPos.Y = pos.Y;
                 }
                 else
                 {
@@ -332,21 +332,21 @@ public class FollowCam : Camera
             {
                 _prevPositions[t] = t.cameraPosition;
             }
-            if (followPos.x < leftmost)
+            if (followPos.X < leftmost)
             {
-                leftmost = followPos.x;
+                leftmost = followPos.X;
             }
-            if (followPos.x > rightmost)
+            if (followPos.X > rightmost)
             {
-                rightmost = followPos.x;
+                rightmost = followPos.X;
             }
-            if (followPos.y < topmost)
+            if (followPos.Y < topmost)
             {
-                topmost = followPos.y;
+                topmost = followPos.Y;
             }
-            if (followPos.y > bottommost)
+            if (followPos.Y > bottommost)
             {
-                bottommost = followPos.y;
+                bottommost = followPos.Y;
             }
             average += followPos;
         }
@@ -355,10 +355,10 @@ public class FollowCam : Camera
             Remove(t2);
         }
         _removeList.Clear();
-        float topOffset = Level.current.topLeft.y - 64f;
-        float bottomOffset = Level.current.bottomRight.y;
-        float leftOffset = Level.current.topLeft.x;
-        float rightOffset = Level.current.bottomRight.x;
+        float topOffset = Level.current.topLeft.Y - 64f;
+        float bottomOffset = Level.current.bottomRight.Y;
+        float leftOffset = Level.current.topLeft.X;
+        float rightOffset = Level.current.bottomRight.X;
         if (bottommost > bottomOffset)
         {
             bottommost = bottomOffset;
@@ -402,8 +402,8 @@ public class FollowCam : Camera
         float theight = Math.Abs(topmost - bottommost);
         if (lerpSpeed > 0.9f)
         {
-            twidth = Level.current.bottomRight.x - Level.current.topLeft.x;
-            theight = Level.current.bottomRight.y - Level.current.topLeft.y;
+            twidth = Level.current.bottomRight.X - Level.current.topLeft.X;
+            theight = Level.current.bottomRight.Y - Level.current.topLeft.Y;
         }
         float resize = 0f;
         resize = ((!(theight > twidth / aspect)) ? (twidth / aspect) : theight);
@@ -442,20 +442,20 @@ public class FollowCam : Camera
         {
             woteFrame = true;
         }
-        _center.x += (centerMoveX - _center.x) * (lerpSpeed * _lerpMult);
-        _center.y += (centerMoveY - _center.y) * (lerpSpeed * _lerpMult);
+        _center.X += (centerMoveX - _center.X) * (lerpSpeed * _lerpMult);
+        _center.Y += (centerMoveY - _center.Y) * (lerpSpeed * _lerpMult);
         if (immediate)
         {
-            _center.x = centerMoveX;
-            _center.y = centerMoveY;
+            _center.X = centerMoveX;
+            _center.Y = centerMoveY;
         }
         if (lerpSpeed > 0.9f && _startCentered)
         {
-            _center.x = (Level.current.bottomRight.x + Level.current.topLeft.x) / 2f;
-            _center.y = (Level.current.bottomRight.y + Level.current.topLeft.y) / 2f;
+            _center.X = (Level.current.bottomRight.X + Level.current.topLeft.X) / 2f;
+            _center.Y = (Level.current.bottomRight.Y + Level.current.topLeft.Y) / 2f;
         }
-        base.x = _center.x - base.width / 2f;
-        base.y = _center.y - base.height / 2f;
+        base.x = _center.X - base.width / 2f;
+        base.y = _center.Y - base.height / 2f;
         if (base.x < hardLimitLeft)
         {
             base.x = hardLimitLeft;

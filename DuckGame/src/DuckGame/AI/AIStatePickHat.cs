@@ -30,15 +30,15 @@ public class AIStatePickHat : AIState
         if (_target == null)
         {
             List<Thing> consoles = Level.current.things[typeof(HatConsole)].ToList();
-            if (AI.Nearest(duck.position, consoles) is HatConsole nearest)
+            if (AI.Nearest(duck.Position, consoles) is HatConsole nearest)
             {
                 _target = nearest;
-                ai.SetTarget(nearest.position);
+                ai.SetTarget(nearest.Position);
                 return this;
             }
             return new AIStateWait(Rando.Float(0.8f, 1f));
         }
-        if ((_target.position - duck.position).length < 10f && duck.grounded)
+        if ((_target.Position - duck.Position).Length() < 10f && duck.grounded)
         {
             _wait -= 0.016f;
             if (_wait <= 0f)

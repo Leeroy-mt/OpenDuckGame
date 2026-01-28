@@ -245,27 +245,27 @@ public class EnergyScimitar : Gun
         }
     }
 
-    public override float angle
+    public override float Angle
     {
         get
         {
             if (owner is WireMount)
             {
-                return _angle;
+                return AngleValue;
             }
             if (!base.held && owner != null)
             {
-                return _angle + (float)Math.PI / 2f * (float)offDir;
+                return AngleValue + (float)Math.PI / 2f * (float)offDir;
             }
             return Maths.DegToRad(_lerpedAngle) * (float)offDir + Maths.DegToRad(_throwSpin);
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
-    public Vec2 barrelStartPos => position + (Offset(base.barrelOffset) - position).normalized * 2f;
+    public Vec2 barrelStartPos => Position + (Offset(base.barrelOffset) - Position).Normalized * 2f;
 
     public float angleWhoom => _angleWhoom;
 
@@ -291,11 +291,11 @@ public class EnergyScimitar : Gun
         if (owner is WireMount)
         {
             WireMount m = owner as WireMount;
-            foreach (Block b in Level.CheckRectAll<Block>(position + new Vec2(-8f, -8f), position + new Vec2(8f, 8f)))
+            foreach (Block b in Level.CheckRectAll<Block>(Position + new Vec2(-8f, -8f), Position + new Vec2(8f, 8f)))
             {
                 base.clip.Add(b);
             }
-            float degrees = 0f - base.angleDegrees - 90f - 180f;
+            float degrees = 0f - base.AngleDegrees - 90f - 180f;
             owner = null;
             m._containedThing = null;
             StartFlying(degrees);
@@ -314,7 +314,7 @@ public class EnergyScimitar : Gun
             _lerpedAngle = ((owner == null) ? (_wasLifted ? 90 : 0) : 0);
             _swordFlip = offDir < 0;
             _framesSinceThrown++;
-            center = centerUnheld;
+            Center = centerUnheld;
             collisionOffset = new Vec2(-2f, -16f);
             collisionSize = new Vec2(4f, 26f);
             if (_wasLifted)
@@ -339,7 +339,7 @@ public class EnergyScimitar : Gun
                 }
                 else
                 {
-                    center = new Vec2(6f, 22f);
+                    Center = new Vec2(6f, 22f);
                     collisionOffset = new Vec2(-4f, -3f);
                     collisionSize = new Vec2(8f, 6f);
                 }
@@ -357,11 +357,11 @@ public class EnergyScimitar : Gun
             }
             else if (Math.Abs(hSpeed) + Math.Abs(vSpeed) > 2f || !base.grounded)
             {
-                if (!base.grounded && Level.CheckRect<Block>(position + new Vec2(-6f, -6f), position + new Vec2(6f, -2f)) != null)
+                if (!base.grounded && Level.CheckRect<Block>(Position + new Vec2(-6f, -6f), Position + new Vec2(6f, -2f)) != null)
                 {
                     againstWall = true;
                 }
-                if (!againstWall && !_grounded && (Level.CheckPoint<IPlatform>(position + new Vec2(0f, 8f)) == null || vSpeed < 0f || _airFly))
+                if (!againstWall && !_grounded && (Level.CheckPoint<IPlatform>(Position + new Vec2(0f, 8f)) == null || vSpeed < 0f || _airFly))
                 {
                     PerformAirSpin();
                     spinning = true;
@@ -405,7 +405,7 @@ public class EnergyScimitar : Gun
             _stance = Stance.SwingUp;
         }
         _framesSinceThrown = 0;
-        center = centerHeld;
+        Center = centerHeld;
         collisionOffset = new Vec2(-4f, 0f);
         collisionSize = new Vec2(4f, 4f);
         _throwSpin = 0f;
@@ -423,8 +423,8 @@ public class EnergyScimitar : Gun
         {
             base.duck.offDir = 1;
         }
-        bool droop = Level.CheckLine<IPlatform>(new Vec2(owner.position.x, owner.bottom) + new Vec2(-offDir * 16, -10f), new Vec2(owner.position.x, owner.bottom) + new Vec2(-offDir * 16, 2f)) == null;
-        _spikeDrag = base.duck.grounded && !droop && Level.CheckLine<Spikes>(new Vec2(owner.position.x, owner.bottom) + new Vec2(-offDir * 16, -10f), new Vec2(owner.position.x, owner.bottom) + new Vec2(-offDir * 16, 2f)) != null;
+        bool droop = Level.CheckLine<IPlatform>(new Vec2(owner.Position.X, owner.bottom) + new Vec2(-offDir * 16, -10f), new Vec2(owner.Position.X, owner.bottom) + new Vec2(-offDir * 16, 2f)) == null;
+        _spikeDrag = base.duck.grounded && !droop && Level.CheckLine<Spikes>(new Vec2(owner.Position.X, owner.bottom) + new Vec2(-offDir * 16, -10f), new Vec2(owner.Position.X, owner.bottom) + new Vec2(-offDir * 16, 2f)) != null;
         _dragRand = Lerp.FloatSmooth(_dragRand, 0f, 0.1f);
         if (_dragRand > 1f)
         {
@@ -458,7 +458,7 @@ public class EnergyScimitar : Gun
         {
             if (dragSpeedBonus)
             {
-                Spark spark = Spark.New(base.barrelPosition.x, base.barrelPosition.y - 6f, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f)));
+                Spark spark = Spark.New(base.barrelPosition.X, base.barrelPosition.Y - 6f, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f)));
                 spark._color = swordColor;
                 spark._width = 1f;
                 _glow = 0.3f;
@@ -669,15 +669,15 @@ public class EnergyScimitar : Gun
         : base(pX, pY)
     {
         graphic = new Sprite("energyScimiHilt");
-        center = new Vec2(6f, 26f);
+        Center = new Vec2(6f, 26f);
         collisionOffset = new Vec2(-2f, -24f);
         collisionSize = new Vec2(4f, 28f);
         _blade = new Sprite("energyScimiBlade");
         _bladeTrail = new Sprite("energyScimiBladeTrail");
         _whiteGlow = new Sprite("whiteGlow");
-        _whiteGlow.center = new Vec2(16f, 28f);
-        _whiteGlow.xscale = 0.8f;
-        _whiteGlow.yscale = 1.4f;
+        _whiteGlow.Center = new Vec2(16f, 28f);
+        _whiteGlow.ScaleX = 0.8f;
+        _whiteGlow.ScaleY = 1.4f;
         _fullAuto = true;
         _bouncy = 0.5f;
         _impactThreshold = 0.3f;
@@ -696,7 +696,7 @@ public class EnergyScimitar : Gun
         _platform = new ScimiPlatform(0f, 0f, 20f, 8f, this);
         _platform.solid = false;
         _platform.enablePhysics = false;
-        _platform.center = new Vec2(10f, 4f);
+        _platform.Center = new Vec2(10f, 4f);
         _platform.collisionOffset = new Vec2(-10f, -2f);
         _platform.thickness = 0.01f;
         Level.Add(_platform);
@@ -737,11 +737,11 @@ public class EnergyScimitar : Gun
             _timeTillPulse = 0.2f;
             SFX.Play("scimiSurge", 0.8f, Rando.Float(-0.2f, 0.2f));
             _glow = 12f;
-            Vec2 vec = (position - base.barrelPosition).normalized;
+            Vec2 vec = (Position - base.barrelPosition).Normalized;
             Vec2 start = base.barrelPosition;
             for (int i = 0; i < 6; i++)
             {
-                Spark spark = Spark.New(start.x, start.y, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f)));
+                Spark spark = Spark.New(start.X, start.Y, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f)));
                 spark._color = swordColor;
                 spark._width = 1f;
                 Level.Add(spark);
@@ -770,11 +770,11 @@ public class EnergyScimitar : Gun
         {
             Fondle(with);
             Vec2 travel = Maths.AngleToVec(Maths.DegToRad(_airFlyAngle));
-            hSpeed = (lastHSpeed = (0f - travel.x) * 3f);
-            vSpeed = (lastVSpeed = (0f - travel.y) * 3f);
+            hSpeed = (lastHSpeed = (0f - travel.X) * 3f);
+            vSpeed = (lastVSpeed = (0f - travel.Y) * 3f);
             Vec2 wtravel = Maths.AngleToVec(Maths.DegToRad((with as EnergyScimitar)._airFlyAngle));
-            with.hSpeed = (with.lastHSpeed = (0f - wtravel.x) * 3f);
-            with.vSpeed = (with.lastVSpeed = (0f - wtravel.y) * 3f);
+            with.hSpeed = (with.lastHSpeed = (0f - wtravel.X) * 3f);
+            with.vSpeed = (with.lastVSpeed = (0f - wtravel.Y) * 3f);
             Shing();
             (with as EnergyScimitar).Shing();
         }
@@ -791,7 +791,7 @@ public class EnergyScimitar : Gun
                 _drag.Add(new RagdollDrag
                 {
                     part = d.ragdoll.part2,
-                    offset = position - d.ragdoll.part2.position
+                    offset = Position - d.ragdoll.part2.Position
                 });
             }
         }
@@ -820,7 +820,7 @@ public class EnergyScimitar : Gun
                     _drag.Add(new RagdollDrag
                     {
                         part = p.doll.part1,
-                        offset = position - p.doll.part1.position
+                        offset = Position - p.doll.part1.Position
                     });
                     p.doll.part1.owner = this;
                 }
@@ -829,7 +829,7 @@ public class EnergyScimitar : Gun
                     _drag.Add(new RagdollDrag
                     {
                         part = p.doll.part2,
-                        offset = position - p.doll.part2.position
+                        offset = Position - p.doll.part2.Position
                     });
                     p.doll.part2.owner = this;
                 }
@@ -838,7 +838,7 @@ public class EnergyScimitar : Gun
                     _drag.Add(new RagdollDrag
                     {
                         part = p.doll.part3,
-                        offset = position - p.doll.part3.position
+                        offset = Position - p.doll.part3.Position
                     });
                     p.doll.part3.owner = this;
                 }
@@ -849,7 +849,7 @@ public class EnergyScimitar : Gun
     public Vec2 TravelThroughAir(float pMult = 1f)
     {
         Vec2 trav = Maths.AngleToVec(Maths.DegToRad(_airFlyAngle));
-        position += trav * _airFlySpeed * pMult;
+        Position += trav * _airFlySpeed * pMult;
         return trav;
     }
 
@@ -887,8 +887,8 @@ public class EnergyScimitar : Gun
         if (_airFly)
         {
             Vec2 flyVector = Maths.AngleToVec(Maths.DegToRad(_airFlyAngle));
-            offDir = (sbyte)((!(flyVector.x < -0.1f)) ? 1 : (-1));
-            if (Math.Abs(flyVector.x) < 0.2f && flyVector.y < 0f)
+            offDir = (sbyte)((!(flyVector.X < -0.1f)) ? 1 : (-1));
+            if (Math.Abs(flyVector.X) < 0.2f && flyVector.Y < 0f)
             {
                 _upFlyTime += Maths.IncFrameTimer();
                 if (_upFlyTime > 2f)
@@ -899,8 +899,8 @@ public class EnergyScimitar : Gun
             UpdateAirDirection();
             if (!skipThrowMove)
             {
-                hSpeed = flyVector.x * _airFlySpeed;
-                vSpeed = flyVector.y * _airFlySpeed;
+                hSpeed = flyVector.X * _airFlySpeed;
+                vSpeed = flyVector.Y * _airFlySpeed;
             }
             _impactThreshold = 0.01f;
             _bouncy = 0f;
@@ -978,8 +978,8 @@ public class EnergyScimitar : Gun
         {
             return;
         }
-        base.x = base.duck.x;
-        Depth oldDepth = (base.depth = -0.1f);
+        base.X = base.duck.X;
+        Depth oldDepth = (base.Depth = -0.1f);
         _oldDepth = oldDepth;
         if (!base.isServerForObject || base.duck == null || base.duck.destroyed || !_canAirFly || _airFly)
         {
@@ -992,10 +992,10 @@ public class EnergyScimitar : Gun
         }
         if ((base.duck.inputProfile.Down("LEFT") && base.duck.offDir < 0) || (base.duck.inputProfile.Down("RIGHT") && base.duck.offDir > 0))
         {
-            base.y = base.duck.y;
+            base.Y = base.duck.Y;
             if (_stance == Stance.Drag)
             {
-                base.y += 6f;
+                base.Y += 6f;
             }
             skipThrowMove = true;
             TileConnection dir = (base.duck.inputProfile.Down("LEFT") ? TileConnection.Left : TileConnection.Right);
@@ -1010,7 +1010,7 @@ public class EnergyScimitar : Gun
             {
                 airFlyDir = -1;
             }
-            base.x = base.duck.x + (float)base.duck.offDir * -2f;
+            base.X = base.duck.X + (float)base.duck.offDir * -2f;
             if (airFlyDir == 1 && !base.duck.grounded)
             {
                 base.duck.vSpeed -= 8f;
@@ -1049,20 +1049,20 @@ public class EnergyScimitar : Gun
         {
             Vec2 travel = TravelThroughAir(-0.5f);
             Vec2 hitPos = Vec2.Zero;
-            MaterialThing hit = Level.CheckRay<Block>(position, position + travel * _airFlySpeed, out hitPos);
+            MaterialThing hit = Level.CheckRay<Block>(Position, Position + travel * _airFlySpeed, out hitPos);
             if (hit != _platform)
             {
                 if (hit is ScimiPlatform)
                 {
-                    hSpeed = (lastHSpeed = (0f - travel.x) * 3f);
-                    vSpeed = (lastHSpeed = (0f - travel.y) * 3f);
+                    hSpeed = (lastHSpeed = (0f - travel.X) * 3f);
+                    vSpeed = (lastHSpeed = (0f - travel.Y) * 3f);
                 }
                 else
                 {
                     if (hit != null)
                     {
                         base.clip.Add(hit);
-                        position = hitPos - travel * 16f;
+                        Position = hitPos - travel * 16f;
                         UpdateAirDirection();
                     }
                     if (hit != null)
@@ -1074,7 +1074,7 @@ public class EnergyScimitar : Gun
                         vSpeed = 0f;
                         lastHSpeed = _hSpeed;
                         lastVSpeed = _vSpeed;
-                        base.depth = -0.55f;
+                        base.Depth = -0.55f;
                     }
                     else
                     {
@@ -1092,12 +1092,12 @@ public class EnergyScimitar : Gun
         if (base.isServerForObject)
         {
             Fondle(pBullet);
-            EnergyScimitarBlast b = new EnergyScimitarBlast(pBullet.position, new Vec2(offDir * 2000, 0f));
+            EnergyScimitarBlast b = new EnergyScimitarBlast(pBullet.Position, new Vec2(offDir * 2000, 0f));
             Level.Add(b);
             Level.Remove(pBullet);
             if (Network.isActive)
             {
-                Send.Message(new NMEnergyScimitarBlast(b.position, b._target));
+                Send.Message(new NMEnergyScimitarBlast(b.Position, b._target));
             }
         }
     }
@@ -1115,9 +1115,9 @@ public class EnergyScimitar : Gun
         {
             if (d.part.doll != null && d.part.doll.captureDuck != null && d.part.doll.captureDuck._cooked == null)
             {
-                d.part.position = Offset(Maths.AngleToVec(Maths.DegToRad(_airFlyAngle)) * 8f);
-                d.part.doll.position = d.part.position;
-                d.part.doll.captureDuck.position = d.part.position;
+                d.part.Position = Offset(Maths.AngleToVec(Maths.DegToRad(_airFlyAngle)) * 8f);
+                d.part.doll.Position = d.part.Position;
+                d.part.doll.captureDuck.Position = d.part.Position;
                 d.part.doll.captureDuck.Cook();
                 d.part.doll.captureDuck.Kill(new DTIncinerate(this));
                 if (d.part.doll.captureDuck._cooked != null)
@@ -1143,8 +1143,8 @@ public class EnergyScimitar : Gun
                 _slowV = true;
                 warpLines.Add(new WarpLine
                 {
-                    start = base.duck.position,
-                    end = base.duck.position + new Vec2(0f, -80f),
+                    start = base.duck.Position,
+                    end = base.duck.Position + new Vec2(0f, -80f),
                     lerp = 0f,
                     wide = 24f
                 });
@@ -1156,8 +1156,8 @@ public class EnergyScimitar : Gun
                 _slowV = false;
                 warpLines.Add(new WarpLine
                 {
-                    start = base.duck.position + new Vec2(-offDir * 16, 4f),
-                    end = base.duck.position + new Vec2(offDir * 62, 4f),
+                    start = base.duck.Position + new Vec2(-offDir * 16, 4f),
+                    end = base.duck.Position + new Vec2(offDir * 62, 4f),
                     lerp = 0f,
                     wide = 20f
                 });
@@ -1189,7 +1189,7 @@ public class EnergyScimitar : Gun
 
     public override bool Sprung(Thing pSpringer)
     {
-        StartFlying(0f - pSpringer.angleDegrees - 90f - 180f);
+        StartFlying(0f - pSpringer.AngleDegrees - 90f - 180f);
         return false;
     }
 
@@ -1207,11 +1207,11 @@ public class EnergyScimitar : Gun
         _skipPlatforms = _airFly;
         if (_airFly || _stuckInto != null)
         {
-            base.depth = -0.55f;
+            base.Depth = -0.55f;
         }
         else
         {
-            base.depth = -0.1f;
+            base.Depth = -0.1f;
         }
         if (_stuckInto != null && _stuckInto is Door && Math.Abs((_stuckInto as Door)._open) > 0.5f)
         {
@@ -1277,7 +1277,7 @@ public class EnergyScimitar : Gun
             handFlip = false;
             foreach (RagdollDrag d in _drag)
             {
-                d.part.position = position - d.offset;
+                d.part.Position = Position - d.offset;
                 d.part.hSpeed = 0f;
                 d.part.vSpeed = 0f;
             }
@@ -1306,7 +1306,7 @@ public class EnergyScimitar : Gun
                         {
                             continue;
                         }
-                        if (e.owner == null && e._airFly && e.offDir != base.duck.offDir && ((Math.Abs(e.hSpeed) > 2f && Collision.Line(barrelStartPos, base.barrelPosition, new Rectangle(e.x + e.hSpeed, e.y - 8f, Math.Abs(e.hSpeed), 16f))) || (Math.Abs(e.vSpeed) > 2f && Collision.Line(barrelStartPos, base.barrelPosition, new Rectangle(e.x - 8f, e.y + e.vSpeed, 16f, Math.Abs(e.vSpeed))))))
+                        if (e.owner == null && e._airFly && e.offDir != base.duck.offDir && ((Math.Abs(e.hSpeed) > 2f && Collision.Line(barrelStartPos, base.barrelPosition, new Rectangle(e.X + e.hSpeed, e.Y - 8f, Math.Abs(e.hSpeed), 16f))) || (Math.Abs(e.vSpeed) > 2f && Collision.Line(barrelStartPos, base.barrelPosition, new Rectangle(e.X - 8f, e.Y + e.vSpeed, 16f, Math.Abs(e.vSpeed))))))
                         {
                             Fondle(e);
                             e.ReverseFlyDirection();
@@ -1317,8 +1317,8 @@ public class EnergyScimitar : Gun
                             continue;
                         }
                         Duck otherDuck = e.owner as Duck;
-                        base.duck.x -= base.duck.hSpeed;
-                        otherDuck.x -= otherDuck.hSpeed;
+                        base.duck.X -= base.duck.hSpeed;
+                        otherDuck.X -= otherDuck.hSpeed;
                         _timeSinceBlast = 0f;
                         otherDuck.hSpeed = (float)offDir * 5f;
                         otherDuck.vSpeed = -4f;
@@ -1336,15 +1336,15 @@ public class EnergyScimitar : Gun
                         e.Shing();
                         if (base.isServerForObject && owner != null && otherDuck != null)
                         {
-                            EnergyScimitarBlast b2 = new EnergyScimitarBlast((otherDuck.position + owner.position) / 2f + new Vec2(0f, -16f), new Vec2(0f, -2000f));
+                            EnergyScimitarBlast b2 = new EnergyScimitarBlast((otherDuck.Position + owner.Position) / 2f + new Vec2(0f, -16f), new Vec2(0f, -2000f));
                             if (Network.isActive)
                             {
-                                Send.Message(new NMEnergyScimitarBlast(b2.position, b2._target));
+                                Send.Message(new NMEnergyScimitarBlast(b2.Position, b2._target));
                             }
-                            EnergyScimitarBlast thing = new EnergyScimitarBlast((otherDuck.position + owner.position) / 2f + new Vec2(0f, 16f), new Vec2(0f, 2000f));
+                            EnergyScimitarBlast thing = new EnergyScimitarBlast((otherDuck.Position + owner.Position) / 2f + new Vec2(0f, 16f), new Vec2(0f, 2000f));
                             if (Network.isActive)
                             {
-                                Send.Message(new NMEnergyScimitarBlast(b2.position, b2._target));
+                                Send.Message(new NMEnergyScimitarBlast(b2.Position, b2._target));
                             }
                             Level.Add(b2);
                             Level.Add(thing);
@@ -1382,17 +1382,17 @@ public class EnergyScimitar : Gun
                 {
                     _didOwnerSwitchLogic = true;
                     _timeSincePickedUp = 0f;
-                    foreach (PhysicsObject item in Level.CheckCircleAll<PhysicsObject>(position, 16f))
+                    foreach (PhysicsObject item in Level.CheckCircleAll<PhysicsObject>(Position, 16f))
                     {
                         item.sleeping = false;
                     }
                 }
                 float len = 24f + max;
-                Vec2 pos = position + OffsetLocal(new Vec2(0f, 4f));
+                Vec2 pos = Position + OffsetLocal(new Vec2(0f, 4f));
                 foreach (Blocker wall in _walls)
                 {
                     pos += OffsetLocal(new Vec2(0f, (0f - len) / (float)_walls.Count));
-                    wall.position = pos;
+                    wall.Position = pos;
                     float inc = 1f - Math.Min(_stanceCounter / 0.25f, 1f);
                     wall.collisionSize = new Vec2(6f + inc * 8f, 6f);
                     wall.collisionOffset = new Vec2(-3f - inc * 4f, -3f);
@@ -1404,11 +1404,11 @@ public class EnergyScimitar : Gun
                 {
                     _didOwnerSwitchLogic = false;
                 }
-                Vec2 pos2 = position + OffsetLocal(new Vec2(0f, (_stuckInto != null) ? (-25) : (-14)));
+                Vec2 pos2 = Position + OffsetLocal(new Vec2(0f, (_stuckInto != null) ? (-25) : (-14)));
                 foreach (Blocker wall2 in _walls)
                 {
                     pos2 += OffsetLocal(new Vec2(0f, 18f / (float)_walls.Count));
-                    wall2.position = pos2;
+                    wall2.Position = pos2;
                     wall2.solid = _stanceCounter < 0.15f;
                 }
             }
@@ -1420,7 +1420,7 @@ public class EnergyScimitar : Gun
             _didOwnerSwitchLogic = false;
         }
         float glowMul = Math.Min(_glow, 1f);
-        float dif = Math.Min(Math.Abs(_lastAngleHum - angle), 1f);
+        float dif = Math.Min(Math.Abs(_lastAngleHum - Angle), 1f);
         _angleWhoom = Lerp.FloatSmooth(_angleWhoom, dif, 0.2f);
         _humAmount = Lerp.FloatSmooth(_humAmount, Math.Min((Math.Min(Math.Abs(hSpeed) + Math.Abs(vSpeed), 5f) / 10f + dif * 2f + 0.25f + glowMul * 0.3f) * _glow, 0.75f), 0.2f);
         _humAmount = Math.Min(_humAmount + _dragRand * 0.2f, 1f);
@@ -1432,20 +1432,20 @@ public class EnergyScimitar : Gun
         {
             float maxDist = 800f;
             float minDist = 400f;
-            float dist = Math.Min(Math.Max((base.level.camera.position - position).length, minDist) - minDist, maxDist);
+            float dist = Math.Min(Math.Max((base.level.camera.position - Position).Length(), minDist) - minDist, maxDist);
             float atten = 1f - dist / maxDist;
             if (_hum != null)
             {
                 _hum.volume *= atten;
             }
-            if (base.isServerForObject && visible && (base.x < base.level.topLeft.x - 1000f || base.x > base.level.bottomRight.x + 1000f) && owner == null && !inPipe)
+            if (base.isServerForObject && visible && (base.X < base.level.topLeft.X - 1000f || base.X > base.level.bottomRight.X + 1000f) && owner == null && !inPipe)
             {
                 Level.Remove(this);
             }
         }
         _extraOffset = new Vec2(0f, 0f - max);
         _barrelOffsetTL = new Vec2(4f, 3f - max);
-        _lastAngleHum = angle;
+        _lastAngleHum = Angle;
         if (_glow > 1f)
         {
             _glow *= 0.85f;
@@ -1505,16 +1505,16 @@ public class EnergyScimitar : Gun
         base.Update();
         _platform.solid = false;
         _platform.enablePhysics = false;
-        _platform.position = new Vec2(-99999f, -99999f);
+        _platform.Position = new Vec2(-99999f, -99999f);
         if (stuck)
         {
-            if (Math.Abs(barrelStartPos.y - base.barrelPosition.y) < 6f)
+            if (Math.Abs(barrelStartPos.Y - base.barrelPosition.Y) < 6f)
             {
                 _platform.solid = true;
                 _platform.enablePhysics = true;
-                _platform.position = Offset(new Vec2(0f, -10f));
+                _platform.Position = Offset(new Vec2(0f, -10f));
             }
-            center = new Vec2(6f, 29f);
+            Center = new Vec2(6f, 29f);
         }
     }
 
@@ -1524,10 +1524,10 @@ public class EnergyScimitar : Gun
         {
             return;
         }
-        _whiteGlow.angle = angle;
+        _whiteGlow.Angle = Angle;
         _whiteGlow.color = swordColor;
-        _whiteGlow.alpha = _glow * 0.5f;
-        Graphics.Draw(_whiteGlow, base.x, base.y, base.depth - 2);
+        _whiteGlow.Alpha = _glow * 0.5f;
+        Graphics.Draw(_whiteGlow, base.X, base.Y, base.Depth - 2);
         Color c = swordColor;
         foreach (WarpLine l in warpLines)
         {
@@ -1545,7 +1545,7 @@ public class EnergyScimitar : Gun
 
     public override void EditorUpdate()
     {
-        _lerpedAngle = Maths.RadToDeg(_angle);
+        _lerpedAngle = Maths.RadToDeg(AngleValue);
         base.EditorUpdate();
     }
 
@@ -1560,42 +1560,42 @@ public class EnergyScimitar : Gun
         {
             foreach (Blocker wall in _walls)
             {
-                Graphics.DrawRect(wall.rectangle, Color.Red, base.depth + 10);
+                Graphics.DrawRect(wall.rectangle, Color.Red, base.Depth + 10);
             }
         }
         float max = Math.Min(_angleWhoom, 0.5f) * 1.5f;
         Graphics.material = _bladeMaterial;
         _bladeMaterial.glow = 0.25f + _glow * 0.75f;
-        _blade.center = center;
-        _bladeTrail.center = center;
-        _blade.angle = graphic.angle;
+        _blade.Center = Center;
+        _bladeTrail.Center = Center;
+        _blade.Angle = graphic.Angle;
         _blade.flipH = _swordFlip;
         _bladeTrail.flipH = _blade.flipH;
-        _blade.alpha = base.alpha;
+        _blade.Alpha = base.Alpha;
         _blade.color = Color.Lerp(Color.White, Color.Red, heat);
         swordColor = Color.Lerp(properColor, Color.Red, heat);
         if (_glow > 1f)
         {
-            _blade.scale = new Vec2(1f + (_glow - 1f) * 0.03f, 1f);
+            _blade.Scale = new Vec2(1f + (_glow - 1f) * 0.03f, 1f);
         }
         else
         {
-            _blade.scale = new Vec2(1f);
+            _blade.Scale = new Vec2(1f);
         }
-        _bladeTrail.yscale = _blade.yscale + max;
-        Graphics.Draw(_blade, base.x, base.y, base.depth - 1);
+        _bladeTrail.ScaleY = _blade.ScaleY + max;
+        Graphics.Draw(_blade, base.X, base.Y, base.Depth - 1);
         Graphics.material = null;
-        _ = position;
-        _ = base.depth;
+        _ = Position;
+        _ = base.Depth;
         _bladeTrail.color = swordColor;
         graphic.color = Color.White;
         if (_glow > 0.5f)
         {
-            float rlAngle = angle;
-            _ = _angle;
+            float rlAngle = Angle;
+            _ = AngleValue;
             float alph = 1f;
-            Vec2 drawPos = position;
-            _ = position;
+            Vec2 drawPos = Position;
+            _ = Position;
             for (int i = 0; i < 7; i++)
             {
                 Vec2 prevPosLock = Vec2.Zero;
@@ -1618,14 +1618,14 @@ public class EnergyScimitar : Gun
                     {
                         drawPos += owner.velocity * 0.5f;
                     }
-                    _bladeTrail.angle = rlAngle;
-                    _bladeTrail.alpha = Math.Min(Math.Max((_humAmount - 0.1f) * 4f, 0f), 1f) * 0.7f;
-                    Graphics.Draw(_bladeTrail, drawPos.x, drawPos.y, base.depth - 2);
+                    _bladeTrail.Angle = rlAngle;
+                    _bladeTrail.Alpha = Math.Min(Math.Max((_humAmount - 0.1f) * 4f, 0f), 1f) * 0.7f;
+                    Graphics.Draw(_bladeTrail, drawPos.X, drawPos.Y, base.Depth - 2);
                 }
                 alph -= 0.15f;
             }
         }
-        addHistory(angle, position);
+        addHistory(Angle, Position);
         if (_lastSize > 2)
         {
             int cur = historyIndex(0);

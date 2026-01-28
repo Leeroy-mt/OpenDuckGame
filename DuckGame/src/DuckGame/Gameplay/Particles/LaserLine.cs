@@ -15,7 +15,7 @@ public class LaserLine : Thing
     private float fade = 0.06f;
 
     public LaserLine(Vec2 pos, Vec2 target, Vec2 moveVector, float moveSpeed, Color color, float thickness, float f = 0.06f)
-        : base(pos.x, pos.y)
+        : base(pos.X, pos.Y)
     {
         _moveSpeed = moveSpeed;
         _color = color;
@@ -27,17 +27,17 @@ public class LaserLine : Thing
 
     public override void Update()
     {
-        base.alpha -= fade;
-        if (base.alpha < 0f)
+        base.Alpha -= fade;
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }
-        base.x += _move.x * _moveSpeed;
-        base.y += _move.y * _moveSpeed;
+        base.X += _move.X * _moveSpeed;
+        base.Y += _move.Y * _moveSpeed;
     }
 
     public override void Draw()
     {
-        Graphics.DrawLine(position, position + _target, _color * base.alpha, _thickness, 0.9f);
+        Graphics.DrawLine(Position, Position + _target, _color * base.Alpha, _thickness, 0.9f);
     }
 }

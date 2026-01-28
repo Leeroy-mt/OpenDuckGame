@@ -20,7 +20,7 @@ public class WhiteRectangle : Thing
         gradientLine = new Sprite("lavaGlowLine");
         edge = new Sprite("lavaGlowEdge");
         edgeVert = new Sprite("lavaGlowEdgeVert");
-        edge.center = new Vec2(32f, 32f);
+        edge.Center = new Vec2(32f, 32f);
         water = waterVal;
         if (water)
         {
@@ -32,26 +32,26 @@ public class WhiteRectangle : Thing
     {
         if (water)
         {
-            Graphics.DrawTexturedLine(edge.texture, position + new Vec2(0f, size.y / 2f), position + new Vec2(size.x, size.y / 2f), new Color(255, 255, 255, 0), size.y / 20f, 1f);
+            Graphics.DrawTexturedLine(edge.texture, Position + new Vec2(0f, size.Y / 2f), Position + new Vec2(size.X, size.Y / 2f), new Color(255, 255, 255, 0), size.Y / 20f, 1f);
             return;
         }
-        Graphics.DrawRect(position, position + size, new Color(255, 255, 255, 0), 1f);
-        Graphics.DrawTexturedLine(gradientLine.texture, position + new Vec2(0f, 0f), position + new Vec2(size.x, 0f), new Color(255, 255, 255, 0), 1f, 1f);
-        Graphics.DrawTexturedLine(gradientLine.texture, position + new Vec2(0f, size.y + 1f), position + new Vec2(size.x, size.y + 1f), new Color(255, 255, 255, 0), 1f, 1f);
-        Graphics.DrawTexturedLine(gradientLine.texture, position + new Vec2(0f, 0f), position + new Vec2(0f, size.y), new Color(255, 255, 255, 0), 0.5f, 1f);
-        Graphics.DrawTexturedLine(gradientLine.texture, position + new Vec2(size.x - 1f, 0f), position + new Vec2(size.x - 1f, size.y), new Color(255, 255, 255, 0), 0.5f, 1f);
-        edgeVert.xscale = 0.5f;
-        edge.xscale = 0.5f;
+        Graphics.DrawRect(Position, Position + size, new Color(255, 255, 255, 0), 1f);
+        Graphics.DrawTexturedLine(gradientLine.texture, Position + new Vec2(0f, 0f), Position + new Vec2(size.X, 0f), new Color(255, 255, 255, 0), 1f, 1f);
+        Graphics.DrawTexturedLine(gradientLine.texture, Position + new Vec2(0f, size.Y + 1f), Position + new Vec2(size.X, size.Y + 1f), new Color(255, 255, 255, 0), 1f, 1f);
+        Graphics.DrawTexturedLine(gradientLine.texture, Position + new Vec2(0f, 0f), Position + new Vec2(0f, size.Y), new Color(255, 255, 255, 0), 0.5f, 1f);
+        Graphics.DrawTexturedLine(gradientLine.texture, Position + new Vec2(size.X - 1f, 0f), Position + new Vec2(size.X - 1f, size.Y), new Color(255, 255, 255, 0), 0.5f, 1f);
+        edgeVert.ScaleX = 0.5f;
+        edge.ScaleX = 0.5f;
         edge.flipH = false;
         edge.color = new Color(255, 255, 255, 0);
         edgeVert.color = new Color(255, 255, 255, 0);
-        Graphics.Draw(edge, base.x, base.y);
+        Graphics.Draw(edge, base.X, base.Y);
         edge.flipH = true;
-        Graphics.Draw(edge, base.x + size.x, base.y);
+        Graphics.Draw(edge, base.X + size.X, base.Y);
         edgeVert.flipH = true;
-        Graphics.Draw(edgeVert, base.x + size.x + 16f, base.y + size.y);
+        Graphics.Draw(edgeVert, base.X + size.X + 16f, base.Y + size.Y);
         edgeVert.flipH = false;
-        Graphics.Draw(edgeVert, base.x - 16f, base.y + size.y);
+        Graphics.Draw(edgeVert, base.X - 16f, base.Y + size.Y);
         base.Draw();
     }
 }

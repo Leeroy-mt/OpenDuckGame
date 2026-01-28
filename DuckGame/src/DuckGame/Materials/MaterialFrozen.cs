@@ -24,8 +24,8 @@ public class MaterialFrozen : Material
             Tex2D tex = Graphics.device.Textures[0] as Texture2D;
             SetValue("width", tex.frameWidth / ((float)tex.width * 0.75f));
             SetValue("height", tex.frameHeight / ((float)tex.height * 0.75f));
-            SetValue("xpos", _thing.x);
-            SetValue("ypos", _thing.y);
+            SetValue("xpos", _thing.X);
+            SetValue("ypos", _thing.Y);
             SetValue("intensity", intensity);
         }
         Graphics.device.Textures[1] = (Texture2D)_frozenTexture;

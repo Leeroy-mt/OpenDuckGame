@@ -9,10 +9,10 @@ public class CityRamp : IceWedge
         _canFlipVert = true;
         graphic = new SpriteMap("cityWedge", 17, 17);
         base.hugWalls = WallHug.Left | WallHug.Right | WallHug.Floor;
-        center = new Vec2(8f, 14f);
+        Center = new Vec2(8f, 14f);
         collisionSize = new Vec2(14f, 8f);
         collisionOffset = new Vec2(-7f, -6f);
         _editorName = "Ramp";
-        base.depth = -0.9f;
+        base.Depth = -0.9f;
     }
 }

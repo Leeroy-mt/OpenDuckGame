@@ -450,7 +450,7 @@ public class NetworkDebugger : Level
             _currentIndex = i;
             LockInstance(instance);
             bool hov = false;
-            if (_lastRect == _currentIndex || instance.rect.Contains(Mouse.mousePos) || (Math.Abs((float)(Graphics.width / 2) - Mouse.mousePos.x) < 32f && Math.Abs((float)(Graphics.height / 2) - Mouse.mousePos.y) < 32f))
+            if (_lastRect == _currentIndex || instance.rect.Contains(Mouse.mousePos) || (Math.Abs((float)(Graphics.width / 2) - Mouse.mousePos.X) < 32f && Math.Abs((float)(Graphics.height / 2) - Mouse.mousePos.Y) < 32f))
             {
                 _lastRect = _currentIndex;
                 InputProfile.active = InputProfile.DefaultPlayer1;
@@ -983,7 +983,7 @@ public class NetworkDebugger : Level
             return;
         }
         int maxLines = 97;
-        if (size.y < 300f)
+        if (size.Y < 300f)
         {
             maxLines = maxLines / 2 - 2;
         }
@@ -1018,15 +1018,15 @@ public class NetworkDebugger : Level
                 lineCount++;
             }
         }
-        Graphics.DrawRect(new Vec2(logsTL.x + (size.x - 12f), logsTL.y), logsBR, Color.Gray * 0.5f, 0.81f);
+        Graphics.DrawRect(new Vec2(logsTL.X + (size.X - 12f), logsTL.Y), logsBR, Color.Gray * 0.5f, 0.81f);
         float scroll = (float)logsScroll[index] / (float)lineCount;
         float maxBarSize = 300f;
         float barSize = Math.Max(maxBarSize - (float)lineCount, 20f) / maxBarSize;
-        float scrollBarHeight = size.y * barSize;
-        Vec2 scrollerTL = new Vec2(logsTL.x + (size.x - 12f), logsTL.y + scroll * (size.y - scrollBarHeight));
-        Vec2 scrollerBR = new Vec2(logsTL.x + size.x, logsTL.y + scroll * (size.y - scrollBarHeight) + scrollBarHeight);
+        float scrollBarHeight = size.Y * barSize;
+        Vec2 scrollerTL = new Vec2(logsTL.X + (size.X - 12f), logsTL.Y + scroll * (size.Y - scrollBarHeight));
+        Vec2 scrollerBR = new Vec2(logsTL.X + size.X, logsTL.Y + scroll * (size.Y - scrollBarHeight) + scrollBarHeight);
         bool scrollerHover = false;
-        if (Mouse.xConsole > scrollerTL.x && Mouse.xConsole < scrollerBR.x && Mouse.yConsole > scrollerTL.y && Mouse.yConsole < scrollerBR.y)
+        if (Mouse.xConsole > scrollerTL.X && Mouse.xConsole < scrollerBR.X && Mouse.yConsole > scrollerTL.Y && Mouse.yConsole < scrollerBR.Y)
         {
             if (Mouse.left == InputState.Pressed)
             {
@@ -1040,22 +1040,22 @@ public class NetworkDebugger : Level
         {
             Vec2 mouseDif = mouseClickPos[index] - Mouse.positionConsole;
             Vec2 scrollTop = mouseClickTop[index] - mouseDif;
-            if (scrollTop.y < logsTL.y)
+            if (scrollTop.Y < logsTL.Y)
             {
-                scrollTop.y = logsTL.y;
+                scrollTop.Y = logsTL.Y;
             }
-            if (scrollTop.y > logsBR.y - scrollBarHeight)
+            if (scrollTop.Y > logsBR.Y - scrollBarHeight)
             {
-                scrollTop.y = logsBR.y - scrollBarHeight;
+                scrollTop.Y = logsBR.Y - scrollBarHeight;
             }
-            logsScroll[index] = (int)Math.Round((scrollTop.y - logsTL.y) / (size.y - scrollBarHeight) * (float)lineCount);
+            logsScroll[index] = (int)Math.Round((scrollTop.Y - logsTL.Y) / (size.Y - scrollBarHeight) * (float)lineCount);
         }
         if (Mouse.left == InputState.Released)
         {
             scrollerDrag[index] = false;
         }
         Graphics.DrawRect(scrollerTL, scrollerBR, Color.White * ((scrollerHover || scrollerDrag[index]) ? 0.8f : 0.5f), 0.82f);
-        if (Mouse.xConsole > logsTL.x && Mouse.xConsole < logsBR.x && Mouse.yConsole > logsTL.y && Mouse.yConsole < logsBR.y)
+        if (Mouse.xConsole > logsTL.X && Mouse.xConsole < logsBR.X && Mouse.yConsole > logsTL.Y && Mouse.yConsole < logsBR.Y)
         {
             if (Mouse.scroll > 0f)
             {
@@ -1107,21 +1107,21 @@ public class NetworkDebugger : Level
                     col.g = (byte)((float)(int)col.g * 0.3f);
                     col.b = (byte)((float)(int)col.b * 0.3f);
                 }
-                Graphics.DrawRect(linePos + new Vec2(-4f, -1f), new Vec2(logsBR.x - 14f, linePos.y + 9f), col, 0.85f);
+                Graphics.DrawRect(linePos + new Vec2(-4f, -1f), new Vec2(logsBR.X - 14f, linePos.Y + 9f), col, 0.85f);
                 if (line.frames + frames > 0)
                 {
-                    linePos.y += 1f;
-                    Graphics.DrawLine(linePos + new Vec2(-4f, 10f), new Vec2(logsBR.x - 14f, linePos.y + 10f), Color.White * 0.24f, 1f, 0.9f);
-                    linePos.y += 2f;
+                    linePos.Y += 1f;
+                    Graphics.DrawLine(linePos + new Vec2(-4f, 10f), new Vec2(logsBR.X - 14f, linePos.Y + 10f), Color.White * 0.24f, 1f, 0.9f);
+                    linePos.Y += 2f;
                     if (line.frames + frames > 30)
                     {
                         Graphics.DrawString("~" + (line.frames + frames) + " frames~", linePos + new Vec2(80f, 10f), Color.White * 0.2f, 0.9f);
-                        linePos.y += 10f;
+                        linePos.Y += 10f;
                         maxLines--;
                     }
                 }
             }
-            linePos.y += 10f;
+            linePos.Y += 10f;
         }
     }
 
@@ -1169,14 +1169,14 @@ public class NetworkDebugger : Level
                 Vec2 logSize = new Vec2(Layer.Console.width - 40f, Layer.Console.height - 100f);
                 if (numShowing > 1)
                 {
-                    logSize = new Vec2(logSize.x / 2f - 4f, Layer.Console.height - 100f);
-                    positions[1] = tl + new Vec2(logSize.x + 4f, 0f);
+                    logSize = new Vec2(logSize.X / 2f - 4f, Layer.Console.height - 100f);
+                    positions[1] = tl + new Vec2(logSize.X + 4f, 0f);
                 }
                 if (numShowing > 2)
                 {
-                    logSize = new Vec2(logSize.x, logSize.y / 2f - 16f);
-                    positions[2] = tl + new Vec2(0f, logSize.y + 16f);
-                    positions[3] = tl + new Vec2(logSize.x + 4f, logSize.y + 16f);
+                    logSize = new Vec2(logSize.X, logSize.Y / 2f - 16f);
+                    positions[2] = tl + new Vec2(0f, logSize.Y + 16f);
+                    positions[3] = tl + new Vec2(logSize.X + 4f, logSize.Y + 16f);
                 }
                 for (int k = 0; k < 4; k++)
                 {

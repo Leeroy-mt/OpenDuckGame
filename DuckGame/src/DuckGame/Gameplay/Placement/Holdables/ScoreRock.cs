@@ -9,7 +9,7 @@ public class ScoreRock : Holdable, IPlatform
 
     public StateBinding _depthBinding = new StateBinding(nameof(netDepth));
 
-    public StateBinding _zBinding = new StateBinding(nameof(z));
+    public StateBinding _zBinding = new StateBinding(nameof(Z));
 
     public StateBinding _profileBinding = new StateBinding(nameof(netProfileIndex));
 
@@ -31,11 +31,11 @@ public class ScoreRock : Holdable, IPlatform
     {
         get
         {
-            return base.depth.value;
+            return base.Depth.value;
         }
         set
         {
-            base.depth = value;
+            base.Depth = value;
         }
     }
 
@@ -58,10 +58,10 @@ public class ScoreRock : Holdable, IPlatform
     {
         _sprite = new SpriteMap("scoreRock", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -6f);
         collisionSize = new Vec2(16f, 13f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         thickness = 4f;
         weight = 7f;
         RefreshProfile(profile);
@@ -115,7 +115,7 @@ public class ScoreRock : Holdable, IPlatform
             if (profile.team.rockTexture != null)
             {
                 _sprite = new SpriteMap(profile.team.rockTexture, 24, 24);
-                center = new Vec2(12f, 12f);
+                Center = new Vec2(12f, 12f);
                 graphic = _sprite;
                 _customRock = true;
                 collisionOffset = new Vec2(-8f, -1f);
@@ -126,27 +126,27 @@ public class ScoreRock : Holdable, IPlatform
 
     public override void Update()
     {
-        foreach (Block block in Level.CheckLineAll<Block>(position, position + new Vec2(0f, 100f)))
+        foreach (Block block in Level.CheckLineAll<Block>(Position, Position + new Vec2(0f, 100f)))
         {
             if (block.solid)
             {
-                _dropShadowPoint.x = base.x;
-                _dropShadowPoint.y = block.top;
+                _dropShadowPoint.X = base.X;
+                _dropShadowPoint.Y = block.top;
             }
         }
-        if (RockScoreboard.wallMode && base.x > 610f)
+        if (RockScoreboard.wallMode && base.X > 610f)
         {
-            base.x = 610f;
+            base.X = 610f;
             hSpeed = -1f;
             SFX.Play("rockHitGround2", 1f, -0.4f);
         }
-        if (RockScoreboard.wallMode && base.x > 610f)
+        if (RockScoreboard.wallMode && base.X > 610f)
         {
-            base.x = 610f;
+            base.X = 610f;
             hSpeed = -1f;
             SFX.Play("rockHitGround2", 1f, -0.4f);
         }
-        _pos = position;
+        _pos = Position;
         base.Update();
     }
 
@@ -156,10 +156,10 @@ public class ScoreRock : Holdable, IPlatform
         if (!_customRock && _profile != null && _profile.team != null && _profile.team.hasHat)
         {
             SpriteMap hat = _profile.team.GetHat(_profile.persona);
-            hat.depth = base.depth + 1;
-            hat.center = new Vec2(16f, 16f);
-            Vec2 pos = position - _profile.team.hatOffset;
-            Graphics.Draw(hat, pos.x, pos.y - 5f);
+            hat.Depth = base.Depth + 1;
+            hat.Center = new Vec2(16f, 16f);
+            Vec2 pos = Position - _profile.team.hatOffset;
+            Graphics.Draw(hat, pos.X, pos.Y - 5f);
         }
     }
 }

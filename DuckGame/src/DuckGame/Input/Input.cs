@@ -574,16 +574,16 @@ namespace DuckGame
             _triggerImageMap.Add("F1", new Sprite("buttons/keyboard/f1"));
             _triggerImageMap.Add("ALT", new Sprite("buttons/keyboard/alt"));
             _triggerImageMap.Add("COMMA", new KeyImage(','));
-            _triggerImageMap.Add("DGR", new Sprite("DGR") { center = new Vec2(0, 0.75f), color = new Color(246, 68, 191) });
-            _triggerImageMap.Add("DGRDIM", new Sprite("DGR") { center = new Vec2(0, 0.75f), color = new Color(120, 14, 87) });
+            _triggerImageMap.Add("DGR", new Sprite("DGR") { Center = new Vec2(0, 0.75f), color = new Color(246, 68, 191) });
+            _triggerImageMap.Add("DGRDIM", new Sprite("DGR") { Center = new Vec2(0, 0.75f), color = new Color(120, 14, 87) });
             _triggerImageMap.Add("DGRBIG", new Sprite("DGRBIG") { color = new Color(246, 68, 191) });
             _triggerImageMap.Add("DGRBIGDIM", new Sprite("DGRBIG") { color = new Color(120, 14, 87) });
 
             Dictionary<string, Sprite> triggerImageMap = _triggerImageMap;
             Sprite sprite1 = new Sprite("checkIcon")
             {
-                scale = new Vec2(0.5f, 0.5f),
-                centery = -1f
+                Scale = new Vec2(0.5f, 0.5f),
+                CenterY = -1f
             };
             triggerImageMap.Add("CHECKSMALL", sprite1);
             _triggerImageMap.Add("SPEEDCLOCK", new Sprite("speedrunClock"));
@@ -596,20 +596,20 @@ namespace DuckGame
             {
                 flipH = true
             };
-            sprite2.centerx = sprite2.width;
+            sprite2.CenterX = sprite2.width;
             _triggerImageMap.Add("RWING", sprite2);
             Sprite sprite3 = new Sprite("arcade/titleWing")
             {
                 color = new Color(96, 119, 124)
             };
-            ++sprite3.centery;
+            ++sprite3.CenterY;
             _triggerImageMap.Add("LWINGGRAY", sprite3);
             Sprite sprite4 = new Sprite("arcade/titleWing")
             {
                 flipH = true
             };
-            sprite4.centerx = sprite4.width;
-            ++sprite4.centery;
+            sprite4.CenterX = sprite4.width;
+            ++sprite4.CenterY;
             sprite4.color = new Color(96, 119, 124);
             _triggerImageMap.Add("RWINGGRAY", sprite4);
             _triggerImageMap.Add("WRENCH", new Sprite("titleWrench"));
@@ -652,52 +652,52 @@ namespace DuckGame
             });
             Sprite sprite5 = new Sprite("crownIcon")
             {
-                scale = new Vec2(0.5f, 0.5f)
+                Scale = new Vec2(0.5f, 0.5f)
             };
-            sprite5.centery -= 6f;
+            sprite5.CenterY -= 6f;
             _triggerImageMap.Add("HOSTCROWN", sprite5);
             Sprite sprite6 = new Sprite("subPlus");
             _triggerImageMap.Add("SUBPLUS", sprite6);
             Sprite sprite7 = new Sprite("steamIcon")
             {
-                scale = new Vec2(0.25f, 0.25f)
+                Scale = new Vec2(0.25f, 0.25f)
             };
-            sprite7.centery -= 48f;
+            sprite7.CenterY -= 48f;
             _triggerImageMap.Add("STEAMICON", sprite7);
             Sprite sprite8 = new Sprite("steamIcon")
             {
-                scale = new Vec2(0.5f, 0.5f)
+                Scale = new Vec2(0.5f, 0.5f)
             };
-            sprite8.centery -= 16f;
+            sprite8.CenterY -= 16f;
             _triggerImageMap.Add("STEAMICONMED", sprite8);
             Sprite sprite9 = new Sprite("accessIcon")
             {
-                scale = new Vec2(0.5f, 0.5f)
+                Scale = new Vec2(0.5f, 0.5f)
             };
-            sprite9.centery -= 8f;
+            sprite9.CenterY -= 8f;
             _triggerImageMap.Add("ACCESSICON", sprite9);
             Sprite sprite10 = new Sprite("vanillaIcon")
             {
-                scale = new Vec2(0.5f, 0.5f)
+                Scale = new Vec2(0.5f, 0.5f)
             };
-            sprite10.centery -= 8f;
+            sprite10.CenterY -= 8f;
             _triggerImageMap.Add("VANILLAICON", sprite10);
             Sprite sprite11 = new Sprite("spectatorIcon");
             _triggerImageMap.Add("SPECTATOR", sprite11);
             Sprite sprite12 = new Sprite("spectatorIcon")
             {
-                scale = new Vec2(2f)
+                Scale = new Vec2(2f)
             };
             _triggerImageMap.Add("SPECTATORBIG", sprite12);
             Sprite sprite13 = new Sprite("discordIcon")
             {
-                scale = new Vec2(0.25f, 0.25f)
+                Scale = new Vec2(0.25f, 0.25f)
             };
-            sprite13.centery -= 48f;
+            sprite13.CenterY -= 48f;
             _triggerImageMap.Add("DISCORDICON", sprite13);
             Sprite sprite14 = new Sprite("singleDuck")
             {
-                scale = new Vec2(1f, 1f)
+                Scale = new Vec2(1f, 1f)
             };
             _triggerImageMap.Add("_!DUCKSPAWN", sprite14);
             Sprite sprite15 = new Sprite("skipSpin");
@@ -739,7 +739,7 @@ namespace DuckGame
             SpriteMap spriteMap1 = new SpriteMap("chanceIcon", 10, 9)
             {
                 frame = 0,
-                centery = 1f
+                CenterY = 1f
             };
             _triggerImageMap.Add("CHANCEICON", spriteMap1);
             SpriteMap spriteMap2 = new SpriteMap("iconEight", 8, 8);
@@ -766,8 +766,8 @@ namespace DuckGame
             });
             SpriteMap spriteMap3 = new SpriteMap("iconSheet", 16, 16)
             {
-                scale = new Vec2(0.5f, 0.5f),
-                centery = -6f,
+                Scale = new Vec2(0.5f, 0.5f),
+                CenterY = -6f,
                 frame = 1
             };
             _triggerImageMap.Add("LOADICONTINY", spriteMap3);
@@ -797,33 +797,33 @@ namespace DuckGame
             });
             Sprite sprite23 = new Sprite("muteIcon")
             {
-                scale = new Vec2(0.5f, 0.5f)
+                Scale = new Vec2(0.5f, 0.5f)
             };
-            sprite23.centery -= 6f;
+            sprite23.CenterY -= 6f;
             _triggerImageMap.Add("MUTEICON", sprite23);
             Sprite sprite24 = new Sprite("blockIcon")
             {
-                scale = new Vec2(0.5f, 0.5f)
+                Scale = new Vec2(0.5f, 0.5f)
             };
-            sprite24.centery -= 6f;
+            sprite24.CenterY -= 6f;
             _triggerImageMap.Add("BLOCKICON", sprite24);
             Sprite sprite25 = new Sprite("blockIcon")
             {
-                scale = new Vec2(0.25f, 0.25f)
+                Scale = new Vec2(0.25f, 0.25f)
             };
-            sprite25.centery -= 9f;
+            sprite25.CenterY -= 9f;
             _triggerImageMap.Add("BLOCKICONSMALL", sprite25);
             SpriteMap spriteMap4 = new SpriteMap("iconSheet", 16, 16)
             {
-                scale = new Vec2(0.5f, 0.5f),
-                centery = -6f,
+                Scale = new Vec2(0.5f, 0.5f),
+                CenterY = -6f,
                 frame = 2
             };
             _triggerImageMap.Add("SAVEICONTINY", spriteMap4);
             SpriteMap spriteMap5 = new SpriteMap("iconSheet", 16, 16)
             {
-                scale = new Vec2(0.5f, 0.5f),
-                centery = -6f,
+                Scale = new Vec2(0.5f, 0.5f),
+                CenterY = -6f,
                 frame = 0
             };
             _triggerImageMap.Add("NEWICONTINY", spriteMap5);
@@ -833,180 +833,180 @@ namespace DuckGame
             });
             SpriteMap spriteMap6 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 0
             };
             _triggerImageMap.Add("happyface", spriteMap6);
             SpriteMap spriteMap7 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 1
             };
             _triggerImageMap.Add("sadface", spriteMap7);
             SpriteMap spriteMap8 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 2
             };
             _triggerImageMap.Add("puffyface", spriteMap8);
             SpriteMap spriteMap9 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 3
             };
             _triggerImageMap.Add("angryface", spriteMap9);
             SpriteMap spriteMap10 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 4
             };
             _triggerImageMap.Add("yayface", spriteMap10);
             SpriteMap spriteMap11 = new SpriteMap("shrug", 78, 24)
             {
-                scale = new Vec2(1f, 1f),
-                centery = -1f
+                Scale = new Vec2(1f, 1f),
+                CenterY = -1f
             };
             _triggerImageMap.Add("shrug", spriteMap11);
             SpriteMap spriteMap12 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 5
             };
             _triggerImageMap.Add("wowface", spriteMap12);
             SpriteMap spriteMap13 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 6
             };
             _triggerImageMap.Add("wtfface", spriteMap13);
             SpriteMap spriteMap14 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 7
             };
             _triggerImageMap.Add("straightface", spriteMap14);
             SpriteMap spriteMap15 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 8
             };
             _triggerImageMap.Add("oiface", spriteMap15);
             SpriteMap spriteMap16 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 9
             };
             _triggerImageMap.Add("blankface", spriteMap16);
             SpriteMap spriteMap17 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 10
             };
             _triggerImageMap.Add("sweatface", spriteMap17);
             SpriteMap spriteMap18 = new SpriteMap("moji", 11, 11)
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f,
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f,
                 frame = 11
             };
             _triggerImageMap.Add("cryface", spriteMap18);
             Sprite sprite26 = new Sprite("cookedDuck")
             {
-                scale = new Vec2(2f, 2f),
-                centery = 2f
+                Scale = new Vec2(2f, 2f),
+                CenterY = 2f
             };
             _triggerImageMap.Add("cooked", sprite26);
             Sprite sprite27 = new Sprite("grave")
             {
-                scale = new Vec2(2f, 2f),
-                centery = 0f
+                Scale = new Vec2(2f, 2f),
+                CenterY = 0f
             };
             _triggerImageMap.Add("rip", sprite27);
             SpriteMap spriteMap19 = new SpriteMap("searchicon", 16, 16)
             {
-                scale = new Vec2(0.5f, 0.5f),
-                centery = -6f,
-                centerx = -4f
+                Scale = new Vec2(0.5f, 0.5f),
+                CenterY = -6f,
+                CenterX = -4f
             };
             _triggerImageMap.Add("searchicon", spriteMap19);
             Sprite sprite28 = new Sprite("filterOn", 16f, 16f)
             {
-                scale = new Vec2(0.5f, 0.5f),
-                center = new Vec2(0f, -9f)
+                Scale = new Vec2(0.5f, 0.5f),
+                Center = new Vec2(0f, -9f)
             };
             _triggerImageMap.Add("languageFilterOn", sprite28);
             Sprite sprite29 = new Sprite("filterOff", 16f, 16f)
             {
-                scale = new Vec2(0.5f, 0.5f),
-                center = new Vec2(0f, -9f)
+                Scale = new Vec2(0.5f, 0.5f),
+                Center = new Vec2(0f, -9f)
             };
             _triggerImageMap.Add("languageFilterOff", sprite29);
             SpriteMap spriteMap20 = new SpriteMap("searchiconwhite", 16, 16)
             {
-                scale = new Vec2(0.5f, 0.5f),
-                centery = -6f,
-                centerx = -4f
+                Scale = new Vec2(0.5f, 0.5f),
+                CenterY = -6f,
+                CenterX = -4f
             };
             _triggerImageMap.Add("searchiconwhite", spriteMap20);
             SpriteMap spriteMap21 = new SpriteMap("searchiconwhite", 16, 16)
             {
-                scale = new Vec2(1f, 1f),
-                centery = -6f,
-                centerx = -4f
+                Scale = new Vec2(1f, 1f),
+                CenterY = -6f,
+                CenterX = -4f
             };
             _triggerImageMap.Add("searchiconwhitebig", spriteMap21);
             SpriteMap spriteMap22 = new SpriteMap("cloudIcon", 16, 16)
             {
-                scale = new Vec2(1f, 1f),
-                centery = 0f,
-                centerx = 0f
+                Scale = new Vec2(1f, 1f),
+                CenterY = 0f,
+                CenterX = 0f
             };
             _triggerImageMap.Add("cloudicon", spriteMap22);
             SpriteMap spriteMap23 = new SpriteMap("exBox", 10, 10)
             {
                 frame = 0,
-                scale = new Vec2(0.5f, 0.5f)
+                Scale = new Vec2(0.5f, 0.5f)
             };
-            spriteMap23.centery -= 6f;
+            spriteMap23.CenterY -= 6f;
             _triggerImageMap.Add("ITEMBOX", spriteMap23);
             SpriteMap spriteMap24 = new SpriteMap("exBox", 10, 10)
             {
                 frame = 1,
-                scale = new Vec2(0.5f, 0.5f)
+                Scale = new Vec2(0.5f, 0.5f)
             };
-            spriteMap24.centery -= 6f;
+            spriteMap24.CenterY -= 6f;
             _triggerImageMap.Add("USERONLINE", spriteMap24);
             SpriteMap spriteMap25 = new SpriteMap("exBox", 10, 10)
             {
                 frame = 2,
-                scale = new Vec2(0.5f, 0.5f)
+                Scale = new Vec2(0.5f, 0.5f)
             };
-            spriteMap25.centery -= 6f;
+            spriteMap25.CenterY -= 6f;
             _triggerImageMap.Add("USERAWAY", spriteMap25);
             SpriteMap spriteMap26 = new SpriteMap("exBox", 10, 10)
             {
                 frame = 3,
-                scale = new Vec2(0.5f, 0.5f)
+                Scale = new Vec2(0.5f, 0.5f)
             };
-            spriteMap26.centery -= 6f;
+            spriteMap26.CenterY -= 6f;
             _triggerImageMap.Add("USERBUSY", spriteMap26);
             SpriteMap spriteMap27 = new SpriteMap("exBox", 10, 10)
             {
                 frame = 4,
-                scale = new Vec2(0.5f, 0.5f)
+                Scale = new Vec2(0.5f, 0.5f)
             };
-            spriteMap27.centery -= 6f;
+            spriteMap27.CenterY -= 6f;
             _triggerImageMap.Add("USEROFFLINE", spriteMap27);
             _triggerImageMap.Add("KBDSHIFT", new Sprite("buttons/keyboard/shift"));
             _triggerImageMap.Add("KBDARROWS", new Sprite("buttons/keyboard/arrows"));
@@ -1470,7 +1470,7 @@ namespace DuckGame
         {
             try
             {
-                bool notlinux = !(Program.isLinux);
+                bool notlinux = !Program.isLinux;
                 if (notlinux && !_initializedMessageHook)
                 {
                     InputSystem.Initialize(MonoMain.instance.Window);

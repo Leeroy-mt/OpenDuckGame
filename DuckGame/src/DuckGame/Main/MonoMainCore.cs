@@ -4,23 +4,8 @@ namespace DuckGame;
 
 public class MonoMainCore
 {
-    public UIComponent _pauseMenu;
-
-    public List<UIComponent> closeMenuUpdate = new List<UIComponent>();
-
+    #region Public Fields
     public bool saidSpecial;
-
-    public int gachas;
-
-    public int rareGachas;
-
-    public UIMenu _confirmMenu;
-
-    public float _fade = 1f;
-
-    public float _fadeAdd;
-
-    public float _flashAdd;
 
     public bool closeMenus;
 
@@ -28,7 +13,24 @@ public class MonoMainCore
 
     public bool dontResetSelection;
 
+    public int gachas;
+
+    public int rareGachas;
+
+    public float _fade = 1;
+
+    public float _fadeAdd;
+
+    public float _flashAdd;
+
+    public UIComponent _pauseMenu;
+
+    public UIMenu _confirmMenu;
+
     public Layer ginormoBoardLayer;
 
-    public HashSet<IEngineUpdatable> engineUpdatables = new HashSet<IEngineUpdatable>();
+    public HashSet<IEngineUpdatable> engineUpdatables = [];
+
+    public List<UIComponent> closeMenuUpdate = [];
+    #endregion
 }

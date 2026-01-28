@@ -12,15 +12,15 @@ public class Magnum : Gun
 
     public float _angleOffset;
 
-    public override float angle
+    public override float Angle
     {
         get
         {
-            return base.angle + _angleOffset;
+            return base.Angle + _angleOffset;
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
@@ -31,7 +31,7 @@ public class Magnum : Gun
         _ammoType = new ATMagnum();
         _type = "gun";
         graphic = new Sprite("magnum");
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -6f);
         collisionSize = new Vec2(16f, 10f);
         _barrelOffsetTL = new Vec2(25f, 12f);

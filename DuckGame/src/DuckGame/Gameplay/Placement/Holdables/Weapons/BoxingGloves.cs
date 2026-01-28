@@ -7,15 +7,15 @@ public class BoxingGloves : Gun
 
     private float _hold;
 
-    public override float angle
+    public override float Angle
     {
         get
         {
-            return base.angle + (_swing + _hold) * (float)offDir;
+            return base.Angle + (_swing + _hold) * (float)offDir;
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
@@ -28,7 +28,7 @@ public class BoxingGloves : Gun
         _ammoType.accuracy = 0.8f;
         _type = "gun";
         graphic = new Sprite("boxingGlove");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-4f, -4f);
         collisionSize = new Vec2(8f, 8f);
         _barrelOffsetTL = new Vec2(16f, 7f);

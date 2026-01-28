@@ -254,8 +254,8 @@ public class LevelSelect : Level
                 continue;
             }
             item.visible = true;
-            item.x = _leftPos;
-            item.y = _topPos + (float)(drawIndex * 10);
+            item.X = _leftPos;
+            item.Y = _topPos + (float)(drawIndex * 10);
             if (index == _selectedItem)
             {
                 item.selected = true;
@@ -599,20 +599,20 @@ public class LevelSelect : Level
                 item.Draw();
             }
         }
-        Depth deep = _font.depth;
+        Depth deep = _font.Depth;
         if (_previewSprite != null)
         {
-            _previewSprite.scale = new Vec2(0.5f, 0.5f);
-            _previewSprite.depth = 0.9f;
+            _previewSprite.Scale = new Vec2(0.5f, 0.5f);
+            _previewSprite.Depth = 0.9f;
             Graphics.Draw(_previewSprite, 150f, 45f);
         }
         else if (_selectedLevel.mapPack != null && _selectedLevel.mapPack.preview != null)
         {
             Tex2D tex = _selectedLevel.mapPack.preview;
             Vec2 scale = new Vec2(320f / (float)tex.width, 180f / (float)tex.height) * 0.5f;
-            Graphics.Draw(tex, 150f, 45f, scale.x, scale.y);
+            Graphics.Draw(tex, 150f, 45f, scale.X, scale.Y);
         }
-        _font.depth = deep;
+        _font.Depth = deep;
         string path = "";
         path = ((mapPack != null) ? mapPack.name : ((_currentDirectory == "@WORKSHOP@") ? "Levels/Workshop" : ((!(_currentDirectory == "@VANILLA@")) ? ("Levels" + _currentDirectory.Substring(_rootDirectory.Length, _currentDirectory.Length - _rootDirectory.Length)) : "Levels/Deathmatch")));
         _font.Draw(path, _leftPos, _topPos - 10f, Color.LimeGreen);

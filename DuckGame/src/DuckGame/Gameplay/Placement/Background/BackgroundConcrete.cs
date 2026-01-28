@@ -8,7 +8,7 @@ public class BackgroundConcrete : BackgroundTile
     {
         graphic = new SpriteMap("concrete", 16, 16);
         _opacityFromGraphic = true;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionSize = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -8f);
         _editorName = "Concrete";

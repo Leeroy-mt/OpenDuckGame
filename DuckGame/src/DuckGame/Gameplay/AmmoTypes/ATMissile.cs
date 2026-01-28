@@ -34,9 +34,9 @@ public class ATMissile : AmmoType
         }
         if (destroyed)
         {
-            RumbleManager.AddRumbleEvent(b.position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
+            RumbleManager.AddRumbleEvent(b.Position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
             ATMissileShrapnel shrap = new ATMissileShrapnel();
-            shrap.MakeNetEffect(b.position);
+            shrap.MakeNetEffect(b.Position);
             Random rand = null;
             if (Network.isActive && b.isLocal)
             {
@@ -50,12 +50,12 @@ public class ATMissile : AmmoType
                 shrap = new ATMissileShrapnel();
                 shrap.range = 15f + Rando.Float(5f);
                 Vec2 shrapDir = new Vec2((float)Math.Cos(Maths.DegToRad(dir)), (float)Math.Sin(Maths.DegToRad(dir)));
-                Bullet bullet = new Bullet(b.x + shrapDir.x * 8f, b.y - shrapDir.y * 8f, shrap, dir);
+                Bullet bullet = new Bullet(b.X + shrapDir.X * 8f, b.Y - shrapDir.Y * 8f, shrap, dir);
                 bullet.firedFrom = b;
                 firedBullets.Add(bullet);
                 Level.Add(bullet);
-                Level.Add(Spark.New(b.x + Rando.Float(-8f, 8f), b.y + Rando.Float(-8f, 8f), shrapDir + new Vec2(Rando.Float(-0.1f, 0.1f), Rando.Float(-0.1f, 0.1f))));
-                Level.Add(SmallSmoke.New(b.x + shrapDir.x * 8f + Rando.Float(-8f, 8f), b.y + shrapDir.y * 8f + Rando.Float(-8f, 8f)));
+                Level.Add(Spark.New(b.X + Rando.Float(-8f, 8f), b.Y + Rando.Float(-8f, 8f), shrapDir + new Vec2(Rando.Float(-0.1f, 0.1f), Rando.Float(-0.1f, 0.1f))));
+                Level.Add(SmallSmoke.New(b.X + shrapDir.X * 8f + Rando.Float(-8f, 8f), b.Y + shrapDir.Y * 8f + Rando.Float(-8f, 8f)));
             }
             if (Network.isActive && b.isLocal)
             {
@@ -66,7 +66,7 @@ public class ATMissile : AmmoType
             {
                 Rando.generator = rand;
             }
-            DestroyRadius(b.position, 50f, b);
+            DestroyRadius(b.Position, 50f, b);
         }
         base.OnHit(destroyed, b);
     }
@@ -76,7 +76,7 @@ public class ATMissile : AmmoType
         foreach (Window w in Level.CheckCircleAll<Window>(pPosition, pRadius - 20f))
         {
             Thing.Fondle(w, DuckNetwork.localConnection);
-            if (Level.CheckLine<Block>(pPosition, w.position, w) == null)
+            if (Level.CheckLine<Block>(pPosition, w.Position, w) == null)
             {
                 w.Destroy(new DTImpact(pBullet));
             }
@@ -87,7 +87,7 @@ public class ATMissile : AmmoType
             {
                 Thing.Fondle(p, DuckNetwork.localConnection);
             }
-            if ((p.position - pPosition).length < 30f)
+            if ((p.Position - pPosition).Length() < 30f)
             {
                 p.Destroy(new DTImpact(pBullet));
             }
@@ -116,8 +116,8 @@ public class ATMissile : AmmoType
                     idx.Add((bl as AutoBlock).blockIndex);
                     if (pExplode && idd % 10 == 0)
                     {
-                        Level.Add(new ExplosionPart(bl.x, bl.y));
-                        Level.Add(SmallFire.New(bl.x, bl.y, Rando.Float(-2f, 2f), Rando.Float(-2f, 2f)));
+                        Level.Add(new ExplosionPart(bl.X, bl.Y));
+                        Level.Add(SmallFire.New(bl.X, bl.Y, Rando.Float(-2f, 2f), Rando.Float(-2f, 2f)));
                     }
                     idd++;
                 }
@@ -135,8 +135,8 @@ public class ATMissile : AmmoType
                 {
                     if (idd % 10 == 0)
                     {
-                        Level.Add(new ExplosionPart(block2.x, block2.y));
-                        Level.Add(SmallFire.New(block2.x, block2.y, Rando.Float(-2f, 2f), Rando.Float(-2f, 2f)));
+                        Level.Add(new ExplosionPart(block2.X, block2.Y));
+                        Level.Add(SmallFire.New(block2.X, block2.Y, Rando.Float(-2f, 2f), Rando.Float(-2f, 2f)));
                     }
                     idd++;
                 }

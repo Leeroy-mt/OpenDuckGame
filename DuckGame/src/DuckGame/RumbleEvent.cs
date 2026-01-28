@@ -5,9 +5,7 @@ namespace DuckGame;
 /// </summary>
 public class RumbleEvent
 {
-    public Vec2? position;
-
-    public Profile profile;
+    #region Public Fields
 
     public float intensityInitial;
 
@@ -21,68 +19,13 @@ public class RumbleEvent
 
     public RumbleType type;
 
-    public void SetRumbleParameters(RumbleIntensity intensityToSet, RumbleDuration durationToSet, RumbleFalloff falloffToSet, RumbleType rumbleTypeToSet)
-    {
-        switch (intensityToSet)
-        {
-            case RumbleIntensity.Heavy:
-                intensityInitial = 0.8f;
-                break;
-            case RumbleIntensity.Medium:
-                intensityInitial = 0.5f;
-                break;
-            case RumbleIntensity.Light:
-                intensityInitial = 0.25f;
-                break;
-            case RumbleIntensity.Kick:
-                intensityInitial = 0.15f;
-                break;
-            case RumbleIntensity.None:
-                intensityInitial = 0f;
-                break;
-            default:
-                intensityInitial = 0.25f;
-                break;
-        }
-        intensityCurrent = intensityInitial;
-        switch (durationToSet)
-        {
-            case RumbleDuration.Long:
-                timeDuration = 1f;
-                break;
-            case RumbleDuration.Medium:
-                timeDuration = 0.5f;
-                break;
-            case RumbleDuration.Short:
-                timeDuration = 0.15f;
-                break;
-            case RumbleDuration.Pulse:
-                timeDuration = 0.075f;
-                break;
-            default:
-                timeDuration = 0.1f;
-                break;
-        }
-        switch (falloffToSet)
-        {
-            case RumbleFalloff.Long:
-                timeFalloff = 0.5f;
-                break;
-            case RumbleFalloff.Medium:
-                timeFalloff = 0.25f;
-                break;
-            case RumbleFalloff.Short:
-                timeFalloff = 0.1f;
-                break;
-            case RumbleFalloff.None:
-                timeFalloff = 0f;
-                break;
-            default:
-                timeFalloff = 0.1f;
-                break;
-        }
-        type = rumbleTypeToSet;
-    }
+    public Vec2? position;
+
+    public Profile profile;
+
+    #endregion
+
+    #region Public Constructors
 
     /// <summary>
     /// Create a RumbleEvent using only enum definitions
@@ -104,12 +47,47 @@ public class RumbleEvent
         type = rumbleTypeToSet;
     }
 
+    #endregion
+
+    #region Public Methods
+
+    public void SetRumbleParameters(RumbleIntensity intensityToSet, RumbleDuration durationToSet, RumbleFalloff falloffToSet, RumbleType rumbleTypeToSet)
+    {
+        intensityInitial = intensityToSet switch
+        {
+            RumbleIntensity.Heavy => .8f,
+            RumbleIntensity.Medium => .5f,
+            RumbleIntensity.Light => .25f,
+            RumbleIntensity.Kick => .15f,
+            RumbleIntensity.None => 0,
+            _ => .25f,
+        };
+        intensityCurrent = intensityInitial;
+        timeDuration = durationToSet switch
+        {
+            RumbleDuration.Long => 1,
+            RumbleDuration.Medium => .5f,
+            RumbleDuration.Short => .15f,
+            RumbleDuration.Pulse => .075f,
+            _ => .1f,
+        };
+        timeFalloff = falloffToSet switch
+        {
+            RumbleFalloff.Long => .5f,
+            RumbleFalloff.Medium => .25f,
+            RumbleFalloff.Short => .1f,
+            RumbleFalloff.None => 0,
+            _ => .1f,
+        };
+        type = rumbleTypeToSet;
+    }
+
     /// <summary>
     /// Updates the intensity of a RumbleEvent based on the time remaining in the falloff portion of the full duration.
     /// </summary> 
     public void FallOffLinear()
     {
-        intensityCurrent = (1f - (timeElapsed - timeDuration) / timeFalloff) * intensityInitial;
+        intensityCurrent = (1 - (timeElapsed - timeDuration) / timeFalloff) * intensityInitial;
     }
 
     /// <summary>
@@ -118,15 +96,15 @@ public class RumbleEvent
     /// <returns></returns>
     public bool Update()
     {
-        timeElapsed += 0.016f;
+        timeElapsed += .016f;
         if (timeElapsed < timeDuration + timeFalloff)
         {
             if (timeElapsed > timeDuration)
-            {
                 FallOffLinear();
-            }
             return true;
         }
         return false;
     }
+
+    #endregion
 }

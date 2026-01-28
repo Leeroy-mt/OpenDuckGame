@@ -78,12 +78,12 @@ public class CategoryPage : Level, IPageListener
         if (layer == Layer.HUD)
         {
             BitmapFont font = _font;
-            float xscale = (_font.yscale = 1f);
-            font.xscale = xscale;
+            float xscale = (_font.ScaleY = 1f);
+            font.ScaleX = xscale;
             _font.Draw("CUSTOM LEVELS", 8f, 8f, Color.White, 0.95f);
             BitmapFont font2 = _font;
-            xscale = (_font.yscale = 0.75f);
-            font2.xscale = xscale;
+            xscale = (_font.ScaleY = 0.75f);
+            font2.ScaleX = xscale;
             _font.Draw("BEST NEW LEVELS", 14f, 22f, Color.White, 0.95f);
         }
     }

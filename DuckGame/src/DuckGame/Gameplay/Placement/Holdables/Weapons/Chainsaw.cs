@@ -135,19 +135,19 @@ public class Chainsaw : Gun
 
     private Vec2 _idleOffset = Vec2.Zero;
 
-    public override float angle
+    public override float Angle
     {
         get
         {
-            return base.angle + _hold * (float)offDir + _animRot * (float)offDir + _rotSway * (float)offDir;
+            return base.Angle + _hold * (float)offDir + _animRot * (float)offDir + _rotSway * (float)offDir;
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
-    public Vec2 barrelStartPos => position + (Offset(base.barrelOffset) - position).normalized * 2f;
+    public Vec2 barrelStartPos => Position + (Offset(base.barrelOffset) - Position).Normalized * 2f;
 
     public override Vec2 tapedOffset
     {
@@ -173,7 +173,7 @@ public class Chainsaw : Gun
         _type = "gun";
         _sprite = new SpriteMap("chainsaw", 29, 13);
         graphic = _sprite;
-        center = new Vec2(8f, 7f);
+        Center = new Vec2(8f, 7f);
         collisionOffset = new Vec2(-8f, -6f);
         collisionSize = new Vec2(20f, 11f);
         _barrelOffsetTL = new Vec2(27f, 8f);
@@ -189,7 +189,7 @@ public class Chainsaw : Gun
         _swordSwing.AddAnimation("swing", 0.6f, false, 0, 1, 1, 2);
         _swordSwing.currentAnimation = "swing";
         _swordSwing.speed = 0f;
-        _swordSwing.center = new Vec2(9f, 25f);
+        _swordSwing.Center = new Vec2(9f, 25f);
         throwSpeedMultiplier = 0.5f;
         _bouncy = 0.5f;
         _impactThreshold = 0.3f;
@@ -229,11 +229,11 @@ public class Chainsaw : Gun
             _playedShing = true;
             SFX.Play("chainsawClash", Rando.Float(0.4f, 0.55f), Rando.Float(-0.2f, 0.2f), Rando.Float(-0.1f, 0.1f));
         }
-        Vec2 vec = (position - base.barrelPosition).normalized;
+        Vec2 vec = (Position - base.barrelPosition).Normalized;
         Vec2 start = base.barrelPosition;
         for (int i = 0; i < 6; i++)
         {
-            Level.Add(Spark.New(start.x, start.y, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+            Level.Add(Spark.New(start.X, start.Y, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
             start += vec * 4f;
         }
         _swordSwing.speed = 0f;
@@ -256,7 +256,7 @@ public class Chainsaw : Gun
         {
             d.sliding = false;
         }
-        if (wall.x > d.x)
+        if (wall.X > d.X)
         {
             d.hSpeed -= 5f;
         }
@@ -300,7 +300,7 @@ public class Chainsaw : Gun
             _engineSpin = 1.5f;
             for (int i = 0; i < 2; i++)
             {
-                Level.Add(SmallSmoke.New(base.x + (float)(offDir * 4), base.y + 5f));
+                Level.Add(SmallSmoke.New(base.X + (float)(offDir * 4), base.Y + 5f));
             }
             _flooded = false;
             _flood = 0f;
@@ -336,7 +336,7 @@ public class Chainsaw : Gun
             int num = (_flooded ? 4 : 2);
             for (int j = 0; j < num; j++)
             {
-                Level.Add(SmallSmoke.New(base.x + (float)(offDir * 4), base.y + 5f));
+                Level.Add(SmallSmoke.New(base.X + (float)(offDir * 4), base.Y + 5f));
             }
         }
     }
@@ -367,11 +367,11 @@ public class Chainsaw : Gun
             offDir = pTaped.offDir;
             if (offDir < 0)
             {
-                base.angleDegrees -= 200f;
+                base.AngleDegrees -= 200f;
             }
             else
             {
-                base.angleDegrees -= 160f;
+                base.AngleDegrees -= 160f;
             }
         }
     }
@@ -416,7 +416,7 @@ public class Chainsaw : Gun
                 _skipSmoke = !_skipSmoke;
                 if (_throttle || !_skipSmoke)
                 {
-                    Level.Add(SmallSmoke.New(base.x + (float)(offDir * 4), base.y + 5f, _smokeFlipper ? (-0.1f) : 0.8f, 0.7f));
+                    Level.Add(SmallSmoke.New(base.X + (float)(offDir * 4), base.Y + 5f, _smokeFlipper ? (-0.1f) : 0.8f, 0.7f));
                     _smokeFlipper = !_smokeFlipper;
                     _puffClick = true;
                 }
@@ -611,7 +611,7 @@ public class Chainsaw : Gun
             _engineSpin = Lerp.FloatSmooth(_engineSpin, 0f, 0.1f);
             _engineResistance = Lerp.FloatSmooth(_engineResistance, 1f, 0.01f);
             _hold = -0.4f;
-            center = new Vec2(8f, 7f);
+            Center = new Vec2(8f, 7f);
             _framesSinceThrown = 0;
         }
         else
@@ -621,20 +621,20 @@ public class Chainsaw : Gun
             _animRot = Lerp.FloatSmooth(_animRot, 0f, 0.18f);
             if (_framesSinceThrown == 1)
             {
-                _throwSpin = base.angleDegrees;
+                _throwSpin = base.AngleDegrees;
             }
             _hold = 0f;
-            base.angleDegrees = _throwSpin;
-            center = new Vec2(8f, 7f);
+            base.AngleDegrees = _throwSpin;
+            Center = new Vec2(8f, 7f);
             bool spinning = false;
             bool againstWall = false;
             if ((Math.Abs(hSpeed) + Math.Abs(vSpeed) > 2f || !base.grounded) && gravMultiplier > 0f)
             {
-                if (!base.grounded && Level.CheckRect<Block>(position + new Vec2(-8f, -6f), position + new Vec2(8f, -2f)) != null)
+                if (!base.grounded && Level.CheckRect<Block>(Position + new Vec2(-8f, -6f), Position + new Vec2(8f, -2f)) != null)
                 {
                     againstWall = true;
                 }
-                if (!againstWall && !_grounded && Level.CheckPoint<IPlatform>(position + new Vec2(0f, 8f)) == null)
+                if (!againstWall && !_grounded && Level.CheckPoint<IPlatform>(Position + new Vec2(0f, 8f)) == null)
                 {
                     if (offDir > 0)
                     {
@@ -683,7 +683,7 @@ public class Chainsaw : Gun
                 }
             }
         }
-        if (Math.Abs(base.angleDegrees) > 90f && Math.Abs(base.angleDegrees) < 270f && !infinite.value)
+        if (Math.Abs(base.AngleDegrees) > 90f && Math.Abs(base.AngleDegrees) < 270f && !infinite.value)
         {
             if (base.isServerForObject)
             {
@@ -704,7 +704,7 @@ public class Chainsaw : Gun
                 {
                     _gas = 0f;
                 }
-                Level.Add(new Fluid(base.x, base.y, Vec2.Zero, dat));
+                Level.Add(new Fluid(base.X, base.Y, Vec2.Zero, dat));
                 _gasDripFrames = 0;
             }
             if (_gas <= 0f && base.isServerForObject)
@@ -736,16 +736,16 @@ public class Chainsaw : Gun
                 if (Level.CheckLine<Block>(barrelStartPos + new Vec2(0f, 8f), base.barrelPosition + new Vec2(0f, 8f)) != null)
                 {
                     _skipSpark = 1;
-                    Vec2 pos = position + base.barrelVector * 5f;
+                    Vec2 pos = Position + base.barrelVector * 5f;
                     for (int i = 0; i < 2; i++)
                     {
-                        Level.Add(Spark.New(pos.x, pos.y, new Vec2((float)offDir * Rando.Float(0f, 2f), Rando.Float(0.5f, 1.5f))));
+                        Level.Add(Spark.New(pos.X, pos.Y, new Vec2((float)offDir * Rando.Float(0f, 2f), Rando.Float(0.5f, 1.5f))));
                         pos += base.barrelVector * 2f;
                         _fireTrailWait -= 0.5f;
                         if ((bool)souped && _fireTrailWait <= 0f)
                         {
                             _fireTrailWait = 1f;
-                            SmallFire smallFire = SmallFire.New(pos.x, pos.y, (float)offDir * Rando.Float(0f, 2f), Rando.Float(0.5f, 1.5f));
+                            SmallFire smallFire = SmallFire.New(pos.X, pos.Y, (float)offDir * Rando.Float(0f, 2f), Rando.Float(0.5f, 1.5f));
                             smallFire.waitToHurt = Rando.Float(1f, 2f);
                             smallFire.whoWait = owner as Duck;
                             Level.Add(smallFire);
@@ -854,7 +854,7 @@ public class Chainsaw : Gun
         _struggling = false;
         if (owner != null && _started && _throttle && !_shing)
         {
-            (Offset(base.barrelOffset) - position).Normalize();
+            (Offset(base.barrelOffset) - Position).Normalize();
             Offset(base.barrelOffset);
             IEnumerable<IAmADuck> hit = Level.CheckLineAll<IAmADuck>(barrelStartPos, base.barrelPosition);
             Block wallHit = Level.CheckLine<Block>(barrelStartPos, base.barrelPosition);
@@ -888,24 +888,24 @@ public class Chainsaw : Gun
                         Vec2 dir = -base.barrelVector.Rotate(Rando.Float(-0.2f, 0.2f), Vec2.Zero);
                         if (t2.physicsMaterial == PhysicsMaterial.Wood)
                         {
-                            WoodDebris woodDebris = WoodDebris.New(point.x, point.y);
-                            woodDebris.hSpeed = dir.x * 3f;
-                            woodDebris.vSpeed = dir.y * 3f;
+                            WoodDebris woodDebris = WoodDebris.New(point.X, point.Y);
+                            woodDebris.hSpeed = dir.X * 3f;
+                            woodDebris.vSpeed = dir.Y * 3f;
                             Level.Add(woodDebris);
                         }
                         else if (t2.physicsMaterial == PhysicsMaterial.Metal)
                         {
-                            Spark spark = Spark.New(point.x, point.y, Vec2.Zero);
-                            spark.hSpeed = dir.x * 3f;
-                            spark.vSpeed = dir.y * 3f;
+                            Spark spark = Spark.New(point.X, point.Y, Vec2.Zero);
+                            spark.hSpeed = dir.X * 3f;
+                            spark.vSpeed = dir.Y * 3f;
                             Level.Add(spark);
                         }
                         else if (t2.physicsMaterial == PhysicsMaterial.Glass)
                         {
-                            Level.Add(new GlassParticle(point.x, point.y, Vec2.Zero)
+                            Level.Add(new GlassParticle(point.X, point.Y, Vec2.Zero)
                             {
-                                hSpeed = dir.x * 3f,
-                                vSpeed = dir.y * 3f
+                                hSpeed = dir.X * 3f,
+                                vSpeed = dir.Y * 3f
                             });
                         }
                     }
@@ -947,18 +947,18 @@ public class Chainsaw : Gun
                     {
                         ignore = base.duck.GetEquipment(typeof(Helmet));
                     }
-                    QuadLaserBullet laserHit = Level.CheckLine<QuadLaserBullet>(position, base.barrelPosition);
+                    QuadLaserBullet laserHit = Level.CheckLine<QuadLaserBullet>(Position, base.barrelPosition);
                     if (laserHit != null)
                     {
                         Shing(laserHit);
                         Vec2 travel = laserHit.travel;
-                        float mag = travel.length;
+                        float mag = travel.Length();
                         float mul = 1f;
-                        if (offDir > 0 && travel.x < 0f)
+                        if (offDir > 0 && travel.X < 0f)
                         {
                             mul = 1.5f;
                         }
-                        else if (offDir < 0 && travel.x > 0f)
+                        else if (offDir < 0 && travel.X > 0f)
                         {
                             mul = 1.5f;
                         }
@@ -1094,14 +1094,14 @@ public class Chainsaw : Gun
             {
                 _swordSwing.flipH = base.duck.offDir <= 0;
             }
-            _swordSwing.alpha = 0.4f;
-            _swordSwing.position = position;
-            _swordSwing.depth = base.depth + 1;
+            _swordSwing.Alpha = 0.4f;
+            _swordSwing.Position = Position;
+            _swordSwing.Depth = base.Depth + 1;
             _swordSwing.Draw();
         }
         if (base.duck != null && (_pullState == 1 || _pullState == 2))
         {
-            Graphics.DrawLine(Offset(new Vec2(-2f, -2f)), base.duck.armPosition + new Vec2(handOffset.x * (float)offDir, handOffset.y), Color.White, 1f, base.duck.depth + 11 - 1);
+            Graphics.DrawLine(Offset(new Vec2(-2f, -2f)), base.duck.armPosition + new Vec2(handOffset.X * (float)offDir, handOffset.Y), Color.White, 1f, base.duck.Depth + 11 - 1);
         }
         if ((base.duck == null || tape != null) && _started)
         {
@@ -1111,9 +1111,9 @@ public class Chainsaw : Gun
         {
             _idleOffset = Vec2.Zero;
         }
-        position += _idleOffset;
+        Position += _idleOffset;
         base.Draw();
-        position -= _idleOffset;
+        Position -= _idleOffset;
     }
 
     public override void OnPressAction()

@@ -17,10 +17,10 @@ public class Spikes : MaterialThing, IDontMove
         _sprite = new SpriteMap("spikes", 16, 19);
         _sprite.speed = 0.1f;
         graphic = _sprite;
-        center = new Vec2(8f, 14f);
+        Center = new Vec2(8f, 14f);
         collisionOffset = new Vec2(-6f, -3f);
         collisionSize = new Vec2(13f, 5f);
-        base.depth = 0.28f;
+        base.Depth = 0.28f;
         _editorName = "Spikes Up";
         editorTooltip = "Pointy and dangerous, unless you're wearing the right boots.";
         editorCycleType = typeof(SpikesRight);
@@ -65,8 +65,8 @@ public class Spikes : MaterialThing, IDontMove
                 Vec2 lastBr = with.bottomRight;
                 Vec2 lastBl = with.bottomLeft;
                 Vec2 bottomMiddle;
-                Vec2 vec = (bottomMiddle = new Vec2(with.x, with.bottom));
-                Vec2 posDif = p.lastPosition - p.position;
+                Vec2 vec = (bottomMiddle = new Vec2(with.X, with.bottom));
+                Vec2 posDif = p.lastPosition - p.Position;
                 lastBr += posDif;
                 lastBl += posDif;
                 Vec2 p2 = vec + posDif;

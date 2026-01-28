@@ -14,10 +14,10 @@ public class DonutSpaceBackground : BackgroundUpdater
         {
             frame = 3
         };
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
         _speedMult = speedMult;
@@ -35,8 +35,8 @@ public class DonutSpaceBackground : BackgroundUpdater
             float speed = 0.4f * _speedMult;
             new Sprite("background/donut")
             {
-                depth = -0.9f,
-                position = new Vec2(200f, 50f)
+                Depth = -0.9f,
+                Position = new Vec2(200f, 50f)
             };
             _parallax.AddZoneThing(new SpaceDonut(200f, 50f), 19, 0.99f, speed);
             _parallax.AddZone(20, 0.93f, speed, _moving);

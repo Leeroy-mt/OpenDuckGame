@@ -217,7 +217,7 @@ public class LayerCore
         if (Layer.core._lighting != null)
         {
             Layer.core._lighting._target = new RenderTarget2D(Resolution.current.x, Resolution.current.y);
-            Layer.core._console.camera = new Camera(0f, 0f, DevConsole.size.x, DevConsole.size.y);
+            Layer.core._console.camera = new Camera(0f, 0f, DevConsole.size.X, DevConsole.size.Y);
         }
     }
 

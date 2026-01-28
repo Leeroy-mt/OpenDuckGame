@@ -8,10 +8,10 @@ public class PyramidDoor : VerticalDoor, IPlatform
     {
         _sprite = new SpriteMap("pyramidDoor", 16, 32);
         graphic = _sprite;
-        center = new Vec2(8f, 24f);
+        Center = new Vec2(8f, 24f);
         collisionSize = new Vec2(10f, 32f);
         collisionOffset = new Vec2(-5f, -24f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Pyramid Door";
         thickness = 3f;
         physicsMaterial = PhysicsMaterial.Metal;
@@ -35,7 +35,7 @@ public class PyramidDoor : VerticalDoor, IPlatform
         {
             _desiredOpen = 1f;
         }
-        else if (Level.CheckRectFilter(new Vec2(base.x - 4f, base.y - 24f), new Vec2(base.x + 4f, base.y + 8f), (PhysicsObject d) => !(d is TeamHat)) == null)
+        else if (Level.CheckRectFilter(new Vec2(base.X - 4f, base.Y - 24f), new Vec2(base.X + 4f, base.Y + 8f), (PhysicsObject d) => !(d is TeamHat)) == null)
         {
             _desiredOpen = 0f;
         }
@@ -51,6 +51,6 @@ public class PyramidDoor : VerticalDoor, IPlatform
         }
         _open = Maths.LerpTowards(_open, _desiredOpen, 0.15f);
         _sprite.frame = (int)(_open * 32f);
-        _collisionSize.y = (1f - _open) * 32f;
+        _collisionSize.Y = (1f - _open) * 32f;
     }
 }

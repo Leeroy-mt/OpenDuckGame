@@ -16,10 +16,10 @@ public class Flare : PhysicsObject, IPlatform
         _sprite.SetAnimation("burn");
         _sprite.imageIndex = Rando.Int(4);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-4f, -2f);
         collisionSize = new Vec2(8f, 4f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         thickness = 1f;
         weight = 1f;
         base.breakForce = 9999999f;
@@ -35,7 +35,7 @@ public class Flare : PhysicsObject, IPlatform
         {
             for (int i = 0; i < _numFlames; i++)
             {
-                Level.Add(SmallFire.New(base.x - hSpeed, base.y - vSpeed, -3f + Rando.Float(6f), -3f + Rando.Float(6f), shortLife: false, null, canMultiply: true, this));
+                Level.Add(SmallFire.New(base.X - hSpeed, base.Y - vSpeed, -3f + Rando.Float(6f), -3f + Rando.Float(6f), shortLife: false, null, canMultiply: true, this));
             }
         }
         SFX.Play("flameExplode", 0.9f, -0.1f + Rando.Float(0.2f));
@@ -61,14 +61,14 @@ public class Flare : PhysicsObject, IPlatform
         {
             vSpeed += -7f + Rando.Float(6f);
         }
-        Level.Add(SmallSmoke.New(base.x, base.y));
+        Level.Add(SmallSmoke.New(base.X, base.Y));
         if (hSpeed > 0f)
         {
-            _sprite.angleDegrees = 90f;
+            _sprite.AngleDegrees = 90f;
         }
         else if (hSpeed < 0f)
         {
-            _sprite.angleDegrees = -90f;
+            _sprite.AngleDegrees = -90f;
         }
         base.Update();
     }
@@ -83,7 +83,7 @@ public class Flare : PhysicsObject, IPlatform
                 with.vSpeed -= 1f;
             }
             Destroy(new DTImpact(null));
-            with.Burn(position, this);
+            with.Burn(Position, this);
         }
     }
 }

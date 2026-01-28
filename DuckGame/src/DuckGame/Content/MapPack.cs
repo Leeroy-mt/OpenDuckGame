@@ -195,7 +195,7 @@ public class MapPack : ContentPack
                     float scale = 0.95f;
                     Vec2 scaledSize = new Vec2((float)pair.preview.Width * scaleFactor * scale, (float)pair.preview.Height * scaleFactor * scale);
                     Vec2 realSize = new Vec2((float)pair.preview.Width * scaleFactor, (float)pair.preview.Height * scaleFactor);
-                    Graphics.Draw(pair.preview, new Vec2(offset.x + realSize.x / 2f - scaledSize.x / 2f, offset.y + realSize.y / 2f - scaledSize.y / 2f), new Rectangle(0f, 10f, 320f, 180f), Color.White, 0f, Vec2.Zero, new Vec2(scale * scaleFactor), SpriteEffects.None, 0.9f);
+                    Graphics.Draw(pair.preview, new Vec2(offset.X + realSize.X / 2f - scaledSize.X / 2f, offset.Y + realSize.Y / 2f - scaledSize.Y / 2f), new Rectangle(0f, 10f, 320f, 180f), Color.White, 0f, Vec2.Zero, new Vec2(scale * scaleFactor), SpriteEffects.None, 0.9f);
                 }
             }
             catch (Exception)
@@ -204,12 +204,12 @@ public class MapPack : ContentPack
             num++;
             if (num % rows == 0)
             {
-                offset.x = 0f;
-                offset.y += previewHeight / rows;
+                offset.X = 0f;
+                offset.Y += previewHeight / rows;
             }
             else
             {
-                offset.x += previewWidth / rows;
+                offset.X += previewWidth / rows;
             }
         }
         Graphics.screen.End();

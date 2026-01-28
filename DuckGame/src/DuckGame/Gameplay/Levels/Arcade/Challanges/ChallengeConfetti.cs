@@ -32,13 +32,13 @@ public class ChallengeConfetti : Thing
         {
             spr.color = Color.GreenYellow;
         }
-        base.depth = 1f;
+        base.Depth = 1f;
     }
 
     public override void Update()
     {
-        base.alpha = ArcadeHUD.alphaVal + Chancy.alpha;
-        base.y += _fallSpeed;
+        base.Alpha = ArcadeHUD.alphaVal + Chancy.alpha;
+        base.Y += _fallSpeed;
         _horSpeed += Rando.Float(-0.1f, 0.1f);
         if (_horSpeed < -0.3f)
         {
@@ -48,8 +48,8 @@ public class ChallengeConfetti : Thing
         {
             _horSpeed = 0.3f;
         }
-        base.x += _horSpeed;
-        if (base.y > 200f)
+        base.X += _horSpeed;
+        if (base.Y > 200f)
         {
             Level.Remove(this);
         }

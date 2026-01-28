@@ -4,6 +4,8 @@ namespace DuckGame;
 
 internal class StartupAction(Action action, TaskThread thread)
 {
+    public event Action<string> LoadStarted;
+
     public bool IsActive { get; set; } = true;
 
     public TaskThread Thread = thread;
@@ -18,7 +20,7 @@ internal class StartupAction(Action action, TaskThread thread)
     {
         if (!Logged)
         {
-            MonoMain.LoadMessages.Add($"|{(Thread is 0 ? "DGYELLOW" : "DGBLUE")}|{LoadingMessage}");
+            LoadStarted?.Invoke($"|{(Thread is 0 ? "DGYELLOW" : "DGBLUE")}|{LoadingMessage}");
             Logged = true;
         }
 

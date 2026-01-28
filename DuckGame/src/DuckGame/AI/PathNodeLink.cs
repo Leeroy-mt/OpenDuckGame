@@ -12,5 +12,5 @@ public class PathNodeLink
 
     public bool gap;
 
-    public Vec2 position => owner.position;
+    public Vec2 position => owner.Position;
 }

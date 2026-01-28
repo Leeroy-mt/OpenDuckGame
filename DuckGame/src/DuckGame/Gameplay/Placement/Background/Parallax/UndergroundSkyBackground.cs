@@ -13,10 +13,10 @@ public class UndergroundSkyBackground : BackgroundUpdater
         {
             frame = 1
         };
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
         _speedMult = speedMult;
@@ -44,9 +44,9 @@ public class UndergroundSkyBackground : BackgroundUpdater
             _parallax.AddZone(9, backDist, speed);
             _parallax.AddZone(10, backDist, speed);
             Level.Add(_parallax);
-            _parallax.x -= 340f;
+            _parallax.X -= 340f;
             _parallax.restrictBottom = false;
-            _parallax.depth = -0.9f;
+            _parallax.Depth = -0.9f;
             _parallax.layer = new Layer("PARALLAX3", 115, new Camera(0f, 0f, 320f, 200f));
             _parallax.layer.aspectReliesOnGameLayer = true;
             _parallax.layer.allowTallAspect = true;

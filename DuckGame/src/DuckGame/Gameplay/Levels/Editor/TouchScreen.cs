@@ -260,10 +260,10 @@ internal class TouchScreen
     private static Vec2 System_FastTransformTouchScreenToCustomCamera(Vec2 touchXY, Camera customCam)
     {
         Vec2 transCoords = default(Vec2);
-        float fractionTouchX = touchXY.x / (float)Graphics.viewport.Width;
-        float fractionTouchY = touchXY.y / (float)Graphics.viewport.Height;
-        transCoords.x = fractionTouchX * customCam.width;
-        transCoords.y = fractionTouchY * customCam.height;
+        float fractionTouchX = touchXY.X / (float)Graphics.viewport.Width;
+        float fractionTouchY = touchXY.Y / (float)Graphics.viewport.Height;
+        transCoords.X = fractionTouchX * customCam.width;
+        transCoords.Y = fractionTouchY * customCam.height;
         return transCoords;
     }
 }

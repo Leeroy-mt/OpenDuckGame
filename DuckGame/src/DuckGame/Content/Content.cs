@@ -772,7 +772,6 @@ public class Content
                 if (path.EndsWith(".lev"))
                 {
                     LoadLevelData(path, location);
-                    MonoMain.loadyBits++;
                 }
             }
             catch (Exception ex)
@@ -1039,11 +1038,11 @@ public class Content
                             zone.sprite = new Sprite(p[4].Trim());
                             if (p.Length > 6)
                             {
-                                zone.sprite.position = new Vec2(Convert.ToSingle(p[5].Trim()), Convert.ToSingle(p[6].Trim()));
+                                zone.sprite.Position = new Vec2(Convert.ToSingle(p[5].Trim()), Convert.ToSingle(p[6].Trim()));
                             }
                             if (p.Length > 7)
                             {
-                                zone.sprite.depth = Convert.ToSingle(p[7].Trim());
+                                zone.sprite.Depth = Convert.ToSingle(p[7].Trim());
                             }
                         }
                         if (zone.sprite != null)
@@ -1084,9 +1083,9 @@ public class Content
                         lock (_loadLock)
                         {
                             Vec2 originalSize = GetTextureSize(name);
-                            Tex2D t = ((!(originalSize != Vec2.Zero) || ((float)tex.Width == originalSize.x && (float)tex.Height == originalSize.y)) ? new Tex2D(tex, name, _currentTextureIndex) : new BigBoyTex2D(tex, name, _currentTextureIndex)
+                            Tex2D t = ((!(originalSize != Vec2.Zero) || ((float)tex.Width == originalSize.X && (float)tex.Height == originalSize.Y)) ? new Tex2D(tex, name, _currentTextureIndex) : new BigBoyTex2D(tex, name, _currentTextureIndex)
                             {
-                                scaleFactor = originalSize.x / (float)tex.Width
+                                scaleFactor = originalSize.X / (float)tex.Width
                             });
                             _currentTextureIndex++;
                             _textureList.Add(t);

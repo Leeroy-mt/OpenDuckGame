@@ -1,6 +1,6 @@
 namespace DuckGame;
 
-public class DizzyStar : PhysicsParticle, IFactory
+public class DizzyStar : PhysicsParticle
 {
     private float maxSize;
 
@@ -9,17 +9,17 @@ public class DizzyStar : PhysicsParticle, IFactory
     {
         graphic = new Sprite("dizzyStar");
         graphic.CenterOrigin();
-        base.xscale = (base.yscale = Rando.Float(0.7f, 1.3f));
-        hSpeed = dir.x;
-        vSpeed = dir.y;
+        base.ScaleX = (base.ScaleY = Rando.Float(0.7f, 1.3f));
+        hSpeed = dir.X;
+        vSpeed = dir.Y;
         maxSize = 0.1f;
     }
 
     public override void Update()
     {
-        base.xscale = Lerp.Float(base.xscale, maxSize, 0.04f);
-        base.yscale = base.xscale;
-        if (base.xscale <= maxSize)
+        base.ScaleX = Lerp.Float(base.ScaleX, maxSize, 0.04f);
+        base.ScaleY = base.ScaleX;
+        if (base.ScaleX <= maxSize)
         {
             Level.Remove(this);
         }

@@ -59,7 +59,7 @@ public class DM : GameMode
     protected override List<Duck> AssignSpawns()
     {
         return (from sp in Spawn.SpawnPlayers()
-                orderby sp.x
+                orderby sp.X
                 select sp).ToList();
     }
 

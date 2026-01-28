@@ -10,8 +10,8 @@ public class EightPlayer : Thing
     {
         _editorName = "Eight Player";
         graphic = new Sprite("eight_player");
-        center = new Vec2(8f, 8f);
-        base.depth = 0.55f;
+        Center = new Vec2(8f, 8f);
+        base.Depth = 0.55f;
         _visibleInGame = false;
         editorTooltip = "Place in a level to make it an 8 Player map!";
         eightPlayerOnly._tooltip = "If true, this map will not appear when less than 5 players are present in the game.";

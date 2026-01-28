@@ -11,19 +11,19 @@ public class IonCannon : Thing
     public bool serverVersion;
 
     public IonCannon(Vec2 pos, Vec2 target)
-        : base(pos.x, pos.y)
+        : base(pos.X, pos.Y)
     {
         _target = target;
     }
 
     public override void Initialize()
     {
-        Vec2 upVec = (position - _target).Rotate(Maths.DegToRad(-90f), Vec2.Zero).normalized;
-        Vec2 downVec = (position - _target).Rotate(Maths.DegToRad(90f), Vec2.Zero).normalized;
-        Level.Add(new LaserLine(position, _target - position, upVec, 4f, Color.White, 1f, 0.03f));
-        Level.Add(new LaserLine(position, _target - position, downVec, 4f, Color.White, 1f, 0.03f));
-        Level.Add(new LaserLine(position, _target - position, upVec, 2.5f, Color.White, 2f, 0.03f));
-        Level.Add(new LaserLine(position, _target - position, downVec, 2.5f, Color.White, 2f, 0.03f));
+        Vec2 upVec = (Position - _target).Rotate(Maths.DegToRad(-90f), Vec2.Zero).Normalized;
+        Vec2 downVec = (Position - _target).Rotate(Maths.DegToRad(90f), Vec2.Zero).Normalized;
+        Level.Add(new LaserLine(Position, _target - Position, upVec, 4f, Color.White, 1f, 0.03f));
+        Level.Add(new LaserLine(Position, _target - Position, downVec, 4f, Color.White, 1f, 0.03f));
+        Level.Add(new LaserLine(Position, _target - Position, upVec, 2.5f, Color.White, 2f, 0.03f));
+        Level.Add(new LaserLine(Position, _target - Position, downVec, 2.5f, Color.White, 2f, 0.03f));
         if (!serverVersion)
         {
             return;
@@ -31,19 +31,19 @@ public class IonCannon : Thing
         float wide = 64f;
         float numCheck = 12f;
         float inc = wide / (numCheck - 1f);
-        Vec2 checkStart = position + upVec * wide / 2f;
+        Vec2 checkStart = Position + upVec * wide / 2f;
         HashSet<ushort> idx = new HashSet<ushort>();
         List<BlockGroup> wreckGroups = new List<BlockGroup>();
         for (int i = 0; (float)i < numCheck; i++)
         {
             Vec2 test = checkStart + downVec * inc * i;
-            foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(test, test + (_target - position)))
+            foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(test, test + (_target - Position)))
             {
                 item.Destroy(new DTIncinerate(this));
                 item._sleeping = false;
                 item.vSpeed = -2f;
             }
-            foreach (BlockGroup block in Level.CheckLineAll<BlockGroup>(test, test + (_target - position)))
+            foreach (BlockGroup block in Level.CheckLineAll<BlockGroup>(test, test + (_target - Position)))
             {
                 if (block == null)
                 {
@@ -52,7 +52,7 @@ public class IonCannon : Thing
                 new List<Block>();
                 foreach (Block bl in block.blocks)
                 {
-                    if (Collision.Line(test, test + (_target - position), bl.rectangle))
+                    if (Collision.Line(test, test + (_target - Position), bl.rectangle))
                     {
                         bl.shouldWreck = true;
                         if (bl is AutoBlock)
@@ -63,7 +63,7 @@ public class IonCannon : Thing
                 }
                 wreckGroups.Add(block);
             }
-            foreach (Block block2 in Level.CheckLineAll<Block>(test, test + (_target - position)))
+            foreach (Block block2 in Level.CheckLineAll<Block>(test, test + (_target - Position)))
             {
                 if (block2 is AutoBlock)
                 {
@@ -107,16 +107,16 @@ public class IonCannon : Thing
         Maths.NormalizeSection(_blast, 0.6f, 1f);
         _ = _blast;
         _ = 0f;
-        Vec2 upVec = (position - _target).Rotate(Maths.DegToRad(-90f), Vec2.Zero).normalized;
-        Vec2 downVec = (position - _target).Rotate(Maths.DegToRad(90f), Vec2.Zero).normalized;
+        Vec2 upVec = (Position - _target).Rotate(Maths.DegToRad(-90f), Vec2.Zero).Normalized;
+        Vec2 downVec = (Position - _target).Rotate(Maths.DegToRad(90f), Vec2.Zero).Normalized;
         float wide = 64f;
         float numCheck = 7f;
         float inc = wide / (numCheck - 1f);
-        Vec2 checkStart = position + upVec * wide / 2f;
+        Vec2 checkStart = Position + upVec * wide / 2f;
         for (int i = 0; (float)i < numCheck; i++)
         {
             Vec2 vec = checkStart + downVec * inc * i;
-            Graphics.DrawLine(vec, vec + (_target - position), Color.SkyBlue * (_blast * 0.9f), 2f, 0.9f);
+            Graphics.DrawLine(vec, vec + (_target - Position), Color.SkyBlue * (_blast * 0.9f), 2f, 0.9f);
         }
     }
 }

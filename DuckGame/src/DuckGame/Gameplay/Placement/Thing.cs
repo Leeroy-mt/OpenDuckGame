@@ -169,7 +169,7 @@ public abstract class Thing : Transform
 
     public static Effect _alphaTestEffect;
 
-    private bool _skipPositioning;
+    protected bool SkipPositioning { get; init; }
 
     private static Dictionary<Type, Sprite> _editorIcons = new Dictionary<Type, Sprite>();
 
@@ -217,11 +217,11 @@ public abstract class Thing : Transform
     {
         get
         {
-            return position;
+            return Position;
         }
         set
         {
-            position = value;
+            Position = value;
         }
     }
 
@@ -347,7 +347,7 @@ public abstract class Thing : Transform
         }
     }
 
-    public virtual Vec2 cameraPosition => position;
+    public virtual Vec2 cameraPosition => Position;
 
     public ushort globalIndex
     {
@@ -692,8 +692,8 @@ public abstract class Thing : Transform
         }
         set
         {
-            _hSpeed = value.x;
-            _vSpeed = value.y;
+            _hSpeed = value.X;
+            _vSpeed = value.Y;
         }
     }
 
@@ -733,7 +733,7 @@ public abstract class Thing : Transform
         }
     }
 
-    public virtual Vec2 anchorPosition => position;
+    public virtual Vec2 anchorPosition => Position;
 
     public virtual sbyte offDir
     {
@@ -936,7 +936,7 @@ public abstract class Thing : Transform
     {
         get
         {
-            if (base.y > Level.activeLevel.lowestPoint + 100f)
+            if (base.Y > Level.activeLevel.lowestPoint + 100f)
             {
                 return top > Level.current.camera.bottom + 8f;
             }
@@ -976,19 +976,19 @@ public abstract class Thing : Transform
 
     public float rightQuick => _rightQuick;
 
-    public float topLocal => collisionOffset.y;
+    public float topLocal => collisionOffset.Y;
 
-    public float bottomLocal => collisionOffset.y + collisionSize.y;
+    public float bottomLocal => collisionOffset.Y + collisionSize.Y;
 
     public float top
     {
         get
         {
-            return position.y + _collisionOffset.y;
+            return Position.Y + _collisionOffset.Y;
         }
         set
         {
-            position.y = value + (position.y - top);
+            Y = value + (Position.Y - top);
         }
     }
 
@@ -996,11 +996,11 @@ public abstract class Thing : Transform
     {
         get
         {
-            return position.y + _collisionOffset.y + _collisionSize.y;
+            return Position.Y + _collisionOffset.Y + _collisionSize.Y;
         }
         set
         {
-            position.y = value + (position.y - bottom);
+            Y = value + (Position.Y - bottom);
         }
     }
 
@@ -1010,13 +1010,13 @@ public abstract class Thing : Transform
         {
             if (offDir <= 0)
             {
-                return position.x - _collisionSize.x - _collisionOffset.x;
+                return Position.X - _collisionSize.X - _collisionOffset.X;
             }
-            return position.x + _collisionOffset.x;
+            return Position.X + _collisionOffset.X;
         }
         set
         {
-            base.x = value + (base.x - left);
+            base.X = value + (base.X - left);
         }
     }
 
@@ -1026,13 +1026,13 @@ public abstract class Thing : Transform
         {
             if (offDir <= 0)
             {
-                return position.x - _collisionOffset.x;
+                return Position.X - _collisionOffset.X;
             }
-            return position.x + _collisionOffset.x + _collisionSize.x;
+            return Position.X + _collisionOffset.X + _collisionSize.X;
         }
         set
         {
-            base.x = value + (base.x - right);
+            base.X = value + (base.X - right);
         }
     }
 
@@ -1060,26 +1060,26 @@ public abstract class Thing : Transform
 
     public float halfHeight => height / 2f;
 
-    public float width => _collisionSize.x * base.scale.x;
+    public float width => _collisionSize.X * base.Scale.X;
 
-    public float height => _collisionSize.y * base.scale.y;
+    public float height => _collisionSize.Y * base.Scale.Y;
 
     public float w => width;
 
     public float h => height;
 
-    public Rectangle rectangle => new Rectangle((int)left, (int)top, (int)(right - left), (int)(bottom - top));
+    public Rectangle rectangle => new Rectangle(left, top, (right - left), (bottom - top));
 
     public Vec2 collisionCenter
     {
         get
         {
-            return new Vec2(left + collisionSize.x / 2f, top + collisionSize.y / 2f);
+            return new Vec2(left + collisionSize.X / 2f, top + collisionSize.Y / 2f);
         }
         set
         {
-            left = value.x - collisionSize.x / 2f;
-            top = value.y - collisionSize.y / 2f;
+            left = value.X - collisionSize.X / 2f;
+            top = value.Y - collisionSize.Y / 2f;
         }
     }
 
@@ -1257,7 +1257,7 @@ public abstract class Thing : Transform
 
     public virtual void SetTranslation(Vec2 translation)
     {
-        position += translation;
+        Position += translation;
     }
 
     public static ushort GetGlobalIndex()
@@ -1284,7 +1284,7 @@ public abstract class Thing : Transform
     {
         if (pOther != null)
         {
-            return (position - pOther.position).length;
+            return (Position - pOther.Position).Length();
         }
         return float.MaxValue;
     }
@@ -1295,14 +1295,14 @@ public abstract class Thing : Transform
         {
             if (Network.isActive)
             {
-                Send.Message(new NMPop(position));
+                Send.Message(new NMPop(Position));
             }
-            NMPop.AmazingDisappearingParticles(position);
+            NMPop.AmazingDisappearingParticles(Position);
             if (this is MaterialThing)
             {
                 (this as MaterialThing).Destroy(new DTPop());
             }
-            base.y += 9999f;
+            base.Y += 9999f;
             if (!(this is Duck))
             {
                 Level.Remove(this);
@@ -1312,34 +1312,34 @@ public abstract class Thing : Transform
 
     public void ApplyForce(Vec2 force)
     {
-        _hSpeed += force.x;
-        _vSpeed += force.y;
+        _hSpeed += force.X;
+        _vSpeed += force.Y;
     }
 
     public void ApplyForce(Vec2 force, Vec2 limits)
     {
-        limits = new Vec2(Math.Abs(limits.x), Math.Abs(limits.y));
-        if ((force.x < 0f && _hSpeed > 0f - limits.x) || (force.x > 0f && _hSpeed < limits.x))
+        limits = new Vec2(Math.Abs(limits.X), Math.Abs(limits.Y));
+        if ((force.X < 0f && _hSpeed > 0f - limits.X) || (force.X > 0f && _hSpeed < limits.X))
         {
-            _hSpeed += force.x;
+            _hSpeed += force.X;
         }
-        if ((force.y < 0f && _vSpeed > 0f - limits.y) || (force.y > 0f && _vSpeed < limits.y))
+        if ((force.Y < 0f && _vSpeed > 0f - limits.Y) || (force.Y > 0f && _vSpeed < limits.Y))
         {
-            _vSpeed += force.y;
+            _vSpeed += force.Y;
         }
     }
 
     public void ApplyForceLimited(Vec2 force)
     {
-        _hSpeed += force.x;
-        if ((force.x < 0f && _hSpeed < force.x) || (force.x > 0f && _hSpeed > force.x))
+        _hSpeed += force.X;
+        if ((force.X < 0f && _hSpeed < force.X) || (force.X > 0f && _hSpeed > force.X))
         {
-            _hSpeed = force.x;
+            _hSpeed = force.X;
         }
-        _vSpeed += force.y;
-        if ((force.y < 0f && _vSpeed < force.y) || (force.y > 0f && _vSpeed > force.y))
+        _vSpeed += force.Y;
+        if ((force.Y < 0f && _vSpeed < force.Y) || (force.Y > 0f && _vSpeed > force.Y))
         {
-            _vSpeed = force.y;
+            _vSpeed = force.Y;
         }
     }
 
@@ -1391,7 +1391,7 @@ public abstract class Thing : Transform
 
     public static bool CheckForBozoData(Thing pThing)
     {
-        if (pThing == null || Math.Abs(pThing.y) > 99999f || Math.Abs(pThing.x) > 99999f)
+        if (pThing == null || Math.Abs(pThing.Y) > 99999f || Math.Abs(pThing.X) > 99999f)
         {
             return true;
         }
@@ -1438,8 +1438,8 @@ public abstract class Thing : Transform
         BinaryClassChunk element = new BinaryClassChunk();
         Type t = GetType();
         element.AddProperty("type", ModLoader.SmallTypeName(t));
-        element.AddProperty("x", base.x);
-        element.AddProperty("y", base.y);
+        element.AddProperty("x", base.X);
+        element.AddProperty("y", base.Y);
         element.AddProperty("chance", _likelyhoodToExist);
         element.AddProperty("accessible", _isAccessible);
         element.AddProperty("chanceGroup", _chanceGroup);
@@ -1466,8 +1466,8 @@ public abstract class Thing : Transform
 
     public virtual bool Deserialize(BinaryClassChunk node)
     {
-        base.x = node.GetPrimitive<float>("x");
-        base.y = node.GetPrimitive<float>("y");
+        base.X = node.GetPrimitive<float>("x");
+        base.Y = node.GetPrimitive<float>("y");
         _likelyhoodToExist = node.GetPrimitive<float>("chance");
         _isAccessible = node.GetPrimitive<bool>("accessible");
         chanceGroup = node.GetPrimitive<int>("chanceGroup");
@@ -1519,8 +1519,8 @@ public abstract class Thing : Transform
         DXMLNode element = new DXMLNode("Object");
         Type t = GetType();
         element.Add(new DXMLNode("type", t.AssemblyQualifiedName));
-        element.Add(new DXMLNode("x", base.x));
-        element.Add(new DXMLNode("y", base.y));
+        element.Add(new DXMLNode("x", base.X));
+        element.Add(new DXMLNode("y", base.Y));
         element.Add(new DXMLNode("chance", _likelyhoodToExist));
         element.Add(new DXMLNode("accessible", _isAccessible));
         element.Add(new DXMLNode("chanceGroup", _chanceGroup));
@@ -1556,12 +1556,12 @@ public abstract class Thing : Transform
         DXMLNode xpos = node.Element("x");
         if (xpos != null)
         {
-            base.x = Change.ToSingle(xpos.Value);
+            base.X = Change.ToSingle(xpos.Value);
         }
         DXMLNode ypos = node.Element("y");
         if (ypos != null)
         {
-            base.y = Change.ToSingle(ypos.Value);
+            base.Y = Change.ToSingle(ypos.Value);
         }
         DXMLNode likely = node.Element("chance");
         if (likely != null)
@@ -1796,15 +1796,15 @@ public abstract class Thing : Transform
         {
             _alphaTestEffect = Content.Load<MTEffect>("Shaders/alphatest");
         }
-        if (pUseCollisionSize && collisionSize.x > 0f)
+        if (pUseCollisionSize && collisionSize.X > 0f)
         {
             if (wide <= 0)
             {
-                wide = (int)collisionSize.x;
+                wide = (int)collisionSize.X;
             }
             if (high <= 0)
             {
-                high = (int)collisionSize.y;
+                high = (int)collisionSize.Y;
             }
         }
         else if (graphic != null)
@@ -1827,10 +1827,10 @@ public abstract class Thing : Transform
         {
             return new Sprite(target);
         }
-        float s = (float)scalar / ((collisionSize.x > 0f && pUseCollisionSize) ? collisionSize.x : ((float)graphic.width));
+        float s = (float)scalar / ((collisionSize.X > 0f && pUseCollisionSize) ? collisionSize.X : ((float)graphic.width));
         Camera cam = new Camera(0f, 0f, wide, high);
-        cam.position = new Vec2(base.x - base.centerx * s, base.y - base.centery * s);
-        if (pUseCollisionSize && collisionSize.x > 0f)
+        cam.position = new Vec2(base.X - base.CenterX * s, base.Y - base.CenterY * s);
+        if (pUseCollisionSize && collisionSize.X > 0f)
         {
             cam.center = new Vec2((int)((left + right) / 2f), (int)((top + bottom) / 2f));
         }
@@ -1898,7 +1898,7 @@ public abstract class Thing : Transform
             return new Sprite(target);
         }
         Camera cam = new Camera(0f, 0f, wide, high);
-        cam.position = new Vec2(base.x - (float)(wide / 2), base.y - (float)(high / 2));
+        cam.position = new Vec2(base.X - (float)(wide / 2), base.Y - (float)(high / 2));
         Graphics.SetRenderTarget(target);
         DepthStencilState state = new DepthStencilState
         {
@@ -1957,22 +1957,22 @@ public abstract class Thing : Transform
 
     public virtual void ReturnItemToWorld(Thing t)
     {
-        Block rightWall = Level.CheckLine<Block>(position, position + new Vec2(16f, 0f));
+        Block rightWall = Level.CheckLine<Block>(Position, Position + new Vec2(16f, 0f));
         if (rightWall != null && rightWall.solid && t.right > rightWall.left)
         {
             t.right = rightWall.left;
         }
-        Block leftWall = Level.CheckLine<Block>(position, position - new Vec2(16f, 0f));
+        Block leftWall = Level.CheckLine<Block>(Position, Position - new Vec2(16f, 0f));
         if (leftWall != null && leftWall.solid && t.left < leftWall.right)
         {
             t.left = leftWall.right;
         }
-        Block topWall = Level.CheckLine<Block>(position, position + new Vec2(0f, -16f));
+        Block topWall = Level.CheckLine<Block>(Position, Position + new Vec2(0f, -16f));
         if (topWall != null && topWall.solid && t.top < topWall.bottom)
         {
             t.top = topWall.bottom;
         }
-        Block bottomWall = Level.CheckLine<Block>(position, position + new Vec2(0f, 16f));
+        Block bottomWall = Level.CheckLine<Block>(Position, Position + new Vec2(0f, 16f));
         if (bottomWall != null && bottomWall.solid && t.bottom > bottomWall.top)
         {
             t.bottom = bottomWall.top;
@@ -1982,20 +1982,20 @@ public abstract class Thing : Transform
     public Vec2 NearestCorner(Vec2 to)
     {
         Vec2 nearest = topLeft;
-        float dist = (topLeft - to).length;
-        float test = (topRight - to).length;
+        float dist = (topLeft - to).Length();
+        float test = (topRight - to).Length();
         if (test < dist)
         {
             nearest = topRight;
             dist = test;
         }
-        test = (bottomLeft - to).length;
+        test = (bottomLeft - to).Length();
         if (test < dist)
         {
             nearest = bottomLeft;
             dist = test;
         }
-        test = (bottomRight - to).length;
+        test = (bottomRight - to).Length();
         if (test < dist)
         {
             nearest = bottomRight;
@@ -2009,25 +2009,25 @@ public abstract class Thing : Transform
         Vec2 nearest = Vec2.Zero;
         float dist = 9999999f;
         float test = 0f;
-        test = (topLeft - to).length;
+        test = (topLeft - to).Length();
         if (test < dist && Level.CheckCircle<Block>(topLeft, 2f, this) == null)
         {
             nearest = topLeft;
             dist = test;
         }
-        test = (topRight - to).length;
+        test = (topRight - to).Length();
         if (test < dist && Level.CheckCircle<Block>(topRight, 2f, this) == null)
         {
             nearest = topRight;
             dist = test;
         }
-        test = (bottomLeft - to).length;
+        test = (bottomLeft - to).Length();
         if (test < dist && Level.CheckCircle<Block>(bottomLeft, 2f, this) == null)
         {
             nearest = bottomLeft;
             dist = test;
         }
-        test = (bottomRight - to).length;
+        test = (bottomRight - to).Length();
         if (test < dist && Level.CheckCircle<Block>(bottomRight, 2f, this) == null)
         {
             nearest = bottomRight;
@@ -2038,8 +2038,8 @@ public abstract class Thing : Transform
 
     public Thing(float xval = 0f, float yval = 0f, Sprite sprite = null)
     {
-        base.x = xval;
-        base.y = yval;
+        base.X = xval;
+        base.Y = yval;
         graphic = sprite;
         if (sprite != null)
         {
@@ -2053,27 +2053,27 @@ public abstract class Thing : Transform
 
     public virtual Vec2 OffsetLocal(Vec2 pos)
     {
-        Vec2 offset = pos * base.scale;
+        Vec2 offset = pos * base.Scale;
         if (offDir < 0)
         {
-            offset.x *= -1f;
+            offset.X *= -1f;
         }
-        return offset.Rotate(angle, new Vec2(0f, 0f));
+        return offset.Rotate(Angle, new Vec2(0f, 0f));
     }
 
     public virtual Vec2 ReverseOffsetLocal(Vec2 pos)
     {
-        return (pos * base.scale).Rotate(0f - angle, new Vec2(0f, 0f));
+        return (pos * base.Scale).Rotate(0f - Angle, new Vec2(0f, 0f));
     }
 
     public virtual Vec2 Offset(Vec2 pos)
     {
-        return position + OffsetLocal(pos);
+        return Position + OffsetLocal(pos);
     }
 
     public virtual Vec2 ReverseOffset(Vec2 pos)
     {
-        pos -= position;
+        pos -= Position;
         return ReverseOffsetLocal(pos);
     }
 
@@ -2082,10 +2082,10 @@ public abstract class Thing : Transform
         Vec2 offset = new Vec2(pos, 0f);
         if (offDir < 0)
         {
-            offset.x *= -1f;
+            offset.X *= -1f;
         }
-        offset = offset.Rotate(angle, new Vec2(0f, 0f));
-        return (position + offset).x;
+        offset = offset.Rotate(Angle, new Vec2(0f, 0f));
+        return (Position + offset).X;
     }
 
     public virtual float OffsetY(float pos)
@@ -2093,10 +2093,10 @@ public abstract class Thing : Transform
         Vec2 offset = new Vec2(0f, pos);
         if (offDir < 0)
         {
-            offset.x *= -1f;
+            offset.X *= -1f;
         }
-        offset = offset.Rotate(angle, new Vec2(0f, 0f));
-        return (position + offset).y;
+        offset = offset.Rotate(Angle, new Vec2(0f, 0f));
+        return (Position + offset).Y;
     }
 
     public virtual void ResetProperties()
@@ -2166,7 +2166,7 @@ public abstract class Thing : Transform
         }
         if (_anchor != null)
         {
-            position = _anchor.position;
+            Position = _anchor.position;
         }
         Update();
         _topQuick = top;
@@ -2270,14 +2270,14 @@ public abstract class Thing : Transform
     {
         if (_graphic != null)
         {
-            if (!_skipPositioning)
+            if (!SkipPositioning)
             {
-                _graphic.position = position;
-                _graphic.alpha = base.alpha;
-                _graphic.angle = angle;
-                _graphic.depth = base.depth;
-                _graphic.scale = base.scale;
-                _graphic.center = center;
+                _graphic.Position = Position;
+                _graphic.Alpha = Alpha;
+                _graphic.Angle = Angle;
+                _graphic.Depth = Depth;
+                _graphic.Scale = Scale;
+                _graphic.Center = Center;
             }
             _graphic.Draw();
         }
@@ -2304,21 +2304,21 @@ public abstract class Thing : Transform
         {
             spr.flipH = graphic.flipH;
         }
-        spr.angle = angle;
-        spr.alpha = base.alpha;
-        spr.depth = base.depth + d;
-        spr.scale = base.scale;
+        spr.Angle = Angle;
+        spr.Alpha = base.Alpha;
+        spr.Depth = base.Depth + d;
+        spr.Scale = base.Scale;
         spr.flipH = offDir < 0;
-        Graphics.Draw(spr, drawOffset.x, drawOffset.y);
+        Graphics.Draw(spr, drawOffset.X, drawOffset.Y);
     }
 
     public void DrawIgnoreAngle(Sprite spr, Vec2 pos, int d = 1)
     {
         Vec2 drawOffset = Offset(pos);
-        spr.alpha = base.alpha;
-        spr.depth = base.depth + d;
-        spr.scale = base.scale;
-        Graphics.Draw(spr, drawOffset.x, drawOffset.y);
+        spr.Alpha = base.Alpha;
+        spr.Depth = base.Depth + d;
+        spr.Scale = base.Scale;
+        Graphics.Draw(spr, drawOffset.X, drawOffset.Y);
     }
 
     public virtual void OnTeleport()

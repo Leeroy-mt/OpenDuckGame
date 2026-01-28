@@ -18,7 +18,7 @@ public class NMLightDuck : NMEvent
         if (duck != null)
         {
             duck.isBurnMessage = true;
-            duck.Burn(duck.position, null);
+            duck.Burn(duck.Position, null);
             duck.isBurnMessage = false;
         }
     }

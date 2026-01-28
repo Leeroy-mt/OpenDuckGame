@@ -28,10 +28,10 @@ public class Desk : Holdable, IPlatform
         _hitPoints = 15f;
         _sprite = new SpriteMap("desk", 19, 12);
         graphic = _sprite;
-        center = new Vec2(9f, 6f);
+        Center = new Vec2(9f, 6f);
         collisionOffset = new Vec2(-8f, -3f);
         collisionSize = new Vec2(17f, 6f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Desk";
         thickness = 8f;
         weight = 8f;
@@ -54,14 +54,14 @@ public class Desk : Holdable, IPlatform
         }
         for (int i = 0; i < 6; i++)
         {
-            WoodDebris woodDebris = WoodDebris.New(base.x - 8f + Rando.Float(16f), base.y - 8f + Rando.Float(16f));
-            woodDebris.hSpeed = ((Rando.Float(1f) > 0.5f) ? 1f : (-1f)) * Rando.Float(3f) + (float)Math.Sign(flyDir.x) * 0.5f;
+            WoodDebris woodDebris = WoodDebris.New(base.X - 8f + Rando.Float(16f), base.Y - 8f + Rando.Float(16f));
+            woodDebris.hSpeed = ((Rando.Float(1f) > 0.5f) ? 1f : (-1f)) * Rando.Float(3f) + (float)Math.Sign(flyDir.X) * 0.5f;
             woodDebris.vSpeed = 0f - Rando.Float(1f);
             Level.Add(woodDebris);
         }
         for (int j = 0; j < 5; j++)
         {
-            SmallSmoke smallSmoke = SmallSmoke.New(base.x + Rando.Float(-6f, 6f), base.y + Rando.Float(-6f, 6f));
+            SmallSmoke smallSmoke = SmallSmoke.New(base.X + Rando.Float(-6f, 6f), base.Y + Rando.Float(-6f, 6f));
             smallSmoke.hSpeed += Rando.Float(-0.3f, 0.3f);
             smallSmoke.vSpeed -= Rando.Float(0.1f, 0.2f);
             Level.Add(smallSmoke);
@@ -71,7 +71,7 @@ public class Desk : Holdable, IPlatform
 
     public override bool Hit(Bullet bullet, Vec2 hitPos)
     {
-        if (_flip < 0.05f && hitPos.y > base.top + 4f)
+        if (_flip < 0.05f && hitPos.Y > base.top + 4f)
         {
             return false;
         }
@@ -85,8 +85,8 @@ public class Desk : Holdable, IPlatform
         }
         for (int i = 0; (float)i < 1f + damageMultiplier; i++)
         {
-            WoodDebris woodDebris = WoodDebris.New(base.x - 8f + Rando.Float(16f), base.y - 8f + Rando.Float(16f));
-            woodDebris.hSpeed = (float)Math.Sign(bullet.travel.x) * Rando.Float(2f) + (float)Math.Sign(bullet.travel.x) * 0.5f;
+            WoodDebris woodDebris = WoodDebris.New(base.X - 8f + Rando.Float(16f), base.Y - 8f + Rando.Float(16f));
+            woodDebris.hSpeed = (float)Math.Sign(bullet.travel.X) * Rando.Float(2f) + (float)Math.Sign(bullet.travel.X) * 0.5f;
             woodDebris.vSpeed = 0f - Rando.Float(1f);
             Level.Add(woodDebris);
         }
@@ -173,15 +173,15 @@ public class Desk : Holdable, IPlatform
         }
         if (flipped != 0)
         {
-            base.centerx = 9f + 4f * _flip * ((flipped > 0) ? 1f : (-1f));
-            base.centery = 6f + 4f * _flip;
-            angle = _flip * (1.5f * ((flipped > 0) ? 1f : (-1f)));
+            base.CenterX = 9f + 4f * _flip * ((flipped > 0) ? 1f : (-1f));
+            base.CenterY = 6f + 4f * _flip;
+            Angle = _flip * (1.5f * ((flipped > 0) ? 1f : (-1f)));
         }
         else
         {
-            base.centerx = 9f + 4f * _flip * ((angle > 0f) ? 1f : (-1f));
-            base.centery = 6f + 4f * _flip;
-            angle = _flip * (1.5f * ((angle > 0f) ? 1f : (-1f)));
+            base.CenterX = 9f + 4f * _flip * ((Angle > 0f) ? 1f : (-1f));
+            base.CenterY = 6f + 4f * _flip;
+            Angle = _flip * (1.5f * ((Angle > 0f) ? 1f : (-1f)));
         }
         firstFrame = false;
     }
@@ -225,14 +225,14 @@ public class Desk : Holdable, IPlatform
         {
             for (int i = 0; i < 2; i++)
             {
-                Level.Add(SmallSmoke.New(base.bottomRight.x, base.bottomRight.y));
+                Level.Add(SmallSmoke.New(base.bottomRight.X, base.bottomRight.Y));
             }
         }
         else if (flipped < 0)
         {
             for (int j = 0; j < 2; j++)
             {
-                Level.Add(SmallSmoke.New(base.bottomLeft.x, base.bottomLeft.y));
+                Level.Add(SmallSmoke.New(base.bottomLeft.X, base.bottomLeft.Y));
             }
         }
     }

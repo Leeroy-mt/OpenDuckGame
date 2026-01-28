@@ -15,7 +15,7 @@ public class Firecracker : PhysicsParticle, ITeleport
         : base(xpos, ypos)
     {
         graphic = new Sprite("fireCracker");
-        center = new Vec2(4f, 4f);
+        Center = new Vec2(4f, 4f);
         _bounceSound = "plasticBounce";
         _airFriction = 0.02f;
         _bounceEfficiency = 0.65f;
@@ -39,8 +39,8 @@ public class Firecracker : PhysicsParticle, ITeleport
 
     public override void NetSerialize(BitBuffer b)
     {
-        b.Write((short)base.x);
-        b.Write((short)base.y);
+        b.Write((short)base.X);
+        b.Write((short)base.Y);
         b.Write(_spinAngle);
     }
 
@@ -63,8 +63,8 @@ public class Firecracker : PhysicsParticle, ITeleport
             }
             else
             {
-                position = netLerpPosition;
-                Level.Add(SmallSmoke.New(base.x, base.y));
+                Position = netLerpPosition;
+                Level.Add(SmallSmoke.New(base.X, base.Y));
             }
         }
         base.Removed();
@@ -74,10 +74,10 @@ public class Firecracker : PhysicsParticle, ITeleport
     {
         if ((bool)_sparkTimer)
         {
-            Level.Add(Spark.New(base.x, base.y - 2f, new Vec2(Rando.Float(-1f, 1f), -0.5f), 0.1f));
+            Level.Add(Spark.New(base.X, base.Y - 2f, new Vec2(Rando.Float(-1f, 1f), -0.5f), 0.1f));
         }
         _life = 1f;
-        base.angleDegrees = _spinAngle;
+        base.AngleDegrees = _spinAngle;
         base.Update();
         if (isLocal && (bool)_explodeTimer)
         {
@@ -88,7 +88,7 @@ public class Firecracker : PhysicsParticle, ITeleport
                 float dir = (float)i * 45f - 5f + Rando.Float(10f);
                 ATShrapnel shrap = new ATShrapnel();
                 shrap.range = 8f + Rando.Float(3f);
-                Bullet bullet = new Bullet(base.x + (float)(Math.Cos(Maths.DegToRad(dir)) * 6.0), base.y - (float)(Math.Sin(Maths.DegToRad(dir)) * 6.0), shrap, dir);
+                Bullet bullet = new Bullet(base.X + (float)(Math.Cos(Maths.DegToRad(dir)) * 6.0), base.Y - (float)(Math.Sin(Maths.DegToRad(dir)) * 6.0), shrap, dir);
                 bullet.firedFrom = this;
                 Level.Add(bullet);
                 firedBullets.Add(bullet);
@@ -97,10 +97,10 @@ public class Firecracker : PhysicsParticle, ITeleport
             {
                 Send.Message(new NMFireGun(null, firedBullets, 0, rel: false, 4), NetMessagePriority.ReliableOrdered);
             }
-            Level.Add(SmallSmoke.New(base.x, base.y));
+            Level.Add(SmallSmoke.New(base.X, base.Y));
             if (Rando.Float(1f) < 0.1f)
             {
-                Level.Add(SmallFire.New(base.x, base.y, 0f, 0f, shortLife: false, null, canMultiply: true, this));
+                Level.Add(SmallFire.New(base.X, base.Y, 0f, 0f, shortLife: false, null, canMultiply: true, this));
             }
             Level.Remove(this);
         }

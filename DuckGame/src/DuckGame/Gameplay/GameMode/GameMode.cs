@@ -394,19 +394,19 @@ public class GameMode
         _pauseGroup.Add(_confirmMenu, doAnchor: false);
         _confirmBlacklistMenu.Add(new UIText("", Color.White, UIAlign.Center, -4f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _confirmBlacklistMenu.Add(new UIText("Are you sure you want to avoid", Color.White, UIAlign.Center, -4f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _confirmBlacklistMenu.Add(new UIText("this level in the future?", Color.White, UIAlign.Center, -4f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _confirmBlacklistMenu.Add(new UIText("", Color.White, UIAlign.Center, -4f)
         {
-            scale = new Vec2(0.5f)
+            Scale = new Vec2(0.5f)
         });
         _confirmBlacklistMenu.Add(new UIMenuItem("|DGRED|@blacklist@YES!", new UIMenuActionCloseMenuCallFunction(_pauseGroup, Blacklist)));
         _confirmBlacklistMenu.Add(new UIMenuItem("BACK", new UIMenuActionOpenMenu(_confirmBlacklistMenu, _pauseMenu), UIAlign.Center, default(Color), backButton: true));
@@ -559,14 +559,14 @@ public class GameMode
                     _waitSpawn = 2f;
                 }
                 Duck spawn = _pendingSpawns[0];
-                spawn.respawnPos = spawn.position;
+                spawn.respawnPos = spawn.Position;
                 spawn.localSpawnVisible = true;
                 _pendingSpawns.RemoveAt(0);
                 Vec3 col = spawn.profile.persona.color;
-                Level.Add(new SpawnLine(spawn.x, spawn.y, 0, 0f, new Color((int)col.x, (int)col.y, (int)col.z), 32f));
-                Level.Add(new SpawnLine(spawn.x, spawn.y, 0, -4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
-                Level.Add(new SpawnLine(spawn.x, spawn.y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
-                Level.Add(new SpawnAimer(spawn.x, spawn.y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), spawn.persona, 4f)
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 0f, new Color((int)col.x, (int)col.y, (int)col.z), 32f));
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, -4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
+                Level.Add(new SpawnAimer(spawn.X, spawn.Y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), spawn.persona, 4f)
                 {
                     dugg = spawn
                 });
@@ -575,83 +575,83 @@ public class GameMode
                 {
                     if (!Network.isActive && spawn.profile.team.name == "ZEKE")
                     {
-                        Ragdoll ragdoll = new Ragdoll(spawn.x, spawn.y, null, slide: false, 0f, 0, Vec2.Zero);
+                        Ragdoll ragdoll = new Ragdoll(spawn.X, spawn.Y, null, slide: false, 0f, 0, Vec2.Zero);
                         Level.Add(ragdoll);
                         ragdoll.RunInit();
                         ragdoll.MakeZekeBear();
                     }
                     if (Party.HasPerk(spawn.profile, PartyPerks.Present) || (TeamSelect2.Enabled("WINPRES") && lastWinners.Contains(spawn.profile)))
                     {
-                        Present p = new Present(spawn.x, spawn.y);
+                        Present p = new Present(spawn.X, spawn.Y);
                         Level.Add(p);
                         spawn.GiveHoldable(p);
                     }
                     if (Party.HasPerk(spawn.profile, PartyPerks.Jetpack) || TeamSelect2.Enabled("JETTY"))
                     {
-                        Jetpack j = new Jetpack(spawn.x, spawn.y);
+                        Jetpack j = new Jetpack(spawn.X, spawn.Y);
                         Level.Add(j);
                         spawn.Equip(j);
                     }
                     if (TeamSelect2.Enabled("HELMY"))
                     {
-                        Helmet j2 = new Helmet(spawn.x, spawn.y);
+                        Helmet j2 = new Helmet(spawn.X, spawn.Y);
                         Level.Add(j2);
                         spawn.Equip(j2);
                     }
                     if (TeamSelect2.Enabled("SHOESTAR"))
                     {
-                        Boots j3 = new Boots(spawn.x, spawn.y);
+                        Boots j3 = new Boots(spawn.X, spawn.Y);
                         Level.Add(j3);
                         spawn.Equip(j3);
                     }
                     if (DevConsole.fancyMode)
                     {
-                        FancyShoes j4 = new FancyShoes(spawn.x, spawn.y);
+                        FancyShoes j4 = new FancyShoes(spawn.X, spawn.Y);
                         Level.Add(j4);
                         spawn.Equip(j4);
                     }
                     if (TeamSelect2.Enabled("DILLY"))
                     {
-                        DuelingPistol j5 = new DuelingPistol(spawn.x, spawn.y);
+                        DuelingPistol j5 = new DuelingPistol(spawn.X, spawn.Y);
                         Level.Add(j5);
                         spawn.GiveHoldable(j5);
                     }
                     if (TeamSelect2.Enabled("COOLBOOK"))
                     {
-                        GoodBook j6 = new GoodBook(spawn.x, spawn.y);
+                        GoodBook j6 = new GoodBook(spawn.X, spawn.Y);
                         Level.Add(j6);
                         spawn.GiveHoldable(j6);
                     }
                     if (Party.HasPerk(spawn.profile, PartyPerks.Armor))
                     {
-                        Helmet j7 = new Helmet(spawn.x, spawn.y);
+                        Helmet j7 = new Helmet(spawn.X, spawn.Y);
                         Level.Add(j7);
                         spawn.Equip(j7);
-                        ChestPlate h = new ChestPlate(spawn.x, spawn.y);
+                        ChestPlate h = new ChestPlate(spawn.X, spawn.Y);
                         Level.Add(h);
                         spawn.Equip(h);
                     }
                     if (Party.HasPerk(spawn.profile, PartyPerks.Pistol))
                     {
-                        Pistol j8 = new Pistol(spawn.x, spawn.y);
+                        Pistol j8 = new Pistol(spawn.X, spawn.Y);
                         Level.Add(j8);
                         spawn.GiveHoldable(j8);
                     }
                     if (Party.HasPerk(spawn.profile, PartyPerks.NetGun))
                     {
-                        NetGun j9 = new NetGun(spawn.x, spawn.y);
+                        NetGun j9 = new NetGun(spawn.X, spawn.Y);
                         Level.Add(j9);
                         spawn.GiveHoldable(j9);
                     }
                     if (TeamSelect2.QUACK3)
                     {
-                        Helmet j10 = new Helmet(spawn.x, spawn.y);
+                        Helmet j10 = new Helmet(spawn.X, spawn.Y);
                         Level.Add(j10);
                         spawn.Equip(j10);
-                        ChestPlate h2 = new ChestPlate(spawn.x, spawn.y);
+                        ChestPlate h2 = new ChestPlate(spawn.X, spawn.Y);
                         Level.Add(h2);
                         spawn.Equip(h2);
-                        Holster holst = new Holster(spawn.x, spawn.y);
+                        Holster holst = new Holster(spawn.X, spawn.Y);
                         Level.Add(holst);
                         spawn.Equip(holst);
                         if (spawn.profile.carryOverObject != null)
@@ -661,7 +661,7 @@ public class GameMode
                         }
                         else
                         {
-                            DuelingPistol p2 = new DuelingPistol(spawn.x, spawn.y);
+                            DuelingPistol p2 = new DuelingPistol(spawn.X, spawn.Y);
                             Level.Add(p2);
                             holst.SetContainedObject(p2);
                         }
@@ -1065,8 +1065,8 @@ public class GameMode
         }
         if (_waitAfterSpawnDings > 0 && _fontFade > 0.01f)
         {
-            _font.scale = new Vec2(2f, 2f);
-            _font.alpha = _fontFade;
+            _font.Scale = new Vec2(2f, 2f);
+            _font.Alpha = _fontFade;
             string s = "GET";
             if (_waitAfterSpawnDings == 2)
             {
@@ -1084,7 +1084,7 @@ public class GameMode
             _pulse += 0.08f;
             string s2 = "WIN THE MATCH";
             float wide2 = _font.GetWidth(s2);
-            _font.alpha = ((float)Math.Sin(_pulse) + 1f) / 2f;
+            _font.Alpha = ((float)Math.Sin(_pulse) + 1f) / 2f;
             _font.Draw(s2, Layer.HUD.camera.width / 2f - wide2 / 2f, Layer.HUD.camera.height - _font.height - 16f, Color.Red);
         }
     }

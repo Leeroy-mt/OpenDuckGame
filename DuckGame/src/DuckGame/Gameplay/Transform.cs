@@ -5,187 +5,75 @@ namespace DuckGame;
 /// </summary>
 public abstract class Transform
 {
-    public Vec2 position;
+    #region Public Fields
+    public float AngleValue;
 
-    protected float _z;
+    public Vec2 CenterValue;
+    #endregion
 
-    protected Depth _depth = new Depth(0f);
-
-    protected Vec2 _center;
-
-    public float _angle;
-
-    private Vec2 _scale = new Vec2(1f, 1f);
-
-    private float _alpha = 1f;
-
-    private float _alphaSub;
-
-    public float x
+    #region Public Properties
+    public float X
     {
-        get
-        {
-            return position.x;
-        }
-        set
-        {
-            position.x = value;
-        }
+        get => Position.X;
+        set => Position = new(value, Position.Y);
     }
 
-    public float y
+    public float Y
     {
-        get
-        {
-            return position.y;
-        }
-        set
-        {
-            position.y = value;
-        }
+        get => Position.Y;
+        set => Position = new(Position.X, value);
     }
 
-    public float z
+    public float Z { get; set; }
+
+    public float CenterX
     {
-        get
-        {
-            return _z;
-        }
-        set
-        {
-            _z = value;
-        }
+        get => CenterValue.X;
+        set => CenterValue.X = value;
     }
 
-    public Depth depth
+    public float CenterY
     {
-        get
-        {
-            return _depth;
-        }
-        set
-        {
-            _depth = value;
-        }
+        get => CenterValue.Y;
+        set => CenterValue.Y = value;
     }
 
-    public virtual Vec2 center
+    public float ScaleX
     {
-        get
-        {
-            return _center;
-        }
-        set
-        {
-            _center = value;
-        }
+        get => Scale.X;
+        set => Scale = new(value, Scale.Y);
     }
 
-    public float centerx
+    public float ScaleY
     {
-        get
-        {
-            return _center.x;
-        }
-        set
-        {
-            _center.x = value;
-        }
+        get => Scale.Y;
+        set => Scale = new(Scale.X, value);
     }
 
-    public float centery
+    public virtual float Angle
     {
-        get
-        {
-            return _center.y;
-        }
-        set
-        {
-            _center.y = value;
-        }
+        get => AngleValue;
+        set => AngleValue = value;
     }
 
-    public virtual float angle
+    public float AngleDegrees
     {
-        get
-        {
-            return _angle;
-        }
-        set
-        {
-            _angle = value;
-        }
+        get => Maths.RadToDeg(Angle);
+        set => Angle = Maths.DegToRad(value);
     }
 
-    public float angleDegrees
+    public float Alpha { get; set; } = 1;
+
+    public Depth Depth { get; set; } = new(0);
+
+    public Vec2 Position { get; set; }
+
+    public virtual Vec2 Center
     {
-        get
-        {
-            return Maths.RadToDeg(angle);
-        }
-        set
-        {
-            angle = Maths.DegToRad(value);
-        }
+        get => CenterValue;
+        set => CenterValue = value;
     }
 
-    public Vec2 scale
-    {
-        get
-        {
-            return _scale;
-        }
-        set
-        {
-            _scale = value;
-        }
-    }
-
-    public float xscale
-    {
-        get
-        {
-            return _scale.x;
-        }
-        set
-        {
-            _scale.x = value;
-        }
-    }
-
-    public float yscale
-    {
-        get
-        {
-            return _scale.y;
-        }
-        set
-        {
-            _scale.y = value;
-        }
-    }
-
-    public float alpha
-    {
-        get
-        {
-            return _alpha;
-        }
-        set
-        {
-            _alpha = value;
-        }
-    }
-
-    public float alphaSub
-    {
-        get
-        {
-            return _alphaSub;
-        }
-        set
-        {
-            _alphaSub = value;
-        }
-    }
+    public Vec2 Scale { get; set; } = new(1);
+    #endregion
 }

@@ -56,7 +56,7 @@ public class Chaindart : Gun
         _type = "gun";
         _sprite = new SpriteMap("dartchain", 38, 18);
         graphic = _sprite;
-        center = new Vec2(14f, 9f);
+        Center = new Vec2(14f, 9f);
         collisionOffset = new Vec2(-8f, -3f);
         collisionSize = new Vec2(24f, 10f);
         _burned = new SpriteMap("dartchain_burned", 38, 18);
@@ -80,14 +80,14 @@ public class Chaindart : Gun
     public override void Initialize()
     {
         base.Initialize();
-        _bullets = new ChaingunBullet(base.x, base.y, dart: true);
+        _bullets = new ChaingunBullet(base.X, base.Y, dart: true);
         _bullets.parentThing = this;
         _topBullet = _bullets;
         float add = 0.1f;
         ChaingunBullet lastBullet = null;
         for (int i = 0; i < 9; i++)
         {
-            ChaingunBullet b = new ChaingunBullet(base.x, base.y, dart: true);
+            ChaingunBullet b = new ChaingunBullet(base.X, base.Y, dart: true);
             b.parentThing = _bullets;
             _bullets = b;
             b.waveAdd = add;
@@ -179,7 +179,7 @@ public class Chaindart : Gun
         if (!burntOut && burnt >= 1f)
         {
             Vec2 smokePos = Offset(new Vec2(10f, 0f));
-            Level.Add(SmallSmoke.New(smokePos.x, smokePos.y));
+            Level.Add(SmallSmoke.New(smokePos.X, smokePos.Y));
             _onFire = false;
             flammable = 0f;
             burntOut = true;
@@ -200,7 +200,7 @@ public class Chaindart : Gun
         }
         if (base.isServerForObject)
         {
-            FluidPuddle pudd = Level.CheckPoint<FluidPuddle>(base.barrelPosition.x, base.barrelPosition.y);
+            FluidPuddle pudd = Level.CheckPoint<FluidPuddle>(base.barrelPosition.X, base.barrelPosition.Y);
             if (pudd != null && pudd.data.heat > 0.5f)
             {
                 OnBurn(base.barrelPosition, pudd);
@@ -285,11 +285,11 @@ public class Chaindart : Gun
             base.Draw();
             Graphics.material = base.material;
             _tip.flipH = graphic.flipH;
-            _tip.center = graphic.center;
-            _tip.depth = base.depth + 1;
-            _tip.alpha = Math.Min(_barrelHeat * 1.5f / 10f, 1f);
-            _tip.angle = angle;
-            Graphics.Draw(_tip, base.x, base.y);
+            _tip.Center = graphic.Center;
+            _tip.Depth = base.Depth + 1;
+            _tip.Alpha = Math.Min(_barrelHeat * 1.5f / 10f, 1f);
+            _tip.Angle = Angle;
+            Graphics.Draw(_tip, base.X, base.Y);
             Graphics.material = m;
         }
         if (_topBullet != null)

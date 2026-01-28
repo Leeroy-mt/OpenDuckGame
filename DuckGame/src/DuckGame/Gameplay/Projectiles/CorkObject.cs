@@ -16,13 +16,13 @@ public class CorkObject : PhysicsObject, ISwing, IPullBack
         graphic = new Sprite("cork");
         _collisionSize = new Vec2(4f, 4f);
         _collisionOffset = new Vec2(-2f, -3f);
-        center = new Vec2(3f, 3f);
+        Center = new Vec2(3f, 3f);
         _gun = pOwner;
         weight = 0.1f;
         base.bouncy = 0.5f;
         airFrictionMult = 0f;
         _ropeSprite = new Sprite("grappleWire");
-        _ropeSprite.center = new Vec2(8f, 0f);
+        _ropeSprite.Center = new Vec2(8f, 0f);
     }
 
     public Rope GetRopeParent(Thing child)
@@ -43,8 +43,8 @@ public class CorkObject : PhysicsObject, ISwing, IPullBack
         {
             _sticker = new Harpoon(this);
             base.level.AddThing(_sticker);
-            _sticker.SetStuckPoint(_gun.position);
-            _rope = new Rope(base.x, base.y, null, _sticker, this, vine: false, _ropeSprite, this);
+            _sticker.SetStuckPoint(_gun.Position);
+            _rope = new Rope(base.X, base.Y, null, _sticker, this, vine: false, _ropeSprite, this);
             Level.Add(_rope);
         }
         base.Initialize();
@@ -86,9 +86,9 @@ public class CorkObject : PhysicsObject, ISwing, IPullBack
             {
                 specialFrictionMod = 1f;
             }
-            _rope.position = position;
+            _rope.Position = Position;
             _rope.SetServer(base.isServerForObject);
-            Vec2 travel = _rope.attach1.position - _rope.attach2.position;
+            Vec2 travel = _rope.attach1.Position - _rope.attach2.Position;
             bool physics = true;
             if (_rope.properLength < 0f)
             {
@@ -97,17 +97,17 @@ public class CorkObject : PhysicsObject, ISwing, IPullBack
                 rope.startLength = startLength;
                 physics = false;
             }
-            if (travel.length > _rope.properLength)
+            if (travel.Length() > _rope.properLength)
             {
-                travel = travel.normalized;
-                _ = position;
-                Vec2 start = position;
-                Vec2 p2 = _rope.attach2.position + travel * _rope.properLength;
+                travel = travel.Normalized;
+                _ = Position;
+                Vec2 start = Position;
+                Vec2 p2 = _rope.attach2.Position + travel * _rope.properLength;
                 Level.CheckRay<Block>(start, p2, out var _);
                 if (physics)
                 {
-                    hSpeed = p2.x - position.x;
-                    vSpeed = p2.y - position.y;
+                    hSpeed = p2.X - Position.X;
+                    vSpeed = p2.Y - Position.Y;
                     gravMultiplier = 0f;
                     float prevSpec = specialFrictionMod;
                     specialFrictionMod = 0f;
@@ -117,24 +117,24 @@ public class CorkObject : PhysicsObject, ISwing, IPullBack
                     gravMultiplier = 1f;
                     specialFrictionMod = prevSpec;
                     Vec2 dif = p2 - lastPos;
-                    if (dif.length > 32f)
+                    if (dif.Length() > 32f)
                     {
-                        position = p2;
+                        Position = p2;
                     }
-                    else if (dif.length > 6f)
+                    else if (dif.Length() > 6f)
                     {
                         hSpeed = Rando.Float(-2f, 2f);
                         vSpeed = Rando.Float(-2f, 2f);
                     }
                     else
                     {
-                        hSpeed = dif.x;
-                        vSpeed = dif.y;
+                        hSpeed = dif.X;
+                        vSpeed = dif.Y;
                     }
                 }
                 else
                 {
-                    position = p2;
+                    Position = p2;
                 }
             }
             _sticker.SetStuckPoint((_gun as Gun).barrelPosition);

@@ -58,7 +58,7 @@ public abstract class Hat : Equipment
     public Hat(float xpos, float ypos)
         : base(xpos, ypos)
     {
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-6f, -6f);
         collisionSize = new Vec2(12f, 12f);
         _autoOffset = false;
@@ -85,7 +85,7 @@ public abstract class Hat : Equipment
     {
         if (_equippedDuck != null && !destroyed)
         {
-            center = new Vec2(_sprite.w / 2, _sprite.h / 2);
+            Center = new Vec2(_sprite.w / 2, _sprite.h / 2);
             graphic = _sprite;
             solid = false;
             visible = false;
@@ -95,7 +95,7 @@ public abstract class Hat : Equipment
             _sprite.frame = 0;
             if (!_hasUnequippedCenter)
             {
-                center = new Vec2(_pickupSprite.w / 2, _pickupSprite.h / 2);
+                Center = new Vec2(_pickupSprite.w / 2, _pickupSprite.h / 2);
             }
             graphic = _pickupSprite;
             solid = true;
@@ -104,20 +104,20 @@ public abstract class Hat : Equipment
         }
         if (destroyed)
         {
-            base.alpha -= 0.05f;
+            base.Alpha -= 0.05f;
         }
-        if (base.alpha < 0f)
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }
         base.Update();
         if (_equippedDuck != null && _equippedDuck._trapped != null)
         {
-            base.depth = _equippedDuck._trapped.depth + 2;
+            base.Depth = _equippedDuck._trapped.Depth + 2;
         }
         else if (owner == null && this is TeamHat)
         {
-            base.depth = -0.2f;
+            base.Depth = -0.2f;
         }
     }
 }

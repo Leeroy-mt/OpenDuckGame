@@ -7,7 +7,7 @@ public class ContextSearch : ContextMenu
     public ContextSearch(IContextListener owner)
         : base(owner)
     {
-        itemSize.y = 16f;
+        itemSize.Y = 16f;
         _text = "@searchicon@ search...";
         tooltip = "Search for an object!";
     }
@@ -21,7 +21,7 @@ public class ContextSearch : ContextMenu
     {
         if (_hover && !greyOut)
         {
-            Graphics.DrawRect(position, position + itemSize, new Color(70, 70, 70), base.depth + 1);
+            Graphics.DrawRect(Position, Position + itemSize, new Color(70, 70, 70), base.Depth + 1);
         }
         Color c = Color.White;
         if (greyOut)
@@ -36,6 +36,6 @@ public class ContextSearch : ContextMenu
         {
             _text = "@searchicon@ |GRAY|search...";
         }
-        Graphics.DrawFancyString(_text, position + new Vec2(0f, 4f), c, base.depth + 2);
+        Graphics.DrawFancyString(_text, Position + new Vec2(0f, 4f), c, base.Depth + 2);
     }
 }

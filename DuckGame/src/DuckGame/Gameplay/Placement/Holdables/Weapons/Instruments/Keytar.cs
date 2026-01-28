@@ -115,7 +115,7 @@ public class Keytar : Gun
         _type = "gun";
         _sprite = new SpriteMap("keytar", 23, 8);
         graphic = _sprite;
-        center = new Vec2(12f, 3f);
+        Center = new Vec2(12f, 3f);
         collisionOffset = new Vec2(-8f, -1f);
         collisionSize = new Vec2(16f, 7f);
         _barrelOffsetTL = new Vec2(12f, 3f);
@@ -210,7 +210,7 @@ public class Keytar : Gun
             SFX.Play("smallElectronicBreak", 0.8f, Rando.Float(-0.1f, 0.1f));
             for (int i = 0; i < 8; i++)
             {
-                Level.Add(Spark.New(base.x + Rando.Float(-8f, 8f), base.y + Rando.Float(-4f, 4f), new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+                Level.Add(Spark.New(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-4f, 4f), new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
             }
             if (base.isServerForObject && Rando.Int(5) == 0)
             {
@@ -324,7 +324,7 @@ public class Keytar : Gun
                         }
                         if (!_ruined)
                         {
-                            Level.Add(new MusicNote(base.barrelPosition.x, base.barrelPosition.y, base.barrelVector));
+                            Level.Add(new MusicNote(base.barrelPosition.X, base.barrelPosition.Y, base.barrelVector));
                         }
                     }
                     else
@@ -411,28 +411,28 @@ public class Keytar : Gun
                     spr.frame = 6 + currentNote;
                     xOffset = 2f;
                 }
-                spr.depth = base.depth + 4;
+                spr.Depth = base.Depth + 4;
                 spr.flipH = offDir <= 0;
-                spr.angle = angle;
+                spr.Angle = Angle;
                 Vec2 pos = Offset(new Vec2(xOffset, -3f));
-                Graphics.Draw(spr, pos.x, pos.y);
+                Graphics.Draw(spr, pos.X, pos.Y);
             }
             spr.frame = 19;
             Vec2 pos2 = Offset(new Vec2(-8f, (0f - bender) * 1f));
-            Graphics.Draw(spr, pos2.x, pos2.y);
+            Graphics.Draw(spr, pos2.X, pos2.Y);
         }
-        _keybed.depth = base.depth + 2;
+        _keybed.Depth = base.Depth + 2;
         _keybed.flipH = offDir <= 0;
-        _keybed.angle = angle;
+        _keybed.Angle = Angle;
         _keybed.frame = ((notePitch != 0f) ? (currentNote + 1) : 0);
         Vec2 bedOff = Offset(new Vec2(-5f, -2f));
-        Graphics.Draw(_keybed, bedOff.x, bedOff.y);
-        _settingStrip.depth = base.depth + 2;
+        Graphics.Draw(_keybed, bedOff.X, bedOff.Y);
+        _settingStrip.Depth = base.Depth + 2;
         _settingStrip.flipH = offDir <= 0;
-        _settingStrip.angle = angle;
+        _settingStrip.Angle = Angle;
         _settingStrip.frame = preset;
         Vec2 stripOff = Offset(new Vec2(-1f, 3f));
-        Graphics.Draw(_settingStrip, stripOff.x, stripOff.y);
+        Graphics.Draw(_settingStrip, stripOff.X, stripOff.Y);
         base.Draw();
     }
 }

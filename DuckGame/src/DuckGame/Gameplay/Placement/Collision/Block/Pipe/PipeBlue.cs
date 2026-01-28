@@ -18,28 +18,28 @@ public class PipeBlue : PipeTileset
     protected override Dictionary<Direction, PipeTileset> GetNeighbors()
     {
         Dictionary<Direction, PipeTileset> neighbors = new Dictionary<Direction, PipeTileset>();
-        PipeTileset up = (from x in Level.CheckPointAll<PipeBlue>(base.x, base.y - 16f)
+        PipeTileset up = (from x in Level.CheckPointAll<PipeBlue>(base.X, base.Y - 16f)
                           where x.@group == @group
                           select x).FirstOrDefault();
         if (up != null)
         {
             neighbors[Direction.Up] = up;
         }
-        PipeTileset down = (from x in Level.CheckPointAll<PipeBlue>(base.x, base.y + 16f)
+        PipeTileset down = (from x in Level.CheckPointAll<PipeBlue>(base.X, base.Y + 16f)
                             where x.@group == @group
                             select x).FirstOrDefault();
         if (down != null)
         {
             neighbors[Direction.Down] = down;
         }
-        PipeTileset left = (from x in Level.CheckPointAll<PipeBlue>(base.x - 16f, base.y)
+        PipeTileset left = (from x in Level.CheckPointAll<PipeBlue>(base.X - 16f, base.Y)
                             where x.@group == @group
                             select x).FirstOrDefault();
         if (left != null)
         {
             neighbors[Direction.Left] = left;
         }
-        PipeTileset right = (from x in Level.CheckPointAll<PipeBlue>(base.x + 16f, base.y)
+        PipeTileset right = (from x in Level.CheckPointAll<PipeBlue>(base.X + 16f, base.Y)
                              where x.@group == @group
                              select x).FirstOrDefault();
         if (right != null)

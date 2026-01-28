@@ -38,7 +38,7 @@ public class FurniShopScreen : Thing
     {
         get
         {
-            if (!(base.alpha < 0.01f))
+            if (!(base.Alpha < 0.01f))
             {
                 return base.visible;
             }
@@ -156,20 +156,20 @@ public class FurniShopScreen : Thing
 
     public override void Draw()
     {
-        if (!(base.alpha < 0.01f))
+        if (!(base.Alpha < 0.01f))
         {
-            Graphics.DrawRect(new Vec2(26f, 22f), new Vec2(Layer.HUD.width - 105f, Layer.HUD.height - 51f), new Color(20, 20, 20) * base.alpha * 0.7f, -0.9f);
+            Graphics.DrawRect(new Vec2(26f, 22f), new Vec2(Layer.HUD.width - 105f, Layer.HUD.height - 51f), new Color(20, 20, 20) * base.Alpha * 0.7f, -0.9f);
             Vec2 namePos = new Vec2(20f, 8f);
             Vec2 nameSize = new Vec2(226f, 11f);
             Graphics.DrawRect(namePos, namePos + nameSize, Color.Black, 0.96f);
             string name = "what a name";
-            Graphics.DrawString(name, namePos + new Vec2((nameSize.x - 27f) / 2f - Graphics.GetStringWidth(name) / 2f, 2f), new Color(163, 206, 39) * base.alpha, 0.97f);
-            _tail.depth = 0.5f;
-            _tail.alpha = base.alpha;
+            Graphics.DrawString(name, namePos + new Vec2((nameSize.X - 27f) / 2f - Graphics.GetStringWidth(name) / 2f, 2f), new Color(163, 206, 39) * base.Alpha, 0.97f);
+            _tail.Depth = 0.5f;
+            _tail.Alpha = base.Alpha;
             _tail.flipH = false;
             _tail.flipV = false;
             Graphics.Draw(_tail, 222f, 18f);
-            Chancy.alpha = base.alpha;
+            Chancy.alpha = base.Alpha;
             Chancy.Draw();
         }
     }

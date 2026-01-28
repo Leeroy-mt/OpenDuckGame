@@ -18,12 +18,12 @@ public class ContextCheckBox : ContextMenu
     public ContextCheckBox(string text, IContextListener owner, FieldBinding field, Type myType, string valTooltip)
         : base(owner)
     {
-        itemSize.x = 150f;
-        itemSize.y = 16f;
+        itemSize.X = 150f;
+        itemSize.Y = 16f;
         _text = text;
         _field = field;
         _checkBox = new SpriteMap("Editor/checkBox", 16, 16);
-        base.depth = 0.8f;
+        base.Depth = 0.8f;
         _myType = myType;
         if (field == null)
         {
@@ -35,12 +35,12 @@ public class ContextCheckBox : ContextMenu
     public ContextCheckBox(string text, IContextListener owner, FieldBinding field = null, Type myType = null)
         : base(owner)
     {
-        itemSize.x = 150f;
-        itemSize.y = 16f;
+        itemSize.X = 150f;
+        itemSize.Y = 16f;
         _text = text;
         _field = field;
         _checkBox = new SpriteMap("Editor/checkBox", 16, 16);
-        base.depth = 0.8f;
+        base.Depth = 0.8f;
         _myType = myType;
         if (field == null)
         {
@@ -92,14 +92,14 @@ public class ContextCheckBox : ContextMenu
     {
         if (_hover)
         {
-            Graphics.DrawRect(position, position + itemSize, new Color(70, 70, 70), 0.82f);
+            Graphics.DrawRect(Position, Position + itemSize, new Color(70, 70, 70), 0.82f);
         }
-        Graphics.DrawString(_text, position + new Vec2(2f, 5f), Color.White, 0.85f);
+        Graphics.DrawString(_text, Position + new Vec2(2f, 5f), Color.White, 0.85f);
         bool check = false;
         check = ((!(_field.value is IList)) ? ((bool)_field.value) : (_field.value as IList).Contains(_myType));
-        _checkBox.depth = 0.9f;
-        _checkBox.x = base.x + itemSize.x - 16f;
-        _checkBox.y = base.y;
+        _checkBox.Depth = 0.9f;
+        _checkBox.X = base.X + itemSize.X - 16f;
+        _checkBox.Y = base.Y;
         _checkBox.frame = (check ? 1 : 0);
         _checkBox.Draw();
     }

@@ -252,11 +252,11 @@ public class Furniture
                 Sprite s = UIFlagSelection.GetFlag(flagIndex, smallVersion: true);
                 if (s != null)
                 {
-                    float scale = 0.39f * spr.scale.x;
+                    float scale = 0.39f * spr.Scale.X;
                     for (int i = 0; i < 30; i++)
                     {
                         float sinOffset = (float)Math.Sin((float)Graphics.frame / 10f + (float)i * 0.18f);
-                        Vec2 flagStart = pos + new Vec2((spr.flipH ? (-2f) : 2f) * spr.scale.x, -9f * spr.scale.y);
+                        Vec2 flagStart = pos + new Vec2((spr.flipH ? (-2f) : 2f) * spr.Scale.X, -9f * spr.Scale.Y);
                         Graphics.Draw(s.texture, flagStart + new Vec2((float)(i * 2) * scale * (spr.flipH ? (-1f) : 1f), sinOffset * 1.4f * ((float)i / 51f)), new Rectangle(i * 2, 0f, 3f, 41f), Color.White, 0f, Vec2.Zero, spr.flipH ? new Vec2(0f - scale, scale) : new Vec2(scale), SpriteEffects.None, depth - 2);
                     }
                 }
@@ -267,9 +267,9 @@ public class Furniture
             VariatingSprite vSpr = GetSprite(seed, variation, VSType.Egg);
             if (vSpr != null && vSpr.sprite.texture != null && vSpr.sprite.texture != null)
             {
-                vSpr.sprite.depth = depth + 6;
-                vSpr.sprite.scale = sprite.scale;
-                Graphics.Draw(vSpr.sprite, pos.x - 8f * vSpr.sprite.xscale, pos.y - 12f * vSpr.sprite.yscale);
+                vSpr.sprite.Depth = depth + 6;
+                vSpr.sprite.Scale = sprite.Scale;
+                Graphics.Draw(vSpr.sprite, pos.X - 8f * vSpr.sprite.ScaleX, pos.Y - 12f * vSpr.sprite.ScaleY);
                 spr.frame = 0;
             }
         }
@@ -280,10 +280,10 @@ public class Furniture
                 _photoSprite = new SpriteMap("littleMan", 16, 16);
             }
             _photoSprite.frame = UILevelBox.LittleManFrame(variation, 7, seed);
-            _photoSprite.depth = depth + 6;
-            _photoSprite.scale = sprite.scale;
-            Graphics.Draw(_photoSprite, pos.x - 6f * _photoSprite.xscale, pos.y - 4f * _photoSprite.yscale, new Rectangle(2f, 0f, 12f, 10f));
-            Graphics.DrawRect(pos + new Vec2(-6f * _photoSprite.xscale, -6f * _photoSprite.yscale), pos + new Vec2(6f * _photoSprite.xscale, 6f * _photoSprite.yscale), Colors.DGBlue, depth - 4);
+            _photoSprite.Depth = depth + 6;
+            _photoSprite.Scale = sprite.Scale;
+            Graphics.Draw(_photoSprite, pos.X - 6f * _photoSprite.ScaleX, pos.Y - 4f * _photoSprite.ScaleY, new Rectangle(2f, 0f, 12f, 10f));
+            Graphics.DrawRect(pos + new Vec2(-6f * _photoSprite.ScaleX, -6f * _photoSprite.ScaleY), pos + new Vec2(6f * _photoSprite.ScaleX, 6f * _photoSprite.ScaleY), Colors.DGBlue, depth - 4);
             spr.frame = 0;
         }
         else if (name == "EASEL")
@@ -291,9 +291,9 @@ public class Furniture
             VariatingSprite vSpr2 = GetSprite(seed, variation, VSType.Portrait);
             if (vSpr2 != null && vSpr2.sprite.texture != null)
             {
-                vSpr2.sprite.depth = depth + 6;
-                vSpr2.sprite.scale = sprite.scale;
-                Graphics.Draw(vSpr2.sprite, pos.x - 9f * vSpr2.sprite.xscale, pos.y - 8f * vSpr2.sprite.yscale);
+                vSpr2.sprite.Depth = depth + 6;
+                vSpr2.sprite.Scale = sprite.Scale;
+                Graphics.Draw(vSpr2.sprite, pos.X - 9f * vSpr2.sprite.ScaleX, pos.Y - 8f * vSpr2.sprite.ScaleY);
                 spr.frame = 0;
             }
             else
@@ -307,24 +307,24 @@ public class Furniture
         }
         if (font != null && sprite == null)
         {
-            font.scale = new Vec2(1f, 1f);
+            font.Scale = new Vec2(1f, 1f);
             font.Draw("F", pos + new Vec2(-3.5f, -3f), Color.Black, depth + 8);
         }
         if (affectScale)
         {
             if (halfscale && (spr.width > 30 || spr.height > 30))
             {
-                spr.scale = new Vec2(0.5f);
+                spr.Scale = new Vec2(0.5f);
             }
             else
             {
-                spr.scale = new Vec2(1f);
+                spr.Scale = new Vec2(1f);
             }
         }
-        spr.depth = depth;
-        spr.angle = angle;
-        Graphics.Draw(spr, pos.x, pos.y - yOffset);
-        spr.scale = new Vec2(1f);
+        spr.Depth = depth;
+        spr.Angle = angle;
+        Graphics.Draw(spr, pos.X, pos.Y - yOffset);
+        spr.Scale = new Vec2(1f);
     }
 
     public Furniture(
@@ -368,8 +368,8 @@ public class Furniture
         if (sprite != null)
         {
             sprite.CenterOrigin();
-            if (sprite.height / 2f - Math.Floor(sprite.height / 2f) == 0f) sprite.centery--;
-            else sprite.centery = (float)Math.Floor(sprite.height / 2f);
+            if (sprite.height / 2f - Math.Floor(sprite.height / 2f) == 0f) sprite.CenterY--;
+            else sprite.CenterY = (float)Math.Floor(sprite.height / 2f);
         }
         if (icon != null)
             icon.CenterOrigin();
@@ -416,8 +416,8 @@ public class Furniture
         if (sprite != null)
         {
             sprite.CenterOrigin();
-            if (sprite.height / 2f - Math.Floor(sprite.height / 2f) == 0f) --sprite.centery;
-            else sprite.centery = (float)Math.Floor(sprite.height / 2f);
+            if (sprite.height / 2f - Math.Floor(sprite.height / 2f) == 0f) --sprite.CenterY;
+            else sprite.CenterY = (float)Math.Floor(sprite.height / 2f);
         }
         if (icon != null) icon.CenterOrigin();
         if (background == null) return;

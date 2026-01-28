@@ -14,10 +14,10 @@ public class Bulb : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("bulb");
-        center = new Vec2(8f, 4f);
+        Center = new Vec2(8f, 4f);
         _collisionSize = new Vec2(4f, 6f);
         _collisionOffset = new Vec2(-2f, -4f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.hugWalls = WallHug.Ceiling;
         base.layer = Layer.Game;
     }
@@ -26,9 +26,9 @@ public class Bulb : Thing
     {
         if (!(Level.current is Editor))
         {
-            Level.Add(new PointLight(base.x, base.y, new Color(155, 125, 100), 80f, _occluders));
-            _shade = new SpriteThing(base.x, base.y, new Sprite("bulb"));
-            _shade.center = center;
+            Level.Add(new PointLight(base.X, base.Y, new Color(155, 125, 100), 80f, _occluders));
+            _shade = new SpriteThing(base.X, base.Y, new Sprite("bulb"));
+            _shade.Center = Center;
             _shade.layer = Layer.Foreground;
             Level.Add(_shade);
         }

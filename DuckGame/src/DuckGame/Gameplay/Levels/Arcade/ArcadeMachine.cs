@@ -145,18 +145,18 @@ public class ArcadeMachine : Thing
         _sprite = new SpriteMap("arcade/arcadeMachines", 29, 36);
         _sprite.frame = index;
         graphic = _sprite;
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _canHaveChance = false;
         _customMachineOverlay = new Sprite("arcade/customMachine");
         _outline = new Sprite("arcade/arcadeMachineOutline");
-        _outline.depth = base.depth + 1;
+        _outline.Depth = base.Depth + 1;
         _outline.CenterOrigin();
         _customMachineOverlayMask = new Sprite("arcade/customOverlay");
         _boom = new Sprite("arcade/boommachine");
         _wagnus = new Sprite("arcade/wagnustrainer");
         _wagnusOverlay = new Sprite("arcade/wagnusOverlay");
         _font = new BitmapFont("biosFont", 8);
-        center = new Vec2(_sprite.width / 2, _sprite.h / 2);
+        Center = new Vec2(_sprite.width / 2, _sprite.h / 2);
         _data = c;
         _light = new SpriteMap("arcade/lights2", 56, 57);
         _fixture = new Sprite("arcade/fixture");
@@ -192,25 +192,25 @@ public class ArcadeMachine : Thing
         _data.challenges.Add(challenge03.value);
         if (base.level != null && !base.level.bareInitialize)
         {
-            _dust = new DustSparkleEffect(base.x - 28f, base.y - 40f, wide: false, lit);
+            _dust = new DustSparkleEffect(base.X - 28f, base.Y - 40f, wide: false, lit);
             if ((bool)lit)
             {
-                _lighting = new ArcadeLight(base.x - 1f, base.y - 41f);
+                _lighting = new ArcadeLight(base.X - 1f, base.Y - 41f);
             }
             else
             {
-                _lighting = new ArcadeScreen(base.x, base.y);
+                _lighting = new ArcadeScreen(base.X, base.Y);
             }
             if (Content.readyToRenderPreview)
             {
-                _dust.y -= 10f;
+                _dust.Y -= 10f;
             }
             else
             {
                 Level.Add(_lighting);
             }
             Level.Add(_dust);
-            _dust.depth = base.depth - 2;
+            _dust.Depth = base.Depth - 2;
         }
     }
 
@@ -348,10 +348,10 @@ public class ArcadeMachine : Thing
         UpdateStyle();
         if (_unlocked)
         {
-            Duck d = Level.Nearest<Duck>(base.x, base.y);
+            Duck d = Level.Nearest<Duck>(base.X, base.Y);
             if (d != null)
             {
-                if (d.grounded && (d.position - position).length < 20f)
+                if (d.grounded && (d.Position - Position).Length() < 20f)
                 {
                     _hoverFade = Lerp.Float(_hoverFade, 1f, 0.1f);
                     hover = true;
@@ -380,7 +380,7 @@ public class ArcadeMachine : Thing
     {
         if (Content.readyToRenderPreview)
         {
-            base.y -= 3f;
+            base.Y -= 3f;
             for (int i = 0; i < 3; i++)
             {
                 LevelData ld = null;
@@ -393,59 +393,59 @@ public class ArcadeMachine : Thing
                 if (ld != null && ld.previewData.preview != null)
                 {
                     Tex2D previewTex = Editor.StringToTexture(ld.previewData.preview);
-                    Vec2 pos = new Vec2(base.x - 28f, base.y + 30f - (float)previewTex.width / 8f - 6f);
+                    Vec2 pos = new Vec2(base.X - 28f, base.Y + 30f - (float)previewTex.width / 8f - 6f);
                     switch (i)
                     {
                         case 1:
-                            pos = new Vec2(base.x + 28f - (float)previewTex.width / 8f, base.y + 30f - (float)previewTex.width / 8f - 6f);
+                            pos = new Vec2(base.X + 28f - (float)previewTex.width / 8f, base.Y + 30f - (float)previewTex.width / 8f - 6f);
                             break;
                         case 2:
-                            pos = new Vec2(base.x - (float)previewTex.width / 8f / 2f, base.y + 30f - (float)previewTex.width / 8f);
+                            pos = new Vec2(base.X - (float)previewTex.width / 8f / 2f, base.Y + 30f - (float)previewTex.width / 8f);
                             break;
                     }
-                    Graphics.DrawRect(new Vec2(pos.x - 0.5f, pos.y - 0.5f), new Vec2(pos.x + (float)previewTex.width / 8f + 0.5f, pos.y + (float)previewTex.height / 8f + 0.5f), Color.White, (i == 2) ? 0.9f : 0.8f);
-                    Graphics.Draw(previewTex, pos.x, pos.y, 0.125f, 0.125f, (i == 2) ? 0.99f : 0.85f);
+                    Graphics.DrawRect(new Vec2(pos.X - 0.5f, pos.Y - 0.5f), new Vec2(pos.X + (float)previewTex.width / 8f + 0.5f, pos.Y + (float)previewTex.height / 8f + 0.5f), Color.White, (i == 2) ? 0.9f : 0.8f);
+                    Graphics.Draw(previewTex, pos.X, pos.Y, 0.125f, 0.125f, (i == 2) ? 0.99f : 0.85f);
                 }
             }
-            base.y -= 6f;
+            base.Y -= 6f;
         }
         _sprite.frame = style.value;
-        _light.depth = base.depth - 6;
-        _flash.depth = base.depth + 1;
+        _light.Depth = base.Depth - 6;
+        _flash.Depth = base.Depth + 1;
         if (_unlocked)
         {
             _light.frame = _lightColor;
             graphic.color = Color.White;
             if (style.value == 16)
             {
-                _flashWagnus.depth = base.depth + 4;
+                _flashWagnus.Depth = base.Depth + 4;
                 if (flipHorizontal)
                 {
-                    Graphics.Draw(_flashWagnus, base.x - 3f, base.y - 8f);
+                    Graphics.Draw(_flashWagnus, base.X - 3f, base.Y - 8f);
                 }
                 else
                 {
-                    Graphics.Draw(_flashWagnus, base.x - 8f, base.y - 9f);
+                    Graphics.Draw(_flashWagnus, base.X - 8f, base.Y - 9f);
                 }
             }
             else if (style.value == 15)
             {
                 if (flipHorizontal)
                 {
-                    Graphics.Draw(_flashLarge, base.x - 3f, base.y - 8f);
+                    Graphics.Draw(_flashLarge, base.X - 3f, base.Y - 8f);
                 }
                 else
                 {
-                    Graphics.Draw(_flashLarge, base.x - 7f, base.y - 8f);
+                    Graphics.Draw(_flashLarge, base.X - 7f, base.Y - 8f);
                 }
             }
             else if (flipHorizontal)
             {
-                Graphics.Draw(_flash, base.x - 3f + (float)_screenOffsetX, base.y - 7f + (float)_screenOffsetY);
+                Graphics.Draw(_flash, base.X - 3f + (float)_screenOffsetX, base.Y - 7f + (float)_screenOffsetY);
             }
             else
             {
-                Graphics.Draw(_flash, base.x - 7f + (float)_screenOffsetX, base.y - 7f + (float)_screenOffsetY);
+                Graphics.Draw(_flash, base.X - 7f + (float)_screenOffsetX, base.Y - 7f + (float)_screenOffsetY);
             }
         }
         else
@@ -455,39 +455,39 @@ public class ArcadeMachine : Thing
         }
         if ((bool)lit)
         {
-            Graphics.Draw(_light, base.x - 28f, base.y - 40f);
-            _fixture.depth = base.depth - 1;
-            Graphics.Draw(_fixture, base.x - 10f, base.y - 65f);
+            Graphics.Draw(_light, base.X - 28f, base.Y - 40f);
+            _fixture.Depth = base.Depth - 1;
+            Graphics.Draw(_fixture, base.X - 10f, base.Y - 65f);
         }
         _sprite.flipH = false;
         if (style.value == 15)
         {
             _boom.flipH = false;
-            _boom.depth = base.depth;
-            Graphics.Draw(_boom, base.x - 17f, base.y - 36f);
+            _boom.Depth = base.Depth;
+            Graphics.Draw(_boom, base.X - 17f, base.Y - 36f);
         }
         else if (style.value == 16)
         {
             _wagnus.flipH = false;
-            _wagnus.depth = base.depth;
-            Graphics.Draw(_wagnus, base.x - 17f, base.y - 20f);
+            _wagnus.Depth = base.Depth;
+            Graphics.Draw(_wagnus, base.X - 17f, base.Y - 20f);
             _wagnusOverlay.flipH = false;
-            _wagnusOverlay.depth = base.depth + 10;
-            Graphics.Draw(_wagnusOverlay, base.x - 17f, base.y - 6f);
+            _wagnusOverlay.Depth = base.Depth + 10;
+            Graphics.Draw(_wagnusOverlay, base.X - 17f, base.Y - 6f);
         }
         else if (_machineStyleSprite != null)
         {
             if (_underlayStyle)
             {
-                _customMachineUnderlay.center = new Vec2(23f, 30f);
-                _customMachineUnderlay.depth = base.depth;
-                Graphics.Draw(_customMachineUnderlay, base.x, base.y);
+                _customMachineUnderlay.Center = new Vec2(23f, 30f);
+                _customMachineUnderlay.Depth = base.Depth;
+                Graphics.Draw(_customMachineUnderlay, base.X, base.Y);
             }
             else
             {
-                _machineStyleSprite.center = new Vec2(23f, 30f);
-                _machineStyleSprite.depth = base.depth;
-                Graphics.Draw(_machineStyleSprite, base.x, base.y);
+                _machineStyleSprite.Center = new Vec2(23f, 30f);
+                _machineStyleSprite.Depth = base.Depth;
+                Graphics.Draw(_machineStyleSprite, base.X, base.Y);
             }
         }
         else
@@ -496,31 +496,31 @@ public class ArcadeMachine : Thing
         }
         if (!_unlocked)
         {
-            _covered.depth = base.depth + 2;
+            _covered.Depth = base.Depth + 2;
             if (flipHorizontal)
             {
                 _covered.flipH = true;
-                Graphics.Draw(_covered, base.x + 19f, base.y - 19f);
+                Graphics.Draw(_covered, base.X + 19f, base.Y - 19f);
             }
             else
             {
-                Graphics.Draw(_covered, base.x - 18f, base.y - 19f);
+                Graphics.Draw(_covered, base.X - 18f, base.Y - 19f);
             }
         }
         if (_hoverFade > 0f)
         {
-            _outline.alpha = _hoverFade;
+            _outline.Alpha = _hoverFade;
             _outline.flipH = flipHorizontal;
             if (flipHorizontal)
             {
-                Graphics.Draw(_outline, base.x, base.y);
+                Graphics.Draw(_outline, base.X, base.Y);
             }
             else
             {
-                Graphics.Draw(_outline, base.x + 1f, base.y);
+                Graphics.Draw(_outline, base.X + 1f, base.Y);
             }
             _ = _data.name;
-            _font.alpha = _hoverFade;
+            _font.Alpha = _hoverFade;
         }
     }
 }

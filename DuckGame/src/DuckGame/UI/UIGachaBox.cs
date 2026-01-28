@@ -186,7 +186,7 @@ public class UIGachaBox : UIMenu
         _frame = new Sprite("unlockFrame");
         _frame.CenterOrigin();
         _furni = new Sprite("furni/tub");
-        _furni.center = new Vec2(_furni.width / 2, _furni.height);
+        _furni.Center = new Vec2(_furni.width / 2, _furni.height);
         _star = new Sprite("prettyStar");
         _star.CenterOrigin();
         _font = new BitmapFont("biosFontUI", 8, 7);
@@ -344,26 +344,26 @@ public class UIGachaBox : UIMenu
 
     public override void Draw()
     {
-        base.y += yOffset;
-        _frame.depth = -0.9f;
-        Graphics.Draw(_frame, base.x, base.y);
-        _frame.depth = -0.7f;
-        Graphics.Draw(_frame, base.x, base.y, new Rectangle(0f, 0f, 125f, 36f));
+        base.Y += yOffset;
+        _frame.Depth = -0.9f;
+        Graphics.Draw(_frame, base.X, base.Y);
+        _frame.Depth = -0.7f;
+        Graphics.Draw(_frame, base.X, base.Y, new Rectangle(0f, 0f, 125f, 36f));
         if (_swapped)
         {
-            _contains.Draw(position + new Vec2(0f, 10f), -0.8f);
+            _contains.Draw(Position + new Vec2(0f, 10f), -0.8f);
             if (_starGrow <= 1f)
             {
-                _star.depth = 0.9f;
-                _star.scale = new Vec2(2.5f + _starGrow * 3f);
-                _star.alpha = 1f - _starGrow;
-                Graphics.Draw(_star, base.x, base.y + 10f);
+                _star.Depth = 0.9f;
+                _star.Scale = new Vec2(2.5f + _starGrow * 3f);
+                _star.Alpha = 1f - _starGrow;
+                Graphics.Draw(_star, base.X, base.Y + 10f);
             }
         }
         else if (gachaY > 10f)
         {
-            _gachaEgg.depth = -0.8f;
-            Graphics.Draw(_gachaEgg, base.x, base.y - 38f + gachaY);
+            _gachaEgg.Depth = -0.8f;
+            Graphics.Draw(_gachaEgg, base.X, base.Y - 38f + gachaY);
         }
         string text = "@LWING@NEW TOY@RWING@";
         if (_rare)
@@ -371,21 +371,21 @@ public class UIGachaBox : UIMenu
             text = "@LWING@RARE TOY@RWING@";
         }
         Vec2 fontPos = new Vec2(0f - _font.GetWidth(text) / 2f, -42f);
-        _font.DrawOutline(text, position + fontPos, _rare ? Colors.DGYellow : Color.White, Color.Black, base.depth + 2);
+        _font.DrawOutline(text, Position + fontPos, _rare ? Colors.DGYellow : Color.White, Color.Black, base.Depth + 2);
         string unlockText = "  ???  ";
         if (_swapped)
         {
             unlockText = "} " + _contains.name + " }";
         }
-        _fancyFont.scale = new Vec2(1f, 1f);
+        _fancyFont.Scale = new Vec2(1f, 1f);
         Vec2 unlockFontPos = new Vec2(0f - _fancyFont.GetWidth(unlockText) / 2f, -25f);
-        _fancyFont.DrawOutline(unlockText, position + unlockFontPos, (_rare || (_swapped && _rareCapsule)) ? Colors.DGYellow : Color.White, Color.Black, base.depth + 2);
-        _fancyFont.scale = new Vec2(0.5f, 0.5f);
+        _fancyFont.DrawOutline(unlockText, Position + unlockFontPos, (_rare || (_swapped && _rareCapsule)) ? Colors.DGYellow : Color.White, Color.Black, base.Depth + 2);
+        _fancyFont.Scale = new Vec2(0.5f, 0.5f);
         if (_insertCoin > 0.01f)
         {
             _duckCoin.frame = (_rare ? 1 : 0);
-            _duckCoin.depth = -0.8f;
-            Graphics.Draw(_duckCoin, base.x + 40f, base.y - 100f + _insertCoin * 65f);
+            _duckCoin.Depth = -0.8f;
+            Graphics.Draw(_duckCoin, base.X + 40f, base.Y - 100f + _insertCoin * 65f);
         }
         if (_swapped)
         {
@@ -396,8 +396,8 @@ public class UIGachaBox : UIMenu
                 descriptionText = "I've already got " + ((num - 1 >= numberNames.Count) ? num.ToString() : numberNames[num - 1]) + " of these...";
             }
             Vec2 descFontPos = new Vec2(0f - _fancyFont.GetWidth(descriptionText) / 2f, 38f);
-            _fancyFont.DrawOutline(descriptionText, position + descFontPos, (num > 0) ? Colors.DGYellow : Colors.DGGreen, Color.Black, base.depth + 2, 0.5f);
+            _fancyFont.DrawOutline(descriptionText, Position + descFontPos, (num > 0) ? Colors.DGYellow : Colors.DGGreen, Color.Black, base.Depth + 2, 0.5f);
         }
-        base.y -= yOffset;
+        base.Y -= yOffset;
     }
 }

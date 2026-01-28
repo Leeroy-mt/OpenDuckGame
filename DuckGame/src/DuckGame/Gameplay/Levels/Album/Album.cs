@@ -171,9 +171,9 @@ public class Album : Level
     {
         if (layer == Layer.HUD)
         {
-            _album.depth = -0.8f;
+            _album.Depth = -0.8f;
             Graphics.Draw(_album, 0f, 0f);
-            _screen.depth = -0.6f;
+            _screen.Depth = -0.6f;
             if (_pages.Count > 0)
             {
                 int picIndex = 0;
@@ -200,16 +200,16 @@ public class Album : Level
                                 {
                                     Vec2 pos = new Vec2(52f, 35f);
                                     float scale = 0.3f;
-                                    Vec2 picPos = new Vec2(pos.x + (float)(xpos * 110), pos.y + (float)(ypos * 65));
-                                    Graphics.Draw(_textures[picIndex], picPos.x, picPos.y, scale, scale);
+                                    Vec2 picPos = new Vec2(pos.X + (float)(xpos * 110), pos.Y + (float)(ypos * 65));
+                                    Graphics.Draw(_textures[picIndex], picPos.X, picPos.Y, scale, scale);
                                     Graphics.DrawRect(picPos + new Vec2(-3f, -3f), picPos + new Vec2((float)_textures[picIndex].Width * scale + 3f, (float)_textures[picIndex].Height * scale + 3f), Color.White, -0.7f);
                                 }
                                 else
                                 {
                                     Vec2 pos2 = new Vec2(65f, 40f);
                                     float scale2 = 0.25f;
-                                    Vec2 picPos2 = new Vec2(pos2.x + (float)(xpos * 100), pos2.y + (float)(ypos * 65));
-                                    Graphics.Draw(_textures[picIndex], picPos2.x, picPos2.y, scale2, scale2);
+                                    Vec2 picPos2 = new Vec2(pos2.X + (float)(xpos * 100), pos2.Y + (float)(ypos * 65));
+                                    Graphics.Draw(_textures[picIndex], picPos2.X, picPos2.Y, scale2, scale2);
                                     Graphics.DrawRect(picPos2 + new Vec2(-3f, -3f), picPos2 + new Vec2((float)_textures[picIndex].Width * scale2 + 3f, (float)_textures[picIndex].Height * scale2 + 3f), Color.White, -0.7f);
                                 }
                             }

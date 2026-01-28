@@ -7,10 +7,10 @@ public class ExplosiveBarrel : DemoCrate, IPlatform
         : base(xpos, ypos)
     {
         graphic = new Sprite("explosiveBarrel");
-        center = new Vec2(7f, 8f);
+        Center = new Vec2(7f, 8f);
         collisionOffset = new Vec2(-7f, -8f);
         collisionSize = new Vec2(14f, 16f);
-        base.depth = -0.1f;
+        base.Depth = -0.1f;
         _editorName = "Barrel (Explosive)";
         editorTooltip = "Nobody knows what's in these things or why everyone just leaves them around.";
         thickness = 4f;

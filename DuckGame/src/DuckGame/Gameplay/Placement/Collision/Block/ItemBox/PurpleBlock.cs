@@ -62,22 +62,22 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
         : base(xpos, ypos)
     {
         graphic = new Sprite("purpleBlock");
-        graphic.center = new Vec2(8f, 8f);
+        graphic.Center = new Vec2(8f, 8f);
         _scanner = new Sprite("purpleScanner");
-        _scanner.center = new Vec2(4f, 1f);
-        _scanner.alpha = 0.7f;
-        _scanner.depth = 0.9f;
+        _scanner.Center = new Vec2(4f, 1f);
+        _scanner.Alpha = 0.7f;
+        _scanner.Depth = 0.9f;
         _projector = new Sprite("purpleProjector");
-        _projector.center = new Vec2(8f, 16f);
-        _projector.alpha = 0.7f;
-        _projector.depth = 0.9f;
+        _projector.Center = new Vec2(8f, 16f);
+        _projector.Alpha = 0.7f;
+        _projector.Depth = 0.9f;
         _none = new Sprite("none");
-        _none.center = new Vec2(8f, 8f);
-        _none.alpha = 0.7f;
+        _none.Center = new Vec2(8f, 8f);
+        _none.Alpha = 0.7f;
         _projectorGlitch = new Sprite("projectorGlitch");
-        _projectorGlitch.center = new Vec2(8f, 8f);
-        _projectorGlitch.alpha = 0.7f;
-        _projectorGlitch.depth = 0.91f;
+        _projectorGlitch.Center = new Vec2(8f, 8f);
+        _projectorGlitch.Alpha = 0.7f;
+        _projectorGlitch.Depth = 0.91f;
         base.impactThreshold = 0.2f;
         _placementCost += 4;
         editorTooltip = "Makes a copy of a Duck's weapon when used. Spawns a new copy when used again.";
@@ -142,30 +142,30 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
             hitWait = 0f;
         }
         _alternate = !_alternate;
-        _scanner.alpha = 0.4f + _wave.normalized * 0.6f;
-        _projector.alpha = (0.4f + _wave.normalized * 0.6f) * _projectorAlpha;
+        _scanner.Alpha = 0.4f + _wave.normalized * 0.6f;
+        _projector.Alpha = (0.4f + _wave.normalized * 0.6f) * _projectorAlpha;
         _double = Maths.CountDown(_double, 0.15f);
         _glitch = Maths.CountDown(_glitch, 0.1f);
         if (Rando.Float(1f) < 0.01f)
         {
             _glitch = 0.3f;
-            _projectorGlitch.xscale = 0.8f + Rando.Float(0.7f);
-            _projectorGlitch.yscale = 0.6f + Rando.Float(0.5f);
+            _projectorGlitch.ScaleX = 0.8f + Rando.Float(0.7f);
+            _projectorGlitch.ScaleY = 0.6f + Rando.Float(0.5f);
             _projectorGlitch.flipH = Rando.Float(1f) > 0.5f;
         }
         if (Rando.Float(1f) < 0.005f)
         {
             _glitch = 0.3f;
-            _projectorGlitch.xscale = 0.8f + Rando.Float(0.7f);
-            _projectorGlitch.yscale = 0.6f + Rando.Float(0.5f);
+            _projectorGlitch.ScaleX = 0.8f + Rando.Float(0.7f);
+            _projectorGlitch.ScaleY = 0.6f + Rando.Float(0.5f);
             _projectorGlitch.flipH = Rando.Float(1f) > 0.5f;
             _useWave = !_useWave;
         }
         if (Rando.Float(1f) < 0.008f)
         {
             _glitch = 0.3f;
-            _projectorGlitch.xscale = 0.8f + Rando.Float(0.7f);
-            _projectorGlitch.yscale = 0.6f + Rando.Float(0.5f);
+            _projectorGlitch.ScaleX = 0.8f + Rando.Float(0.7f);
+            _projectorGlitch.ScaleY = 0.6f + Rando.Float(0.5f);
             _projectorGlitch.flipH = Rando.Float(1f) > 0.5f;
             _useWave = !_useWave;
             _double = 0.6f + Rando.Float(0.6f);
@@ -177,13 +177,13 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
         }
         if (_hoverItem == null)
         {
-            Holdable g = Level.Nearest<Holdable>(base.x, base.y);
+            Holdable g = Level.Nearest<Holdable>(base.X, base.Y);
             if (g != null && g.owner == null && g != null && g.canPickUp && g.bottom <= base.top && Math.Abs(g.hSpeed) + Math.Abs(g.vSpeed) < 2f)
             {
                 float dist = 999f;
                 if (g != null)
                 {
-                    dist = (position - g.position).length;
+                    dist = (Position - g.Position).Length();
                 }
                 if (dist < 24f)
                 {
@@ -191,19 +191,19 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
                 }
             }
         }
-        else if (Math.Abs(_hoverItem.hSpeed) + Math.Abs(_hoverItem.vSpeed) > 2f || (_hoverItem.position - position).length > 25f)
+        else if (Math.Abs(_hoverItem.hSpeed) + Math.Abs(_hoverItem.vSpeed) > 2f || (_hoverItem.Position - Position).Length() > 25f)
         {
             BreakHoverBond();
         }
         else
         {
-            _hoverItem.position = Lerp.Vec2Smooth(_hoverItem.position, position + new Vec2(0f, -12f - _hoverItem.collisionSize.y / 2f + (float)_projectionWave * 2f), 0.2f);
+            _hoverItem.Position = Lerp.Vec2Smooth(_hoverItem.Position, Position + new Vec2(0f, -12f - _hoverItem.collisionSize.Y / 2f + (float)_projectionWave * 2f), 0.2f);
             _hoverItem.vSpeed = 0f;
             _hoverItem.gravMultiplier = 0f;
         }
         foreach (Duck d in _level.things[typeof(Duck)])
         {
-            if (!d.dead && (d.position - position).length < 64f)
+            if (!d.dead && (d.Position - Position).Length() < 64f)
             {
                 _close.Add(d.profile);
                 _closeGlitch = false;
@@ -221,8 +221,8 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
                 _closeIndex = (_closeIndex + 1) % _close.Count;
                 _closeWait = 1f;
                 _glitch = 0.3f;
-                _projectorGlitch.xscale = 0.8f + Rando.Float(0.7f);
-                _projectorGlitch.yscale = 0.6f + Rando.Float(0.5f);
+                _projectorGlitch.ScaleX = 0.8f + Rando.Float(0.7f);
+                _projectorGlitch.ScaleY = 0.6f + Rando.Float(0.5f);
                 _projectorGlitch.flipH = Rando.Float(1f) > 0.5f;
                 _useWave = !_useWave;
                 _double = 0.6f + Rando.Float(0.6f);
@@ -239,8 +239,8 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
             {
                 _closeWait = 1f;
                 _glitch = 0.3f;
-                _projectorGlitch.xscale = 0.8f + Rando.Float(0.7f);
-                _projectorGlitch.yscale = 0.6f + Rando.Float(0.5f);
+                _projectorGlitch.ScaleX = 0.8f + Rando.Float(0.7f);
+                _projectorGlitch.ScaleY = 0.6f + Rando.Float(0.5f);
                 _projectorGlitch.flipH = Rando.Float(1f) > 0.5f;
                 _useWave = !_useWave;
                 _double = 0.6f + Rando.Float(0.6f);
@@ -255,7 +255,7 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
             _currentProjection = item.thing;
             _projectorAlpha = Maths.CountUp(_projectorAlpha, 0.1f);
         }
-        _projectorGlitch.alpha = _glitch * _projectorAlpha;
+        _projectorGlitch.Alpha = _glitch * _projectorAlpha;
         base.Update();
     }
 
@@ -272,11 +272,11 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
         }
         if (_alternate)
         {
-            Graphics.Draw(_scanner, base.x, base.y + 9f);
+            Graphics.Draw(_scanner, base.X, base.Y + 9f);
         }
         if (!_alternate)
         {
-            Graphics.Draw(_projector, base.x, base.y - 8f);
+            Graphics.Draw(_projector, base.X, base.Y - 8f);
         }
         float wave = (_useWave ? _projectionWave : _projectionWave2);
         if (_double > 0f)
@@ -286,21 +286,21 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
                 Duck.renderingIcon = true;
                 Material obj = Graphics.material;
                 Graphics.material = _grayscale;
-                _currentProjection.depth = base.depth - 5;
-                _currentProjection.x = base.x - _double * 2f;
-                _currentProjection.y = base.y - 16f - wave;
+                _currentProjection.Depth = base.Depth - 5;
+                _currentProjection.X = base.X - _double * 2f;
+                _currentProjection.Y = base.Y - 16f - wave;
                 _currentProjection.Draw();
-                _currentProjection.x = base.x + _double * 2f;
-                _currentProjection.y = base.y - 16f - wave;
+                _currentProjection.X = base.X + _double * 2f;
+                _currentProjection.Y = base.Y - 16f - wave;
                 _currentProjection.Draw();
                 Graphics.material = obj;
                 Duck.renderingIcon = false;
             }
             else
             {
-                _none.alpha = (0.2f + _projectionFlashWave.normalized * 0.2f + _glitch * 1f) * _projectorAlpha;
-                Graphics.Draw(_none, base.x - _double * 2f, base.y - 16f - wave);
-                Graphics.Draw(_none, base.x + _double * 2f, base.y - 16f - wave);
+                _none.Alpha = (0.2f + _projectionFlashWave.normalized * 0.2f + _glitch * 1f) * _projectorAlpha;
+                Graphics.Draw(_none, base.X - _double * 2f, base.Y - 16f - wave);
+                Graphics.Draw(_none, base.X + _double * 2f, base.Y - 16f - wave);
             }
         }
         else if (_currentProjection != null)
@@ -308,25 +308,25 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
             Duck.renderingIcon = true;
             Material obj2 = Graphics.material;
             Graphics.material = _grayscale;
-            _currentProjection.depth = base.depth - 5;
-            _currentProjection.x = base.x;
-            _currentProjection.y = base.y - 16f - wave;
+            _currentProjection.Depth = base.Depth - 5;
+            _currentProjection.X = base.X;
+            _currentProjection.Y = base.Y - 16f - wave;
             _currentProjection.Draw();
             Graphics.material = obj2;
             Duck.renderingIcon = false;
         }
         else
         {
-            Graphics.Draw(_none, base.x, base.y - 16f - wave);
+            Graphics.Draw(_none, base.X, base.Y - 16f - wave);
         }
         if (_currentProjection != null && _served.Contains(_close[_closeIndex]))
         {
-            _none.alpha = (0.2f + _projectionFlashWave.normalized * 0.2f + _glitch * 1f) * _projectorAlpha;
-            Graphics.Draw(_none, base.x, base.y - 16f - wave, base.depth + 5);
+            _none.Alpha = (0.2f + _projectionFlashWave.normalized * 0.2f + _glitch * 1f) * _projectorAlpha;
+            Graphics.Draw(_none, base.X, base.Y - 16f - wave, base.Depth + 5);
         }
         if (_glitch > 0f)
         {
-            Graphics.Draw(_projectorGlitch, base.x, base.y - 16f);
+            Graphics.Draw(_projectorGlitch, base.X, base.Y - 16f);
         }
     }
 

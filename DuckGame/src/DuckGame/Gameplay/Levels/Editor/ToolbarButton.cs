@@ -27,7 +27,7 @@ public class ToolbarButton : Thing
         if (image == 99)
         {
             graphic = new Sprite("steamIcon");
-            graphic.scale = new Vec2(0.5f, 0.5f);
+            graphic.Scale = new Vec2(0.5f, 0.5f);
         }
         else
         {
@@ -37,15 +37,15 @@ public class ToolbarButton : Thing
             };
         }
         hoverText = ht;
-        base.depth = 0.88f;
+        base.Depth = 0.88f;
     }
 
     public override void Update()
     {
-        Rectangle plotRect = new Rectangle(position.x, position.y, 16f, 16f);
+        Rectangle plotRect = new Rectangle(Position.X, Position.Y, 16f, 16f);
         if (Editor.inputMode == EditorInput.Mouse)
         {
-            if (Mouse.x > base.x && Mouse.x < base.x + 16f && Mouse.y > base.y && Mouse.y < base.y + 16f)
+            if (Mouse.x > base.X && Mouse.x < base.X + 16f && Mouse.y > base.Y && Mouse.y < base.Y + 16f)
             {
                 _owner.toolBarToolTip = hoverText;
                 _hover = true;
@@ -77,9 +77,9 @@ public class ToolbarButton : Thing
 
     public override void Draw()
     {
-        Graphics.DrawRect(position, position + new Vec2(16f, 16f), _hover ? new Color(170, 170, 170) : new Color(70, 70, 70), 0.87f);
-        graphic.position = position;
-        graphic.depth = 0.88f;
+        Graphics.DrawRect(Position, Position + new Vec2(16f, 16f), _hover ? new Color(170, 170, 170) : new Color(70, 70, 70), 0.87f);
+        graphic.Position = Position;
+        graphic.Depth = 0.88f;
         graphic.Draw();
     }
 }

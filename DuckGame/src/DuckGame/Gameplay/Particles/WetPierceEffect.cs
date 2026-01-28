@@ -10,13 +10,13 @@ public class WetPierceEffect : Thing
         _sprite = new SpriteMap("wetParticle", 16, 16);
         _sprite.AddAnimation("splash", 0.45f, false, 0, 1, 2, 3);
         _sprite.SetAnimation("splash");
-        center = new Vec2(0f, 7f);
+        Center = new Vec2(0f, 7f);
         graphic = _sprite;
-        base.depth = 0.7f;
-        base.alpha = 0.6f;
-        angle = Maths.DegToRad(0f - Maths.PointDirection(Vec2.Zero, dir));
+        base.Depth = 0.7f;
+        base.Alpha = 0.6f;
+        Angle = Maths.DegToRad(0f - Maths.PointDirection(Vec2.Zero, dir));
         base.anchor = new Anchor(attach);
-        base.anchor.offset = new Vec2(xpos, ypos) - attach.position;
+        base.anchor.offset = new Vec2(xpos, ypos) - attach.Position;
     }
 
     public override void Update()

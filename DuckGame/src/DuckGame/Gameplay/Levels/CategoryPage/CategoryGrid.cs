@@ -23,7 +23,7 @@ public class CategoryGrid : Thing
     {
         List<Card> info = new List<Card>();
         info.AddRange(infos);
-        CardStrip strip = new CardStrip(base.x, base.y, info, _listener, largeCard: true);
+        CardStrip strip = new CardStrip(base.X, base.Y, info, _listener, largeCard: true);
         _strips.Add(strip);
         Level.Add(strip);
     }
@@ -32,7 +32,7 @@ public class CategoryGrid : Thing
     {
         List<Card> info = new List<Card>();
         info.AddRange(infos.cards);
-        CardStrip strip = new CardStrip(base.x, base.y, info, _listener, infos.large, infos.cardsVisible, infos.header);
+        CardStrip strip = new CardStrip(base.X, base.Y, info, _listener, infos.large, infos.cardsVisible, infos.header);
         _strips.Add(strip);
         Level.Add(strip);
     }
@@ -81,11 +81,11 @@ public class CategoryGrid : Thing
 
     public override void Draw()
     {
-        float yOff = base.y;
+        float yOff = base.Y;
         int index = 0;
         foreach (CardStrip strip in _strips)
         {
-            strip.y = yOff;
+            strip.Y = yOff;
             yOff += strip.height + 4f;
             strip.selected = index == _selectedStripIndex;
             index++;

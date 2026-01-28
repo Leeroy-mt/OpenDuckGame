@@ -14,7 +14,7 @@ public class MaceCollar : ChokeCollar
     {
         if (!(Level.current is Editor))
         {
-            _ball = new WeightBall(base.x, base.y, this, this, isMace: true);
+            _ball = new WeightBall(base.X, base.Y, this, this, isMace: true);
             ReturnItemToWorld(_ball);
             Level.Add(_ball);
         }

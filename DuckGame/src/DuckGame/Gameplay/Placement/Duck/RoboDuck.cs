@@ -23,7 +23,7 @@ public class RoboDuck : PhysicsObject
         graphic = _sprite;
         _collisionSize = new Vec2(8f, 22f);
         _collisionOffset = new Vec2(-4f, -7f);
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         wait = 0.1f + _waitDif;
         _waitDif += 0.1f;
         _visibleInGame = false;
@@ -41,7 +41,7 @@ public class RoboDuck : PhysicsObject
             if (wait < 0f)
             {
                 wait = 1f;
-                Duck d = new Duck(base.x, base.y, Profiles.DefaultPlayer1);
+                Duck d = new Duck(base.X, base.Y, Profiles.DefaultPlayer1);
                 d.ai = new DuckAI();
                 d.mindControl = d.ai;
                 d.derpMindControl = false;

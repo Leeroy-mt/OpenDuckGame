@@ -14,7 +14,7 @@ public class BuildingFramework : AutoBlock
         _hasNubs = false;
         indestructable = true;
         base.layer = Layer.Blocks;
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         placementLayerOverride = Layer.Game;
     }
 

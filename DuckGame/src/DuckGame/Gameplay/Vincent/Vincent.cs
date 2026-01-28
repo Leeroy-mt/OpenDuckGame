@@ -1282,8 +1282,8 @@ public class Vincent
         for (int i = _lineProgress.Count - 1; i >= 0; i--)
         {
             float wide = Graphics.GetStringWidth(_lineProgress[i].text);
-            float ypos = descPos.y + 2f + (float)(index * 9);
-            float xpos = descPos.x + descSize.x / 2f - wide / 2f;
+            float ypos = descPos.Y + 2f + (float)(index * 9);
+            float xpos = descPos.X + descSize.X / 2f - wide / 2f;
             for (int j = _lineProgress[i].segments.Count - 1; j >= 0; j--)
             {
                 _descriptionFont.Draw(_lineProgress[i].segments[j].text, new Vec2(xpos, ypos), _lineProgress[i].segments[j].color, 0.97f);
@@ -1292,240 +1292,240 @@ public class Vincent
             index++;
         }
         _tail.flipV = true;
-        Graphics.Draw(_tail, 222f + dealerOffset.x, 117f + dealerOffset.y);
+        Graphics.Draw(_tail, 222f + dealerOffset.X, 117f + dealerOffset.Y);
         if (hasKid)
         {
             _dealer.frame += 9;
         }
-        _dealer.depth = 0.96f;
-        _dealer.alpha = alpha;
-        Graphics.Draw(_dealer, 200f + dealerOffset.x, 26f + dealerOffset.y);
+        _dealer.Depth = 0.96f;
+        _dealer.Alpha = alpha;
+        Graphics.Draw(_dealer, 200f + dealerOffset.X, 26f + dealerOffset.Y);
         if (type == DayType.SaleDay)
         {
-            _bigBanner.depth = 0.96f;
+            _bigBanner.Depth = 0.96f;
             Graphics.Draw(_bigBanner, 22f, -80f + _showLerp * 100f);
             Graphics.Draw(_bigBanner, 194f, -80f + _showLerp * 100f);
         }
         else if (type == DayType.ImportDay)
         {
-            _fancyBanner.depth = 0.96f;
+            _fancyBanner.Depth = 0.96f;
             Graphics.Draw(_fancyBanner, 22f, -80f + _showLerp * 100f);
             Graphics.Draw(_fancyBanner, 194f, -80f + _showLerp * 100f);
         }
-        _furniFrame.alpha = alpha;
-        _cheapTape.alpha = alpha * 0.9f;
-        _furniFill.alpha = alpha;
-        _furniHov.alpha = alpha;
-        _furniTag.alpha = alpha;
-        _newSticker.alpha = alpha;
-        _rareSticker.alpha = alpha;
-        _soldSprite.alpha = alpha;
+        _furniFrame.Alpha = alpha;
+        _cheapTape.Alpha = alpha * 0.9f;
+        _furniFill.Alpha = alpha;
+        _furniHov.Alpha = alpha;
+        _furniTag.Alpha = alpha;
+        _newSticker.Alpha = alpha;
+        _rareSticker.Alpha = alpha;
+        _soldSprite.Alpha = alpha;
         Vec2 furniPos = new Vec2(84f, 46f);
-        _cheapTape.depth = 0.968f;
-        _furniFrame.depth = 0.96f;
-        _furniFill.depth = 0.965f;
-        _furniHov.depth = 0.965f;
-        _furniTag.depth = 0.972f;
-        _newSticker.depth = 0.972f;
-        _rareSticker.depth = 0.972f;
-        _soldSprite.depth = 0.975f;
+        _cheapTape.Depth = 0.968f;
+        _furniFrame.Depth = 0.96f;
+        _furniFill.Depth = 0.965f;
+        _furniHov.Depth = 0.965f;
+        _furniTag.Depth = 0.972f;
+        _newSticker.Depth = 0.972f;
+        _rareSticker.Depth = 0.972f;
+        _soldSprite.Depth = 0.975f;
         if (products.Count > 0)
         {
             int idx = 0;
-            Vec2 framePos = new Vec2(furniPos.x - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.y);
+            Vec2 framePos = new Vec2(furniPos.X - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y);
             if (products.Count == 1)
             {
-                framePos = new Vec2(furniPos.x - 200f + Math.Min(_showLerp * 275f, 240f), furniPos.y + 30f);
+                framePos = new Vec2(furniPos.X - 200f + Math.Min(_showLerp * 275f, 240f), furniPos.Y + 30f);
             }
-            Graphics.Draw(_furniFrame, framePos.x, framePos.y);
+            Graphics.Draw(_furniFrame, framePos.X, framePos.Y);
             int pCost = products[0].cost;
             bool crossout = false;
             if (products[0].cost != products[0].originalCost)
             {
                 crossout = true;
                 pCost = products[0].originalCost;
-                Graphics.Draw(_priceTargets[0], new Vec2(framePos.x - 13f, framePos.y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
-                Graphics.Draw(_cheapTape, framePos.x, framePos.y);
+                Graphics.Draw(_priceTargets[0], new Vec2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
+                Graphics.Draw(_cheapTape, framePos.X, framePos.Y);
             }
             _furniFill.color = products[idx].color;
-            Graphics.Draw(_furniFill, framePos.x, framePos.y);
+            Graphics.Draw(_furniFill, framePos.X, framePos.Y);
             products[idx].Draw(framePos, alpha, 0.97f);
             if (idx == _selectIndex)
             {
-                Graphics.Draw(_furniHov, framePos.x - 1f, framePos.y);
+                Graphics.Draw(_furniHov, framePos.X - 1f, framePos.Y);
             }
             if (products[idx].type == VPType.Furniture && products[idx].furnitureData.rarity >= Rarity.SuperRare)
             {
                 _rareSticker.frame = ((idx == _selectIndex) ? 1 : 0);
-                Graphics.Draw(_rareSticker, framePos.x - 23f, framePos.y - 19f);
+                Graphics.Draw(_rareSticker, framePos.X - 23f, framePos.Y - 19f);
             }
             else if (products[idx].type == VPType.Hat || (!products[idx].sold && Profiles.experienceProfile.GetNumFurnitures(products[idx].furnitureData.index) <= 0))
             {
                 _newSticker.frame = ((idx == _selectIndex) ? 1 : 0);
-                Graphics.Draw(_newSticker, framePos.x - 23f, framePos.y - 19f);
+                Graphics.Draw(_newSticker, framePos.X - 23f, framePos.Y - 19f);
             }
             if (products[idx].sold)
             {
-                Graphics.Draw(_soldSprite, framePos.x, framePos.y);
+                Graphics.Draw(_soldSprite, framePos.X, framePos.Y);
             }
             else
             {
                 string priceString = Math.Min(Math.Max(pCost, 0), 9999).ToString();
                 _furniTag.frame = priceString.Length - 1;
-                Graphics.Draw(_furniTag, framePos.x + 21f, framePos.y - 25f);
+                Graphics.Draw(_furniTag, framePos.X + 21f, framePos.Y - 25f);
                 string vertString = "$\n";
                 string text = priceString;
                 for (int k = 0; k < text.Length; k++)
                 {
                     vertString = vertString + text[k] + "\n";
                 }
-                ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString, new Vec2(framePos.x + 24f, framePos.y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
+                ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString, new Vec2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
             }
             if (products.Count > 1)
             {
                 idx = 1;
-                framePos = new Vec2(furniPos.x + 70f - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.y);
-                Graphics.Draw(_furniFrame, framePos.x, framePos.y);
+                framePos = new Vec2(furniPos.X + 70f - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y);
+                Graphics.Draw(_furniFrame, framePos.X, framePos.Y);
                 pCost = products[1].cost;
                 crossout = false;
                 if (products[1].cost != products[1].originalCost)
                 {
                     crossout = true;
                     pCost = products[1].originalCost;
-                    Graphics.Draw(_priceTargets[1], new Vec2(framePos.x - 13f, framePos.y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
-                    Graphics.Draw(_cheapTape, framePos.x, framePos.y);
+                    Graphics.Draw(_priceTargets[1], new Vec2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
+                    Graphics.Draw(_cheapTape, framePos.X, framePos.Y);
                 }
                 _furniFill.color = products[idx].color;
-                Graphics.Draw(_furniFill, framePos.x, framePos.y);
+                Graphics.Draw(_furniFill, framePos.X, framePos.Y);
                 products[idx].Draw(framePos, alpha, 0.97f);
                 if (idx == _selectIndex)
                 {
-                    Graphics.Draw(_furniHov, framePos.x - 1f, framePos.y);
+                    Graphics.Draw(_furniHov, framePos.X - 1f, framePos.Y);
                 }
                 if (products[idx].type == VPType.Furniture && products[idx].furnitureData.rarity >= Rarity.SuperRare)
                 {
                     _rareSticker.frame = ((idx == _selectIndex) ? 1 : 0);
-                    Graphics.Draw(_rareSticker, framePos.x - 23f, framePos.y - 19f);
+                    Graphics.Draw(_rareSticker, framePos.X - 23f, framePos.Y - 19f);
                 }
                 else if (Profiles.experienceProfile.GetNumFurnitures(products[idx].furnitureData.index) <= 0)
                 {
                     _newSticker.frame = ((idx == _selectIndex) ? 1 : 0);
-                    Graphics.Draw(_newSticker, framePos.x - 23f, framePos.y - 19f);
+                    Graphics.Draw(_newSticker, framePos.X - 23f, framePos.Y - 19f);
                 }
                 if (products[idx].sold)
                 {
-                    Graphics.Draw(_soldSprite, framePos.x, framePos.y);
+                    Graphics.Draw(_soldSprite, framePos.X, framePos.Y);
                 }
                 else
                 {
                     string priceString2 = Math.Min(Math.Max(pCost, 0), 9999).ToString();
                     _furniTag.frame = priceString2.Length - 1;
-                    Graphics.Draw(_furniTag, framePos.x + 21f, framePos.y - 25f);
+                    Graphics.Draw(_furniTag, framePos.X + 21f, framePos.Y - 25f);
                     string vertString2 = "$\n";
                     string text = priceString2;
                     for (int k = 0; k < text.Length; k++)
                     {
                         vertString2 = vertString2 + text[k] + "\n";
                     }
-                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString2, new Vec2(framePos.x + 24f, framePos.y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
+                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString2, new Vec2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
                 }
             }
             if (products.Count > 2)
             {
                 idx = 2;
-                framePos = new Vec2(furniPos.x - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.y + 54f);
-                Graphics.Draw(_furniFrame, framePos.x, framePos.y);
+                framePos = new Vec2(furniPos.X - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y + 54f);
+                Graphics.Draw(_furniFrame, framePos.X, framePos.Y);
                 pCost = products[2].cost;
                 crossout = false;
                 if (products[2].cost != products[2].originalCost)
                 {
                     crossout = true;
                     pCost = products[2].originalCost;
-                    Graphics.Draw(_priceTargets[2], new Vec2(framePos.x - 13f, framePos.y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
-                    Graphics.Draw(_cheapTape, framePos.x, framePos.y);
+                    Graphics.Draw(_priceTargets[2], new Vec2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
+                    Graphics.Draw(_cheapTape, framePos.X, framePos.Y);
                 }
                 _furniFill.color = products[idx].color;
-                Graphics.Draw(_furniFill, framePos.x, framePos.y);
+                Graphics.Draw(_furniFill, framePos.X, framePos.Y);
                 products[idx].Draw(framePos, alpha, 0.97f);
                 if (idx == _selectIndex)
                 {
-                    Graphics.Draw(_furniHov, framePos.x - 1f, framePos.y);
+                    Graphics.Draw(_furniHov, framePos.X - 1f, framePos.Y);
                 }
                 if (products[idx].type == VPType.Furniture && products[idx].furnitureData.rarity >= Rarity.SuperRare)
                 {
                     _rareSticker.frame = ((idx == _selectIndex) ? 1 : 0);
-                    Graphics.Draw(_rareSticker, framePos.x - 23f, framePos.y - 19f);
+                    Graphics.Draw(_rareSticker, framePos.X - 23f, framePos.Y - 19f);
                 }
                 else if (Profiles.experienceProfile.GetNumFurnitures(products[idx].furnitureData.index) <= 0)
                 {
                     _newSticker.frame = ((idx == _selectIndex) ? 1 : 0);
-                    Graphics.Draw(_newSticker, framePos.x - 23f, framePos.y - 19f);
+                    Graphics.Draw(_newSticker, framePos.X - 23f, framePos.Y - 19f);
                 }
                 if (products[idx].sold)
                 {
-                    Graphics.Draw(_soldSprite, framePos.x, framePos.y);
+                    Graphics.Draw(_soldSprite, framePos.X, framePos.Y);
                 }
                 else
                 {
                     string priceString3 = Math.Min(Math.Max(pCost, 0), 9999).ToString();
                     _furniTag.frame = priceString3.Length - 1;
-                    Graphics.Draw(_furniTag, framePos.x + 21f, framePos.y - 25f);
+                    Graphics.Draw(_furniTag, framePos.X + 21f, framePos.Y - 25f);
                     string vertString3 = "$\n";
                     string text = priceString3;
                     for (int k = 0; k < text.Length; k++)
                     {
                         vertString3 = vertString3 + text[k] + "\n";
                     }
-                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString3, new Vec2(framePos.x + 24f, framePos.y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
+                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString3, new Vec2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
                 }
             }
             if (products.Count > 3)
             {
                 idx = 3;
-                framePos = new Vec2(furniPos.x + 70f - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.y + 54f);
-                Graphics.Draw(_furniFrame, framePos.x, framePos.y);
+                framePos = new Vec2(furniPos.X + 70f - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y + 54f);
+                Graphics.Draw(_furniFrame, framePos.X, framePos.Y);
                 pCost = products[3].cost;
                 crossout = false;
                 if (products[3].cost != products[3].originalCost)
                 {
                     crossout = true;
                     pCost = products[3].originalCost;
-                    Graphics.Draw(_priceTargets[3], new Vec2(framePos.x - 13f, framePos.y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
-                    Graphics.Draw(_cheapTape, framePos.x, framePos.y);
+                    Graphics.Draw(_priceTargets[3], new Vec2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
+                    Graphics.Draw(_cheapTape, framePos.X, framePos.Y);
                 }
                 _furniFill.color = products[idx].color;
-                Graphics.Draw(_furniFill, framePos.x, framePos.y);
+                Graphics.Draw(_furniFill, framePos.X, framePos.Y);
                 products[idx].Draw(framePos, alpha, 0.97f);
                 if (idx == _selectIndex)
                 {
-                    Graphics.Draw(_furniHov, framePos.x - 1f, framePos.y);
+                    Graphics.Draw(_furniHov, framePos.X - 1f, framePos.Y);
                 }
                 if (products[idx].type == VPType.Furniture && products[idx].furnitureData.rarity >= Rarity.SuperRare)
                 {
                     _rareSticker.frame = ((idx == _selectIndex) ? 1 : 0);
-                    Graphics.Draw(_rareSticker, framePos.x - 23f, framePos.y - 19f);
+                    Graphics.Draw(_rareSticker, framePos.X - 23f, framePos.Y - 19f);
                 }
                 else if (Profiles.experienceProfile.GetNumFurnitures(products[idx].furnitureData.index) <= 0)
                 {
                     _newSticker.frame = ((idx == _selectIndex) ? 1 : 0);
-                    Graphics.Draw(_newSticker, framePos.x - 23f, framePos.y - 19f);
+                    Graphics.Draw(_newSticker, framePos.X - 23f, framePos.Y - 19f);
                 }
                 if (products[idx].sold)
                 {
-                    Graphics.Draw(_soldSprite, framePos.x, framePos.y);
+                    Graphics.Draw(_soldSprite, framePos.X, framePos.Y);
                 }
                 else
                 {
                     string priceString4 = Math.Min(Math.Max(pCost, 0), 9999).ToString();
                     _furniTag.frame = priceString4.Length - 1;
-                    Graphics.Draw(_furniTag, framePos.x + 21f, framePos.y - 25f);
+                    Graphics.Draw(_furniTag, framePos.X + 21f, framePos.Y - 25f);
                     string vertString4 = "$\n";
                     string text = priceString4;
                     for (int k = 0; k < text.Length; k++)
                     {
                         vertString4 = vertString4 + text[k] + "\n";
                     }
-                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString4, new Vec2(framePos.x + 24f, framePos.y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
+                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString4, new Vec2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
                 }
             }
         }
@@ -1540,9 +1540,9 @@ public class Vincent
             Vec2 nameSize = new Vec2(226f, 11f);
             Graphics.DrawRect(namePos, namePos + nameSize, Color.Black, 0.96f);
             string name = products[sel].name;
-            Graphics.DrawString(name, namePos + new Vec2(nameSize.x / 2f - Graphics.GetStringWidth(name) / 2f, 2f), new Color(163, 206, 39) * alpha, 0.97f);
-            _tail.depth = 0.5f;
-            _tail.alpha = alpha;
+            Graphics.DrawString(name, namePos + new Vec2(nameSize.X / 2f - Graphics.GetStringWidth(name) / 2f, 2f), new Color(163, 206, 39) * alpha, 0.97f);
+            _tail.Depth = 0.5f;
+            _tail.Alpha = alpha;
             _tail.flipH = false;
             _tail.flipV = false;
             Graphics.Draw(_tail, 222f, 17f);

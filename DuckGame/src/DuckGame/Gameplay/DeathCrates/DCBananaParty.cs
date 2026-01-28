@@ -6,8 +6,8 @@ public class DCBananaParty : DeathCrateSetting
 {
     public override void Activate(DeathCrate c, bool server = true)
     {
-        float cx = c.x;
-        float cy = c.y - 2f;
+        float cx = c.X;
+        float cy = c.Y - 2f;
         Level.Add(new ExplosionPart(cx, cy));
         int num = 6;
         if (Graphics.effectsLevel < 2)
@@ -24,7 +24,7 @@ public class DCBananaParty : DeathCrateSetting
         {
             for (int j = 0; j < 10; j++)
             {
-                Banana banana = new Banana(c.x, c.y);
+                Banana banana = new Banana(c.X, c.Y);
                 float norm = (float)j / 9f;
                 banana.hSpeed = (-20f + norm * 40f) * Rando.Float(0.5f, 1f);
                 banana.vSpeed = Rando.Float(-3f, -11f);
@@ -35,6 +35,6 @@ public class DCBananaParty : DeathCrateSetting
         }
         Graphics.FlashScreen();
         SFX.Play("explode");
-        RumbleManager.AddRumbleEvent(c.position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
+        RumbleManager.AddRumbleEvent(c.Position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
     }
 }

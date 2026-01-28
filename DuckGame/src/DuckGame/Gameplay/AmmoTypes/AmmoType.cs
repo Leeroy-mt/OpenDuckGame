@@ -186,7 +186,7 @@ public abstract class AmmoType
 
     public virtual Bullet FireBullet(Vec2 position, Thing owner = null, float angle = 0f, Thing firedFrom = null)
     {
-        Bullet bullet = GetBullet(position.x, position.y, owner, angle, firedFrom);
+        Bullet bullet = GetBullet(position.X, position.Y, owner, angle, firedFrom);
         Level.current.AddThing(bullet);
         return bullet;
     }

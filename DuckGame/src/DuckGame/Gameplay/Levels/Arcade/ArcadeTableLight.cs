@@ -16,10 +16,10 @@ public class ArcadeTableLight : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("arcade/bigFixture");
-        center = new Vec2(35f, 24f);
+        Center = new Vec2(35f, 24f);
         _collisionSize = new Vec2(16f, 24f);
         _collisionOffset = new Vec2(-8f, -22f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.hugWalls = WallHug.Ceiling;
         base.layer = Layer.Game;
     }
@@ -28,13 +28,13 @@ public class ArcadeTableLight : Thing
     {
         if (!(Level.current is Editor))
         {
-            _occluders.Add(new LightOccluder(position + new Vec2(-26f, 2f), position + new Vec2(-26f, -20f), new Color(1f, 0.7f, 0.7f)));
-            _occluders.Add(new LightOccluder(position + new Vec2(28f, 2f), position + new Vec2(28f, -20f), new Color(1f, 0.7f, 0.7f)));
-            _occluders.Add(new LightOccluder(position + new Vec2(-26f, -18f), position + new Vec2(28f, -18f), new Color(1f, 0.7f, 0.7f)));
-            _light = new PointLight(base.x + 1f, base.y - 16f, new Color(255, 255, 190), 130f, _occluders);
+            _occluders.Add(new LightOccluder(Position + new Vec2(-26f, 2f), Position + new Vec2(-26f, -20f), new Color(1f, 0.7f, 0.7f)));
+            _occluders.Add(new LightOccluder(Position + new Vec2(28f, 2f), Position + new Vec2(28f, -20f), new Color(1f, 0.7f, 0.7f)));
+            _occluders.Add(new LightOccluder(Position + new Vec2(-26f, -18f), Position + new Vec2(28f, -18f), new Color(1f, 0.7f, 0.7f)));
+            _light = new PointLight(base.X + 1f, base.Y - 16f, new Color(255, 255, 190), 130f, _occluders);
             Level.Add(_light);
-            _shade = new SpriteThing(base.x, base.y, new Sprite("arcade/bigFixture"));
-            _shade.center = center;
+            _shade = new SpriteThing(base.X, base.Y, new Sprite("arcade/bigFixture"));
+            _shade.Center = Center;
             _shade.layer = Layer.Foreground;
             Level.Add(_shade);
         }

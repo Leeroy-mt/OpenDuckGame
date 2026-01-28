@@ -86,16 +86,16 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
     {
         get
         {
-            return position;
+            return Position;
         }
         set
         {
-            if (position != value)
+            if (Position != value)
             {
-                position = value;
+                Position = value;
                 if (_frame != null)
                 {
-                    _frame.position = position;
+                    _frame.Position = Position;
                 }
                 Level.current.things.quadTree.Remove(this);
                 Level.current.things.quadTree.Add(this);
@@ -121,21 +121,21 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
     public virtual void UpdateHeight()
     {
         float high = (float)windowHeight.value * 16f;
-        center = new Vec2(3f, 0f);
+        Center = new Vec2(3f, 0f);
         if (floor)
         {
             collisionSize = new Vec2(high, 6f);
             collisionOffset = new Vec2(0f - high + 16f, -2f);
-            _sprite.angleDegrees = -90f;
+            _sprite.AngleDegrees = -90f;
         }
         else
         {
             collisionSize = new Vec2(6f, high);
             collisionOffset = new Vec2(-3f, 0f - high + 8f);
-            _sprite.angle = 0f;
+            _sprite.Angle = 0f;
         }
-        _sprite.yscale = high;
-        _borderSprite.yscale = high;
+        _sprite.ScaleY = high;
+        _borderSprite.ScaleY = high;
         if (_frame != null)
         {
             _frame.high = high;
@@ -155,15 +155,15 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
         base.sequence = new SequenceItem(this);
         base.sequence.type = SequenceItemType.Goody;
         physicsMaterial = PhysicsMaterial.Glass;
-        center = new Vec2(3f, 24f);
+        Center = new Vec2(3f, 24f);
         collisionSize = new Vec2(6f, 32f);
         collisionOffset = new Vec2(-3f, -24f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Window";
         editorTooltip = "Classic window. Really opens up the room.";
         thickness = 0.3f;
         _sprite.color = new Color(1f, 1f, 1f, 0.2f);
-        base.alpha = 0.7f;
+        base.Alpha = 0.7f;
         base.breakForce = 3f;
         _canFlip = false;
         _translucent = true;
@@ -174,7 +174,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
     {
         if (!floor && !noframe)
         {
-            _frame = new WindowFrame(base.x, base.y, floor);
+            _frame = new WindowFrame(base.X, base.Y, floor);
             Level.Add(_frame);
         }
         UpdateHeight();
@@ -187,7 +187,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
             _wrecked = true;
             for (int i = 0; i < 8; i++)
             {
-                Level.Add(new GlassParticle(base.x - 4f + Rando.Float(8f), base.y - 16f + Rando.Float(32f), Vec2.Zero, tint.value)
+                Level.Add(new GlassParticle(base.X - 4f + Rando.Float(8f), base.Y - 16f + Rando.Float(32f), Vec2.Zero, tint.value)
                 {
                     hSpeed = ((Rando.Float(1f) > 0.5f) ? 1f : (-1f)) * Rando.Float(3f),
                     vSpeed = 0f - Rando.Float(1f)
@@ -197,7 +197,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    Level.Add(new GlassDebris(rotate: false, base.left + (float)(j * 4), base.y, 0f - Rando.Float(2f), 0f - Rando.Float(2f), 1));
+                    Level.Add(new GlassDebris(rotate: false, base.left + (float)(j * 4), base.Y, 0f - Rando.Float(2f), 0f - Rando.Float(2f), 1));
                 }
                 foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(base.topLeft + new Vec2(-2f, -3f), base.topRight + new Vec2(2f, -3f)))
                 {
@@ -209,7 +209,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
             {
                 for (int k = 0; k < 8; k++)
                 {
-                    Level.Add(new GlassDebris(rotate: false, base.x, base.top + (float)(k * 4), 0f - Rando.Float(2f), 0f - Rando.Float(2f), 1, tint.value));
+                    Level.Add(new GlassDebris(rotate: false, base.X, base.top + (float)(k * 4), 0f - Rando.Float(2f), 0f - Rando.Float(2f), 1, tint.value));
                 }
             }
             SFX.Play("glassBreak");
@@ -233,21 +233,21 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
             return base.Hit(bullet, hitPos);
         }
         _enter = hitPos + bullet.travelDirNormalized;
-        if (_enter.x < base.x && _enter.x < base.left + 2f)
+        if (_enter.X < base.X && _enter.X < base.left + 2f)
         {
-            _enter.x = base.left;
+            _enter.X = base.left;
         }
-        else if (_enter.x > base.x && _enter.x > base.right - 2f)
+        else if (_enter.X > base.X && _enter.X > base.right - 2f)
         {
-            _enter.x = base.right;
+            _enter.X = base.right;
         }
-        if (_enter.y < base.y && _enter.y < base.top + 2f)
+        if (_enter.Y < base.Y && _enter.Y < base.top + 2f)
         {
-            _enter.y = base.top;
+            _enter.Y = base.top;
         }
-        else if (_enter.y > base.y && _enter.y > base.bottom - 2f)
+        else if (_enter.Y > base.Y && _enter.Y > base.bottom - 2f)
         {
-            _enter.y = base.bottom;
+            _enter.Y = base.bottom;
         }
         if (hitPoints <= 0f)
         {
@@ -256,7 +256,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
         hitPos -= bullet.travelDirNormalized;
         for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
         {
-            Level.Add(new GlassParticle(hitPos.x, hitPos.y, bullet.travelDirNormalized, tint.value));
+            Level.Add(new GlassParticle(hitPos.X, hitPos.Y, bullet.travelDirNormalized, tint.value));
         }
         SFX.Play("glassHit", 0.5f);
         if (base.isServerForObject && bullet.isLocal)
@@ -273,27 +273,27 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
         {
             _hits.Add(_enter);
             Vec2 exit = exitPos - bullet.travelDirNormalized;
-            if (exit.x < base.x && exit.x < base.left + 2f)
+            if (exit.X < base.X && exit.X < base.left + 2f)
             {
-                exit.x = base.left;
+                exit.X = base.left;
             }
-            else if (exit.x > base.x && exit.x > base.right - 2f)
+            else if (exit.X > base.X && exit.X > base.right - 2f)
             {
-                exit.x = base.right;
+                exit.X = base.right;
             }
-            if (exit.y < base.y && exit.y < base.top + 2f)
+            if (exit.Y < base.Y && exit.Y < base.top + 2f)
             {
-                exit.y = base.top;
+                exit.Y = base.top;
             }
-            else if (exit.y > base.y && exit.y > base.bottom - 2f)
+            else if (exit.Y > base.Y && exit.Y > base.bottom - 2f)
             {
-                exit.y = base.bottom;
+                exit.Y = base.bottom;
             }
             _hits.Add(exit);
             exitPos += bullet.travelDirNormalized;
             for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
             {
-                Level.Add(new GlassParticle(exitPos.x, exitPos.y, -bullet.travelDirNormalized, tint.value));
+                Level.Add(new GlassParticle(exitPos.X, exitPos.Y, -bullet.travelDirNormalized, tint.value));
             }
         }
     }
@@ -391,36 +391,36 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
         float shakeAmount = (float)_shake * _shakeVal * 0.8f;
         if (floor)
         {
-            waver.y = shakeAmount;
+            waver.Y = shakeAmount;
         }
         else
         {
-            waver.x = shakeAmount;
+            waver.X = shakeAmount;
         }
-        position += waver;
+        Position += waver;
         float high = (float)windowHeight.value * 16f;
-        _sprite.depth = base.depth;
-        _borderSprite.depth = base.depth;
-        _borderSprite.angle = _sprite.angle;
-        _barSprite.depth = _sprite.depth + 4;
-        _barSprite.yscale = _sprite.yscale;
-        _barSprite.alpha = _sprite.alpha;
-        _barSprite.angle = angle;
+        _sprite.Depth = base.Depth;
+        _borderSprite.Depth = base.Depth;
+        _borderSprite.Angle = _sprite.Angle;
+        _barSprite.Depth = _sprite.Depth + 4;
+        _barSprite.ScaleY = _sprite.ScaleY;
+        _barSprite.Alpha = _sprite.Alpha;
+        _barSprite.Angle = Angle;
         if (_hasGlass)
         {
             Color c = windowColors[tint.value];
             c.a = 51;
             _sprite.color = c;
-            base.alpha = 0.7f;
+            base.Alpha = 0.7f;
             if (floor)
             {
-                Graphics.Draw(_sprite, base.x - high + 16f, base.y + 4f);
-                Graphics.Draw(_borderSprite, base.x - high + 16f, base.y + 4f);
+                Graphics.Draw(_sprite, base.X - high + 16f, base.Y + 4f);
+                Graphics.Draw(_borderSprite, base.X - high + 16f, base.Y + 4f);
             }
             else
             {
-                Graphics.Draw(_sprite, base.x - 3f, base.y - high + 8f);
-                Graphics.Draw(_borderSprite, base.x - 3f, base.y - high + 8f);
+                Graphics.Draw(_sprite, base.X - 3f, base.Y - high + 8f);
+                Graphics.Draw(_borderSprite, base.X - 3f, base.Y - high + 8f);
             }
             for (int i = 0; i < _hits.Count; i += 2)
             {
@@ -431,17 +431,17 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
                 Graphics.DrawLine(col: new Color((byte)((float)(int)c.r * 0.5f), (byte)((float)(int)c.g * 0.5f), (byte)((float)(int)c.b * 0.8f), (byte)178), p1: _hits[i] + waver, p2: _hits[i + 1] + waver);
             }
         }
-        position -= waver;
+        Position -= waver;
         if (floor)
         {
             if (bars.value)
             {
-                Graphics.Draw(_barSprite, base.x - high + 16f, base.y + 5f);
+                Graphics.Draw(_barSprite, base.X - high + 16f, base.Y + 5f);
             }
         }
         else if (bars.value)
         {
-            Graphics.Draw(_barSprite, base.x - 4f, base.y - high + 8f);
+            Graphics.Draw(_barSprite, base.X - 4f, base.Y - high + 8f);
         }
         base.Draw();
     }

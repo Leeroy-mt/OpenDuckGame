@@ -20,10 +20,10 @@ public class ECrate : Holdable, IPlatform
         _hitPoints = 15f;
         _sprite = new SpriteMap("eCrate", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -8f);
         collisionSize = new Vec2(16f, 16f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "E Crate";
         editorTooltip = "A mysterious unbreakable crate.";
         thickness = 2f;
@@ -40,11 +40,11 @@ public class ECrate : Holdable, IPlatform
         _hitPoints = 0f;
         for (int i = 0; i < 6; i++)
         {
-            Level.Add(new GlassParticle(base.x - 8f + Rando.Float(16f), base.y - 8f + Rando.Float(16f), new Vec2(Rando.Float(-2f, 2f), Rando.Float(-2f, 2f))));
+            Level.Add(new GlassParticle(base.X - 8f + Rando.Float(16f), base.Y - 8f + Rando.Float(16f), new Vec2(Rando.Float(-2f, 2f), Rando.Float(-2f, 2f))));
         }
         for (int j = 0; j < 5; j++)
         {
-            SmallSmoke smallSmoke = SmallSmoke.New(base.x + Rando.Float(-6f, 6f), base.y + Rando.Float(-6f, 6f));
+            SmallSmoke smallSmoke = SmallSmoke.New(base.X + Rando.Float(-6f, 6f), base.Y + Rando.Float(-6f, 6f));
             smallSmoke.hSpeed += Rando.Float(-0.3f, 0.3f);
             smallSmoke.vSpeed -= Rando.Float(0.1f, 0.2f);
             Level.Add(smallSmoke);
@@ -66,7 +66,7 @@ public class ECrate : Holdable, IPlatform
         }
         for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
         {
-            Level.Add(new GlassParticle(hitPos.x, hitPos.y, bullet.travelDirNormalized));
+            Level.Add(new GlassParticle(hitPos.X, hitPos.Y, bullet.travelDirNormalized));
         }
         SFX.Play("woodHit");
         if (base.isServerForObject && TeamSelect2.Enabled("EXPLODEYCRATES"))
@@ -77,7 +77,7 @@ public class ECrate : Holdable, IPlatform
                 base.duck.ThrowItem();
             }
             Destroy(new DTShot(bullet));
-            Level.Add(new GrenadeExplosion(base.x, base.y));
+            Level.Add(new GrenadeExplosion(base.X, base.Y));
         }
         _hitPoints -= damageMultiplier;
         damageMultiplier += 2f;
@@ -96,7 +96,7 @@ public class ECrate : Holdable, IPlatform
     {
         for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
         {
-            Level.Add(new GlassParticle(exitPos.x, exitPos.y, -bullet.travelDirNormalized));
+            Level.Add(new GlassParticle(exitPos.X, exitPos.Y, -bullet.travelDirNormalized));
         }
     }
 
@@ -131,7 +131,7 @@ public class ECrate : Holdable, IPlatform
     public override void Draw()
     {
         base.Draw();
-        _light.depth = base.depth + 1;
+        _light.Depth = base.Depth + 1;
         float normHealth = _hitPoints / _maxHealth;
         float flash = normHealth * 0.7f + 0.3f;
         normHealth = 1f;
@@ -142,6 +142,6 @@ public class ECrate : Holdable, IPlatform
             flash = 0.4f;
         }
         _light.color = new Color(1f - normHealth, normHealth, 0.2f) * Maths.Clamp(flash + _colorFlux.normalized * (1f - flash), 0f, 1f);
-        Graphics.Draw(_light, base.x, base.y);
+        Graphics.Draw(_light, base.X, base.Y);
     }
 }

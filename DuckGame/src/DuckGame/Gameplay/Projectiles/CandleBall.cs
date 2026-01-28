@@ -18,10 +18,10 @@ public class CandleBall : PhysicsObject, IPlatform
         _sprite.SetAnimation("burn");
         _sprite.imageIndex = Rando.Int(4);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-4f, -2f);
         collisionSize = new Vec2(9f, 4f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         thickness = 1f;
         weight = 1f;
         base.breakForce = 100000000f;
@@ -37,7 +37,7 @@ public class CandleBall : PhysicsObject, IPlatform
             Color.Orange
         };
         _sprite.color = colors[Rando.Int(colors.Count() - 1)];
-        base.xscale = (base.yscale = Rando.Float(0.4f, 0.8f));
+        base.ScaleX = (base.ScaleY = Rando.Float(0.4f, 0.8f));
     }
 
     protected override bool OnDestroy(DestroyType type = null)
@@ -46,7 +46,7 @@ public class CandleBall : PhysicsObject, IPlatform
         {
             for (int i = 0; i < _numFlames; i++)
             {
-                Level.Add(SmallFire.New(base.x - hSpeed, base.y - vSpeed, -3f + Rando.Float(6f), -3f + Rando.Float(6f), shortLife: false, null, canMultiply: true, this));
+                Level.Add(SmallFire.New(base.X - hSpeed, base.Y - vSpeed, -3f + Rando.Float(6f), -3f + Rando.Float(6f), shortLife: false, null, canMultiply: true, this));
             }
         }
         SFX.Play("flameExplode", 0.9f, -0.1f + Rando.Float(0.2f));
@@ -72,14 +72,14 @@ public class CandleBall : PhysicsObject, IPlatform
         {
             vSpeed += -7f + Rando.Float(6f);
         }
-        Level.Add(SmallSmoke.New(base.x, base.y));
+        Level.Add(SmallSmoke.New(base.X, base.Y));
         if (hSpeed > 0f)
         {
-            _sprite.angleDegrees = 90f;
+            _sprite.AngleDegrees = 90f;
         }
         else if (hSpeed < 0f)
         {
-            _sprite.angleDegrees = -90f;
+            _sprite.AngleDegrees = -90f;
         }
         base.Update();
     }
@@ -94,7 +94,7 @@ public class CandleBall : PhysicsObject, IPlatform
                 with.vSpeed -= 1f;
             }
             Destroy(new DTImpact(null));
-            with.Burn(position, this);
+            with.Burn(Position, this);
         }
     }
 }

@@ -13,13 +13,13 @@ public class PowerHolster : Holster
     {
         _sprite = new SpriteMap("powerHolster", 14, 12);
         _overPart = new SpriteMap("powerHolsterOver", 10, 3);
-        _overPart.center = new Vec2(6f, -1f);
+        _overPart.Center = new Vec2(6f, -1f);
         _underPart = new SpriteMap("powerHolsterUnder", 11, 10);
-        _underPart.center = new Vec2(10f, 8f);
+        _underPart.Center = new Vec2(10f, 8f);
         graphic = _sprite;
         collisionOffset = new Vec2(-5f, -5f);
         collisionSize = new Vec2(10f, 10f);
-        center = new Vec2(6f, 6f);
+        Center = new Vec2(6f, 6f);
         physicsMaterial = PhysicsMaterial.Wood;
         _equippedDepth = 4;
         _wearOffset = new Vec2(1f, 1f);
@@ -61,27 +61,27 @@ public class PowerHolster : Holster
                 ownerDepthObject = _equippedDuck._trapped;
             }
             _overPart.flipH = owner.offDir <= 0;
-            _overPart.angle = angle;
-            _overPart.alpha = base.alpha;
-            _overPart.scale = base.scale;
-            _overPart.depth = ownerDepthObject.depth + 5;
+            _overPart.Angle = Angle;
+            _overPart.Alpha = base.Alpha;
+            _overPart.Scale = base.Scale;
+            _overPart.Depth = ownerDepthObject.Depth + 5;
             _overPart.frame = ((_equippedDuck.quack > 0) ? 1 : 0);
-            Graphics.Draw(_overPart, base.x, base.y);
+            Graphics.Draw(_overPart, base.X, base.Y);
             _underPart.flipH = owner.offDir <= 0;
-            _underPart.angle = angle;
-            _underPart.alpha = base.alpha;
-            _underPart.scale = base.scale;
+            _underPart.Angle = Angle;
+            _underPart.Alpha = base.Alpha;
+            _underPart.Scale = base.Scale;
             if (_equippedDuck.ragdoll != null && _equippedDuck.ragdoll.part2 != null)
             {
-                _underPart.depth = _equippedDuck.ragdoll.part2.depth + -11;
+                _underPart.Depth = _equippedDuck.ragdoll.part2.Depth + -11;
             }
             else
             {
-                _underPart.depth = ownerDepthObject.depth + -7;
+                _underPart.Depth = ownerDepthObject.Depth + -7;
             }
             _underPart.frame = (trigger ? 1 : 0);
             Vec2 pos2 = Offset(new Vec2(-2f, 0f));
-            Graphics.Draw(_underPart, pos2.x, pos2.y);
+            Graphics.Draw(_underPart, pos2.X, pos2.Y);
         }
         else
         {

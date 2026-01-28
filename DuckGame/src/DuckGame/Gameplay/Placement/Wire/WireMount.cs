@@ -56,10 +56,10 @@ public class WireMount : Thing, IWirePeripheral
     {
         _sprite = new SpriteMap("wireMount", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -8f);
         collisionSize = new Vec2(16f, 16f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Wire Mount";
         editorTooltip = "Specifies an object to trigger whenever a connected Button is pressed.";
         base.layer = Layer.Foreground;
@@ -131,7 +131,7 @@ public class WireMount : Thing, IWirePeripheral
         {
             containString = contains.Name;
         }
-        Graphics.DrawString(containString, position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
+        Graphics.DrawString(containString, Position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
     }
 
     public override void Initialize()
@@ -156,22 +156,22 @@ public class WireMount : Thing, IWirePeripheral
             else
             {
                 _containedThing.offDir = (sbyte)((!flipHorizontal) ? 1 : (-1));
-                _containedThing.position = position;
-                _containedThing.depth = base.depth + 10;
+                _containedThing.Position = Position;
+                _containedThing.Depth = base.Depth + 10;
                 _containedThing.layer = base.layer;
                 if (newFlipType)
                 {
-                    _containedThing.angleDegrees = (flipHorizontal ? (0f - mountAngle.value) : mountAngle.value);
+                    _containedThing.AngleDegrees = (flipHorizontal ? (0f - mountAngle.value) : mountAngle.value);
                 }
                 else
                 {
-                    _containedThing.angleDegrees = mountAngle.value;
+                    _containedThing.AngleDegrees = mountAngle.value;
                 }
                 if (_containedThing is Gun)
                 {
                     Gun g = _containedThing as Gun;
                     Vec2 kickVector = -g.barrelVector * (g.kick * 5f);
-                    _containedThing.position += kickVector;
+                    _containedThing.Position += kickVector;
                 }
             }
         }
@@ -188,16 +188,16 @@ public class WireMount : Thing, IWirePeripheral
         if (_containedThing != null && Level.current is Editor)
         {
             _containedThing.offDir = (sbyte)((!flipHorizontal) ? 1 : (-1));
-            _containedThing.position = position;
-            _containedThing.depth = base.depth + 10;
+            _containedThing.Position = Position;
+            _containedThing.Depth = base.Depth + 10;
             _containedThing.layer = base.layer;
             if (newFlipType)
             {
-                _containedThing.angleDegrees = (flipHorizontal ? (0f - mountAngle.value) : mountAngle.value);
+                _containedThing.AngleDegrees = (flipHorizontal ? (0f - mountAngle.value) : mountAngle.value);
             }
             else
             {
-                _containedThing.angleDegrees = mountAngle.value;
+                _containedThing.AngleDegrees = mountAngle.value;
             }
             _containedThing.DoEditorUpdate();
             _containedThing.Draw();

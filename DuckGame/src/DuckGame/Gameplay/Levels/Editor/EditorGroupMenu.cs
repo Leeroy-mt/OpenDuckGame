@@ -13,8 +13,8 @@ public class EditorGroupMenu : ContextMenu
     public EditorGroupMenu(IContextListener owner, bool root = false, SpriteMap image = null)
         : base(owner, image)
     {
-        itemSize.x = 100f;
-        itemSize.y = 16f;
+        itemSize.X = 100f;
+        itemSize.Y = 16f;
         _root = root;
         if (!_root)
         {
@@ -65,7 +65,7 @@ public class EditorGroupMenu : ContextMenu
     {
         deep++;
         _text = group.Name;
-        itemSize.x = Graphics.GetFancyStringWidth(_text) + 16f;
+        itemSize.X = Graphics.GetFancyStringWidth(_text) + 16f;
         foreach (EditorGroup g in group.SubGroups)
         {
             EditorGroupMenu menu = new EditorGroupMenu(this);

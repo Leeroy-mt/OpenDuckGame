@@ -26,7 +26,7 @@ public class WireTrapDoorShutter : MaterialThing, IPlatform, IShutter
         _button = b;
         collisionSize = new Vec2(39f, 7f);
         collisionOffset = new Vec2(-3f, -3f);
-        center = new Vec2(3f, 3f);
+        Center = new Vec2(3f, 3f);
         _sprite = new SpriteMap("wireTrapDoorArm", 71, 7);
         graphic = _sprite;
     }
@@ -39,14 +39,14 @@ public class WireTrapDoorShutter : MaterialThing, IPlatform, IShutter
 
     private void UpdateOpenState()
     {
-        if (base.angleDegrees == 0f)
+        if (base.AngleDegrees == 0f)
         {
             collisionSize = _colSize;
             _open = false;
         }
         else
         {
-            if (base.angleDegrees == 0f)
+            if (base.AngleDegrees == 0f)
             {
                 return;
             }

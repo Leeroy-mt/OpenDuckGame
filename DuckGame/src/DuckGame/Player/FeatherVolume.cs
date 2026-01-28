@@ -24,12 +24,12 @@ public class FeatherVolume : MaterialThing
             return false;
         }
         Feather feather = Feather.New(0f, 0f, _duckOwner.persona);
-        feather.hSpeed = (0f - bullet.travelDirNormalized.x) * (1f + Rando.Float(1f));
+        feather.hSpeed = (0f - bullet.travelDirNormalized.X) * (1f + Rando.Float(1f));
         feather.vSpeed = 0f - Rando.Float(2f);
-        feather.position = hitPos;
+        feather.Position = hitPos;
         Level.Add(feather);
         Vec2 move = hitPos + bullet.travelDirNormalized * 3f;
-        if (bullet.isLocal && _duckOwner.sliding && _duckOwner.ragdoll == null && move.x > base.left + 2f && move.x < base.right - 2f && move.y > base.top + 2f && move.y < base.bottom - 2f)
+        if (bullet.isLocal && _duckOwner.sliding && _duckOwner.ragdoll == null && move.X > base.left + 2f && move.X < base.right - 2f && move.Y > base.top + 2f && move.Y < base.bottom - 2f)
         {
             foreach (Equipment q in Level.CheckPointAll<Equipment>(move))
             {
@@ -49,9 +49,9 @@ public class FeatherVolume : MaterialThing
         if (bullet.owner == null || (bullet.owner != _duckOwner && (gunOwner == null || gunOwner.owner != _duckOwner)))
         {
             Feather feather = Feather.New(0f, 0f, _duckOwner.persona);
-            feather.hSpeed = (0f - bullet.travelDirNormalized.x) * (1f + Rando.Float(1f));
+            feather.hSpeed = (0f - bullet.travelDirNormalized.X) * (1f + Rando.Float(1f));
             feather.vSpeed = 0f - Rando.Float(2f);
-            feather.position = exitPos;
+            feather.Position = exitPos;
             Level.Add(feather);
         }
     }

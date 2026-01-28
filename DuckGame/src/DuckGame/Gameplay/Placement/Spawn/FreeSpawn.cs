@@ -18,10 +18,10 @@ public class FreeSpawn : SpawnPoint
     {
         graphic = new SpriteMap("duckSpawn", 32, 32)
         {
-            depth = 0.9f
+            Depth = 0.9f
         };
         _editorName = "Spawn Point";
-        center = new Vec2(16f, 23f);
+        Center = new Vec2(16f, 23f);
         collisionSize = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -16f);
         _visibleInGame = false;
@@ -43,7 +43,7 @@ public class FreeSpawn : SpawnPoint
                 _eight = new SpriteMap("redEight", 10, 10);
                 _eight.CenterOrigin();
             }
-            Graphics.Draw(_eight, base.x - 5f, base.y + 7f, 1f);
+            Graphics.Draw(_eight, base.X - 5f, base.Y + 7f, 1f);
         }
         base.Draw();
     }

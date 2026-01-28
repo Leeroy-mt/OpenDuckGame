@@ -19,22 +19,22 @@ public class CompressedVec2Binding : StateBinding
 
     public static int GetCompressedVec2(Vec2 val, int range = int.MaxValue)
     {
-        if (Math.Abs(val.x) < 1E-07f)
+        if (Math.Abs(val.X) < 1E-07f)
         {
-            val.x = 0f;
+            val.X = 0f;
         }
-        if (Math.Abs(val.y) < 1E-07f)
+        if (Math.Abs(val.Y) < 1E-07f)
         {
-            val.y = 0f;
+            val.Y = 0f;
         }
         if (range != int.MaxValue)
         {
             float rangeMult = 32767 / range;
-            val.x = Maths.Clamp(val.x, -range, range) * rangeMult;
-            val.y = Maths.Clamp(val.y, -range, range) * rangeMult;
+            val.X = Maths.Clamp(val.X, -range, range) * rangeMult;
+            val.Y = Maths.Clamp(val.Y, -range, range) * rangeMult;
         }
-        short num = (short)Maths.Clamp((int)Math.Round(val.x), -32768, 32767);
-        short yVal = (short)Maths.Clamp((int)Math.Round(val.y), -32768, 32767);
+        short num = (short)Maths.Clamp((int)Math.Round(val.X), -32768, 32767);
+        short yVal = (short)Maths.Clamp((int)Math.Round(val.Y), -32768, 32767);
         return (int)(((ulong)(ushort)num << 16) | (ushort)yVal);
     }
 
@@ -56,8 +56,8 @@ public class CompressedVec2Binding : StateBinding
         if (range != int.MaxValue)
         {
             float rangeMult = 32767 / range;
-            vecVal.x /= rangeMult;
-            vecVal.y /= rangeMult;
+            vecVal.X /= rangeMult;
+            vecVal.Y /= rangeMult;
         }
         return vecVal;
     }

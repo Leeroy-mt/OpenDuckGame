@@ -6,8 +6,8 @@ public class DoorFrame : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite(secondaryFrame ? "pyramidDoorFrame" : "doorFrame");
-        center = new Vec2(5f, 26f);
-        base.depth = -0.95f;
+        Center = new Vec2(5f, 26f);
+        base.Depth = -0.95f;
         _editorCanModify = false;
     }
 }

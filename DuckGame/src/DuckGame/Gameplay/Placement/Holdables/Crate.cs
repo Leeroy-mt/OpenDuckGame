@@ -26,10 +26,10 @@ public class Crate : Holdable, IPlatform
         _hitPoints = 15f;
         _sprite = new SpriteMap("crate", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -8f);
         collisionSize = new Vec2(16f, 16f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Crate";
         thickness = 2f;
         weight = 5f;
@@ -52,14 +52,14 @@ public class Crate : Holdable, IPlatform
         }
         for (int i = 0; i < 6; i++)
         {
-            WoodDebris woodDebris = WoodDebris.New(base.x - 8f + Rando.Float(16f), base.y - 8f + Rando.Float(16f));
-            woodDebris.hSpeed = ((Rando.Float(1f) > 0.5f) ? 1f : (-1f)) * Rando.Float(3f) + (float)Math.Sign(flyDir.x) * 0.5f;
+            WoodDebris woodDebris = WoodDebris.New(base.X - 8f + Rando.Float(16f), base.Y - 8f + Rando.Float(16f));
+            woodDebris.hSpeed = ((Rando.Float(1f) > 0.5f) ? 1f : (-1f)) * Rando.Float(3f) + (float)Math.Sign(flyDir.X) * 0.5f;
             woodDebris.vSpeed = 0f - Rando.Float(1f);
             Level.Add(woodDebris);
         }
         for (int j = 0; j < 5; j++)
         {
-            SmallSmoke smallSmoke = SmallSmoke.New(base.x + Rando.Float(-6f, 6f), base.y + Rando.Float(-6f, 6f));
+            SmallSmoke smallSmoke = SmallSmoke.New(base.X + Rando.Float(-6f, 6f), base.Y + Rando.Float(-6f, 6f));
             smallSmoke.hSpeed += Rando.Float(-0.3f, 0.3f);
             smallSmoke.vSpeed -= Rando.Float(0.1f, 0.2f);
             Level.Add(smallSmoke);
@@ -116,9 +116,9 @@ public class Crate : Holdable, IPlatform
         }
         for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
         {
-            WoodDebris woodDebris = WoodDebris.New(hitPos.x, hitPos.y);
-            woodDebris.hSpeed = (0f - bullet.travelDirNormalized.x) * 2f * (Rando.Float(1f) + 0.3f);
-            woodDebris.vSpeed = (0f - bullet.travelDirNormalized.y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
+            WoodDebris woodDebris = WoodDebris.New(hitPos.X, hitPos.Y);
+            woodDebris.hSpeed = (0f - bullet.travelDirNormalized.X) * 2f * (Rando.Float(1f) + 0.3f);
+            woodDebris.vSpeed = (0f - bullet.travelDirNormalized.Y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
             Level.Add(woodDebris);
         }
         SFX.Play("woodHit");
@@ -130,7 +130,7 @@ public class Crate : Holdable, IPlatform
                 base.duck.ThrowItem();
             }
             Destroy(new DTShot(bullet));
-            Level.Add(new GrenadeExplosion(base.x, base.y));
+            Level.Add(new GrenadeExplosion(base.X, base.Y));
         }
         _hitPoints -= damageMultiplier;
         damageMultiplier += 2f;
@@ -149,9 +149,9 @@ public class Crate : Holdable, IPlatform
     {
         for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
         {
-            WoodDebris woodDebris = WoodDebris.New(exitPos.x, exitPos.y);
-            woodDebris.hSpeed = bullet.travelDirNormalized.x * 3f * (Rando.Float(1f) + 0.3f);
-            woodDebris.vSpeed = bullet.travelDirNormalized.y * 3f * (Rando.Float(1f) + 0.3f) - (-1f + Rando.Float(2f));
+            WoodDebris woodDebris = WoodDebris.New(exitPos.X, exitPos.Y);
+            woodDebris.hSpeed = bullet.travelDirNormalized.X * 3f * (Rando.Float(1f) + 0.3f);
+            woodDebris.vSpeed = bullet.travelDirNormalized.Y * 3f * (Rando.Float(1f) + 0.3f) - (-1f + Rando.Float(2f));
             Level.Add(woodDebris);
         }
     }

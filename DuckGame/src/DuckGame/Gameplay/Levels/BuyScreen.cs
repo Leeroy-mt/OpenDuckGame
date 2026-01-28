@@ -109,8 +109,8 @@ public class BuyScreen : Level
     {
         if (layer == Layer.Game)
         {
-            _payScreen.depth = 0.5f;
-            _moneyType.depth = 0.6f;
+            _payScreen.Depth = 0.5f;
+            _moneyType.Depth = 0.6f;
             Graphics.Draw(_payScreen, layer.width / 2f, layer.height / 2f);
             Graphics.Draw(_moneyType, layer.width / 2f - 79f, layer.height / 2f - 23f);
             string text = "Buy Game (" + _currencyCharacter + _price.ToString("0.00", CultureInfo.InvariantCulture) + ")";

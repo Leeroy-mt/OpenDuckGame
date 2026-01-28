@@ -31,12 +31,12 @@ public class ContextBackgroundTile : ContextMenu
         _placement = placement;
         _thing = thing;
         _image = thing.GetEditorImage();
-        itemSize.x = 180f;
-        itemSize.y = 16f;
+        itemSize.X = 180f;
+        itemSize.Y = 16f;
         _text = thing.editorName;
-        itemSize.x = _text.Length * 8 + 16;
+        itemSize.X = _text.Length * 8 + 16;
         _canExpand = true;
-        base.depth = 0.8f;
+        base.Depth = 0.8f;
         if (_thing is CustomBackground)
         {
             _file = new ContextFile("LOAD FILE...", this, new FieldBinding(_thing, "customBackground0" + ((thing as CustomBackground).customIndex + 1)), ContextFileType.Background);
@@ -81,11 +81,11 @@ public class ContextBackgroundTile : ContextMenu
             }
             if (_hover && !greyOut)
             {
-                Graphics.DrawRect(position, position + itemSize, new Color(70, 70, 70), 0.82f);
+                Graphics.DrawRect(Position, Position + itemSize, new Color(70, 70, 70), 0.82f);
             }
-            Graphics.DrawFancyString(_text, position + new Vec2(2f, 4f), Color.White * cMult, 0.85f);
+            Graphics.DrawFancyString(_text, Position + new Vec2(2f, 4f), Color.White * cMult, 0.85f);
             _contextArrow.color = Color.White * cMult;
-            Graphics.Draw(_contextArrow, base.x + itemSize.x - 11f, base.y + 3f, 0.85f);
+            Graphics.Draw(_contextArrow, base.X + itemSize.X - 11f, base.Y + 3f, 0.85f);
         }
         if (base.opened)
         {
@@ -104,36 +104,36 @@ public class ContextBackgroundTile : ContextMenu
                 if (Editor.inputMode == EditorInput.Mouse && positionCursor)
                 {
                     _rememberedMousePosition = Mouse.position;
-                    Mouse.position = _hoverPos + position + new Vec2(8f, 8f);
+                    Mouse.position = _hoverPos + Position + new Vec2(8f, 8f);
                     positionCursor = false;
                 }
             }
             menuSize = new Vec2(map.texture.width + 2, map.texture.height + 2);
-            float menuWidth = menuSize.x;
-            float menuHeight = menuSize.y;
-            Vec2 pos = new Vec2(base.x, base.y);
+            float menuWidth = menuSize.X;
+            float menuHeight = menuSize.Y;
+            Vec2 pos = new Vec2(base.X, base.Y);
             if (Editor.inputMode != EditorInput.Mouse && !_root)
             {
-                pos.y = 16f;
+                pos.Y = 16f;
             }
             if (!_root)
             {
-                pos.x += itemSize.x + 4f;
-                pos.y -= 2f;
+                pos.X += itemSize.X + 4f;
+                pos.Y -= 2f;
             }
-            new Vec2(map.position);
-            _thing.x = pos.x + 1f + (float)map.w / 2f;
-            _thing.y = pos.y + 1f + (float)map.h / 2f;
-            _thing.depth = 0.7f;
+            new Vec2(map.Position);
+            _thing.X = pos.X + 1f + (float)map.w / 2f;
+            _thing.Y = pos.Y + 1f + (float)map.h / 2f;
+            _thing.Depth = 0.7f;
             Graphics.DrawRect(pos, pos + new Vec2(menuWidth, menuHeight), new Color(70, 70, 70), 0.5f);
             Graphics.DrawRect(pos + new Vec2(1f, 1f), pos + new Vec2(menuWidth - 1f, menuHeight - 1f), new Color(30, 30, 30), 0.6f);
             _lastDrawPos = pos;
-            Graphics.Draw(map.texture, new Vec2(_thing.x, _thing.y), null, Color.White, 0f, _thing.center, _thing.scale, SpriteEffects.None, 0.7f);
+            Graphics.Draw(map.texture, new Vec2(_thing.X, _thing.Y), null, Color.White, 0f, _thing.Center, _thing.Scale, SpriteEffects.None, 0.7f);
             if (_root && _file != null)
             {
                 Vec2 loadTL = new Vec2(pos + new Vec2(menuWidth + 4f, 0f));
                 new Vec2(pos + new Vec2(menuWidth + 97f, 12f));
-                _file.position = loadTL;
+                _file.Position = loadTL;
                 _file.Update();
                 _file.Draw();
             }
@@ -143,7 +143,7 @@ public class ContextBackgroundTile : ContextMenu
                 if (TouchScreen.GetTap() != Touch.None)
                 {
                     touchCoords = TouchScreen.GetTap().Transform(base.layer.camera);
-                    _hoverPos = new Vec2(touchCoords.x - _thing.x, touchCoords.y - _thing.y);
+                    _hoverPos = new Vec2(touchCoords.X - _thing.X, touchCoords.Y - _thing.Y);
                 }
             }
             else if (Editor.inputMode == EditorInput.Gamepad && (_file == null || !_file.hover) && !Editor.clickedMenu)
@@ -191,7 +191,7 @@ public class ContextBackgroundTile : ContextMenu
             }
             else if (Editor.inputMode == EditorInput.Mouse)
             {
-                _hoverPos = new Vec2(Mouse.x - _thing.x, Mouse.y - _thing.y);
+                _hoverPos = new Vec2(Mouse.x - _thing.X, Mouse.y - _thing.Y);
             }
             if (_file != null && _file.hover && Input.Pressed("MENULEFT"))
             {
@@ -199,20 +199,20 @@ public class ContextBackgroundTile : ContextMenu
                 _selectedIndex = wide - 1;
             }
             Editor editor = Level.current as Editor;
-            _hoverPos.x = (float)Math.Round(_hoverPos.x / (float)map.w) * (float)map.w;
-            _hoverPos.y = (float)Math.Round(_hoverPos.y / (float)map.h) * (float)map.h;
-            if ((_file == null || !_file.hover) && _hoverPos.x >= 0f && _hoverPos.x < (float)map.texture.width && _hoverPos.y >= 0f && _hoverPos.y < (float)map.texture.height)
+            _hoverPos.X = (float)Math.Round(_hoverPos.X / (float)map.w) * (float)map.w;
+            _hoverPos.Y = (float)Math.Round(_hoverPos.Y / (float)map.h) * (float)map.h;
+            if ((_file == null || !_file.hover) && _hoverPos.X >= 0f && _hoverPos.X < (float)map.texture.width && _hoverPos.Y >= 0f && _hoverPos.Y < (float)map.texture.height)
             {
                 Graphics.DrawRect(_hoverPos + pos, _hoverPos + pos + new Vec2(map.w + 2, map.h + 2), Color.Lime * 0.8f, 0.8f, filled: false);
                 if ((Editor.inputMode == EditorInput.Mouse && Mouse.left == InputState.Pressed) || (Editor.inputMode == EditorInput.Gamepad && Input.Pressed("SELECT") && !justOpened) || (Editor.inputMode == EditorInput.Touch && TouchScreen.GetTap() != Touch.None))
                 {
                     if (_thing is BackgroundTile)
                     {
-                        (_thing as BackgroundTile).frame = (int)(_hoverPos.x / (float)map.w + _hoverPos.y / (float)map.h * (float)(map.texture.width / map.w));
+                        (_thing as BackgroundTile).frame = (int)(_hoverPos.X / (float)map.w + _hoverPos.Y / (float)map.h * (float)(map.texture.width / map.w));
                     }
                     else
                     {
-                        map.frame = (int)(_hoverPos.x / (float)map.w + _hoverPos.y / (float)map.h * (float)(map.texture.width / map.w));
+                        map.frame = (int)(_hoverPos.X / (float)map.w + _hoverPos.Y / (float)map.h * (float)(map.texture.width / map.w));
                     }
                     editor.placementType = _thing;
                     editor.placementType = _thing;

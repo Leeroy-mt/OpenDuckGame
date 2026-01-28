@@ -8,7 +8,7 @@ public class ForceWave : Thing
 
     public StateBinding _offDirBinding = new StateBinding(GhostPriority.High, nameof(_offDir));
 
-    public StateBinding _alphaBinding = new StateBinding(GhostPriority.High, nameof(alpha));
+    public StateBinding _alphaBinding = new StateBinding(GhostPriority.High, nameof(Alpha));
 
     public StateBinding _waveOwnerBinding = new StateBinding(GhostPriority.High, nameof(_waveOwner));
 
@@ -27,7 +27,7 @@ public class ForceWave : Thing
     {
         offDir = (sbyte)dir;
         graphic = new Sprite("sledgeForce");
-        center = new Vec2(graphic.w, graphic.h);
+        Center = new Vec2(graphic.w, graphic.h);
         _alphaSub = alphaSub;
         _speed = speed;
         _speedv = speedv;
@@ -35,13 +35,13 @@ public class ForceWave : Thing
         _collisionOffset = new Vec2(-3f, -15f);
         graphic.flipH = offDir <= 0;
         _waveOwner = own;
-        base.depth = -0.7f;
+        base.Depth = -0.7f;
     }
 
     public override void Update()
     {
         graphic.flipH = offDir <= 0;
-        if (base.alpha > 0.1f)
+        if (base.Alpha > 0.1f)
         {
             foreach (MaterialThing hit in Level.CheckRectAll<MaterialThing>(base.topLeft, base.bottomRight))
             {
@@ -70,8 +70,8 @@ public class ForceWave : Thing
                 }
                 if (hit is PhysicsObject)
                 {
-                    hit.hSpeed = ((_speed - 3f) * (float)offDir * 1.5f + (float)offDir * 4f) * base.alpha;
-                    hit.vSpeed = (_speedv + -4.5f) * base.alpha;
+                    hit.hSpeed = ((_speed - 3f) * (float)offDir * 1.5f + (float)offDir * 4f) * base.Alpha;
+                    hit.vSpeed = (_speedv + -4.5f) * base.Alpha;
                     hit.clip.Add(_waveOwner as MaterialThing);
                 }
                 if (!hit.destroyed && !(hit is Equipment))
@@ -108,10 +108,10 @@ public class ForceWave : Thing
         }
         if (base.isServerForObject)
         {
-            base.x += (float)offDir * _speed;
-            base.y += _speedv;
-            base.alpha -= _alphaSub;
-            if (base.alpha <= 0f)
+            base.X += (float)offDir * _speed;
+            base.Y += _speedv;
+            base.Alpha -= _alphaSub;
+            if (base.Alpha <= 0f)
             {
                 Level.Remove(this);
             }

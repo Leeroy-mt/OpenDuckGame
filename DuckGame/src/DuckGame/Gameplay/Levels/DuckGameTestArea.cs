@@ -107,7 +107,7 @@ public class DuckGameTestArea : DeathmatchLevel
                     int num2 = 9999999;
                     foreach (SpawnPoint item in chosenSpawns)
                     {
-                        num2 = (int)Math.Min((item.position - x.position).length, num2);
+                        num2 = (int)Math.Min((item.Position - x.Position).Length(), num2);
                     }
                     return num2;
                 });

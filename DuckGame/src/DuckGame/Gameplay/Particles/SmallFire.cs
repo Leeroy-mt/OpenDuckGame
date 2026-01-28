@@ -110,17 +110,17 @@ public class SmallFire : PhysicsParticle, ITeleport
             {
                 GhostManager.context.particleManager.AddLocalParticle(obj);
             }
-            if (float.IsNaN(obj.position.x) || float.IsNaN(obj.position.y))
+            if (float.IsNaN(obj.Position.X) || float.IsNaN(obj.Position.Y))
             {
                 if (obj.stick != null)
                 {
-                    obj.position.x = 0f;
-                    obj.position.y = 0f;
+                    obj.X = 0f;
+                    obj.Y = 0f;
                 }
                 else
                 {
-                    obj.position.x = Vec2.NetMin.x;
-                    obj.position.y = Vec2.NetMin.y;
+                    obj.X = Vec2.NetMin.X;
+                    obj.Y = Vec2.NetMin.Y;
                 }
             }
         }
@@ -133,14 +133,14 @@ public class SmallFire : PhysicsParticle, ITeleport
         {
             b.Write(val: true);
             b.Write((ushort)(int)stick.ghostObject.ghostObjectIndex);
-            b.Write((sbyte)stickOffset.x);
-            b.Write((sbyte)stickOffset.y);
+            b.Write((sbyte)stickOffset.X);
+            b.Write((sbyte)stickOffset.Y);
         }
         else
         {
             b.Write(val: false);
-            b.Write((short)base.x);
-            b.Write((short)base.y);
+            b.Write((short)base.X);
+            b.Write((short)base.Y);
         }
     }
 
@@ -175,10 +175,10 @@ public class SmallFire : PhysicsParticle, ITeleport
         _sprite = new SpriteMap("smallFire", 16, 16);
         _sprite.AddAnimation("burn", 0.2f + Rando.Float(0.2f), true, 0, 1, 2, 3, 4);
         graphic = _sprite;
-        center = new Vec2(8f, 14f);
+        Center = new Vec2(8f, 14f);
         _airFire = new SpriteMap("airFire", 16, 16);
         _airFire.AddAnimation("burn", 0.2f + Rando.Float(0.2f), true, 0, 1, 2, 1);
-        _airFire.center = new Vec2(8f, 8f);
+        _airFire.Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(12f, 12f);
         _collisionOffset = new Vec2(-6f, -6f);
     }
@@ -187,11 +187,11 @@ public class SmallFire : PhysicsParticle, ITeleport
     {
         if (xpos == 0f && ypos == 0f && stick == null)
         {
-            xpos = Vec2.NetMin.x;
-            ypos = Vec2.NetMin.y;
+            xpos = Vec2.NetMin.X;
+            ypos = Vec2.NetMin.Y;
         }
-        position.x = xpos;
-        position.y = ypos;
+        X = xpos;
+        Y = ypos;
         _airFireScale = 0f;
         _multiplied = false;
         _groundLife = 125;
@@ -200,14 +200,14 @@ public class SmallFire : PhysicsParticle, ITeleport
         vSpeed = vspeed;
         _sprite.SetAnimation("burn");
         _sprite.imageIndex = Rando.Int(4);
-        float num = (base.yscale = 0.8f + Rando.Float(0.6f));
-        base.xscale = num;
-        base.angleDegrees = -10f + Rando.Float(20f);
+        float num = (base.ScaleY = 0.8f + Rando.Float(0.6f));
+        base.ScaleX = num;
+        base.AngleDegrees = -10f + Rando.Float(20f);
         _airFire.SetAnimation("burn");
         _airFire.imageIndex = Rando.Int(2);
         SpriteMap airFire = _airFire;
-        num = (_airFire.yscale = 0f);
-        airFire.xscale = num;
+        num = (_airFire.ScaleY = 0f);
+        airFire.ScaleX = num;
         _spinSpeed = 0.1f + Rando.Float(0.1f);
         _airFire.color = Color.Orange * (0.8f + Rando.Float(0.2f));
         _gravMult = 0.7f;
@@ -223,7 +223,7 @@ public class SmallFire : PhysicsParticle, ITeleport
         {
             _groundLife = 31;
         }
-        base.depth = 0.6f;
+        base.Depth = 0.6f;
         _stick = stick;
         _stickOffset = new Vec2(xpos, ypos);
         UpdateStick();
@@ -236,7 +236,7 @@ public class SmallFire : PhysicsParticle, ITeleport
     {
         if (_stick != null)
         {
-            position = _stick.Offset(_stickOffset);
+            Position = _stick.Offset(_stickOffset);
         }
     }
 
@@ -298,8 +298,8 @@ public class SmallFire : PhysicsParticle, ITeleport
         {
             if (_groundLife <= 0)
             {
-                base.alpha -= 0.04f;
-                if (base.alpha < 0f)
+                base.Alpha -= 0.04f;
+                if (base.Alpha < 0f)
                 {
                     Level.Remove(this);
                 }
@@ -309,24 +309,24 @@ public class SmallFire : PhysicsParticle, ITeleport
                 _groundLife--;
             }
         }
-        if (base.y > Level.current.bottomRight.y + 200f)
+        if (base.Y > Level.current.bottomRight.Y + 200f)
         {
             Level.Remove(this);
         }
         SpriteMap airFire = _airFire;
-        float num = (_airFire.yscale = _airFireScale);
-        airFire.xscale = num;
-        _airFire.depth = base.depth - 1;
-        _airFire.alpha = 0.5f;
-        _airFire.angle += hSpeed * _spinSpeed;
-        if (isLocal && _canMultiply && !_multiplied && Rando.Float(310f) < 1f && base.y > base.level.topLeft.y - 500f)
+        float num = (_airFire.ScaleY = _airFireScale);
+        airFire.ScaleX = num;
+        _airFire.Depth = base.Depth - 1;
+        _airFire.Alpha = 0.5f;
+        _airFire.Angle += hSpeed * _spinSpeed;
+        if (isLocal && _canMultiply && !_multiplied && Rando.Float(310f) < 1f && base.Y > base.level.topLeft.Y - 500f)
         {
-            Level.Add(New(base.x, base.y, -0.5f + Rando.Float(1f), 0f - (0.5f + Rando.Float(0.5f))));
+            Level.Add(New(base.X, base.Y, -0.5f + Rando.Float(1f), 0f - (0.5f + Rando.Float(0.5f))));
             _multiplied = true;
         }
         if (_stick == null)
         {
-            if (base.level != null && base.y < base.level.topLeft.y - 1500f)
+            if (base.level != null && base.Y < base.level.topLeft.Y - 1500f)
             {
                 Level.Remove(this);
             }
@@ -344,9 +344,9 @@ public class SmallFire : PhysicsParticle, ITeleport
             {
                 UpdateStick();
                 stick.UpdateFirePosition(this);
-                if (!_stick.onFire || _stick.removeFromLevel || _stick.alpha < 0.01f)
+                if (!_stick.onFire || _stick.removeFromLevel || _stick.Alpha < 0.01f)
                 {
-                    Level.Add(SmallSmoke.New(base.x, base.y));
+                    Level.Add(SmallSmoke.New(base.X, base.Y));
                     Level.Remove(this);
                 }
             }

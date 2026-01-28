@@ -26,10 +26,10 @@ public class CookedDuck : Holdable, IPlatform
         : base(xpos, ypos)
     {
         graphic = new Sprite("cookedDuck");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-6f, -4f);
         collisionSize = new Vec2(12f, 11f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         thickness = 0.5f;
         weight = 5f;
         base.collideSounds.Add("rockHitGround2", ImpactedFrom.Bottom);
@@ -40,8 +40,8 @@ public class CookedDuck : Holdable, IPlatform
             m.AddAnimation("idle", 0.12f, true, 3, 4, 5, 6, 7, 8);
             m.SetAnimation("idle");
             m.frame = Rando.Int(5);
-            m.center = new Vec2(1f, 8f);
-            m.alpha = 0.5f;
+            m.Center = new Vec2(1f, 8f);
+            m.Alpha = 0.5f;
             _flavourLines.Add(m);
         }
         holsterAngle = -90f;
@@ -61,13 +61,13 @@ public class CookedDuck : Holdable, IPlatform
             vSpeed -= 0.5f;
         }
         SFX.Play("smallSplat", Rando.Float(0.8f, 1f), Rando.Float(-0.2f, 0.2f));
-        Level.Add(new WetEnterEffect(hitPos.x, hitPos.y, -bullet.travelDirNormalized, this));
+        Level.Add(new WetEnterEffect(hitPos.X, hitPos.Y, -bullet.travelDirNormalized, this));
         return base.Hit(bullet, hitPos);
     }
 
     public override void ExitHit(Bullet bullet, Vec2 exitPos)
     {
-        Level.Add(new WetPierceEffect(exitPos.x, exitPos.y, bullet.travelDirNormalized, this));
+        Level.Add(new WetPierceEffect(exitPos.X, exitPos.Y, bullet.travelDirNormalized, this));
     }
 
     public override void Update()
@@ -92,9 +92,9 @@ public class CookedDuck : Holdable, IPlatform
             }
             for (int i = 0; i < 3; i++)
             {
-                _flavourLines[i].depth = base.depth;
+                _flavourLines[i].Depth = base.Depth;
                 _flavourLines[i].color = Color.White * _hotAlpha;
-                Graphics.Draw(_flavourLines[i], base.x - 4f + (float)(i * 4) + xOff, base.y - 3f);
+                Graphics.Draw(_flavourLines[i], base.X - 4f + (float)(i * 4) + xOff, base.Y - 3f);
             }
         }
     }

@@ -14,10 +14,10 @@ public class StreetLight : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("streetLight");
-        center = new Vec2(6f, 54f);
+        Center = new Vec2(6f, 54f);
         _collisionSize = new Vec2(8f, 8f);
         _collisionOffset = new Vec2(-4f, -2f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.hugWalls = WallHug.Floor;
         base.layer = Layer.Game;
     }
@@ -28,17 +28,17 @@ public class StreetLight : Thing
         {
             if (flipHorizontal)
             {
-                Vec2 lightPos = new Vec2(base.x - 16f, base.y - 32f - 20f);
+                Vec2 lightPos = new Vec2(base.X - 16f, base.Y - 32f - 20f);
                 _occluders.Add(new LightOccluder(lightPos + new Vec2(8f, 5f), lightPos + new Vec2(-1f, -4f), new Color(0.4f, 0.4f, 0.4f)));
                 _occluders.Add(new LightOccluder(lightPos + new Vec2(1f, -4f), lightPos + new Vec2(-8f, 5f), new Color(0.4f, 0.4f, 0.4f)));
-                Level.Add(new PointLight(lightPos.x, lightPos.y + 1f, new Color(247, 198, 120), 200f, _occluders));
+                Level.Add(new PointLight(lightPos.X, lightPos.Y + 1f, new Color(247, 198, 120), 200f, _occluders));
             }
             else
             {
-                Vec2 lightPos2 = new Vec2(base.x + 16f, base.y - 32f - 20f);
+                Vec2 lightPos2 = new Vec2(base.X + 16f, base.Y - 32f - 20f);
                 _occluders.Add(new LightOccluder(lightPos2 + new Vec2(-8f, 5f), lightPos2 + new Vec2(1f, -4f), new Color(0.4f, 0.4f, 0.4f)));
                 _occluders.Add(new LightOccluder(lightPos2 + new Vec2(-1f, -4f), lightPos2 + new Vec2(8f, 5f), new Color(0.4f, 0.4f, 0.4f)));
-                Level.Add(new PointLight(lightPos2.x, lightPos2.y + 1f, new Color(247, 198, 120), 200f, _occluders));
+                Level.Add(new PointLight(lightPos2.X, lightPos2.Y + 1f, new Color(247, 198, 120), 200f, _occluders));
             }
         }
     }

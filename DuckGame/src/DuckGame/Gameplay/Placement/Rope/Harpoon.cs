@@ -49,7 +49,7 @@ public class Harpoon : Thing
         _belongsTo = belongsTo;
         owner = belongsTo;
         graphic = new Sprite("hook");
-        center = new Vec2(3f, 3f);
+        Center = new Vec2(3f, 3f);
         collisionOffset = new Vec2(-5f, -1.5f);
         collisionSize = new Vec2(10f, 5f);
     }
@@ -69,8 +69,8 @@ public class Harpoon : Thing
             if (_owner is Grapple && _inGun)
             {
                 Grapple g = _owner as Grapple;
-                position = g.barrelPosition;
-                base.depth = g.depth - 1;
+                Position = g.barrelPosition;
+                base.Depth = g.Depth - 1;
                 hSpeed = 0f;
                 vSpeed = 0f;
                 graphic.flipH = (float)g.offDir < 0f;
@@ -81,14 +81,14 @@ public class Harpoon : Thing
     public void Latch(Vec2 point)
     {
         _inGun = false;
-        position = point;
+        Position = point;
         _stuck = true;
     }
 
     public void SetStuckPoint(Vec2 pPoint)
     {
         _inGun = false;
-        position = pPoint;
+        Position = pPoint;
         _stuck = true;
     }
 
@@ -99,18 +99,18 @@ public class Harpoon : Thing
             return;
         }
         _inGun = false;
-        position = point + travel * -2f;
+        Position = point + travel * -2f;
         _stuck = true;
         if (noisy)
         {
             SFX.Play("grappleHook", 0.5f);
             for (int i = 0; i < 6; i++)
             {
-                Level.Add(Spark.New(point.x - travel.x * 2f, point.y - travel.y * 2f, travel));
+                Level.Add(Spark.New(point.X - travel.X * 2f, point.Y - travel.Y * 2f, travel));
             }
             for (int j = 0; j < 1; j++)
             {
-                Level.Add(SmallSmoke.New(point.x + Rando.Float(-2f, 2f), point.y + Rando.Float(-2f, 2f)));
+                Level.Add(SmallSmoke.New(point.X + Rando.Float(-2f, 2f), point.Y + Rando.Float(-2f, 2f)));
             }
         }
     }

@@ -18,7 +18,7 @@ public class BananaCluster : Gun
         _sprite = new SpriteMap("banana", 16, 16);
         _sprite.frame = 4;
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-6f, -4f);
         collisionSize = new Vec2(12f, 11f);
         physicsMaterial = PhysicsMaterial.Rubber;
@@ -42,7 +42,7 @@ public class BananaCluster : Gun
         }
         if (owner == null && ammo == 1)
         {
-            Banana thing = new Banana(base.x, base.y)
+            Banana thing = new Banana(base.X, base.Y)
             {
                 hSpeed = hSpeed,
                 vSpeed = vSpeed
@@ -85,7 +85,7 @@ public class BananaCluster : Gun
         }
         if (base.isServerForObject)
         {
-            Banana b = new Banana(base.barrelPosition.x, base.barrelPosition.y);
+            Banana b = new Banana(base.barrelPosition.X, base.barrelPosition.Y);
             if (!duckOwner.crouch)
             {
                 b.hSpeed = (float)offDir * Rando.Float(3f, 3.5f) + addSpeedX;

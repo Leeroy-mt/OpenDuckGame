@@ -11,12 +11,12 @@ public class TinyBubble : PhysicsParticle
     public TinyBubble(float xpos, float ypos, float startHSpeed, float minY, bool blue = false)
         : base(xpos, ypos)
     {
-        base.alpha = 0.7f;
+        base.Alpha = 0.7f;
         _minY = minY;
         _gravMult = 0f;
         vSpeed = 0f - Rando.Float(0.5f, 1f);
         hSpeed = startHSpeed;
-        base.depth = 0.3f;
+        base.Depth = 0.3f;
         SpriteMap spr = new SpriteMap("tinyBubbles", 8, 8);
         if (blue)
         {
@@ -24,32 +24,32 @@ public class TinyBubble : PhysicsParticle
         }
         spr.frame = Rando.Int(0, 1);
         graphic = spr;
-        center = new Vec2(4f, 4f);
+        Center = new Vec2(4f, 4f);
         _waveSize = Rando.Float(0.1f, 0.3f);
-        base.xscale = (base.yscale = 0.1f);
+        base.ScaleX = (base.ScaleY = 0.1f);
     }
 
     public override void Update()
     {
         _wave.Update();
-        position.x += _wave.value * _waveSize;
-        position.x += hSpeed;
-        position.y += vSpeed;
+        X += _wave.value * _waveSize;
+        X += hSpeed;
+        Y += vSpeed;
         hSpeed = Lerp.Float(hSpeed, 0f, 0.1f);
-        float num = (base.yscale = Lerp.Float(base.xscale, 1f, 0.1f));
-        base.xscale = num;
-        if (base.y < _minY - 4f)
+        float num = (base.ScaleY = Lerp.Float(base.ScaleX, 1f, 0.1f));
+        base.ScaleX = num;
+        if (base.Y < _minY - 4f)
         {
-            base.alpha -= 0.025f;
+            base.Alpha -= 0.025f;
         }
-        if (base.y < _minY - 8f)
+        if (base.Y < _minY - 8f)
         {
-            base.alpha = 0f;
+            base.Alpha = 0f;
         }
-        if (base.y < _minY)
+        if (base.Y < _minY)
         {
-            base.alpha -= 0.025f;
-            if (base.alpha < 0f)
+            base.Alpha -= 0.025f;
+            if (base.Alpha < 0f)
             {
                 Level.Remove(this);
             }

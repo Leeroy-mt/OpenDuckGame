@@ -111,18 +111,18 @@ public class WallLayer : Layer
         Begin(transparent);
         foreach (Sprite s in _wallSprites)
         {
-            float xpos = s.x;
-            Graphics.Draw(s, s.x, s.y);
-            s.x = xpos;
+            float xpos = s.X;
+            Graphics.Draw(s, s.X, s.Y);
+            s.X = xpos;
         }
         _batch.End();
         _fx.Parameters["WVP"].SetValue(Matrix.CreateRotationY(-(float)Math.PI / 2f) * Matrix.CreateRotationZ(-(float)Math.PI / 2f) * Matrix.CreateTranslation(new Vec3(625.5f, 160f, 0.1f)) * _view * _proj);
         Begin(transparent);
         foreach (Sprite s2 in _wallSprites)
         {
-            float xpos2 = s2.x;
-            Graphics.Draw(s2, s2.x, s2.y);
-            s2.x = xpos2;
+            float xpos2 = s2.X;
+            Graphics.Draw(s2, s2.X, s2.Y);
+            s2.X = xpos2;
         }
         _batch.End();
         Graphics.screen = null;

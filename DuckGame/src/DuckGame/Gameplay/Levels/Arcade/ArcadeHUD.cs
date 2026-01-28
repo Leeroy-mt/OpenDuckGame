@@ -81,7 +81,7 @@ public class ArcadeHUD : Thing
     {
         get
         {
-            if (!(base.alpha < 0.01f))
+            if (!(base.Alpha < 0.01f))
             {
                 return base.visible;
             }
@@ -181,14 +181,14 @@ public class ArcadeHUD : Thing
 
     public override void Update()
     {
-        _curAlpha = base.alpha;
+        _curAlpha = base.Alpha;
         if (launchChallenge)
         {
             _afterChallenge = true;
             _afterChallengeWait = 1f;
             return;
         }
-        if (base.alpha > 0.95f)
+        if (base.Alpha > 0.95f)
         {
             open = true;
         }
@@ -196,7 +196,7 @@ public class ArcadeHUD : Thing
         {
             open = false;
         }
-        if (!(base.alpha > 0.01f))
+        if (!(base.Alpha > 0.01f))
         {
             return;
         }
@@ -254,9 +254,9 @@ public class ArcadeHUD : Thing
                             {
                                 card2.expand = true;
                                 card2.contract = false;
-                                _lerpOffset = card2.y;
+                                _lerpOffset = card2.Y;
                                 _viewing = card2;
-                                _oldLerpOffset = card2.y;
+                                _oldLerpOffset = card2.Y;
                                 SFX.Play("menu_select");
                             }
                             else
@@ -379,35 +379,35 @@ public class ArcadeHUD : Thing
 
     public override void Draw()
     {
-        if (!(base.alpha > 0.01f) || _activeChallengeGroup == null)
+        if (!(base.Alpha > 0.01f) || _activeChallengeGroup == null)
         {
             return;
         }
         float ypos = 16f;
         string name = _activeChallengeGroup.GetNameForDisplay();
-        _font.alpha = base.alpha;
+        _font.Alpha = base.Alpha;
         float wide = _font.GetWidth(name);
         _font.Draw(name, 160f - wide / 2f, ypos, Color.White);
-        _titleWing.alpha = base.alpha;
+        _titleWing.Alpha = base.Alpha;
         _titleWing.flipH = false;
-        _titleWing.x = 160f - wide / 2f - (float)(_titleWing.width + 1);
-        _titleWing.y = ypos;
+        _titleWing.X = 160f - wide / 2f - (float)(_titleWing.width + 1);
+        _titleWing.Y = ypos;
         _titleWing.Draw();
         _titleWing.flipH = true;
-        _titleWing.x = 160f + wide / 2f + (float)_titleWing.width;
-        _titleWing.y = ypos;
+        _titleWing.X = 160f + wide / 2f + (float)_titleWing.width;
+        _titleWing.Y = ypos;
         _titleWing.Draw();
         int index = 0;
         foreach (ChallengeCard card in _cards)
         {
-            card.alpha = base.alpha;
+            card.Alpha = base.Alpha;
             if (index == _selected && card == _viewing)
             {
-                card.position = new Vec2(31f, _lerpOffset);
+                card.Position = new Vec2(31f, _lerpOffset);
             }
             else
             {
-                card.position = new Vec2(31f, ypos + 12f + (float)(index * 44));
+                card.Position = new Vec2(31f, ypos + 12f + (float)(index * 44));
             }
             card.Draw();
             index++;

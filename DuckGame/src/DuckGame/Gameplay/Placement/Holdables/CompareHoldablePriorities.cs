@@ -43,7 +43,7 @@ public class CompareHoldablePriorities : IComparer<Holdable>
         }
         if (h1.PickupPriority() == h2.PickupPriority())
         {
-            if ((h1.position - _duck.position).length - (h2.position - _duck.position).length < -2f)
+            if ((h1.Position - _duck.Position).Length() - (h2.Position - _duck.Position).Length() < -2f)
             {
                 return -1;
             }

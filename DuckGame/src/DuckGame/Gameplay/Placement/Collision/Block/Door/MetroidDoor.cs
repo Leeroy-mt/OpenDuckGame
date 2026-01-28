@@ -26,9 +26,9 @@ public class MetroidDoor : VerticalDoor
             if (ducks.Count() > 0)
             {
                 Duck d = ducks.First() as Duck;
-                if (d.x < base.x - 5f)
+                if (d.X < base.X - 5f)
                 {
-                    d.x -= 10f;
+                    d.X -= 10f;
                     MonoMain.transitionDirection = TransitionDirection.Left;
                     MonoMain.transitionLevel = new TitleScreen(returnFromArcade: true, _arcadeProfile);
                 }

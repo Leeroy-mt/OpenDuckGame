@@ -7,7 +7,7 @@ public class EnergyScimitarBlast : Thing
     public Vec2 _target;
 
     public EnergyScimitarBlast(Vec2 pos, Vec2 target)
-        : base(pos.x, pos.y)
+        : base(pos.X, pos.Y)
     {
         _target = target;
     }
@@ -15,16 +15,16 @@ public class EnergyScimitarBlast : Thing
     public override void Initialize()
     {
         SFX.Play("laserBlast");
-        Vec2 upVec = _target.Rotate(Maths.DegToRad(-90f), Vec2.Zero).normalized;
-        Vec2 downVec = _target.Rotate(Maths.DegToRad(90f), Vec2.Zero).normalized;
-        Level.Add(new LaserLine(position, _target, upVec, 4f, Color.White, 1f));
-        Level.Add(new LaserLine(position, _target, downVec, 4f, Color.White, 1f));
-        Level.Add(new LaserLine(position, _target, upVec, 2.5f, Color.White, 2f));
-        Level.Add(new LaserLine(position, _target, downVec, 2.5f, Color.White, 2f));
+        Vec2 upVec = _target.Rotate(Maths.DegToRad(-90f), Vec2.Zero).Normalized;
+        Vec2 downVec = _target.Rotate(Maths.DegToRad(90f), Vec2.Zero).Normalized;
+        Level.Add(new LaserLine(Position, _target, upVec, 4f, Color.White, 1f));
+        Level.Add(new LaserLine(Position, _target, downVec, 4f, Color.White, 1f));
+        Level.Add(new LaserLine(Position, _target, upVec, 2.5f, Color.White, 2f));
+        Level.Add(new LaserLine(Position, _target, downVec, 2.5f, Color.White, 2f));
         if (isLocal)
         {
             int ducks = 0;
-            Vec2 checkStart = position + upVec * 16f;
+            Vec2 checkStart = Position + upVec * 16f;
             for (int i = 0; i < 5; i++)
             {
                 Vec2 vec = checkStart + downVec * 8f * i;
@@ -71,9 +71,9 @@ public class EnergyScimitarBlast : Thing
         Maths.NormalizeSection(_blast, 0.6f, 1f);
         _ = _blast;
         _ = 0f;
-        Vec2 upVec = _target.Rotate(Maths.DegToRad(-90f), Vec2.Zero).normalized;
-        Vec2 downVec = _target.Rotate(Maths.DegToRad(90f), Vec2.Zero).normalized;
-        Vec2 checkStart = position + upVec * 16f;
+        Vec2 upVec = _target.Rotate(Maths.DegToRad(-90f), Vec2.Zero).Normalized;
+        Vec2 downVec = _target.Rotate(Maths.DegToRad(90f), Vec2.Zero).Normalized;
+        Vec2 checkStart = Position + upVec * 16f;
         for (int i = 0; i < 5; i++)
         {
             Vec2 vec = checkStart + downVec * 8f * i;

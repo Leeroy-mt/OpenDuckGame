@@ -104,7 +104,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
 
     public float _flap;
 
-    public Vec2 endOffset => position + endNormal * 9f;
+    public Vec2 endOffset => Position + endNormal * 9f;
 
     public Vec2 endNormal
     {
@@ -126,7 +126,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
             {
                 return new Vec2(-1f, 0f);
             }
-            return position;
+            return Position;
         }
     }
 
@@ -159,12 +159,12 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
         _editorName = "Pipe";
         editorTooltip = "Travel through pipes!";
         base.layer = Layer.Game;
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         thickness = 3f;
         _sprite = new SpriteMap(pSprite, 18, 18);
         graphic = _sprite;
         physicsMaterial = PhysicsMaterial.Metal;
-        center = new Vec2(9f, 9f);
+        Center = new Vec2(9f, 9f);
         _sprite.CenterOrigin();
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
@@ -175,32 +175,32 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
     public bool MovingIntoPipe(Vec2 pPosition, Vec2 pVelocity, float pThresh = 2f)
     {
         bool valid = false;
-        if (endNormal.x != 0f && pVelocity.x != 0f)
+        if (endNormal.X != 0f && pVelocity.X != 0f)
         {
-            if (Math.Sign(pVelocity.x) != Math.Sign(endNormal.x))
+            if (Math.Sign(pVelocity.X) != Math.Sign(endNormal.X))
             {
                 valid = true;
             }
         }
-        else if (endNormal.y != 0f && pVelocity.y != 0f && Math.Sign(pVelocity.y) != Math.Sign(endNormal.y))
+        else if (endNormal.Y != 0f && pVelocity.Y != 0f && Math.Sign(pVelocity.Y) != Math.Sign(endNormal.Y))
         {
             valid = true;
         }
         if (valid)
         {
-            if (Left() != null && pPosition.x < base.right + pThresh && pPosition.y <= base.bottom + pThresh && pPosition.y >= base.top - pThresh)
+            if (Left() != null && pPosition.X < base.right + pThresh && pPosition.Y <= base.bottom + pThresh && pPosition.Y >= base.top - pThresh)
             {
                 return true;
             }
-            if (Right() != null && pPosition.x < base.left - pThresh && pPosition.y <= base.bottom + pThresh && pPosition.y >= base.top - pThresh)
+            if (Right() != null && pPosition.X < base.left - pThresh && pPosition.Y <= base.bottom + pThresh && pPosition.Y >= base.top - pThresh)
             {
                 return true;
             }
-            if (Up() != null && pPosition.y < base.bottom + pThresh && pPosition.x <= base.right + pThresh && pPosition.x >= base.left - pThresh)
+            if (Up() != null && pPosition.Y < base.bottom + pThresh && pPosition.X <= base.right + pThresh && pPosition.X >= base.left - pThresh)
             {
                 return true;
             }
-            if (Down() != null && pPosition.y > base.top - pThresh && pPosition.x <= base.right + pThresh && pPosition.x >= base.left - pThresh)
+            if (Down() != null && pPosition.Y > base.top - pThresh && pPosition.X <= base.right + pThresh && pPosition.X >= base.left - pThresh)
             {
                 return true;
             }
@@ -254,7 +254,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
         d.clip.Clear();
         if (Down() != null)
         {
-            d.position = position - new Vec2(0f, 10f);
+            d.Position = Position - new Vec2(0f, 10f);
             if (d is Duck)
             {
                 (d as Duck).jumping = true;
@@ -267,26 +267,26 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
             }
             for (int i = 0; i < 6; i++)
             {
-                SmallSmoke smallSmoke = SmallSmoke.New(base.x + Rando.Float(-4f, 4f), base.y + Rando.Float(-4f, 4f));
+                SmallSmoke smallSmoke = SmallSmoke.New(base.X + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f));
                 smallSmoke.velocity = new Vec2(Rando.Float(-0.5f, 0.5f), Rando.Float(0f, -0.5f));
                 Level.Add(smallSmoke);
             }
             if (Network.isActive && framesSincePipeout > 2)
             {
-                Send.Message(new NMPipeOut(new Vec2(base.x, base.y), 0));
+                Send.Message(new NMPipeOut(new Vec2(base.X, base.Y), 0));
                 framesSincePipeout = 0;
             }
-            if (d is Duck && Level.CheckLine<Block>(position - new Vec2(0f, 16f), position - new Vec2(0f, 32f)) != null)
+            if (d is Duck && Level.CheckLine<Block>(Position - new Vec2(0f, 16f), Position - new Vec2(0f, 32f)) != null)
             {
                 Duck obj = d as Duck;
-                obj.position = position - new Vec2(0f, 16f);
+                obj.Position = Position - new Vec2(0f, 16f);
                 obj.GoRagdoll();
                 dontAdd = true;
             }
         }
         else if (Left() != null || Right() != null)
         {
-            d.position = position + new Vec2((Left() != null) ? 12 : (-12), -2f);
+            d.Position = Position + new Vec2((Left() != null) ? 12 : (-12), -2f);
             d.vSpeed = -0f;
             if (Left() != null)
             {
@@ -298,7 +298,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
             }
             for (int j = 0; j < 6; j++)
             {
-                SmallSmoke s = SmallSmoke.New(base.x + (float)((Left() != null) ? 12 : (-12)) + Rando.Float(-4f, 4f), base.y + Rando.Float(-4f, 4f));
+                SmallSmoke s = SmallSmoke.New(base.X + (float)((Left() != null) ? 12 : (-12)) + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f));
                 if (Left() != null)
                 {
                     s.velocity = new Vec2(Rando.Float(0.2f, 0.7f), Rando.Float(-0.5f, 0.5f));
@@ -311,7 +311,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
             }
             if (Network.isActive && framesSincePipeout > 2)
             {
-                Send.Message(new NMPipeOut(new Vec2(base.x + (float)((Left() != null) ? 12 : (-12)), base.y), (byte)((Left() != null) ? 1 : 3)));
+                Send.Message(new NMPipeOut(new Vec2(base.X + (float)((Left() != null) ? 12 : (-12)), base.Y), (byte)((Left() != null) ? 1 : 3)));
                 framesSincePipeout = 0;
             }
             if (d is Duck)
@@ -321,7 +321,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
                 obj2.crouch = true;
                 obj2.crouchLock = true;
                 obj2.SetCollisionMode("slide");
-                obj2.position.y -= 6f;
+                obj2.Y -= 6;
                 obj2.ReturnItemToWorld(obj2);
             }
             d.clip.Add(this);
@@ -329,23 +329,23 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
         }
         else
         {
-            d.position = position + new Vec2(0f, 4f);
+            d.Position = Position + new Vec2(0f, 4f);
             d.vSpeed = 5f;
             for (int k = 0; k < 6; k++)
             {
-                SmallSmoke smallSmoke2 = SmallSmoke.New(base.x + Rando.Float(-4f, 4f), base.y + 12f + Rando.Float(-4f, 4f));
+                SmallSmoke smallSmoke2 = SmallSmoke.New(base.X + Rando.Float(-4f, 4f), base.Y + 12f + Rando.Float(-4f, 4f));
                 smallSmoke2.velocity = new Vec2(Rando.Float(-0.5f, 0.5f), Rando.Float(0.2f, 0.7f));
                 Level.Add(smallSmoke2);
             }
             if (Network.isActive && framesSincePipeout > 2)
             {
-                Send.Message(new NMPipeOut(new Vec2(base.x, base.y + 12f), 2));
+                Send.Message(new NMPipeOut(new Vec2(base.X, base.Y + 12f), 2));
                 framesSincePipeout = 0;
             }
-            if (d is Duck && (Level.CheckLine<Block>(position + new Vec2(0f, 16f), position + new Vec2(0f, 32f)) != null || Level.CheckLine<IPlatform>(position + new Vec2(0f, 16f), position + new Vec2(0f, 32f)) != null))
+            if (d is Duck && (Level.CheckLine<Block>(Position + new Vec2(0f, 16f), Position + new Vec2(0f, 32f)) != null || Level.CheckLine<IPlatform>(Position + new Vec2(0f, 16f), Position + new Vec2(0f, 32f)) != null))
             {
                 Duck obj3 = d as Duck;
-                obj3.position = position + new Vec2(0f, 16f);
+                obj3.Position = Position + new Vec2(0f, 16f);
                 obj3.GoRagdoll();
                 dontAdd = true;
             }
@@ -442,17 +442,17 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
                 _transporting.Add(new PipeBundle
                 {
                     thing = r.part1,
-                    cameraPosition = r.part1.position
+                    cameraPosition = r.part1.Position
                 });
                 _transporting.Add(new PipeBundle
                 {
                     thing = r.part2,
-                    cameraPosition = r.part1.position
+                    cameraPosition = r.part1.Position
                 });
                 _transporting.Add(new PipeBundle
                 {
                     thing = r.part3,
-                    cameraPosition = r.part1.position
+                    cameraPosition = r.part1.Position
                 });
                 _removeFromPipe.Add(r.part1);
                 _removeFromPipe.Add(r.part2);
@@ -464,7 +464,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
             _transporting.Add(new PipeBundle
             {
                 thing = pThing,
-                cameraPosition = pThing.position
+                cameraPosition = pThing.Position
             });
             _removeFromPipe.Add(pThing as ITeleport);
         }
@@ -562,7 +562,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
             if (iT is QuadLaserBullet)
             {
                 QuadLaserBullet qb = iT as QuadLaserBullet;
-                if (!qb.inPipe && oppositeEnd != null && !oppositeEnd.trapdoor && MovingIntoPipe(qb.position, qb.travel, 4f))
+                if (!qb.inPipe && oppositeEnd != null && !oppositeEnd.trapdoor && MovingIntoPipe(qb.Position, qb.travel, 4f))
                 {
                     _objectsInPipes.Add(iT);
                     qb.inPipe = true;
@@ -571,7 +571,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
             else if (iT is PhysicsParticle)
             {
                 PhysicsParticle pp = iT as PhysicsParticle;
-                if (!pp.inPipe && oppositeEnd != null && !oppositeEnd.trapdoor && MovingIntoPipe(pp.position, pp.velocity, 4f))
+                if (!pp.inPipe && oppositeEnd != null && !oppositeEnd.trapdoor && MovingIntoPipe(pp.Position, pp.velocity, 4f))
                 {
                     pp.inPipe = true;
                     _objectsInPipes.Add(iT);
@@ -587,11 +587,11 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
             if (iT2 is QuadLaserBullet)
             {
                 QuadLaserBullet qb2 = iT2 as QuadLaserBullet;
-                qb2.position = Lerp.Vec2Smooth(qb2.position, position, 0.2f);
-                if ((position - qb2.position).length < 6f)
+                qb2.Position = Lerp.Vec2Smooth(qb2.Position, Position, 0.2f);
+                if ((Position - qb2.Position).Length() < 6f)
                 {
-                    qb2.position = oppositeEnd.position + oppositeEnd.endNormal * 4f;
-                    qb2.travel = oppositeEnd.endNormal * qb2.travel.length;
+                    qb2.Position = oppositeEnd.Position + oppositeEnd.endNormal * 4f;
+                    qb2.travel = oppositeEnd.endNormal * qb2.travel.Length();
                     _removeFromPipe.Add(iT2);
                     qb2.inPipe = false;
                 }
@@ -600,15 +600,15 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
             {
                 PhysicsParticle pp2 = iT2 as PhysicsParticle;
                 pp2._grounded = true;
-                pp2.position = Lerp.Vec2Smooth(pp2.position, position, 0.2f);
+                pp2.Position = Lerp.Vec2Smooth(pp2.Position, Position, 0.2f);
                 pp2.hSpeed *= 0.9f;
                 pp2.vSpeed *= 0.9f;
-                if ((position - pp2.position).length < 6f)
+                if ((Position - pp2.Position).Length() < 6f)
                 {
-                    pp2.position = oppositeEnd.endOffset + new Vec2(Rando.Float(-5f, 5f) * Math.Abs(oppositeEnd.endNormal.y), Rando.Float(-5f, 5f) * Math.Abs(oppositeEnd.endNormal.x));
+                    pp2.Position = oppositeEnd.endOffset + new Vec2(Rando.Float(-5f, 5f) * Math.Abs(oppositeEnd.endNormal.Y), Rando.Float(-5f, 5f) * Math.Abs(oppositeEnd.endNormal.X));
                     pp2.velocity = oppositeEnd.endNormal * Rando.Float(1f, 2f);
-                    pp2.hSpeed += Rando.Float(-1f, 1f) * Math.Abs(oppositeEnd.endNormal.y);
-                    pp2.vSpeed += Rando.Float(-1f, 1f) * Math.Abs(oppositeEnd.endNormal.x);
+                    pp2.hSpeed += Rando.Float(-1f, 1f) * Math.Abs(oppositeEnd.endNormal.Y);
+                    pp2.vSpeed += Rando.Float(-1f, 1f) * Math.Abs(oppositeEnd.endNormal.X);
                     pp2._grounded = false;
                     _removeFromPipe.Add(iT2);
                     pp2.inPipe = false;
@@ -638,7 +638,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
                 d2._sleeping = false;
                 if (vertical)
                 {
-                    d2.position.x = Lerp.FloatSmooth(d2.position.x, base.x, 0.4f);
+                    d2.X = Lerp.FloatSmooth(d2.Position.X, base.X, 0.4f);
                     d2.hSpeed *= 0.8f;
                     if (Down() != null)
                     {
@@ -653,11 +653,11 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
                 {
                     if (d2 is Duck)
                     {
-                        d2.position.y = Lerp.FloatSmooth(d2.position.y, base.y - 10f, 0.6f);
+                        d2.Y = Lerp.FloatSmooth(d2.Position.Y, base.Y - 10f, 0.6f);
                     }
                     else
                     {
-                        d2.position.y = Lerp.FloatSmooth(d2.position.y, base.y - (d2.collisionCenter.y - base.y), 0.5f);
+                        d2.Y = Lerp.FloatSmooth(d2.Position.Y, base.Y - (d2.collisionCenter.Y - base.Y), 0.5f);
                     }
                     d2.vSpeed *= 0.8f;
                     if (Left() != null)
@@ -689,29 +689,29 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
                         }
                     }
                 }
-                if ((d2.position - position).length > 32f || d2.owner != null)
+                if ((d2.Position - Position).Length() > 32f || d2.owner != null)
                 {
                     d2.inPipe = false;
                     BreakPipeLink(d2);
                 }
-                else if ((vertical && Math.Abs(d2.position.x - base.x) < 4f) || (!vertical && ((d2 is Duck && Math.Abs(d2.position.y - (base.y - 10f)) < 4f) || (!(d2 is Duck) && Math.Abs(d2.position.y - base.y) < 4f))))
+                else if ((vertical && Math.Abs(d2.Position.X - base.X) < 4f) || (!vertical && ((d2 is Duck && Math.Abs(d2.Position.Y - (base.Y - 10f)) < 4f) || (!(d2 is Duck) && Math.Abs(d2.Position.Y - base.Y) < 4f))))
                 {
                     bool check3 = false;
                     if (Down() != null)
                     {
-                        check3 = d2.position.y > base.top + 6f;
+                        check3 = d2.Position.Y > base.top + 6f;
                     }
                     else if (Up() != null)
                     {
-                        check3 = d2.position.y < base.bottom - 6f;
+                        check3 = d2.Position.Y < base.bottom - 6f;
                     }
                     else if (Left() != null)
                     {
-                        check3 = d2.position.x < base.right - 6f;
+                        check3 = d2.Position.X < base.right - 6f;
                     }
                     else if (Right() != null)
                     {
-                        check3 = d2.position.x > base.left + 6f;
+                        check3 = d2.Position.X > base.left + 6f;
                     }
                     if (check3)
                     {
@@ -729,10 +729,10 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
                 PhysicsObject o = t as PhysicsObject;
                 o.updatePhysics = false;
                 o.overfollow = 0.5f;
-                o.position = new Vec2(-5000f, -1000f);
+                o.Position = new Vec2(-5000f, -1000f);
                 o.cameraPositionOverride = b.cameraPosition;
-                b.cameraPosition = Lerp.Vec2(b.cameraPosition, _oppositeEnd.position, travelLength / 10f);
-                if ((b.cameraPosition - _oppositeEnd.position).length < 4f)
+                b.cameraPosition = Lerp.Vec2(b.cameraPosition, _oppositeEnd.Position, travelLength / 10f);
+                if ((b.cameraPosition - _oppositeEnd.Position).Length() < 4f)
                 {
                     FinishTransporting(o, b);
                     SFX.Play("pipeOut", 1f, Rando.Float(-0.1f, 0.1f));
@@ -748,7 +748,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
         o.overfollow = 0f;
         if (bundle != null)
         {
-            o.position = bundle.cameraPosition;
+            o.Position = bundle.cameraPosition;
         }
         o.cameraPositionOverride = Vec2.Zero;
         o.inPipe = false;
@@ -769,8 +769,8 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
                 FinishTransporting(r.part1, _transporting.FirstOrDefault((PipeBundle x) => x.thing == r.part1), pDoingRagthing: true);
                 FinishTransporting(r.part2, _transporting.FirstOrDefault((PipeBundle x) => x.thing == r.part2), pDoingRagthing: true);
                 FinishTransporting(r.part3, _transporting.FirstOrDefault((PipeBundle x) => x.thing == r.part3), pDoingRagthing: true);
-                r.part1.position = new Vec2(r.part2.x + Rando.Float(-4f, 4f), r.part2.y + Rando.Float(-4f, 4f));
-                r.part3.position = new Vec2(r.part2.x + Rando.Float(-4f, 4f), r.part2.y + Rando.Float(-4f, 4f));
+                r.part1.Position = new Vec2(r.part2.X + Rando.Float(-4f, 4f), r.part2.Y + Rando.Float(-4f, 4f));
+                r.part3.Position = new Vec2(r.part2.X + Rando.Float(-4f, 4f), r.part2.Y + Rando.Float(-4f, 4f));
                 return;
             }
         }
@@ -778,7 +778,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
         {
             if (o is RagdollPart)
             {
-                (o as RagdollPart)._lastReasonablePosition = o.position;
+                (o as RagdollPart)._lastReasonablePosition = o.Position;
             }
             _oppositeEnd.PipeOut(o);
             _transporting.RemoveAt(idx);
@@ -894,9 +894,9 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
     {
         if (Level.current is Editor && (Level.current as Editor).placementType is PipeTileset)
         {
-            base.alpha = 0.6f;
+            base.Alpha = 0.6f;
             Draw();
-            base.alpha = 1f;
+            base.Alpha = 1f;
             base.EditorRender();
         }
     }
@@ -942,7 +942,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
             {
                 _collisionOffset = new Vec2(Vec2.MinValue);
             }
-            if (_validPipe && connections.Count == 1 && (Left() != null || Right() != null) && Level.CheckPoint<Block>(position, this) != null)
+            if (_validPipe && connections.Count == 1 && (Left() != null || Right() != null) && Level.CheckPoint<Block>(Position, this) != null)
             {
                 solid = false;
             }
@@ -955,19 +955,19 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
         Color c = graphic.color;
         if (IsBackground())
         {
-            base.depth = pipeDepth - 1.8f;
+            base.Depth = pipeDepth - 1.8f;
             graphic.color = c * 0.5f;
             graphic.color = new Color(graphic.color.r, graphic.color.g, graphic.color.b, byte.MaxValue);
         }
         else
         {
-            base.depth = pipeDepth;
+            base.Depth = pipeDepth;
             if (Left() != null && Left().IsBackground())
             {
                 int f = _sprite.frame;
                 _sprite.frame = 22;
                 _sprite.flipH = true;
-                Graphics.Draw(_sprite, base.x - 16f, base.y, base.depth + 5);
+                Graphics.Draw(_sprite, base.X - 16f, base.Y, base.Depth + 5);
                 _sprite.flipH = false;
                 _sprite.frame = f;
             }
@@ -975,26 +975,26 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
             {
                 int f2 = _sprite.frame;
                 _sprite.frame = 22;
-                Graphics.Draw(_sprite, base.x + 16f, base.y, base.depth + 5);
+                Graphics.Draw(_sprite, base.X + 16f, base.Y, base.Depth + 5);
                 _sprite.frame = f2;
             }
             if (Up() != null && Up().IsBackground())
             {
                 int f3 = _sprite.frame;
                 _sprite.frame = 22;
-                _sprite.angleDegrees = -90f;
-                Graphics.Draw(_sprite, base.x, base.y - 16f, base.depth + 5);
-                _sprite.angleDegrees = 0f;
+                _sprite.AngleDegrees = -90f;
+                Graphics.Draw(_sprite, base.X, base.Y - 16f, base.Depth + 5);
+                _sprite.AngleDegrees = 0f;
                 _sprite.frame = f3;
             }
             if (Down() != null && Down().IsBackground())
             {
                 int f4 = _sprite.frame;
                 _sprite.frame = 22;
-                _sprite.angleDegrees = 90f;
+                _sprite.AngleDegrees = 90f;
                 _sprite.flipV = true;
-                Graphics.Draw(_sprite, base.x, base.y + 16f, base.depth + 5);
-                _sprite.angleDegrees = 0f;
+                Graphics.Draw(_sprite, base.X, base.Y + 16f, base.Depth + 5);
+                _sprite.AngleDegrees = 0f;
                 _sprite.flipV = false;
                 _sprite.frame = f4;
             }
@@ -1023,9 +1023,9 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
     public override bool Hit(Bullet bullet, Vec2 hitPos)
     {
         entered = false;
-        if (connections.Count == 1 && (!trapdoor || bullet.ammo.penetration >= thickness) && ((((hitPos.x - 8f < base.left && Right() != null && bullet.travelDirNormalized.x > 0.3f) || (hitPos.x + 8f > base.right && Left() != null && bullet.travelDirNormalized.x < -0.3f)) && hitPos.y > base.top && hitPos.y < base.bottom) || (((hitPos.y - 8f < base.top && Down() != null && bullet.travelDirNormalized.y > 0.3f) || (hitPos.y + 8f > base.bottom && Up() != null && bullet.travelDirNormalized.y < -0.3f)) && hitPos.x > base.left && hitPos.x < base.right)) && oppositeEnd != null)
+        if (connections.Count == 1 && (!trapdoor || bullet.ammo.penetration >= thickness) && ((((hitPos.X - 8f < base.left && Right() != null && bullet.travelDirNormalized.X > 0.3f) || (hitPos.X + 8f > base.right && Left() != null && bullet.travelDirNormalized.X < -0.3f)) && hitPos.Y > base.top && hitPos.Y < base.bottom) || (((hitPos.Y - 8f < base.top && Down() != null && bullet.travelDirNormalized.Y > 0.3f) || (hitPos.Y + 8f > base.bottom && Up() != null && bullet.travelDirNormalized.Y < -0.3f)) && hitPos.X > base.left && hitPos.X < base.right)) && oppositeEnd != null)
         {
-            float newLength = bullet._totalLength - (bullet._actualStart - hitPos).length;
+            float newLength = bullet._totalLength - (bullet._actualStart - hitPos).Length();
             float randomDir = 0f;
             if (newLength > 0f)
             {
@@ -1150,28 +1150,28 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
     protected virtual Dictionary<Direction, PipeTileset> GetNeighbors()
     {
         Dictionary<Direction, PipeTileset> neighbors = new Dictionary<Direction, PipeTileset>();
-        PipeTileset up = (from x in Level.CheckPointAll<PipeTileset>(base.x, base.y - 16f)
+        PipeTileset up = (from x in Level.CheckPointAll<PipeTileset>(base.X, base.Y - 16f)
                           where x.@group == @group
                           select x).FirstOrDefault();
         if (up != null)
         {
             neighbors[Direction.Up] = up;
         }
-        PipeTileset down = (from x in Level.CheckPointAll<PipeTileset>(base.x, base.y + 16f)
+        PipeTileset down = (from x in Level.CheckPointAll<PipeTileset>(base.X, base.Y + 16f)
                             where x.@group == @group
                             select x).FirstOrDefault();
         if (down != null)
         {
             neighbors[Direction.Down] = down;
         }
-        PipeTileset left = (from x in Level.CheckPointAll<PipeTileset>(base.x - 16f, base.y)
+        PipeTileset left = (from x in Level.CheckPointAll<PipeTileset>(base.X - 16f, base.Y)
                             where x.@group == @group
                             select x).FirstOrDefault();
         if (left != null)
         {
             neighbors[Direction.Left] = left;
         }
-        PipeTileset right = (from x in Level.CheckPointAll<PipeTileset>(base.x + 16f, base.y)
+        PipeTileset right = (from x in Level.CheckPointAll<PipeTileset>(base.X + 16f, base.Y)
                              where x.@group == @group
                              select x).FirstOrDefault();
         if (right != null)
@@ -1235,16 +1235,16 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
 
     private void MakeConnection(PipeTileset pWith)
     {
-        if (pWith.y == base.y)
+        if (pWith.Y == base.Y)
         {
-            if (pWith.x > base.x)
+            if (pWith.X > base.X)
             {
                 pWith.connections[Direction.Left] = this;
                 pWith._pipeLeft = this;
                 connections[Direction.Right] = pWith;
                 _pipeRight = pWith;
             }
-            if (pWith.x < base.x)
+            if (pWith.X < base.X)
             {
                 pWith.connections[Direction.Right] = this;
                 pWith._pipeRight = this;
@@ -1252,16 +1252,16 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
                 _pipeLeft = pWith;
             }
         }
-        else if (pWith.x == base.x)
+        else if (pWith.X == base.X)
         {
-            if (pWith.y > base.y)
+            if (pWith.Y > base.Y)
             {
                 pWith.connections[Direction.Up] = this;
                 pWith._pipeUp = this;
                 connections[Direction.Down] = pWith;
                 _pipeDown = pWith;
             }
-            if (pWith.y < base.y)
+            if (pWith.Y < base.Y)
             {
                 pWith.connections[Direction.Down] = this;
                 pWith._pipeDown = this;
@@ -1275,16 +1275,16 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
 
     private void BreakConnection(PipeTileset pWith)
     {
-        if (pWith.y == base.y)
+        if (pWith.Y == base.Y)
         {
-            if (pWith.x > base.x)
+            if (pWith.X > base.X)
             {
                 pWith.connections.Remove(Direction.Left);
                 pWith.searchLeft = false;
                 connections.Remove(Direction.Right);
                 _pipeRight = null;
             }
-            if (pWith.x < base.x)
+            if (pWith.X < base.X)
             {
                 pWith.connections.Remove(Direction.Right);
                 pWith._pipeRight = null;
@@ -1293,9 +1293,9 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
                 _pipeLeft = null;
             }
         }
-        else if (pWith.x == base.x)
+        else if (pWith.X == base.X)
         {
-            if (pWith.y > base.y)
+            if (pWith.Y > base.Y)
             {
                 pWith.connections.Remove(Direction.Up);
                 pWith._pipeUp = null;
@@ -1303,7 +1303,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
                 connections.Remove(Direction.Down);
                 _pipeDown = null;
             }
-            if (pWith.y < base.y)
+            if (pWith.Y < base.Y)
             {
                 pWith.connections.Remove(Direction.Down);
                 pWith._pipeDown = null;
@@ -1321,7 +1321,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
         OnUpdateConnectionFrame();
         if (connections.Count == 1)
         {
-            _drawBlockOverlay = Level.CheckPoint<Block>(position, this) != null;
+            _drawBlockOverlay = Level.CheckPoint<Block>(Position, this) != null;
             _foregroundDraw = true;
         }
         else
@@ -1637,7 +1637,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
         {
             firstTest._oppositeEnd = secondTest;
             secondTest._oppositeEnd = firstTest;
-            firstTest.travelLength = (secondTest.travelLength = (firstTest.position - secondTest.position).length);
+            firstTest.travelLength = (secondTest.travelLength = (firstTest.Position - secondTest.Position).Length());
         }
         _testedValidity = true;
     }
@@ -1666,7 +1666,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
                 p = new PipeParticle();
                 _particles.Add(p);
             }
-            p.position = position + endNormal * 20f + Maths.AngleToVec(partRot) * (10f + Rando.Float(24f)) * rotatedEndNormal;
+            p.position = Position + endNormal * 20f + Maths.AngleToVec(partRot) * (10f + Rando.Float(24f)) * rotatedEndNormal;
             p.alpha = 0f;
             p.velocity = Vec2.Zero;
             partWait = 5;
@@ -1676,13 +1676,13 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
         {
             if (_particles[i].alpha < 1f)
             {
-                Vec2 dif = position - _particles[i].position;
+                Vec2 dif = Position - _particles[i].position;
                 _particles[i].velocity -= endNormal * 0.03f;
                 _particles[i].position -= dif * rotatedEndNormal * 0.07f;
-                Graphics.DrawLine(_particles[i].position, _particles[i].position + _particles[i].velocity * 3f, Color.White * _particles[i].alpha, 0.75f, base.depth - 10);
+                Graphics.DrawLine(_particles[i].position, _particles[i].position + _particles[i].velocity * 3f, Color.White * _particles[i].alpha, 0.75f, base.Depth - 10);
                 _particles[i].position += _particles[i].velocity;
                 _particles[i].alpha += 0.016f;
-                if ((_particles[i].position * endNormal - position * endNormal).length < 2f)
+                if ((_particles[i].position * endNormal - Position * endNormal).Length() < 2f)
                 {
                     _particles[i].alpha = 1f;
                 }
@@ -1702,60 +1702,60 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
         if (_drawBlockOverlay)
         {
             _sprite.frame += 8;
-            Graphics.Draw(_sprite, position.x, position.y, 0.5f);
+            Graphics.Draw(_sprite, Position.X, Position.Y, 0.5f);
         }
         if (trapdoor.value)
         {
-            Vec2 c = _sprite.center;
+            Vec2 c = _sprite.Center;
             _sprite.frame = 20;
             float capOffset = (_drawBlockOverlay ? 10 : 9);
             if (Left() != null)
             {
-                _sprite.center = new Vec2(2f, 0f);
-                _sprite.angleDegrees = 0f - _flapLerp * 90f;
-                Graphics.Draw(_sprite, position.x + capOffset, position.y - 9f, 0.5f);
-                _sprite.center = new Vec2(9f, 9f);
-                _sprite.angleDegrees = 0f;
+                _sprite.Center = new Vec2(2f, 0f);
+                _sprite.AngleDegrees = 0f - _flapLerp * 90f;
+                Graphics.Draw(_sprite, Position.X + capOffset, Position.Y - 9f, 0.5f);
+                _sprite.Center = new Vec2(9f, 9f);
+                _sprite.AngleDegrees = 0f;
                 _sprite.frame = 21;
-                Graphics.Draw(_sprite, position.x + (capOffset - 1f), position.y - 9f, 0.4f);
+                Graphics.Draw(_sprite, Position.X + (capOffset - 1f), Position.Y - 9f, 0.4f);
             }
             else if (Right() != null)
             {
-                _sprite.center = new Vec2(2f, 18f);
-                _sprite.angleDegrees = 180f + _flapLerp * 90f;
+                _sprite.Center = new Vec2(2f, 18f);
+                _sprite.AngleDegrees = 180f + _flapLerp * 90f;
                 _sprite.flipV = true;
-                Graphics.Draw(_sprite, position.x - capOffset, position.y - 9f, 0.5f);
-                _sprite.center = new Vec2(9f, 9f);
-                _sprite.angleDegrees = 0f;
+                Graphics.Draw(_sprite, Position.X - capOffset, Position.Y - 9f, 0.5f);
+                _sprite.Center = new Vec2(9f, 9f);
+                _sprite.AngleDegrees = 0f;
                 _sprite.frame = 21;
                 _sprite.flipH = true;
-                Graphics.Draw(_sprite, position.x - (capOffset - 1f), position.y - 9f, 0.4f);
+                Graphics.Draw(_sprite, Position.X - (capOffset - 1f), Position.Y - 9f, 0.4f);
             }
             else if (Up() != null)
             {
-                _sprite.center = new Vec2(2f, 0f);
-                _sprite.angleDegrees = 90f - _flapLerp * 90f;
-                Graphics.Draw(_sprite, position.x + 9f, position.y + capOffset, 0.5f);
-                _sprite.center = new Vec2(9f, 9f);
-                _sprite.angleDegrees = 90f;
+                _sprite.Center = new Vec2(2f, 0f);
+                _sprite.AngleDegrees = 90f - _flapLerp * 90f;
+                Graphics.Draw(_sprite, Position.X + 9f, Position.Y + capOffset, 0.5f);
+                _sprite.Center = new Vec2(9f, 9f);
+                _sprite.AngleDegrees = 90f;
                 _sprite.frame = 21;
-                Graphics.Draw(_sprite, position.x + 9f, position.y + (capOffset - 1f), 0.4f);
+                Graphics.Draw(_sprite, Position.X + 9f, Position.Y + (capOffset - 1f), 0.4f);
             }
             else if (Down() != null)
             {
-                _sprite.center = new Vec2(2f, 18f);
-                _sprite.angleDegrees = 270f + _flapLerp * 90f;
+                _sprite.Center = new Vec2(2f, 18f);
+                _sprite.AngleDegrees = 270f + _flapLerp * 90f;
                 _sprite.flipV = true;
-                Graphics.Draw(_sprite, position.x + 9f, position.y - capOffset, 0.5f);
-                _sprite.center = new Vec2(9f, 9f);
-                _sprite.angleDegrees = 90f;
+                Graphics.Draw(_sprite, Position.X + 9f, Position.Y - capOffset, 0.5f);
+                _sprite.Center = new Vec2(9f, 9f);
+                _sprite.AngleDegrees = 90f;
                 _sprite.frame = 21;
                 _sprite.flipH = true;
-                Graphics.Draw(_sprite, position.x + 9f, position.y - (capOffset - 1f), 0.4f);
+                Graphics.Draw(_sprite, Position.X + 9f, Position.Y - (capOffset - 1f), 0.4f);
             }
             _sprite.flipV = false;
             _sprite.flipH = false;
-            _sprite.center = c;
+            _sprite.Center = c;
         }
         _sprite.frame = prev;
     }

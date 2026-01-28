@@ -131,11 +131,11 @@ public class Rope : Thing
         {
             if (_attach1 is Rope { _corner: not null } r)
             {
-                Vec2 move = r._corner.corner - r._corner.block.position;
+                Vec2 move = r._corner.corner - r._corner.block.Position;
                 move.Normalize();
-                return _attach1.position + move * 4f;
+                return _attach1.Position + move * 4f;
             }
-            return _attach1.position;
+            return _attach1.Position;
         }
     }
 
@@ -145,11 +145,11 @@ public class Rope : Thing
         {
             if (_attach2 is Rope { _corner: not null } r)
             {
-                Vec2 move = r._corner.corner - r._corner.block.position;
+                Vec2 move = r._corner.corner - r._corner.block.Position;
                 move.Normalize();
-                return _attach2.position + move * 4f;
+                return _attach2.Position + move * 4f;
             }
-            return _attach2.position;
+            return _attach2.Position;
         }
     }
 
@@ -159,7 +159,7 @@ public class Rope : Thing
         {
             if (_attach1 != null && _attach2 != null)
             {
-                return (_attach1.position - _attach2.position).length;
+                return (_attach1.Position - _attach2.Position).Length();
             }
             return 0f;
         }
@@ -179,20 +179,20 @@ public class Rope : Thing
         }
         _attach1 = attach1Val;
         _attach2 = attach2Val;
-        _pos1 = attach1Val.position;
-        _pos2 = attach2Val.position;
+        _pos1 = attach1Val.Position;
+        _pos2 = attach2Val.Position;
         _thing = thing;
         if (vine)
         {
             _vine = new Sprite("vine");
-            _vine.center = new Vec2(8f, 0f);
+            _vine.Center = new Vec2(8f, 0f);
         }
         if (tex != null)
         {
             _vine = tex;
         }
         _isVine = vine;
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
     }
 
     public void RemoveRope()
@@ -242,21 +242,21 @@ public class Rope : Thing
         }
         Rope at2 = _attach2 as Rope;
         bool regroup = false;
-        if ((attach1Point - attach2Point).length < 4f)
+        if ((attach1Point - attach2Point).Length() < 4f)
         {
             regroup = true;
         }
         else
         {
             float angleDir = 0f;
-            angleDir = ((!(cornerVector.x > 0f)) ? (at2.linkDirectionNormalized + 90f) : (at2.linkDirectionNormalized - 90f));
+            angleDir = ((!(cornerVector.X > 0f)) ? (at2.linkDirectionNormalized + 90f) : (at2.linkDirectionNormalized - 90f));
             breakVector = Maths.AngleToVec(Maths.DegToRad(angleDir));
             if (Math.Acos(Vec2.Dot(breakVector, cornerVector)) > Math.PI / 2.0)
             {
                 angleDir += 180f;
                 breakVector = Maths.AngleToVec(Maths.DegToRad(angleDir));
             }
-            dirLine = (attach1.position - attach2.position).normalized;
+            dirLine = (attach1.Position - attach2.Position).Normalized;
             if (Math.Acos(Vec2.Dot(breakVector, dirLine)) < 1.5207963260498385)
             {
                 regroup = true;
@@ -280,9 +280,9 @@ public class Rope : Thing
         }
         else if (_attach2 is Harpoon harpoon)
         {
-            Vec2 dir = position - harpoon.position;
+            Vec2 dir = Position - harpoon.Position;
             dir.Normalize();
-            harpoon.position -= dir * length;
+            harpoon.Position -= dir * length;
         }
     }
 
@@ -312,15 +312,15 @@ public class Rope : Thing
             return;
         }
         bool changed = false;
-        if (_attach1.position != _pos1)
+        if (_attach1.Position != _pos1)
         {
             changed = true;
-            _pos1 = _attach1.position;
+            _pos1 = _attach1.Position;
         }
-        if (_attach2.position != _pos2)
+        if (_attach2.Position != _pos2)
         {
             changed = true;
-            _pos2 = _attach2.position;
+            _pos2 = _attach2.Position;
         }
         if (changed || pulled)
         {
@@ -340,7 +340,7 @@ public class Rope : Thing
             }
             tries = 0;
             add = end - start;
-            float len = add.length;
+            float len = add.Length();
             add.Normalize();
             if (_belongsTo is IPullBack)
             {
@@ -375,15 +375,15 @@ public class Rope : Thing
                     if (near != null)
                     {
                         BlockCorner c = near.Copy();
-                        Vec2 move = c.corner - c.block.position;
+                        Vec2 move = c.corner - c.block.Position;
                         move.Normalize();
                         c.corner += move * 1f;
-                        if ((c.corner - attach2.position).length > 4f)
+                        if ((c.corner - attach2.Position).Length() > 4f)
                         {
-                            linkVector = (attach2Point - attach1Point).normalized;
-                            Rope newRope = new Rope(c.corner.x, c.corner.y, null, _attach2, null, _isVine, _vine);
+                            linkVector = (attach2Point - attach1Point).Normalized;
+                            Rope newRope = new Rope(c.corner.X, c.corner.Y, null, _attach2, null, _isVine, _vine);
                             newRope.cornerVector = cornerVector;
-                            cornerVector = new Vec2((move.x > 0f) ? 1f : (-1f), (move.y > 0f) ? 1f : (-1f)).normalized;
+                            cornerVector = new Vec2((move.X > 0f) ? 1f : (-1f), (move.Y > 0f) ? 1f : (-1f)).Normalized;
                             newRope._corner = c;
                             newRope._belongsTo = _belongsTo;
                             _attach2 = newRope;
@@ -415,9 +415,9 @@ public class Rope : Thing
     {
         if (DevConsole.showCollision && cornerVector != Vec2.Zero)
         {
-            Graphics.DrawLine(_attach2.position, _attach2.position + cornerVector * 32f, Color.Red);
-            Graphics.DrawLine(_attach2.position, _attach2.position + breakVector * 16f, Color.Blue);
-            Graphics.DrawLine(_attach2.position, _attach2.position + dirLine * 8f, Color.Orange);
+            Graphics.DrawLine(_attach2.Position, _attach2.Position + cornerVector * 32f, Color.Red);
+            Graphics.DrawLine(_attach2.Position, _attach2.Position + breakVector * 16f, Color.Blue);
+            Graphics.DrawLine(_attach2.Position, _attach2.Position + dirLine * 8f, Color.Orange);
         }
         float amount = length / properLength;
         if (!serverForObject)
@@ -427,14 +427,14 @@ public class Rope : Thing
         if (_vine != null)
         {
             Vec2 travel = attach2Point - attach1Point;
-            Vec2 travelNorm = travel.normalized;
+            Vec2 travelNorm = travel.Normalized;
             Vec2 travelOffset = travelNorm;
             travelOffset = travelOffset.Rotate(Maths.DegToRad(90f), Vec2.Zero);
-            float num = travel.length;
+            float num = travel.Length();
             float stepSize = 16f;
             Vec2 drawStart = attach1Point + travelNorm * stepSize;
             Vec2 drawPrev = attach1Point;
-            Depth d = base.depth;
+            Depth d = base.Depth;
             int num2 = (int)Math.Ceiling(num / stepSize);
             for (int i = 0; i < num2; i++)
             {
@@ -445,19 +445,19 @@ public class Rope : Thing
                 {
                     toPos = attach2Point;
                 }
-                _vine.angleDegrees = 0f - (Maths.PointDirection(drawPrev, toPos) + 90f);
-                _vine.depth = d;
+                _vine.AngleDegrees = 0f - (Maths.PointDirection(drawPrev, toPos) + 90f);
+                _vine.Depth = d;
                 d += 1;
-                float lent = (toPos - drawPrev).length;
+                float lent = (toPos - drawPrev).Length();
                 if (i == num2 - 1)
                 {
-                    _vine.yscale = 1f;
-                    Graphics.Draw(_vine, drawPrev.x, drawPrev.y, new Rectangle(0f, 0f, 16f, (int)(lent % stepSize)));
+                    _vine.ScaleY = 1f;
+                    Graphics.Draw(_vine, drawPrev.X, drawPrev.Y, new Rectangle(0f, 0f, 16f, (int)(lent % stepSize)));
                 }
                 else
                 {
-                    _vine.yscale = lent / 16f + 0.1f;
-                    Graphics.Draw(_vine, drawPrev.x, drawPrev.y);
+                    _vine.ScaleY = lent / 16f + 0.1f;
+                    Graphics.Draw(_vine, drawPrev.X, drawPrev.Y);
                 }
                 drawPrev = toPos;
                 drawStart += travelNorm * stepSize;
@@ -467,14 +467,14 @@ public class Rope : Thing
         else if (amount < 0.95f && amount > 0f)
         {
             Vec2 travel2 = attach2Point - attach1Point;
-            Vec2 travelOffset2 = travel2.normalized.Rotate(Maths.DegToRad(90f), Vec2.Zero);
+            Vec2 travelOffset2 = travel2.Normalized.Rotate(Maths.DegToRad(90f), Vec2.Zero);
             float sinVal2 = (float)Math.PI / 4f;
             Vec2 drawStart2 = attach1Point + travel2 / 8f;
             Vec2 drawPrev2 = attach1Point;
             for (int j = 0; j < 8; j++)
             {
                 float sinMult2 = (1f - amount) * 8f;
-                Graphics.DrawLine(drawPrev2, drawStart2 + travelOffset2 * (float)Math.Sin(sinVal2) * sinMult2, Color.White * 0.8f, 1f, base.depth - 1);
+                Graphics.DrawLine(drawPrev2, drawStart2 + travelOffset2 * (float)Math.Sin(sinVal2) * sinMult2, Color.White * 0.8f, 1f, base.Depth - 1);
                 drawPrev2 = drawStart2 + travelOffset2 * (float)Math.Sin(sinVal2) * sinMult2;
                 drawStart2 += travel2 / 8f;
                 sinVal2 += (float)Math.PI / 4f;
@@ -482,7 +482,7 @@ public class Rope : Thing
         }
         else
         {
-            Graphics.DrawLine(attach1Point, attach2Point, Color.White * 0.8f, 1f, base.depth - 1);
+            Graphics.DrawLine(attach1Point, attach2Point, Color.White * 0.8f, 1f, base.Depth - 1);
         }
     }
 }

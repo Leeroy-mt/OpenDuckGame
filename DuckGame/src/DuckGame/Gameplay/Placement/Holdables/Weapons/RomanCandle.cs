@@ -26,7 +26,7 @@ public class RomanCandle : FlareGun
         _type = "gun";
         _sprite = new SpriteMap("romanCandle", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -4f);
         collisionSize = new Vec2(16f, 6f);
         _barrelOffsetTL = new Vec2(16f, 9f);
@@ -54,7 +54,7 @@ public class RomanCandle : FlareGun
         Vec2 fusePos = Offset(new Vec2(-6f, -4f));
         if (_lit && (bool)_timer)
         {
-            Level.Add(Spark.New(fusePos.x, fusePos.y, new Vec2(Rando.Float(-1f, 1f), -0.5f), 0.1f));
+            Level.Add(Spark.New(fusePos.X, fusePos.Y, new Vec2(Rando.Float(-1f, 1f), -0.5f), 0.1f));
         }
         if (_lit && _litTimer != null && (bool)_litTimer && _litStartTimer != null && (bool)_litStartTimer)
         {
@@ -64,7 +64,7 @@ public class RomanCandle : FlareGun
             }
             if (owner == null)
             {
-                base.y -= 6f;
+                base.Y -= 6f;
             }
             ammo--;
             SFX.Play("netGunFire", 0.5f, -0.4f + Rando.Float(0.2f));
@@ -76,11 +76,11 @@ public class RomanCandle : FlareGun
             if (base.isServerForObject)
             {
                 Vec2 pos = Offset(base.barrelOffset);
-                CandleBall d = new CandleBall(pos.x, pos.y, this, 4);
+                CandleBall d = new CandleBall(pos.X, pos.Y, this, 4);
                 Fondle(d);
                 Vec2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.1f, 0.1f));
-                d.hSpeed = travelDir.x * 14f;
-                d.vSpeed = travelDir.y * 14f;
+                d.hSpeed = travelDir.X * 14f;
+                d.vSpeed = travelDir.Y * 14f;
                 Level.Add(d);
             }
             if (owner == null)

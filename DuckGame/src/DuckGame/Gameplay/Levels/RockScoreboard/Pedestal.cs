@@ -29,9 +29,9 @@ public class Pedestal : Thing
             _sprite = new SpriteMap("rockThrow/placePedastals", 38, 45);
         }
         _sprite.frame = place;
-        center = new Vec2(_sprite.w / 2, _sprite.h);
+        Center = new Vec2(_sprite.w / 2, _sprite.h);
         graphic = _sprite;
-        base.depth = 0.062f;
+        base.Depth = 0.062f;
         _scoreCard = new Sprite("rockThrow/scoreCard");
         _font = new BitmapFont("biosFont", 8);
         _scoreCard.CenterOrigin();
@@ -45,12 +45,12 @@ public class Pedestal : Thing
                 float wide = (team.activeProfiles.Count - 1) * 10;
                 Duck duck = new Duck(xpos - wide / 2f + (float)(i * 10), GetYOffset() - 15f, p)
                 {
-                    depth = 0.06f
+                    Depth = 0.06f
                 };
                 Level.Add(duck);
                 if (place == 0)
                 {
-                    Trophy t = new Trophy(duck.x, duck.y);
+                    Trophy t = new Trophy(duck.X, duck.Y);
                     Level.Add(t);
                     if (!Network.isActive)
                     {
@@ -73,35 +73,35 @@ public class Pedestal : Thing
 
     public float GetYOffset()
     {
-        float ypos = base.y - 45f;
+        float ypos = base.Y - 45f;
         if (_sprite.frame == 1)
         {
-            ypos = base.y - 28f;
+            ypos = base.Y - 28f;
         }
         else if (_sprite.frame == 2)
         {
-            ypos = base.y - 19f;
+            ypos = base.Y - 19f;
         }
         else if (_sprite.frame == 3)
         {
-            ypos = base.y - 12f;
+            ypos = base.Y - 12f;
         }
         return ypos;
     }
 
     public override void Draw()
     {
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         base.Draw();
         _ = _team.activeProfiles.Count;
         if (_sprite.frame == 0)
         {
-            _trophy.depth = base.depth + 1;
-            Graphics.Draw(_trophy, base.x, base.y - 14f);
+            _trophy.Depth = base.Depth + 1;
+            Graphics.Draw(_trophy, base.X, base.Y - 14f);
         }
-        _scoreCard.depth = 1f;
-        Graphics.Draw(_scoreCard, base.x, base.y + 2f);
+        _scoreCard.Depth = 1f;
+        Graphics.Draw(_scoreCard, base.X, base.Y + 2f);
         string score = Change.ToString(_team.score);
-        _font.Draw(score, base.x - _font.GetWidth(score) / 2f, base.y, Color.DarkSlateGray, _scoreCard.depth + 1);
+        _font.Draw(score, base.X - _font.GetWidth(score) / 2f, base.Y, Color.DarkSlateGray, _scoreCard.Depth + 1);
     }
 }

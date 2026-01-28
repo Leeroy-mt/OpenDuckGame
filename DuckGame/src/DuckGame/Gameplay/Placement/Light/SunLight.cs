@@ -198,7 +198,7 @@ public class SunLight : Thing, ILight
             };
             s.Refresh();
             _sections.Add(s);
-            tl.x += 64f;
+            tl.X += 64f;
         }
     }
 

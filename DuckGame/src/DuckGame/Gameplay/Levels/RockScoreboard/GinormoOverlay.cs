@@ -15,7 +15,7 @@ public class GinormoOverlay : Thing
     public GinormoOverlay(float xpos, float ypos, bool smallMode)
         : base(xpos, ypos)
     {
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         graphic = new Sprite("rockThrow/boardOverlay");
         _smallMode = smallMode;
     }
@@ -25,8 +25,8 @@ public class GinormoOverlay : Thing
         _overlaySprite = Content.Load<Tex2D>("rockThrow/boardOverlayLarge");
         _targetSprite = new Sprite(GinormoBoard.boardLayer.target);
         _screenMaterial = new Material("Shaders/lcdNoBlur");
-        _screenMaterial.SetValue("screenWidth", GinormoScreen.GetSize(_smallMode).x);
-        _screenMaterial.SetValue("screenHeight", GinormoScreen.GetSize(_smallMode).y);
+        _screenMaterial.SetValue("screenWidth", GinormoScreen.GetSize(_smallMode).X);
+        _screenMaterial.SetValue("screenHeight", GinormoScreen.GetSize(_smallMode).Y);
         base.Initialize();
     }
 
@@ -38,8 +38,8 @@ public class GinormoOverlay : Thing
             Graphics.material = _screenMaterial;
             Graphics.device.Textures[1] = (Texture2D)_overlaySprite;
             Graphics.device.SamplerStates[1] = SamplerState.LinearClamp;
-            _targetSprite.depth = 0.9f;
-            Graphics.Draw(_targetSprite, base.x - 92f, base.y - 33f);
+            _targetSprite.Depth = 0.9f;
+            Graphics.Draw(_targetSprite, base.X - 92f, base.Y - 33f);
             Graphics.material = obj;
         }
     }

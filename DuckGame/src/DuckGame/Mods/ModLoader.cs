@@ -762,7 +762,6 @@ public static class ModLoader
                 runningModloadCode = true;
                 List<string> directoriesNoCloud = DuckFile.GetDirectoriesNoCloud(modDirectory);
                 directoriesNoCloud.AddRange(DuckFile.GetDirectoriesNoCloud(DuckFile.globalModsDirectory));
-                MonoMain.totalLoadyBits += directoriesNoCloud.Count() * 2;
                 foreach (string folder in directoriesNoCloud)
                 {
                     if (!folder.ToLowerInvariant().EndsWith("/texpacks") && !folder.ToLowerInvariant().EndsWith("/mappacks") && !folder.ToLowerInvariant().EndsWith("/hatpacks"))
@@ -770,7 +769,6 @@ public static class ModLoader
                         attemptLoadMods.actions.Enqueue(new LoadingAction(delegate
                         {
                             ModConfiguration modConfiguration = AttemptModLoad(folder);
-                            MonoMain.loadyBits += 2;
                             if (modConfiguration != null)
                             {
                                 if (loadableMods.ContainsKey(modConfiguration.uniqueID))
@@ -807,7 +805,6 @@ public static class ModLoader
         getOrLoadMods.action = delegate
         {
             _preloading = pPreload;
-            MonoMain.totalLoadyBits += loadableMods.Count * 2;
             int cluster = 0;
             _ = ReskinPack.active;
             foreach (ModConfiguration loadable in loadableMods.Values)
@@ -822,7 +819,6 @@ public static class ModLoader
                         {
                             ReskinPack.LoadReskin(loadable.contentDirectory + "tp/", orLoad);
                         }
-                        MonoMain.loadyBits += 2;
                         cluster++;
                         if (cluster == 10)
                         {

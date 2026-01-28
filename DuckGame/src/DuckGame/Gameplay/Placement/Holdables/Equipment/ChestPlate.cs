@@ -23,7 +23,7 @@ public class ChestPlate : Equipment
         _equippedCollisionOffset = new Vec2(-7f, -5f);
         _equippedCollisionSize = new Vec2(12f, 11f);
         _hasEquippedCollision = true;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         physicsMaterial = PhysicsMaterial.Metal;
         _equippedDepth = 4;
         _wearOffset = new Vec2(1f, 1f);
@@ -40,7 +40,7 @@ public class ChestPlate : Equipment
         }
         if (_equippedDuck != null && !destroyed)
         {
-            center = new Vec2(16f, 16f);
+            Center = new Vec2(16f, 16f);
             solid = false;
             _sprite.flipH = base.duck._sprite.flipH;
             _spriteOver.flipH = base.duck._sprite.flipH;
@@ -58,7 +58,7 @@ public class ChestPlate : Equipment
         }
         else
         {
-            center = new Vec2(_pickupSprite.w / 2, _pickupSprite.h / 2);
+            Center = new Vec2(_pickupSprite.w / 2, _pickupSprite.h / 2);
             solid = true;
             _sprite.frame = 0;
             _sprite.flipH = false;
@@ -66,9 +66,9 @@ public class ChestPlate : Equipment
         }
         if (destroyed)
         {
-            base.alpha -= 0.05f;
+            base.Alpha -= 0.05f;
         }
-        if (base.alpha < 0f)
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }
@@ -79,18 +79,18 @@ public class ChestPlate : Equipment
     {
         if (_equippedDuck != null && _equippedDuck._trapped != null)
         {
-            base.depth = _equippedDuck._trapped.depth + 1;
+            base.Depth = _equippedDuck._trapped.Depth + 1;
         }
         base.Draw();
         if ((_equippedDuck == null || base.duck != null) && _equippedDuck != null)
         {
             _spriteOver.flipH = graphic.flipH;
-            _spriteOver.angle = angle;
-            _spriteOver.alpha = base.alpha;
-            _spriteOver.scale = base.scale;
-            _spriteOver.depth = owner.depth + ((base.duck.holdObject != null) ? 5 : 12);
-            _spriteOver.center = center;
-            Graphics.Draw(_spriteOver, base.x, base.y);
+            _spriteOver.Angle = Angle;
+            _spriteOver.Alpha = base.Alpha;
+            _spriteOver.Scale = base.Scale;
+            _spriteOver.Depth = owner.Depth + ((base.duck.holdObject != null) ? 5 : 12);
+            _spriteOver.Center = Center;
+            Graphics.Draw(_spriteOver, base.X, base.Y);
         }
     }
 }

@@ -57,7 +57,7 @@ public class AdultSwimLogo : Level
     {
         if (layer == Layer.Game)
         {
-            _logo.scale = new Vec2(0.25f, 0.25f);
+            _logo.Scale = new Vec2(0.25f, 0.25f);
             Graphics.Draw(_logo, 110f, 38f);
         }
     }

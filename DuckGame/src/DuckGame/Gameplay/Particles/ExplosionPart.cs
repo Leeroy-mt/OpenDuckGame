@@ -31,12 +31,12 @@ public class ExplosionPart : Thing
         _sprite.SetAnimation("explode");
         graphic = _sprite;
         _sprite.speed = 0.4f + Rando.Float(0.2f);
-        base.xscale = 0.5f + Rando.Float(0.5f);
-        base.yscale = base.xscale;
-        center = new Vec2(32f, 32f);
+        base.ScaleX = 0.5f + Rando.Float(0.5f);
+        base.ScaleY = base.ScaleX;
+        Center = new Vec2(32f, 32f);
         _wait = Rando.Float(1f);
         _smokeFrame = Rando.Int(1, 3);
-        base.depth = 1f;
+        base.Depth = 1f;
         vSpeed = Rando.Float(-0.2f, -0.4f);
         if (!doWait)
         {
@@ -59,17 +59,17 @@ public class ExplosionPart : Thing
             int num = ((Graphics.effectsLevel != 2) ? 1 : Rando.Int(1, 4));
             for (int i = 0; i < num; i++)
             {
-                SmallSmoke smallSmoke = SmallSmoke.New(base.x + Rando.Float(-5f, 5f), base.y + Rando.Float(-5f, 5f));
+                SmallSmoke smallSmoke = SmallSmoke.New(base.X + Rando.Float(-5f, 5f), base.Y + Rando.Float(-5f, 5f));
                 smallSmoke.vSpeed = Rando.Float(0f, -0.5f);
-                float num2 = (smallSmoke.yscale = Rando.Float(0.2f, 0.7f));
-                smallSmoke.xscale = num2;
+                float num2 = (smallSmoke.ScaleY = Rando.Float(0.2f, 0.7f));
+                smallSmoke.ScaleX = num2;
                 Level.Add(smallSmoke);
             }
             _smoked = true;
         }
         if (!(_wait > 0f))
         {
-            base.y += vSpeed;
+            base.Y += vSpeed;
         }
         if (_sprite.finished)
         {

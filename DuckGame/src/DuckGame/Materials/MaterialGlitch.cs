@@ -31,8 +31,8 @@ public class MaterialGlitch : Material
             SetValue("frameWidth", tex.frameWidth);
             SetValue("amount", amount);
             SetValue("yoff", yoffset);
-            SetValue("xpos", _thing.x);
-            SetValue("ypos", _thing.y);
+            SetValue("xpos", _thing.X);
+            SetValue("ypos", _thing.Y);
         }
         Graphics.device.Textures[1] = (Texture2D)_goldTexture;
         Graphics.device.SamplerStates[1] = SamplerState.PointWrap;

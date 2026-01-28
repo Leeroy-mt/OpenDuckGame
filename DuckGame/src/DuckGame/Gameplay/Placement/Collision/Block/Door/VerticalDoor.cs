@@ -44,10 +44,10 @@ public class VerticalDoor : Block, IPlatform
     {
         _sensorSprite = (_sprite = new SpriteMap("verticalDoor", 16, 32));
         graphic = _sprite;
-        center = new Vec2(8f, 24f);
+        Center = new Vec2(8f, 24f);
         collisionSize = new Vec2(6f, 32f);
         collisionOffset = new Vec2(-3f, -24f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Vertical Door";
         thickness = 3f;
         physicsMaterial = PhysicsMaterial.Metal;
@@ -84,7 +84,7 @@ public class VerticalDoor : Block, IPlatform
                     showedWarning = true;
                 }
             }
-            else if (Level.CheckRectFilter(new Vec2(base.x - 4f, base.y - 24f), new Vec2(base.x + 4f, base.y + 8f), (PhysicsObject d) => !(d is TeamHat)) == null)
+            else if (Level.CheckRectFilter(new Vec2(base.X - 4f, base.Y - 24f), new Vec2(base.X + 4f, base.Y + 8f), (PhysicsObject d) => !(d is TeamHat)) == null)
             {
                 _desiredOpen = 0f;
             }
@@ -97,7 +97,7 @@ public class VerticalDoor : Block, IPlatform
             }
             _sprite = _noSensorSprite;
             _desiredOpen = (slideLockOpened ? 1f : 0f);
-            if (Level.CheckRectFilter(new Vec2(base.x - 4f, base.y - 24f), new Vec2(base.x + 4f, base.y + 8f), (PhysicsObject d) => !(d is TeamHat)) != null && _opened)
+            if (Level.CheckRectFilter(new Vec2(base.X - 4f, base.Y - 24f), new Vec2(base.X + 4f, base.Y + 8f), (PhysicsObject d) => !(d is TeamHat)) != null && _opened)
             {
                 _desiredOpen = 1f;
             }
@@ -115,15 +115,15 @@ public class VerticalDoor : Block, IPlatform
         graphic = _sprite;
         _open = Maths.LerpTowards(_open, _desiredOpen, 0.15f);
         _sprite.frame = (int)(_open * 32f);
-        _collisionSize.y = (1f - _open) * 32f;
+        _collisionSize.Y = (1f - _open) * 32f;
     }
 
     public override void Draw()
     {
         base.Draw();
-        _top.depth = base.depth + 1;
-        _bottom.depth = base.depth + 1;
-        Graphics.Draw(_top, base.x, base.y - 27f);
-        Graphics.Draw(_bottom, base.x, base.y + 5f);
+        _top.Depth = base.Depth + 1;
+        _bottom.Depth = base.Depth + 1;
+        Graphics.Draw(_top, base.X, base.Y - 27f);
+        Graphics.Draw(_bottom, base.X, base.Y + 5f);
     }
 }

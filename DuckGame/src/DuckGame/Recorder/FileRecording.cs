@@ -259,10 +259,10 @@ public class FileRecording : Recording
                     _frames[_frame]._states[j] = state;
                 }
                 _frames[_frame].objects[j].texture = _reader.ReadInt16();
-                _frames[_frame].objects[j].topLeft.x = _reader.ReadSingle();
-                _frames[_frame].objects[j].topLeft.y = _reader.ReadSingle();
-                _frames[_frame].objects[j].bottomRight.x = _reader.ReadSingle();
-                _frames[_frame].objects[j].bottomRight.y = _reader.ReadSingle();
+                _frames[_frame].objects[j].topLeft.X = _reader.ReadSingle();
+                _frames[_frame].objects[j].topLeft.Y = _reader.ReadSingle();
+                _frames[_frame].objects[j].bottomRight.X = _reader.ReadSingle();
+                _frames[_frame].objects[j].bottomRight.Y = _reader.ReadSingle();
                 _frames[_frame].objects[j].rotation = _reader.ReadSingle();
                 _frames[_frame].objects[j].color = new Color(_reader.ReadByte(), _reader.ReadByte(), _reader.ReadByte(), _reader.ReadByte());
                 _frames[_frame].objects[j].texX = _reader.ReadInt16();
@@ -330,10 +330,10 @@ public class FileRecording : Recording
                 _writer.Write((byte)1);
             }
             _writer.Write(_frames[_frame].objects[j].texture);
-            _writer.Write(_frames[_frame].objects[j].topLeft.x);
-            _writer.Write(_frames[_frame].objects[j].topLeft.y);
-            _writer.Write(_frames[_frame].objects[j].bottomRight.x);
-            _writer.Write(_frames[_frame].objects[j].bottomRight.y);
+            _writer.Write(_frames[_frame].objects[j].topLeft.X);
+            _writer.Write(_frames[_frame].objects[j].topLeft.Y);
+            _writer.Write(_frames[_frame].objects[j].bottomRight.X);
+            _writer.Write(_frames[_frame].objects[j].bottomRight.Y);
             _writer.Write(_frames[_frame].objects[j].rotation);
             _writer.Write(_frames[_frame].objects[j].color.r);
             _writer.Write(_frames[_frame].objects[j].color.g);

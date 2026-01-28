@@ -78,7 +78,7 @@ public class BitmapFont : Transform
 
     public Color colorOverride;
 
-    public float height => (float)_texture.height * base.scale.y;
+    public float height => (float)_texture.height * base.Scale.Y;
 
     public InputProfile inputProfile
     {
@@ -218,7 +218,7 @@ public class BitmapFont : Transform
                 {
                     if (spr.texture != null)
                     {
-                        wide += ((thinButtons && !didThinButton) ? 6f : ((float)spr.width * spr.scale.x + 1f));
+                        wide += ((thinButtons && !didThinButton) ? 6f : ((float)spr.width * spr.Scale.X + 1f));
                         didThinButton = true;
                     }
                     processedSpecialCharacter = true;
@@ -250,7 +250,7 @@ public class BitmapFont : Transform
             }
             if (!processedSpecialCharacter)
             {
-                wide += (float)_tileSize * base.scale.x;
+                wide += (float)_tileSize * base.Scale.X;
             }
         }
         if (wide > widest)
@@ -262,20 +262,20 @@ public class BitmapFont : Transform
 
     public void DrawOutline(string text, Vec2 pos, Color c, Color outline, Depth deep = default(Depth))
     {
-        Draw(text, pos + new Vec2(-1f * base.scale.x, 0f), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(1f * base.scale.x, 0f), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(0f, -1f * base.scale.y), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(0f, 1f * base.scale.y), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(-1f * base.scale.x, -1f * base.scale.y), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(1f * base.scale.x, -1f * base.scale.y), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(-1f * base.scale.x, 1f * base.scale.y), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(1f * base.scale.x, 1f * base.scale.y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vec2(-1f * base.Scale.X, 0f), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vec2(1f * base.Scale.X, 0f), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vec2(0f, -1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vec2(0f, 1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vec2(-1f * base.Scale.X, -1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vec2(1f * base.Scale.X, -1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vec2(-1f * base.Scale.X, 1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vec2(1f * base.Scale.X, 1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
         Draw(text, pos, c, deep + 5);
     }
 
     public void Draw(string text, Vec2 pos, Color c, Depth deep = default(Depth), InputProfile input = null, bool colorSymbols = false)
     {
-        Draw(text, pos.x, pos.y, c, deep, input, colorSymbols);
+        Draw(text, pos.X, pos.Y, c, deep, input, colorSymbols);
     }
 
     public void Draw(string text, float xpos, float ypos, Color c, Depth deep = default(Depth), InputProfile input = null, bool colorSymbols = false)
@@ -313,24 +313,24 @@ public class BitmapFont : Transform
                 {
                     if (spr.texture != null)
                     {
-                        float al = spr.alpha;
-                        spr.alpha = base.alpha * c.ToVector4().w;
+                        float al = spr.Alpha;
+                        spr.Alpha = base.Alpha * c.ToVector4().w;
                         if (spr != null)
                         {
-                            Vec2 sc = spr.scale;
-                            spr.scale *= spriteScale;
-                            float yCenter = (int)((float)_texture.height * spriteScale.y / 2f) - (int)((float)spr.height * spriteScale.y / 2f);
+                            Vec2 sc = spr.Scale;
+                            spr.Scale *= spriteScale;
+                            float yCenter = (int)((float)_texture.height * spriteScale.Y / 2f) - (int)((float)spr.height * spriteScale.Y / 2f);
                             if (spr.moji)
                             {
                                 if (spr.height == 28)
                                 {
-                                    spr.scale *= 0.25f * base.scale;
-                                    yCenter += 10f * base.scale.y;
+                                    spr.Scale *= 0.25f * base.Scale;
+                                    yCenter += 10f * base.Scale.Y;
                                 }
                                 else
                                 {
-                                    spr.scale *= 0.25f * base.scale;
-                                    yCenter += 3f * base.scale.y;
+                                    spr.Scale *= 0.25f * base.Scale;
+                                    yCenter += 3f * base.Scale.Y;
                                 }
                             }
                             if (colorSymbols)
@@ -338,11 +338,11 @@ public class BitmapFont : Transform
                                 spr.color = c;
                             }
                             Graphics.Draw(spr, xpos + xOff, ypos + yOff + yCenter, deep);
-                            xOff += (float)spr.width * spr.scale.x + 1f;
-                            spr.scale = sc;
+                            xOff += (float)spr.width * spr.Scale.X + 1f;
+                            spr.Scale = sc;
                             spr.color = Color.White;
                         }
-                        spr.alpha = al;
+                        spr.Alpha = al;
                     }
                     processedSpecialCharacter = true;
                 }
@@ -387,9 +387,9 @@ public class BitmapFont : Transform
                             break;
                         }
                     }
-                    if (xOff + (float)nextWord.Count() * ((float)_tileSize * base.scale.x) > (float)maxWidth)
+                    if (xOff + (float)nextWord.Count() * ((float)_tileSize * base.Scale.X) > (float)maxWidth)
                     {
-                        yOff += (float)_texture.height * base.scale.y;
+                        yOff += (float)_texture.height * base.Scale.Y;
                         xOff = 0f;
                         if (singleLine)
                         {
@@ -399,7 +399,7 @@ public class BitmapFont : Transform
                 }
                 if (text[_letterIndex] == '\n')
                 {
-                    yOff += (float)_texture.height * base.scale.y;
+                    yOff += (float)_texture.height * base.Scale.Y;
                     xOff = 0f;
                 }
                 else
@@ -425,11 +425,11 @@ public class BitmapFont : Transform
                         fontTexture = _fallbackFont._texture;
                     }
                     fontTexture.frame = charIndex;
-                    fontTexture.scale = base.scale;
+                    fontTexture.Scale = base.Scale;
                     fontTexture.color = c;
-                    fontTexture.alpha = base.alpha;
+                    fontTexture.Alpha = base.Alpha;
                     Graphics.Draw(fontTexture, xpos + xOff, ypos + yOff + (float)characterYOffset, deep);
-                    xOff += (float)_tileSize * base.scale.x;
+                    xOff += (float)_tileSize * base.Scale.X;
                 }
             }
         }

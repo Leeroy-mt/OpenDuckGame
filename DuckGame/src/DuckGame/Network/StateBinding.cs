@@ -213,9 +213,9 @@ public class StateBinding
         if (o1 is Vec2)
         {
             Vec2 v = (Vec2)o1 - (Vec2)o2;
-            if (Math.Abs(v.x) < 0.005f)
+            if (Math.Abs(v.X) < 0.005f)
             {
-                return Math.Abs(v.y) < 0.005f;
+                return Math.Abs(v.Y) < 0.005f;
             }
             return false;
         }

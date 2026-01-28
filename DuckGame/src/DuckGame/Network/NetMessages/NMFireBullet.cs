@@ -27,7 +27,7 @@ public class NMFireBullet : NMEvent
         typeInstance.accuracy = 1f;
         typeInstance.bulletSpeed = speed;
         typeInstance.speedVariation = 0f;
-        Bullet bullet = typeInstance.GetBullet(position.x, position.y, owner?.duck, 0f - angle, null, range, tracer: false, network: false);
+        Bullet bullet = typeInstance.GetBullet(position.X, position.Y, owner?.duck, 0f - angle, null, range, tracer: false, network: false);
         bullet.isLocal = false;
         bullet.connection = base.connection;
         Level.current.AddThing(bullet);

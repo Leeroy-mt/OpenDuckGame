@@ -38,7 +38,7 @@ public class ArcadeHatConsole : Thing
         _selectConsole.SetAnimation("idle");
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(0f, 0f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         graphic = _selectConsole;
     }
 
@@ -46,7 +46,7 @@ public class ArcadeHatConsole : Thing
     {
         if (!(Level.current is Editor))
         {
-            _light = new PointLight(base.x + 9f, base.y + 7f, new Color(160, 255, 160), 70f, new List<LightOccluder>());
+            _light = new PointLight(base.X + 9f, base.Y + 7f, new Color(160, 255, 160), 70f, new List<LightOccluder>());
             Level.Add(_light);
         }
     }
@@ -74,7 +74,7 @@ public class ArcadeHatConsole : Thing
     {
         if (_duck != null)
         {
-            _profileBox._hatSelector.position = new Vec2(85f, 45f);
+            _profileBox._hatSelector.Position = new Vec2(85f, 45f);
             _profileBox._hatSelector.Open(_duck.profile);
             _profileBox.OpenCorners();
             SFX.Play("consoleOpen", 0.5f);
@@ -84,8 +84,8 @@ public class ArcadeHatConsole : Thing
     public override void Update()
     {
         bool lastHover = hover;
-        Duck d = Level.Nearest<Duck>(base.x, base.y);
-        if (d != null && (d.position - (position + new Vec2(8f, 0f))).length < 16f)
+        Duck d = Level.Nearest<Duck>(base.X, base.Y);
+        if (d != null && (d.Position - (Position + new Vec2(8f, 0f))).Length() < 16f)
         {
             hover = true;
         }
@@ -109,32 +109,32 @@ public class ArcadeHatConsole : Thing
     {
         if (_light != null)
         {
-            _consoleFlash.scale = new Vec2(0.75f, 0.75f);
+            _consoleFlash.Scale = new Vec2(0.75f, 0.75f);
             if (_selectConsole.imageIndex == 0)
             {
                 _light.visible = true;
-                _consoleFlash.alpha = 0.3f;
+                _consoleFlash.Alpha = 0.3f;
             }
             else if (_selectConsole.imageIndex == 1)
             {
                 _light.visible = true;
-                _consoleFlash.alpha = 0.1f;
+                _consoleFlash.Alpha = 0.1f;
             }
             else if (_selectConsole.imageIndex == 2)
             {
                 _light.visible = false;
-                _consoleFlash.alpha = 0f;
+                _consoleFlash.Alpha = 0f;
             }
         }
-        _consoleFlash.depth = base.depth + 10;
-        Graphics.Draw(_consoleFlash, base.x + 9f, base.y + 7f);
-        _base.depth = base.depth - 10;
-        Graphics.Draw(_base, base.x + 3f, base.y + 13f);
+        _consoleFlash.Depth = base.Depth + 10;
+        Graphics.Draw(_consoleFlash, base.X + 9f, base.Y + 7f);
+        _base.Depth = base.Depth - 10;
+        Graphics.Draw(_base, base.X + 3f, base.Y + 13f);
         if (_consoleFade > 0.01f)
         {
-            _consoleHighlight.depth = base.depth + 5;
-            _consoleHighlight.alpha = _consoleFade;
-            Graphics.Draw(_consoleHighlight, base.x, base.y);
+            _consoleHighlight.Depth = base.Depth + 5;
+            _consoleHighlight.Alpha = _consoleFade;
+            Graphics.Draw(_consoleHighlight, base.X, base.Y);
         }
         base.Draw();
     }

@@ -390,7 +390,7 @@ public abstract class MaterialThing : Thing
 
     public void CheckIsland()
     {
-        if (island != null && island.owner != this && base.level != null && base.level.simulatePhysics && (position - island.owner.position).lengthSq > island.radiusSquared)
+        if (island != null && island.owner != this && base.level != null && base.level.simulatePhysics && (Position - island.owner.Position).lengthSq > island.radiusSquared)
         {
             island.RemoveThing(this);
             UpdateIsland();
@@ -399,7 +399,7 @@ public abstract class MaterialThing : Thing
 
     public void UpdateIsland()
     {
-        CollisionIsland isle = Level.current.things.GetIsland(position);
+        CollisionIsland isle = Level.current.things.GetIsland(Position);
         if (island != null && island != isle)
         {
             island.RemoveThing(this);
@@ -492,8 +492,8 @@ public abstract class MaterialThing : Thing
                 extWait++;
                 if (extWait >= 3)
                 {
-                    JetpackSmoke s = new JetpackSmoke(base.x + Rando.Float(-1f, 1f), base.bottom + Rando.Float(-4f, 1f));
-                    s.depth = 0.9f;
+                    JetpackSmoke s = new JetpackSmoke(base.X + Rando.Float(-1f, 1f), base.bottom + Rando.Float(-4f, 1f));
+                    s.Depth = 0.9f;
                     Level.current.AddThing(s);
                     s.hSpeed += hSpeed * Rando.Float(0.2f, 0.3f);
                     s.vSpeed = Rando.Float(-0.1f, 0f);
@@ -559,11 +559,11 @@ public abstract class MaterialThing : Thing
     {
         if (physicsMaterial == PhysicsMaterial.Metal)
         {
-            Level.Add(MetalRebound.New(hitPos.x, hitPos.y, (bullet.travelDirNormalized.x > 0f) ? 1 : (-1)));
+            Level.Add(MetalRebound.New(hitPos.X, hitPos.Y, (bullet.travelDirNormalized.X > 0f) ? 1 : (-1)));
             hitPos -= bullet.travelDirNormalized;
             for (int i = 0; i < 3; i++)
             {
-                Level.Add(Spark.New(hitPos.x, hitPos.y, bullet.travelDirNormalized));
+                Level.Add(Spark.New(hitPos.X, hitPos.Y, bullet.travelDirNormalized));
             }
         }
         else if (physicsMaterial == PhysicsMaterial.Wood)
@@ -571,9 +571,9 @@ public abstract class MaterialThing : Thing
             hitPos -= bullet.travelDirNormalized;
             for (int j = 0; j < 3; j++)
             {
-                WoodDebris woodDebris = WoodDebris.New(hitPos.x, hitPos.y);
-                woodDebris.hSpeed = 0f - bullet.travelDirNormalized.x + Rando.Float(-1f, 1f);
-                woodDebris.vSpeed = 0f - bullet.travelDirNormalized.y + Rando.Float(-1f, 1f);
+                WoodDebris woodDebris = WoodDebris.New(hitPos.X, hitPos.Y);
+                woodDebris.hSpeed = 0f - bullet.travelDirNormalized.X + Rando.Float(-1f, 1f);
+                woodDebris.vSpeed = 0f - bullet.travelDirNormalized.Y + Rando.Float(-1f, 1f);
                 Level.Add(woodDebris);
             }
         }
@@ -609,7 +609,7 @@ public abstract class MaterialThing : Thing
 
     public virtual void AddFire()
     {
-        Level.Add(SmallFire.New(Rando.Float((base.left - base.x) * 0.7f, (base.right - base.x) * 0.7f), Rando.Float((base.top - base.y) * 0.7f, (base.bottom - base.y) * 0.7f), 0f, 0f, shortLife: false, this));
+        Level.Add(SmallFire.New(Rando.Float((base.left - base.X) * 0.7f, (base.right - base.X) * 0.7f), Rando.Float((base.top - base.Y) * 0.7f, (base.bottom - base.Y) * 0.7f), 0f, 0f, shortLife: false, this));
     }
 
     protected virtual bool OnBurn(Vec2 firePosition, Thing litBy)
@@ -650,7 +650,7 @@ public abstract class MaterialThing : Thing
 
     public virtual void DoHeatUp(float val)
     {
-        DoHeatUp(val, position);
+        DoHeatUp(val, Position);
     }
 
     public virtual void HeatUp(Vec2 location)
@@ -673,7 +673,7 @@ public abstract class MaterialThing : Thing
 
     public virtual void DoFreeze(float val)
     {
-        DoFreeze(val, position);
+        DoFreeze(val, Position);
     }
 
     public virtual void Freeze(Vec2 location)
@@ -682,7 +682,7 @@ public abstract class MaterialThing : Thing
 
     public virtual void Extinquish()
     {
-        foreach (SmallFire f in Level.CheckCircleAll<SmallFire>(position, 20f))
+        foreach (SmallFire f in Level.CheckCircleAll<SmallFire>(Position, 20f))
         {
             if (f.stick == this)
             {

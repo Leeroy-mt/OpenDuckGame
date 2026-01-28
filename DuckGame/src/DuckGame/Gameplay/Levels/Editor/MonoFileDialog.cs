@@ -96,7 +96,7 @@ public class MonoFileDialog : ContextMenu
     public override void Initialize()
     {
         base.layer = Layer.HUD;
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         _showBackground = false;
         _fancyFont = new FancyBitmapFont("smallFont");
         itemSize = new Vec2(390f, 16f);
@@ -134,7 +134,7 @@ public class MonoFileDialog : ContextMenu
         float windowHeight = 350f;
         Vec2 topLeft = new Vec2(base.layer.width / 2f - windowWidth / 2f + hOffset, base.layer.height / 2f - windowHeight / 2f);
         new Vec2(base.layer.width / 2f + windowWidth / 2f + hOffset, base.layer.height / 2f + windowHeight / 2f);
-        position = topLeft + new Vec2(4f, 40f);
+        Position = topLeft + new Vec2(4f, 40f);
         _save = save;
         rootFolder = rootFolder.Replace('\\', '/');
         currentFolder = currentFolder.Replace('\\', '/');
@@ -392,10 +392,10 @@ public class MonoFileDialog : ContextMenu
                 continue;
             }
             _items[j].visible = true;
-            _items[j].position = new Vec2(_items[j].position.x, base.y + 3f + (float)index * (_items[j].itemSize.y + 1f));
+            _items[j].Position = new Vec2(_items[j].Position.X, base.Y + 3f + (float)index * (_items[j].itemSize.Y + 1f));
             index++;
         }
-        menuSize.y = _fdHeight;
+        menuSize.Y = _fdHeight;
     }
 
     private Tex2D GetArcadeSizeTex2D(string pTex, Tex2D pOriginalTex)
@@ -633,7 +633,7 @@ public class MonoFileDialog : ContextMenu
                 _previewSprite = new Sprite(_preview);
                 if (_type == ContextFileType.Block || _type == ContextFileType.Background || _type == ContextFileType.Platform || _type == ContextFileType.Parallax)
                 {
-                    _previewSprite.scale = new Vec2(2f, 2f);
+                    _previewSprite.Scale = new Vec2(2f, 2f);
                 }
             }
             else
@@ -809,14 +809,14 @@ public class MonoFileDialog : ContextMenu
             }
             _ = _items[j];
             _items[j].visible = true;
-            _items[j].position = new Vec2(_items[j].position.x, base.y + 3f + (float)index * _items[j].itemSize.y);
+            _items[j].Position = new Vec2(_items[j].Position.X, base.Y + 3f + (float)index * _items[j].itemSize.Y);
             index++;
         }
     }
 
     public override void Draw()
     {
-        menuSize.y = _fdHeight;
+        menuSize.Y = _fdHeight;
         if (!base.opened)
         {
             return;
@@ -826,20 +826,20 @@ public class MonoFileDialog : ContextMenu
         float height = _fdHeight + 22f;
         Vec2 topLeft = new Vec2(base.layer.width / 2f - width / 2f + hOffset - 1f, base.layer.height / 2f - height / 2f - 15f);
         Vec2 bottomRight = new Vec2(base.layer.width / 2f + width / 2f + hOffset + 1f, base.layer.height / 2f + height / 2f - 12f);
-        Graphics.DrawRect(topLeft, bottomRight, new Color(70, 70, 70), base.depth, filled: false);
-        Graphics.DrawRect(topLeft, bottomRight, new Color(30, 30, 30), base.depth - 8);
-        Graphics.DrawRect(topLeft + new Vec2(3f, 23f), bottomRight + new Vec2(-18f, -4f), new Color(10, 10, 10), base.depth - 4);
-        Vec2 scrollBarTL = new Vec2(bottomRight.x - 16f, topLeft.y + 23f);
+        Graphics.DrawRect(topLeft, bottomRight, new Color(70, 70, 70), base.Depth, filled: false);
+        Graphics.DrawRect(topLeft, bottomRight, new Color(30, 30, 30), base.Depth - 8);
+        Graphics.DrawRect(topLeft + new Vec2(3f, 23f), bottomRight + new Vec2(-18f, -4f), new Color(10, 10, 10), base.Depth - 4);
+        Vec2 scrollBarTL = new Vec2(bottomRight.X - 16f, topLeft.Y + 23f);
         Vec2 scrollBarBR = bottomRight + new Vec2(-3f, -4f);
-        Graphics.DrawRect(scrollBarTL, scrollBarBR, new Color(10, 10, 10), base.depth - 4);
-        Graphics.DrawRect(topLeft + new Vec2(3f, 3f), new Vec2(bottomRight.x - 3f, topLeft.y + 19f), new Color(70, 70, 70), base.depth - 4);
+        Graphics.DrawRect(scrollBarTL, scrollBarBR, new Color(10, 10, 10), base.Depth - 4);
+        Graphics.DrawRect(topLeft + new Vec2(3f, 3f), new Vec2(bottomRight.X - 3f, topLeft.Y + 19f), new Color(70, 70, 70), base.Depth - 4);
         if (_scrollBar)
         {
             _scrollLerp = Lerp.Float(_scrollLerp, _scrollPosition, 0.05f);
-            Vec2 barTL = new Vec2(bottomRight.x - 14f, base.topRight.y + 7f + (240f * _scrollLerp - 4f));
-            Vec2 barBR = new Vec2(bottomRight.x - 5f, base.topRight.y + 11f + (240f * _scrollLerp + 8f));
+            Vec2 barTL = new Vec2(bottomRight.X - 14f, base.topRight.Y + 7f + (240f * _scrollLerp - 4f));
+            Vec2 barBR = new Vec2(bottomRight.X - 5f, base.topRight.Y + 11f + (240f * _scrollLerp + 8f));
             bool hover = false;
-            if (Mouse.x > barTL.x && Mouse.x < barBR.x && Mouse.y > barTL.y && Mouse.y < barBR.y)
+            if (Mouse.x > barTL.X && Mouse.x < barBR.X && Mouse.y > barTL.Y && Mouse.y < barBR.Y)
             {
                 hover = true;
                 if (Mouse.left == InputState.Pressed)
@@ -853,7 +853,7 @@ public class MonoFileDialog : ContextMenu
             }
             if (drag)
             {
-                _scrollPosition = (Mouse.y - scrollBarTL.y - 10f) / (scrollBarBR.y - scrollBarTL.y - 20f);
+                _scrollPosition = (Mouse.y - scrollBarTL.Y - 10f) / (scrollBarBR.Y - scrollBarTL.Y - 20f);
                 if (_scrollPosition < 0f)
                 {
                     _scrollPosition = 0f;
@@ -864,7 +864,7 @@ public class MonoFileDialog : ContextMenu
                 }
                 _scrollLerp = _scrollPosition;
             }
-            Graphics.DrawRect(barTL, barBR, drag ? new Color(190, 190, 190) : (hover ? new Color(120, 120, 120) : new Color(70, 70, 70)), base.depth + 4);
+            Graphics.DrawRect(barTL, barBR, drag ? new Color(190, 190, 190) : (hover ? new Color(120, 120, 120) : new Color(70, 70, 70)), base.Depth + 4);
         }
         string path = _currentDirectory;
         int rootIndex = _currentDirectory.IndexOf(_rootFolder);
@@ -885,26 +885,26 @@ public class MonoFileDialog : ContextMenu
         string headingString = "";
         headingString = (_save ? "@SAVEICON@Save Level" : (_selectLevels ? "Select Active Levels" : ((_type == ContextFileType.Block) ? "@LOADICON@Custom" : ((_type == ContextFileType.Platform) ? "@LOADICON@Custom" : ((_type == ContextFileType.Background) ? "@LOADICON@Custom" : ((_type == ContextFileType.Parallax) ? "@LOADICON@Custom" : ((_type != ContextFileType.ArcadeStyle) ? "@LOADICON@Load Level" : "@LOADICON@Custom")))))));
         string drawPath = path;
-        Graphics.DrawString(headingString + ((drawPath == "") ? "" : (" - " + drawPath)), topLeft + new Vec2(5f, 7f), Color.White, base.depth + 8);
-        Vec2 part2TL = new Vec2(bottomRight.x + 2f, topLeft.y);
+        Graphics.DrawString(headingString + ((drawPath == "") ? "" : (" - " + drawPath)), topLeft + new Vec2(5f, 7f), Color.White, base.Depth + 8);
+        Vec2 part2TL = new Vec2(bottomRight.X + 2f, topLeft.Y);
         Vec2 part2BR = part2TL + new Vec2(164f, 120f);
         if (_previewSprite != null && _previewSprite.texture != null && (_type == ContextFileType.Block || _type == ContextFileType.Background || _type == ContextFileType.Platform || _type == ContextFileType.Parallax || _type == ContextFileType.ArcadeStyle || _type == ContextFileType.ArcadeAnimation))
         {
             part2BR = ((_type != ContextFileType.Parallax) ? (part2TL + new Vec2(_previewSprite.width + 4, _previewSprite.height + 4)) : (part2TL + new Vec2(_previewSprite.width / 2 + 4, _previewSprite.height / 2 + 4)));
         }
-        Graphics.DrawRect(part2TL, part2BR, new Color(70, 70, 70), base.depth, filled: false);
-        Graphics.DrawRect(part2TL, part2BR, new Color(30, 30, 30), base.depth - 8);
+        Graphics.DrawRect(part2TL, part2BR, new Color(70, 70, 70), base.Depth, filled: false);
+        Graphics.DrawRect(part2TL, part2BR, new Color(30, 30, 30), base.Depth - 8);
         if (_previewSprite == null || _previewSprite.texture == null)
         {
             return;
         }
-        _previewSprite.depth = 0.95f;
-        _previewSprite.scale = new Vec2(0.5f);
+        _previewSprite.Depth = 0.95f;
+        _previewSprite.Scale = new Vec2(0.5f);
         if (_type == ContextFileType.Block || _type == ContextFileType.Background || _type == ContextFileType.Platform)
         {
-            _previewSprite.scale = new Vec2(1f);
+            _previewSprite.Scale = new Vec2(1f);
         }
-        Graphics.Draw(_previewSprite, part2TL.x + 2f, part2TL.y + 2f);
+        Graphics.Draw(_previewSprite, part2TL.X + 2f, part2TL.Y + 2f);
         if (_previewPair == null)
         {
             return;
@@ -923,39 +923,39 @@ public class MonoFileDialog : ContextMenu
         string prepend = "";
         if (_previewPair.strange)
         {
-            Graphics.DrawString(prepend + "STRANGE LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGPurple, base.depth + 8);
+            Graphics.DrawString(prepend + "STRANGE LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGPurple, base.Depth + 8);
             part2TL += new Vec2(0f, 122f);
             part2BR = part2TL + new Vec2(166f, 36f);
-            Graphics.DrawRect(part2TL, part2BR, new Color(70, 70, 70), base.depth, filled: false);
-            Graphics.DrawRect(part2TL, part2BR, new Color(30, 30, 30), base.depth - 8);
-            _fancyFont.Draw("Must place at least one Duck Spawn Point to make a valid level.", part2TL.x + 4f, part2TL.y + 4f, Color.White, base.depth + 8);
+            Graphics.DrawRect(part2TL, part2BR, new Color(70, 70, 70), base.Depth, filled: false);
+            Graphics.DrawRect(part2TL, part2BR, new Color(30, 30, 30), base.Depth - 8);
+            _fancyFont.Draw("Must place at least one Duck Spawn Point to make a valid level.", part2TL.X + 4f, part2TL.Y + 4f, Color.White, base.Depth + 8);
             return;
         }
         if (_previewPair.arcade)
         {
-            Graphics.DrawString(prepend + "ARCADE LAYOUT", part2TL + new Vec2(5f, 107f), Colors.DGYellow, base.depth + 8);
+            Graphics.DrawString(prepend + "ARCADE LAYOUT", part2TL + new Vec2(5f, 107f), Colors.DGYellow, base.Depth + 8);
             return;
         }
         if (_previewPair.challenge)
         {
-            Graphics.DrawString(prepend + "CHALLENGE LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGRed, base.depth + 8);
+            Graphics.DrawString(prepend + "CHALLENGE LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGRed, base.Depth + 8);
             return;
         }
         if (_previewPair.invalid == null || _previewPair.invalid.Count == 0)
         {
-            Graphics.DrawString(prepend + "ONLINE LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGGreen, base.depth + 8);
+            Graphics.DrawString(prepend + "ONLINE LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGGreen, base.Depth + 8);
             return;
         }
-        Graphics.DrawString(prepend + "LOCAL LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGBlue, base.depth + 8);
+        Graphics.DrawString(prepend + "LOCAL LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGBlue, base.Depth + 8);
         part2TL += new Vec2(0f, 122f);
-        _fancyFont.Draw("Contains the following Local-Only objects:", part2TL.x + 4f, part2TL.y + 4f, Color.White, base.depth + 8);
+        _fancyFont.Draw("Contains the following Local-Only objects:", part2TL.X + 4f, part2TL.Y + 4f, Color.White, base.Depth + 8);
         int i = 22;
         if (_previewPair.invalid != null)
         {
             foreach (KeyValuePair<string, int> s in _previewPair.invalid)
             {
                 string displayString = "- " + s.Key + ((s.Value > 1) ? (" (x" + s.Value + ")") : "");
-                _fancyFont.Draw(displayString, part2TL.x + 4f, part2TL.y + 4f + (float)i, Color.White, base.depth + 8);
+                _fancyFont.Draw(displayString, part2TL.X + 4f, part2TL.Y + 4f + (float)i, Color.White, base.Depth + 8);
                 if (_fancyFont.GetWidth(displayString) > 160f)
                 {
                     i += 12;
@@ -964,7 +964,7 @@ public class MonoFileDialog : ContextMenu
             }
         }
         part2BR = part2TL + new Vec2(166f, 6 + i);
-        Graphics.DrawRect(part2TL, part2BR, new Color(70, 70, 70), base.depth, filled: false);
-        Graphics.DrawRect(part2TL, part2BR, new Color(30, 30, 30), base.depth - 8);
+        Graphics.DrawRect(part2TL, part2BR, new Color(70, 70, 70), base.Depth, filled: false);
+        Graphics.DrawRect(part2TL, part2BR, new Color(30, 30, 30), base.Depth - 8);
     }
 }

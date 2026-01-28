@@ -110,7 +110,7 @@ public class RoomEditor : Thing
         : base(xpos, ypos)
     {
         _font = new BitmapFont("biosFontUI", 8, 7);
-        _font.scale = new Vec2(0.5f, 0.5f);
+        _font.Scale = new Vec2(0.5f, 0.5f);
         _collisionSize = new Vec2(141f, 89f);
         _cantPlace = new Sprite("cantPlace");
         _cantPlace.CenterOrigin();
@@ -119,7 +119,7 @@ public class RoomEditor : Thing
         _box = box;
         _selector = sel;
         _moveArrow = new Sprite("moveArrow");
-        _moveArrow.center = new Vec2(0f, 4f);
+        _moveArrow.Center = new Vec2(0f, 4f);
         _scren = new Sprite("furni/scren");
         _scren.CenterOrigin();
         _bigScren = new Sprite("furni/bigScren");
@@ -127,9 +127,9 @@ public class RoomEditor : Thing
         _whiteCircle = new Sprite("furni/whiteCircle");
         _whiteCircle.CenterOrigin();
         _smallFont = new BitmapFont("smallBiosFont", 7, 6);
-        _smallFont.scale = new Vec2(0.5f, 0.5f);
+        _smallFont.Scale = new Vec2(0.5f, 0.5f);
         _furni = new Sprite("furni/stone");
-        _furni.center = new Vec2(_furni.width / 2, _furni.height);
+        _furni.Center = new Vec2(_furni.width / 2, _furni.height);
         _furnitureCursor = new Sprite("arcade/furnCursor");
         _furnitureCursor.CenterOrigin();
     }
@@ -572,69 +572,69 @@ public class RoomEditor : Thing
             }
             else if (_mode == REMode.Place)
             {
-                position = _box.position;
-                if (_furniCursor.x < 0f)
+                Position = _box.Position;
+                if (_furniCursor.X < 0f)
                 {
-                    _furniCursor = position + new Vec2(30f, 30f);
+                    _furniCursor = Position + new Vec2(30f, 30f);
                 }
                 if (_selector.inputProfile.Down("RAGDOLL"))
                 {
                     if (_selector.inputProfile.Pressed("MENULEFT"))
                     {
-                        _furniCursor.x -= 1f;
+                        _furniCursor.X -= 1f;
                     }
                     if (_selector.inputProfile.Pressed("MENURIGHT"))
                     {
-                        _furniCursor.x += 1f;
+                        _furniCursor.X += 1f;
                     }
                     if (_selector.inputProfile.Pressed("MENUUP"))
                     {
-                        _furniCursor.y -= 1f;
+                        _furniCursor.Y -= 1f;
                     }
                     if (_selector.inputProfile.Pressed("MENUDOWN"))
                     {
-                        _furniCursor.y += 1f;
+                        _furniCursor.Y += 1f;
                     }
                 }
                 else
                 {
                     if (_selector.inputProfile.Down("MENULEFT"))
                     {
-                        _furniCursor.x -= 1f;
+                        _furniCursor.X -= 1f;
                     }
                     if (_selector.inputProfile.Down("MENURIGHT"))
                     {
-                        _furniCursor.x += 1f;
+                        _furniCursor.X += 1f;
                     }
                     if (_selector.inputProfile.Down("MENUUP"))
                     {
-                        _furniCursor.y -= 1f;
+                        _furniCursor.Y -= 1f;
                     }
                     if (_selector.inputProfile.Down("MENUDOWN"))
                     {
-                        _furniCursor.y += 1f;
+                        _furniCursor.Y += 1f;
                     }
                 }
-                Vec2 roomTL = new Vec2(base.x + 6f, base.y);
-                Vec2 roomBR = new Vec2(base.x + (float)roomSize, base.y + 70f);
+                Vec2 roomTL = new Vec2(base.X + 6f, base.Y);
+                Vec2 roomBR = new Vec2(base.X + (float)roomSize, base.Y + 70f);
                 Furniture curFur = Profiles.experienceProfile.GetAvailableFurnis()[_desiredFurniSelection];
                 if (curFur.type == FurnitureType.Prop)
                 {
-                    if (_furniCursor.x - (float)(curFur.sprite.width / 2) < roomTL.x)
+                    if (_furniCursor.X - (float)(curFur.sprite.width / 2) < roomTL.X)
                     {
-                        _furniCursor.x = roomTL.x + (float)(curFur.sprite.width / 2);
+                        _furniCursor.X = roomTL.X + (float)(curFur.sprite.width / 2);
                     }
-                    if (_furniCursor.x + (float)(curFur.sprite.width / 2) > roomBR.x)
+                    if (_furniCursor.X + (float)(curFur.sprite.width / 2) > roomBR.X)
                     {
-                        _furniCursor.x = roomBR.x - (float)(curFur.sprite.width / 2);
+                        _furniCursor.X = roomBR.X - (float)(curFur.sprite.width / 2);
                     }
-                    if (_furniCursor.y > roomBR.y)
+                    if (_furniCursor.Y > roomBR.Y)
                     {
-                        _furniCursor.y = roomBR.y;
+                        _furniCursor.Y = roomBR.Y;
                     }
-                    if (_furniCursor.y < roomTL.y)
+                    if (_furniCursor.Y < roomTL.Y)
                     {
-                        _furniCursor.y = roomTL.y;
+                        _furniCursor.Y = roomTL.Y;
                     }
                 }
                 if (curFur.type == FurnitureType.Prop)
@@ -648,55 +648,55 @@ public class RoomEditor : Thing
                             Vec2 pos = new Vec2((int)p.x, (int)p.y);
                             if (_selector.box.rightRoom)
                             {
-                                pos.x = (float)roomSize - pos.x;
+                                pos.X = (float)roomSize - pos.X;
                             }
-                            pos += _selector.box.position;
-                            rects.Add(new Rectangle(pos.x - (float)(f.sprite.width / 2), pos.y - (float)Math.Ceiling((float)f.sprite.height / 2f) + 1f + f.topOffset, f.sprite.width, (float)f.sprite.height - f.topOffset));
+                            pos += _selector.box.Position;
+                            rects.Add(new Rectangle(pos.X - (float)(f.sprite.width / 2), pos.Y - (float)Math.Ceiling((float)f.sprite.height / 2f) + 1f + f.topOffset, f.sprite.width, (float)f.sprite.height - f.topOffset));
                         }
                     }
-                    _furniPos.x = _furniCursor.x;
-                    _furniPos.y = _furniCursor.y;
+                    _furniPos.X = _furniCursor.X;
+                    _furniPos.Y = _furniCursor.Y;
                     float curHeight = (float)Math.Floor((float)curFur.sprite.height / 2f);
                     if (curFur.stickToFloor)
                     {
-                        float bottom = _furniCursor.y + curHeight - 2f;
+                        float bottom = _furniCursor.Y + curHeight - 2f;
                         Vec2 hit = Vec2.Zero;
                         float highestTop = 999f;
                         foreach (Rectangle r in rects)
                         {
-                            if (r.Top >= bottom - 2f && r.Top - curHeight < highestTop && Collision.Line(new Vec2(_furniCursor.x, bottom), new Vec2(_furniCursor.x, bottom + 100f), r))
+                            if (r.Top >= bottom - 2f && r.Top - curHeight < highestTop && Collision.Line(new Vec2(_furniCursor.X, bottom), new Vec2(_furniCursor.X, bottom + 100f), r))
                             {
                                 highestTop = r.Top - curHeight;
                             }
                         }
-                        if (Level.CheckRay<IPlatform>(new Vec2(_furniCursor.x, bottom), new Vec2(_furniCursor.x, bottom + 100f), out hit) is Thing t)
+                        if (Level.CheckRay<IPlatform>(new Vec2(_furniCursor.X, bottom), new Vec2(_furniCursor.X, bottom + 100f), out hit) is Thing t)
                         {
-                            _furniPos.y = t.top - curHeight;
+                            _furniPos.Y = t.top - curHeight;
                         }
-                        if (_furniPos.y > highestTop)
+                        if (_furniPos.Y > highestTop)
                         {
-                            _furniPos.y = highestTop;
+                            _furniPos.Y = highestTop;
                         }
                     }
                     else if (curFur.stickToRoof)
                     {
-                        float top = _furniPos.y - curHeight + 2f;
+                        float top = _furniPos.Y - curHeight + 2f;
                         _ = _furniCursor;
                         _ = curFur.sprite.height / 2;
                         Vec2 hit2 = Vec2.Zero;
-                        if (Level.CheckRay<IPlatform>(new Vec2(_furniCursor.x, top), new Vec2(_furniCursor.x, top - 100f), out hit2) is Thing t2)
+                        if (Level.CheckRay<IPlatform>(new Vec2(_furniCursor.X, top), new Vec2(_furniCursor.X, top - 100f), out hit2) is Thing t2)
                         {
-                            _furniPos.y = t2.bottom + (float)(curFur.sprite.height / 2) - 2f;
+                            _furniPos.Y = t2.bottom + (float)(curFur.sprite.height / 2) - 2f;
                             if (_box.rightRoom)
                             {
-                                if (t2 is Block && _furniPos.x < 226f)
+                                if (t2 is Block && _furniPos.X < 226f)
                                 {
-                                    _furniPos.y += 11f;
+                                    _furniPos.Y += 11f;
                                 }
                             }
-                            else if (t2 is Block && _furniPos.x > 93f && _furniPos.x < 160f)
+                            else if (t2 is Block && _furniPos.X > 93f && _furniPos.X < 160f)
                             {
-                                _furniPos.y += 11f;
+                                _furniPos.Y += 11f;
                             }
                         }
                     }
@@ -712,10 +712,10 @@ public class RoomEditor : Thing
                             Vec2 pos2 = new Vec2((int)p2.x, (int)p2.y);
                             if (_selector.box.rightRoom)
                             {
-                                pos2.x = (float)roomSize - pos2.x;
+                                pos2.X = (float)roomSize - pos2.X;
                             }
-                            pos2 += position;
-                            if ((_furniCursor - pos2).length < 4f)
+                            pos2 += Position;
+                            if ((_furniCursor - pos2).Length() < 4f)
                             {
                                 _hover = p2;
                             }
@@ -758,7 +758,7 @@ public class RoomEditor : Thing
                 }
                 invalidPlacement = false;
                 bool oob = false;
-                if (_furniPos.y < base.y || _furniPos.y > base.y + 70f || _furniPos.x < base.x || _furniPos.x > base.x + (float)roomSize)
+                if (_furniPos.Y < base.Y || _furniPos.Y > base.Y + 70f || _furniPos.X < base.X || _furniPos.X > base.X + (float)roomSize)
                 {
                     invalidPlacement = true;
                     oob = true;
@@ -772,7 +772,7 @@ public class RoomEditor : Thing
                         for (int i = 0; i < 5; i++)
                         {
                             float scale = Rando.Float(0.9f, 1.2f);
-                            SmallSmoke smallSmoke = SmallSmoke.New(position.x + (float)(int)p3.x + Rando.Float(-2f, 2f), position.y + (float)(int)p3.y + Rando.Float(-4f, 4f), 0.8f, scale);
+                            SmallSmoke smallSmoke = SmallSmoke.New(Position.X + (float)(int)p3.x + Rando.Float(-2f, 2f), Position.Y + (float)(int)p3.y + Rando.Float(-4f, 4f), 0.8f, scale);
                             smallSmoke.hSpeed += Rando.Float(-0.3f, 0.3f);
                             smallSmoke.vSpeed -= Rando.Float(0.1f, 0.2f);
                             Level.Add(smallSmoke);
@@ -813,8 +813,8 @@ public class RoomEditor : Thing
                             if (curFur.group != Furniture.Default || curFur.type == FurnitureType.Prop)
                             {
                                 FurniturePosition f2 = new FurniturePosition();
-                                f2.x = (byte)(_furniPos.x - position.x);
-                                f2.y = (byte)(_furniPos.y - position.y);
+                                f2.x = (byte)(_furniPos.X - Position.X);
+                                f2.y = (byte)(_furniPos.Y - Position.Y);
                                 f2.flip = _placementFlip;
                                 if (curFur.group == Furniture.Characters)
                                 {
@@ -834,7 +834,7 @@ public class RoomEditor : Thing
                                     for (int i2 = 0; i2 < 5; i2++)
                                     {
                                         float scale2 = Rando.Float(0.9f, 1.2f);
-                                        SmallSmoke smallSmoke2 = SmallSmoke.New(_furniPos.x - (float)((curFur.sprite.width - 4) / 2) + (float)(i2 * ((curFur.sprite.width - 4) / 4)) + Rando.Float(-2f, 2f), _furniPos.y + (float)(curFur.sprite.height / 4) + Rando.Float(-4f, 4f), 0.8f, scale2);
+                                        SmallSmoke smallSmoke2 = SmallSmoke.New(_furniPos.X - (float)((curFur.sprite.width - 4) / 2) + (float)(i2 * ((curFur.sprite.width - 4) / 4)) + Rando.Float(-2f, 2f), _furniPos.Y + (float)(curFur.sprite.height / 4) + Rando.Float(-4f, 4f), 0.8f, scale2);
                                         smallSmoke2.hSpeed += Rando.Float(-0.3f, 0.3f);
                                         smallSmoke2.vSpeed -= Rando.Float(0.1f, 0.2f);
                                         Level.Add(smallSmoke2);
@@ -842,7 +842,7 @@ public class RoomEditor : Thing
                                     for (int i3 = 0; i3 < 5; i3++)
                                     {
                                         float scale3 = Rando.Float(0.9f, 1.2f);
-                                        SmallSmoke smallSmoke3 = SmallSmoke.New(_furniPos.x - (float)((curFur.sprite.width - 4) / 2) + (float)(i3 * ((curFur.sprite.width - 4) / 4)) + Rando.Float(-2f, 2f), _furniPos.y - (float)(curFur.sprite.height / 4) + Rando.Float(-4f, 4f), 0.8f, scale3);
+                                        SmallSmoke smallSmoke3 = SmallSmoke.New(_furniPos.X - (float)((curFur.sprite.width - 4) / 2) + (float)(i3 * ((curFur.sprite.width - 4) / 4)) + Rando.Float(-2f, 2f), _furniPos.Y - (float)(curFur.sprite.height / 4) + Rando.Float(-4f, 4f), 0.8f, scale3);
                                         smallSmoke3.hSpeed += Rando.Float(-0.3f, 0.3f);
                                         smallSmoke3.vSpeed -= Rando.Float(0.1f, 0.2f);
                                         Level.Add(smallSmoke3);
@@ -872,14 +872,14 @@ public class RoomEditor : Thing
                 }
             }
         }
-        _font.alpha = _fade;
-        _font.depth = 0.96f;
-        _font.scale = new Vec2(1f, 1f);
+        _font.Alpha = _fade;
+        _font.Depth = 0.96f;
+        _font.Scale = new Vec2(1f, 1f);
         if (_mode == REMode.Main)
         {
             _pendingMaps.Clear();
-            Vec2 realPos = position;
-            position = Vec2.Zero;
+            Vec2 realPos = Position;
+            Position = Vec2.Zero;
             _selector.screen.BeginDraw();
             if (_desiredFurniSelection >= Profiles.experienceProfile.GetAvailableFurnis().Count)
             {
@@ -894,17 +894,17 @@ public class RoomEditor : Thing
             }
             if (custFont != null)
             {
-                custFont.scale = new Vec2(1f);
+                custFont.Scale = new Vec2(1f);
                 custFont.characterYOffset = 1;
-                custFont.Draw(pickTeam, Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _font.GetWidth(pickTeam) / 2f, base.y + 7f - 2f)), Color.White, 0.95f);
+                custFont.Draw(pickTeam, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(pickTeam) / 2f, base.Y + 7f - 2f)), Color.White, 0.95f);
                 custFont.characterYOffset = 0;
             }
             else
             {
-                _font.Draw(pickTeam, Maths.RoundToPixel(new Vec2(base.x + base.width / 2f - _font.GetWidth(pickTeam) / 2f, base.y + 8f - 2f)), Color.White, 0.95f);
+                _font.Draw(pickTeam, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(pickTeam) / 2f, base.Y + 8f - 2f)), Color.White, 0.95f);
             }
-            Graphics.DrawRect(new Vec2(base.x, base.y), new Vec2(base.x + 400f, base.y + 14f), Color.Black, 0.94f);
-            Graphics.DrawRect(new Vec2(base.x, base.y + 74f), new Vec2(base.x + 400f, base.y + 90f), Color.Black, 0.98f);
+            Graphics.DrawRect(new Vec2(base.X, base.Y), new Vec2(base.X + 400f, base.Y + 14f), Color.Black, 0.94f);
+            Graphics.DrawRect(new Vec2(base.X, base.Y + 74f), new Vec2(base.X + 400f, base.Y + 90f), Color.Black, 0.98f);
             float selectorYOffset = -18f;
             _ = Profiles.experienceProfile.GetAvailableFurnis().Count;
             int numOwned = _furniGroupMap[sel.group].IndexOf(sel);
@@ -916,13 +916,13 @@ public class RoomEditor : Thing
                 for (int i4 = 0; i4 < 11; i4++)
                 {
                     int add = -5 + i4 + (j - 2) * 5;
-                    float xpos = base.x + 2f + (float)(i4 * 22) + (0f - _slide) * 20f;
-                    float ypos = base.y + 37f + (0f - _upSlide) * 20f;
+                    float xpos = base.X + 2f + (float)(i4 * 22) + (0f - _slide) * 20f;
+                    float ypos = base.Y + 37f + (0f - _upSlide) * 20f;
                     int idx = FurniIndexAdd(_furniSelection, add);
                     Furniture t3 = Profiles.experienceProfile.GetAvailableFurnis()[idx];
-                    float left = base.x + 2f;
-                    float right = base.x + 2f + 242f;
-                    float middle = base.x + (right - left) / 2f - 9f;
+                    float left = base.X + 2f;
+                    float right = base.X + 2f + 242f;
+                    float middle = base.X + (right - left) / 2f - 9f;
                     Maths.Clamp((50f - Math.Abs(xpos - middle)) / 50f, 0f, 1f);
                     DuckRig.GetHatPoint(_profile.persona.sprite.imageIndex);
                     SpriteMap furniSprite = t3.sprite;
@@ -935,103 +935,103 @@ public class RoomEditor : Thing
                         furniSprite = t3.sprite;
                     }
                     _ = Vec2.Zero;
-                    furniSprite.alpha = _profile.persona.sprite.alpha;
+                    furniSprite.Alpha = _profile.persona.sprite.Alpha;
                     Vec2 drawPos = Vec2.Zero;
                     drawPos = new Vec2(xpos, ypos + selectorYOffset + (float)(j * 20) - 14f);
-                    float centerDist = 1f - Math.Min(((drawPos - new Vec2(middle, base.y + 35f + 10f)).length + 10f) / 40f, 1f);
-                    furniSprite.scale = new Vec2(Math.Min(0.5f + Math.Max(centerDist - 0.5f, 0f) * 2f, 1f));
-                    drawPos.x -= 44f;
-                    drawPos.y -= 6f;
-                    furniSprite.depth = 0.85f + furniSprite.xscale * 0.1f;
+                    float centerDist = 1f - Math.Min(((drawPos - new Vec2(middle, base.Y + 35f + 10f)).Length() + 10f) / 40f, 1f);
+                    furniSprite.Scale = new Vec2(Math.Min(0.5f + Math.Max(centerDist - 0.5f, 0f) * 2f, 1f));
+                    drawPos.X -= 44f;
+                    drawPos.Y -= 6f;
+                    furniSprite.Depth = 0.85f + furniSprite.ScaleX * 0.1f;
                     if (t3.type == FurnitureType.Theme && i4 == 5 && j == 2)
                     {
-                        furniSprite.scale *= 0.25f;
+                        furniSprite.Scale *= 0.25f;
                     }
                     if (_fade > 0.01f)
                     {
                         if (t3.group == sel.group)
                         {
-                            furniSprite.depth += 2000;
+                            furniSprite.Depth += 2000;
                         }
                         drawPos = Maths.RoundToPixel(drawPos);
                         int numAllowed2 = Profiles.experienceProfile.GetNumFurnitures(t3.index);
                         if (_selector.profile.GetNumFurnituresPlaced(t3.index) >= numAllowed2)
                         {
-                            _cantPlaceLarge.depth = furniSprite.depth + 5;
-                            _cantPlaceLarge.scale = new Vec2(0.25f);
-                            _cantPlaceLarge.alpha = 0.7f;
-                            Graphics.Draw(_cantPlaceLarge, drawPos.x, drawPos.y);
+                            _cantPlaceLarge.Depth = furniSprite.Depth + 5;
+                            _cantPlaceLarge.Scale = new Vec2(0.25f);
+                            _cantPlaceLarge.Alpha = 0.7f;
+                            Graphics.Draw(_cantPlaceLarge, drawPos.X, drawPos.Y);
                         }
-                        Vec2 sprScale = furniSprite.scale;
+                        Vec2 sprScale = furniSprite.Scale;
                         if (t3.font != null && t3.sprite == null)
                         {
-                            t3.font.scale = new Vec2(furniSprite.xscale * 2f);
-                            t3.font.Draw("F", drawPos + new Vec2(-3.5f, -3f) + (furniSprite.xscale - 0.5f) * 2f * new Vec2(-3f, -3f), Color.Black, furniSprite.depth + 10);
-                            Graphics.Draw(furniSprite, drawPos.x, drawPos.y);
+                            t3.font.Scale = new Vec2(furniSprite.ScaleX * 2f);
+                            t3.font.Draw("F", drawPos + new Vec2(-3.5f, -3f) + (furniSprite.ScaleX - 0.5f) * 2f * new Vec2(-3f, -3f), Color.Black, furniSprite.Depth + 10);
+                            Graphics.Draw(furniSprite, drawPos.X, drawPos.Y);
                         }
                         else if (t3.type == FurnitureType.Theme && i4 == 5 && j == 2)
                         {
-                            _bigScren.depth = furniSprite.depth - 10;
-                            _bigScren.scale = furniSprite.scale * 4f;
+                            _bigScren.Depth = furniSprite.Depth - 10;
+                            _bigScren.Scale = furniSprite.Scale * 4f;
                             _bigScren.color = furniSprite.color;
-                            Graphics.Draw(_bigScren, drawPos.x - 0.5f, drawPos.y);
-                            t3.background.depth = furniSprite.depth - 5;
-                            t3.background.scale = furniSprite.scale;
+                            Graphics.Draw(_bigScren, drawPos.X - 0.5f, drawPos.Y);
+                            t3.background.Depth = furniSprite.Depth - 5;
+                            t3.background.Scale = furniSprite.Scale;
                             t3.background.color = furniSprite.color;
-                            Graphics.Draw(t3.background, drawPos.x, drawPos.y);
-                            Graphics.Draw(furniSprite, drawPos.x, drawPos.y);
+                            Graphics.Draw(t3.background, drawPos.X, drawPos.Y);
+                            Graphics.Draw(furniSprite, drawPos.X, drawPos.Y);
                         }
                         else
                         {
-                            t3.Draw(drawPos + new Vec2(0f, 0f), furniSprite.depth);
+                            t3.Draw(drawPos + new Vec2(0f, 0f), furniSprite.Depth);
                         }
-                        furniSprite.scale = sprScale;
+                        furniSprite.Scale = sprScale;
                         _whiteCircle.color = t3.group.color;
                         if (i4 == 5 && j == 2)
                         {
-                            _whiteCircle.depth = 0.8f;
+                            _whiteCircle.Depth = 0.8f;
                             if (t3.group == sel.group)
                             {
-                                _whiteCircle.depth = new Depth(furniSprite.depth.value - 0.025f, furniSprite.depth.span);
+                                _whiteCircle.Depth = new Depth(furniSprite.Depth.value - 0.025f, furniSprite.Depth.span);
                             }
-                            _whiteCircle.scale = new Vec2(furniSprite.xscale * 0.5f);
-                            Graphics.Draw(_whiteCircle, drawPos.x, drawPos.y);
-                            _whiteCircle.scale = new Vec2(furniSprite.xscale * 0.52f);
+                            _whiteCircle.Scale = new Vec2(furniSprite.ScaleX * 0.5f);
+                            Graphics.Draw(_whiteCircle, drawPos.X, drawPos.Y);
+                            _whiteCircle.Scale = new Vec2(furniSprite.ScaleX * 0.52f);
                             _whiteCircle.color = new Color((byte)((float)(int)t3.group.color.r * 0.75f), (byte)((float)(int)t3.group.color.g * 0.75f), (byte)((float)(int)t3.group.color.b * 0.75f));
-                            _whiteCircle.depth -= 30;
-                            Graphics.Draw(_whiteCircle, drawPos.x, drawPos.y);
+                            _whiteCircle.Depth -= 30;
+                            Graphics.Draw(_whiteCircle, drawPos.X, drawPos.Y);
                             _whiteCircle.color = t3.group.color;
                             string collectionString = string.Concat(t3.group.name.Substring(0, 1).ToUpper() + t3.group.name.Substring(1), " Collection ");
                             collectionString = ((numGroupOwned != _furniGroupMap[t3.group].Count) ? (collectionString + "(" + (numOwned + 1) + "/" + _furniGroupMap[t3.group].Count + ")") : (collectionString + "(Complete)"));
-                            _fancyFont.depth = 0.99f;
-                            _fancyFont.scale = new Vec2(0.25f);
+                            _fancyFont.Depth = 0.99f;
+                            _fancyFont.Scale = new Vec2(0.25f);
                             if (_desiredFurniSelection == _furniSelection)
                             {
                                 float wid = (float)Math.Floor(_fancyFont.GetWidth(collectionString));
                                 float widDiv = (float)Math.Floor(_fancyFont.GetWidth(collectionString) / 2f);
-                                Vec2 csTL = new Vec2(drawPos.x - widDiv, drawPos.y + 18f);
+                                Vec2 csTL = new Vec2(drawPos.X - widDiv, drawPos.Y + 18f);
                                 _fancyFont.Draw(collectionString, csTL, new Color((byte)((float)(int)t3.group.color.r * 0.5f), (byte)((float)(int)t3.group.color.g * 0.5f), (byte)((float)(int)t3.group.color.b * 0.5f)), 0.99f);
-                                _whiteCircle.scale = new Vec2(0.06f);
-                                _whiteCircle.depth = 0.98f;
-                                Graphics.Draw(_whiteCircle, csTL.x - 1f, csTL.y + 1f);
-                                Graphics.Draw(_whiteCircle, csTL.x + wid + 1f, csTL.y + 1f);
-                                _whiteCircle.scale = new Vec2(0.075f);
-                                _whiteCircle.depth = 0.94f;
+                                _whiteCircle.Scale = new Vec2(0.06f);
+                                _whiteCircle.Depth = 0.98f;
+                                Graphics.Draw(_whiteCircle, csTL.X - 1f, csTL.Y + 1f);
+                                Graphics.Draw(_whiteCircle, csTL.X + wid + 1f, csTL.Y + 1f);
+                                _whiteCircle.Scale = new Vec2(0.075f);
+                                _whiteCircle.Depth = 0.94f;
                                 _whiteCircle.color = new Color((byte)((float)(int)t3.group.color.r * 0.75f), (byte)((float)(int)t3.group.color.g * 0.75f), (byte)((float)(int)t3.group.color.b * 0.75f));
-                                Graphics.Draw(_whiteCircle, csTL.x - 1f, csTL.y + 1f);
-                                Graphics.Draw(_whiteCircle, csTL.x + wid + 1f, csTL.y + 1f);
+                                Graphics.Draw(_whiteCircle, csTL.X - 1f, csTL.Y + 1f);
+                                Graphics.Draw(_whiteCircle, csTL.X + wid + 1f, csTL.Y + 1f);
                                 Graphics.DrawRect(csTL + new Vec2(-1f, -1f), csTL + new Vec2(wid + 1f, 3f), t3.group.color, 0.98f);
                                 Graphics.DrawRect(csTL + new Vec2(-1.5f, -1.5f), csTL + new Vec2(wid + 1.5f, 3.5f), new Color((byte)((float)(int)t3.group.color.r * 0.75f), (byte)((float)(int)t3.group.color.g * 0.75f), (byte)((float)(int)t3.group.color.b * 0.75f)), 0.94f);
                                 _whiteCircle.color = t3.group.color;
-                                _whiteCircle.depth = 0.8f;
-                                _whiteCircle.scale = new Vec2(furniSprite.xscale * 0.5f);
+                                _whiteCircle.Depth = 0.8f;
+                                _whiteCircle.Scale = new Vec2(furniSprite.ScaleX * 0.5f);
                             }
                         }
                         else
                         {
-                            _whiteCircle.depth = 0.7f;
-                            _whiteCircle.scale = new Vec2(furniSprite.xscale * 0.5f);
-                            Graphics.Draw(_whiteCircle, drawPos.x, drawPos.y);
+                            _whiteCircle.Depth = 0.7f;
+                            _whiteCircle.Scale = new Vec2(furniSprite.ScaleX * 0.5f);
+                            Graphics.Draw(_whiteCircle, drawPos.X, drawPos.Y);
                         }
                         if (Profiles.experienceProfile.GetAvailableFurnis()[FurniIndexAdd(idx, 5)].group == t3.group)
                         {
@@ -1066,15 +1066,15 @@ public class RoomEditor : Thing
                     }
                     _profile.persona.sprite.color = Color.White;
                     furniSprite.color = Color.White;
-                    _profile.persona.sprite.scale = new Vec2(1f, 1f);
-                    furniSprite.scale = new Vec2(1f, 1f);
+                    _profile.persona.sprite.Scale = new Vec2(1f, 1f);
+                    furniSprite.Scale = new Vec2(1f, 1f);
                 }
             }
             string buttons = "@SELECT@";
             _font.Draw(buttons, 4f, 79f, new Color(180, 180, 180), 0.99f, _profile.inputProfile);
             buttons = "@CANCEL@";
             _font.Draw(buttons, 122f, 79f, new Color(180, 180, 180), 0.99f, _profile.inputProfile);
-            position = realPos;
+            Position = realPos;
             _selector.screen.EndDraw();
         }
         else
@@ -1121,7 +1121,7 @@ public class RoomEditor : Thing
             {
                 return;
             }
-            Graphics.DrawRect(position, position + new Vec2(140f, 80f), Color.Black * 0.5f, 0.08f);
+            Graphics.DrawRect(Position, Position + new Vec2(140f, 80f), Color.Black * 0.5f, 0.08f);
             if (_hover != null)
             {
                 Furniture f = GetFurniture(_hover.id);
@@ -1132,19 +1132,19 @@ public class RoomEditor : Thing
                 Vec2 pos = new Vec2((int)_hover.x, (int)_hover.y);
                 if (_selector.box.rightRoom)
                 {
-                    pos.x = (float)roomSize - pos.x;
+                    pos.X = (float)roomSize - pos.X;
                 }
-                pos += position;
-                Vec2 tl = new Vec2(pos.x - (float)(f.sprite.width / 2), pos.y - (float)(f.sprite.height / 2)) + new Vec2(-2f, -2f);
-                Vec2 br = new Vec2(pos.x + (float)(f.sprite.width / 2), pos.y + (float)(f.sprite.height / 2)) + new Vec2(2f, 2f);
+                pos += Position;
+                Vec2 tl = new Vec2(pos.X - (float)(f.sprite.width / 2), pos.Y - (float)(f.sprite.height / 2)) + new Vec2(-2f, -2f);
+                Vec2 br = new Vec2(pos.X + (float)(f.sprite.width / 2), pos.Y + (float)(f.sprite.height / 2)) + new Vec2(2f, 2f);
                 Graphics.DrawLine(tl, tl + new Vec2(2f, 0f), Color.White, 1f, 1f);
                 Graphics.DrawLine(tl, tl + new Vec2(0f, 2f), Color.White, 1f, 1f);
                 Graphics.DrawLine(br, br - new Vec2(2f, 0f), Color.White, 1f, 1f);
                 Graphics.DrawLine(br, br - new Vec2(0f, 2f), Color.White, 1f, 1f);
-                Graphics.DrawLine(new Vec2(tl.x, br.y), new Vec2(tl.x, br.y) + new Vec2(2f, 0f), Color.White, 1f, 1f);
-                Graphics.DrawLine(new Vec2(tl.x, br.y), new Vec2(tl.x, br.y) - new Vec2(0f, 2f), Color.White, 1f, 1f);
-                Graphics.DrawLine(new Vec2(br.x, tl.y), new Vec2(br.x, tl.y) - new Vec2(2f, 0f), Color.White, 1f, 1f);
-                Graphics.DrawLine(new Vec2(br.x, tl.y), new Vec2(br.x, tl.y) + new Vec2(0f, 2f), Color.White, 1f, 1f);
+                Graphics.DrawLine(new Vec2(tl.X, br.Y), new Vec2(tl.X, br.Y) + new Vec2(2f, 0f), Color.White, 1f, 1f);
+                Graphics.DrawLine(new Vec2(tl.X, br.Y), new Vec2(tl.X, br.Y) - new Vec2(0f, 2f), Color.White, 1f, 1f);
+                Graphics.DrawLine(new Vec2(br.X, tl.Y), new Vec2(br.X, tl.Y) - new Vec2(2f, 0f), Color.White, 1f, 1f);
+                Graphics.DrawLine(new Vec2(br.X, tl.Y), new Vec2(br.X, tl.Y) + new Vec2(0f, 2f), Color.White, 1f, 1f);
                 if (f.sprite != null)
                 {
                     f.sprite.flipH = _hover.flip;
@@ -1163,7 +1163,7 @@ public class RoomEditor : Thing
                     numAllowed = 0;
                 }
                 int numFurnituresPlaced = _selector.profile.GetNumFurnituresPlaced(sel.index);
-                sel.sprite.depth = 0.09f;
+                sel.sprite.Depth = 0.09f;
                 Vec2 pos2 = _furniPos;
                 sel.sprite.frame = _placementVariation;
                 sel.sprite.flipH = _placementFlip;
@@ -1171,26 +1171,26 @@ public class RoomEditor : Thing
                 {
                     sel.sprite.flipH = !sel.sprite.flipH;
                 }
-                sel.sprite.alpha = 1f;
+                sel.sprite.Alpha = 1f;
                 if (numFurnituresPlaced >= numAllowed || invalidPlacement)
                 {
                     Graphics.material = grayscale;
                 }
-                sel.Draw(pos2, sel.sprite.depth, _placementVariation);
+                sel.Draw(pos2, sel.sprite.Depth, _placementVariation);
                 Graphics.material = null;
-                _furnitureCursor.depth = 0.1f;
-                _cantPlace.depth = 0.1f;
+                _furnitureCursor.Depth = 0.1f;
+                _cantPlace.Depth = 0.1f;
                 if (numFurnituresPlaced >= numAllowed || invalidPlacement)
                 {
-                    Graphics.Draw(_cantPlace, _furniCursor.x, _furniCursor.y);
+                    Graphics.Draw(_cantPlace, _furniCursor.X, _furniCursor.Y);
                 }
                 else
                 {
-                    Graphics.Draw(_furnitureCursor, _furniCursor.x, _furniCursor.y);
+                    Graphics.Draw(_furnitureCursor, _furniCursor.X, _furniCursor.Y);
                 }
                 sel.sprite.frame = 0;
                 sel.sprite.flipH = false;
-                sel.sprite.alpha = 1f;
+                sel.sprite.Alpha = 1f;
             }
         }
     }

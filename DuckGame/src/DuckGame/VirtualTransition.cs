@@ -2,25 +2,25 @@ namespace DuckGame;
 
 public class VirtualTransition
 {
-    private static VirtualTransitionCore _core = new VirtualTransitionCore();
+    static VirtualTransitionCore _core = new();
 
-    public static VirtualTransitionCore core
-    {
-        get
-        {
-            return _core;
-        }
-        set
-        {
-            _core = value;
-        }
-    }
+    #region Public Properties
 
     public static bool doingVirtualTransition => _core.doingVirtualTransition;
 
     public static bool isVirtual => _core._virtualMode;
 
     public static bool active => _core.active;
+
+    public static VirtualTransitionCore core
+    {
+        get => _core;
+        set => _core = value;
+    }
+
+    #endregion
+
+    #region Public Methods
 
     public static void Initialize()
     {
@@ -46,4 +46,6 @@ public class VirtualTransition
     {
         _core.GoUnVirtual();
     }
+
+    #endregion
 }

@@ -47,7 +47,7 @@ public class Grenade : Gun
         _type = "gun";
         _sprite = new SpriteMap("grenade", 16, 16);
         graphic = _sprite;
-        center = new Vec2(7f, 8f);
+        Center = new Vec2(7f, 8f);
         collisionOffset = new Vec2(-4f, -5f);
         collisionSize = new Vec2(8f, 10f);
         base.bouncy = 0.4f;
@@ -79,8 +79,8 @@ public class Grenade : Gun
     {
         if (!_explosionCreated)
         {
-            float cx = pos.x;
-            float cy = pos.y - 2f;
+            float cx = pos.X;
+            float cy = pos.Y - 2f;
             Level.Add(new ExplosionPart(cx, cy));
             int num = 6;
             if (Graphics.effectsLevel < 2)
@@ -119,7 +119,7 @@ public class Grenade : Gun
         {
             if (_explodeFrames < 0)
             {
-                CreateExplosion(position);
+                CreateExplosion(Position);
                 _explodeFrames = 4;
             }
             else
@@ -127,8 +127,8 @@ public class Grenade : Gun
                 _explodeFrames--;
                 if (_explodeFrames == 0)
                 {
-                    float cx = base.x;
-                    float cy = base.y - 2f;
+                    float cx = base.X;
+                    float cy = base.Y - 2f;
                     Graphics.FlashScreen();
                     if (base.isServerForObject)
                     {
@@ -142,9 +142,9 @@ public class Grenade : Gun
                             firedBullets.Add(bullet);
                             Level.Add(bullet);
                         }
-                        foreach (Window w in Level.CheckCircleAll<Window>(position, 40f))
+                        foreach (Window w in Level.CheckCircleAll<Window>(Position, 40f))
                         {
-                            if (Level.CheckLine<Block>(position, w.position, w) == null)
+                            if (Level.CheckLine<Block>(Position, w.Position, w) == null)
                             {
                                 w.Destroy(new DTImpact(this));
                             }
@@ -184,7 +184,7 @@ public class Grenade : Gun
         if (_pin)
         {
             _pin = false;
-            Level.Add(new GrenadePin(base.x, base.y)
+            Level.Add(new GrenadePin(base.X, base.Y)
             {
                 hSpeed = (float)(-offDir) * (1.5f + Rando.Float(0.5f)),
                 vSpeed = -2f

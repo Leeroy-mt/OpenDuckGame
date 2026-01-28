@@ -10,7 +10,7 @@ public class SpriteThing : Thing
         : base(xpos, ypos, spr)
     {
         collisionSize = new Vec2(spr.width, spr.height);
-        center = new Vec2(spr.w / 2, spr.h / 2);
+        Center = new Vec2(spr.w / 2, spr.h / 2);
         collisionOffset = new Vec2(-(spr.w / 2), -(spr.h / 2));
         color = Color.White;
     }

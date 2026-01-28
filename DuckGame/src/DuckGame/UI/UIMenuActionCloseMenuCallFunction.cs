@@ -1,18 +1,17 @@
+using System;
+
 namespace DuckGame;
 
-public class UIMenuActionCloseMenuCallFunction : UIMenuAction
+public class UIMenuActionCloseMenuCallFunction(UIComponent menu, Action f) 
+    : UIMenuAction
 {
-    public delegate void Function();
+    #region Private Fields
 
-    private UIComponent _menu;
+    UIComponent _menu = menu;
 
-    private Function _function;
+    Action _function = f;
 
-    public UIMenuActionCloseMenuCallFunction(UIComponent menu, Function f)
-    {
-        _menu = menu;
-        _function = f;
-    }
+    #endregion
 
     public override void Activate()
     {

@@ -33,19 +33,19 @@ public class RainParticle : WeatherParticle
                 alpha = 0f;
             }
             Vec2 pos = position;
-            Vec3 newPos = new Vec3(pos.x, z, pos.y);
+            Vec3 newPos = new Vec3(pos.X, z, pos.Y);
             newPos = new Viewport(0, 0, (int)Layer.HUD.width, (int)Layer.HUD.height).Project(newPos, Layer.Game.projection, Layer.Game.view, Matrix.Identity);
             position = new Vec2(newPos.x, newPos.y);
             float znorm = z / 200f;
-            splash.depth = -0.02f + znorm * 0.1f;
+            splash.Depth = -0.02f + znorm * 0.1f;
             splash.color = Color.White * 0.8f;
-            Graphics.Draw(splash, position.x - 6f, position.y - 6f);
+            Graphics.Draw(splash, position.X - 6f, position.Y - 6f);
             position = pos;
         }
         else
         {
             Vec2 pos2 = position;
-            Vec3 newPos2 = new Vec3(pos2.x, z, pos2.y);
+            Vec3 newPos2 = new Vec3(pos2.X, z, pos2.Y);
             newPos2 = new Viewport(0, 0, (int)Layer.HUD.width, (int)Layer.HUD.height).Project(newPos2, Layer.Game.projection, Layer.Game.view, Matrix.Identity);
             position = new Vec2(newPos2.x, newPos2.y);
             float znorm2 = z / 200f;

@@ -15,7 +15,7 @@ public class GrappleHook : PhysicsObject
     {
         _owner = ownerVal;
         graphic = new Sprite("harpoon");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-5f, -1.5f);
         collisionSize = new Vec2(10f, 5f);
     }
@@ -28,8 +28,8 @@ public class GrappleHook : PhysicsObject
         }
         if (_inGun && _owner != null)
         {
-            position = _owner.barrelPosition;
-            base.depth = _owner.depth - 1;
+            Position = _owner.barrelPosition;
+            base.Depth = _owner.Depth - 1;
             hSpeed = 0f;
             vSpeed = 0f;
             graphic.flipH = (float)_owner.offDir < 0f;

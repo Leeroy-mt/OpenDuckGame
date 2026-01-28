@@ -2,7 +2,7 @@ using System;
 
 namespace DuckGame;
 
-public class ConfettiParticle : PhysicsParticle, IFactory
+public class ConfettiParticle : PhysicsParticle
 {
     private static int kMaxSparks = 64;
 
@@ -47,28 +47,28 @@ public class ConfettiParticle : PhysicsParticle, IFactory
     }
 
     public ConfettiParticle()
-        : base(0f, 0f)
+        : base(0, 0)
     {
     }
 
     public void Init(float xpos, float ypos, Vec2 hitAngle, float killSpeed = 0.02f)
     {
-        position.x = xpos;
-        position.y = ypos;
-        hSpeed = (0f - hitAngle.x) * 1.5f * Rando.Float(-2f, 2f);
-        vSpeed = (0f - hitAngle.y) * 2f * (Rando.Float(1f) - 0.3f) - Rando.Float(1f);
+        X = xpos;
+        Y = ypos;
+        hSpeed = (0 - hitAngle.X) * 1.5f * Rando.Float(-2, 2);
+        vSpeed = (0 - hitAngle.Y) * 2 * (Rando.Float(1) - 0.3f) - Rando.Float(1);
         hSpeed *= 1.5f;
         vSpeed *= 1.5f;
         _bounceEfficiency = 0.1f;
-        base.depth = 0.9f;
+        Depth = 0.9f;
         _killSpeed = killSpeed;
         _color = Color.RainbowColors[_confettiNumber % Color.RainbowColors.Count];
         _confettiNumber++;
         _width = 1f;
-        life = Rando.Float(0.8f, 1f);
+        life = Rando.Float(0.8f, 1);
         sin = Rando.Float(3.14f);
         _gravMult = 0.3f;
-        sinMult = 0f;
+        sinMult = 0;
         onlyDieWhenGrounded = true;
     }
 
@@ -87,7 +87,7 @@ public class ConfettiParticle : PhysicsParticle, IFactory
             if (!_grounded && Math.Abs(hSpeed) < 0.2f)
             {
                 sin += 0.2f;
-                base.x += (float)Math.Sin(sin) * 0.5f * sinMult;
+                base.X += (float)Math.Sin(sin) * 0.5f * sinMult;
             }
         }
         base.Update();
@@ -97,16 +97,16 @@ public class ConfettiParticle : PhysicsParticle, IFactory
     {
         if (_stringConfetti)
         {
-            Vec2 dir = base.velocity.normalized;
-            float speed = base.velocity.length * (3f + sinMult * 3f);
-            Vec2 end = position + dir * speed;
+            Vec2 dir = base.velocity.Normalized;
+            float speed = base.velocity.Length() * (3f + sinMult * 3f);
+            Vec2 end = Position + dir * speed;
             Vec2 intersect;
-            Block touch = Level.CheckLine<Block>(position, end, out intersect);
-            Graphics.DrawLine(position, (touch != null) ? intersect : end, _color * base.alpha, _width, base.depth);
+            Block touch = Level.CheckLine<Block>(Position, end, out intersect);
+            Graphics.DrawLine(Position, (touch != null) ? intersect : end, _color * base.Alpha, _width, base.Depth);
         }
         else
         {
-            Graphics.DrawRect(position + new Vec2(-1f, -1f), position + new Vec2(1f, 1f), _color * base.alpha, base.depth);
+            Graphics.DrawRect(Position + new Vec2(-1f, -1f), Position + new Vec2(1f, 1f), _color * base.Alpha, base.Depth);
         }
     }
 }

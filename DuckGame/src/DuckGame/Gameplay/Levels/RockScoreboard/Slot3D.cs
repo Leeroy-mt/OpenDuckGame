@@ -34,15 +34,15 @@ public class Slot3D
         {
             if (slotIndex == 0)
             {
-                return (0f - duck.position.x) * 0.665f + 100f;
+                return (0f - duck.Position.X) * 0.665f + 100f;
             }
             if (slotIndex == 1)
             {
-                return (0f - duck.position.x) * 0.665f + 100f;
+                return (0f - duck.Position.X) * 0.665f + 100f;
             }
             _ = slotIndex;
             _ = 2;
-            return (0f - duck.position.x) * 0.665f + 100f;
+            return (0f - duck.Position.X) * 0.665f + 100f;
         }
     }
 }

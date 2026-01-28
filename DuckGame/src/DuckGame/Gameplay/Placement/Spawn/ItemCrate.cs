@@ -73,10 +73,10 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
         _hitPoints = 15f;
         _sprite = new SpriteMap("bigItemCrate", 32, 33);
         graphic = _sprite;
-        center = new Vec2(16f, 24f);
+        Center = new Vec2(16f, 24f);
         collisionOffset = new Vec2(-16f, -24f);
         collisionSize = new Vec2(32f, 32f);
-        base.depth = -0.7f;
+        base.Depth = -0.7f;
         thickness = 2f;
         weight = 10f;
         _randomMark = new Sprite("itemBoxRandom");
@@ -124,7 +124,7 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
                     _containedObjects[i].visible = false;
                     _containedObjects[i].solid = false;
                     _containedObjects[i].active = false;
-                    _containedObjects[i].position = position;
+                    _containedObjects[i].Position = Position;
                     Level.Add(_containedObjects[i]);
                 }
                 _containedObject1 = _containedObjects[0];
@@ -215,18 +215,18 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
         {
             _sprite.frame = 4;
             Vec2 off = Offset(new Vec2(0f, -8f));
-            _randomMark.angle = angle;
+            _randomMark.Angle = Angle;
             _randomMark.flipH = offDir <= 0;
-            Graphics.Draw(_randomMark, off.x, off.y, base.depth + 10);
+            Graphics.Draw(_randomMark, off.X, off.Y, base.Depth + 10);
         }
         else if (_containedSprite != null)
         {
             _sprite.frame = 4;
             _containedSprite.CenterOrigin();
             Vec2 off2 = Offset(new Vec2(0f, -8f));
-            _containedSprite.angle = angle;
+            _containedSprite.Angle = Angle;
             _containedSprite.flipH = offDir <= 0;
-            Graphics.Draw(_containedSprite, off2.x, off2.y, base.depth + 10);
+            Graphics.Draw(_containedSprite, off2.X, off2.Y, base.Depth + 10);
         }
         else
         {
@@ -275,14 +275,14 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
         _hitPoints = 0f;
         for (int i = 0; i < 10; i++)
         {
-            WoodDebris woodDebris = WoodDebris.New(base.x - 10f + Rando.Float(20f), base.y - 10f + Rando.Float(20f));
+            WoodDebris woodDebris = WoodDebris.New(base.X - 10f + Rando.Float(20f), base.Y - 10f + Rando.Float(20f));
             woodDebris.hSpeed = Rando.Float(-4f, 4f);
             woodDebris.vSpeed = Rando.Float(-4f, 4f);
             Level.Add(woodDebris);
         }
         for (int j = 0; j < 3; j++)
         {
-            MusketSmoke musketSmoke = new MusketSmoke(base.x + Rando.Float(-10f, 10f), base.y + Rando.Float(-10f, 10f));
+            MusketSmoke musketSmoke = new MusketSmoke(base.X + Rando.Float(-10f, 10f), base.Y + Rando.Float(-10f, 10f));
             musketSmoke.hSpeed += Rando.Float(-0.3f, 0.3f);
             musketSmoke.vSpeed -= Rando.Float(0.1f, 0.2f);
             Level.Add(musketSmoke);
@@ -302,7 +302,7 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
             {
                 spawn.heat = 0.8f;
             }
-            spawn.position = position + new Vec2(-4f + (float)k * 2.6666667f, 0f);
+            spawn.Position = Position + new Vec2(-4f + (float)k * 2.6666667f, 0f);
             if (k == 0 || k == 3)
             {
                 if (k == 0)
@@ -355,9 +355,9 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
         }
         for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
         {
-            WoodDebris woodDebris = WoodDebris.New(hitPos.x, hitPos.y);
-            woodDebris.hSpeed = (0f - bullet.travelDirNormalized.x) * 2f * (Rando.Float(1f) + 0.3f);
-            woodDebris.vSpeed = (0f - bullet.travelDirNormalized.y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
+            WoodDebris woodDebris = WoodDebris.New(hitPos.X, hitPos.Y);
+            woodDebris.hSpeed = (0f - bullet.travelDirNormalized.X) * 2f * (Rando.Float(1f) + 0.3f);
+            woodDebris.vSpeed = (0f - bullet.travelDirNormalized.Y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
             Level.Add(woodDebris);
         }
         SFX.Play("woodHit");
@@ -365,7 +365,7 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
         {
             Thing.Fondle(this, DuckNetwork.localConnection);
             Destroy(new DTShot(bullet));
-            Level.Add(new GrenadeExplosion(base.x, base.y));
+            Level.Add(new GrenadeExplosion(base.X, base.Y));
         }
         _hitPoints -= damageMultiplier;
         damageMultiplier += 2f;

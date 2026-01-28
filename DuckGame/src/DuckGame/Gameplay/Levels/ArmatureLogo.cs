@@ -58,7 +58,7 @@ public class ArmatureLogo : Level
         if (layer == Layer.Game)
         {
             float scalar = 0.25f;
-            _logo.scale = new Vec2(scalar, scalar);
+            _logo.Scale = new Vec2(scalar, scalar);
             Graphics.Draw(_logo, 160f - (float)(_logo.width / 2) * scalar, 90f - (float)(_logo.height / 2) * scalar);
         }
     }

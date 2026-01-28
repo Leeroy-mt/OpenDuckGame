@@ -49,10 +49,10 @@ public class Teleporter : MaterialThing
         teleHeight = new EditorProperty<int>(2, this, 1f, 16f, 1f);
         teleHeight.name = "height";
         horizontal = new EditorProperty<bool>(val: false, this);
-        center = new Vec2(8f, 24f);
+        Center = new Vec2(8f, 24f);
         collisionSize = new Vec2(6f, 32f);
         collisionOffset = new Vec2(-3f, -24f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Teleporter";
         editorTooltip = "Place 2 teleporters pointing toward each other and Ducks can transport between them.";
         _editorIcon = new Sprite("teleporterIcon");
@@ -75,13 +75,13 @@ public class Teleporter : MaterialThing
     {
         if ((bool)horizontal)
         {
-            center = new Vec2(24f, 8f);
+            Center = new Vec2(24f, 8f);
             collisionSize = new Vec2((int)teleHeight * 16, 6f);
             collisionOffset = new Vec2(-8f, -3f);
         }
         else
         {
-            center = new Vec2(8f, 24f);
+            Center = new Vec2(8f, 24f);
             collisionSize = new Vec2(6f, (int)teleHeight * 16);
             collisionOffset = new Vec2(-3f, -((int)teleHeight * 16 - 8));
         }
@@ -146,7 +146,7 @@ public class Teleporter : MaterialThing
         }
         else
         {
-            Vec2 centerCheck2 = position + new Vec2(0f, 0f - ((float)(int)teleHeight * 16f / 2f - 8f));
+            Vec2 centerCheck2 = Position + new Vec2(0f, 0f - ((float)(int)teleHeight * 16f / 2f - 8f));
             Teleporter tele2 = Level.CheckRay<Teleporter>(centerCheck2 + dir * 20f, centerCheck2 + dir * 5000f, this, out outer);
             if (tele2 != null)
             {
@@ -196,60 +196,50 @@ public class Teleporter : MaterialThing
             _teleporting.RemoveAt(i2);
             for (int j = 0; j < 2; j++)
             {
-                Level.Add(SmallSmoke.New(t3.position.x + Rando.Float(-8f, 8f), t3.position.y + Rando.Float(-8f, 8f)));
+                Level.Add(SmallSmoke.New(t3.Position.X + Rando.Float(-8, 8), t3.Position.Y + Rando.Float(-8, 8)));
             }
-            Vec2 origPos = t3.position;
-            float offsetAdd = 0f;
+            Vec2 origPos = t3.Position;
+            float offsetAdd = 0;
             if (t3 is RagdollPart)
-            {
-                offsetAdd = 8f;
-            }
+                offsetAdd = 8;
             _link._teleported.Add(t3 as ITeleport);
             if ((int)teleHeight != 2 || (int)_link.teleHeight != 2)
             {
-                if (_dir.y == 0f)
+                if (_dir.Y == 0)
                 {
-                    t3.x = _link.x - (base.x - t3.x);
+                    t3.X = _link.X - (base.X - t3.X);
                     if (!horizontal.value)
                     {
                         if (t3 is PhysicsObject)
                         {
                             if (t3.hSpeed > 0f)
-                            {
-                                t3.position.x = _link.position.x + 8f;
-                            }
+                                t3.X = _link.X + 8;
                             else
-                            {
-                                t3.position.x = _link.position.x - 8f;
-                            }
+                                t3.X = _link.X - 8;
                         }
                     }
                     else if (t3 is PhysicsObject)
                     {
                         if (t3.vSpeed > 0f)
-                        {
-                            t3.position.y = _link.position.y + (t3.height / 2f + 6f + offsetAdd);
-                        }
+                            t3.Y = _link.Y + (t3.height / 2 + 6 + offsetAdd);
                         else
-                        {
-                            t3.position.y = _link.position.y - (t3.height / 2f + 6f + offsetAdd);
-                        }
+                            t3.Y = _link.Y - (t3.height / 2 + 6 + offsetAdd);
                     }
                 }
                 else
                 {
-                    t3.y = _link.y - (base.y - t3.y);
+                    t3.Y = _link.Y - (base.Y - t3.Y);
                     if (!horizontal.value)
                     {
                         if (t3 is PhysicsObject)
                         {
                             if (t3.hSpeed > 0f)
                             {
-                                t3.position.x = _link.position.x + 8f;
-                            }
-                            else
-                            {
-                                t3.position.x = _link.position.x - 8f;
+                                t3.X = _link.Position.X + 8f;
+                            }      
+                            else   
+                            {      
+                                t3.X = _link.Position.X - 8f;
                             }
                         }
                     }
@@ -257,11 +247,11 @@ public class Teleporter : MaterialThing
                     {
                         if (t3.vSpeed > 0f)
                         {
-                            t3.position.y = _link.position.y + (t3.height / 2f + 6f + offsetAdd);
-                        }
-                        else
-                        {
-                            t3.position.y = _link.position.y - (t3.height / 2f + 6f + offsetAdd);
+                            t3.Y = _link.Position.Y + (t3.height / 2f + 6f + offsetAdd);
+                        }      
+                        else   
+                        {      
+                            t3.Y = _link.Position.Y - (t3.height / 2f + 6f + offsetAdd);
                         }
                     }
                 }
@@ -290,22 +280,22 @@ public class Teleporter : MaterialThing
             }
             else
             {
-                t3.position = _link.rectangle.Center - (base.rectangle.Center - t3.position);
+                t3.Position = _link.rectangle.Center - (base.rectangle.Center - t3.Position);
                 if (!horizontal.value)
                 {
                     if (t3 is RagdollPart)
                     {
-                        t3.position.y = _link.position.y;
+                        t3.Y = _link.Position.Y;
                     }
                     if (t3 is PhysicsObject)
                     {
                         if (t3.hSpeed > 0f)
                         {
-                            t3.position.x = _link.position.x + 8f;
+                            t3.X = _link.Position.X + 8f;
                         }
                         else
                         {
-                            t3.position.x = _link.position.x - 8f;
+                            t3.X = _link.Position.X - 8f;
                         }
                     }
                 }
@@ -313,39 +303,39 @@ public class Teleporter : MaterialThing
                 {
                     if (t3 is RagdollPart)
                     {
-                        t3.position.x = _link.position.x;
+                        t3.X = _link.Position.X;
                     }
                     if (t3 is PhysicsObject)
                     {
                         if (t3.vSpeed > 0f)
                         {
-                            t3.position.y = _link.position.y + 8f;
+                            t3.Y = _link.Position.Y + 8f;
                         }
                         else
                         {
-                            t3.position.y = _link.position.y - 8f;
+                            t3.Y = _link.Position.Y - 8f;
                         }
                     }
                 }
             }
             for (int k = 0; k < 2; k++)
             {
-                Level.Add(SmallSmoke.New(t3.position.x + Rando.Float(-8f, 8f), t3.position.y + Rando.Float(-8f, 8f)));
+                Level.Add(SmallSmoke.New(t3.Position.X + Rando.Float(-8f, 8f), t3.Position.Y + Rando.Float(-8f, 8f)));
             }
             i2--;
             Vec2 startPos = origPos;
-            Vec2 endPos = t3.position;
+            Vec2 endPos = t3.Position;
             if (t3 is Duck && (t3 as Duck).sliding)
             {
-                startPos.y += 9f;
-                endPos.y += 9f;
+                startPos.Y += 9f;
+                endPos.Y += 9f;
             }
-            if (_dir.y != 0f && !horizontal.value)
+            if (_dir.Y != 0f && !horizontal.value)
             {
-                startPos.x = position.x;
-                endPos.x = _link.position.x;
+                startPos.X = Position.X;
+                endPos.X = _link.Position.X;
             }
-            float wid = Math.Max((_dir.x != 0f) ? t3.height : t3.width, 8f);
+            float wid = Math.Max((_dir.X != 0f) ? t3.height : t3.width, 8f);
             warpLines.Add(new WarpLine
             {
                 start = startPos,
@@ -384,37 +374,37 @@ public class Teleporter : MaterialThing
             if ((bool)noduck)
             {
                 c = Color.Yellow;
-                Graphics.DrawRect(new Vec2(base.x + (float)((int)teleHeight * 16 - 9), base.y - 2f), new Vec2(base.x - 5f, base.y + 2f), c * (_pulse.normalized * 0.3f + 0.2f), base.depth);
+                Graphics.DrawRect(new Vec2(base.X + (float)((int)teleHeight * 16 - 9), base.Y - 2f), new Vec2(base.X - 5f, base.Y + 2f), c * (_pulse.normalized * 0.3f + 0.2f), base.Depth);
             }
             else
             {
-                Graphics.DrawRect(new Vec2(base.x + (float)((int)teleHeight * 16 - 9), base.y - 4f), new Vec2(base.x - 5f, base.y + 4f), c * (_pulse.normalized * 0.3f + 0.2f), base.depth);
+                Graphics.DrawRect(new Vec2(base.X + (float)((int)teleHeight * 16 - 9), base.Y - 4f), new Vec2(base.X - 5f, base.Y + 4f), c * (_pulse.normalized * 0.3f + 0.2f), base.Depth);
             }
-            _top.angleDegrees = 90f;
-            _bottom.angleDegrees = 90f;
-            _top.depth = base.depth + 1;
-            _bottom.depth = base.depth + 1;
-            Graphics.Draw(_top, base.x + (float)((int)teleHeight * 16 - 9), base.y);
-            Graphics.Draw(_bottom, base.x - 5f, base.y);
-            _arrow.depth = base.depth + 2;
-            _arrow.alpha = 0.5f;
+            _top.AngleDegrees = 90f;
+            _bottom.AngleDegrees = 90f;
+            _top.Depth = base.Depth + 1;
+            _bottom.Depth = base.Depth + 1;
+            Graphics.Draw(_top, base.X + (float)((int)teleHeight * 16 - 9), base.Y);
+            Graphics.Draw(_bottom, base.X - 5f, base.Y);
+            _arrow.Depth = base.Depth + 2;
+            _arrow.Alpha = 0.5f;
             if (direction == 0)
             {
-                _arrow.angleDegrees = 0f;
+                _arrow.AngleDegrees = 0f;
             }
             else if (direction == 1)
             {
-                _arrow.angleDegrees = 180f;
+                _arrow.AngleDegrees = 180f;
             }
             else if (direction == 2)
             {
-                _arrow.angleDegrees = -90f;
+                _arrow.AngleDegrees = -90f;
             }
             else if (direction == 3)
             {
-                _arrow.angleDegrees = 90f;
+                _arrow.AngleDegrees = 90f;
             }
-            Graphics.Draw(_arrow, base.x - 8f + (float)((int)teleHeight * 16 / 2) + (float)_float * 2f, base.y);
+            Graphics.Draw(_arrow, base.X - 8f + (float)((int)teleHeight * 16 / 2) + (float)_float * 2f, base.Y);
         }
         else
         {
@@ -422,37 +412,37 @@ public class Teleporter : MaterialThing
             if ((bool)noduck)
             {
                 c2 = Color.Yellow;
-                Graphics.DrawRect(new Vec2(base.x - 2f, base.y - (float)((int)teleHeight * 16 - 9)), new Vec2(base.x + 2f, base.y + 5f), c2 * (_pulse.normalized * 0.3f + 0.2f), base.depth);
+                Graphics.DrawRect(new Vec2(base.X - 2f, base.Y - (float)((int)teleHeight * 16 - 9)), new Vec2(base.X + 2f, base.Y + 5f), c2 * (_pulse.normalized * 0.3f + 0.2f), base.Depth);
             }
             else
             {
-                Graphics.DrawRect(new Vec2(base.x - 4f, base.y - (float)((int)teleHeight * 16 - 9)), new Vec2(base.x + 4f, base.y + 5f), c2 * (_pulse.normalized * 0.3f + 0.2f), base.depth);
+                Graphics.DrawRect(new Vec2(base.X - 4f, base.Y - (float)((int)teleHeight * 16 - 9)), new Vec2(base.X + 4f, base.Y + 5f), c2 * (_pulse.normalized * 0.3f + 0.2f), base.Depth);
             }
-            _top.angle = 0f;
-            _bottom.angle = 0f;
-            _top.depth = base.depth + 1;
-            _bottom.depth = base.depth + 1;
-            Graphics.Draw(_top, base.x, base.y - (float)((int)teleHeight * 16 - 9));
-            Graphics.Draw(_bottom, base.x, base.y + 5f);
-            _arrow.depth = base.depth + 2;
-            _arrow.alpha = 0.5f;
+            _top.Angle = 0f;
+            _bottom.Angle = 0f;
+            _top.Depth = base.Depth + 1;
+            _bottom.Depth = base.Depth + 1;
+            Graphics.Draw(_top, base.X, base.Y - (float)((int)teleHeight * 16 - 9));
+            Graphics.Draw(_bottom, base.X, base.Y + 5f);
+            _arrow.Depth = base.Depth + 2;
+            _arrow.Alpha = 0.5f;
             if (direction == 0)
             {
-                _arrow.angleDegrees = 0f;
+                _arrow.AngleDegrees = 0f;
             }
             else if (direction == 1)
             {
-                _arrow.angleDegrees = 180f;
+                _arrow.AngleDegrees = 180f;
             }
             else if (direction == 2)
             {
-                _arrow.angleDegrees = -90f;
+                _arrow.AngleDegrees = -90f;
             }
             else if (direction == 3)
             {
-                _arrow.angleDegrees = 90f;
+                _arrow.AngleDegrees = 90f;
             }
-            Graphics.Draw(_arrow, base.x, base.y + 8f - (float)((int)teleHeight * 16 / 2) + (float)_float * 2f);
+            Graphics.Draw(_arrow, base.X, base.Y + 8f - (float)((int)teleHeight * 16 / 2) + (float)_float * 2f);
         }
     }
 

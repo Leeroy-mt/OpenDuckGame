@@ -55,11 +55,11 @@ public class ArcadeFrame : Thing
         _frame = new SpriteMap("arcadeFrame01", 48, 48);
         _frame.imageIndex = 0;
         graphic = _frame;
-        center = new Vec2(graphic.width / 2, graphic.height / 2);
+        Center = new Vec2(graphic.width / 2, graphic.height / 2);
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
         _screen = new Sprite("shot01");
-        base.depth = -0.9f;
+        base.Depth = -0.9f;
     }
 
     public Vec2 GetRenderTargetSize()
@@ -162,10 +162,10 @@ public class ArcadeFrame : Thing
         if (_image != null)
         {
             Vec2 frameSize = GetRenderTargetSize();
-            _image.depth = base.depth + 10;
-            _image.scale = new Vec2(1f / 6f);
+            _image.Depth = base.Depth + 10;
+            _image.Scale = new Vec2(1f / 6f);
             Graphics.doSnap = false;
-            Graphics.Draw(_image, base.x - frameSize.x / 2f, base.y - frameSize.y / 2f);
+            Graphics.Draw(_image, base.X - frameSize.X / 2f, base.Y - frameSize.Y / 2f);
             Graphics.doSnap = true;
         }
         base.Draw();

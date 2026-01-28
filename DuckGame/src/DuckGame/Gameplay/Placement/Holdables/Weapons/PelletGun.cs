@@ -35,15 +35,15 @@ public class PelletGun : Gun
 
     private bool _rising;
 
-    public override float angle
+    public override float Angle
     {
         get
         {
-            return base.angle - Math.Max(_aimAngle, -0.2f) * (float)offDir;
+            return base.Angle - Math.Max(_aimAngle, -0.2f) * (float)offDir;
         }
         set
         {
-            base.angle = value;
+            base.Angle = value;
         }
     }
 
@@ -55,7 +55,7 @@ public class PelletGun : Gun
         _type = "gun";
         _sprite = new SpriteMap("pelletGun", 31, 7);
         graphic = _sprite;
-        center = new Vec2(15f, 2f);
+        Center = new Vec2(15f, 2f);
         collisionOffset = new Vec2(-8f, -2f);
         collisionSize = new Vec2(16f, 5f);
         _spring = new Sprite("dandiSpring");
@@ -70,7 +70,7 @@ public class PelletGun : Gun
 
     public override Vec2 Offset(Vec2 pos)
     {
-        return position + _posOffset + OffsetLocal(pos);
+        return Position + _posOffset + OffsetLocal(pos);
     }
 
     public override void Update()
@@ -97,7 +97,7 @@ public class PelletGun : Gun
         }
         else
         {
-            springPos = position;
+            springPos = Position;
         }
         _aimWait++;
         if (_aimWait > 0)
@@ -111,11 +111,11 @@ public class PelletGun : Gun
         }
         if (base.held)
         {
-            center = new Vec2(11f, 2f);
+            Center = new Vec2(11f, 2f);
         }
         else
         {
-            center = new Vec2(15f, 2f);
+            Center = new Vec2(15f, 2f);
         }
         if (_loadState > -1)
         {
@@ -176,8 +176,8 @@ public class PelletGun : Gun
             }
             else if (_loadState == 2)
             {
-                handOffset.x += 0.31f;
-                if (handOffset.x > 4f)
+                handOffset.X += 0.31f;
+                if (handOffset.X > 4f)
                 {
                     _loadState++;
                     ammo = 2;
@@ -197,11 +197,11 @@ public class PelletGun : Gun
             }
             else if (_loadState == 3)
             {
-                handOffset.x -= 0.2f;
-                if (handOffset.x <= 0f)
+                handOffset.X -= 0.2f;
+                if (handOffset.X <= 0f)
                 {
                     _loadState++;
-                    handOffset.x = 0f;
+                    handOffset.X = 0f;
                     if (Network.isActive)
                     {
                         if (base.isServerForObject)
@@ -269,9 +269,9 @@ public class PelletGun : Gun
         base.OnPressAction();
         for (int i = 0; i < 4; i++)
         {
-            Level.Add(SmallSmoke.New(base.barrelPosition.x + (float)offDir * 4f, base.barrelPosition.y));
+            Level.Add(SmallSmoke.New(base.barrelPosition.X + (float)offDir * 4f, base.barrelPosition.Y));
         }
-        Level.Add(SmallSmoke.New(position.x, position.y));
+        Level.Add(SmallSmoke.New(Position.X, Position.Y));
     }
 
     public override void OnReleaseAction()
@@ -294,11 +294,11 @@ public class PelletGun : Gun
 
     public override void Draw()
     {
-        _sprite.center = center;
-        _sprite.depth = base.depth;
-        _sprite.angle = angle;
+        _sprite.Center = Center;
+        _sprite.Depth = base.Depth;
+        _sprite.Angle = Angle;
         _sprite.frame = 0;
-        _sprite.alpha = base.alpha;
+        _sprite.Alpha = base.Alpha;
         if (owner != null && owner.graphic != null && (base.duck == null || !(base.duck.holdObject is TapedGun)))
         {
             _sprite.flipH = owner.graphic.flipH;
@@ -309,41 +309,41 @@ public class PelletGun : Gun
         }
         if (offDir > 0)
         {
-            _sprite.angle = angle - _angleOffset - _angleOffset2;
+            _sprite.Angle = Angle - _angleOffset - _angleOffset2;
         }
         else
         {
-            _sprite.angle = angle + _angleOffset + _angleOffset2;
+            _sprite.Angle = Angle + _angleOffset + _angleOffset2;
         }
         Vec2 p = Offset(_posOffset);
-        Graphics.Draw(_sprite, p.x, p.y);
+        Graphics.Draw(_sprite, p.X, p.Y);
         _sprite.frame = 1;
         if (offDir > 0)
         {
-            _sprite.angle = angle + _angleOffset * 3f - _angleOffset2;
+            _sprite.Angle = Angle + _angleOffset * 3f - _angleOffset2;
         }
         else
         {
-            _sprite.angle = angle - _angleOffset * 3f + _angleOffset2;
+            _sprite.Angle = Angle - _angleOffset * 3f + _angleOffset2;
         }
-        Graphics.Draw(_sprite, p.x, p.y);
+        Graphics.Draw(_sprite, p.X, p.Y);
         if (firesTillFail <= 0)
         {
-            _spring.depth = base.depth - 5;
-            _spring.center = new Vec2(4f, 7f);
-            _spring.angleDegrees = Maths.PointDirection(position + _posOffset, springPos) - 90f;
-            _spring.yscale = (position.y + _posOffset.y - springPos.y) / 8f;
+            _spring.Depth = base.Depth - 5;
+            _spring.Center = new Vec2(4f, 7f);
+            _spring.AngleDegrees = Maths.PointDirection(Position + _posOffset, springPos) - 90f;
+            _spring.ScaleY = (Position.Y + _posOffset.Y - springPos.Y) / 8f;
             _spring.flipH = offDir < 0;
-            if (_spring.yscale > 1.2f)
+            if (_spring.ScaleY > 1.2f)
             {
-                _spring.yscale = 1.2f;
+                _spring.ScaleY = 1.2f;
             }
-            if (_spring.yscale < -1.2f)
+            if (_spring.ScaleY < -1.2f)
             {
-                _spring.yscale = -1.2f;
+                _spring.ScaleY = -1.2f;
             }
-            _spring.alpha = base.alpha;
-            Graphics.Draw(_spring, p.x, p.y);
+            _spring.Alpha = base.Alpha;
+            Graphics.Draw(_spring, p.X, p.Y);
         }
     }
 }

@@ -38,16 +38,16 @@ public class MaterialEnergyBlade : Material
             SetValue("height", tex.frameHeight / (float)tex.height);
             if (_thing != null)
             {
-                SetValue("xpos", _thing.x);
-                SetValue("ypos", _thing.y);
+                SetValue("xpos", _thing.X);
+                SetValue("ypos", _thing.Y);
                 SetValue("time", _time);
                 SetValue("glow", glow);
                 SetValue("bladeColor", _thing.swordColor);
             }
             else
             {
-                SetValue("xpos", _thing2.x);
-                SetValue("ypos", _thing2.y);
+                SetValue("xpos", _thing2.X);
+                SetValue("ypos", _thing2.Y);
                 SetValue("time", _time);
                 SetValue("glow", glow);
                 SetValue("bladeColor", _thing2.swordColor);

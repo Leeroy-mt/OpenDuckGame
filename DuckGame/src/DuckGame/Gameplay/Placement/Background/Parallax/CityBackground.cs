@@ -32,8 +32,8 @@ public class CityBackground : BackgroundUpdater
             _font = new FancyBitmapFont("smallFont");
             _flyLeft = flyLeft;
             _text = text;
-            originalY = pos.y;
-            position = pos;
+            originalY = pos.Y;
+            Position = pos;
             AddAnimation("idle", 0.8f, true, 0, 1);
             SetAnimation("idle");
             float wide = _font.GetWidth(text);
@@ -62,32 +62,32 @@ public class CityBackground : BackgroundUpdater
 
         public void UpdateFlying()
         {
-            position.x += (_flyLeft ? (-0.25f) : 0.25f);
-            if (bannerTarget != null && ((_flyLeft && base.x < (float)(-(400 + bannerTarget.width))) || (!_flyLeft && base.x > (float)(400 + bannerTarget.width))))
+            X += (_flyLeft ? (-0.25f) : 0.25f);
+            if (bannerTarget != null && ((_flyLeft && base.X < (float)(-(400 + bannerTarget.width))) || (!_flyLeft && base.X > (float)(400 + bannerTarget.width))))
             {
                 finished = true;
             }
-            _ = (0f - (Level.current.bottomRight.y + Level.current.topLeft.y)) / 2f;
+            _ = (0f - (Level.current.bottomRight.Y + Level.current.topLeft.Y)) / 2f;
         }
 
         public override void Draw()
         {
             if (bannerTarget != null)
             {
-                base.scale = new Vec2(0.5f, 0.5f);
+                base.Scale = new Vec2(0.5f, 0.5f);
                 if (_flyLeft)
                 {
                     base.flipH = true;
                     base.Draw();
                     Graphics.material = _wiggle;
-                    Graphics.Draw(bannerTarget, base.x + 4f, base.y, 0.5f, 0.5f, 1f);
+                    Graphics.Draw(bannerTarget, base.X + 4f, base.Y, 0.5f, 0.5f, 1f);
                     Graphics.material = null;
                 }
                 else
                 {
                     base.Draw();
                     Graphics.material = _wiggle;
-                    Graphics.Draw(bannerTarget, base.x - (float)(bannerTarget.width / 2 + 4), base.y, 0.5f, 0.5f, 1f);
+                    Graphics.Draw(bannerTarget, base.X - (float)(bannerTarget.width / 2 + 4), base.Y, 0.5f, 0.5f, 1f);
                     Graphics.material = null;
                 }
             }
@@ -107,10 +107,10 @@ public class CityBackground : BackgroundUpdater
         {
             frame = 5
         };
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
         _editorName = "City BG";
@@ -203,11 +203,11 @@ public class CityBackground : BackgroundUpdater
             Plane p = new Plane(offset, s, flyLeft);
             if (flyLeft)
             {
-                offset.x += p.textWidth * 0.5f + 80f;
+                offset.X += p.textWidth * 0.5f + 80f;
             }
             else
             {
-                offset.x -= p.textWidth * 0.5f + 80f;
+                offset.X -= p.textWidth * 0.5f + 80f;
             }
             _planes.Add(p);
         }
@@ -347,7 +347,7 @@ public class CityBackground : BackgroundUpdater
         }
         foreach (Plane plane in _planes)
         {
-            plane.depth = 1f;
+            plane.Depth = 1f;
             plane.Draw();
         }
     }

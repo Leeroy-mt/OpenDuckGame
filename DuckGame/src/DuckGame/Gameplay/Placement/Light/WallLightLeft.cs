@@ -16,10 +16,10 @@ public class WallLightLeft : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("wallLight");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(5f, 16f);
         _collisionOffset = new Vec2(-7f, -8f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.hugWalls = WallHug.Left;
         base.layer = Layer.Game;
     }
@@ -30,10 +30,10 @@ public class WallLightLeft : Thing
         {
             _occluders.Add(new LightOccluder(base.topLeft + new Vec2(-2f, 0f), base.topRight, new Color(1f, 0.8f, 0.8f)));
             _occluders.Add(new LightOccluder(base.bottomLeft + new Vec2(-2f, 0f), base.bottomRight, new Color(1f, 0.8f, 0.8f)));
-            _light = new PointLight(base.x - 5f, base.y, new Color(255, 255, 190), 100f, _occluders);
+            _light = new PointLight(base.X - 5f, base.Y, new Color(255, 255, 190), 100f, _occluders);
             Level.Add(_light);
-            _shade = new SpriteThing(base.x, base.y, new Sprite("wallLight"));
-            _shade.center = center;
+            _shade = new SpriteThing(base.X, base.Y, new Sprite("wallLight"));
+            _shade.Center = Center;
             _shade.layer = Layer.Foreground;
             Level.Add(_shade);
         }

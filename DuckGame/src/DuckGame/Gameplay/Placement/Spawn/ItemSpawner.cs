@@ -95,10 +95,10 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
     {
         _sprite = new SpriteMap("gunSpawner", 14, 10);
         graphic = _sprite;
-        center = new Vec2(7f, 0f);
+        Center = new Vec2(7f, 0f);
         collisionSize = new Vec2(14f, 2f);
         collisionOffset = new Vec2(-7f, 0f);
-        base.depth = -0.35f;
+        base.Depth = -0.35f;
         contains = c;
         base.hugWalls = WallHug.Floor;
         _placementCost += 4;
@@ -111,8 +111,8 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
         {
             _isClassicSpawner = true;
         }
-        _ball1 = new SpawnerBall(base.x, base.y - 1f, secondBall: false);
-        _ball2 = new SpawnerBall(base.x, base.y - 1f, secondBall: true);
+        _ball1 = new SpawnerBall(base.X, base.Y - 1f, secondBall: false);
+        _ball2 = new SpawnerBall(base.X, base.Y - 1f, secondBall: true);
         Level.Add(_ball1);
         Level.Add(_ball2);
         if (spawnOnStart)
@@ -155,8 +155,8 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
         PhysicsObject newThing = ((!Network.isActive || containsBag.GetOrDefault("isOnlineCapable", defaultValue: true)) ? (Editor.CreateThing(contains) as PhysicsObject) : (Activator.CreateInstance(typeof(Pistol), Editor.GetConstructorParameters(typeof(Pistol))) as PhysicsObject));
         if (newThing != null)
         {
-            newThing.x = base.x;
-            newThing.y = base.top + (newThing.y - newThing.bottom) - 6f;
+            newThing.X = base.X;
+            newThing.Y = base.top + (newThing.Y - newThing.bottom) - 6f;
             newThing.vSpeed = -2f;
             newThing.spawnAnimation = true;
             newThing.isSpawned = true;
@@ -191,7 +191,7 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
     {
         if (_seatingTries < 3 && _ball1 != null)
         {
-            if (Level.CheckPoint<IPlatform>(position + new Vec2(0f, 6f)) != null)
+            if (Level.CheckPoint<IPlatform>(Position + new Vec2(0f, 6f)) != null)
             {
                 _seated = true;
                 _seatingTries = 3;
@@ -228,7 +228,7 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
         {
             if (_seated)
             {
-                Holdable g = Level.current.NearestThingFilter<Holdable>(position, (Thing d) => !(d is TeamHat) && (d as Holdable).canPickUp, 16f);
+                Holdable g = Level.current.NearestThingFilter<Holdable>(Position, (Thing d) => !(d is TeamHat) && (d as Holdable).canPickUp, 16f);
                 if (g != null && g.owner == null && g != null && g.canPickUp && Math.Abs(g.hSpeed) + Math.Abs(g.vSpeed) < 2.5f && (!(g is Gun) || (g as Gun).ammo > 0))
                 {
                     SetHoverItem(g);
@@ -243,18 +243,18 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
                 _spawnWait += 0.0166666f;
             }
         }
-        else if (Math.Abs(_hoverItem.hSpeed) + Math.Abs(_hoverItem.vSpeed) > 2f || (_hoverItem.collisionCenter - position).length > 18f || _hoverItem.destroyed || _hoverItem.removeFromLevel || _hoverItem.owner != null || !_hoverItem.visible)
+        else if (Math.Abs(_hoverItem.hSpeed) + Math.Abs(_hoverItem.vSpeed) > 2f || (_hoverItem.collisionCenter - Position).Length() > 18f || _hoverItem.destroyed || _hoverItem.removeFromLevel || _hoverItem.owner != null || !_hoverItem.visible)
         {
             BreakHoverBond();
         }
         else
         {
-            float hoverHeight = 0f - (_hoverItem.bottom - _hoverItem.y) - 2f + (float)_hoverSin * 2f;
-            _hoverItem.position = Lerp.Vec2Smooth(_hoverItem.position, position + new Vec2(0f, hoverHeight), 0.2f);
+            float hoverHeight = 0f - (_hoverItem.bottom - _hoverItem.Y) - 2f + (float)_hoverSin * 2f;
+            _hoverItem.Position = Lerp.Vec2Smooth(_hoverItem.Position, Position + new Vec2(0f, hoverHeight), 0.2f);
             _hoverItem.vSpeed = 0f;
             _hoverItem.gravMultiplier = 0f;
-            _ball1.desiredOrbitDistance = _hoverItem.collisionSize.x / 2f;
-            _ball2.desiredOrbitDistance = _hoverItem.collisionSize.x / 2f;
+            _ball1.desiredOrbitDistance = _hoverItem.collisionSize.X / 2f;
+            _ball2.desiredOrbitDistance = _hoverItem.collisionSize.X / 2f;
             _ball1.desiredOrbitHeight = 4f;
             _ball2.desiredOrbitHeight = 4f;
         }
@@ -290,15 +290,15 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
         {
             _bob += 0.05f;
             previewSprite.CenterOrigin();
-            previewSprite.alpha = 0.5f;
+            previewSprite.Alpha = 0.5f;
             previewSprite.flipH = offDir < 0;
-            Graphics.Draw(previewSprite, base.x, base.y - 8f + (float)Math.Sin(_bob) * 2f);
+            Graphics.Draw(previewSprite, base.X, base.Y - 8f + (float)Math.Sin(_bob) * 2f);
         }
         if (_isClassicSpawner && (_sprite.frame == 1 || _sprite.frame == 3))
         {
-            base.y -= 2f;
+            base.Y -= 2f;
             base.Draw();
-            base.y += 2f;
+            base.Y += 2f;
         }
         else
         {
@@ -456,7 +456,7 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
                         Color c = Color.White;
                         c = ((p.probability == 0f) ? Color.DarkGray : ((p.probability < 0.3f) ? Colors.DGRed : ((!(p.probability < 0.7f)) ? Color.Green : Color.Orange)));
                         string s = p.type.Name + ": " + p.probability.ToString("0.000");
-                        Graphics.DrawString(s, position + new Vec2((0f - Graphics.GetStringWidth(s, thinButtons: false, 0.5f)) / 2f, 0f - (16f + yOff)), c, 0.9f, null, 0.5f);
+                        Graphics.DrawString(s, Position + new Vec2((0f - Graphics.GetStringWidth(s, thinButtons: false, 0.5f)) / 2f, 0f - (16f + yOff)), c, 0.9f, null, 0.5f);
                         yOff += 4f;
                     }
                 }
@@ -468,7 +468,7 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
         {
             containString = contains.Name;
         }
-        Graphics.DrawString(containString, position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
+        Graphics.DrawString(containString, Position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
     }
 
     public override string GetDetailsString()

@@ -41,8 +41,8 @@ public class PlasmaLayer : Layer
             Viewport viewport = Graphics.viewport;
             Graphics.viewport = new Viewport(0, 0, 320, (int)(320f * Graphics.aspect));
             Begin(transparent: false);
-            _plasma.depth = -0.9f;
-            _plasma.alpha = 1f;
+            _plasma.Depth = -0.9f;
+            _plasma.Alpha = 1f;
             Graphics.device.SamplerStates[0] = SamplerState.PointWrap;
             Graphics.Draw(_plasma, -30f, -30f);
             _batch.End();

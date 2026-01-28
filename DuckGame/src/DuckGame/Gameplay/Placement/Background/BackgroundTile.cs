@@ -2,7 +2,7 @@ using System;
 
 namespace DuckGame;
 
-public abstract class BackgroundTile : Thing, IStaticRender, IDontUpdate
+public abstract class BackgroundTile : Thing
 {
     protected int _frame;
 
@@ -54,12 +54,12 @@ public abstract class BackgroundTile : Thing, IStaticRender, IDontUpdate
     public virtual void DoPositioning()
     {
         cheap = true;
-        graphic.position = position;
-        graphic.scale = base.scale;
-        graphic.center = center;
-        graphic.depth = base.depth;
-        graphic.alpha = base.alpha;
-        graphic.angle = angle;
+        graphic.Position = Position;
+        graphic.Scale = base.Scale;
+        graphic.Center = Center;
+        graphic.Depth = base.Depth;
+        graphic.Alpha = base.Alpha;
+        graphic.Angle = Angle;
         (graphic as SpriteMap).UpdateFrame();
     }
 

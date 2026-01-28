@@ -48,17 +48,17 @@ public class TextEntryDialog : ContextMenu
         {
             base.layer = Layer.HUD;
         }
-        base.depth = 0.95f;
+        base.Depth = 0.95f;
         float windowWidth = 300f;
         float windowHeight = 40f;
         Vec2 topLeft = new Vec2(base.layer.width / 2f - windowWidth / 2f, base.layer.height / 2f - windowHeight / 2f);
         new Vec2(base.layer.width / 2f + windowWidth / 2f, base.layer.height / 2f + windowHeight / 2f);
-        position = topLeft + new Vec2(4f, 20f);
+        Position = topLeft + new Vec2(4f, 20f);
         itemSize = new Vec2(490f, 16f);
         _root = true;
         invalidPathChars = Path.GetInvalidPathChars();
         _fancyFont = new FancyBitmapFont("smallFont");
-        _textbox = new MysteryTextbox(topLeft.x + 4f, topLeft.y + 4f, windowWidth - 20f, windowHeight - 10f);
+        _textbox = new MysteryTextbox(topLeft.X + 4f, topLeft.Y + 4f, windowWidth - 20f, windowHeight - 10f);
         _textbox.enterConfirms = true;
         _textbox.filename = true;
     }
@@ -150,21 +150,21 @@ public class TextEntryDialog : ContextMenu
             float windowHeight = 72f;
             Vec2 topLeft = new Vec2(base.layer.width / 2f - windowWidth / 2f, base.layer.height / 2f - windowHeight / 2f);
             Vec2 bottomRight = new Vec2(base.layer.width / 2f + windowWidth / 2f, base.layer.height / 2f + windowHeight / 2f);
-            Graphics.DrawRect(topLeft, bottomRight, new Color(70, 70, 70), base.depth, filled: false, 0.95f);
-            Graphics.DrawRect(topLeft, bottomRight, new Color(30, 30, 30), base.depth - 1);
-            Graphics.DrawRect(topLeft + new Vec2(4f, 20f), bottomRight + new Vec2(-4f, -4f), new Color(10, 10, 10), base.depth + 1);
-            Graphics.DrawRect(topLeft + new Vec2(2f, 2f), new Vec2(bottomRight.x - 2f, topLeft.y + 16f), new Color(70, 70, 70), base.depth + 1);
-            _textbox.depth = base.depth + 20;
+            Graphics.DrawRect(topLeft, bottomRight, new Color(70, 70, 70), base.Depth, filled: false, 0.95f);
+            Graphics.DrawRect(topLeft, bottomRight, new Color(30, 30, 30), base.Depth - 1);
+            Graphics.DrawRect(topLeft + new Vec2(4f, 20f), bottomRight + new Vec2(-4f, -4f), new Color(10, 10, 10), base.Depth + 1);
+            Graphics.DrawRect(topLeft + new Vec2(2f, 2f), new Vec2(bottomRight.X - 2f, topLeft.Y + 16f), new Color(70, 70, 70), base.Depth + 1);
+            _textbox.depth = base.Depth + 20;
             _textbox.Draw();
-            Graphics.DrawString(_text, topLeft + new Vec2(5f, 5f), Color.White, base.depth + 2);
-            Graphics.DrawRect(new Vec2(bottomRight.x - 145f, bottomRight.y), new Vec2(bottomRight.x, bottomRight.y + 10f), new Color(70, 70, 70), base.depth + 8);
+            Graphics.DrawString(_text, topLeft + new Vec2(5f, 5f), Color.White, base.Depth + 2);
+            Graphics.DrawRect(new Vec2(bottomRight.X - 145f, bottomRight.Y), new Vec2(bottomRight.X, bottomRight.Y + 10f), new Color(70, 70, 70), base.Depth + 8);
             if (!(InputProfile.FirstProfileWithDevice.lastActiveDevice is Keyboard))
             {
-                Graphics.DrawString("@SELECT@ACCEPT  @CANCEL@CANCEL", bottomRight + new Vec2(-147f, 1f), Color.White, base.depth + 10);
+                Graphics.DrawString("@SELECT@ACCEPT  @CANCEL@CANCEL", bottomRight + new Vec2(-147f, 1f), Color.White, base.Depth + 10);
             }
             else
             {
-                Graphics.DrawString("@ENTERKEY@ACCEPT  @ESCAPE@CANCEL", bottomRight + new Vec2(-147f, 1f), Color.White, base.depth + 10);
+                Graphics.DrawString("@ENTERKEY@ACCEPT  @ESCAPE@CANCEL", bottomRight + new Vec2(-147f, 1f), Color.White, base.Depth + 10);
             }
         }
     }

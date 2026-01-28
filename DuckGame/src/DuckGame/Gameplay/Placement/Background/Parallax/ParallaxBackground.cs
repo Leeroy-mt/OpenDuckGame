@@ -47,8 +47,8 @@ public class ParallaxBackground : Thing
     {
         _sprite = new Sprite(image);
         graphic = _sprite;
-        base.x = vx;
-        base.depth = vdepth;
+        base.X = vx;
+        base.Depth = vdepth;
         base.layer = Layer.Parallax;
         _hRepeat = hRepeat;
         _opaque = true;
@@ -71,8 +71,8 @@ public class ParallaxBackground : Thing
     {
         _sprite = new Sprite(t);
         graphic = _sprite;
-        base.x = 0f;
-        base.depth = 0f;
+        base.X = 0f;
+        base.Depth = 0f;
         base.layer = Layer.Parallax;
         _hRepeat = 3;
         _opaque = true;
@@ -119,13 +119,13 @@ public class ParallaxBackground : Thing
         {
             base.layer.scissor = scissor;
         }
-        if (position.y > 0f)
+        if (Position.Y > 0f)
         {
-            position.y = 0f;
+            Y = 0f;
         }
-        if (restrictBottom && position.y + (float)_sprite.texture.height < Layer.Parallax.camera.bottom)
+        if (restrictBottom && Position.Y + (float)_sprite.texture.height < Layer.Parallax.camera.bottom)
         {
-            position.y = Layer.Parallax.camera.bottom - (float)_sprite.texture.height;
+            Y = Layer.Parallax.camera.bottom - (float)_sprite.texture.height;
         }
         for (int xpos = 0; xpos < _hRepeat; xpos++)
         {
@@ -136,12 +136,12 @@ public class ParallaxBackground : Thing
                     ParallaxZone zone = _zones[i];
                     if (xpos == 0)
                     {
-                        zone.RenderSprites(position);
+                        zone.RenderSprites(Position);
                     }
                     if (zone.visible)
                     {
                         float offset = zone.scroll % (float)graphic.width;
-                        Graphics.Draw(_sprite.texture, position + new Vec2(0f, FUCKINGYOFFSET) + new Vec2((offset - (float)graphic.width + (float)(xpos * graphic.width)) * base.scale.x, (float)(i * 8) * base.scale.y), new Rectangle(0f, i * 8, graphic.width, 8f), color, 0f, default(Vec2), new Vec2(base.scale.x, base.scale.y), SpriteEffects.None, base.depth);
+                        Graphics.Draw(_sprite.texture, Position + new Vec2(0f, FUCKINGYOFFSET) + new Vec2((offset - (float)graphic.width + (float)(xpos * graphic.width)) * base.Scale.X, (float)(i * 8) * base.Scale.Y), new Rectangle(0f, i * 8, graphic.width, 8f), color, 0f, default(Vec2), new Vec2(base.Scale.X, base.Scale.Y), SpriteEffects.None, base.Depth);
                     }
                 }
             }

@@ -11,7 +11,7 @@ public class DuctTape : Equipment
     {
         _type = "gun";
         graphic = new Sprite("tape");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-5f, -5f);
         collisionSize = new Vec2(10f, 10f);
         wearable = false;
@@ -27,11 +27,11 @@ public class DuctTape : Equipment
             {
                 return;
             }
-            Holdable gun1 = Level.current.NearestThingFilter<Holdable>(position, (Thing t) => t.owner == null && t != this && !(t is Equipment) && !(t is RagdollPart) && !(t is TapedGun) && (t as Holdable).tapeable);
+            Holdable gun1 = Level.current.NearestThingFilter<Holdable>(Position, (Thing t) => t.owner == null && t != this && !(t is Equipment) && !(t is RagdollPart) && !(t is TapedGun) && (t as Holdable).tapeable);
             if (Distance(gun1) < 16f)
             {
-                Level.Add(SmallSmoke.New(position.x, position.y));
-                Level.Add(SmallSmoke.New(position.x, position.y));
+                Level.Add(SmallSmoke.New(Position.X, Position.Y));
+                Level.Add(SmallSmoke.New(Position.X, Position.Y));
                 SFX.PlaySynchronized("equip", 0.8f);
                 TapedGun taped = new TapedGun(0f, 0f);
                 Thing.ExtraFondle(gun1, connection);

@@ -29,20 +29,20 @@ public class Ember : PhysicsParticle
         {
             _initialLife += Rando.Float(10f);
         }
-        base.alpha = 0.7f;
+        base.Alpha = 0.7f;
     }
 
     public override void Update()
     {
         _wave.Update();
-        position.x += _wave.value * 0.2f;
-        position.x += hSpeed;
-        position.y += vSpeed;
+        X += _wave.value * 0.2f;
+        X += hSpeed;
+        Y += vSpeed;
         _initialLife -= 0.1f;
         if (_initialLife < 0f)
         {
-            base.alpha -= 0.025f;
-            if (base.alpha < 0f)
+            base.Alpha -= 0.025f;
+            if (base.Alpha < 0f)
             {
                 Level.Remove(this);
             }
@@ -51,6 +51,6 @@ public class Ember : PhysicsParticle
 
     public override void Draw()
     {
-        Graphics.DrawRect(position, position + new Vec2(1f, 1f), _col * base.alpha, base.depth);
+        Graphics.DrawRect(Position, Position + new Vec2(1f, 1f), _col * base.Alpha, base.Depth);
     }
 }

@@ -25,7 +25,7 @@ public class CustomBackground2 : CustomBackground
         customIndex = 1;
         graphic = new SpriteMap("arcadeBackground", 16, 16, calculateTransparency: true);
         _opacityFromGraphic = true;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionSize = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -8f);
         _editorName = "02";

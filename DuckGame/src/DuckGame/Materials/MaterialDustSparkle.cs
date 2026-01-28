@@ -18,7 +18,7 @@ public class MaterialDustSparkle : Material
         if (!lit)
         {
             _cone = Content.Load<Tex2D>("arcade/lightSphere");
-            pos.y += 10f;
+            pos.Y += 10f;
         }
         else if (wide)
         {

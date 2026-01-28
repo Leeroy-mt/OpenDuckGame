@@ -1,10 +1,13 @@
 ﻿using DuckGame;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
 internal class Startup(MonoMain main)
 {
+    public event Action<string> Log;
+
     Thread AsyncThread;
 
     List<StartupAction> Actions = [
@@ -57,6 +60,8 @@ internal class Startup(MonoMain main)
                 where Task.Thread is 0 && Task.IsActive
                 select Task);
 
+        BindTask(main);
+
         while (main.Count > 0)
         {
             var task = main.Peek();
@@ -78,11 +83,21 @@ internal class Startup(MonoMain main)
                 where Task.Thread is TaskThread.Async && Task.IsActive
                 select Task);
 
+        BindTask(async);
+
         while (async.Count > 0)
         {
             var task = async.Peek();
             if (task.Run())
                 async.Dequeue();
+        }
+    }
+
+    void BindTask(IEnumerable<StartupAction> tasks)
+    {
+        foreach (var item in tasks)
+        {
+            item.LoadStarted += Log;
         }
     }
 }

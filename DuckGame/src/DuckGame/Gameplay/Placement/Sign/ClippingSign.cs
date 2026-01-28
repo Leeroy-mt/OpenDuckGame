@@ -18,10 +18,10 @@ public class ClippingSign : Thing
         style = new EditorProperty<int>(0, this, 0f, 2f, 1f);
         _sprite = new SpriteMap("noClippingSign", 32, 32);
         graphic = _sprite;
-        center = new Vec2(16f, 24f);
+        Center = new Vec2(16f, 24f);
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "No Clipping";
         editorTooltip = "I mean it!!";
         _canFlip = false;

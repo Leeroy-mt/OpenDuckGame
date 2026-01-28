@@ -11,14 +11,14 @@ public abstract class EjectedShell : PhysicsParticle
         vSpeed = 0f - (Rando.Float(1.5f) + 1f);
         _sprite = new SpriteMap(shellSprite, 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _bounceSound = bounceSound;
-        base.depth = 0.3f + Rando.Float(0f, 0.1f);
+        base.Depth = 0.3f + Rando.Float(0f, 0.1f);
     }
 
     public override void Update()
     {
         base.Update();
-        _angle = Maths.DegToRad(0f - _spinAngle);
+        AngleValue = Maths.DegToRad(0f - _spinAngle);
     }
 }

@@ -42,7 +42,7 @@ public static class Rando
 
     public static float Float(float max)
     {
-        return (float)_randomGenerator.NextDouble() * max;
+        return _randomGenerator.NextSingle() * max;
     }
 
     public static Vec2 Vec2(float minX, float maxX, float minY, float maxY)
@@ -52,12 +52,12 @@ public static class Rando
 
     public static Vec2 Vec2(Vec2 spanX, Vec2 spanY)
     {
-        return new Vec2(Float(spanX.x, spanX.y), Float(spanY.x, spanY.y));
+        return new Vec2(Float(spanX.X, spanX.Y), Float(spanY.X, spanY.Y));
     }
 
     public static float Float(float min, float max)
     {
-        return min + (float)_randomGenerator.NextDouble() * (max - min);
+        return min + _randomGenerator.NextSingle() * (max - min);
     }
 
     public static int Int(int _max)

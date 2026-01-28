@@ -28,8 +28,8 @@ public class ChaingunBullet : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("chainBullet");
-        center = new Vec2(4f, 3f);
-        base.depth = 0.8f;
+        Center = new Vec2(4f, 3f);
+        base.Depth = 0.8f;
     }
 
     public ChaingunBullet(float xpos, float ypos, bool dart)
@@ -38,14 +38,14 @@ public class ChaingunBullet : Thing
         if (dart)
         {
             graphic = new SpriteMap("dart", 16, 16);
-            center = new Vec2(7f, 7f);
+            Center = new Vec2(7f, 7f);
         }
         else
         {
             graphic = new Sprite("chainBullet");
-            center = new Vec2(4f, 3f);
+            Center = new Vec2(4f, 3f);
         }
-        base.depth = 0.8f;
+        base.Depth = 0.8f;
     }
 
     public override void Update()
@@ -61,7 +61,7 @@ public class ChaingunBullet : Thing
     {
         if (parentThing != null)
         {
-            position = parentThing.position + chainOffset + new Vec2(0f, 2f);
+            Position = parentThing.Position + chainOffset + new Vec2(0f, 2f);
             graphic.flipH = parentThing.graphic.flipH;
             desiredSway = 0f;
             if (parentThing is Gun { owner: not null } g)
@@ -90,13 +90,13 @@ public class ChaingunBullet : Thing
             {
                 waveSpeed = 0.1f;
             }
-            if (waveSpeed > 0f)
+            if (waveSpeed > 0)
             {
                 waveSpeed -= 0.01f;
             }
             else
             {
-                waveSpeed = 0f;
+                waveSpeed = 0;
             }
             lastDesiredSway = desiredSway;
             if (parentThing is ChaingunBullet b)
@@ -104,13 +104,13 @@ public class ChaingunBullet : Thing
                 desiredSway += b.sway * 0.7f;
             }
             desiredSway += (float)Math.Sin(wave + waveAdd) * shake;
-            sway = MathHelper.Lerp(sway, desiredSway, 1f);
-            position.x += sway;
+            sway = MathHelper.Lerp(sway, desiredSway, 1);
+            X += sway;
         }
         base.Draw();
         if (childThing != null)
         {
-            childThing.depth = base.depth - 1;
+            childThing.Depth = Depth - 1;
             childThing.Draw();
         }
     }

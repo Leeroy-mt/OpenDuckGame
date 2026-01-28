@@ -76,7 +76,7 @@ public class QuadTreeObjectList : IEnumerable<Thing>, IEnumerable
         List<CollisionIsland> isle = new List<CollisionIsland>();
         foreach (CollisionIsland i in _islands)
         {
-            if (!i.willDie && (point - i.owner.position).lengthSq < i.radiusSquared)
+            if (!i.willDie && (point - i.owner.Position).lengthSq < i.radiusSquared)
             {
                 isle.Add(i);
             }
@@ -89,7 +89,7 @@ public class QuadTreeObjectList : IEnumerable<Thing>, IEnumerable
         List<CollisionIsland> isle = new List<CollisionIsland>();
         foreach (CollisionIsland i in _islands)
         {
-            if (!i.willDie && (point - i.owner.position).lengthSq < i.radiusCheckSquared)
+            if (!i.willDie && (point - i.owner.Position).lengthSq < i.radiusCheckSquared)
             {
                 isle.Add(i);
             }
@@ -101,7 +101,7 @@ public class QuadTreeObjectList : IEnumerable<Thing>, IEnumerable
     {
         foreach (CollisionIsland i in _islands)
         {
-            if (!i.willDie && i != ignore && (point - i.owner.position).lengthSq < i.radiusSquared)
+            if (!i.willDie && i != ignore && (point - i.owner.Position).lengthSq < i.radiusSquared)
             {
                 return i;
             }
@@ -199,7 +199,7 @@ public class QuadTreeObjectList : IEnumerable<Thing>, IEnumerable
         IEnumerable<Thing> things = new List<Thing>();
         foreach (CollisionIsland i in _islands)
         {
-            if ((i.owner.position - pos).lengthSq - radiusSq < i.radiusCheckSquared)
+            if ((i.owner.Position - pos).lengthSq - radiusSq < i.radiusCheckSquared)
             {
                 things = things.Concat(i.things);
             }
@@ -338,14 +338,14 @@ public class QuadTreeObjectList : IEnumerable<Thing>, IEnumerable
         int num = 0;
         foreach (CollisionIsland i in _islands)
         {
-            Graphics.DrawCircle(i.owner.position, i.radiusCheck, Color.Red * 0.7f, 1f, 0.9f, 64);
-            Graphics.DrawCircle(i.owner.position, i.radius, Color.Blue * 0.3f, 1f, 0.9f, 64);
-            Graphics.DrawString(Convert.ToString(num), i.owner.position, Color.Red, 1f);
+            Graphics.DrawCircle(i.owner.Position, i.radiusCheck, Color.Red * 0.7f, 1f, 0.9f, 64);
+            Graphics.DrawCircle(i.owner.Position, i.radius, Color.Blue * 0.3f, 1f, 0.9f, 64);
+            Graphics.DrawString(Convert.ToString(num), i.owner.Position, Color.Red, 1f);
             foreach (MaterialThing t in i.things)
             {
                 if (t != i.owner)
                 {
-                    Graphics.DrawString(Convert.ToString(num), t.position, Color.White, 1f);
+                    Graphics.DrawString(Convert.ToString(num), t.Position, Color.White, 1f);
                 }
             }
             num++;

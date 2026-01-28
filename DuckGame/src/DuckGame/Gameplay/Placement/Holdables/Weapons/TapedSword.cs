@@ -6,7 +6,7 @@ public class TapedSword : Sword
         : base(xval, yval)
     {
         graphic = new Sprite("tapedSword");
-        center = new Vec2(4f, 44f);
+        Center = new Vec2(4f, 44f);
         collisionOffset = new Vec2(-2f, -16f);
         collisionSize = new Vec2(4f, 18f);
         centerHeld = new Vec2(4f, 44f);

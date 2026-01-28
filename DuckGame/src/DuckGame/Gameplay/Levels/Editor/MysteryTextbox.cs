@@ -85,7 +85,7 @@ public class MysteryTextbox
         set
         {
             _size = value;
-            _font.maxWidth = (int)value.x;
+            _font.maxWidth = (int)value.X;
         }
     }
 
@@ -96,7 +96,7 @@ public class MysteryTextbox
     public MysteryTextbox(float x, float y, float width, float height, float scale = 1f, int maxLines = int.MaxValue, string emptyText = "", string font = "smallFont")
     {
         _font = new FancyBitmapFont(font);
-        _font.scale = new Vec2(scale);
+        _font.Scale = new Vec2(scale);
         _font.maxWidth = (int)width;
         _position = new Vec2(x, y);
         _size = new Vec2(width, height);
@@ -156,7 +156,7 @@ public class MysteryTextbox
     {
         bool hovered = false;
         Vec2 mousePos = Mouse.position;
-        if (mousePos.x > _position.x && mousePos.y > _position.y && mousePos.x < _position.x + _size.x && mousePos.y < _position.y + _size.y)
+        if (mousePos.X > _position.X && mousePos.Y > _position.Y && mousePos.X < _position.X + _size.X && mousePos.Y < _position.Y + _size.Y)
         {
             hovered = true;
             Editor.hoverTextBox = true;
@@ -291,14 +291,14 @@ public class MysteryTextbox
         }
         if (Keyboard.Pressed(Keys.Up))
         {
-            _cursorPosition = _font.GetCharacterIndex(_drawText, _cursorPos.x + 4f * _font.scale.x, _cursorPos.y - (float)_font.characterHeight * _font.scale.y);
+            _cursorPosition = _font.GetCharacterIndex(_drawText, _cursorPos.X + 4f * _font.Scale.X, _cursorPos.Y - (float)_font.characterHeight * _font.Scale.Y);
             _font._highlightStart = _cursorPosition;
             _font._highlightEnd = _cursorPosition;
             _blink = 0.5f;
         }
         if (Keyboard.Pressed(Keys.Down))
         {
-            _cursorPosition = _font.GetCharacterIndex(_drawText, _cursorPos.x + 4f * _font.scale.x, _cursorPos.y + (float)_font.characterHeight * _font.scale.y);
+            _cursorPosition = _font.GetCharacterIndex(_drawText, _cursorPos.X + 4f * _font.Scale.X, _cursorPos.Y + (float)_font.characterHeight * _font.Scale.Y);
             _font._highlightStart = _cursorPosition;
             _font._highlightEnd = _cursorPosition;
             _blink = 0.5f;
@@ -315,7 +315,7 @@ public class MysteryTextbox
         _drawText = text;
         if (hovered && Mouse.left == InputState.Pressed)
         {
-            int idx = (_cursorPosition = _font.GetCharacterIndex(_drawText, mousePos.x + 4f * _font.scale.x - textDrawPos.x, mousePos.y - textDrawPos.y));
+            int idx = (_cursorPosition = _font.GetCharacterIndex(_drawText, mousePos.X + 4f * _font.Scale.X - textDrawPos.X, mousePos.Y - textDrawPos.Y));
             _font._highlightStart = idx;
             _font._highlightEnd = idx;
             _highlightDrag = true;
@@ -324,7 +324,7 @@ public class MysteryTextbox
         if (_highlightDrag)
         {
             allowFocusStealing = false;
-            int idx2 = _font.GetCharacterIndex(_drawText, mousePos.x + 4f * _font.scale.x - textDrawPos.x, mousePos.y - textDrawPos.y);
+            int idx2 = _font.GetCharacterIndex(_drawText, mousePos.X + 4f * _font.Scale.X - textDrawPos.X, mousePos.Y - textDrawPos.Y);
             _font._highlightEnd = idx2;
             _blink = 0.5f;
         }
@@ -344,12 +344,12 @@ public class MysteryTextbox
 
     public void Draw(int page = 0, int rowsPerPage = -1, int firstPageRows = 0)
     {
-        _font.Draw(_drawText, _position.x, _position.y, (text.Length == 0) ? (Colors.BlueGray * 0.8f) : color, depth);
+        _font.Draw(_drawText, _position.X, _position.Y, (text.Length == 0) ? (Colors.BlueGray * 0.8f) : color, depth);
         if (_blink >= 0.5f)
         {
             Vec2 cursPos = _cursorPos;
-            cursPos.x += 1f * _font.scale.x;
-            Graphics.DrawLine(_position + cursPos, _position + cursPos + new Vec2(0f, 8f * _font.scale.y), cursorColor, 0.5f, depth);
+            cursPos.X += 1f * _font.Scale.X;
+            Graphics.DrawLine(_position + cursPos, _position + cursPos + new Vec2(0f, 8f * _font.Scale.Y), cursorColor, 0.5f, depth);
         }
     }
 }

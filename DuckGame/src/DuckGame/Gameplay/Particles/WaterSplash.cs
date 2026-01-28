@@ -11,9 +11,9 @@ public class WaterSplash : Thing
         _sprite.AddAnimation("splash", 0.42f, false, 0, 1, 2, 3);
         _sprite.SetAnimation("splash");
         _sprite.color = new Color(fluid.color);
-        center = new Vec2(8f, 16f);
+        Center = new Vec2(8f, 16f);
         graphic = _sprite;
-        base.depth = 0.7f;
+        base.Depth = 0.7f;
     }
 
     public override void Update()

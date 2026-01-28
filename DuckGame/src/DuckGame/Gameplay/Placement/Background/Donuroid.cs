@@ -29,10 +29,10 @@ public class Donuroid
     public void Draw(Vec2 pos)
     {
         _image.frame = _frame;
-        _image.depth = _depth;
+        _image.Depth = _depth;
         SpriteMap image = _image;
-        float xscale = (_image.yscale = _scale);
-        image.xscale = xscale;
+        float xscale = (_image.ScaleY = _scale);
+        image.ScaleX = xscale;
         if (_scale == 1f)
         {
             _image.color = new Color(0.8f, 0.8f, 0.8f, 1f);
@@ -41,7 +41,7 @@ public class Donuroid
         {
             _image.color = Color.White * _scale;
         }
-        Graphics.Draw(_image, pos.x + _position.x, pos.y + _position.y + (float)Math.Sin(_sin) * (_scale * 2f));
+        Graphics.Draw(_image, pos.X + _position.X, pos.Y + _position.Y + (float)Math.Sin(_sin) * (_scale * 2f));
         _sin += 0.01f;
     }
 }

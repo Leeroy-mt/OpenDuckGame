@@ -30,10 +30,10 @@ public abstract class PineTree : AutoPlatform
         graphic = _sprite;
         collisionSize = new Vec2(8f, 16f);
         thickness = 0.2f;
-        base.centerx = 4f;
-        base.centery = 8f;
+        base.CenterX = 4f;
+        base.CenterY = 8f;
         collisionOffset = new Vec2(-4f, -8f);
-        base.depth = -0.12f;
+        base.Depth = -0.12f;
         placementLayerOverride = Layer.Foreground;
         forceEditorGrid = 8;
         treeLike = true;
@@ -43,10 +43,10 @@ public abstract class PineTree : AutoPlatform
     {
         if (!_neighborsInitialized)
         {
-            _leftBlock = Level.CheckPoint<PineTree>(base.left - 2f, position.y, this);
-            _rightBlock = Level.CheckPoint<PineTree>(base.right + 2f, position.y, this);
-            _upBlock = Level.CheckPoint<PineTree>(position.x, base.top - 2f, this);
-            _downBlock = Level.CheckPoint<PineTree>(position.x, base.bottom + 2f, this);
+            _leftBlock = Level.CheckPoint<PineTree>(base.left - 2f, Position.Y, this);
+            _rightBlock = Level.CheckPoint<PineTree>(base.right + 2f, Position.Y, this);
+            _upBlock = Level.CheckPoint<PineTree>(Position.X, base.top - 2f, this);
+            _downBlock = Level.CheckPoint<PineTree>(Position.X, base.bottom + 2f, this);
             _neighborsInitialized = true;
         }
     }
@@ -59,7 +59,7 @@ public abstract class PineTree : AutoPlatform
     public override bool Hit(Bullet bullet, Vec2 hitPos)
     {
         shiftTime = 1f;
-        shiftAmount = ((bullet.travelDirNormalized.x > 0f) ? 1 : (-1));
+        shiftAmount = ((bullet.travelDirNormalized.X > 0f) ? 1 : (-1));
         KnockOffSnow(bullet.travelDirNormalized, vertShake: false);
         return false;
     }
@@ -105,33 +105,33 @@ public abstract class PineTree : AutoPlatform
 
     public override void Draw()
     {
-        base.depth = -0.12f;
+        base.Depth = -0.12f;
         if (_vertPush > 0f)
         {
-            base.depth = -0.11f;
+            base.Depth = -0.11f;
         }
         if (_graphic != null)
         {
             Sprite sprite = _graphic;
-            Vec2 vec = position;
+            Vec2 vec = Position;
             _ = shiftAmount;
-            sprite.position = vec + new Vec2(0f * shiftTime, _vertPush * 1.5f);
-            _graphic.alpha = base.alpha;
-            _graphic.angle = angle;
-            _graphic.depth = base.depth;
-            _graphic.scale = base.scale + new Vec2(Math.Abs((float)shiftAmount * 0f) * shiftTime, _vertPush * 0.2f);
-            _graphic.center = center;
+            sprite.Position = vec + new Vec2(0f * shiftTime, _vertPush * 1.5f);
+            _graphic.Alpha = base.Alpha;
+            _graphic.Angle = Angle;
+            _graphic.Depth = base.Depth;
+            _graphic.Scale = base.Scale + new Vec2(Math.Abs((float)shiftAmount * 0f) * shiftTime, _vertPush * 0.2f);
+            _graphic.Center = Center;
             _graphic.Draw();
         }
         if (shiftTime > 0f)
         {
-            _graphic.position = position + new Vec2((float)(shiftAmount * 2) * shiftTime, 0f);
-            _graphic.alpha = base.alpha;
-            _graphic.angle = angle;
-            _graphic.depth = base.depth + 10;
-            _graphic.scale = base.scale + new Vec2(Math.Abs((float)shiftAmount * 0f) * shiftTime, 0f);
-            _graphic.center = center;
-            _graphic.alpha = 0.6f;
+            _graphic.Position = Position + new Vec2((float)(shiftAmount * 2) * shiftTime, 0f);
+            _graphic.Alpha = base.Alpha;
+            _graphic.Angle = Angle;
+            _graphic.Depth = base.Depth + 10;
+            _graphic.Scale = base.Scale + new Vec2(Math.Abs((float)shiftAmount * 0f) * shiftTime, 0f);
+            _graphic.Center = Center;
+            _graphic.Alpha = 0.6f;
             _graphic.Draw();
         }
         shiftTime = Lerp.FloatSmooth(shiftTime, 0f, 0.1f);
@@ -152,8 +152,8 @@ public abstract class PineTree : AutoPlatform
         PineTree down = null;
         PineTree left = leftPine;
         PineTree right = rightPine;
-        up = Level.CheckPoint<PineTree>(base.x, base.y - 16f, this);
-        down = Level.CheckPoint<PineTree>(base.x, base.y + 16f, this);
+        up = Level.CheckPoint<PineTree>(base.X, base.Y - 16f, this);
+        down = Level.CheckPoint<PineTree>(base.X, base.Y + 16f, this);
         if (up != null && up._tileset != _tileset)
         {
             up = null;
@@ -381,12 +381,12 @@ public abstract class PineTree : AutoPlatform
     {
         PineTree left = null;
         PineTree right = null;
-        left = Level.CheckPoint<PineTree>(base.x - 8f, base.y, this);
+        left = Level.CheckPoint<PineTree>(base.X - 8f, base.Y, this);
         if (left != null && left._tileset != _tileset)
         {
             left = null;
         }
-        right = Level.CheckPoint<PineTree>(base.x + 8f, base.y, this);
+        right = Level.CheckPoint<PineTree>(base.X + 8f, base.Y, this);
         if (right != null && right._tileset != _tileset)
         {
             right = null;
@@ -414,7 +414,7 @@ public abstract class PineTree : AutoPlatform
                 }
                 right.leftPine = currentPine;
                 currentPine = right;
-                right = Level.CheckPoint<PineTree>(right.x + 8f, right.y, right);
+                right = Level.CheckPoint<PineTree>(right.X + 8f, right.Y, right);
             }
             bool even = pineList.Count % 2 == 0;
             foreach (PineTree p in pineList)

@@ -33,29 +33,29 @@ public class AIStateFindTarget : AIState
             if (_target == null)
             {
                 List<Thing> ducks = Level.current.things[typeof(Duck)].Where((Thing x) => x != duck && !(x as Duck).dead).ToList();
-                if (!(AI.Nearest(duck.position, ducks) is Duck nearest))
+                if (!(AI.Nearest(duck.Position, ducks) is Duck nearest))
                 {
                     return new AIStateWait(Rando.Float(0.8f, 1f));
                 }
                 _target = nearest;
-                ai.SetTarget(nearest.position);
+                ai.SetTarget(nearest.Position);
             }
             else
             {
-                if ((duck.position - _target.position).length < 10f)
+                if ((duck.Position - _target.Position).Length() < 10f)
                 {
                     _scatterWait -= 0.01f;
                     if (_scatterWait < 0f)
                     {
                         List<Thing> _nodes = Level.current.things[typeof(PathNode)].ToList();
-                        ai.SetTarget(_nodes[Rando.Int(_nodes.Count - 1)].position);
+                        ai.SetTarget(_nodes[Rando.Int(_nodes.Count - 1)].Position);
                         _state.Push(new AIStateWait(1f + Rando.Float(1f)));
                         _scatterWait = 1f;
                     }
                 }
-                if (Math.Abs(duck.y - _target.y) < 16f && Math.Abs(duck.x - _target.x) < 150f && Level.CheckRay<Duck>(duck.position + new Vec2(duck.offDir * 10, 0f), _target.position) == _target)
+                if (Math.Abs(duck.Y - _target.Y) < 16f && Math.Abs(duck.X - _target.X) < 150f && Level.CheckRay<Duck>(duck.Position + new Vec2(duck.offDir * 10, 0f), _target.Position) == _target)
                 {
-                    if (Level.CheckLine<Block>(duck.position, _target.position) == null)
+                    if (Level.CheckLine<Block>(duck.Position, _target.Position) == null)
                     {
                         _targetWait -= 0.2f;
                         if (_targetWait <= 0f && Rando.Float(1f) > 0.6f)

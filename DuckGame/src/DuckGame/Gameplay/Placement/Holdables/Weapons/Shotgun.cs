@@ -21,7 +21,7 @@ public class Shotgun : Gun
         wideBarrel = true;
         _type = "gun";
         graphic = new Sprite("shotgun");
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -3f);
         collisionSize = new Vec2(16f, 8f);
         _barrelOffsetTL = new Vec2(30f, 14f);
@@ -31,7 +31,7 @@ public class Shotgun : Gun
         _numBulletsPerFire = 6;
         _manualLoad = true;
         _loaderSprite = new SpriteMap("shotgunLoader", 8, 8);
-        _loaderSprite.center = new Vec2(4f, 4f);
+        _loaderSprite.Center = new Vec2(4f, 4f);
         editorTooltip = "It's...a shotgun. I don't really have anything more to say about it.";
     }
 
@@ -95,6 +95,6 @@ public class Shotgun : Gun
         base.Draw();
         Vec2 bOffset = new Vec2(13f, -2f);
         float offset = (float)Math.Sin(_loadAnimation * 3.14f) * 3f;
-        Draw(_loaderSprite, new Vec2(bOffset.x - 8f - offset, bOffset.y + 4f));
+        Draw(_loaderSprite, new Vec2(bOffset.X - 8f - offset, bOffset.Y + 4f));
     }
 }

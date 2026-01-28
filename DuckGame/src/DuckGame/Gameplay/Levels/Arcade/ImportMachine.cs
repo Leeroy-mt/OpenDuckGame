@@ -38,8 +38,8 @@ public class ImportMachine : ArcadeMachine
         _contextMenuFilter.Add("respect");
         _sprite = new SpriteMap("arcade/userMachine", 48, 48);
         graphic = _sprite;
-        base.depth = -0.5f;
-        center = new Vec2(_sprite.width / 2 - 1, _sprite.h / 2 + 6);
+        base.Depth = -0.5f;
+        Center = new Vec2(_sprite.width / 2 - 1, _sprite.h / 2 + 6);
         lit.value = false;
         Underlay_Style._tooltip = "If disabled, the Arcade Machine art will be completely replaced by your custom style.";
     }

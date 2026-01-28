@@ -78,20 +78,20 @@ public class WireTrapDoor : Block, IWirePeripheral
         {
             if (_open)
             {
-                _shutter.angleDegrees = 90f * (float)offDir;
+                _shutter.AngleDegrees = 90f * (float)offDir;
             }
             else
             {
-                _shutter.angleDegrees = 0f;
+                _shutter.AngleDegrees = 0f;
             }
         }
         else if (_open)
         {
-            _shutter.angleDegrees = Lerp.Float(_shutter.angleDegrees, 90f * (float)offDir, 10f);
+            _shutter.AngleDegrees = Lerp.Float(_shutter.AngleDegrees, 90f * (float)offDir, 10f);
         }
         else
         {
-            _shutter.angleDegrees = Lerp.Float(_shutter.angleDegrees, 0f, 10f);
+            _shutter.AngleDegrees = Lerp.Float(_shutter.AngleDegrees, 0f, 10f);
         }
         (_shutter as IShutter).UpdateSprite();
     }
@@ -105,10 +105,10 @@ public class WireTrapDoor : Block, IWirePeripheral
         open = new EditorProperty<bool>(val: false, this);
         _sprite = new SpriteMap("wireBlock", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -8f);
         collisionSize = new Vec2(16f, 16f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Wire Trapdoor";
         editorTooltip = "Opens and closes when a connected Button is pressed.";
         thickness = 4f;
@@ -152,13 +152,13 @@ public class WireTrapDoor : Block, IWirePeripheral
         }
         if (fallthrough.value)
         {
-            _shutter = new WireTrapDoorShutter(base.x + (float)(4 * offDir), base.y - 5f, this);
+            _shutter = new WireTrapDoorShutter(base.X + (float)(4 * offDir), base.Y - 5f, this);
         }
         else
         {
-            _shutter = new WireTrapDoorShutterSolid(base.x + (float)(4 * offDir), base.y - 5f, this);
+            _shutter = new WireTrapDoorShutterSolid(base.X + (float)(4 * offDir), base.Y - 5f, this);
         }
-        _shutter.depth = base.depth + 5;
+        _shutter.Depth = base.Depth + 5;
         _shutter.offDir = offDir;
         Level.Add(_shutter);
     }

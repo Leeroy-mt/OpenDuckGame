@@ -61,19 +61,19 @@ public class CoolnessPlus : Thing
 
     public override void Draw()
     {
-        position = base.anchor.position;
+        Position = base.anchor.position;
         string text = "";
         if (change > 0)
         {
             text = "+";
         }
         text += change;
-        float xposit = base.x - _font.GetWidth(text) / 2f;
-        _font.Draw(text, xposit - 1f, base.y - 1f, Color.Black, 0.8f);
-        _font.Draw(text, xposit + 1f, base.y - 1f, Color.Black, 0.8f);
-        _font.Draw(text, xposit - 1f, base.y + 1f, Color.Black, 0.8f);
-        _font.Draw(text, xposit + 1f, base.y + 1f, Color.Black, 0.8f);
+        float xposit = base.X - _font.GetWidth(text) / 2f;
+        _font.Draw(text, xposit - 1f, base.Y - 1f, Color.Black, 0.8f);
+        _font.Draw(text, xposit + 1f, base.Y - 1f, Color.Black, 0.8f);
+        _font.Draw(text, xposit - 1f, base.Y + 1f, Color.Black, 0.8f);
+        _font.Draw(text, xposit + 1f, base.Y + 1f, Color.Black, 0.8f);
         Color c = new Color((byte)_profile.persona.color.x, (byte)_profile.persona.color.y, (byte)_profile.persona.color.z);
-        _font.Draw(text, xposit, base.y, c, 0.9f);
+        _font.Draw(text, xposit, base.Y, c, 0.9f);
     }
 }

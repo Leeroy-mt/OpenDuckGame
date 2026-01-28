@@ -35,10 +35,10 @@ public class NMExplodingProp : NMEvent
             {
                 _ammoTypeInstance = b.ammo;
                 ammoType = AmmoType.indexTypeMap[b.ammo.GetType()];
-                position = new Vec2(b.x, b.y);
+                position = new Vec2(b.X, b.Y);
                 first = false;
             }
-            NMFireBullet fire = new NMFireBullet(b.range, b.bulletSpeed, b.angle);
+            NMFireBullet fire = new NMFireBullet(b.range, b.bulletSpeed, b.Angle);
             _fireEvents.Add(fire);
         }
     }

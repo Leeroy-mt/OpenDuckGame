@@ -7,8 +7,8 @@ public class SubBackgroundOffice : SubBackgroundTile
     {
         graphic = new SpriteMap("officeSubBackground", 32, 32, calculateTransparency: true);
         _opacityFromGraphic = true;
-        center = new Vec2(24f, 16f);
-        collisionSize = new Vec2(32f, 32f);
-        collisionOffset = new Vec2(-16f, -16f);
+        Center = new Vec2(24, 16);
+        collisionSize = new Vec2(32);
+        collisionOffset = new Vec2(-16);
     }
 }

@@ -2,11 +2,11 @@ namespace DuckGame;
 
 public class UIMenuAction
 {
-    public virtual void Activate()
-    {
-    }
+    #region Public Methods
 
-    public virtual void Update()
-    {
-    }
+    public virtual void Activate() { }
+
+    public virtual void Update() { }
+
+    #endregion
 }

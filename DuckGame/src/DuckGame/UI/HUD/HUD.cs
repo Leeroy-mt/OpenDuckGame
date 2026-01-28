@@ -314,10 +314,10 @@ public class HUD
         }
         if (DevConsole.debugBounds && Level.current != null)
         {
-            Graphics.DrawLine(Level.current.topLeft, new Vec2(Level.current.bottomRight.x, Level.current.topLeft.y), Color.Green);
-            Graphics.DrawLine(Level.current.topLeft, new Vec2(Level.current.topLeft.x, Level.current.bottomRight.y), Color.Green);
-            Graphics.DrawLine(Level.current.bottomRight, new Vec2(Level.current.topLeft.x, Level.current.bottomRight.y), Color.Green);
-            Graphics.DrawLine(Level.current.bottomRight, new Vec2(Level.current.bottomRight.x, Level.current.topLeft.y), Color.Green);
+            Graphics.DrawLine(Level.current.topLeft, new Vec2(Level.current.bottomRight.X, Level.current.topLeft.Y), Color.Green);
+            Graphics.DrawLine(Level.current.topLeft, new Vec2(Level.current.topLeft.X, Level.current.bottomRight.Y), Color.Green);
+            Graphics.DrawLine(Level.current.bottomRight, new Vec2(Level.current.topLeft.X, Level.current.bottomRight.Y), Color.Green);
+            Graphics.DrawLine(Level.current.bottomRight, new Vec2(Level.current.bottomRight.X, Level.current.topLeft.Y), Color.Green);
         }
     }
 
@@ -342,8 +342,8 @@ public class HUD
             float topOff = 0f;
             Vec2 topLeft = vec;
             Vec2 topLeftRect = vec;
-            topLeft.x -= stringWidth / 2f;
-            topLeftRect.x -= stringWidth / 2f;
+            topLeft.X -= stringWidth / 2f;
+            topLeftRect.X -= stringWidth / 2f;
             float offDist = Layer.HUD.camera.width / 32f + high;
             Vec2 tlOffset = Vec2.Zero;
             tlOffset = new Vec2(0f, 0f - offDist);
@@ -365,8 +365,8 @@ public class HUD
             float topOff2 = 0f;
             Vec2 topLeft2 = vec2;
             Vec2 topLeftRect2 = vec2;
-            topLeft2.x -= stringWidth2 / 2f;
-            topLeftRect2.x -= stringWidth2 / 2f;
+            topLeft2.X -= stringWidth2 / 2f;
+            topLeftRect2.X -= stringWidth2 / 2f;
             float offDist2 = Layer.HUD.camera.width / 32f + high2;
             Vec2 tlOffset2 = Vec2.Zero;
             tlOffset2 = new Vec2(0f, offDist2);
@@ -461,30 +461,30 @@ public class HUD
             Vec2 topLeftRect3 = pos;
             if (d3.corner == HUDCorner.TopRight || d3.corner == HUDCorner.BottomRight)
             {
-                topLeft3.x -= wide3 * d3.slide;
-                topLeftRect3.x -= wideThin * d3.slide;
+                topLeft3.X -= wide3 * d3.slide;
+                topLeftRect3.X -= wideThin * d3.slide;
             }
             else if (d3.corner == HUDCorner.TopLeft || d3.corner == HUDCorner.BottomLeft)
             {
-                topLeft3.x -= wide3 * (1f - d3.slide);
-                topLeftRect3.x -= wideThin * (1f - d3.slide);
-                topLeftRect3.x += wide3 - wideThin;
+                topLeft3.X -= wide3 * (1f - d3.slide);
+                topLeftRect3.X -= wideThin * (1f - d3.slide);
+                topLeftRect3.X += wide3 - wideThin;
             }
             if (d3.corner == HUDCorner.BottomLeft || d3.corner == HUDCorner.BottomRight || d3.corner == HUDCorner.BottomMiddle)
             {
-                topLeft3.y -= high3;
-                topLeftRect3.y -= high3;
+                topLeft3.Y -= high3;
+                topLeftRect3.Y -= high3;
             }
             if (d3.corner == HUDCorner.BottomMiddle || d3.corner == HUDCorner.TopMiddle)
             {
-                topLeft3.x -= wide3 / 2f;
-                topLeftRect3.x -= wide3 / 2f;
-                topLeftRect3.x += wide3 - wideThin;
+                topLeft3.X -= wide3 / 2f;
+                topLeftRect3.X -= wide3 / 2f;
+                topLeftRect3.X += wide3 - wideThin;
             }
             if (d3.corner == HUDCorner.BottomMiddle)
             {
-                topLeft3.y += 24f * (1f - d3.slide);
-                topLeftRect3.y += 24f * (1f - d3.slide);
+                topLeft3.Y += 24f * (1f - d3.slide);
+                topLeftRect3.Y += 24f * (1f - d3.slide);
             }
             float offDist3 = Layer.HUD.camera.width / 32f;
             Vec2 tlOffset3 = Vec2.Zero;

@@ -36,7 +36,7 @@ public class Trumpet : Gun
         barrelInsertOffset = new Vec2(-4f, -2f);
         _type = "gun";
         graphic = new Sprite("trumpet");
-        center = new Vec2(12f, 5f);
+        Center = new Vec2(12f, 5f);
         collisionOffset = new Vec2(-6f, -4f);
         collisionSize = new Vec2(12f, 8f);
         _barrelOffsetTL = new Vec2(24f, 4f);
@@ -146,7 +146,7 @@ public class Trumpet : Gun
                         hitPitch = notePitch;
                         Sound snd = SFX.Play("trumpet0" + Change.ToString(note + 1), 0.8f);
                         noteSound = snd;
-                        Level.Add(new MusicNote(base.barrelPosition.x, base.barrelPosition.y, base.barrelVector));
+                        Level.Add(new MusicNote(base.barrelPosition.X, base.barrelPosition.Y, base.barrelVector));
                     }
                     else
                     {
@@ -206,11 +206,11 @@ public class Trumpet : Gun
         {
             SpriteMap fingerPositionSprite = base.duck.profile.persona.fingerPositionSprite;
             fingerPositionSprite.frame = currentPitch + 1;
-            fingerPositionSprite.depth = base.depth - 100;
+            fingerPositionSprite.Depth = base.Depth - 100;
             fingerPositionSprite.flipH = offDir <= 0;
-            fingerPositionSprite.angle = 0f;
+            fingerPositionSprite.Angle = 0f;
             Vec2 pos = Offset(new Vec2(-8f, -2f));
-            Graphics.Draw(fingerPositionSprite, pos.x, pos.y);
+            Graphics.Draw(fingerPositionSprite, pos.X, pos.Y);
         }
         base.Draw();
     }

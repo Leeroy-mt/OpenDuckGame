@@ -274,7 +274,7 @@ public class GoodBook : Gun
         _type = "gun";
         _sprite = new SpriteMap("goodBook", 17, 12);
         graphic = _sprite;
-        center = new Vec2(8f, 6f);
+        Center = new Vec2(8f, 6f);
         collisionOffset = new Vec2(-5f, -4f);
         collisionSize = new Vec2(10f, 8f);
         _halo = new Sprite("halo");
@@ -397,8 +397,8 @@ public class GoodBook : Gun
             {
                 _raiseArm = Rando.Float(1.2f, 2f);
             }
-            Ragdoll rag = Level.Nearest<Ragdoll>(base.x, base.y, this);
-            if (rag != null && rag.captureDuck != null && rag.captureDuck.dead && Level.CheckLine<Block>(base.duck.position, rag.position) == null && (rag.position - base.duck.position).length < _ammoType.range)
+            Ragdoll rag = Level.Nearest<Ragdoll>(base.X, base.Y, this);
+            if (rag != null && rag.captureDuck != null && rag.captureDuck.dead && Level.CheckLine<Block>(base.duck.Position, rag.Position) == null && (rag.Position - base.duck.Position).Length() < _ammoType.range)
             {
                 if (Network.isActive)
                 {
@@ -414,23 +414,23 @@ public class GoodBook : Gun
                 {
                     for (int k = 0; k < 3; k++)
                     {
-                        Level.Add(new MusketSmoke(d3.x - 5f + Rando.Float(10f), d3.y + 6f - 3f + Rando.Float(6f) - (float)k * 1f)
+                        Level.Add(new MusketSmoke(d3.X - 5f + Rando.Float(10f), d3.Y + 6f - 3f + Rando.Float(6f) - (float)k * 1f)
                         {
                             move =
                             {
-                                x = -0.2f + Rando.Float(0.4f),
-                                y = -0.2f + Rando.Float(0.4f)
+                                X = -0.2f + Rando.Float(0.4f),
+                                Y = -0.2f + Rando.Float(0.4f)
                             }
                         });
                     }
                     SFX.Play("death");
-                    Level.Add(new Tombstone(d3.x, d3.y)
+                    Level.Add(new Tombstone(d3.X, d3.Y)
                     {
                         vSpeed = -2.5f
                     });
                     Level.Remove(d3);
                 }
-                if (d3 == base.duck || !d3.grounded || d3.holdObject is GoodBook || Level.CheckLine<Block>(base.duck.position, d3.position) != null || !((d3.position - base.duck.position).length < _ammoType.range))
+                if (d3 == base.duck || !d3.grounded || d3.holdObject is GoodBook || Level.CheckLine<Block>(base.duck.Position, d3.Position) != null || !((d3.Position - base.duck.Position).Length() < _ammoType.range))
                 {
                     continue;
                 }
@@ -461,7 +461,7 @@ public class GoodBook : Gun
                 Fondle(d3._trappedInstance);
                 Fondle(d3._cookedInstance);
                 d3.listenTime = 80;
-                if (owner.x < d3.x)
+                if (owner.X < d3.X)
                 {
                     d3.offDir = -1;
                 }
@@ -500,11 +500,11 @@ public class GoodBook : Gun
         {
             SpriteMap spriteArms = base.duck._spriteArms;
             bool flip = spriteArms.flipH;
-            float a = spriteArms.angle;
+            float a = spriteArms.Angle;
             spriteArms.flipH = offDir * -1 < 0;
-            spriteArms.angle = 0.7f * (float)offDir;
-            Graphics.Draw(spriteArms, owner.x - (float)(5 * offDir), owner.y + 3f + (float)(base.duck.crouch ? 3 : 0) + (float)(base.duck.sliding ? 3 : 0));
-            spriteArms.angle = a;
+            spriteArms.Angle = 0.7f * (float)offDir;
+            Graphics.Draw(spriteArms, owner.X - (float)(5 * offDir), owner.Y + 3f + (float)(base.duck.crouch ? 3 : 0) + (float)(base.duck.sliding ? 3 : 0));
+            spriteArms.Angle = a;
             spriteArms.flipH = flip;
             handOffset = new Vec2(9999f, 9999f);
         }
@@ -514,13 +514,13 @@ public class GoodBook : Gun
         }
         if (owner != null && _haloAlpha > 0.01f)
         {
-            _halo.alpha = _haloAlpha * 0.4f + (float)_haloWave * 0.1f;
-            _halo.depth = -0.2f;
+            _halo.Alpha = _haloAlpha * 0.4f + (float)_haloWave * 0.1f;
+            _halo.Depth = -0.2f;
             Sprite halo = _halo;
-            float num = (_halo.yscale = 0.95f + (float)_haloWave * 0.05f);
-            halo.xscale = num;
-            _halo.angle += 0.01f;
-            Graphics.Draw(_halo, owner.x, owner.y);
+            float num = (_halo.ScaleY = 0.95f + (float)_haloWave * 0.05f);
+            halo.ScaleX = num;
+            _halo.Angle += 0.01f;
+            Graphics.Draw(_halo, owner.X, owner.Y);
             if (_ringPulse > 0f)
             {
                 int num3 = 16;
@@ -532,7 +532,7 @@ public class GoodBook : Gun
                     Vec2 cur = new Vec2((float)Math.Cos(val) * range, (0f - (float)Math.Sin(val)) * range);
                     if (i > 0)
                     {
-                        Graphics.DrawLine(owner.position + cur, owner.position + prev, Color.White * (_ringPulse * 0.6f), _ringPulse * 10f);
+                        Graphics.DrawLine(owner.Position + cur, owner.Position + prev, Color.White * (_ringPulse * 0.6f), _ringPulse * 10f);
                     }
                     prev = cur;
                 }

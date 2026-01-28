@@ -10,9 +10,9 @@ public class HeartPuff : Thing
         _sprite = new SpriteMap("heartpuff", 16, 16);
         _sprite.AddAnimation("wither", 0.35f, false, 0, 1, 2, 3, 4);
         _sprite.SetAnimation("wither");
-        center = new Vec2(5f, 16f);
-        base.alpha = 0.6f;
-        base.depth = 0.9f;
+        Center = new Vec2(5f, 16f);
+        base.Alpha = 0.6f;
+        base.Depth = 0.9f;
         graphic = _sprite;
         _sprite.color = Color.Green;
     }
@@ -24,13 +24,13 @@ public class HeartPuff : Thing
             flipHorizontal = base.anchor.thing.offDir < 0;
             if (flipHorizontal)
             {
-                center = new Vec2(10f, 16f);
+                Center = new Vec2(10f, 16f);
             }
             else
             {
-                center = new Vec2(5f, 16f);
+                Center = new Vec2(5f, 16f);
             }
-            angle = base.anchor.thing.angle;
+            Angle = base.anchor.thing.Angle;
         }
         if (_sprite.finished)
         {

@@ -28,7 +28,7 @@ public class FlameThrower : Gun
         _ammoType.combustable = true;
         _type = "gun";
         graphic = new Sprite("flamethrower");
-        center = new Vec2(16f, 15f);
+        Center = new Vec2(16f, 15f);
         collisionOffset = new Vec2(-8f, -3f);
         collisionSize = new Vec2(16f, 9f);
         _barrelOffsetTL = new Vec2(28f, 16f);
@@ -37,14 +37,14 @@ public class FlameThrower : Gun
         _fireWait = 1f;
         _kickForce = 1f;
         _barrelFlame = new SpriteMap("flameBurst", 20, 21);
-        _barrelFlame.center = new Vec2(0f, 17f);
+        _barrelFlame.Center = new Vec2(0f, 17f);
         _barrelFlame.AddAnimation("idle", 0.4f, true, 0, 1, 2, 3);
         _barrelFlame.AddAnimation("puff", 0.4f, false, 4, 5, 6, 7);
         _barrelFlame.AddAnimation("flame", 0.4f, true, 8, 9, 10, 11);
         _barrelFlame.AddAnimation("puffOut", 0.4f, false, 12, 13, 14, 15);
         _barrelFlame.SetAnimation("idle");
         _can = new SpriteMap("flamethrowerCan", 8, 8);
-        _can.center = new Vec2(4f, 4f);
+        _can.Center = new Vec2(4f, 4f);
         _holdOffset = new Vec2(2f, 0f);
         _barrelAngleOffset = 8f;
         _editorName = "Flame Thrower";
@@ -83,9 +83,9 @@ public class FlameThrower : Gun
             if (_flameWait <= 0f)
             {
                 Vec2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.5f, 0.5f));
-                Vec2 moveSpeed = new Vec2(travelDir.x * Rando.Float(2f, 3.5f), travelDir.y * Rando.Float(2f, 3.5f));
+                Vec2 moveSpeed = new Vec2(travelDir.X * Rando.Float(2f, 3.5f), travelDir.Y * Rando.Float(2f, 3.5f));
                 ammo -= 2;
-                Level.Add(SmallFire.New(base.barrelPosition.x, base.barrelPosition.y, moveSpeed.x, moveSpeed.y, shortLife: false, null, canMultiply: true, this));
+                Level.Add(SmallFire.New(base.barrelPosition.X, base.barrelPosition.Y, moveSpeed.X, moveSpeed.Y, shortLife: false, null, canMultiply: true, this));
                 _flameWait = 1f;
             }
         }
@@ -102,11 +102,11 @@ public class FlameThrower : Gun
         Graphics.material = null;
         if (_barrelFlame.speed > 0f)
         {
-            _barrelFlame.alpha = 0.9f;
+            _barrelFlame.Alpha = 0.9f;
             Draw(_barrelFlame, new Vec2(11f, 1f));
         }
         _can.frame = (int)((1f - (float)ammo / (float)_maxAmmo) * 15f);
-        Draw(_can, new Vec2(base.barrelOffset.x - 11f, base.barrelOffset.y + 4f));
+        Draw(_can, new Vec2(base.barrelOffset.X - 11f, base.barrelOffset.Y + 4f));
         Graphics.material = obj;
     }
 
@@ -116,12 +116,12 @@ public class FlameThrower : Gun
         {
             for (int i = 0; i < ammo / 10 + 3; i++)
             {
-                Level.Add(SmallFire.New(base.x - 6f + Rando.Float(12f), base.y - 8f + Rando.Float(4f), -3f + Rando.Float(6f), 1f - Rando.Float(4.5f), shortLife: false, null, canMultiply: true, this));
+                Level.Add(SmallFire.New(base.X - 6f + Rando.Float(12f), base.Y - 8f + Rando.Float(4f), -3f + Rando.Float(6f), 1f - Rando.Float(4.5f), shortLife: false, null, canMultiply: true, this));
             }
             SFX.Play("explode", 1f, -0.3f + Rando.Float(0.3f));
             Level.Remove(this);
             _sound.Kill();
-            Level.Add(new ExplosionPart(base.x, base.y));
+            Level.Add(new ExplosionPart(base.X, base.Y));
         }
         _firing = true;
     }

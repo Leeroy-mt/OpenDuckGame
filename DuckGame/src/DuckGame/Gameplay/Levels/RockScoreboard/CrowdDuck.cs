@@ -168,7 +168,7 @@ public class CrowdDuck : Thing
         : base(xpos, ypos)
     {
         distVal = dist;
-        base.z = zpos;
+        base.Z = zpos;
         int fans = Crowd.totalFans;
         int emptyChance = 3;
         if (dist <= 20)
@@ -245,23 +245,23 @@ public class CrowdDuck : Thing
         graphic = _sprite;
         collisionSize = new Vec2(_sprite.width, _sprite.height);
         collisionOffset = new Vec2(-(_sprite.w / 2), -(_sprite.h / 2));
-        center = new Vec2(0f, duckSprite.h);
-        collisionOffset = new Vec2(collisionOffset.x, -_sprite.h);
-        base.depth = 0.3f - (float)row * 0.05f;
+        Center = new Vec2(0f, duckSprite.h);
+        collisionOffset = new Vec2(collisionOffset.X, -_sprite.h);
+        base.Depth = 0.3f - (float)row * 0.05f;
         base.layer = Layer.Background;
         _letterSign = new Sprite("letterSign");
         _letterSign.CenterOrigin();
-        _letterSign.depth = base.depth + 2;
+        _letterSign.Depth = base.Depth + 2;
         _font = new BitmapFont("biosFont", 8);
         _loveSign = new Sprite("loveSign");
         _loveSign.CenterOrigin();
-        _loveSign.depth = 0.32f - (float)row * 0.05f;
+        _loveSign.Depth = 0.32f - (float)row * 0.05f;
         _sucksSign = new Sprite("sucksSign");
         _sucksSign.CenterOrigin();
-        _sucksSign.depth = 0.32f - (float)row * 0.05f;
+        _sucksSign.Depth = 0.32f - (float)row * 0.05f;
         _suckSign = new Sprite("suckSign");
         _suckSign.CenterOrigin();
-        _suckSign.depth = 0.32f - (float)row * 0.05f;
+        _suckSign.Depth = 0.32f - (float)row * 0.05f;
     }
 
     public override void Initialize()
@@ -302,7 +302,7 @@ public class CrowdDuck : Thing
             {
                 SFX.Play("cutOffQuack", 0.9f, Rando.Float(-0.1f, 0.1f));
             }
-            Level.Add(SmallSmoke.New(base.x + 6f, base.y - 35f));
+            Level.Add(SmallSmoke.New(base.X + 6f, base.Y - 35f));
             _hatThrowTime = -1f;
         }
     }
@@ -322,28 +322,28 @@ public class CrowdDuck : Thing
             {
                 if ((_signProfile == null || _signProfile == loyalty) && _letter != " ")
                 {
-                    _letterSign.depth = base.depth + 5;
-                    Graphics.Draw(_letterSign, base.x + 10f, base.y - 24f + offset);
-                    _font.Draw(_letter, base.x + 6f, base.y - 28f + offset, Color.Gray, base.depth + 9);
+                    _letterSign.Depth = base.Depth + 5;
+                    Graphics.Draw(_letterSign, base.X + 10f, base.Y - 24f + offset);
+                    _font.Draw(_letter, base.X + 6f, base.Y - 28f + offset, Color.Gray, base.Depth + 9);
                 }
             }
             else if (_hate)
             {
                 if (_letter[_letter.Length - 1] == 'S')
                 {
-                    Graphics.Draw(_suckSign, base.x + 28f, base.y - 27f + offset);
-                    _font.Draw(_letter, base.x - _font.GetWidth(_letter) / 2f + 28f, base.y - 26f - 8f + offset, Color.Gray, _suckSign.depth + 3);
+                    Graphics.Draw(_suckSign, base.X + 28f, base.Y - 27f + offset);
+                    _font.Draw(_letter, base.X - _font.GetWidth(_letter) / 2f + 28f, base.Y - 26f - 8f + offset, Color.Gray, _suckSign.Depth + 3);
                 }
                 else
                 {
-                    Graphics.Draw(_sucksSign, base.x + 28f, base.y - 27f + offset);
-                    _font.Draw(_letter, base.x - _font.GetWidth(_letter) / 2f + 28f, base.y - 26f - 8f + offset, Color.Gray, _sucksSign.depth + 3);
+                    Graphics.Draw(_sucksSign, base.X + 28f, base.Y - 27f + offset);
+                    _font.Draw(_letter, base.X - _font.GetWidth(_letter) / 2f + 28f, base.Y - 26f - 8f + offset, Color.Gray, _sucksSign.Depth + 3);
                 }
             }
             else
             {
-                Graphics.Draw(_loveSign, base.x + 28f, base.y - 27f + offset);
-                _font.Draw(_letter, base.x - _font.GetWidth(_letter) / 2f + 29f, base.y - 26f + offset, Color.Gray, _loveSign.depth + 3);
+                Graphics.Draw(_loveSign, base.X + 28f, base.Y - 27f + offset);
+                _font.Draw(_letter, base.X - _font.GetWidth(_letter) / 2f + 29f, base.Y - 26f + offset, Color.Gray, _loveSign.Depth + 3);
             }
         }
         if (!_empty && _lastLoyalty != null && _lastLoyalty.persona != null && _lastLoyalty.team != null)
@@ -359,9 +359,9 @@ public class CrowdDuck : Thing
             {
                 return;
             }
-            hat.depth = base.depth + 2;
-            hat.angle = 0f;
-            hat.alpha = 1f;
+            hat.Depth = base.Depth + 2;
+            hat.Angle = 0f;
+            hat.Alpha = 1f;
             hat.color = Color.White;
             bool open = false;
             open = ((_sprite.imageIndex == 1 || _sprite.imageIndex == 2 || _sprite.imageIndex == 4 || _sprite.imageIndex == 5 || _sprite.imageIndex == 7 || _sprite.imageIndex == 8) ? true : false);
@@ -385,14 +385,14 @@ public class CrowdDuck : Thing
             }
             if (hat.flipH)
             {
-                offset2.x = 0f - offset2.x;
+                offset2.X = 0f - offset2.X;
             }
             if (loyal)
             {
                 hat.frame = (open ? 1 : 0);
             }
             hat.CenterOrigin();
-            Graphics.Draw(hat, base.x - offset2.x + 8f + xoff, base.y - offset2.y - 22f - (float)(open ? 1 : 0));
+            Graphics.Draw(hat, base.X - offset2.X + 8f + xoff, base.Y - offset2.Y - 22f - (float)(open ? 1 : 0));
             hat.frame = 0;
             hat.flipH = false;
         }

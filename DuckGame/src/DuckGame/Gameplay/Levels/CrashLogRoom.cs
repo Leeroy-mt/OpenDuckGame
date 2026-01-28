@@ -20,7 +20,7 @@ internal class CrashLogRoom : Level
 
     public override void Draw()
     {
-        _font.scale = new Vec2(0.5f, 0.5f);
+        _font.Scale = new Vec2(0.5f, 0.5f);
         _font.Draw(_error, new Vec2(30f, 30f), Color.White);
     }
 }

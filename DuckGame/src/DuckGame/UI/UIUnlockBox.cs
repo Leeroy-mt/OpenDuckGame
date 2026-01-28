@@ -5,35 +5,45 @@ namespace DuckGame;
 
 public class UIUnlockBox : UIMenu
 {
-    private Sprite _frame;
-
-    private Sprite _wrappedFrame;
-
-    private BitmapFont _font;
-
-    private FancyBitmapFont _fancyFont;
-
-    private bool _wrapped = true;
-
-    private bool _flash;
-
-    private Unlockable _unlock;
-
-    private List<Unlockable> _unlocks;
-
-    private float yOffset = 150f;
+    #region Public Fields
 
     public bool down = true;
 
-    private float _downWait = 1f;
-
-    private string _oldSong;
-
-    private float _openWait = 1f;
-
     public bool finished;
 
-    public UIUnlockBox(List<Unlockable> unlocks, float xpos, float ypos, float wide = -1f, float high = -1f)
+    #endregion
+
+    #region Private Fields
+
+    bool _wrapped = true;
+
+    bool _flash;
+
+    float yOffset = 150;
+
+    float _downWait = 1;
+
+    float _openWait = 1;
+
+    string _oldSong;
+
+    Sprite _frame;
+
+    Sprite _wrappedFrame;
+
+    BitmapFont _font;
+
+    FancyBitmapFont _fancyFont;
+
+    Unlockable _unlock;
+
+    List<Unlockable> _unlocks;
+
+    #endregion
+
+    #region Public Constructors
+
+    public UIUnlockBox(List<Unlockable> unlocks, float xpos, float ypos, float wide = -1, float high = -1)
         : base("", xpos, ypos, wide, high)
     {
         Graphics.fade = 1f;
@@ -47,14 +57,13 @@ public class UIUnlockBox : UIMenu
         _unlock = _unlocks.First();
     }
 
-    public override void Open()
-    {
-        base.Open();
-    }
+    #endregion
+
+    #region Public Methods
 
     public override void Update()
     {
-        yOffset = Lerp.FloatSmooth(yOffset, down ? 150f : 0f, 0.3f, 1.1f);
+        yOffset = Lerp.FloatSmooth(yOffset, down ? 150 : 0, 0.3f, 1.1f);
         if (down)
         {
             if (_unlocks.Count == 0)
@@ -70,9 +79,9 @@ public class UIUnlockBox : UIMenu
                 _downWait -= 0.06f;
                 if (_downWait <= 0f)
                 {
-                    _openWait = 1f;
+                    _openWait = 1;
                     _wrapped = true;
-                    _downWait = 1f;
+                    _downWait = 1;
                     _unlock = _unlocks.First();
                     _unlocks.RemoveAt(0);
                     down = false;
@@ -83,13 +92,11 @@ public class UIUnlockBox : UIMenu
         else
         {
             _openWait -= 0.06f;
-            if (_openWait <= 0f && _wrapped && !_flash)
-            {
+            if (_openWait <= 0 && _wrapped && !_flash)
                 _flash = true;
-            }
             if (_flash)
             {
-                Graphics.flashAdd = Lerp.Float(Graphics.flashAdd, 1f, 0.2f);
+                Graphics.flashAdd = Lerp.Float(Graphics.flashAdd, 1, 0.2f);
                 if (Graphics.flashAdd > 0.99f)
                 {
                     _wrapped = !_wrapped;
@@ -108,17 +115,13 @@ public class UIUnlockBox : UIMenu
                 }
             }
             else
-            {
-                Graphics.flashAdd = Lerp.Float(Graphics.flashAdd, 0f, 0.2f);
-            }
+                Graphics.flashAdd = Lerp.Float(Graphics.flashAdd, 0, 0.2f);
             if (!_wrapped && Input.Pressed("SELECT"))
             {
                 HUD.CloseAllCorners();
                 SFX.Play("resume", 0.6f);
                 if (_oldSong != null && _unlock != null && _unlock.name == "UR THE BEST")
-                {
                     Music.Play(_oldSong);
-                }
                 down = true;
             }
         }
@@ -127,33 +130,33 @@ public class UIUnlockBox : UIMenu
 
     public override void Draw()
     {
-        base.y += yOffset;
+        Y += yOffset;
         if (_wrapped)
         {
-            _wrappedFrame.depth = base.depth;
-            Graphics.Draw(_wrappedFrame, base.x, base.y);
+            _wrappedFrame.Depth = Depth;
+            Graphics.Draw(_wrappedFrame, X, Y);
         }
         else
         {
-            _frame.depth = -0.9f;
-            Graphics.Draw(_frame, base.x, base.y);
+            _frame.Depth = -0.9f;
+            Graphics.Draw(_frame, X, Y);
             string text = "@LWING@UNLOCK@RWING@";
             if (_unlock.name == "UR THE BEST")
-            {
                 text = "@LWING@WOAH!@RWING@";
-            }
-            Vec2 fontPos = new Vec2(0f - _font.GetWidth(text) / 2f, -42f);
-            _font.DrawOutline(text, position + fontPos, Color.White, Color.Black, base.depth + 2);
-            string unlockText = "} " + _unlock.name + " }";
-            _fancyFont.scale = new Vec2(1f, 1f);
-            Vec2 unlockFontPos = new Vec2(0f - _fancyFont.GetWidth(unlockText) / 2f, -25f);
-            _fancyFont.DrawOutline(unlockText, position + unlockFontPos, Colors.DGYellow, Color.Black, base.depth + 2);
-            _fancyFont.scale = new Vec2(0.5f, 0.5f);
+            Vec2 fontPos = new(-_font.GetWidth(text) / 2, -42);
+            _font.DrawOutline(text, Position + fontPos, Color.White, Color.Black, Depth + 2);
+            string unlockText = $"}} {_unlock.name} }}";
+            _fancyFont.Scale = Vec2.One;
+            Vec2 unlockFontPos = new(-_fancyFont.GetWidth(unlockText) / 2, -25);
+            _fancyFont.DrawOutline(unlockText, Position + unlockFontPos, Colors.DGYellow, Color.Black, Depth + 2);
+            _fancyFont.Scale = new Vec2(0.5f);
             string descriptionText = _unlock.description;
-            Vec2 descFontPos = new Vec2(0f - _fancyFont.GetWidth(descriptionText) / 2f, 38f);
-            _fancyFont.DrawOutline(descriptionText, position + descFontPos, Colors.DGGreen, Color.Black, base.depth + 2, 0.5f);
-            _unlock.Draw(base.x, base.y + 10f, base.depth + 4);
+            Vec2 descFontPos = new(-_fancyFont.GetWidth(descriptionText) / 2, 38);
+            _fancyFont.DrawOutline(descriptionText, Position + descFontPos, Colors.DGGreen, Color.Black, Depth + 2, 0.5f);
+            _unlock.Draw(X, Y + 10, Depth + 4);
         }
-        base.y -= yOffset;
+        Y -= yOffset;
     }
+
+    #endregion
 }

@@ -53,7 +53,7 @@ public class BreathSmoke : Thing
         obj.ResetProperties();
         obj._sprite.globalIndex = Thing.GetGlobalIndex();
         obj.globalIndex = Thing.GetGlobalIndex();
-        obj.depth = depth;
+        obj.Depth = depth;
         obj.s1 *= scaleMul;
         obj.s2 *= scaleMul;
         if (shortlife)
@@ -80,7 +80,7 @@ public class BreathSmoke : Thing
         obj.ResetProperties();
         obj._sprite.globalIndex = Thing.GetGlobalIndex();
         obj.globalIndex = Thing.GetGlobalIndex();
-        obj.depth = 0.8f;
+        obj.Depth = 0.8f;
         return obj;
     }
 
@@ -97,30 +97,30 @@ public class BreathSmoke : Thing
         _sprite2 = new SpriteMap("tinySmokeTestBack", 16, 16);
         _sprite2.currentAnimation = null;
         _orbiter.currentAnimation = null;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
     }
 
     private void Init(float xpos, float ypos)
     {
         _orbitInc += 0.2f;
-        _life = 1f;
-        position.x = xpos;
-        position.y = ypos;
+        _life = 1;
+        X = xpos;
+        Y = ypos;
         _sprite.SetAnimation("idle");
         _sprite.frame = 0;
         _orbiter.imageIndex = _sprite.imageIndex;
         _sprite2.imageIndex = _sprite.imageIndex;
-        _sprite.angleDegrees = Rando.Float(360f);
-        _orbiter.angleDegrees = Rando.Float(360f);
+        _sprite.AngleDegrees = Rando.Float(360);
+        _orbiter.AngleDegrees = Rando.Float(360);
         s1 = Rando.Float(0.6f, 1f);
         s2 = Rando.Float(0.6f, 1f);
         hSpeed = Rando.Float(-0.15f, 0.15f);
         vSpeed = Rando.Float(-0.1f, -0.05f);
         _life += Rando.Float(0.2f);
         _sprite.color = Color.White;
-        base.depth = 0.8f;
-        base.alpha = 0.15f;
-        base.layer = Layer.Game;
+        Depth = 0.8f;
+        Alpha = 0.15f;
+        layer = Layer.Game;
     }
 
     public override void Initialize()
@@ -129,23 +129,23 @@ public class BreathSmoke : Thing
 
     public override void Update()
     {
-        base.xscale = 1f;
-        base.yscale = base.xscale;
+        base.ScaleX = 1f;
+        base.ScaleY = base.ScaleX;
         _orbitInc += _rotSpeed;
         _distPulse += _distPulseSpeed;
-        base.alpha -= 0.003f;
+        base.Alpha -= 0.003f;
         vSpeed -= 0.01f;
         hSpeed *= 0.95f;
         if (_sprite.currentAnimation != "puff")
         {
             _sprite.SetAnimation("puff");
         }
-        if (base.alpha < 0f)
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }
-        base.x += hSpeed;
-        base.y += vSpeed;
+        base.X += hSpeed;
+        base.Y += vSpeed;
     }
 
     public override void Draw()
@@ -154,21 +154,21 @@ public class BreathSmoke : Thing
         float xOff = (0f - (float)Math.Sin(_orbitInc) * distPulse) * s1;
         float yOff = (float)Math.Cos(_orbitInc) * distPulse * s1;
         _sprite.imageIndex = _sprite.imageIndex;
-        _sprite.depth = base.depth;
-        _sprite.scale = new Vec2(s1);
-        _sprite.center = center;
-        _sprite.alpha = base.alpha;
-        _sprite.color = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, (byte)(base.alpha * 255f));
-        _sprite.color = Color.White * base.alpha;
-        Graphics.Draw(_sprite, base.x + xOff, base.y + yOff);
+        _sprite.Depth = base.Depth;
+        _sprite.Scale = new Vec2(s1);
+        _sprite.Center = Center;
+        _sprite.Alpha = base.Alpha;
+        _sprite.color = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, (byte)(base.Alpha * 255f));
+        _sprite.color = Color.White * base.Alpha;
+        Graphics.Draw(_sprite, base.X + xOff, base.Y + yOff);
         _sprite2.frame = 0;
         _sprite2.imageIndex = _sprite.imageIndex;
-        _sprite2.angle = _sprite.angle;
-        _sprite2.depth = -0.5f;
-        _sprite2.scale = _sprite.scale;
-        _sprite2.center = center;
+        _sprite2.Angle = _sprite.Angle;
+        _sprite2.Depth = -0.5f;
+        _sprite2.Scale = _sprite.Scale;
+        _sprite2.Center = Center;
         Rando.Float(0.2f);
         _sprite2.color = _sprite.color;
-        Graphics.Draw(_sprite2, base.x + xOff, base.y + yOff);
+        Graphics.Draw(_sprite2, base.X + xOff, base.Y + yOff);
     }
 }

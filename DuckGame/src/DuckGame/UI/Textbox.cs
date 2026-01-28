@@ -56,14 +56,14 @@ public class Textbox
         set
         {
             _size = value;
-            _font.maxWidth = (int)value.x;
+            _font.maxWidth = (int)value.X;
         }
     }
 
     public Textbox(float x, float y, float width, float height, float scale = 1f, int maxLines = int.MaxValue, string emptyText = "")
     {
         _font = new FancyBitmapFont("smallFont");
-        _font.scale = new Vec2(scale);
+        _font.Scale = new Vec2(scale);
         _font.maxWidth = (int)width;
         _position = new Vec2(x, y);
         _size = new Vec2(width, height);
@@ -133,7 +133,7 @@ public class Textbox
     public void Update()
     {
         bool hovered = false;
-        if (Mouse.x > _position.x && Mouse.y > _position.y && Mouse.x < _position.x + _size.x && Mouse.y < _position.y + _size.y)
+        if (Mouse.x > _position.X && Mouse.y > _position.Y && Mouse.x < _position.X + _size.X && Mouse.y < _position.Y + _size.Y)
         {
             hovered = true;
             Editor.hoverTextBox = true;
@@ -260,14 +260,14 @@ public class Textbox
             }
             if (Keyboard.Pressed(Keys.Up))
             {
-                _cursorPosition = _font.GetCharacterIndex(_drawText, _cursorPos.x + 4f * _font.scale.x, _cursorPos.y - (float)_font.characterHeight * _font.scale.y);
+                _cursorPosition = _font.GetCharacterIndex(_drawText, _cursorPos.X + 4f * _font.Scale.X, _cursorPos.Y - (float)_font.characterHeight * _font.Scale.Y);
                 _font._highlightStart = _cursorPosition;
                 _font._highlightEnd = _cursorPosition;
                 _blink = 0.5f;
             }
             if (Keyboard.Pressed(Keys.Down))
             {
-                _cursorPosition = _font.GetCharacterIndex(_drawText, _cursorPos.x + 4f * _font.scale.x, _cursorPos.y + (float)_font.characterHeight * _font.scale.y);
+                _cursorPosition = _font.GetCharacterIndex(_drawText, _cursorPos.X + 4f * _font.Scale.X, _cursorPos.Y + (float)_font.characterHeight * _font.Scale.Y);
                 _font._highlightStart = _cursorPosition;
                 _font._highlightEnd = _cursorPosition;
                 _blink = 0.5f;
@@ -283,7 +283,7 @@ public class Textbox
         _drawText = text;
         if (hovered && Mouse.left == InputState.Pressed)
         {
-            int idx2 = (_cursorPosition = _font.GetCharacterIndex(_drawText, Mouse.x + 4f * _font.scale.x - textDrawPos.x, Mouse.y - textDrawPos.y));
+            int idx2 = (_cursorPosition = _font.GetCharacterIndex(_drawText, Mouse.x + 4f * _font.Scale.X - textDrawPos.X, Mouse.y - textDrawPos.Y));
             _font._highlightStart = idx2;
             _font._highlightEnd = idx2;
             _highlightDrag = true;
@@ -291,7 +291,7 @@ public class Textbox
         }
         if (_highlightDrag)
         {
-            int idx3 = _font.GetCharacterIndex(_drawText, Mouse.x + 4f * _font.scale.x - textDrawPos.x, Mouse.y - textDrawPos.y);
+            int idx3 = _font.GetCharacterIndex(_drawText, Mouse.x + 4f * _font.Scale.X - textDrawPos.X, Mouse.y - textDrawPos.Y);
             _font._highlightEnd = idx3;
             _blink = 0.5f;
         }
@@ -327,8 +327,8 @@ public class Textbox
         if (_inFocus && _blink >= 0.5f)
         {
             Vec2 cursPos = _cursorPos;
-            cursPos.x += 1f * _font.scale.x;
-            Graphics.DrawLine(_position + cursPos, _position + cursPos + new Vec2(0f, 8f * _font.scale.y), Color.White, 0.5f, depth);
+            cursPos.X += 1f * _font.Scale.X;
+            Graphics.DrawLine(_position + cursPos, _position + cursPos + new Vec2(0f, 8f * _font.Scale.Y), Color.White, 0.5f, depth);
         }
     }
 }

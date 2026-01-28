@@ -73,8 +73,8 @@ public struct Vec3 : IEquatable<Vec3>
 
     public Vec3(Vec2 value, float z)
     {
-        x = value.x;
-        y = value.y;
+        x = value.X;
+        y = value.Y;
         this.z = z;
     }
 

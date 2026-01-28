@@ -15,10 +15,10 @@ public class SpaceBackground : BackgroundUpdater
         {
             frame = 3
         };
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
         _speedMult = speedMult;
@@ -35,8 +35,8 @@ public class SpaceBackground : BackgroundUpdater
             _parallax = new ParallaxBackground("background/space", 0f, 0f, 3);
             float speed = 0.4f * _speedMult;
             Sprite s = new Sprite("background/planet4");
-            s.depth = -0.9f;
-            s.position = new Vec2(200f, 50f);
+            s.Depth = -0.9f;
+            s.Position = new Vec2(200f, 50f);
             _parallax.AddZoneSprite(s, 19, 0.99f, speed);
             _parallax.AddZone(20, 0.93f, speed, _moving);
             _parallax.AddZone(21, 0.9f, speed, _moving);

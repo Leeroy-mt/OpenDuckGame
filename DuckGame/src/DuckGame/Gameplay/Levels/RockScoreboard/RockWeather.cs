@@ -937,24 +937,24 @@ public class RockWeather : Thing
         foreach (WeatherParticle p in _particles)
         {
             p.Update();
-            if (p.position.y > 0f)
+            if (p.position.Y > 0f)
             {
                 p.die = true;
             }
-            if (p is RainParticle && p.z < 70f && p.position.y > -62f)
+            if (p is RainParticle && p.z < 70f && p.position.Y > -62f)
             {
                 p.die = true;
-                p.position.y = -58f;
+                p.position.Y = -58f;
             }
-            else if (p is RainParticle && p.z < 40f && p.position.y > -98f)
+            else if (p is RainParticle && p.z < 40f && p.position.Y > -98f)
             {
                 p.die = true;
-                p.position.y = -98f;
+                p.position.Y = -98f;
             }
-            else if (p is RainParticle && p.z < 25f && p.position.x > 175f && p.position.x < 430f && p.position.y > -362f && p.position.y < -352f)
+            else if (p is RainParticle && p.z < 25f && p.position.X > 175f && p.position.X < 430f && p.position.Y > -362f && p.position.Y < -352f)
             {
                 p.die = true;
-                p.position.y = -362f;
+                p.position.Y = -362f;
             }
             if (p.alpha < 0.01f)
             {

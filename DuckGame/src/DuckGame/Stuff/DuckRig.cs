@@ -22,14 +22,14 @@ public class DuckRig
             {
                 Vec2 hatPoint = new Vec2
                 {
-                    x = r.ReadInt32(),
-                    y = r.ReadInt32()
+                    X = r.ReadInt32(),
+                    Y = r.ReadInt32()
                 };
                 _hatPoints.Add(hatPoint);
                 Vec2 chestPoint = new Vec2
                 {
-                    x = r.ReadInt32(),
-                    y = r.ReadInt32()
+                    X = r.ReadInt32(),
+                    Y = r.ReadInt32()
                 };
                 _chestPoints.Add(chestPoint);
             }

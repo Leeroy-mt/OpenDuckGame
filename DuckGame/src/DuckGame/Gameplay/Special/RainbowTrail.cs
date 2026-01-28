@@ -45,7 +45,7 @@ public class RainbowTrail : Thing
         visible = attach.visible;
         killTimer = killTime;
         _attach = attach;
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
     }
 
     public override void Update()
@@ -53,7 +53,7 @@ public class RainbowTrail : Thing
         base.Update();
         if (_initLastPos)
         {
-            _lastPos = _attach.position;
+            _lastPos = _attach.Position;
             _initLastPos = false;
         }
         Thing attach = _attach;
@@ -80,7 +80,7 @@ public class RainbowTrail : Thing
                 }
             }
         }
-        float velLength = attach.velocity.length;
+        float velLength = attach.velocity.Length();
         if (velLength > 3f)
         {
             velLength = 3f;
@@ -95,39 +95,39 @@ public class RainbowTrail : Thing
         _capeWaveMult = velLength * 0.5f;
         float inverseMult = inverseVel * 0.5f;
         offDir = (sbyte)(-_attach.offDir);
-        Vec2 p1 = attach.position;
-        Vec2 p2 = attach.position;
-        base.depth = attach.depth - 18;
-        p1.y += yOffset;
-        p2.y += yOffset;
-        p1.y += sin * _capeWaveMult * (attach.velocity.x * 0.5f);
-        p1.x += sin * _capeWaveMult * (attach.velocity.y * 0.2f);
+        Vec2 p1 = attach.Position;
+        Vec2 p2 = attach.Position;
+        base.Depth = attach.Depth - 18;
+        p1.Y += yOffset;
+        p2.Y += yOffset;
+        p1.Y += sin * _capeWaveMult * (attach.velocity.X * 0.5f);
+        p1.X += sin * _capeWaveMult * (attach.velocity.Y * 0.2f);
         if (capePeices.Count > 0)
         {
             p2 = capePeices[capePeices.Count - 1].p1;
         }
-        capePeices.Add(new TrailPiece(attach.x - (float)(offDir * -10), attach.y + 6f, 0.5f, p1, p2));
+        capePeices.Add(new TrailPiece(attach.X - (float)(offDir * -10), attach.Y + 6f, 0.5f, p1, p2));
         foreach (TrailPiece cp in capePeices)
         {
             if (cp.wide < 1f)
             {
                 cp.wide += 0.05f;
             }
-            cp.p1.x += sin2 * inverseMult * (cp.wide - 0.5f) * 0.9f;
-            cp.p2.x += sin2 * inverseMult * (cp.wide - 0.5f) * 0.9f;
-            cp.p1.y += sin3 * inverseMult * (cp.wide - 0.5f) * 0.8f;
-            cp.p2.y += sin3 * inverseMult * (cp.wide - 0.5f) * 0.8f;
-            cp.p1.y += 1f;
-            cp.p2.y += 1f;
-            cp.p1.x += 0.3f * (float)offDir;
-            cp.p2.x += 0.3f * (float)offDir;
-            cp.position.x += 0.5f * (float)offDir;
+            cp.p1.X += sin2 * inverseMult * (cp.wide - 0.5f) * 0.9f;
+            cp.p2.X += sin2 * inverseMult * (cp.wide - 0.5f) * 0.9f;
+            cp.p1.Y += sin3 * inverseMult * (cp.wide - 0.5f) * 0.8f;
+            cp.p2.Y += sin3 * inverseMult * (cp.wide - 0.5f) * 0.8f;
+            cp.p1.Y += 1f;
+            cp.p2.Y += 1f;
+            cp.p1.X += 0.3f * (float)offDir;
+            cp.p2.X += 0.3f * (float)offDir;
+            cp.position.X += 0.5f * (float)offDir;
         }
         while (capePeices.Count > maxLength)
         {
             capePeices.RemoveAt(0);
         }
-        _lastPos = attach.position;
+        _lastPos = attach.Position;
         visible = attach.visible;
         if (_capeTexture == null)
         {
@@ -152,7 +152,7 @@ public class RainbowTrail : Thing
         {
             return;
         }
-        float deep = Graphics.AdjustDepth(base.depth);
+        float deep = Graphics.AdjustDepth(base.Depth);
         for (int i = capePeices.Count - 1; i >= 0; i--)
         {
             TrailPiece cp = capePeices[i];
@@ -167,7 +167,7 @@ public class RainbowTrail : Thing
             if (hasLastPart)
             {
                 Vec2 v2 = pos - lastPart;
-                float partLength = v2.length;
+                float partLength = v2.Length();
                 curLength += partLength;
                 v2.Normalize();
                 if (curLength > maxCapeLength)

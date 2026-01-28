@@ -8,7 +8,7 @@ public class BoardLighting : Thing
         : base(xpos, ypos)
     {
         _lightRay = new Sprite("rockThrow/lightRays");
-        center = new Vec2(305f, 0f);
+        Center = new Vec2(305f, 0f);
         graphic = _lightRay;
     }
 

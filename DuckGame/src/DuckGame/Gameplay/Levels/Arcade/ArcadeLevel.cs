@@ -183,7 +183,7 @@ public class ArcadeLevel : XMLLevel
                     {
                         if (Thing.LoadThing(mach.objects.objects.FirstOrDefault()) is ImportMachine m)
                         {
-                            m.position = import.position;
+                            m.Position = import.Position;
                             Level.Remove(import);
                             Level.Add(m);
                             base.things.RefreshState();
@@ -225,10 +225,10 @@ public class ArcadeLevel : XMLLevel
             challenge.unlocked = challenge.CheckUnlocked(ignoreAlreadyUnlocked: false);
         }
         _hud = new ArcadeHUD();
-        _hud.alpha = 0f;
+        _hud.Alpha = 0f;
         Level.Add(_hud);
         _unlockScreen = new UnlockScreen();
-        _unlockScreen.alpha = 0f;
+        _unlockScreen.Alpha = 0f;
         Level.Add(_unlockScreen);
         _pauseGroup = new UIComponent(Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 0f, 0f);
         _pauseMenu = new UIMenu("@LWING@ARCADE@RWING@", Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 160f, -1f, "@CANCEL@CLOSE  @SELECT@SELECT");
@@ -326,13 +326,13 @@ public class ArcadeLevel : XMLLevel
             {
                 SFX.Play("ching");
                 spawnKey = false;
-                Key k = new Key(_prizeTable.x, _prizeTable.y);
+                Key k = new Key(_prizeTable.X, _prizeTable.Y);
                 k.vSpeed = -4f;
-                k.depth = _duck.depth + 50;
-                Level.Add(SmallSmoke.New(k.x + Rando.Float(-4f, 4f), k.y + Rando.Float(-4f, 4f)));
-                Level.Add(SmallSmoke.New(k.x + Rando.Float(-4f, 4f), k.y + Rando.Float(-4f, 4f)));
-                Level.Add(SmallSmoke.New(k.x + Rando.Float(-4f, 4f), k.y + Rando.Float(-4f, 4f)));
-                Level.Add(SmallSmoke.New(k.x + Rando.Float(-4f, 4f), k.y + Rando.Float(-4f, 4f)));
+                k.Depth = _duck.Depth + 50;
+                Level.Add(SmallSmoke.New(k.X + Rando.Float(-4f, 4f), k.Y + Rando.Float(-4f, 4f)));
+                Level.Add(SmallSmoke.New(k.X + Rando.Float(-4f, 4f), k.Y + Rando.Float(-4f, 4f)));
+                Level.Add(SmallSmoke.New(k.X + Rando.Float(-4f, 4f), k.Y + Rando.Float(-4f, 4f)));
+                Level.Add(SmallSmoke.New(k.X + Rando.Float(-4f, 4f), k.Y + Rando.Float(-4f, 4f)));
                 Level.Add(k);
             }
         }
@@ -440,14 +440,14 @@ public class ArcadeLevel : XMLLevel
             bool done = false;
             if (_desiredState == ArcadeState.ViewChallenge)
             {
-                _duck.alpha = Lerp.FloatSmooth(_duck.alpha, 0f, 0.1f);
+                _duck.Alpha = Lerp.FloatSmooth(_duck.Alpha, 0f, 0.1f);
                 _followCam.manualViewSize = Lerp.FloatSmooth(_followCam.manualViewSize, 2f, 0.16f);
                 if (_followCam.manualViewSize < 30f)
                 {
                     Layer.Game.fade = Lerp.Float(Layer.Game.fade, 0f, 0.08f);
                     Layer.Background.fade = Lerp.Float(Layer.Game.fade, 0f, 0.08f);
-                    _hud.alpha = Lerp.Float(_hud.alpha, 1f, 0.08f);
-                    if (_followCam.manualViewSize < 3f && _hud.alpha == 1f && Layer.Game.fade == 0f)
+                    _hud.Alpha = Lerp.Float(_hud.Alpha, 1f, 0.08f);
+                    if (_followCam.manualViewSize < 3f && _hud.Alpha == 1f && Layer.Game.fade == 0f)
                     {
                         done = true;
                     }
@@ -461,20 +461,20 @@ public class ArcadeLevel : XMLLevel
                     _followCam.Add(_duck);
                     HUD.CloseAllCorners();
                 }
-                _duck.alpha = Lerp.FloatSmooth(_duck.alpha, 1f, 0.1f, 1.1f);
+                _duck.Alpha = Lerp.FloatSmooth(_duck.Alpha, 1f, 0.1f, 1.1f);
                 if (_state == ArcadeState.ViewChallenge || _state == ArcadeState.UnlockScreen)
                 {
                     _followCam.manualViewSize = Lerp.FloatSmooth(_followCam.manualViewSize, _followCam.viewSize, 0.14f, 1.05f);
                 }
                 Layer.Game.fade = Lerp.Float(Layer.Game.fade, 1f, 0.05f);
                 Layer.Background.fade = Lerp.Float(Layer.Game.fade, 1f, 0.05f);
-                _hud.alpha = Lerp.Float(_hud.alpha, 0f, 0.08f);
-                _unlockScreen.alpha = Lerp.Float(_unlockScreen.alpha, 0f, 0.08f);
-                if ((_followCam.manualViewSize < 0f || _followCam.manualViewSize == _followCam.viewSize) && _hud.alpha == 0f && Layer.Game.fade == 1f)
+                _hud.Alpha = Lerp.Float(_hud.Alpha, 0f, 0.08f);
+                _unlockScreen.Alpha = Lerp.Float(_unlockScreen.Alpha, 0f, 0.08f);
+                if ((_followCam.manualViewSize < 0f || _followCam.manualViewSize == _followCam.viewSize) && _hud.Alpha == 0f && Layer.Game.fade == 1f)
                 {
                     done = true;
                     _followCam.manualViewSize = -1f;
-                    _duck.alpha = 1f;
+                    _duck.Alpha = 1f;
                 }
                 if (Unlockables.HasPendingUnlocks())
                 {
@@ -489,20 +489,20 @@ public class ArcadeLevel : XMLLevel
                     _followCam.Add(_duck);
                     HUD.CloseAllCorners();
                 }
-                _duck.alpha = Lerp.FloatSmooth(_duck.alpha, 1f, 0.1f, 1.1f);
+                _duck.Alpha = Lerp.FloatSmooth(_duck.Alpha, 1f, 0.1f, 1.1f);
                 if (_state == ArcadeState.ViewChallenge || _state == ArcadeState.UnlockScreen)
                 {
                     _followCam.manualViewSize = Lerp.FloatSmooth(_followCam.manualViewSize, _followCam.viewSize, 0.14f, 1.05f);
                 }
                 Layer.Game.fade = Lerp.Float(Layer.Game.fade, 1f, 0.05f);
                 Layer.Background.fade = Lerp.Float(Layer.Game.fade, 1f, 0.05f);
-                _hud.alpha = Lerp.Float(_hud.alpha, 0f, 0.08f);
-                _unlockScreen.alpha = Lerp.Float(_unlockScreen.alpha, 0f, 0.08f);
-                if ((_followCam.manualViewSize < 0f || _followCam.manualViewSize == _followCam.viewSize) && _hud.alpha == 0f && Layer.Game.fade == 1f)
+                _hud.Alpha = Lerp.Float(_hud.Alpha, 0f, 0.08f);
+                _unlockScreen.Alpha = Lerp.Float(_unlockScreen.Alpha, 0f, 0.08f);
+                if ((_followCam.manualViewSize < 0f || _followCam.manualViewSize == _followCam.viewSize) && _hud.Alpha == 0f && Layer.Game.fade == 1f)
                 {
                     done = true;
                     _followCam.manualViewSize = -1f;
-                    _duck.alpha = 1f;
+                    _duck.Alpha = 1f;
                 }
             }
             else if (_desiredState == ArcadeState.UnlockMachine)
@@ -517,17 +517,17 @@ public class ArcadeLevel : XMLLevel
                 {
                     _followCam.manualViewSize = Lerp.FloatSmooth(_followCam.manualViewSize, _followCam.viewSize, 0.14f, 1.05f);
                 }
-                _duck.alpha = Lerp.FloatSmooth(_duck.alpha, 1f, 0.1f, 1.1f);
+                _duck.Alpha = Lerp.FloatSmooth(_duck.Alpha, 1f, 0.1f, 1.1f);
                 Layer.Game.fade = Lerp.Float(Layer.Game.fade, 1f, 0.05f);
                 Layer.Background.fade = Lerp.Float(Layer.Game.fade, 1f, 0.05f);
-                _hud.alpha = Lerp.Float(_hud.alpha, 0f, 0.08f);
-                _unlockScreen.alpha = Lerp.Float(_unlockScreen.alpha, 0f, 0.08f);
+                _hud.Alpha = Lerp.Float(_hud.Alpha, 0f, 0.08f);
+                _unlockScreen.Alpha = Lerp.Float(_unlockScreen.Alpha, 0f, 0.08f);
                 _unlockMachineWait = 1f;
-                if ((_followCam.manualViewSize < 0f || _followCam.manualViewSize == _followCam.viewSize) && _hud.alpha == 0f && Layer.Game.fade == 1f)
+                if ((_followCam.manualViewSize < 0f || _followCam.manualViewSize == _followCam.viewSize) && _hud.Alpha == 0f && Layer.Game.fade == 1f)
                 {
                     done = true;
                     _followCam.manualViewSize = -1f;
-                    _duck.alpha = 1f;
+                    _duck.Alpha = 1f;
                 }
             }
             else if (_desiredState == ArcadeState.LaunchChallenge)
@@ -537,23 +537,23 @@ public class ArcadeLevel : XMLLevel
                     HUD.CloseAllCorners();
                 }
                 Music.volume = Lerp.Float(Music.volume, 0f, 0.01f);
-                _hud.alpha = Lerp.Float(_hud.alpha, 0f, 0.02f);
-                _unlockScreen.alpha = Lerp.Float(_unlockScreen.alpha, 0f, 0.08f);
-                if (_hud.alpha == 0f)
+                _hud.Alpha = Lerp.Float(_hud.Alpha, 0f, 0.02f);
+                _unlockScreen.Alpha = Lerp.Float(_unlockScreen.Alpha, 0f, 0.08f);
+                if (_hud.Alpha == 0f)
                 {
                     done = true;
                 }
             }
             if (_desiredState == ArcadeState.UnlockScreen)
             {
-                _duck.alpha = Lerp.FloatSmooth(_duck.alpha, 0f, 0.1f);
+                _duck.Alpha = Lerp.FloatSmooth(_duck.Alpha, 0f, 0.1f);
                 _followCam.manualViewSize = Lerp.FloatSmooth(_followCam.manualViewSize, 2f, 0.16f);
                 if (_followCam.manualViewSize < 30f)
                 {
                     Layer.Game.fade = Lerp.Float(Layer.Game.fade, 0f, 0.08f);
                     Layer.Background.fade = Lerp.Float(Layer.Game.fade, 0f, 0.08f);
-                    _unlockScreen.alpha = Lerp.Float(_unlockScreen.alpha, 1f, 0.08f);
-                    if (_followCam.manualViewSize < 3f && _unlockScreen.alpha == 1f && Layer.Game.fade == 0f)
+                    _unlockScreen.Alpha = Lerp.Float(_unlockScreen.Alpha, 1f, 0.08f);
+                    if (_followCam.manualViewSize < 3f && _unlockScreen.Alpha == 1f && Layer.Game.fade == 0f)
                     {
                         done = true;
                     }
@@ -693,13 +693,13 @@ public class ArcadeLevel : XMLLevel
         {
             Layer.Game.fade = Lerp.Float(Layer.Game.fade, 1f, 0.08f);
             Layer.Background.fade = Lerp.Float(Layer.Game.fade, 1f, 0.08f);
-            _hud.alpha = Lerp.Float(_hud.alpha, 0f, 0.08f);
+            _hud.Alpha = Lerp.Float(_hud.Alpha, 0f, 0.08f);
             if (_state == ArcadeState.Normal)
             {
                 object hover = null;
                 foreach (ArcadeMachine machine2 in _challenges)
                 {
-                    _ = (_duck.position - machine2.position).length;
+                    _ = (_duck.Position - machine2.Position).Length();
                     _ = 20f;
                     if (machine2.hover)
                     {
@@ -771,12 +771,12 @@ public class ArcadeLevel : XMLLevel
                 Chancy.hover = false;
                 if (!Chancy.atCounter)
                 {
-                    if ((_duck.position - Chancy.standingPosition).length < 22f)
+                    if ((_duck.Position - Chancy.standingPosition).Length() < 22f)
                     {
                         hover = Chancy.context;
                         Chancy.hover = true;
                     }
-                    if (Chancy.standingPosition.x < Layer.Game.camera.left - 16f || Chancy.standingPosition.x > Layer.Game.camera.right + 16f || Chancy.standingPosition.y < Layer.Game.camera.top - 16f || Chancy.standingPosition.y > Layer.Game.camera.bottom + 16f)
+                    if (Chancy.standingPosition.X < Layer.Game.camera.left - 16f || Chancy.standingPosition.X > Layer.Game.camera.right + 16f || Chancy.standingPosition.Y < Layer.Game.camera.top - 16f || Chancy.standingPosition.Y > Layer.Game.camera.bottom + 16f)
                     {
                         Chancy.atCounter = true;
                         Chancy.activeChallenge = null;
@@ -908,7 +908,7 @@ public class ArcadeLevel : XMLLevel
             Graphics.fade = Lerp.Float(Graphics.fade, 1f, 0.05f);
             Layer.Game.fade = Lerp.Float(Layer.Game.fade, 0f, 0.05f);
             Layer.Background.fade = Lerp.Float(Layer.Game.fade, 0f, 0.05f);
-            _hud.alpha = Lerp.Float(_hud.alpha, 1f, 0.05f);
+            _hud.Alpha = Lerp.Float(_hud.Alpha, 1f, 0.05f);
             if (_hud.quitOut)
             {
                 _hud.quitOut = false;
@@ -918,11 +918,11 @@ public class ArcadeLevel : XMLLevel
                     List<ChallengeData> c = Challenges.GetEligibleIncompleteChancyChallenges(Profiles.active[0]);
                     if (c.Count > 0)
                     {
-                        Vec2 pos = _duck.position;
-                        ArcadeMachine near = Level.Nearest<ArcadeMachine>(_duck.x, _duck.y);
+                        Vec2 pos = _duck.Position;
+                        ArcadeMachine near = Level.Nearest<ArcadeMachine>(_duck.X, _duck.Y);
                         if (near != null)
                         {
-                            pos = near.position;
+                            pos = near.Position;
                         }
                         c.OrderBy((ChallengeData v) => v.GetRequirementValue());
                         Chancy.AddProposition(c[c.Count - 1], pos);

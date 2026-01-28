@@ -44,7 +44,7 @@ public class Vine : Holdable, ISwing
                 VineSection v = new VineSection();
                 v.pos2 = cur.attach1Point;
                 v.pos1 = cur.attach2Point;
-                v.length = (v.pos1 - v.pos2).length;
+                v.length = (v.pos1 - v.pos2).Length();
                 cur = cur.attach2 as Rope;
                 curSection.Add(v);
                 if (cur == null && curVine.nextVine != null)
@@ -85,16 +85,16 @@ public class Vine : Holdable, ISwing
     {
         _sprite = new SpriteMap("vine", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _vinePartSprite = new Sprite("vine");
-        _vinePartSprite.center = new Vec2(8f, 0f);
+        _vinePartSprite.Center = new Vec2(8f, 0f);
         collisionOffset = new Vec2(-5f, -4f);
         collisionSize = new Vec2(11f, 7f);
         weight = 0.1f;
         thickness = 0.1f;
         canPickUp = false;
         initLength = init;
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
     }
 
     public override void OnPressAction()
@@ -110,14 +110,14 @@ public class Vine : Holdable, ISwing
         base.Initialize();
         _harpoon = new Harpoon(this);
         Level.Add(_harpoon);
-        if (!(Level.current is Editor))
+        if (Level.current is not Editor)
         {
-            Vec2 pos = position;
-            position.y += (int)length * 16 - 8;
+            Vec2 pos = Position;
+            Y += (int)length * 16 - 8;
             _harpoon.noisy = false;
-            _harpoon.Fire(pos + new Vec2(0f, -8f), new Vec2(0f, -1f));
-            _rope = new Rope(base.x, base.y, null, _harpoon, base.duck, vine: true, _vinePartSprite);
-            if (initLength != 0f)
+            _harpoon.Fire(pos + new Vec2(0, -8), new Vec2(0, -1));
+            _rope = new Rope(X, Y, null, _harpoon, duck, vine: true, _vinePartSprite);
+            if (initLength != 0)
             {
                 _rope.properLength = initLength;
             }
@@ -152,7 +152,7 @@ public class Vine : Holdable, ISwing
         if (nextVine != null && nextVine._rope != null)
         {
             nextVine._rope.attach2 = _rope.attach2;
-            nextVine._rope.properLength = (nextVine._rope.attach1Point - _rope.attach2Point).length;
+            nextVine._rope.properLength = (nextVine._rope.attach1Point - _rope.attach2Point).Length();
             nextVine.prevVine = null;
             nextVine = null;
         }
@@ -191,16 +191,16 @@ public class Vine : Holdable, ISwing
 
     public void MoveDuck()
     {
-        Vec2 travel = _rope.attach1.position - _rope.attach2.position;
-        if (travel.length > _rope.properLength)
+        Vec2 travel = _rope.attach1.Position - _rope.attach2.Position;
+        if (travel.Length() > _rope.properLength)
         {
-            travel = travel.normalized;
+            travel = travel.Normalized;
             if (base.duck != null)
             {
                 PhysicsObject attach = base.duck;
-                _ = attach.position;
-                attach.position = _rope.attach2.position + travel * _rope.properLength;
-                _ = attach.position - attach.lastPosition;
+                _ = attach.Position;
+                attach.Position = _rope.attach2.Position + travel * _rope.properLength;
+                _ = attach.Position - attach.lastPosition;
             }
         }
     }
@@ -223,11 +223,11 @@ public class Vine : Holdable, ISwing
         }
         if (owner != null)
         {
-            _rope.position = owner.position;
+            _rope.Position = owner.Position;
         }
         else
         {
-            _rope.position = position;
+            _rope.Position = Position;
             if (base.prevOwner != null)
             {
                 PhysicsObject obj = base.prevOwner as PhysicsObject;
@@ -264,16 +264,16 @@ public class Vine : Holdable, ISwing
             frictionMult = 1f;
             gravMultiplier = 1f;
         }
-        Vec2 travel = _rope.attach1.position - _rope.attach2.position;
+        Vec2 travel = _rope.attach1.Position - _rope.attach2.Position;
         if (_rope.properLength < 0f)
         {
-            _rope.properLength = travel.length;
+            _rope.properLength = travel.Length();
         }
-        if (!(travel.length > _rope.properLength))
+        if (!(travel.Length() > _rope.properLength))
         {
             return;
         }
-        travel = travel.normalized;
+        travel = travel.Normalized;
         if (base.duck != null)
         {
             PhysicsObject attach = base.duck;
@@ -282,22 +282,22 @@ public class Vine : Holdable, ISwing
                 Degrapple();
                 return;
             }
-            _ = attach.position;
-            attach.position = _rope.attach2.position + travel * _rope.properLength;
-            Vec2 dif = attach.position - attach.lastPosition;
+            _ = attach.Position;
+            attach.Position = _rope.attach2.Position + travel * _rope.properLength;
+            Vec2 dif = attach.Position - attach.lastPosition;
             if (changeSpeed)
             {
-                attach.hSpeed = dif.x;
-                attach.vSpeed = dif.y;
+                attach.hSpeed = dif.X;
+                attach.vSpeed = dif.Y;
             }
         }
         else
         {
-            _ = position;
-            position = _rope.attach2.position + travel * _rope.properLength;
-            Vec2 dif2 = position - base.lastPosition;
-            hSpeed = dif2.x;
-            vSpeed = dif2.y;
+            _ = Position;
+            Position = _rope.attach2.Position + travel * _rope.properLength;
+            Vec2 dif2 = Position - base.lastPosition;
+            hSpeed = dif2.X;
+            vSpeed = dif2.Y;
         }
     }
 
@@ -305,11 +305,11 @@ public class Vine : Holdable, ISwing
     {
         if (Level.current is Editor)
         {
-            graphic.center = new Vec2(8f, 8f);
-            graphic.depth = base.depth;
+            graphic.Center = new Vec2(8f, 8f);
+            graphic.Depth = base.Depth;
             for (int i = 0; i < (int)length; i++)
             {
-                Graphics.Draw(graphic, base.x, base.y + (float)(i * 16));
+                Graphics.Draw(graphic, base.X, base.Y + (float)(i * 16));
             }
         }
     }

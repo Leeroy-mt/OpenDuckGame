@@ -3,7 +3,7 @@ using System;
 
 namespace DuckGame;
 
-public class Sprite : Transform, ICloneable<Sprite>, ICloneable
+public class Sprite : Transform, ICloneable
 {
     private int _globalIndex = Thing.GetGlobalIndex();
 
@@ -115,7 +115,7 @@ public class Sprite : Transform, ICloneable<Sprite>, ICloneable
 
     public void CenterOrigin()
     {
-        center = new Vec2((float)Math.Round((float)width / 2f), (float)Math.Round((float)height / 2f));
+        Center = new Vec2((float)Math.Round((float)width / 2f), (float)Math.Round((float)height / 2f));
     }
 
     public Sprite()
@@ -125,38 +125,38 @@ public class Sprite : Transform, ICloneable<Sprite>, ICloneable
     public Sprite(Tex2D tex, float x = 0f, float y = 0f)
     {
         _texture = tex;
-        position = new Vec2(x, y);
+        Position = new Vec2(x, y);
     }
 
     public Sprite(RenderTarget2D tex, float x = 0f, float y = 0f)
     {
         _texture = tex;
         _renderTexture = tex;
-        position = new Vec2(x, y);
+        Position = new Vec2(x, y);
     }
 
     public Sprite(string tex, float x = 0f, float y = 0f)
     {
         _texture = Content.Load<Tex2D>(tex);
-        position = new Vec2(x, y);
+        Position = new Vec2(x, y);
     }
 
     public Sprite(string tex, Vec2 pCenter)
     {
         _texture = Content.Load<Tex2D>(tex);
-        center = pCenter;
+        Center = pCenter;
     }
 
     public virtual void Draw()
     {
         _texture.currentObjectIndex = _globalIndex;
-        Graphics.Draw(_texture, position, null, _color * base.alpha, angle, center, base.scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.depth);
+        Graphics.Draw(_texture, Position, null, _color * base.Alpha, Angle, Center, base.Scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
     }
 
     public virtual void Draw(Rectangle r)
     {
         _texture.currentObjectIndex = _globalIndex;
-        Graphics.Draw(_texture, position, r, _color * base.alpha, angle, center, base.scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.depth);
+        Graphics.Draw(_texture, Position, r, _color * base.Alpha, Angle, Center, base.Scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
     }
 
     public virtual void CheapDraw(bool flipH)
@@ -169,12 +169,12 @@ public class Sprite : Transform, ICloneable<Sprite>, ICloneable
         {
             flipH = _flipH,
             flipV = _flipV,
-            position = position,
-            scale = base.scale,
-            center = center,
-            depth = base.depth,
-            alpha = base.alpha,
-            angle = angle,
+            Position = Position,
+            Scale = base.Scale,
+            Center = Center,
+            Depth = base.Depth,
+            Alpha = base.Alpha,
+            Angle = Angle,
             color = color
         };
     }

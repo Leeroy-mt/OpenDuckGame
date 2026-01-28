@@ -30,7 +30,7 @@ public class SpikeHelm : Helmet
 
     private Vec2 spikePoint => Offset(new Vec2(0f, -8f));
 
-    private Vec2 spikeDir => OffsetLocal(new Vec2(0f, -8f)).normalized;
+    private Vec2 spikeDir => OffsetLocal(new Vec2(0f, -8f)).Normalized;
 
     public override bool action
     {
@@ -54,7 +54,7 @@ public class SpikeHelm : Helmet
         _pickupSprite = new SpriteMap("spikehelm", 17, 22, 0);
         _sprite = new SpriteMap("spikehelmWorn", 17, 22);
         graphic = _pickupSprite;
-        center = new Vec2(9f, 10f);
+        Center = new Vec2(9f, 10f);
         _hasUnequippedCenter = true;
         collisionOffset = new Vec2(-6f, -4f);
         collisionSize = new Vec2(11f, 10f);
@@ -62,8 +62,8 @@ public class SpikeHelm : Helmet
         _equippedCollisionSize = new Vec2(11f, 12f);
         _hasEquippedCollision = true;
         strappedOn = true;
-        _sprite.center = new Vec2(8f, 10f);
-        base.depth = 0.0001f;
+        _sprite.Center = new Vec2(8f, 10f);
+        base.Depth = 0.0001f;
         physicsMaterial = PhysicsMaterial.Metal;
         _isArmor = true;
         _equippedThickness = 3f;
@@ -120,7 +120,7 @@ public class SpikeHelm : Helmet
             foreach (MaterialThing t in enumerable)
             {
                 Vec2 dif = vel - t.velocity;
-                if (t == this || t == base.equippedDuck || t == oldPoke || (t.velocity.length < 0.5f && !(t is IAmADuck)) || Vec2.Dot(dif.normalized, spikeDirection) < 0.65f || dif.length < 1.5f || _equippedDuck == null)
+                if (t == this || t == base.equippedDuck || t == oldPoke || (t.velocity.Length() < 0.5f && !(t is IAmADuck)) || Vec2.Dot(dif.Normalized, spikeDirection) < 0.65f || dif.Length() < 1.5f || _equippedDuck == null)
                 {
                     continue;
                 }
@@ -143,7 +143,7 @@ public class SpikeHelm : Helmet
                     MaterialThing m = t;
                     if (m != null)
                     {
-                        if (!(t is Duck) || !(t as Duck).HasEquipment(typeof(Boots)) || (t as Duck).sliding || !(spikeDirection.y < 0.5f) || !(Math.Abs(spikeDirection.x) < 0.2f))
+                        if (!(t is Duck) || !(t as Duck).HasEquipment(typeof(Boots)) || (t as Duck).sliding || !(spikeDirection.Y < 0.5f) || !(Math.Abs(spikeDirection.X) < 0.2f))
                         {
                             Duck d = Duck.GetAssociatedDuck(m);
                             if ((d == null || (d != _equippedDuck && (_equippedDuck == null || !_equippedDuck.IsOwnedBy(d)))) && (d != _filteredDuck || throwCooldown <= 0))
@@ -160,11 +160,11 @@ public class SpikeHelm : Helmet
                     t.owner = this;
                     poked = t as PhysicsObject;
                     poked.enablePhysics = false;
-                    _pokedOldDepth = poked.depth;
+                    _pokedOldDepth = poked.Depth;
                     if (poked is Holdable)
                     {
                         (poked as Holdable)._hasOldDepth = true;
-                        (poked as Holdable)._oldDepth = poked.depth;
+                        (poked as Holdable)._oldDepth = poked.Depth;
                     }
                     if (t is YellowBarrel)
                     {
@@ -180,8 +180,8 @@ public class SpikeHelm : Helmet
         prevPoke = spikePoint;
         if (_equippedDuck == null)
         {
-            center = new Vec2(9f, 10f);
-            base.depth = 0.0001f;
+            Center = new Vec2(9f, 10f);
+            base.Depth = 0.0001f;
             collisionOffset = new Vec2(-6f, -4f);
             collisionSize = new Vec2(11f, 10f);
         }
@@ -202,12 +202,12 @@ public class SpikeHelm : Helmet
         {
             Fondle(poked);
         }
-        poked.position = Offset(new Vec2(1f, -9f));
+        poked.Position = Offset(new Vec2(1f, -9f));
         poked.lastGrounded = DateTime.Now;
         poked.visible = false;
         poked.solid = false;
         poked.grounded = true;
-        if (poked.removeFromLevel || poked.y < base.level.topLeft.y - 2000f || !poked.active)
+        if (poked.removeFromLevel || poked.Y < base.level.topLeft.Y - 2000f || !poked.active)
         {
             ReleasePokedObject();
         }
@@ -217,7 +217,7 @@ public class SpikeHelm : Helmet
             poked.vSpeed = base.duck.vSpeed;
             if (base.equippedDuck.ragdoll == null)
             {
-                poked.solid = base.equippedDuck.velocity.length < 0.05f;
+                poked.solid = base.equippedDuck.velocity.Length() < 0.05f;
             }
             if (base.equippedDuck.ragdoll != null && prevRagdoll == null)
             {
@@ -233,14 +233,14 @@ public class SpikeHelm : Helmet
         {
             poked.hSpeed = 0f;
             poked.vSpeed = -2f;
-            poked.y += 8f;
+            poked.Y += 8f;
             poked.owner = null;
             poked.enablePhysics = true;
-            poked.depth = _pokedOldDepth;
+            poked.Depth = _pokedOldDepth;
             poked.visible = true;
             poked.solid = true;
             poked.grounded = false;
-            poked.angle = 0f;
+            poked.Angle = 0f;
             oldPoke = poked;
             oldPokeCooldown = 0.5f;
         }
@@ -257,9 +257,9 @@ public class SpikeHelm : Helmet
         (_pickupSprite as SpriteMap).frame = frm;
         if (poked != null)
         {
-            poked.position = Offset(new Vec2(1f, -9f));
-            poked.depth = base.depth + 2;
-            poked.angle = _sprite.angle;
+            poked.Position = Offset(new Vec2(1f, -9f));
+            poked.Depth = base.Depth + 2;
+            poked.Angle = _sprite.Angle;
             poked.Draw();
         }
     }

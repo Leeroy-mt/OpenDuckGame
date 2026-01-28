@@ -76,7 +76,7 @@ public class TargetDuck : Duck, ISequenceItem
         _base = new Sprite("popupPad");
         _woodWing = new Sprite("woodWing");
         graphic = _sprite;
-        center = new Vec2(16f, 22f);
+        Center = new Vec2(16f, 22f);
         _stance = stance;
         UpdateCollision();
         physicsMaterial = PhysicsMaterial.Wood;
@@ -106,11 +106,11 @@ public class TargetDuck : Duck, ISequenceItem
         {
             if (_stance != TargetStance.Fly)
             {
-                base.scale = new Vec2(1f, 0f);
+                base.Scale = new Vec2(1f, 0f);
             }
             else
             {
-                base.scale = new Vec2(0f, 1f);
+                base.Scale = new Vec2(0f, 1f);
             }
             ChallengeLevel.allTargetsShot = false;
             _autoFireWait = autofire.value;
@@ -135,7 +135,7 @@ public class TargetDuck : Duck, ISequenceItem
 
     public override void ReturnItemToWorld(Thing t)
     {
-        Vec2 vec = position + new Vec2(offDir * 3, 0f);
+        Vec2 vec = Position + new Vec2(offDir * 3, 0f);
         Block rightWall = Level.CheckLine<Block>(vec, vec + new Vec2(16f, 0f));
         if (rightWall != null && rightWall.solid && t.right > rightWall.left)
         {
@@ -229,10 +229,10 @@ public class TargetDuck : Duck, ISequenceItem
             _collisionOffset = new Vec2(-6000f, 0f);
             collisionSize = new Vec2(2f, 2f);
         }
-        _collisionOffset.y += 10f;
-        _collisionSize.y -= 1f;
-        _featherVolume.collisionSize = new Vec2(collisionSize.x + 2f, collisionSize.y + 2f);
-        _featherVolume.collisionOffset = new Vec2(collisionOffset.x - 1f, collisionOffset.y - 1f);
+        _collisionOffset.Y += 10f;
+        _collisionSize.Y -= 1f;
+        _featherVolume.collisionSize = new Vec2(collisionSize.X + 2f, collisionSize.Y + 2f);
+        _featherVolume.collisionOffset = new Vec2(collisionOffset.X - 1f, collisionOffset.Y - 1f);
     }
 
     public override void OnSequenceActivate()
@@ -295,14 +295,14 @@ public class TargetDuck : Duck, ISequenceItem
             }
             for (int i = 0; i < 4; i++)
             {
-                WoodDebris woodDebris = WoodDebris.New(base.x - 8f + Rando.Float(16f), base.y - 20f + Rando.Float(16f));
-                woodDebris.hSpeed = ((Rando.Float(1f) > 0.5f) ? 1f : (-1f)) * Rando.Float(3f) + (float)Math.Sign(flyDir.x) * 0.5f;
+                WoodDebris woodDebris = WoodDebris.New(base.X - 8f + Rando.Float(16f), base.Y - 20f + Rando.Float(16f));
+                woodDebris.hSpeed = ((Rando.Float(1f) > 0.5f) ? 1f : (-1f)) * Rando.Float(3f) + (float)Math.Sign(flyDir.X) * 0.5f;
                 woodDebris.vSpeed = 0f - Rando.Float(1f);
                 Level.Add(woodDebris);
             }
             for (int j = 0; j < 2; j++)
             {
-                Level.Add(Feather.New(base.x, base.y - 16f, base.persona));
+                Level.Add(Feather.New(base.X, base.Y - 16f, base.persona));
             }
             PopDown();
         }
@@ -324,9 +324,9 @@ public class TargetDuck : Duck, ISequenceItem
         {
             for (int i = 0; i < 2; i++)
             {
-                WoodDebris woodDebris = WoodDebris.New(hitPos.x, hitPos.y);
-                woodDebris.hSpeed = (0f - bullet.travelDirNormalized.x) * 2f * (Rando.Float(1f) + 0.3f);
-                woodDebris.vSpeed = (0f - bullet.travelDirNormalized.y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
+                WoodDebris woodDebris = WoodDebris.New(hitPos.X, hitPos.Y);
+                woodDebris.hSpeed = (0f - bullet.travelDirNormalized.X) * 2f * (Rando.Float(1f) + 0.3f);
+                woodDebris.vSpeed = (0f - bullet.travelDirNormalized.Y) * 2f * (Rando.Float(1f) + 0.3f) - Rando.Float(2f);
                 Level.Add(woodDebris);
             }
         }
@@ -367,7 +367,7 @@ public class TargetDuck : Duck, ISequenceItem
         }
         _skeleton.head.position = Offset(DuckRig.GetHatPoint(f) + new Vec2(0f, -off));
         _skeleton.upperTorso.position = Offset(DuckRig.GetChestPoint(f) + new Vec2(0f, -off));
-        _skeleton.lowerTorso.position = position + new Vec2(0f, 10 - off);
+        _skeleton.lowerTorso.position = Position + new Vec2(0f, 10 - off);
         if (sliding)
         {
             _skeleton.head.orientation = Maths.DegToRad(90f);
@@ -393,7 +393,7 @@ public class TargetDuck : Duck, ISequenceItem
             return;
         }
         holdObject.UpdateAction();
-        holdObject.position = base.armPosition + holdObject.holdOffset + new Vec2(holdOffX, holdOffY) + new Vec2(2 * offDir, 0f);
+        holdObject.Position = base.armPosition + holdObject.holdOffset + new Vec2(holdOffX, holdOffY) + new Vec2(2 * offDir, 0f);
         holdObject.offDir = offDir;
         if (_sprite.currentAnimation == "slide")
         {
@@ -413,8 +413,8 @@ public class TargetDuck : Duck, ISequenceItem
         }
         _ = _stance;
         _ = 4;
-        holdObject.position = HoldOffset(holdObject.holdOffset) + new Vec2(offDir * 3, 0f);
-        holdObject.angle = holdObject.handAngle + holdAngleOff;
+        holdObject.Position = HoldOffset(holdObject.holdOffset) + new Vec2(offDir * 3, 0f);
+        holdObject.Angle = holdObject.handAngle + holdAngleOff;
     }
 
     public override void DuckUpdate()
@@ -434,7 +434,7 @@ public class TargetDuck : Duck, ISequenceItem
         {
             foreach (Duck d in Level.current.things[typeof(Duck)].Where((Thing thing) => !(thing is TargetDuck)))
             {
-                if ((Collision.Line(holdObject.position + new Vec2(0f, -5f), at + new Vec2(0f, -5f), d.rectangle) || Collision.Line(holdObject.position + new Vec2(0f, 5f), at + new Vec2(0f, 5f), d.rectangle)) && Level.CheckLine<Block>(holdObject.position, d.position) == null)
+                if ((Collision.Line(holdObject.Position + new Vec2(0f, -5f), at + new Vec2(0f, -5f), d.rectangle) || Collision.Line(holdObject.Position + new Vec2(0f, 5f), at + new Vec2(0f, 5f), d.rectangle)) && Level.CheckLine<Block>(holdObject.Position, d.Position) == null)
                 {
                     _waitFire -= 0.03f;
                     break;
@@ -483,49 +483,49 @@ public class TargetDuck : Duck, ISequenceItem
             }
             if (_stance != TargetStance.Fly)
             {
-                base.yscale += _upSpeed;
-                if (base.yscale >= 1f)
+                base.ScaleY += _upSpeed;
+                if (base.ScaleY >= 1f)
                 {
-                    base.yscale = 1f;
+                    base.ScaleY = 1f;
                     _upSpeed = 0f;
                     _up = true;
                     SFX.Play("grappleHook", 0.7f, Rando.Float(-0.2f, 0.2f));
-                    Level.Add(SmallSmoke.New(base.x - 4f, base.y));
-                    Level.Add(SmallSmoke.New(base.x + 4f, base.y));
+                    Level.Add(SmallSmoke.New(base.X - 4f, base.Y));
+                    Level.Add(SmallSmoke.New(base.X + 4f, base.Y));
                     SpawnHoldObject();
                     if (helmet)
                     {
-                        Helmet h = new Helmet(base.x, base.y);
+                        Helmet h = new Helmet(base.X, base.Y);
                         Level.Add(h);
                         Equip(h);
                     }
                     if (chestPlate)
                     {
-                        ChestPlate p = new ChestPlate(base.x, base.y);
+                        ChestPlate p = new ChestPlate(base.X, base.Y);
                         Level.Add(p);
                         Equip(p);
                     }
                 }
                 return;
             }
-            base.xscale += _upSpeed;
-            if (base.xscale >= 1f)
+            base.ScaleX += _upSpeed;
+            if (base.ScaleX >= 1f)
             {
-                base.xscale = 1f;
+                base.ScaleX = 1f;
                 _upSpeed = 0f;
                 _up = true;
                 SFX.Play("grappleHook", 0.7f, Rando.Float(-0.2f, 0.2f));
-                Level.Add(SmallSmoke.New(base.x - 4f, base.y));
-                Level.Add(SmallSmoke.New(base.x + 4f, base.y));
+                Level.Add(SmallSmoke.New(base.X - 4f, base.Y));
+                Level.Add(SmallSmoke.New(base.X + 4f, base.Y));
                 if (helmet)
                 {
-                    Helmet h2 = new Helmet(base.x, base.y);
+                    Helmet h2 = new Helmet(base.X, base.Y);
                     Level.Add(h2);
                     Equip(h2);
                 }
                 if (chestPlate)
                 {
-                    ChestPlate p2 = new ChestPlate(base.x, base.y);
+                    ChestPlate p2 = new ChestPlate(base.X, base.Y);
                     Level.Add(p2);
                     Equip(p2);
                 }
@@ -545,29 +545,29 @@ public class TargetDuck : Duck, ISequenceItem
         }
         if (_stance != TargetStance.Fly)
         {
-            base.yscale -= _upSpeed;
-            if (base.yscale < 0f)
+            base.ScaleY -= _upSpeed;
+            if (base.ScaleY < 0f)
             {
-                base.yscale = 0f;
+                base.ScaleY = 0f;
                 _upSpeed = 0f;
                 _up = false;
                 SFX.Play("grappleHook", 0.2f, Rando.Float(-0.2f, 0.2f));
-                Level.Add(SmallSmoke.New(base.x - 4f, base.y));
-                Level.Add(SmallSmoke.New(base.x + 4f, base.y));
+                Level.Add(SmallSmoke.New(base.X - 4f, base.Y));
+                Level.Add(SmallSmoke.New(base.X + 4f, base.Y));
                 _hitPoints = (_maxHealth = 0.1f);
             }
         }
         else
         {
-            base.xscale -= _upSpeed;
-            if (base.xscale < 0f)
+            base.ScaleX -= _upSpeed;
+            if (base.ScaleX < 0f)
             {
-                base.xscale = 0f;
+                base.ScaleX = 0f;
                 _upSpeed = 0f;
                 _up = false;
                 SFX.Play("grappleHook", 0.2f, Rando.Float(-0.2f, 0.2f));
-                Level.Add(SmallSmoke.New(base.x - 4f, base.y));
-                Level.Add(SmallSmoke.New(base.x + 4f, base.y));
+                Level.Add(SmallSmoke.New(base.X - 4f, base.Y));
+                Level.Add(SmallSmoke.New(base.X + 4f, base.Y));
                 _hitPoints = (_maxHealth = 0.1f);
             }
         }
@@ -583,39 +583,39 @@ public class TargetDuck : Duck, ISequenceItem
         {
             _reticule = new Sprite("challenge/reticule");
         }
-        Vec2 pos = position;
+        Vec2 pos = Position;
         if (base.ragdoll != null)
         {
-            pos = base.ragdoll.part1.position;
+            pos = base.ragdoll.part1.Position;
         }
         else if (base._trapped != null)
         {
-            pos = base._trapped.position;
+            pos = base._trapped.Position;
         }
-        if (!((pos - Level.current.camera.position).length > Level.current.camera.width * 2f))
+        if (!((pos - Level.current.camera.position).Length() > Level.current.camera.width * 2f))
         {
             float boarder = 14f;
-            if (pos.x < Level.current.camera.left + boarder)
+            if (pos.X < Level.current.camera.left + boarder)
             {
-                pos.x = Level.current.camera.left + boarder;
+                pos.X = Level.current.camera.left + boarder;
             }
-            if (pos.x > Level.current.camera.right - boarder)
+            if (pos.X > Level.current.camera.right - boarder)
             {
-                pos.x = Level.current.camera.right - boarder;
+                pos.X = Level.current.camera.right - boarder;
             }
-            if (pos.y < Level.current.camera.top + boarder)
+            if (pos.Y < Level.current.camera.top + boarder)
             {
-                pos.y = Level.current.camera.top + boarder;
+                pos.Y = Level.current.camera.top + boarder;
             }
-            if (pos.y > Level.current.camera.bottom - boarder)
+            if (pos.Y > Level.current.camera.bottom - boarder)
             {
-                pos.y = Level.current.camera.bottom - boarder;
+                pos.Y = Level.current.camera.bottom - boarder;
             }
             pos = Level.current.camera.transform(pos);
             pos = Layer.HUD.camera.transformInverse(pos);
             Graphics.DrawRect(pos + new Vec2(-5f, -5f), pos + new Vec2(5f, 5f), Color.Black, 0.8f);
             Graphics.DrawRect(pos + new Vec2(-5f, -5f), pos + new Vec2(5f, 5f), Color.White, 0.81f, filled: false);
-            Graphics.Draw(_reticule.texture, pos, null, Color.White, 0f, new Vec2(_reticule.width / 2, _reticule.height / 2), new Vec2(0.5f, 0.5f), SpriteEffects.None, 0.9f + base.depth.span);
+            Graphics.Draw(_reticule.texture, pos, null, Color.White, 0f, new Vec2(_reticule.width / 2, _reticule.height / 2), new Vec2(0.5f, 0.5f), SpriteEffects.None, 0.9f + base.Depth.span);
         }
     }
 
@@ -623,30 +623,30 @@ public class TargetDuck : Duck, ISequenceItem
     {
         if (base._trapped != null)
         {
-            base.y = -10000f;
+            base.Y = -10000f;
         }
         if (graphic != null)
         {
             graphic.flipH = offDir <= 0;
-            graphic.scale = base.scale;
+            graphic.Scale = base.Scale;
             if (Level.current is Editor)
             {
-                graphic.center = center;
-                graphic.position = position;
+                graphic.Center = Center;
+                graphic.Position = Position;
             }
             else if (_stance != TargetStance.Fly)
             {
-                graphic.center = center + new Vec2(0f, 10f);
-                graphic.position = position + new Vec2(0f, 10f);
+                graphic.Center = Center + new Vec2(0f, 10f);
+                graphic.Position = Position + new Vec2(0f, 10f);
             }
             else
             {
-                graphic.center = center + new Vec2(-12f, 10f);
-                graphic.position = position + new Vec2(-12 * offDir, 10f);
+                graphic.Center = Center + new Vec2(-12f, 10f);
+                graphic.Position = Position + new Vec2(-12 * offDir, 10f);
             }
-            graphic.depth = base.depth;
-            graphic.alpha = base.alpha;
-            graphic.angle = angle;
+            graphic.Depth = base.Depth;
+            graphic.Alpha = base.Alpha;
+            graphic.Angle = Angle;
             graphic.Draw();
             if (_popup && _up)
             {
@@ -725,7 +725,7 @@ public class TargetDuck : Duck, ISequenceItem
     public override void Netted(Net n)
     {
         base.Netted(n);
-        base.y -= 10000f;
+        base.Y -= 10000f;
         base._trapped.infinite = true;
     }
 
@@ -789,7 +789,7 @@ public class TargetDuck : Duck, ISequenceItem
         }
         if (holdObject != null)
         {
-            holdObject.depth = 0.9f;
+            holdObject.Depth = 0.9f;
             holdObject.DoDraw();
         }
         base.EditorRender();

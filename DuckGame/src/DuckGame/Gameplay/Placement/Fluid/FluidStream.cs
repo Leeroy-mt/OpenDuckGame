@@ -99,12 +99,12 @@ public class FluidStream : Thing
         {
             _maxSpeedMul = Lerp.Float(_maxSpeedMul, val, 0.1f);
         }
-        _lastFluid = new Fluid(base.x, base.y, (_sprayAngle * ((2f + (float)Math.Sin(_fluctuate) * 0.5f) * _speedMul) + new Vec2(hSpeed * 0f, vSpeed * 0f)) * streamSpeedMultiplier, dat, _lastFluid);
+        _lastFluid = new Fluid(base.X, base.Y, (_sprayAngle * ((2f + (float)Math.Sin(_fluctuate) * 0.5f) * _speedMul) + new Vec2(hSpeed * 0f, vSpeed * 0f)) * streamSpeedMultiplier, dat, _lastFluid);
         Level.Add(_lastFluid);
         _framesSinceFluid = 0;
         if (dat.flammable > 0.5f && onFire && _framesSinceFire > 12 && Rando.Float(1f) < 0.12f * dat.flammable)
         {
-            SmallFire f = SmallFire.New(_lastFluid.x, _lastFluid.y, 0f, 0f);
+            SmallFire f = SmallFire.New(_lastFluid.X, _lastFluid.Y, 0f, 0f);
             _lastFluid.fire = f;
             Level.Add(f);
             _framesSinceFire = 0;

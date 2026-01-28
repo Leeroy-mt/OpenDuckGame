@@ -16,21 +16,21 @@ public class SpawnLine : Thing
         _thickness = thickness;
         offDir = (sbyte)dir;
         base.layer = Layer.Foreground;
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
     }
 
     public override void Update()
     {
-        base.alpha -= 0.03f;
-        if (base.alpha < 0f)
+        base.Alpha -= 0.03f;
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }
-        base.x += _moveSpeed;
+        base.X += _moveSpeed;
     }
 
     public override void Draw()
     {
-        Graphics.DrawLine(position, position + new Vec2(0f, -1200f), _color * base.alpha, _thickness, 0.9f);
+        Graphics.DrawLine(Position, Position + new Vec2(0f, -1200f), _color * base.Alpha, _thickness, 0.9f);
     }
 }

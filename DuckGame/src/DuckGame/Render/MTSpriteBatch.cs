@@ -366,27 +366,27 @@ public class MTSpriteBatch : SpriteBatch
     public void Draw(Tex2D texture, Vec2 position, Rectangle? sourceRectangle, Color color, float rotation, Vec2 origin, Vec2 scale, SpriteEffects effect, float depth)
     {
         CheckValid(texture);
-        float w = (float)texture.width * scale.x;
-        float h = (float)texture.height * scale.y;
+        float w = (float)texture.width * scale.X;
+        float h = (float)texture.height * scale.Y;
         if (sourceRectangle.HasValue)
         {
-            w = sourceRectangle.Value.width * scale.x;
-            h = sourceRectangle.Value.height * scale.y;
+            w = sourceRectangle.Value.width * scale.X;
+            h = sourceRectangle.Value.height * scale.Y;
         }
-        DoDrawInternal(texture, new Vec4(position.x, position.y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, null);
+        DoDrawInternal(texture, new Vec4(position.X, position.Y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, null);
     }
 
     public void DrawWithMaterial(Tex2D texture, Vec2 position, Rectangle? sourceRectangle, Color color, float rotation, Vec2 origin, Vec2 scale, SpriteEffects effect, float depth, Material fx)
     {
         CheckValid(texture);
-        float w = (float)texture.width * scale.x;
-        float h = (float)texture.height * scale.y;
+        float w = (float)texture.width * scale.X;
+        float h = (float)texture.height * scale.Y;
         if (sourceRectangle.HasValue)
         {
-            w = sourceRectangle.Value.width * scale.x;
-            h = sourceRectangle.Value.height * scale.y;
+            w = sourceRectangle.Value.width * scale.X;
+            h = sourceRectangle.Value.height * scale.Y;
         }
-        DoDrawInternal(texture, new Vec4(position.x, position.y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, fx);
+        DoDrawInternal(texture, new Vec4(position.X, position.Y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, fx);
     }
 
     public void Draw(Tex2D texture, Vec2 position, Rectangle? sourceRectangle, Color color, float rotation, Vec2 origin, float scale, SpriteEffects effect, float depth)
@@ -399,13 +399,13 @@ public class MTSpriteBatch : SpriteBatch
             w = sourceRectangle.Value.width * scale;
             h = sourceRectangle.Value.height * scale;
         }
-        DoDrawInternal(texture, new Vec4(position.x, position.y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, null);
+        DoDrawInternal(texture, new Vec4(position.X, position.Y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, null);
     }
 
     public void Draw(Tex2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vec2 origin, SpriteEffects effect, float depth)
     {
         CheckValid(texture);
-        DoDrawInternal(texture, new Vec4(destinationRectangle.x, destinationRectangle.y, destinationRectangle.width, destinationRectangle.height), sourceRectangle, color, rotation, new Vec2(origin.x * (destinationRectangle.width / ((sourceRectangle.HasValue && sourceRectangle.Value.width != 0f) ? sourceRectangle.Value.width : ((float)texture.width))), origin.y * destinationRectangle.height / ((sourceRectangle.HasValue && sourceRectangle.Value.height != 0f) ? sourceRectangle.Value.height : ((float)texture.height))), effect, depth, autoFlush: true, null);
+        DoDrawInternal(texture, new Vec4(destinationRectangle.x, destinationRectangle.y, destinationRectangle.width, destinationRectangle.height), sourceRectangle, color, rotation, new Vec2(origin.X * (destinationRectangle.width / ((sourceRectangle.HasValue && sourceRectangle.Value.width != 0f) ? sourceRectangle.Value.width : ((float)texture.width))), origin.Y * destinationRectangle.height / ((sourceRectangle.HasValue && sourceRectangle.Value.height != 0f) ? sourceRectangle.Value.height : ((float)texture.height))), effect, depth, autoFlush: true, null);
     }
 
     public void DrawQuad(Vec2 p1, Vec2 p2, Vec2 p3, Vec2 p4, Vec2 t1, Vec2 t2, Vec2 t3, Vec2 t4, float depth, Tex2D tex, Color c)
@@ -436,23 +436,23 @@ public class MTSpriteBatch : SpriteBatch
             _tempRect.width = texture.width;
             _tempRect.height = texture.height;
         }
-        _texCoordTL.x = _tempRect.x / (float)texture.width + edgeBias;
-        _texCoordTL.y = _tempRect.y / (float)texture.height + edgeBias;
-        _texCoordBR.x = (_tempRect.x + _tempRect.width) / (float)texture.width - edgeBias;
-        _texCoordBR.y = (_tempRect.y + _tempRect.height) / (float)texture.height - edgeBias;
+        _texCoordTL.X = _tempRect.x / (float)texture.width + edgeBias;
+        _texCoordTL.Y = _tempRect.y / (float)texture.height + edgeBias;
+        _texCoordBR.X = (_tempRect.x + _tempRect.width) / (float)texture.width - edgeBias;
+        _texCoordBR.Y = (_tempRect.y + _tempRect.height) / (float)texture.height - edgeBias;
         if ((effect & SpriteEffects.FlipVertically) != SpriteEffects.None)
         {
-            float temp = _texCoordBR.y;
-            _texCoordBR.y = _texCoordTL.y;
-            _texCoordTL.y = temp;
+            float temp = _texCoordBR.Y;
+            _texCoordBR.Y = _texCoordTL.Y;
+            _texCoordTL.Y = temp;
         }
         if ((effect & SpriteEffects.FlipHorizontally) != SpriteEffects.None)
         {
-            float temp2 = _texCoordBR.x;
-            _texCoordBR.x = _texCoordTL.x;
-            _texCoordTL.x = temp2;
+            float temp2 = _texCoordBR.X;
+            _texCoordBR.X = _texCoordTL.X;
+            _texCoordTL.X = temp2;
         }
-        item.Set(destinationRectangle.x, destinationRectangle.y, 0f - origin.x, 0f - origin.y, destinationRectangle.z, destinationRectangle.w, (float)Math.Sin(rotation), (float)Math.Cos(rotation), color, _texCoordTL, _texCoordBR);
+        item.Set(destinationRectangle.x, destinationRectangle.y, 0f - origin.X, 0f - origin.Y, destinationRectangle.z, destinationRectangle.w, (float)Math.Sin(rotation), (float)Math.Cos(rotation), color, _texCoordTL, _texCoordBR);
         if (Graphics.recordMetadata)
         {
             item.MetaData = new MTSpriteBatchItemMetaData();
@@ -504,24 +504,24 @@ public class MTSpriteBatch : SpriteBatch
         {
             float w = Math.Abs(frame.texW);
             float h = Math.Abs(frame.texH);
-            _texCoordTL.x = (float)frame.texX / (float)item.Texture.Width + edgeBias;
-            _texCoordTL.y = (float)frame.texY / (float)item.Texture.Height + edgeBias;
-            _texCoordBR.x = ((float)frame.texX + w) / (float)item.Texture.Width - edgeBias;
-            _texCoordBR.y = ((float)frame.texY + h) / (float)item.Texture.Height - edgeBias;
+            _texCoordTL.X = (float)frame.texX / (float)item.Texture.Width + edgeBias;
+            _texCoordTL.Y = (float)frame.texY / (float)item.Texture.Height + edgeBias;
+            _texCoordBR.X = ((float)frame.texX + w) / (float)item.Texture.Width - edgeBias;
+            _texCoordBR.Y = ((float)frame.texY + h) / (float)item.Texture.Height - edgeBias;
             if (frame.texH < 0)
             {
-                float temp = _texCoordBR.y;
-                _texCoordBR.y = _texCoordTL.y;
-                _texCoordTL.y = temp;
+                float temp = _texCoordBR.Y;
+                _texCoordBR.Y = _texCoordTL.Y;
+                _texCoordTL.Y = temp;
             }
             if (frame.texW < 0)
             {
-                float temp2 = _texCoordBR.x;
-                _texCoordBR.x = _texCoordTL.x;
-                _texCoordTL.x = temp2;
+                float temp2 = _texCoordBR.X;
+                _texCoordBR.X = _texCoordTL.X;
+                _texCoordTL.X = temp2;
             }
             Vec2 br = frame.bottomRight.Rotate(0f - frame.rotation, frame.topLeft);
-            item.Set(frame.topLeft.x, frame.topLeft.y, 0f, 0f, br.x - frame.topLeft.x, br.y - frame.topLeft.y, (float)Math.Sin(frame.rotation), (float)Math.Cos(frame.rotation), frame.color, _texCoordTL, _texCoordBR);
+            item.Set(frame.topLeft.X, frame.topLeft.Y, 0f, 0f, br.X - frame.topLeft.X, br.Y - frame.topLeft.Y, (float)Math.Sin(frame.rotation), (float)Math.Cos(frame.rotation), frame.color, _texCoordTL, _texCoordBR);
         }
     }
 

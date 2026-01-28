@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -77,8 +78,8 @@ public struct Rectangle
         }
         set
         {
-            x = value.x - width / 2f;
-            y = value.y - height / 2f;
+            x = value.X - width / 2f;
+            y = value.Y - height / 2f;
         }
     }
 
@@ -94,22 +95,22 @@ public struct Rectangle
 
     public Rectangle(Vec2 tl, Vec2 br)
     {
-        if (tl.x > br.x)
+        if (tl.X > br.X)
         {
-            float temp = br.x;
-            br.x = tl.x;
-            tl.x = temp;
+            float temp = br.X;
+            br.X = tl.X;
+            tl.X = temp;
         }
-        if (tl.y > br.y)
+        if (tl.Y > br.Y)
         {
-            float temp2 = br.y;
-            br.y = tl.y;
-            tl.y = temp2;
+            float temp2 = br.Y;
+            br.Y = tl.Y;
+            tl.Y = temp2;
         }
-        x = tl.x;
-        y = tl.y;
-        width = br.x - tl.x;
-        height = br.y - tl.y;
+        x = tl.X;
+        y = tl.Y;
+        width = br.X - tl.X;
+        height = br.Y - tl.Y;
     }
 
     public static implicit operator Microsoft.Xna.Framework.Rectangle(Rectangle r)
@@ -124,9 +125,9 @@ public struct Rectangle
 
     public bool Contains(Vec2 position)
     {
-        if (position.x >= x && position.y >= y && position.x <= x + width)
+        if (position.X >= x && position.Y >= y && position.X <= x + width)
         {
-            return position.y <= y + height;
+            return position.Y <= y + height;
         }
         return false;
     }
@@ -140,5 +141,10 @@ public struct Rectangle
             2 => new Rectangle(x + width / 2f, y + height / 2f, width / 2f, height / 2f),
             _ => new Rectangle(x, y + height / 2f, width / 2f, height / 2f),
         };
+    }
+
+    public Vector4 ToVector4()
+    {
+        return new(x, y, width, height);
     }
 }

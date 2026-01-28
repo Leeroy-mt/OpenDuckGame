@@ -54,9 +54,9 @@ public class SledgeHammer : Gun
         _sledgeSwing.AddAnimation("swing", 0.8f, false, 0, 1, 2, 3, 4, 5);
         _sledgeSwing.currentAnimation = "swing";
         _sledgeSwing.speed = 0f;
-        _sledgeSwing.center = new Vec2(16f, 16f);
+        _sledgeSwing.Center = new Vec2(16f, 16f);
         graphic = _sprite;
-        center = new Vec2(16f, 14f);
+        Center = new Vec2(16f, 14f);
         collisionOffset = new Vec2(-2f, 0f);
         collisionSize = new Vec2(4f, 18f);
         _barrelOffsetTL = new Vec2(16f, 28f);
@@ -78,7 +78,7 @@ public class SledgeHammer : Gun
         {
             for (int i = 0; i < 4; i++)
             {
-                Level.Add(Spark.New(base.barrelPosition.x + Rando.Float(-6f, 6f), base.barrelPosition.y + Rando.Float(-3f, 3f), -MaterialThing.ImpactVector(from)));
+                Level.Add(Spark.New(base.barrelPosition.X + Rando.Float(-6f, 6f), base.barrelPosition.Y + Rando.Float(-3f, 3f), -MaterialThing.ImpactVector(from)));
             }
         }
     }
@@ -124,14 +124,14 @@ public class SledgeHammer : Gun
             {
                 holsterAngle = 0f;
                 holsterOffset = new Vec2(0f, 0f);
-                center = new Vec2(16f, 22f);
+                Center = new Vec2(16f, 22f);
                 collisionOffset = new Vec2(-6f, 6f);
                 collisionSize = new Vec2(12f, 12f);
                 return;
             }
             holsterAngle = 180f;
-            center = new Vec2(16f, 14f);
-            graphic.center = center;
+            Center = new Vec2(16f, 14f);
+            graphic.Center = Center;
             if (base.duck.sliding)
             {
                 holsterOffset = new Vec2(4f, 8f);
@@ -215,34 +215,34 @@ public class SledgeHammer : Gun
             if (duckOwner.grounded && duckOwner.offDir > 0 && duckOwner.hSpeed > 1f)
             {
                 _sparkWait = 0.25f;
-                Level.Add(Spark.New(base.x - 22f, base.y + 6f, new Vec2(0f, 0.5f)));
+                Level.Add(Spark.New(base.X - 22f, base.Y + 6f, new Vec2(0f, 0.5f)));
             }
             else if (duckOwner.grounded && duckOwner.offDir < 0 && duckOwner.hSpeed < -1f)
             {
                 _sparkWait = 0.25f;
-                Level.Add(Spark.New(base.x + 22f, base.y + 6f, new Vec2(0f, 0.5f)));
+                Level.Add(Spark.New(base.X + 22f, base.Y + 6f, new Vec2(0f, 0.5f)));
             }
         }
         if (_swing < 0.5f)
         {
             float norm = _swing * 2f;
             _sprite.imageIndex = (int)(norm * 10f);
-            _sprite.angle = 1.2f - norm * 1.5f;
-            _sprite.yscale = 1f - norm * 0.1f;
+            _sprite.Angle = 1.2f - norm * 1.5f;
+            _sprite.ScaleY = 1f - norm * 0.1f;
         }
         else if (_swing >= 0.5f)
         {
             float norm2 = (_swing - 0.5f) * 2f;
             _sprite.imageIndex = 10 - (int)(norm2 * 10f);
-            _sprite.angle = -0.3f - norm2 * 1.5f;
-            _sprite.yscale = 1f - (1f - norm2) * 0.1f;
+            _sprite.Angle = -0.3f - norm2 * 1.5f;
+            _sprite.ScaleY = 1f - (1f - norm2) * 0.1f;
             _fullSwing += 0.16f;
             if (!_swung)
             {
                 _swung = true;
                 if (base.duck != null && base.isServerForObject)
                 {
-                    Level.Add(new ForceWave(base.x + (float)offDir * 4f + owner.hSpeed, base.y + 8f, offDir, 0.15f, 4f + Math.Abs(owner.hSpeed), owner.vSpeed, base.duck));
+                    Level.Add(new ForceWave(base.X + (float)offDir * 4f + owner.hSpeed, base.Y + 8f, offDir, 0.15f, 4f + Math.Abs(owner.hSpeed), owner.vSpeed, base.duck));
                 }
             }
         }
@@ -284,10 +284,10 @@ public class SledgeHammer : Gun
             }
         }
         handOffset = new Vec2(_swing * 3f, 0f - _swing * 4f);
-        handAngle = 1.4f + (_sprite.angle * 0.5f - 1f);
+        handAngle = 1.4f + (_sprite.Angle * 0.5f - 1f);
         if (duckOwner != null && duckOwner.offDir < 0)
         {
-            _sprite.angle = 0f - _sprite.angle;
+            _sprite.Angle = 0f - _sprite.Angle;
             handAngle = 0f - handAngle;
         }
         base.Update();
@@ -302,9 +302,9 @@ public class SledgeHammer : Gun
         else if (owner != null && _drawOnce)
         {
             _offset = new Vec2((float)offDir * -6f + _swing * 5f * (float)offDir, -3f + _swing * 5f);
-            Vec2 pos = position + _offset;
-            graphic.position = pos;
-            graphic.depth = base.depth;
+            Vec2 pos = Position + _offset;
+            graphic.Position = pos;
+            graphic.Depth = base.Depth;
             graphic.Draw();
             Duck duckOwner = owner as Duck;
             if (_sledgeSwing.speed > 0f)
@@ -313,8 +313,8 @@ public class SledgeHammer : Gun
                 {
                     _sledgeSwing.flipH = duckOwner.offDir <= 0;
                 }
-                _sledgeSwing.position = position;
-                _sledgeSwing.depth = base.depth + 1;
+                _sledgeSwing.Position = Position;
+                _sledgeSwing.Depth = base.Depth + 1;
                 _sledgeSwing.Draw();
             }
         }

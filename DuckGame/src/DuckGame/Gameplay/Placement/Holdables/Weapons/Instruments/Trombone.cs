@@ -38,7 +38,7 @@ public class Trombone : Gun
         barrelInsertOffset = new Vec2(-1f, -3f);
         _type = "gun";
         graphic = new Sprite("tromboneBody");
-        center = new Vec2(10f, 16f);
+        Center = new Vec2(10f, 16f);
         collisionOffset = new Vec2(-4f, -5f);
         collisionSize = new Vec2(8f, 11f);
         _barrelOffsetTL = new Vec2(19f, 14f);
@@ -117,7 +117,7 @@ public class Trombone : Gun
                         hitPitch = notePitch;
                         Sound snd = SFX.Play("trombone" + Change.ToString(note));
                         noteSound = snd;
-                        Level.Add(new MusicNote(base.barrelPosition.x, base.barrelPosition.y, base.barrelVector));
+                        Level.Add(new MusicNote(base.barrelPosition.X, base.barrelPosition.Y, base.barrelVector));
                     }
                     else
                     {

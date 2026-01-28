@@ -18,10 +18,10 @@ public class UndergroundBackground : BackgroundUpdater
         {
             frame = 4
         };
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
         _speedMult = speedMult;
@@ -49,11 +49,11 @@ public class UndergroundBackground : BackgroundUpdater
             _parallax.AddZone(19, 0.75f, speed);
             _parallax.AddZone(20, 0.75f, speed);
             Level.Add(_parallax);
-            _parallax.x -= 340f;
+            _parallax.X -= 340f;
             _parallax.restrictBottom = false;
-            _undergroundRocks = new UndergroundRocksBackground(base.x, base.y);
+            _undergroundRocks = new UndergroundRocksBackground(base.X, base.Y);
             Level.Add(_undergroundRocks);
-            _skyline = new UndergroundSkyBackground(base.x, base.y);
+            _skyline = new UndergroundSkyBackground(base.X, base.Y);
             Level.Add(_skyline);
         }
     }
@@ -62,7 +62,7 @@ public class UndergroundBackground : BackgroundUpdater
     {
         Vec2 vec = new Vec2(0f, 10f);
         Matrix m = Level.current.camera.getMatrix();
-        int yScissor = (int)Vec2.Transform(vec, m).y;
+        int yScissor = (int)Vec2.Transform(vec, m).Y;
         if (yScissor < 0)
         {
             yScissor = 0;
@@ -73,19 +73,19 @@ public class UndergroundBackground : BackgroundUpdater
         }
         float yMul = (float)Resolution.current.y / (float)Graphics.height;
         Vec2 wallScissor = BackgroundUpdater.GetWallScissor();
-        _undergroundRocks.scissor = new Rectangle((int)wallScissor.x, (float)yScissor * yMul, (int)wallScissor.y, Resolution.current.y - yScissor);
+        _undergroundRocks.scissor = new Rectangle((int)wallScissor.X, (float)yScissor * yMul, (int)wallScissor.Y, Resolution.current.y - yScissor);
         Vec2 vec2 = new Vec2(0f, -10f);
         m = Level.current.camera.getMatrix();
-        yScissor = (int)(Vec2.Transform(vec2, m).y * yMul);
+        yScissor = (int)(Vec2.Transform(vec2, m).Y * yMul);
         if (yScissor < 0)
         {
             yScissor = 0;
         }
-        if ((float)yScissor > Resolution.size.y)
+        if ((float)yScissor > Resolution.size.Y)
         {
-            yScissor = (int)Resolution.size.y;
+            yScissor = (int)Resolution.size.Y;
         }
-        _skyline.scissor = new Rectangle((int)wallScissor.x, 0f, (int)wallScissor.y, yScissor);
+        _skyline.scissor = new Rectangle((int)wallScissor.X, 0f, (int)wallScissor.Y, yScissor);
         base.Update();
     }
 

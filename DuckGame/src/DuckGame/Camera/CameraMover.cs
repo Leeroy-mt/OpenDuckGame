@@ -14,7 +14,7 @@ internal class CameraMover : Thing
         : base(xPos, yPos)
     {
         graphic = new Sprite("cameraMover");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionSize = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-4f, -4f);
     }
@@ -23,7 +23,7 @@ internal class CameraMover : Thing
     {
         if (!(Level.current is Editor))
         {
-            base.alpha = 0f;
+            base.Alpha = 0f;
         }
         base.Initialize();
     }

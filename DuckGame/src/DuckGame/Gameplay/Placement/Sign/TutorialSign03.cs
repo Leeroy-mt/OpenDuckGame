@@ -10,7 +10,7 @@ public class TutorialSign03 : TutorialSign
 
     public override void Draw()
     {
-        Graphics.DrawString("@JUMP@", new Vec2(base.x + 40f, base.y + 13f), Color.White * 0.5f);
+        Graphics.DrawString("@JUMP@", new Vec2(base.X + 40f, base.Y + 13f), Color.White * 0.5f);
         graphic.color = Color.White * 0.5f;
         base.Draw();
     }

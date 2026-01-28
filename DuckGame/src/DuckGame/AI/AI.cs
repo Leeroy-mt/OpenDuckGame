@@ -44,7 +44,7 @@ public static class AI
             {
                 continue;
             }
-            PathNode node = NearestNode(thing.position);
+            PathNode node = NearestNode(thing.Position);
             if (node != null)
             {
                 AIPath path = start.GetPath(node);
@@ -60,7 +60,7 @@ public static class AI
 
     public static bool CanReach(PathNode from, Thing what)
     {
-        return PathNode.CanTraverse(from.position, what.position, what);
+        return PathNode.CanTraverse(from.Position, what.Position, what);
     }
 
     public static Thing Nearest(Vec2 position, List<Thing> things)
@@ -74,7 +74,7 @@ public static class AI
         Thing closest = null;
         foreach (Thing thing in things)
         {
-            PathNode node = NearestNode(thing.position, thing);
+            PathNode node = NearestNode(thing.Position, thing);
             if (node != null)
             {
                 AIPath path = start.GetPath(node);
@@ -91,11 +91,11 @@ public static class AI
     public static PathNode NearestNode(Vec2 pos, Thing ignore = null)
     {
         List<Thing> list = Level.current.things[typeof(PathNode)].ToList();
-        list.Sort((Thing a, Thing b) => (!((a.position - pos).lengthSq < (b.position - pos).lengthSq)) ? 1 : (-1));
+        list.Sort((Thing a, Thing b) => (!((a.Position - pos).lengthSq < (b.Position - pos).lengthSq)) ? 1 : (-1));
         PathNode node = null;
         foreach (Thing thing in list)
         {
-            if (PathNode.LineIsClear(pos, thing.position, ignore))
+            if (PathNode.LineIsClear(pos, thing.Position, ignore))
             {
                 node = thing as PathNode;
                 break;
@@ -112,7 +112,7 @@ public static class AI
             if (!(plat is PhysicsObject))
             {
                 Thing t = plat as Thing;
-                if (highest == null || t.y < highest.y)
+                if (highest == null || t.Y < highest.Y)
                 {
                     highest = t;
                 }
@@ -129,7 +129,7 @@ public static class AI
             if (!(plat is PhysicsObject) && !(plat is Window))
             {
                 Thing t = plat as Thing;
-                if (highest == null || t.y < highest.y)
+                if (highest == null || t.Y < highest.Y)
                 {
                     highest = t;
                 }

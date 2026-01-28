@@ -11,6 +11,6 @@ public class PineTreeTileset : PineTree
         verticalWidth = 14f;
         verticalWidthThick = 15f;
         horizontalHeight = 8f;
-        base.depth = -0.55f;
+        base.Depth = -0.55f;
     }
 }

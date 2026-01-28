@@ -10,10 +10,10 @@ public class VeryHardSign : Thing
     {
         _sprite = new SpriteMap("veryHardSign", 32, 32);
         graphic = _sprite;
-        center = new Vec2(16f, 24f);
+        Center = new Vec2(16f, 24f);
         _collisionSize = new Vec2(16f, 16f);
         _collisionOffset = new Vec2(-8f, -8f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Very Hard Sign";
         base.hugWalls = WallHug.Floor;
     }

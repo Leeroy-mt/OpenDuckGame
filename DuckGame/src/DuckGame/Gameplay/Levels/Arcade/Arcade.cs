@@ -65,7 +65,7 @@ public class Arcade : Level
     public override void Initialize()
     {
         _background = new SpriteThing(313f, -40f, new Sprite("arcade/arcadeOuya"));
-        _background.center = new Vec2(0f, 0f);
+        _background.Center = new Vec2(0f, 0f);
         _background.layer = Layer.Background;
         _duck = new Duck(730f, 100f, Profiles.active[0]);
         Level.Add(_background);
@@ -111,7 +111,7 @@ public class Arcade : Level
             name = "TARGETS",
             challenges = { "challenge/targets01", "challenge/targets03ouya", "challenge/targets02ouya" },
             trophiesRequired = 0
-        }, xpos: pos.x, ypos: pos.y, index: 0)
+        }, xpos: pos.X, ypos: pos.Y, index: 0)
         {
             lightColor = 2,
             unlocked = true
@@ -124,7 +124,7 @@ public class Arcade : Level
             name = "VARIETY ZONE",
             challenges = { "challenge/obstacle", "challenge/shootout02", "challenge/jetpack02" },
             trophiesRequired = 0
-        }, xpos: pos.x, ypos: pos.y, index: 6)
+        }, xpos: pos.X, ypos: pos.Y, index: 6)
         {
             lightColor = 1
         };
@@ -136,7 +136,7 @@ public class Arcade : Level
             name = "TELEPORTER",
             challenges = { "challenge/tele02", "challenge/tele01", "challenge/tele03" },
             trophiesRequired = 1
-        }, xpos: pos.x, ypos: pos.y, index: 4)
+        }, xpos: pos.X, ypos: pos.Y, index: 4)
         {
             lightColor = 1
         };
@@ -148,7 +148,7 @@ public class Arcade : Level
             name = "WEAPON TRAINING",
             challenges = { "challenge/magnumouya", "challenge/chaingunouya", "challenge/sniper" },
             trophiesRequired = 4
-        }, xpos: pos.x, ypos: pos.y, index: 5)
+        }, xpos: pos.X, ypos: pos.Y, index: 5)
         {
             lightColor = 2
         };
@@ -161,16 +161,16 @@ public class Arcade : Level
         group.challenges.Add("challenge/glass01ouya");
         group.challenges.Add("challenge/grapple04");
         group.trophiesRequired = 9;
-        machine = new ArcadeMachine(pos.x, pos.y, group, 8);
+        machine = new ArcadeMachine(pos.X, pos.Y, group, 8);
         machine.lightColor = 1;
         Level.Add(machine);
         _challenges.Add(machine);
         _prizeTable = new PrizeTable(730f, 124f);
         Level.Add(_prizeTable);
         _hud = new ArcadeHUD();
-        _hud.alpha = 0f;
+        _hud.Alpha = 0f;
         _unlockScreen = new UnlockScreen();
-        _unlockScreen.alpha = 0f;
+        _unlockScreen.Alpha = 0f;
         Level.Add(_unlockScreen);
         _pauseGroup = new UIComponent(Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 0f, 0f);
         _pauseMenu = new UIMenu("@LWING@ARCADE@RWING@", Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 160f, -1f, "@CANCEL@CLOSE  @SELECT@SELECT");
@@ -280,14 +280,14 @@ public class Arcade : Level
             bool done = false;
             if (_desiredState == ArcadeState.ViewChallenge)
             {
-                _duck.alpha = Lerp.FloatSmooth(_duck.alpha, 0f, 0.1f);
+                _duck.Alpha = Lerp.FloatSmooth(_duck.Alpha, 0f, 0.1f);
                 _followCam.manualViewSize = Lerp.FloatSmooth(_followCam.manualViewSize, 2f, 0.16f);
                 if (_followCam.manualViewSize < 30f)
                 {
                     Layer.Game.fade = Lerp.Float(Layer.Game.fade, 0f, 0.08f);
                     Layer.Background.fade = Lerp.Float(Layer.Game.fade, 0f, 0.08f);
-                    _hud.alpha = Lerp.Float(_hud.alpha, 1f, 0.08f);
-                    if (_followCam.manualViewSize < 3f && _hud.alpha == 1f && Layer.Game.fade == 0f)
+                    _hud.Alpha = Lerp.Float(_hud.Alpha, 1f, 0.08f);
+                    if (_followCam.manualViewSize < 3f && _hud.Alpha == 1f && Layer.Game.fade == 0f)
                     {
                         done = true;
                     }
@@ -301,20 +301,20 @@ public class Arcade : Level
                     _followCam.Add(_duck);
                     HUD.CloseAllCorners();
                 }
-                _duck.alpha = Lerp.FloatSmooth(_duck.alpha, 1f, 0.1f, 1.1f);
+                _duck.Alpha = Lerp.FloatSmooth(_duck.Alpha, 1f, 0.1f, 1.1f);
                 if (_state == ArcadeState.ViewChallenge || _state == ArcadeState.UnlockScreen)
                 {
                     _followCam.manualViewSize = Lerp.FloatSmooth(_followCam.manualViewSize, _followCam.viewSize, 0.14f, 1.05f);
                 }
                 Layer.Game.fade = Lerp.Float(Layer.Game.fade, 1f, 0.05f);
                 Layer.Background.fade = Lerp.Float(Layer.Game.fade, 1f, 0.05f);
-                _hud.alpha = Lerp.Float(_hud.alpha, 0f, 0.08f);
-                _unlockScreen.alpha = Lerp.Float(_unlockScreen.alpha, 0f, 0.08f);
-                if ((_followCam.manualViewSize < 0f || _followCam.manualViewSize == _followCam.viewSize) && _hud.alpha == 0f && Layer.Game.fade == 1f)
+                _hud.Alpha = Lerp.Float(_hud.Alpha, 0f, 0.08f);
+                _unlockScreen.Alpha = Lerp.Float(_unlockScreen.Alpha, 0f, 0.08f);
+                if ((_followCam.manualViewSize < 0f || _followCam.manualViewSize == _followCam.viewSize) && _hud.Alpha == 0f && Layer.Game.fade == 1f)
                 {
                     done = true;
                     _followCam.manualViewSize = -1f;
-                    _duck.alpha = 1f;
+                    _duck.Alpha = 1f;
                 }
             }
             else if (_desiredState == ArcadeState.UnlockMachine)
@@ -329,17 +329,17 @@ public class Arcade : Level
                 {
                     _followCam.manualViewSize = Lerp.FloatSmooth(_followCam.manualViewSize, _followCam.viewSize, 0.14f, 1.05f);
                 }
-                _duck.alpha = Lerp.FloatSmooth(_duck.alpha, 1f, 0.1f, 1.1f);
+                _duck.Alpha = Lerp.FloatSmooth(_duck.Alpha, 1f, 0.1f, 1.1f);
                 Layer.Game.fade = Lerp.Float(Layer.Game.fade, 1f, 0.05f);
                 Layer.Background.fade = Lerp.Float(Layer.Game.fade, 1f, 0.05f);
-                _hud.alpha = Lerp.Float(_hud.alpha, 0f, 0.08f);
-                _unlockScreen.alpha = Lerp.Float(_unlockScreen.alpha, 0f, 0.08f);
+                _hud.Alpha = Lerp.Float(_hud.Alpha, 0f, 0.08f);
+                _unlockScreen.Alpha = Lerp.Float(_unlockScreen.Alpha, 0f, 0.08f);
                 _unlockMachineWait = 1f;
-                if ((_followCam.manualViewSize < 0f || _followCam.manualViewSize == _followCam.viewSize) && _hud.alpha == 0f && Layer.Game.fade == 1f)
+                if ((_followCam.manualViewSize < 0f || _followCam.manualViewSize == _followCam.viewSize) && _hud.Alpha == 0f && Layer.Game.fade == 1f)
                 {
                     done = true;
                     _followCam.manualViewSize = -1f;
-                    _duck.alpha = 1f;
+                    _duck.Alpha = 1f;
                 }
             }
             else if (_desiredState == ArcadeState.LaunchChallenge)
@@ -349,23 +349,23 @@ public class Arcade : Level
                     HUD.CloseAllCorners();
                 }
                 Music.volume = Lerp.Float(Music.volume, 0f, 0.01f);
-                _hud.alpha = Lerp.Float(_hud.alpha, 0f, 0.02f);
-                _unlockScreen.alpha = Lerp.Float(_unlockScreen.alpha, 0f, 0.08f);
-                if (_hud.alpha == 0f)
+                _hud.Alpha = Lerp.Float(_hud.Alpha, 0f, 0.02f);
+                _unlockScreen.Alpha = Lerp.Float(_unlockScreen.Alpha, 0f, 0.08f);
+                if (_hud.Alpha == 0f)
                 {
                     done = true;
                 }
             }
             if (_desiredState == ArcadeState.UnlockScreen)
             {
-                _duck.alpha = Lerp.FloatSmooth(_duck.alpha, 0f, 0.1f);
+                _duck.Alpha = Lerp.FloatSmooth(_duck.Alpha, 0f, 0.1f);
                 _followCam.manualViewSize = Lerp.FloatSmooth(_followCam.manualViewSize, 2f, 0.16f);
                 if (_followCam.manualViewSize < 30f)
                 {
                     Layer.Game.fade = Lerp.Float(Layer.Game.fade, 0f, 0.08f);
                     Layer.Background.fade = Lerp.Float(Layer.Game.fade, 0f, 0.08f);
-                    _unlockScreen.alpha = Lerp.Float(_unlockScreen.alpha, 1f, 0.08f);
-                    if (_followCam.manualViewSize < 3f && _unlockScreen.alpha == 1f && Layer.Game.fade == 0f)
+                    _unlockScreen.Alpha = Lerp.Float(_unlockScreen.Alpha, 1f, 0.08f);
+                    if (_followCam.manualViewSize < 3f && _unlockScreen.Alpha == 1f && Layer.Game.fade == 0f)
                     {
                         done = true;
                     }
@@ -457,13 +457,13 @@ public class Arcade : Level
         {
             Layer.Game.fade = Lerp.Float(Layer.Game.fade, 1f, 0.08f);
             Layer.Background.fade = Lerp.Float(Layer.Game.fade, 1f, 0.08f);
-            _hud.alpha = Lerp.Float(_hud.alpha, 0f, 0.08f);
+            _hud.Alpha = Lerp.Float(_hud.Alpha, 0f, 0.08f);
             if (_state == ArcadeState.Normal)
             {
                 object hover = null;
                 foreach (ArcadeMachine machine2 in _challenges)
                 {
-                    _ = (_duck.position - machine2.position).length;
+                    _ = (_duck.Position - machine2.Position).Length();
                     _ = 20f;
                     if (machine2.hover)
                     {
@@ -587,7 +587,7 @@ public class Arcade : Level
         {
             Layer.Game.fade = Lerp.Float(Layer.Game.fade, 0f, 0.05f);
             Layer.Background.fade = Lerp.Float(Layer.Game.fade, 0f, 0.05f);
-            _hud.alpha = Lerp.Float(_hud.alpha, 1f, 0.05f);
+            _hud.Alpha = Lerp.Float(_hud.Alpha, 1f, 0.05f);
             if (_hud.quitOut)
             {
                 _hud.quitOut = false;

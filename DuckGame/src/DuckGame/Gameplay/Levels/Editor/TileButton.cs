@@ -65,23 +65,23 @@ public class TileButton : Thing
         _hoverText = hover;
         collisionSize = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-8f, -8f);
-        image.center = new Vec2(image.w / 2, image.h / 2);
+        image.Center = new Vec2(image.w / 2, image.h / 2);
         _binding = binding;
         _visibleBinding = visibleBinding;
         _align = align;
         _alignOffset = new Vec2(xpos, ypos);
-        base.angleDegrees = angleDeg;
+        base.AngleDegrees = angleDeg;
     }
 
     public override void Update()
     {
         if (!visible)
         {
-            position = new Vec2(-9999f, -9999f);
+            Position = new Vec2(-9999f, -9999f);
         }
         else
         {
-            position = (_binding.thing as Editor).GetAlignOffset(_align) + _alignOffset;
+            Position = (_binding.thing as Editor).GetAlignOffset(_align) + _alignOffset;
         }
         bool inc = false;
         bool dec = false;
@@ -140,25 +140,25 @@ public class TileButton : Thing
             if ((_focus != null && _focus.Pressed("MENULEFT")) || Keyboard.Pressed(Keys.Left) || dec)
             {
                 Vec2 val5 = (Vec2)_binding.value;
-                val5.x = Math.Max(val5.x - _binding.inc * changeMult, _binding.min);
+                val5.X = Math.Max(val5.X - _binding.inc * changeMult, _binding.min);
                 _binding.value = val5;
             }
             else if ((_focus != null && _focus.Pressed("MENURIGHT")) || Keyboard.Pressed(Keys.Right) || inc)
             {
                 Vec2 val6 = (Vec2)_binding.value;
-                val6.x = Math.Min(val6.x + _binding.inc * changeMult, _binding.max);
+                val6.X = Math.Min(val6.X + _binding.inc * changeMult, _binding.max);
                 _binding.value = val6;
             }
             else if ((_focus != null && _focus.Pressed("MENUUP")) || Keyboard.Pressed(Keys.Up) || dec)
             {
                 Vec2 val7 = (Vec2)_binding.value;
-                val7.y = Math.Max(val7.y - _binding.inc * changeMult, _binding.min);
+                val7.Y = Math.Max(val7.Y - _binding.inc * changeMult, _binding.min);
                 _binding.value = val7;
             }
             else if ((_focus != null && _focus.Pressed("MENUDOWN")) || Keyboard.Pressed(Keys.Down) || inc)
             {
                 Vec2 val8 = (Vec2)_binding.value;
-                val8.y = Math.Min(val8.y + _binding.inc * changeMult, _binding.max);
+                val8.Y = Math.Min(val8.Y + _binding.inc * changeMult, _binding.max);
                 _binding.value = val8;
             }
         }
@@ -173,20 +173,20 @@ public class TileButton : Thing
     public override void Draw()
     {
         _sprite.frame = (_hover ? 1 : 0);
-        _sprite.angle = angle;
+        _sprite.Angle = Angle;
         if (_binding.value.GetType() == typeof(bool))
         {
             bool val = (bool)_binding.value;
             _sprite.color = Color.White * (val ? 1f : 0.3f);
         }
-        Graphics.Draw(_sprite, base.x, base.y);
+        Graphics.Draw(_sprite, base.X, base.Y);
         if (_binding.value.GetType() == typeof(float))
         {
-            Graphics.DrawString(((float)_binding.value).ToString("0.00"), new Vec2(base.x + 12f, base.y - 4f), Color.White);
+            Graphics.DrawString(((float)_binding.value).ToString("0.00"), new Vec2(base.X + 12f, base.Y - 4f), Color.White);
         }
         if (_binding.value.GetType() == typeof(int))
         {
-            Graphics.DrawString(((int)_binding.value).ToString(), new Vec2(base.x + 12f, base.y - 4f), Color.White);
+            Graphics.DrawString(((int)_binding.value).ToString(), new Vec2(base.X + 12f, base.Y - 4f), Color.White);
         }
         _hover = false;
         base.Draw();

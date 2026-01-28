@@ -50,9 +50,9 @@ public class RockIntro : Level, IHaveAVirtualTransition, IOnlyTransitionIn
         _smallDome = new Sprite("domeSmall");
         _smallDome.CenterOrigin();
         _smallPillar = new Sprite("domePillar");
-        _smallPillar.center = new Vec2(_smallPillar.w / 2, 0f);
+        _smallPillar.Center = new Vec2(_smallPillar.w / 2, 0f);
         _domeBleachers = new SpriteMap("domeBleachers", 25, 20);
-        _domeBleachers.center = new Vec2(13f, 13f);
+        _domeBleachers.Center = new Vec2(13f, 13f);
         _virtualBackground = new VirtualBackground(0f, 0f, null);
         Level.Add(_virtualBackground);
         _cornerWedge = new Sprite("rockThrow/cornerWedge");
@@ -118,8 +118,8 @@ public class RockIntro : Level, IHaveAVirtualTransition, IOnlyTransitionIn
         {
             float maxYPos = 160f;
             float ypos = _yScroll * maxYPos;
-            _virtualBackground.parallax.y = (0f - maxYPos) * (1f - ypos / maxYPos);
-            _bigDome.depth = 0.5f;
+            _virtualBackground.parallax.Y = (0f - maxYPos) * (1f - ypos / maxYPos);
+            _bigDome.Depth = 0.5f;
             Graphics.Draw(_bigDome, 160f, 130f + ypos);
             float degrot = 45f;
             float rot = Maths.DegToRad(degrot);
@@ -133,26 +133,26 @@ public class RockIntro : Level, IHaveAVirtualTransition, IOnlyTransitionIn
             {
                 if (i == 0 || i > 4)
                 {
-                    _smallDome.depth = 0.6f;
+                    _smallDome.Depth = 0.6f;
                 }
                 else
                 {
-                    _smallDome.depth = 0.4f;
+                    _smallDome.Depth = 0.4f;
                 }
                 Vec2 pos = new Vec2((float)Math.Cos(startRot + (float)i * rot), (0f - (float)Math.Sin(startRot + (float)i * rot)) * (0.4f * (1f - ypos / maxYPos)));
                 Vec2 drawPos = new Vec2(160f, 130f + ypos) + pos * 100f;
-                Graphics.Draw(_smallDome, drawPos.x, drawPos.y - 30f);
-                _smallPillar.depth = _smallDome.depth;
-                Graphics.Draw(_smallPillar, drawPos.x, drawPos.y - 11f);
-                _domeBleachers.depth = _smallDome.depth + 1;
+                Graphics.Draw(_smallDome, drawPos.X, drawPos.Y - 30f);
+                _smallPillar.Depth = _smallDome.Depth;
+                Graphics.Draw(_smallPillar, drawPos.X, drawPos.Y - 11f);
+                _domeBleachers.Depth = _smallDome.Depth + 1;
                 _domeBleachers.frame = 7 - (i + 5) % 8;
-                Graphics.Draw(_domeBleachers, drawPos.x, drawPos.y - 30f);
+                Graphics.Draw(_domeBleachers, drawPos.X, drawPos.Y - 30f);
             }
         }
         else if (l == Layer.HUD)
         {
             _cornerWedge.flipH = false;
-            _cornerWedge.depth = 0.7f;
+            _cornerWedge.Depth = 0.7f;
             if (_intermissionSlide > 0.01f)
             {
                 float xpos = -320f + _intermissionSlide * 320f;
@@ -162,7 +162,7 @@ public class RockIntro : Level, IHaveAVirtualTransition, IOnlyTransitionIn
                 ypos2 = 60f;
                 Graphics.DrawRect(new Vec2(xpos, ypos2 + 30f), new Vec2(xpos + 320f, ypos2 + 60f), Color.Black, 0.9f);
                 Graphics.Draw(_intermissionText, -320f + _intermissionSlide * 336f, ypos2 + 18f);
-                _intermissionText.depth = 0.91f;
+                _intermissionText.Depth = 0.91f;
             }
         }
         base.PostDrawLayer(l);

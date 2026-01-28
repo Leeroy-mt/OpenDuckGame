@@ -18,7 +18,7 @@ public class DemoBlaster : Gun
         _ammoType = new AT9mm();
         _type = "gun";
         graphic = new Sprite("demoBlaster");
-        center = new Vec2(18f, 8f);
+        Center = new Vec2(18f, 8f);
         collisionOffset = new Vec2(-16f, -8f);
         collisionSize = new Vec2(32f, 15f);
         _barrelOffsetTL = new Vec2(37f, 7f);
@@ -32,7 +32,7 @@ public class DemoBlaster : Gun
         _bio = "";
         _editorName = "Demo Blaster";
         physicsMaterial = PhysicsMaterial.Metal;
-        _stream = new FluidStream(base.x, base.y, new Vec2(1f, 0f), 1f);
+        _stream = new FluidStream(base.X, base.Y, new Vec2(1f, 0f), 1f);
         isFatal = false;
     }
 
@@ -62,7 +62,7 @@ public class DemoBlaster : Gun
         if (_wait == 3)
         {
             _stream.sprayAngle = base.barrelVector * 2f;
-            _stream.position = base.barrelPosition;
+            _stream.Position = base.barrelPosition;
             FluidData dat = Fluid.Poo;
             dat.amount = 0.01f;
             _stream.Feed(dat);

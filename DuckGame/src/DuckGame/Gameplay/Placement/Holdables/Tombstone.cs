@@ -10,10 +10,10 @@ public class Tombstone : Holdable, IPlatform
     {
         _sprite = new SpriteMap("grave", 15, 16);
         graphic = _sprite;
-        center = new Vec2(7f, 8f);
+        Center = new Vec2(7f, 8f);
         collisionOffset = new Vec2(-7f, -8f);
         collisionSize = new Vec2(15f, 15f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         thickness = 4f;
         weight = 7f;
         flammable = 0f;

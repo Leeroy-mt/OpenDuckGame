@@ -21,7 +21,7 @@ public class Jetpack : Equipment
     {
         _sprite = new SpriteMap("jetpack", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-5f, -5f);
         collisionSize = new Vec2(11f, 12f);
         _offset = new Vec2(-3f, 3f);
@@ -50,23 +50,23 @@ public class Jetpack : Equipment
         {
             float smokeOff = 0f;
             _offset = new Vec2(-3f, 3f);
-            angle = 0f;
+            Angle = 0f;
             if (_equippedDuck.sliding && _equippedDuck._trapped == null)
             {
                 if (_equippedDuck.offDir > 0)
                 {
-                    angle = -(float)Math.PI / 2f;
+                    Angle = -(float)Math.PI / 2f;
                 }
                 else
                 {
-                    angle = (float)Math.PI / 2f;
+                    Angle = (float)Math.PI / 2f;
                 }
-                _offset.y += 12f;
+                _offset.Y += 12f;
                 smokeOff -= 6f;
             }
             if (_equippedDuck.crouch && !_equippedDuck.sliding)
             {
-                _offset.y += 4f;
+                _offset.Y += 4f;
             }
             collisionOffset = new Vec2(0f, -9999f);
             collisionSize = new Vec2(0f, 0f);
@@ -95,46 +95,34 @@ public class Jetpack : Equipment
                 if (propel is RagdollPart)
                 {
                     Global.data.timeJetpackedAsRagdoll++;
-                    float realAngle = angle;
-                    angle = propel.angle;
+                    float realAngle = Angle;
+                    Angle = propel.Angle;
                     Vec2 offset = Offset(new Vec2(0f, 8f));
-                    Level.Add(new JetpackSmoke(offset.x, offset.y));
-                    angle = realAngle;
-                    if (propel.velocity.length < 7f)
+                    Level.Add(new JetpackSmoke(offset.X, offset.Y));
+                    Angle = realAngle;
+                    if (propel.velocity.Length() < 7f)
                     {
                         RagdollPart part = propel as RagdollPart;
                         part.addWeight = 0.2f;
                         _equippedDuck.ragdoll.jetting = true;
-                        float ang = 0f - (propel.angle - (float)Math.PI / 2f);
-                        Vec2 dir = Vec2.Zero;
-                        if (_equippedDuck.inputProfile.leftStick.length > 0.1f)
-                        {
-                            dir = new Vec2(_equippedDuck.inputProfile.leftStick.x, 0f - _equippedDuck.inputProfile.leftStick.y);
-                        }
+                        float ang = 0 - (propel.Angle - float.Pi / 2f);
+                        var dir = Vec2.Zero;
+                        if (_equippedDuck.inputProfile.leftStick.Length() > 0.1f)
+                            dir = new Vec2(_equippedDuck.inputProfile.leftStick.X, 0f - _equippedDuck.inputProfile.leftStick.Y);
                         else
                         {
-                            dir = new Vec2(0f, 0f);
+                            dir = Vec2.Zero;
                             if (_equippedDuck.inputProfile.Down("LEFT"))
-                            {
-                                dir.x -= 1f;
-                            }
+                                dir.X -= 1f;
                             if (_equippedDuck.inputProfile.Down("RIGHT"))
-                            {
-                                dir.x += 1f;
-                            }
+                                dir.X += 1f;
                             if (_equippedDuck.inputProfile.Down("UP"))
-                            {
-                                dir.y -= 1f;
-                            }
+                                dir.Y -= 1f;
                             if (_equippedDuck.inputProfile.Down("DOWN"))
-                            {
-                                dir.y += 1f;
-                            }
+                                dir.Y += 1f;
                         }
-                        if (dir.length < 0.1f)
-                        {
-                            dir = new Vec2((float)Math.Cos(ang), (float)(0.0 - Math.Sin(ang)));
-                        }
+                        if (dir.Length() < 0.1f)
+                            dir = new Vec2(float.Cos(ang), float.Sin(ang));
                         propel.velocity += dir * 1.5f;
                         if (part.doll != null && part.doll.part1 != null && part.doll.part2 != null && part.doll.part3 != null)
                         {
@@ -146,15 +134,18 @@ public class Jetpack : Equipment
                 }
                 else
                 {
-                    Level.Add(new JetpackSmoke(base.x, base.y + 8f + smokeOff));
-                    if (angle > 0f)
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Level.Add(new JetpackSmoke(base.X, base.Y + 8f + smokeOff));
+                    }
+                    if (Angle > 0f)
                     {
                         if (propel.hSpeed < 6f)
                         {
                             propel.hSpeed += 0.9f;
                         }
                     }
-                    else if (angle < 0f)
+                    else if (Angle < 0f)
                     {
                         if (propel.hSpeed > -6f)
                         {

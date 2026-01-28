@@ -1,16 +1,14 @@
 namespace DuckGame;
 
-public class UIMenuActionCloseMenuSetBoolean : UIMenuAction
+public class UIMenuActionCloseMenuSetBoolean(UIComponent menu, MenuBoolean value) : UIMenuAction
 {
-    private UIComponent _menu;
+    #region Private Fields
 
-    private MenuBoolean _value;
+    UIComponent _menu = menu;
 
-    public UIMenuActionCloseMenuSetBoolean(UIComponent menu, MenuBoolean value)
-    {
-        _menu = menu;
-        _value = value;
-    }
+    MenuBoolean _value = value;
+
+    #endregion
 
     public override void Activate()
     {

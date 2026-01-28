@@ -33,15 +33,15 @@ public class GrenadeCannon : Gun
 
     private SpriteMap _sprite;
 
-    public override float angle
+    public override float Angle
     {
         get
         {
-            return base.angle + _aimAngle;
+            return base.Angle + _aimAngle;
         }
         set
         {
-            _angle = value;
+            AngleValue = value;
         }
     }
 
@@ -62,7 +62,7 @@ public class GrenadeCannon : Gun
         _sprite.AddAnimation("idle0", 0.4f, false, 20);
         _sprite.SetAnimation("idle4");
         graphic = _sprite;
-        center = new Vec2(11f, 7f);
+        Center = new Vec2(11f, 7f);
         collisionOffset = new Vec2(-6f, -4f);
         collisionSize = new Vec2(16f, 8f);
         _barrelOffsetTL = new Vec2(22f, 6f);
@@ -82,7 +82,7 @@ public class GrenadeCannon : Gun
         base.Update();
         if (_doLoad && _sprite.finished)
         {
-            Level.Add(new GrenadePin(base.x, base.y)
+            Level.Add(new GrenadePin(base.X, base.Y)
             {
                 hSpeed = (float)(-offDir) * (1.5f + Rando.Float(0.5f)),
                 vSpeed = -2f
@@ -107,11 +107,11 @@ public class GrenadeCannon : Gun
                 Vec2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.1f, 0.1f));
                 for (int i = 0; i < 12; i++)
                 {
-                    Level.Add(SmallFire.New(pos.x, pos.y, travelDir.x * Rando.Float(3.5f, 5f) + Rando.Float(-2f, 2f), travelDir.y * Rando.Float(3.5f, 5f) + Rando.Float(-2f, 2f)));
+                    Level.Add(SmallFire.New(pos.X, pos.Y, travelDir.X * Rando.Float(3.5f, 5f) + Rando.Float(-2f, 2f), travelDir.Y * Rando.Float(3.5f, 5f) + Rando.Float(-2f, 2f)));
                 }
                 for (int j = 0; j < 6; j++)
                 {
-                    Level.Add(SmallSmoke.New(pos.x + Rando.Float(-2f, 2f), pos.y + Rando.Float(-2f, 2f)));
+                    Level.Add(SmallSmoke.New(pos.X + Rando.Float(-2f, 2f), pos.Y + Rando.Float(-2f, 2f)));
                 }
                 _sprite.SetAnimation("idle" + Math.Min(ammo, 4));
                 kick = 1f;
@@ -120,8 +120,8 @@ public class GrenadeCannon : Gun
                 _fireAngle = 0f;
                 if (owner != null)
                 {
-                    owner.hSpeed -= travelDir.x * 4f;
-                    owner.vSpeed -= travelDir.y * 4f;
+                    owner.hSpeed -= travelDir.X * 4f;
+                    owner.vSpeed -= travelDir.Y * 4f;
                     if (owner is Duck { crouch: not false } duckOwner)
                     {
                         duckOwner.sliding = true;
@@ -129,8 +129,8 @@ public class GrenadeCannon : Gun
                 }
                 else
                 {
-                    hSpeed -= travelDir.x * 4f;
-                    vSpeed -= travelDir.y * 4f;
+                    hSpeed -= travelDir.X * 4f;
+                    vSpeed -= travelDir.Y * 4f;
                 }
             }
         }
@@ -207,15 +207,15 @@ public class GrenadeCannon : Gun
             {
                 Vec2 pos = Offset(base.barrelOffset);
                 float radians = base.barrelAngle + Rando.Float(-0.1f, 0.1f);
-                CannonGrenade g = new CannonGrenade(pos.x, pos.y)
+                CannonGrenade g = new CannonGrenade(pos.X, pos.Y)
                 {
                     _pin = false,
                     _timer = _timer
                 };
                 Fondle(g);
                 Vec2 travelDir = Maths.AngleToVec(radians);
-                g.hSpeed = travelDir.x * 10f;
-                g.vSpeed = travelDir.y * 10f;
+                g.hSpeed = travelDir.X * 10f;
+                g.vSpeed = travelDir.Y * 10f;
                 Level.Add(g);
                 _timer = 1.2f;
                 _doneLoad = false;
@@ -223,7 +223,7 @@ public class GrenadeCannon : Gun
                 _sprite.SetAnimation("idle" + Math.Min(ammo, 4));
             }
             _cooldown = 1f;
-            angle = 0f;
+            Angle = 0f;
             _fireAngle = 0f;
         }
     }

@@ -45,39 +45,39 @@ public class ParallaxZone
         float dep = 0.4f + (float)_ypos * 0.01f;
         foreach (Sprite s in _sprites)
         {
-            s.position += position;
-            s.position.x += scroll;
-            if (s.position.x < -200f * wrapMul)
+            s.Position += position;
+            s.X += scroll;
+            if (s.X < -200 * wrapMul)
             {
-                s.position.x += 500f * wrapMul;
+                s.X += 500 * wrapMul;
             }
-            if (s.position.x > 450f * wrapMul)
+            if (s.X > 450 * wrapMul)
             {
-                s.position.x -= 500f * wrapMul;
+                s.X -= 500 * wrapMul;
             }
-            s.depth = dep;
-            Graphics.Draw(s, s.x, s.y);
+            s.Depth = dep;
+            Graphics.Draw(s, s.X, s.Y);
             dep += 0.001f;
-            s.position.x -= scroll;
-            s.position -= position;
+            s.X -= scroll;
+            s.Position -= position;
         }
         foreach (Thing s2 in _things)
         {
-            s2.position += position;
-            s2.position.x += scroll;
-            if (s2.position.x < -200f)
+            s2.Position += position;
+            s2.X += scroll;
+            if (s2.X < -200)
             {
-                s2.position.x += 500f;
+                s2.X += 500;
             }
-            if (s2.position.x > 450f)
+            if (s2.X > 450)
             {
-                s2.position.x -= 500f;
+                s2.X -= 500;
             }
-            s2.depth = dep;
+            s2.Depth = dep;
             s2.Update();
             s2.Draw();
-            s2.position.x -= scroll;
-            s2.position -= position;
+            s2.X -= scroll;
+            s2.Position -= position;
         }
     }
 

@@ -16,7 +16,7 @@ public class DuelingPistol : Gun
         wideBarrel = true;
         _type = "gun";
         graphic = new Sprite("tinyGun");
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-6f, -4f);
         collisionSize = new Vec2(12f, 8f);
         _barrelOffsetTL = new Vec2(20f, 15f);
@@ -28,11 +28,11 @@ public class DuelingPistol : Gun
 
     public static void ExplodeEffect(Vec2 position)
     {
-        Level.Add(SmallSmoke.New(position.x, position.y));
-        Level.Add(SmallSmoke.New(position.x, position.y));
+        Level.Add(SmallSmoke.New(position.X, position.Y));
+        Level.Add(SmallSmoke.New(position.X, position.Y));
         for (int i = 0; i < 8; i++)
         {
-            Level.Add(Spark.New(position.x + Rando.Float(-3f, 3f), position.y + Rando.Float(-3f, 3f), new Vec2(Rando.Float(-3f, 3f), 0f - Rando.Float(-3f, 3f)), 0.05f));
+            Level.Add(Spark.New(position.X + Rando.Float(-3f, 3f), position.Y + Rando.Float(-3f, 3f), new Vec2(Rando.Float(-3f, 3f), 0f - Rando.Float(-3f, 3f)), 0.05f));
         }
         SFX.Play("shotgun", 1f, 0.3f);
     }
@@ -43,10 +43,10 @@ public class DuelingPistol : Gun
         {
             _kickForce = 3f;
             ApplyKick();
-            ExplodeEffect(position);
+            ExplodeEffect(Position);
             if (Network.isActive)
             {
-                Send.Message(new NMPistolExplode(position));
+                Send.Message(new NMPistolExplode(Position));
             }
             if (base.duck != null)
             {

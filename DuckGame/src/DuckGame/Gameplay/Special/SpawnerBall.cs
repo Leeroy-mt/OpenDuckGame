@@ -30,9 +30,9 @@ public class SpawnerBall : Thing
         _sprite = new SpriteMap("spawnerBall", 4, 4);
         _sprite.frame = 1;
         graphic = _sprite;
-        center = new Vec2(2f, 2f);
-        _sprite.center = new Vec2(2f, 2f);
-        base.depth = 0.5f;
+        Center = new Vec2(2f, 2f);
+        _sprite.Center = new Vec2(2f, 2f);
+        base.Depth = 0.5f;
         _secondBall = secondBall;
     }
 
@@ -54,15 +54,15 @@ public class SpawnerBall : Thing
         float s = ((float)Math.Sin(_wave + 1.57f) + 1f) / 2f * 0.5f;
         if (!_secondBall)
         {
-            _sprite.scale = new Vec2(s + 0.6f, s + 0.6f);
-            _sprite.depth = ((_sprite.scale.x > 0.8f) ? 0.4f : (-0.8f));
-            Graphics.Draw(_sprite, base.x + (float)Math.Sin(_wave) * orbitDistance, base.y - orbitHeight);
+            _sprite.Scale = new Vec2(s + 0.6f, s + 0.6f);
+            _sprite.Depth = ((_sprite.Scale.X > 0.8f) ? 0.4f : (-0.8f));
+            Graphics.Draw(_sprite, base.X + (float)Math.Sin(_wave) * orbitDistance, base.Y - orbitHeight);
         }
         else
         {
-            _sprite.scale = new Vec2(0.5f - s + 0.6f, 0.5f - s + 0.6f);
-            _sprite.depth = ((_sprite.scale.x > 0.8f) ? 0.4f : (-0.8f));
-            Graphics.Draw(_sprite, base.x - (float)Math.Sin(_wave) * orbitDistance, base.y - orbitHeight);
+            _sprite.Scale = new Vec2(0.5f - s + 0.6f, 0.5f - s + 0.6f);
+            _sprite.Depth = ((_sprite.Scale.X > 0.8f) ? 0.4f : (-0.8f));
+            Graphics.Draw(_sprite, base.X - (float)Math.Sin(_wave) * orbitDistance, base.Y - orbitHeight);
         }
     }
 }

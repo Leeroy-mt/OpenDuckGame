@@ -40,7 +40,7 @@ public class Grapple : Equipment, ISwing
 
     public Vec2 barrelPosition => Offset(barrelOffset);
 
-    public Vec2 barrelOffset => _barrelOffsetTL - center;
+    public Vec2 barrelOffset => _barrelOffsetTL - Center;
 
     public bool hookInGun => _harpoon.inGun;
 
@@ -53,7 +53,7 @@ public class Grapple : Equipment, ISwing
     {
         _sprite = new SpriteMap("grappleArm", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-5f, -4f);
         collisionSize = new Vec2(11f, 7f);
         _offset = new Vec2(0f, 7f);
@@ -86,7 +86,7 @@ public class Grapple : Equipment, ISwing
         _sightHit = new Sprite("laserSightHit");
         _sightHit.CenterOrigin();
         _ropeSprite = new Sprite("grappleWire");
-        _ropeSprite.center = new Vec2(8f, 0f);
+        _ropeSprite.Center = new Vec2(8f, 0f);
     }
 
     public Rope GetRopeParent(Thing child)
@@ -133,22 +133,22 @@ public class Grapple : Equipment, ISwing
                 r.attach1 = r;
                 if (base.duck != null)
                 {
-                    r.position = base.duck.position;
+                    r.Position = base.duck.Position;
                 }
                 else
                 {
-                    r.position = position;
+                    r.Position = Position;
                 }
                 r._thing = base.duck;
             }
             if (r.attach2 == null || !(r.attach2 is Rope) || r.attach2 == r)
             {
-                Rope nextRope = new Rope(pos.x, pos.y, r, null, null, vine: false, _ropeSprite, this);
+                Rope nextRope = new Rope(pos.X, pos.Y, r, null, null, vine: false, _ropeSprite, this);
                 r.attach2 = nextRope;
             }
             if (r.attach2 != null)
             {
-                r.attach2.position = pos;
+                r.attach2.Position = pos;
                 (r.attach2 as Rope).attach1 = r;
             }
             DeserializeRope(r.attach2 as Rope);
@@ -161,7 +161,7 @@ public class Grapple : Equipment, ISwing
         {
             Rope obj = r.attach1 as Rope;
             obj.TerminateLaterRopes();
-            _harpoon.Latch(r.position);
+            _harpoon.Latch(r.Position);
             obj.attach2 = _harpoon;
         }
     }
@@ -243,10 +243,10 @@ public class Grapple : Equipment, ISwing
                     }
                 }
                 tracer.penetration = 9f;
-                Bullet b = new Bullet(pos.x, pos.y, tracer, a, owner, rbound: false, -1f, tracer: true);
+                Bullet b = new Bullet(pos.X, pos.Y, tracer, a, owner, rbound: false, -1f, tracer: true);
                 _wallPoint = b.end;
                 _grappleTravel = b.travelDirNormalized;
-                dist = (pos - _wallPoint).length;
+                dist = (pos - _wallPoint).Length();
             }
             if (dist < _grappleLength - 2f && !(dist > _grappleDist + 16f))
             {
@@ -271,7 +271,7 @@ public class Grapple : Equipment, ISwing
                     {
                         RumbleManager.AddRumbleEvent(base.duck.profile, new RumbleEvent(RumbleIntensity.Kick, RumbleDuration.Pulse, RumbleFalloff.Short));
                         _harpoon.Fire(wallPoint, grappelTravel);
-                        _rope = new Rope(barrelPosition.x, barrelPosition.y, null, _harpoon, base.duck, vine: false, _ropeSprite, this);
+                        _rope = new Rope(barrelPosition.X, barrelPosition.Y, null, _harpoon, base.duck, vine: false, _ropeSprite, this);
                         Level.Add(_rope);
                     }
                 }
@@ -298,11 +298,11 @@ public class Grapple : Equipment, ISwing
         }
         if (owner != null)
         {
-            _rope.position = owner.position;
+            _rope.Position = owner.Position;
         }
         else
         {
-            _rope.position = position;
+            _rope.Position = Position;
             if (base.prevOwner != null)
             {
                 PhysicsObject obj = base.prevOwner as PhysicsObject;
@@ -354,16 +354,16 @@ public class Grapple : Equipment, ISwing
             frictionMult = 1f;
             gravMultiplier = 1f;
         }
-        Vec2 travel = _rope.attach1.position - _rope.attach2.position;
+        Vec2 travel = _rope.attach1.Position - _rope.attach2.Position;
         if (_rope.properLength < 0f)
         {
-            _rope.properLength = (_rope.startLength = travel.length);
+            _rope.properLength = (_rope.startLength = travel.Length());
         }
-        if (!(travel.length > _rope.properLength))
+        if (!(travel.Length() > _rope.properLength))
         {
             return;
         }
-        travel = travel.normalized;
+        travel = travel.Normalized;
         if (base.duck != null)
         {
             base.duck.grappleMul = true;
@@ -373,19 +373,19 @@ public class Grapple : Equipment, ISwing
                 Degrapple();
                 return;
             }
-            _ = attach.position;
-            attach.position = _rope.attach2.position + travel * _rope.properLength;
-            Vec2 dif = attach.position - attach.lastPosition;
-            attach.hSpeed = dif.x;
-            attach.vSpeed = dif.y;
+            _ = attach.Position;
+            attach.Position = _rope.attach2.Position + travel * _rope.properLength;
+            Vec2 dif = attach.Position - attach.lastPosition;
+            attach.hSpeed = dif.X;
+            attach.vSpeed = dif.Y;
         }
         else
         {
-            _ = position;
-            position = _rope.attach2.position + travel * _rope.properLength;
-            Vec2 dif2 = position - base.lastPosition;
-            hSpeed = dif2.x;
-            vSpeed = dif2.y;
+            _ = Position;
+            Position = _rope.attach2.Position + travel * _rope.properLength;
+            Vec2 dif2 = Position - base.lastPosition;
+            hSpeed = dif2.X;
+            vSpeed = dif2.Y;
         }
     }
 
@@ -400,16 +400,16 @@ public class Grapple : Equipment, ISwing
             Vec2 off = _offset;
             if (_equippedDuck.offDir < 0)
             {
-                off.x *= -1f;
+                off.X *= -1f;
             }
             Vec2 handOffset = Vec2.Zero;
             if (_equippedDuck.holdObject != null)
             {
                 handOffset = _equippedDuck.holdObject.handOffset;
-                handOffset.x *= _equippedDuck.offDir;
+                handOffset.X *= _equippedDuck.offDir;
             }
             Vec2 pos = _equippedDuck.armPosition + handOffset;
-            position = pos;
+            Position = pos;
         }
         if (!Options.Data.fireGlow)
         {
@@ -421,11 +421,11 @@ public class Grapple : Equipment, ISwing
     {
         if (_equippedDuck != null && _harpoon != null && _harpoon.inGun && _canGrab && _equippedDuck._trapped == null)
         {
-            Graphics.DrawTexturedLine(_laserTex, Offset(barrelOffset), _wallPoint, Color.Red, 0.5f, base.depth - 1);
+            Graphics.DrawTexturedLine(_laserTex, Offset(barrelOffset), _wallPoint, Color.Red, 0.5f, base.Depth - 1);
             if (_sightHit != null)
             {
                 _sightHit.color = Color.Red;
-                Graphics.Draw(_sightHit, _wallPoint.x, _wallPoint.y);
+                Graphics.Draw(_sightHit, _wallPoint.X, _wallPoint.Y);
             }
         }
         base.DrawGlow();

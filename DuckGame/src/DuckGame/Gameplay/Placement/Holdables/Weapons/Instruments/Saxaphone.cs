@@ -33,7 +33,7 @@ public class Saxaphone : Gun
         _ammoType.accuracy = 0.8f;
         _type = "gun";
         graphic = new Sprite("saxaphone");
-        center = new Vec2(20f, 18f);
+        Center = new Vec2(20f, 18f);
         collisionOffset = new Vec2(-4f, -7f);
         collisionSize = new Vec2(8f, 16f);
         _barrelOffsetTL = new Vec2(24f, 16f);
@@ -107,7 +107,7 @@ public class Saxaphone : Gun
                         hitPitch = notePitch;
                         Sound snd = SFX.Play("sax" + Change.ToString(note));
                         noteSound = snd;
-                        Level.Add(new MusicNote(base.barrelPosition.x, base.barrelPosition.y, base.barrelVector));
+                        Level.Add(new MusicNote(base.barrelPosition.X, base.barrelPosition.Y, base.barrelVector));
                     }
                     else
                     {

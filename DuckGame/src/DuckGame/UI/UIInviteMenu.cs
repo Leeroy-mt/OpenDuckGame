@@ -6,7 +6,7 @@ namespace DuckGame;
 
 public class UIInviteMenu : UIMenu
 {
-    private static Dictionary<int, int> _sortDictionary = new Dictionary<int, int>
+    private static Dictionary<int, int> _sortDictionary = new()
     {
         { 0, 6 },
         { 1, 1 },
@@ -17,9 +17,9 @@ public class UIInviteMenu : UIMenu
         { 6, 0 }
     };
 
-    public static Dictionary<ulong, Sprite> avatars = new Dictionary<ulong, Sprite>();
+    public static Dictionary<ulong, Sprite> avatars = [];
 
-    private List<UIInviteUser> _users = new List<UIInviteUser>();
+    private List<UIInviteUser> _users = [];
 
     private BitmapFont _littleFont;
 
@@ -193,76 +193,76 @@ public class UIInviteMenu : UIMenu
         for (int i = _viewTop; i < _viewTop + _maxShow && i < _users.Count; i++)
         {
             UIInviteUser user = _users[i];
-            float yPos = base.y - yZone / 2f + yOff;
-            float xPos = base.x - 68f;
+            float yPos = base.Y - yZone / 2f + yOff;
+            float xPos = base.X - 68f;
             Sprite spr = user.sprite;
             if (spr == null)
             {
                 spr = _noAvatar;
             }
-            spr.depth = base.depth + 4;
-            spr.scale = new Vec2(0.25f);
-            spr.alpha = ((_selection == i) ? 1f : 0.3f);
+            spr.Depth = base.Depth + 4;
+            spr.Scale = new Vec2(0.25f);
+            spr.Alpha = ((_selection == i) ? 1f : 0.3f);
             Graphics.Draw(spr, xPos + 8f, yPos + 8f, new Rectangle(6f, 6f, 52f, 52f));
-            _littleFont.Draw(user.name, new Vec2(xPos + 15f, yPos), Color.White * ((_selection == i) ? 1f : 0.3f), base.depth + 4);
+            _littleFont.Draw(user.name, new Vec2(xPos + 15f, yPos), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             if (user.triedInvite)
             {
-                _littleFont.Draw("|LIME|@CHECK@INVITED", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.depth + 4);
+                _littleFont.Draw("|LIME|@CHECK@INVITED", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.inGame)
             {
                 if (user.inDuckGame)
                 {
-                    _littleFont.Draw("@ITEMBOX@|DGBLUE|IN DUCK GAME!", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.depth + 4);
+                    _littleFont.Draw("@ITEMBOX@|DGBLUE|IN DUCK GAME!", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
                 }
                 else
                 {
-                    _littleFont.Draw("@USERONLINE@|YELLOW|IN SOME GAME", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.depth + 4);
+                    _littleFont.Draw("@USERONLINE@|YELLOW|IN SOME GAME", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
                 }
             }
             else if (user.state == SteamUserState.Online)
             {
-                _littleFont.Draw("@USERONLINE@|DGGREEN|ONLINE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.depth + 4);
+                _littleFont.Draw("@USERONLINE@|DGGREEN|ONLINE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.Away)
             {
-                _littleFont.Draw("@USERAWAY@|YELLOW|AWAY", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.depth + 4);
+                _littleFont.Draw("@USERAWAY@|YELLOW|AWAY", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.Busy)
             {
-                _littleFont.Draw("@USERBUSY@|YELLOW|BUSY", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.depth + 4);
+                _littleFont.Draw("@USERBUSY@|YELLOW|BUSY", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.Snooze)
             {
-                _littleFont.Draw("@USERBUSY@|YELLOW|SNOOZE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.depth + 4);
+                _littleFont.Draw("@USERBUSY@|YELLOW|SNOOZE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.Offline)
             {
-                _littleFont.Draw("@USEROFFLINE@|LIGHTGRAY|OFFLINE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.depth + 4);
+                _littleFont.Draw("@USEROFFLINE@|LIGHTGRAY|OFFLINE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.LookingToPlay)
             {
-                _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO PLAY", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.depth + 4);
+                _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO PLAY", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.LookingToTrade)
             {
-                _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO TRADE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.depth + 4);
+                _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO TRADE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
-            Graphics.DrawRect(new Vec2(xPos, yPos), new Vec2(xPos + 135f, yPos + 13f), (second ? Colors.BlueGray : (Colors.BlueGray * 0.6f)) * ((_selection == i) ? 1f : 0.3f), base.depth + 2);
+            Graphics.DrawRect(new Vec2(xPos, yPos), new Vec2(xPos + 135f, yPos + 13f), (second ? Colors.BlueGray : (Colors.BlueGray * 0.6f)) * ((_selection == i) ? 1f : 0.3f), base.Depth + 2);
             yOff += 14f;
             second = !second;
         }
         if (_viewTop < _users.Count - _maxShow)
         {
-            _moreArrow.depth = base.depth + 2;
+            _moreArrow.Depth = base.Depth + 2;
             _moreArrow.flipV = false;
-            Graphics.Draw(_moreArrow, base.x, base.y + yZone / 2f + 13f);
+            Graphics.Draw(_moreArrow, base.X, base.Y + yZone / 2f + 13f);
         }
         if (_viewTop > 0)
         {
-            _moreArrow.depth = base.depth + 2;
+            _moreArrow.Depth = base.Depth + 2;
             _moreArrow.flipV = true;
-            Graphics.Draw(_moreArrow, base.x, base.y - yZone / 2f - 2f);
+            Graphics.Draw(_moreArrow, base.X, base.Y - yZone / 2f - 2f);
         }
         base.Draw();
     }

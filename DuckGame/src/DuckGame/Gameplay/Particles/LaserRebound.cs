@@ -8,14 +8,14 @@ public class LaserRebound : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite(_rebound);
-        base.depth = 0.9f;
-        center = new Vec2(4f, 4f);
+        base.Depth = 0.9f;
+        Center = new Vec2(4f, 4f);
     }
 
     public override void Update()
     {
-        base.alpha -= 0.07f;
-        if (base.alpha <= 0f)
+        base.Alpha -= 0.07f;
+        if (base.Alpha <= 0f)
         {
             Level.Remove(this);
         }

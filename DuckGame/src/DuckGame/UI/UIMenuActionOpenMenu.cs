@@ -1,16 +1,15 @@
 namespace DuckGame;
 
-public class UIMenuActionOpenMenu : UIMenuAction
+public class UIMenuActionOpenMenu(UIComponent menu, UIComponent open)
+    : UIMenuAction
 {
-    private UIComponent _menu;
+    #region Private Fields
 
-    private UIComponent _open;
+    UIComponent _menu = menu;
 
-    public UIMenuActionOpenMenu(UIComponent menu, UIComponent open)
-    {
-        _menu = menu;
-        _open = open;
-    }
+    UIComponent _open = open;
+
+    #endregion
 
     public override void Activate()
     {
@@ -18,8 +17,6 @@ public class UIMenuActionOpenMenu : UIMenuAction
         _menu.Close();
         _open.Open();
         if (pauseMenu == _menu)
-        {
             MonoMain.pauseMenu = _open;
-        }
     }
 }

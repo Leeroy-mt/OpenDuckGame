@@ -70,16 +70,16 @@ public class RCCar : Holdable, IPlatform
         _sprite.AddAnimation("idle", 1f, true, default(int));
         _sprite.AddAnimation("beep", 0.2f, true, 0, 1);
         graphic = _sprite;
-        center = new Vec2(16f, 24f);
+        Center = new Vec2(16f, 24f);
         collisionOffset = new Vec2(-8f, 0f);
         collisionSize = new Vec2(16f, 11f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "RC Car";
         thickness = 2f;
         weight = 5f;
         flammable = 0.3f;
         _wheel = new Sprite("rcWheel");
-        _wheel.center = new Vec2(4f, 4f);
+        _wheel.Center = new Vec2(4f, 4f);
         weight = 0.5f;
         physicsMaterial = PhysicsMaterial.Metal;
     }
@@ -96,20 +96,20 @@ public class RCCar : Holdable, IPlatform
 
     protected override bool OnDestroy(DestroyType type = null)
     {
-        RumbleManager.AddRumbleEvent(position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
+        RumbleManager.AddRumbleEvent(Position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
         if (!base.isServerForObject)
         {
             return false;
         }
         ATRCShrapnel shrap = new ATRCShrapnel();
-        shrap.MakeNetEffect(position);
+        shrap.MakeNetEffect(Position);
         List<Bullet> firedBullets = new List<Bullet>();
         for (int i = 0; i < 20; i++)
         {
             float dir = (float)i * 18f - 5f + Rando.Float(10f);
             shrap = new ATRCShrapnel();
             shrap.range = 55f + Rando.Float(14f);
-            Bullet bullet = new Bullet(base.x + (float)(Math.Cos(Maths.DegToRad(dir)) * 6.0), base.y - (float)(Math.Sin(Maths.DegToRad(dir)) * 6.0), shrap, dir);
+            Bullet bullet = new Bullet(base.X + (float)(Math.Cos(Maths.DegToRad(dir)) * 6.0), base.Y - (float)(Math.Sin(Maths.DegToRad(dir)) * 6.0), shrap, dir);
             bullet.firedFrom = this;
             firedBullets.Add(bullet);
             Level.Add(bullet);
@@ -148,7 +148,7 @@ public class RCCar : Holdable, IPlatform
     {
         if (_controller == null && !(Level.current is Editor) && base.isServerForObject)
         {
-            _controller = new RCController(base.x, base.y, this);
+            _controller = new RCController(base.X, base.Y, this);
             Level.Add(_controller);
         }
         _wave.Update();
@@ -198,7 +198,7 @@ public class RCCar : Holdable, IPlatform
         if (_idleSpeed > 0.1f)
         {
             _inc = 0;
-            Level.Add(SmallSmoke.New(base.x - (float)(offDir * 10), base.y));
+            Level.Add(SmallSmoke.New(base.X - (float)(offDir * 10), base.Y));
         }
         if (!moveLeft && !moveRight)
         {
@@ -218,7 +218,7 @@ public class RCCar : Holdable, IPlatform
         }
         _tilt = MathHelper.Lerp(_tilt, 0f - hSpeed, 0.4f);
         _waveMult = MathHelper.Lerp(_waveMult, 0f - hSpeed, 0.1f);
-        base.angleDegrees = _tilt * 2f + _wave.value * (_waveMult * (_maxSpeed - Math.Abs(hSpeed)));
+        base.AngleDegrees = _tilt * 2f + _wave.value * (_waveMult * (_maxSpeed - Math.Abs(hSpeed)));
         if (base.isServerForObject && base.isOffBottomOfLevel && !destroyed)
         {
             Destroy(new DTFall());
@@ -232,7 +232,7 @@ public class RCCar : Holdable, IPlatform
             _sprite.flipH = !((float)offDir >= 0f);
         }
         base.Draw();
-        Graphics.Draw(_wheel, base.x - 7f, base.y + 9f);
-        Graphics.Draw(_wheel, base.x + 7f, base.y + 9f);
+        Graphics.Draw(_wheel, base.X - 7f, base.Y + 9f);
+        Graphics.Draw(_wheel, base.X + 7f, base.Y + 9f);
     }
 }

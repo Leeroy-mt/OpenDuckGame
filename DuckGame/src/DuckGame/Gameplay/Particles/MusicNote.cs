@@ -48,21 +48,21 @@ public class MusicNote : Thing
         _sin = new SinWaveManualUpdate(0.03f + Rando.Float(0.1f), mul * ((float)Math.PI * 2f));
         _size = 3f + Rando.Float(6f);
         _speed = 0.8f + Rando.Float(1.4f);
-        base.depth = 0.95f;
-        base.scale = new Vec2(0.1f, 0.1f);
+        base.Depth = 0.95f;
+        base.Scale = new Vec2(0.1f, 0.1f);
     }
 
     public override void Update()
     {
         _sin.Update();
-        base.x += _dir.x;
-        Vec2 s = base.scale;
-        s.x = (s.y = Lerp.Float(s.x, 1f, 0.05f));
-        base.scale = s;
-        if (base.scale.x > 0.9f)
+        base.X += _dir.X;
+        Vec2 s = base.Scale;
+        s.X = (s.Y = Lerp.Float(s.X, 1f, 0.05f));
+        base.Scale = s;
+        if (base.Scale.X > 0.9f)
         {
-            base.alpha -= 0.01f;
-            if (base.alpha <= 0f)
+            base.Alpha -= 0.01f;
+            if (base.Alpha <= 0f)
             {
                 Level.Remove(this);
             }
@@ -71,10 +71,10 @@ public class MusicNote : Thing
 
     public override void Draw()
     {
-        Vec2 pos = position;
-        pos.y += _sin.value * _size;
-        _sprite.alpha = base.alpha;
-        _sprite.scale = base.scale;
-        Graphics.Draw(_sprite, pos.x, pos.y);
+        Vec2 pos = Position;
+        pos.Y += _sin.value * _size;
+        _sprite.Alpha = base.Alpha;
+        _sprite.Scale = base.Scale;
+        Graphics.Draw(_sprite, pos.X, pos.Y);
     }
 }

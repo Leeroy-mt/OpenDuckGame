@@ -28,7 +28,7 @@ public class CombatShotgun : Gun
         wideBarrel = true;
         _type = "gun";
         graphic = new Sprite("combatShotgun");
-        center = new Vec2(16f, 16f);
+        Center = new Vec2(16f, 16f);
         collisionOffset = new Vec2(-12f, -3f);
         collisionSize = new Vec2(24f, 9f);
         _barrelOffsetTL = new Vec2(29f, 15f);
@@ -38,9 +38,9 @@ public class CombatShotgun : Gun
         _numBulletsPerFire = 7;
         _manualLoad = true;
         _loaderSprite = new SpriteMap("combatShotgunLoader", 16, 16);
-        _loaderSprite.center = new Vec2(8f, 8f);
+        _loaderSprite.Center = new Vec2(8f, 8f);
         _ammoSprite = new SpriteMap("combatShotgunAmmo", 16, 16);
-        _ammoSprite.center = new Vec2(8f, 8f);
+        _ammoSprite.Center = new Vec2(8f, 8f);
         handOffset = new Vec2(0f, 1f);
         _holdOffset = new Vec2(4f, 0f);
         editorTooltip = "So many shells, what convenience!";
@@ -96,7 +96,7 @@ public class CombatShotgun : Gun
         base.Draw();
         Vec2 bOffset = new Vec2(13f, -1f);
         float offset = (float)Math.Sin(_loadProgress * 3.14f) * 3f;
-        Draw(_loaderSprite, new Vec2(bOffset.x - 12f - offset, bOffset.y + 4f));
+        Draw(_loaderSprite, new Vec2(bOffset.X - 12f - offset, bOffset.Y + 4f));
         Draw(_ammoSprite, new Vec2(-3f, -2f), 2);
     }
 }

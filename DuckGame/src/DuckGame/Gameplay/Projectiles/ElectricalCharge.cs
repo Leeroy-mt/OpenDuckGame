@@ -20,18 +20,18 @@ public class ElectricalCharge : Thing
     {
         if (_prevPositions.Count == 0)
         {
-            _prevPositions.Insert(0, position);
+            _prevPositions.Insert(0, Position);
         }
-        Vec2 p = position;
-        position += _travelVec;
+        Vec2 p = Position;
+        Position += _travelVec;
         _travelVec = new Vec2((float)offDir * Rando.Float(6f, 10f), Rando.Float(-10f, 10f));
-        _prevPositions.Insert(0, position);
-        base.alpha -= 0.1f;
-        if (base.alpha < 0f)
+        _prevPositions.Insert(0, Position);
+        base.Alpha -= 0.1f;
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }
-        foreach (IAmADuck d in Level.CheckLineAll<IAmADuck>(p, position))
+        foreach (IAmADuck d in Level.CheckLineAll<IAmADuck>(p, Position))
         {
             if (d is MaterialThing realThing && d != owner.owner)
             {

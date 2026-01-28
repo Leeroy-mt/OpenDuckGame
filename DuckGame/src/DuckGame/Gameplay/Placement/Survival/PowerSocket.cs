@@ -8,9 +8,9 @@ public class PowerSocket : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("survival/cryoSocket");
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(14f, 14f);
         _collisionOffset = new Vec2(-7f, -7f);
-        base.depth = -0.9f;
+        base.Depth = -0.9f;
     }
 }

@@ -145,11 +145,11 @@ public class CardStrip : Thing
 
     public override void Draw()
     {
-        float yDraw = base.y;
+        float yDraw = base.Y;
         if (_heading != null && _heading != "")
         {
-            _font.scale = new Vec2(0.75f, 0.75f);
-            _font.Draw(_heading, base.x + 4f, base.y, Color.White, 0.95f);
+            _font.Scale = new Vec2(0.75f, 0.75f);
+            _font.Draw(_heading, base.X + 4f, base.Y, Color.White, 0.95f);
             yDraw += 10f;
         }
         Vec2 cardPos = Vec2.Zero;
@@ -157,7 +157,7 @@ public class CardStrip : Thing
         if (_cards.Count > 0)
         {
             size = new Vec2(_cards[0].width, _cards[0].height);
-            cardPos = new Vec2(base.x - (size.x + 4f) + _indexSlide * (size.x + 4f), yDraw);
+            cardPos = new Vec2(base.X - (size.X + 4f) + _indexSlide * (size.X + 4f), yDraw);
         }
         int curCard = 0;
         for (int i = _levelIndex - 1; i < _levelIndex + (_numCardsPerScreen + 1); i++)
@@ -191,22 +191,22 @@ public class CardStrip : Thing
                 }
                 card.Draw(cardPos, _selected && i == _selectedCardIndex, a);
             }
-            cardPos.x += size.x + 4f;
+            cardPos.X += size.X + 4f;
             curCard++;
         }
         Sprite arrow = _arrow;
-        float num = (_arrow.yscale = 0.25f);
-        arrow.xscale = num;
-        _arrow.depth = 0.98f;
+        float num = (_arrow.ScaleY = 0.25f);
+        arrow.ScaleX = num;
+        _arrow.Depth = 0.98f;
         if (_levelIndex + _numCardsPerScreen < _cards.Count)
         {
             _arrow.flipH = false;
-            Graphics.Draw(_arrow, 312f, yDraw + size.y / 2f);
+            Graphics.Draw(_arrow, 312f, yDraw + size.Y / 2f);
         }
         if (_levelIndex > 0)
         {
             _arrow.flipH = true;
-            Graphics.Draw(_arrow, 8f, yDraw + size.y / 2f);
+            Graphics.Draw(_arrow, 8f, yDraw + size.Y / 2f);
         }
     }
 }

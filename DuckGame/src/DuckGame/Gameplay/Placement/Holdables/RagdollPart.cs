@@ -149,19 +149,19 @@ public class RagdollPart : Holdable, IAmADuck
             }
             if (part == 0)
             {
-                center = new Vec2(16f, 13f);
+                Center = new Vec2(16f, 13f);
             }
             else if (part == 1)
             {
-                center = new Vec2(16f, 13f);
+                Center = new Vec2(16f, 13f);
             }
             else if (part == 3)
             {
-                center = new Vec2(6f, 8f);
+                Center = new Vec2(6f, 8f);
             }
             else
             {
-                center = new Vec2(8f, 8f);
+                Center = new Vec2(8f, 8f);
             }
             if (part == 0 || part == 1)
             {
@@ -259,19 +259,19 @@ public class RagdollPart : Holdable, IAmADuck
         _sprite.frame = ((_part != 0) ? 1 : 0);
         if (part == 0)
         {
-            center = new Vec2(16f, 16f);
+            Center = new Vec2(16f, 16f);
         }
         else if (part == 1)
         {
-            center = new Vec2(16f, 13f);
+            Center = new Vec2(16f, 13f);
         }
         else if (part == 3)
         {
-            center = new Vec2(6f, 8f);
+            Center = new Vec2(6f, 8f);
         }
         else
         {
-            center = new Vec2(8f, 8f);
+            Center = new Vec2(8f, 8f);
         }
         _zekeBear = true;
     }
@@ -312,8 +312,8 @@ public class RagdollPart : Holdable, IAmADuck
 
     public void SortOutDetails(float xpos, float ypos, int p, DuckPersona persona, int off, Ragdoll doll)
     {
-        base.x = xpos;
-        base.y = ypos;
+        base.X = xpos;
+        base.Y = ypos;
         hSpeed = 0f;
         vSpeed = 0f;
         _part = part;
@@ -326,10 +326,10 @@ public class RagdollPart : Holdable, IAmADuck
 
     public override void OnTeleport()
     {
-        position.x += Math.Sign(hSpeed) * 8;
-        doll.part1.position = position;
-        doll.part2.position = position;
-        doll.part3.position = position;
+        X += Math.Sign(hSpeed) * 8;
+        doll.part1.Position = Position;
+        doll.part2.Position = Position;
+        doll.part3.Position = Position;
         doll.part1.hSpeed = hSpeed;
         doll.part2.hSpeed = hSpeed;
         doll.part3.hSpeed = hSpeed;
@@ -354,7 +354,7 @@ public class RagdollPart : Holdable, IAmADuck
                 chest.UnEquip();
                 SFX.Play("ting2");
                 d.Unequip(chest);
-                chest.hSpeed = bullet.travelDirNormalized.x;
+                chest.hSpeed = bullet.travelDirNormalized.X;
                 chest.vSpeed = -2f;
                 chest.Destroy(new DTShot(bullet));
                 chest.solid = false;
@@ -366,7 +366,7 @@ public class RagdollPart : Holdable, IAmADuck
                 head.UnEquip();
                 SFX.Play("ting2");
                 d.Unequip(head);
-                head.hSpeed = bullet.travelDirNormalized.x;
+                head.hSpeed = bullet.travelDirNormalized.X;
                 head.vSpeed = -2f;
                 head.Destroy(new DTShot(bullet));
                 head.solid = false;
@@ -374,14 +374,14 @@ public class RagdollPart : Holdable, IAmADuck
             }
         }
         Feather feather = Feather.New(0f, 0f, _persona);
-        feather.hSpeed = (0f - bullet.travelDirNormalized.x) * (1f + Rando.Float(1f));
+        feather.hSpeed = (0f - bullet.travelDirNormalized.X) * (1f + Rando.Float(1f));
         feather.vSpeed = 0f - Rando.Float(2f);
-        feather.position = hitPos;
+        feather.Position = hitPos;
         Level.Add(feather);
         if (bullet.isLocal)
         {
-            hSpeed += bullet.travelDirNormalized.x * bullet.ammo.impactPower;
-            vSpeed += bullet.travelDirNormalized.y * bullet.ammo.impactPower;
+            hSpeed += bullet.travelDirNormalized.X * bullet.ammo.impactPower;
+            vSpeed += bullet.travelDirNormalized.Y * bullet.ammo.impactPower;
             SFX.Play("thwip", 1f, Rando.Float(-0.1f, 0.1f));
             _doll.Shot(bullet);
         }
@@ -405,10 +405,10 @@ public class RagdollPart : Holdable, IAmADuck
                 }
                 return false;
             }
-            CookedDuck cooked = new CookedDuck(_doll.x, _doll.y);
-            Level.Add(SmallSmoke.New(_doll.x + Rando.Float(-4f, 4f), _doll.y + Rando.Float(-4f, 4f)));
-            Level.Add(SmallSmoke.New(_doll.x + Rando.Float(-4f, 4f), _doll.y + Rando.Float(-4f, 4f)));
-            Level.Add(SmallSmoke.New(_doll.x + Rando.Float(-4f, 4f), _doll.y + Rando.Float(-4f, 4f)));
+            CookedDuck cooked = new CookedDuck(_doll.X, _doll.Y);
+            Level.Add(SmallSmoke.New(_doll.X + Rando.Float(-4f, 4f), _doll.Y + Rando.Float(-4f, 4f)));
+            Level.Add(SmallSmoke.New(_doll.X + Rando.Float(-4f, 4f), _doll.Y + Rando.Float(-4f, 4f)));
+            Level.Add(SmallSmoke.New(_doll.X + Rando.Float(-4f, 4f), _doll.Y + Rando.Float(-4f, 4f)));
             ReturnItemToWorld(cooked);
             cooked.vSpeed = vSpeed - 2f;
             cooked.hSpeed = hSpeed;
@@ -458,18 +458,18 @@ public class RagdollPart : Holdable, IAmADuck
         }
         if (_doll.captureDuck != null)
         {
-            Vec2 prevPos = _doll.captureDuck.position;
+            Vec2 prevPos = _doll.captureDuck.Position;
             _doll.captureDuck.collisionOffset = collisionOffset;
             _doll.captureDuck.collisionSize = collisionSize;
-            _doll.captureDuck.position = position;
+            _doll.captureDuck.Position = Position;
             _doll.captureDuck.OnSoftImpact(with, from);
-            _doll.captureDuck.position = prevPos;
+            _doll.captureDuck.Position = prevPos;
         }
     }
 
     public void UpdateLastReasonablePosition(Vec2 pPosition)
     {
-        if (pPosition.y > -7000f && pPosition.y < Level.activeLevel.lowestPoint + 400f)
+        if (pPosition.Y > -7000f && pPosition.Y < Level.activeLevel.lowestPoint + 400f)
         {
             _lastReasonablePosition = pPosition;
         }
@@ -477,11 +477,11 @@ public class RagdollPart : Holdable, IAmADuck
 
     public override void Update()
     {
-        if (_doll == null || (base.y > Level.activeLevel.lowestPoint + 1000f && base.isOffBottomOfLevel))
+        if (_doll == null || (base.Y > Level.activeLevel.lowestPoint + 1000f && base.isOffBottomOfLevel))
         {
             return;
         }
-        UpdateLastReasonablePosition(position);
+        UpdateLastReasonablePosition(Position);
         if (clipFrames > 0)
         {
             clipFrames--;
@@ -501,24 +501,24 @@ public class RagdollPart : Holdable, IAmADuck
             {
                 if (_part == 0)
                 {
-                    base.depth = _doll.captureDuck.depth + 2;
+                    base.Depth = _doll.captureDuck.Depth + 2;
                 }
                 else
                 {
-                    base.depth = _doll.captureDuck.depth;
+                    base.Depth = _doll.captureDuck.Depth;
                 }
             }
             else if (_part == 0)
             {
-                base.depth = _doll.captureDuck.depth - 10;
+                base.Depth = _doll.captureDuck.Depth - 10;
                 if (_doll.part3 != null)
                 {
-                    base.depth = _doll.part3.depth - 10;
+                    base.Depth = _doll.part3.Depth - 10;
                 }
             }
             else
             {
-                base.depth = _doll.captureDuck.depth;
+                base.Depth = _doll.captureDuck.Depth;
             }
             canPickUp = true;
             if (_doll.captureDuck.HasEquipment(typeof(ChokeCollar)) && _part != 0)
@@ -539,7 +539,7 @@ public class RagdollPart : Holdable, IAmADuck
             if (owner != null)
             {
                 _joint.clipFrames = 0;
-                _joint.depth = base.depth;
+                _joint.Depth = base.Depth;
             }
             if (owner != null || _joint.owner != null)
             {
@@ -578,8 +578,8 @@ public class RagdollPart : Holdable, IAmADuck
         base.Update();
         if (_doll.captureDuck != null && _doll.captureDuck.HasEquipment(typeof(FancyShoes)) && _part == 0 && _doll.captureDuck.holdObject != null)
         {
-            _doll.captureDuck.holdObject.position = Offset(new Vec2(3f, 5f) + _doll.captureDuck.holdObject.holdOffset);
-            _doll.captureDuck.holdObject.angle = angle;
+            _doll.captureDuck.holdObject.Position = Offset(new Vec2(3f, 5f) + _doll.captureDuck.holdObject.holdOffset);
+            _doll.captureDuck.holdObject.Angle = Angle;
             if (_doll.captureDuck.holdObject != null && _doll.captureDuck.isServerForObject)
             {
                 _doll.captureDuck.holdObject.isLocal = isLocal;
@@ -598,22 +598,22 @@ public class RagdollPart : Holdable, IAmADuck
                 }
             }
         }
-        FluidPuddle p = Level.CheckPoint<FluidPuddle>(position + new Vec2(0f, 4f));
+        FluidPuddle p = Level.CheckPoint<FluidPuddle>(Position + new Vec2(0f, 4f));
         if (p != null)
         {
-            if (base.y + 4f - p.top > 8f)
+            if (base.Y + 4f - p.top > 8f)
             {
                 gravMultiplier = -0.5f;
                 base.grounded = false;
             }
             else
             {
-                if (base.y + 4f - p.top < 3f)
+                if (base.Y + 4f - p.top < 3f)
                 {
                     gravMultiplier = 0.2f;
                     base.grounded = true;
                 }
-                else if (base.y + 4f - p.top > 4f)
+                else if (base.Y + 4f - p.top > 4f)
                 {
                     gravMultiplier = -0.2f;
                     base.grounded = true;
@@ -639,18 +639,18 @@ public class RagdollPart : Holdable, IAmADuck
             {
                 if (offDir < 0)
                 {
-                    base.angleDegrees = 0f - Maths.PointDirection(position, _joint.position) + 180f + 90f;
+                    base.AngleDegrees = 0f - Maths.PointDirection(Position, _joint.Position) + 180f + 90f;
                 }
                 else
                 {
-                    base.angleDegrees = 0f - Maths.PointDirection(position, _joint.position) - 90f;
+                    base.AngleDegrees = 0f - Maths.PointDirection(Position, _joint.Position) - 90f;
                 }
             }
         }
         if (_part == 3 && connect != null)
         {
-            base.angleDegrees = 0f - Maths.PointDirection(position, connect.position) + 180f;
-            base.depth = connect.depth + 2;
+            base.AngleDegrees = 0f - Maths.PointDirection(Position, connect.Position) + 180f;
+            base.Depth = connect.Depth + 2;
         }
         visible = _part != 2;
     }
@@ -678,33 +678,33 @@ public class RagdollPart : Holdable, IAmADuck
         {
             return;
         }
-        Vec2 pos = position;
-        Vec2 gap = position - _joint.position;
-        float dist = gap.length;
+        Vec2 pos = Position;
+        Vec2 gap = Position - _joint.Position;
+        float dist = gap.Length();
         if (dist > 8f)
         {
             dist = 8f;
         }
-        position = _joint.position + gap.normalized * dist;
+        Position = _joint.Position + gap.Normalized * dist;
         if (_part == 0 && _doll != null && _doll.captureDuck != null && (_doll.captureDuck.quack > 0 || (doll != null && doll.tongueStuck != Vec2.Zero)))
         {
             Vec2 rs = _doll.captureDuck.tounge;
             _stickLerp = Lerp.Vec2Smooth(_stickLerp, rs, 0.2f);
             _stickSlowLerp = Lerp.Vec2Smooth(_stickSlowLerp, rs, 0.1f);
             Vec2 stick = _stickLerp;
-            Vec2 facing = Maths.AngleToVec(angle);
+            Vec2 facing = Maths.AngleToVec(Angle);
             if (offDir < 0)
             {
-                stick *= Maths.Clamp(1f - (facing - stick * -1f).length, 0f, 1f);
+                stick *= Maths.Clamp(1f - (facing - stick * -1f).Length(), 0f, 1f);
             }
             else
             {
-                stick *= Maths.Clamp(1f - (facing - stick).length, 0f, 1f);
+                stick *= Maths.Clamp(1f - (facing - stick).Length(), 0f, 1f);
             }
-            stick.y *= -1f;
+            stick.Y *= -1f;
             Vec2 stick2 = _stickSlowLerp;
-            stick2.y *= -1f;
-            float len = stick.length;
+            stick2.Y *= -1f;
+            float len = stick.Length();
             _ = 0.5f;
             bool tongueStuck = false;
             if (doll != null && doll.tongueStuck != Vec2.Zero)
@@ -714,13 +714,13 @@ public class RagdollPart : Holdable, IAmADuck
             }
             if (len > 0.05f || tongueStuck)
             {
-                Vec2 offsetVec = (position - _joint.position).normalized;
-                Vec2 mouthPos = position - offsetVec * 3f;
+                Vec2 offsetVec = (Position - _joint.Position).Normalized;
+                Vec2 mouthPos = Position - offsetVec * 3f;
                 if (tongueStuck)
                 {
                     stick = (doll.tongueStuck - mouthPos) / 6f;
                     stick2 = (doll.tongueStuck - mouthPos) / 6f / 2f;
-                    stick2 = (Offset(new Vec2((doll.tongueStuck - mouthPos).length / 2f, 2f)) - mouthPos) / 6f;
+                    stick2 = (Offset(new Vec2((doll.tongueStuck - mouthPos).Length() / 2f, 2f)) - mouthPos) / 6f;
                 }
                 List<Vec2> list = Curve.Bezier(8, mouthPos, mouthPos + stick2 * 6f, mouthPos + stick * 6f);
                 Vec2 prev = Vec2.Zero;
@@ -730,8 +730,8 @@ public class RagdollPart : Holdable, IAmADuck
                     if (prev != Vec2.Zero)
                     {
                         Vec2 dir = prev - p;
-                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.normalized * 0.4f, p, new Color(223, 30, 30), 0.15f * lenMul, base.depth + 1);
-                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.normalized * 0.4f, p - dir.normalized * 0.4f, Color.Black, 0.3f * lenMul, base.depth - 1);
+                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.Normalized * 0.4f, p, new Color(223, 30, 30), 0.15f * lenMul, base.Depth + 1);
+                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.Normalized * 0.4f, p - dir.Normalized * 0.4f, Color.Black, 0.3f * lenMul, base.Depth - 1);
                     }
                     lenMul -= 0.1f;
                     prev = p;
@@ -755,12 +755,12 @@ public class RagdollPart : Holdable, IAmADuck
                     {
                         _graphic.flipH = false;
                     }
-                    _graphic.position = position;
-                    _graphic.alpha = base.alpha;
-                    _graphic.angle = angle;
-                    _graphic.depth = base.depth + 4;
-                    _graphic.scale = base.scale;
-                    _graphic.center = center;
+                    _graphic.Position = Position;
+                    _graphic.Alpha = base.Alpha;
+                    _graphic.Angle = Angle;
+                    _graphic.Depth = base.Depth + 4;
+                    _graphic.Scale = base.Scale;
+                    _graphic.Center = Center;
                     if (_graphic == _campDuck)
                     {
                         (_graphic as SpriteMap).frame = 4;
@@ -805,18 +805,18 @@ public class RagdollPart : Holdable, IAmADuck
             }
             graphic = _campDuck;
         }
-        float ang = base.angleDegrees;
+        float ang = base.AngleDegrees;
         if (offDir < 0)
         {
-            base.angleDegrees = 0f - Maths.PointDirection(position, _joint.position) + 180f + 90f;
+            base.AngleDegrees = 0f - Maths.PointDirection(Position, _joint.Position) + 180f + 90f;
         }
         else
         {
-            base.angleDegrees = 0f - Maths.PointDirection(position, _joint.position) - 90f;
+            base.AngleDegrees = 0f - Maths.PointDirection(Position, _joint.Position) - 90f;
         }
         base.Draw();
-        base.angleDegrees = ang;
+        base.AngleDegrees = ang;
         graphic = s;
-        position = pos;
+        Position = pos;
     }
 }

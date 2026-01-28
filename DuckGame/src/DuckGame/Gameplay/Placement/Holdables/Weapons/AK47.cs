@@ -11,7 +11,7 @@ public class AK47 : Gun
         _ammoType = new ATHighCalMachinegun();
         _type = "gun";
         graphic = new Sprite("ak47");
-        center = new Vec2(16f, 15f);
+        Center = new Vec2(16f, 15f);
         collisionOffset = new Vec2(-8f, -3f);
         collisionSize = new Vec2(18f, 10f);
         _barrelOffsetTL = new Vec2(32f, 14f);

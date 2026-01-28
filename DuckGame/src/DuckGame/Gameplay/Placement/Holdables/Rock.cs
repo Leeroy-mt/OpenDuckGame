@@ -25,10 +25,10 @@ public class Rock : Holdable, IPlatform
     {
         _sprite = new SpriteMap("rock01", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         collisionOffset = new Vec2(-8f, -5f);
         collisionSize = new Vec2(16f, 12f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         thickness = 4f;
         weight = 7f;
         flammable = 0f;
@@ -138,15 +138,15 @@ public class Rock : Holdable, IPlatform
         {
             if (!_changedCollision)
             {
-                collisionSize = new Vec2(collisionSize.y, collisionSize.x);
-                collisionOffset = new Vec2(collisionOffset.y, collisionOffset.x);
+                collisionSize = new Vec2(collisionSize.Y, collisionSize.X);
+                collisionOffset = new Vec2(collisionOffset.Y, collisionOffset.X);
                 _changedCollision = true;
             }
         }
         else if (_changedCollision)
         {
-            collisionSize = new Vec2(collisionSize.y, collisionSize.x);
-            collisionOffset = new Vec2(collisionOffset.y, collisionOffset.x);
+            collisionSize = new Vec2(collisionSize.Y, collisionSize.X);
+            collisionOffset = new Vec2(collisionOffset.Y, collisionOffset.X);
             _changedCollision = false;
         }
         base.Update();
@@ -166,7 +166,7 @@ public class Rock : Holdable, IPlatform
             }
             Destroy(new DTShot(bullet));
             Level.Remove(this);
-            Level.Add(new GrenadeExplosion(base.x, base.y));
+            Level.Add(new GrenadeExplosion(base.X, base.Y));
         }
         return base.Hit(bullet, hitPos);
     }

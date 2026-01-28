@@ -31,10 +31,10 @@ public class WireButton : Block, IWirePeripheral
     {
         _sprite = new SpriteMap("wireButton", 16, 19);
         graphic = _sprite;
-        center = new Vec2(8f, 11f);
+        Center = new Vec2(8f, 11f);
         collisionOffset = new Vec2(-8f, -8f);
         collisionSize = new Vec2(16f, 16f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Wire Button";
         editorTooltip = "Stepping on a Button triggers the behavior of connected objects.";
         offSignal.name = "Hold Signal";
@@ -71,24 +71,24 @@ public class WireButton : Block, IWirePeripheral
                 orientation.value = 1;
             }
         }
-        base.angleDegrees = (float)orientation.value * 90f;
+        base.AngleDegrees = (float)orientation.value * 90f;
         if (!(Level.current is Editor))
         {
             if (orientation.value == 0)
             {
-                _top = new WireButtonTop(base.x, base.y - 9f, this, orientation.value);
+                _top = new WireButtonTop(base.X, base.Y - 9f, this, orientation.value);
             }
             else if (orientation.value == 1)
             {
-                _top = new WireButtonTop(base.x + 9f, base.y, this, orientation.value);
+                _top = new WireButtonTop(base.X + 9f, base.Y, this, orientation.value);
             }
             else if (orientation.value == 2)
             {
-                _top = new WireButtonTop(base.x, base.y + 9f, this, orientation.value);
+                _top = new WireButtonTop(base.X, base.Y + 9f, this, orientation.value);
             }
             else if (orientation.value == 3)
             {
-                _top = new WireButtonTop(base.x - 9f, base.y, this, orientation.value);
+                _top = new WireButtonTop(base.X - 9f, base.Y, this, orientation.value);
             }
             Level.Add(_top);
         }
@@ -182,15 +182,15 @@ public class WireButton : Block, IWirePeripheral
     {
         if (Level.current is Editor)
         {
-            base.angleDegrees = (float)orientation.value * 90f;
+            base.AngleDegrees = (float)orientation.value * 90f;
             if (flipHorizontal)
             {
-                base.angleDegrees -= 180f;
+                base.AngleDegrees -= 180f;
             }
         }
         else
         {
-            base.angleDegrees = (float)orientation.value * 90f;
+            base.AngleDegrees = (float)orientation.value * 90f;
         }
         base.Draw();
     }

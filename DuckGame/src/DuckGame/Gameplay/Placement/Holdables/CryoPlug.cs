@@ -14,16 +14,16 @@ public class CryoPlug : Holdable
     {
         _sprite = new SpriteMap("survival/cryoPlug", 16, 16);
         graphic = _sprite;
-        center = new Vec2(8f, 8f);
+        Center = new Vec2(8f, 8f);
         _collisionSize = new Vec2(12f, 12f);
         _collisionOffset = new Vec2(-6f, -6f);
         _sprite.frame = 0;
-        base.depth = 0.9f;
+        base.Depth = 0.9f;
     }
 
     public void AttachTo(Thing t)
     {
-        _rope = new Rope(base.x, base.y, t, this);
+        _rope = new Rope(base.X, base.Y, t, this);
         Level.Add(_rope);
     }
 
@@ -38,13 +38,13 @@ public class CryoPlug : Holdable
         {
             foreach (PowerSocket socket in Level.current.things[typeof(PowerSocket)])
             {
-                if ((socket.position - position).length < 8f)
+                if ((socket.Position - Position).Length() < 8f)
                 {
                     SFX.Play("equip");
                     _sprite.frame = 1;
                     _enablePhysics = false;
-                    position = socket.position;
-                    base.depth = -0.8f;
+                    Position = socket.Position;
+                    base.Depth = -0.8f;
                     return;
                 }
             }

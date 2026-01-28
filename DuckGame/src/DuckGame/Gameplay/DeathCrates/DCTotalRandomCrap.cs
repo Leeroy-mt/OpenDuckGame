@@ -11,8 +11,8 @@ public class DCTotalRandomCrap : DeathCrateSetting
 
     public override void Activate(DeathCrate c, bool server = true)
     {
-        float cx = c.x;
-        float cy = c.y - 2f;
+        float cx = c.X;
+        float cy = c.Y - 2f;
         Level.Add(new ExplosionPart(cx, cy));
         int num = 6;
         if (Graphics.effectsLevel < 2)
@@ -30,7 +30,7 @@ public class DCTotalRandomCrap : DeathCrateSetting
             for (int j = 0; j < 10; j++)
             {
                 PhysicsObject randomItem = ItemBoxRandom.GetRandomItem();
-                randomItem.position = c.position;
+                randomItem.Position = c.Position;
                 float norm = (float)j / 7f;
                 randomItem.hSpeed = (-15f + norm * 30f) * Rando.Float(0.5f, 1f);
                 randomItem.vSpeed = Rando.Float(-10f, 10f);
@@ -40,6 +40,6 @@ public class DCTotalRandomCrap : DeathCrateSetting
         }
         Graphics.FlashScreen();
         SFX.Play("explode");
-        RumbleManager.AddRumbleEvent(c.position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
+        RumbleManager.AddRumbleEvent(c.Position, new RumbleEvent(RumbleIntensity.Heavy, RumbleDuration.Short, RumbleFalloff.Medium));
     }
 }

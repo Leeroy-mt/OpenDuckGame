@@ -21,7 +21,7 @@ public class MagBullet : Bullet
         {
             return;
         }
-        float length = (drawStart - drawEnd).length;
+        float length = (drawStart - drawEnd).Length();
         float dist = 0f;
         float incs = 1f / (length / 8f);
         float alph = 0f;
@@ -51,9 +51,9 @@ public class MagBullet : Bullet
         {
             return;
         }
-        ExplosionPart explosionPart = new ExplosionPart(base.x, base.y);
-        explosionPart.xscale *= 0.7f;
-        explosionPart.yscale *= 0.7f;
+        ExplosionPart explosionPart = new ExplosionPart(base.X, base.Y);
+        explosionPart.ScaleX *= 0.7f;
+        explosionPart.ScaleY *= 0.7f;
         Level.Add(explosionPart);
         SFX.Play("magPop", 0.7f, Rando.Float(-0.5f, -0.3f));
         if (!isLocal)
@@ -61,7 +61,7 @@ public class MagBullet : Bullet
             return;
         }
         Thing bulletOwner = owner;
-        foreach (MaterialThing t in Level.CheckCircleAll<MaterialThing>(position, 14f))
+        foreach (MaterialThing t in Level.CheckCircleAll<MaterialThing>(Position, 14f))
         {
             if (t != bulletOwner)
             {
@@ -73,7 +73,7 @@ public class MagBullet : Bullet
 
     protected override void Rebound(Vec2 pos, float dir, float rng)
     {
-        MagBullet bullet = new MagBullet(pos.x, pos.y, ammo, dir, null, rebound, rng);
+        MagBullet bullet = new MagBullet(pos.X, pos.Y, ammo, dir, null, rebound, rng);
         bullet._teleporter = _teleporter;
         bullet.firedFrom = base.firedFrom;
         bullet.lastReboundSource = lastReboundSource;
@@ -81,6 +81,6 @@ public class MagBullet : Bullet
         bullet.isLocal = isLocal;
         reboundCalled = true;
         Level.current.AddThing(bullet);
-        Level.current.AddThing(new LaserRebound(pos.x, pos.y));
+        Level.current.AddThing(new LaserRebound(pos.X, pos.Y));
     }
 }

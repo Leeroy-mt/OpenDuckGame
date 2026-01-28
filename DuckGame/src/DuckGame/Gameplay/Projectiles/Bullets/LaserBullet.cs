@@ -34,15 +34,15 @@ public class LaserBullet : Bullet
             for (int i = 0; i < num; i++)
             {
                 Vec2 cur = GetPointOnArc(i * 8);
-                Graphics.DrawTexturedLine(_beem, cur, prevus, color * (1f - (float)i / (float)num) * base.alpha, ammo.bulletThickness, 0.9f);
+                Graphics.DrawTexturedLine(_beem, cur, prevus, color * (1f - (float)i / (float)num) * base.Alpha, ammo.bulletThickness, 0.9f);
                 if (!(cur == prev.First()))
                 {
                     prevus = cur;
                     if (i == 0 && ammo.sprite != null && !doneTravelling)
                     {
-                        ammo.sprite.depth = 1f;
-                        ammo.sprite.angleDegrees = 0f - Maths.PointDirection(Vec2.Zero, travelDirNormalized);
-                        Graphics.Draw(ammo.sprite, prevus.x, prevus.y);
+                        ammo.sprite.Depth = 1f;
+                        ammo.sprite.AngleDegrees = 0f - Maths.PointDirection(Vec2.Zero, travelDirNormalized);
+                        Graphics.Draw(ammo.sprite, prevus.X, prevus.Y);
                     }
                     continue;
                 }
@@ -50,7 +50,7 @@ public class LaserBullet : Bullet
             }
             return;
         }
-        float length = (drawStart - drawEnd).length;
+        float length = (drawStart - drawEnd).Length();
         float dist = 0f;
         float incs = 1f / (length / 8f);
         float alph = 0f;
@@ -78,7 +78,7 @@ public class LaserBullet : Bullet
     {
         reboundBulletsCreated++;
         Bullet.isRebound = true;
-        LaserBullet bullet = new LaserBullet(pos.x, pos.y, ammo, dir, null, rebound, rng);
+        LaserBullet bullet = new LaserBullet(pos.X, pos.Y, ammo, dir, null, rebound, rng);
         Bullet.isRebound = false;
         bullet._teleporter = _teleporter;
         bullet.firedFrom = base.firedFrom;
@@ -88,6 +88,6 @@ public class LaserBullet : Bullet
         bullet.connection = base.connection;
         reboundCalled = true;
         Level.current.AddThing(bullet);
-        Level.current.AddThing(new LaserRebound(pos.x, pos.y));
+        Level.current.AddThing(new LaserRebound(pos.X, pos.Y));
     }
 }

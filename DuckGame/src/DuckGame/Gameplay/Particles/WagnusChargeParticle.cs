@@ -2,7 +2,7 @@ using System;
 
 namespace DuckGame;
 
-public class WagnusChargeParticle : Thing, IFactory
+public class WagnusChargeParticle : Thing
 {
     private static int kMaxWagCharge = 64;
 
@@ -41,36 +41,36 @@ public class WagnusChargeParticle : Thing, IFactory
     {
         hSpeed = Rando.Float(-1f, 1f);
         vSpeed = Rando.Float(-1f, 1f);
-        position.x = xpos;
-        position.y = ypos;
-        base.depth = 0.9f;
+        X = xpos;
+        Y = ypos;
+        base.Depth = 0.9f;
         life = 1f;
         _target = target;
-        base.alpha = 1f;
+        base.Alpha = 1f;
     }
 
     public override void Update()
     {
-        Vec2 travel = position - _target.position;
+        Vec2 travel = Position - _target.Position;
         float len = travel.lengthSq;
         if (len < 64f || len > 4096f)
         {
-            base.alpha -= 0.08f;
+            base.Alpha -= 0.08f;
         }
-        hSpeed = Lerp.Float(hSpeed, (0f - travel.x) * 0.7f, 0.15f);
-        vSpeed = Lerp.Float(vSpeed, (0f - travel.y) * 0.7f, 0.15f);
-        position.x += hSpeed;
-        position.y += vSpeed;
-        position.x = Lerp.Float(position.x, _target.x, 0.16f);
-        position.y = Lerp.Float(position.y, _target.y, 0.16f);
+        hSpeed = Lerp.Float(hSpeed, (0f - travel.X) * 0.7f, 0.15f);
+        vSpeed = Lerp.Float(vSpeed, (0f - travel.Y) * 0.7f, 0.15f);
+        X += hSpeed;
+        Y += vSpeed;
+        X = Lerp.Float(Position.X, _target.X, 0.16f);
+        Y = Lerp.Float(Position.Y, _target.Y, 0.16f);
         hSpeed *= Math.Min(1f, len / 128f + 0.25f);
         vSpeed *= Math.Min(1f, len / 128f + 0.25f);
         life -= 0.02f;
         if (life < 0f)
         {
-            base.alpha -= 0.08f;
+            base.Alpha -= 0.08f;
         }
-        if (base.alpha < 0f)
+        if (base.Alpha < 0f)
         {
             Level.Remove(this);
         }
@@ -79,9 +79,9 @@ public class WagnusChargeParticle : Thing, IFactory
 
     public override void Draw()
     {
-        Vec2 dir = base.velocity.normalized;
-        float speed = base.velocity.length * 2f;
-        Vec2 end = position + dir * speed;
-        Graphics.DrawLine(col: new Color(147, 64, 221) * base.alpha, p1: position, p2: end, width: 1f, depth: base.depth);
+        Vec2 dir = base.velocity.Normalized;
+        float speed = base.velocity.Length() * 2f;
+        Vec2 end = Position + dir * speed;
+        Graphics.DrawLine(col: new Color(147, 64, 221) * base.Alpha, p1: Position, p2: end, width: 1f, depth: base.Depth);
     }
 }

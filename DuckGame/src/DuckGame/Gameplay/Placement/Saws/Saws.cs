@@ -13,10 +13,10 @@ public class Saws : MaterialThing, IDontMove
         _sprite = new SpriteMap("movingSpikes", 16, 21);
         _sprite.speed = 0.3f;
         graphic = _sprite;
-        center = new Vec2(8f, 14f);
+        Center = new Vec2(8f, 14f);
         collisionOffset = new Vec2(-6f, -2f);
         collisionSize = new Vec2(12f, 4f);
-        base.depth = 0.28f;
+        base.Depth = 0.28f;
         _editorName = "Saws Up";
         editorTooltip = "Deadly hazards, able to cut through even the strongest of boots";
         thickness = 3f;

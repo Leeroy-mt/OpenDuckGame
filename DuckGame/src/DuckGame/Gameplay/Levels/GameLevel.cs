@@ -163,7 +163,7 @@ public class GameLevel : XMLLevel, IHaveAVirtualTransition
                     int num = 9999999;
                     foreach (SpawnPoint item in chosenSpawns)
                     {
-                        num = (int)Math.Min((item.position - x.position).length, num);
+                        num = (int)Math.Min((item.Position - x.Position).Length(), num);
                     }
                     return num;
                 });
@@ -222,11 +222,11 @@ public class GameLevel : XMLLevel, IHaveAVirtualTransition
         foreach (Duck duck in base.things[typeof(Duck)])
         {
             followCam.Add(duck);
-            if (duck.x < p1.x)
+            if (duck.X < p1.X)
             {
-                p1 = duck.position;
+                p1 = duck.Position;
             }
-            p2 += duck.position;
+            p2 += duck.Position;
             numDucks++;
         }
         p2 /= (float)numDucks;
@@ -244,11 +244,11 @@ public class GameLevel : XMLLevel, IHaveAVirtualTransition
         {
             duck.localSpawnVisible = false;
             followCam.Add(duck);
-            if (duck.x < p1.x)
+            if (duck.X < p1.X)
             {
-                p1 = duck.position;
+                p1 = duck.Position;
             }
-            p2 += duck.position;
+            p2 += duck.Position;
             numDucks++;
             spawns.Add(duck);
         }

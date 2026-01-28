@@ -15,14 +15,14 @@ public class SawsLeft : Saws
         _sprite = new SpriteMap("movingSpikes", 16, 21);
         _sprite.speed = 0.3f;
         graphic = _sprite;
-        center = new Vec2(8f, 14f);
+        Center = new Vec2(8f, 14f);
         collisionOffset = new Vec2(-2f, -6f);
         collisionSize = new Vec2(4f, 12f);
         _editorName = "Saws Left";
         editorTooltip = "Deadly hazards, able to cut through even the strongest of boots";
         physicsMaterial = PhysicsMaterial.Metal;
         editorCycleType = typeof(Saws);
-        angle = -(float)Math.PI / 2f;
+        Angle = -(float)Math.PI / 2f;
         base.editorOffset = new Vec2(6f, 0f);
         base.hugWalls = WallHug.Right;
         _editorImageCenter = true;

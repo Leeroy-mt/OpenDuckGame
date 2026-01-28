@@ -17,18 +17,18 @@ public class SpringLeft : Spring
             offDir = (sbyte)((!_flipHorizontal) ? 1 : (-1));
             if (!_flipHorizontal)
             {
-                center = new Vec2(8f, 7f);
+                Center = new Vec2(8f, 7f);
                 collisionOffset = new Vec2(0f, -8f);
                 collisionSize = new Vec2(8f, 16f);
-                base.angleDegrees = -90f;
+                base.AngleDegrees = -90f;
                 base.hugWalls = WallHug.Right;
             }
             else
             {
-                center = new Vec2(8f, 7f);
+                Center = new Vec2(8f, 7f);
                 collisionOffset = new Vec2(-8f, -8f);
                 collisionSize = new Vec2(8f, 16f);
-                base.angleDegrees = 90f;
+                base.AngleDegrees = 90f;
                 base.hugWalls = WallHug.Left;
             }
         }
@@ -38,15 +38,15 @@ public class SpringLeft : Spring
         : base(xpos, ypos)
     {
         UpdateSprite();
-        center = new Vec2(8f, 7f);
+        Center = new Vec2(8f, 7f);
         collisionOffset = new Vec2(0f, -8f);
         collisionSize = new Vec2(8f, 16f);
-        base.depth = -0.5f;
+        base.Depth = -0.5f;
         _editorName = "Spring Left";
         editorTooltip = "Can't reach a high platform or want to get somewhere fast? That's why we built springs.";
         physicsMaterial = PhysicsMaterial.Metal;
         editorCycleType = typeof(SpringUpLeft);
-        base.angleDegrees = -90f;
+        base.AngleDegrees = -90f;
         base.hugWalls = WallHug.Right;
     }
 
