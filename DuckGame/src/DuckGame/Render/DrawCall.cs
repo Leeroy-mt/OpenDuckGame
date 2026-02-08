@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -6,7 +7,7 @@ public struct DrawCall
 {
     public Tex2D texture;
 
-    public Vec2 position;
+    public Vector2 position;
 
     public Rectangle? sourceRect;
 
@@ -14,9 +15,9 @@ public struct DrawCall
 
     public float rotation;
 
-    public Vec2 origin;
+    public Vector2 origin;
 
-    public Vec2 scale;
+    public Vector2 scale;
 
     public SpriteEffects effects;
 

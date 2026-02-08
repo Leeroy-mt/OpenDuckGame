@@ -1,10 +1,12 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class GlassParticle : PhysicsParticle
 {
     private int _tint;
 
-    public GlassParticle(float xpos, float ypos, Vec2 hitAngle, int tint = -1)
+    public GlassParticle(float xpos, float ypos, Vector2 hitAngle, int tint = -1)
         : base(xpos, ypos)
     {
         hSpeed = (0f - hitAngle.X) * 2f * (Rando.Float(1f) + 0.3f);
@@ -25,6 +27,6 @@ public class GlassParticle : PhysicsParticle
 
     public override void Draw()
     {
-        Graphics.DrawRect(Position, Position + new Vec2(1f, 1f), ((_tint > 0) ? Window.windowColors[_tint] : Color.LightBlue) * base.Alpha, base.Depth);
+        Graphics.DrawRect(Position, Position + new Vector2(1f, 1f), ((_tint > 0) ? Window.windowColors[_tint] : Color.LightBlue) * base.Alpha, base.Depth);
     }
 }

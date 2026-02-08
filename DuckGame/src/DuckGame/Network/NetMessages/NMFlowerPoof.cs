@@ -1,14 +1,16 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMFlowerPoof : NMEvent
 {
-    public Vec2 position;
+    public Vector2 position;
 
     public NMFlowerPoof()
     {
     }
 
-    public NMFlowerPoof(Vec2 pPosition)
+    public NMFlowerPoof(Vector2 pPosition)
     {
         position = pPosition;
     }

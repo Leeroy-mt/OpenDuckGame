@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Equipment")]
@@ -9,9 +11,9 @@ public class TinfoilHat : Hat
         _pickupSprite = new Sprite("tinfoilHatPickup");
         _sprite = new SpriteMap("tinfoilHat", 32, 32);
         graphic = _pickupSprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-6f, -4f);
-        collisionSize = new Vec2(12f, 8f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-6f, -4f);
+        collisionSize = new Vector2(12f, 8f);
         _sprite.CenterOrigin();
         thickness = 0.1f;
         physicsMaterial = PhysicsMaterial.Metal;

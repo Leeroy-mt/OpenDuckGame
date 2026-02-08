@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Rifles")]
@@ -20,17 +22,17 @@ public class Sharpshot : Gun
         _ammoType = new ATHighCalSniper();
         _type = "gun";
         graphic = new Sprite("highPowerRifle");
-        Center = new Vec2(16f, 7f);
-        collisionOffset = new Vec2(-8f, -5f);
-        collisionSize = new Vec2(16f, 9f);
-        _holdOffset = new Vec2(3f, 0f);
-        _barrelOffsetTL = new Vec2(35f, 5f);
+        Center = new Vector2(16f, 7f);
+        collisionOffset = new Vector2(-8f, -5f);
+        collisionSize = new Vector2(16f, 9f);
+        _holdOffset = new Vector2(3f, 0f);
+        _barrelOffsetTL = new Vector2(35f, 5f);
         _fireSound = "sniper";
         _fireSoundPitch = -0.2f;
         _kickForce = 8f;
         _fireRumble = RumbleIntensity.Light;
         laserSight = true;
-        _laserOffsetTL = new Vec2(35f, 5f);
+        _laserOffsetTL = new Vector2(35f, 5f);
         _manualLoad = true;
         editorTooltip = "Like a sniper rifle, but even cooler.";
     }
@@ -48,7 +50,7 @@ public class Sharpshot : Gun
                 }
                 _loadState = -1;
                 _angleOffset = 0f;
-                handOffset = Vec2.Zero;
+                handOffset = Vector2.Zero;
             }
             if (_loadState == 0)
             {

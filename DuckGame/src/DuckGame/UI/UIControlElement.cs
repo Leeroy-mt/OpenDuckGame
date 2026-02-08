@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -36,7 +37,7 @@ public class UIControlElement : UIMenuItem
 
     #region Public Properties
 
-    public override Vec2 collisionSize
+    public override Vector2 collisionSize
     {
         get => new(160, 2);
         set => _collisionSize = value;
@@ -82,14 +83,14 @@ public class UIControlElement : UIMenuItem
         toggle.specialScale = 0.5f;
         _arrow = new UIImage("littleContextArrowRight")
         {
-            Scale = new Vec2(0.5f, 0.5f),
+            Scale = new Vector2(0.5f, 0.5f),
             align = UIAlign.Right,
             visible = false
         };
         leftSection.Add(_arrow);
         _styleBubble = new Sprite("buttons/styleBubble")
         {
-            Center = new Vec2(0f, 11f)
+            Center = new Vector2(0f, 11f)
         };
         _styleTray = new Sprite("buttons/styleTray");
         _styleTray.CenterOrigin();
@@ -102,7 +103,7 @@ public class UIControlElement : UIMenuItem
 
     public override void Update()
     {
-        collisionSize = new Vec2(collisionSize.X, 2.5f);
+        collisionSize = new Vector2(collisionSize.X, 2.5f);
         _captionList.Clear();
         if (!_editing)
         {
@@ -233,10 +234,10 @@ public class UIControlElement : UIMenuItem
         if (_arrow.visible)
         {
             _styleBubble.Depth = 0.9f;
-            Vec2 bubblePos = new(X + 76, Y);
+            Vector2 bubblePos = new(X + 76, Y);
             if (_selectStyle)
             {
-                bubblePos = new Vec2(X + 85, Y);
+                bubblePos = new Vector2(X + 85, Y);
                 _styleBubble.flipH = true;
             }
             else
@@ -256,11 +257,11 @@ public class UIControlElement : UIMenuItem
             {
                 _styleTray.Depth = 0.92f;
                 Graphics.Draw(_styleTray, X + 118, Layer.HUD.camera.height / 2);
-                Vec2 buttonsDraw = new(X + 90, Layer.HUD.camera.height / 2f - 80);
+                Vector2 buttonsDraw = new(X + 90, Layer.HUD.camera.height / 2f - 80);
                 int index = 0;
                 foreach (Sprite buttonStyle in Input.buttonStyles)
                 {
-                    Vec2 drawPos = buttonsDraw + new Vec2(index % 4 * 14, index / 4 * 14);
+                    Vector2 drawPos = buttonsDraw + new Vector2(index % 4 * 14, index / 4 * 14);
                     buttonStyle.Depth = 0.95f;
                     buttonStyle.color = Color.White * ((index == _selectionIndex) ? 1f : 0.4f);
                     Graphics.Draw(buttonStyle, drawPos.X, drawPos.Y);

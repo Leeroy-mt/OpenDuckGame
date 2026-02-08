@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Background|Parallax")]
@@ -10,9 +12,9 @@ public class OfficeBackground : BackgroundUpdater
         {
             frame = 1
         };
-        Center = new Vec2(8f, 8f);
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(-8f, -8f);
         base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
@@ -41,15 +43,15 @@ public class OfficeBackground : BackgroundUpdater
                 _parallax.AddZone(9, 0.8f, speed);
                 Sprite s = new Sprite("background/officeBuilding01");
                 s.Depth = -0.9f;
-                s.Position = new Vec2(100f, 100f);
+                s.Position = new Vector2(100f, 100f);
                 _parallax.AddZoneSprite(s, 15, 0.6f, speed);
                 s = new Sprite("background/officeBuilding01Porch");
                 s.Depth = -0.9f;
-                s.Position = new Vec2(84f, 160f);
+                s.Position = new Vector2(84f, 160f);
                 _parallax.AddZoneSprite(s, 16, 0.6f, speed);
                 s = new Sprite("background/officeBuilding02");
                 s.Depth = -0.9f;
-                s.Position = new Vec2(300f, 120f);
+                s.Position = new Vector2(300f, 120f);
                 _parallax.AddZoneSprite(s, 17, 0.6f, speed);
                 _parallax.AddZone(19, 0.6f, speed);
                 _parallax.AddZone(20, 0.6f, speed);

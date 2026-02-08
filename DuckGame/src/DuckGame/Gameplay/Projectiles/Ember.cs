@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class Ember : PhysicsParticle
@@ -51,6 +53,6 @@ public class Ember : PhysicsParticle
 
     public override void Draw()
     {
-        Graphics.DrawRect(Position, Position + new Vec2(1f, 1f), _col * base.Alpha, base.Depth);
+        Graphics.DrawRect(Position, Position + new Vector2(1f, 1f), _col * base.Alpha, base.Depth);
     }
 }

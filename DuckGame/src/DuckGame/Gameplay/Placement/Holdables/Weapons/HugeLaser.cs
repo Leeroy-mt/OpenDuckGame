@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 namespace DuckGame;
@@ -95,10 +96,10 @@ public class HugeLaser : Gun
         ammo = 30;
         _type = "gun";
         graphic = new Sprite("hugeLaser");
-        Center = new Vec2(32f, 32f);
-        collisionOffset = new Vec2(-16f, -8f);
-        collisionSize = new Vec2(32f, 15f);
-        _barrelOffsetTL = new Vec2(47f, 30f);
+        Center = new Vector2(32f, 32f);
+        collisionOffset = new Vector2(-16f, -8f);
+        collisionSize = new Vector2(32f, 15f);
+        _barrelOffsetTL = new Vector2(47f, 30f);
         _fireSound = "";
         _fullAuto = false;
         _fireWait = 1f;
@@ -115,7 +116,7 @@ public class HugeLaser : Gun
         _chargeAnim.AddAnimation("uncharge", 1.2f, false, 28, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6);
         _chargeAnim.AddAnimation("drain", 2f, false, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40);
         _chargeAnim.SetAnimation("loaded");
-        _chargeAnim.Center = new Vec2(16f, 10f);
+        _chargeAnim.Center = new Vector2(16f, 10f);
         _editorName = "Death Ray";
         editorTooltip = "Hold the trigger to charge a beam of pure death and destruction. You know, for kids!";
         _bio = "Invented by Dr.Death for scanning items at your local super market. Also has some military application.";
@@ -218,7 +219,7 @@ public class HugeLaser : Gun
                 RumbleManager.AddRumbleEvent(duckOwner.profile, new RumbleEvent(RumbleIntensity.Medium, RumbleDuration.Pulse, RumbleFalloff.Short));
                 duckOwner.sliding = true;
                 duckOwner.crouch = true;
-                Vec2 dir = base.barrelVector * 9f;
+                Vector2 dir = base.barrelVector * 9f;
                 if (duckOwner.ragdoll != null && duckOwner.ragdoll.part2 != null && duckOwner.ragdoll.part1 != null && duckOwner.ragdoll.part3 != null)
                 {
                     duckOwner.ragdoll.part2.hSpeed -= dir.X;
@@ -237,12 +238,12 @@ public class HugeLaser : Gun
             }
             else
             {
-                Vec2 dir2 = base.barrelVector;
+                Vector2 dir2 = base.barrelVector;
                 hSpeed -= dir2.X * 9f;
                 vSpeed -= dir2.Y * 9f + 3f;
             }
-            Vec2 barrel = Offset(base.barrelOffset);
-            Vec2 target = Offset(base.barrelOffset + new Vec2(1200f, 0f)) - barrel;
+            Vector2 barrel = Offset(base.barrelOffset);
+            Vector2 target = Offset(base.barrelOffset + new Vector2(1200f, 0f)) - barrel;
             if (base.isServerForObject)
             {
                 Global.data.laserBulletsFired.valueInt++;
@@ -306,8 +307,8 @@ public class HugeLaser : Gun
         float alphaAdd = Maths.NormalizeSection(_tip.Alpha, 0.8f, 1f) * 0.5f;
         if (length > 0f)
         {
-            Vec2 p = Offset(base.barrelOffset);
-            Vec2 target = Offset(base.barrelOffset + new Vec2(length * 1200f, 0f));
+            Vector2 p = Offset(base.barrelOffset);
+            Vector2 target = Offset(base.barrelOffset + new Vector2(length * 1200f, 0f));
             Graphics.DrawLine(p, target, new Color(_tip.Alpha * 0.7f + 0.3f, _tip.Alpha, _tip.Alpha) * (0.3f + alphaAdd), 1f + girth * 12f);
             Graphics.DrawLine(p, target, Color.Red * (0.2f + alphaAdd), 1f + girth2 * 28f);
             Graphics.DrawLine(p, target, Color.Red * (0.1f + alphaAdd), 0.2f + girth3 * 40f);

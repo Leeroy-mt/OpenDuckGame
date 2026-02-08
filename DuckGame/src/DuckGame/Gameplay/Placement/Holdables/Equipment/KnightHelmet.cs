@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Equipment")]
@@ -9,11 +11,11 @@ public class KnightHelmet : Helmet
         _pickupSprite = new Sprite("knightHelmetPickup");
         _sprite = new SpriteMap("knightHelmet", 32, 32);
         graphic = _pickupSprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-6f, -4f);
-        collisionSize = new Vec2(11f, 12f);
-        _equippedCollisionOffset = new Vec2(-4f, -2f);
-        _equippedCollisionSize = new Vec2(11f, 12f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-6f, -4f);
+        collisionSize = new Vector2(11f, 12f);
+        _equippedCollisionOffset = new Vector2(-4f, -2f);
+        _equippedCollisionSize = new Vector2(11f, 12f);
         _hasEquippedCollision = true;
         _sprite.CenterOrigin();
         base.Depth = 0.0001f;

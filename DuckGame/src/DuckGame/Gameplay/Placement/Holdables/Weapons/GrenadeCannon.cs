@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -62,15 +63,15 @@ public class GrenadeCannon : Gun
         _sprite.AddAnimation("idle0", 0.4f, false, 20);
         _sprite.SetAnimation("idle4");
         graphic = _sprite;
-        Center = new Vec2(11f, 7f);
-        collisionOffset = new Vec2(-6f, -4f);
-        collisionSize = new Vec2(16f, 8f);
-        _barrelOffsetTL = new Vec2(22f, 6f);
-        _laserOffsetTL = new Vec2(22f, 6f);
+        Center = new Vector2(11f, 7f);
+        collisionOffset = new Vector2(-6f, -4f);
+        collisionSize = new Vector2(16f, 8f);
+        _barrelOffsetTL = new Vector2(22f, 6f);
+        _laserOffsetTL = new Vector2(22f, 6f);
         _fireSound = "pistol";
         _kickForce = 3f;
         _fireRumble = RumbleIntensity.Light;
-        _holdOffset = new Vec2(2f, 0f);
+        _holdOffset = new Vector2(2f, 0f);
         _ammoType = new ATGrenade();
         _fireSound = "deepMachineGun";
         _bulletColor = Color.White;
@@ -102,9 +103,9 @@ public class GrenadeCannon : Gun
             _doLoad = false;
             if (base.isServerForObject)
             {
-                Vec2 pos = Offset(base.barrelOffset);
+                Vector2 pos = Offset(base.barrelOffset);
                 ammo--;
-                Vec2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.1f, 0.1f));
+                Vector2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.1f, 0.1f));
                 for (int i = 0; i < 12; i++)
                 {
                     Level.Add(SmallFire.New(pos.X, pos.Y, travelDir.X * Rando.Float(3.5f, 5f) + Rando.Float(-2f, 2f), travelDir.Y * Rando.Float(3.5f, 5f) + Rando.Float(-2f, 2f)));
@@ -205,7 +206,7 @@ public class GrenadeCannon : Gun
             kick = 1f;
             if (!receivingPress && base.isServerForObject)
             {
-                Vec2 pos = Offset(base.barrelOffset);
+                Vector2 pos = Offset(base.barrelOffset);
                 float radians = base.barrelAngle + Rando.Float(-0.1f, 0.1f);
                 CannonGrenade g = new CannonGrenade(pos.X, pos.Y)
                 {
@@ -213,7 +214,7 @@ public class GrenadeCannon : Gun
                     _timer = _timer
                 };
                 Fondle(g);
-                Vec2 travelDir = Maths.AngleToVec(radians);
+                Vector2 travelDir = Maths.AngleToVec(radians);
                 g.hSpeed = travelDir.X * 10f;
                 g.vSpeed = travelDir.Y * 10f;
                 Level.Add(g);

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -55,40 +56,40 @@ public class ArcadeFrame : Thing
         _frame = new SpriteMap("arcadeFrame01", 48, 48);
         _frame.imageIndex = 0;
         graphic = _frame;
-        Center = new Vec2(graphic.width / 2, graphic.height / 2);
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(graphic.width / 2, graphic.height / 2);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(-8f, -8f);
         _screen = new Sprite("shot01");
         base.Depth = -0.9f;
     }
 
-    public Vec2 GetRenderTargetSize()
+    public Vector2 GetRenderTargetSize()
     {
         if ((int)style == 0)
         {
-            return new Vec2(38f, 28f);
+            return new Vector2(38f, 28f);
         }
         if ((int)style == 1)
         {
-            return new Vec2(28f, 38f);
+            return new Vector2(28f, 38f);
         }
         if ((int)style == 2)
         {
-            return new Vec2(28f, 20f);
+            return new Vector2(28f, 20f);
         }
         if ((int)style == 3)
         {
-            return new Vec2(20f, 28f);
+            return new Vector2(20f, 28f);
         }
         if ((int)style == 4)
         {
-            return new Vec2(18f, 12f);
+            return new Vector2(18f, 12f);
         }
         if ((int)style == 5)
         {
-            return new Vec2(12f, 16f);
+            return new Vector2(12f, 16f);
         }
-        return new Vec2(32f, 32f);
+        return new Vector2(32f, 32f);
     }
 
     public float GetRenderTargetZoom()
@@ -161,9 +162,9 @@ public class ArcadeFrame : Thing
         _frame.frame = style.value;
         if (_image != null)
         {
-            Vec2 frameSize = GetRenderTargetSize();
+            Vector2 frameSize = GetRenderTargetSize();
             _image.Depth = base.Depth + 10;
-            _image.Scale = new Vec2(1f / 6f);
+            _image.Scale = new Vector2(1f / 6f);
             Graphics.doSnap = false;
             Graphics.Draw(_image, base.X - frameSize.X / 2f, base.Y - frameSize.Y / 2f);
             Graphics.doSnap = true;

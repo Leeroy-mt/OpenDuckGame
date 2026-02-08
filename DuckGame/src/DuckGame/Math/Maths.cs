@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -33,7 +34,7 @@ public class Maths
         return 1f / 60f;
     }
 
-    public static Vec2 RoundToPixel(Vec2 pos)
+    public static Vector2 RoundToPixel(Vector2 pos)
     {
         pos.X = (float)Math.Round(pos.X / 1f) * 1f;
         pos.Y = (float)Math.Round(pos.Y / 1f) * 1f;
@@ -132,17 +133,17 @@ public class Maths
         return value;
     }
 
-    public static bool Intersects(Vec2 a1, Vec2 a2, Vec2 b1, Vec2 b2, out Vec2 intersection)
+    public static bool Intersects(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2, out Vector2 intersection)
     {
-        intersection = Vec2.Zero;
-        Vec2 b3 = a2 - a1;
-        Vec2 d = b2 - b1;
+        intersection = Vector2.Zero;
+        Vector2 b3 = a2 - a1;
+        Vector2 d = b2 - b1;
         float bDotDPerp = b3.X * d.Y - b3.Y * d.X;
         if (bDotDPerp == 0f)
         {
             return false;
         }
-        Vec2 c = b1 - a1;
+        Vector2 c = b1 - a1;
         float t = (c.X * d.Y - c.Y * d.X) / bDotDPerp;
         if (t < 0f || t > 1f)
         {
@@ -167,17 +168,17 @@ public class Maths
         return rad * (180f / (float)Math.PI);
     }
 
-    public static float PointDirection(Vec2 p1, Vec2 p2)
+    public static float PointDirection(Vector2 p1, Vector2 p2)
     {
         return RadToDeg((float)Math.Atan2(p1.Y - p2.Y, p2.X - p1.X));
     }
 
-    public static float PointDirectionRad(Vec2 p1, Vec2 p2)
+    public static float PointDirectionRad(Vector2 p1, Vector2 p2)
     {
         return (float)Math.Atan2(p1.Y - p2.Y, p2.X - p1.X);
     }
 
-    public static float PointDirection2(Vec2 p1, Vec2 p2)
+    public static float PointDirection2(Vector2 p1, Vector2 p2)
     {
         return (float)Math.Atan2(p2.Y, p2.X) - (float)Math.Atan2(p1.Y, p1.X);
     }
@@ -206,19 +207,19 @@ public class Maths
         return 1;
     }
 
-    public static Vec2 AngleToVec(float radians)
+    public static Vector2 AngleToVec(float radians)
     {
-        return new Vec2(float.Cos(radians), -float.Sin(radians));
+        return new Vector2(float.Cos(radians), -float.Sin(radians));
     }
 
-    public static Vec2 Snap(Vec2 pPosition, float xSnap, float ySnap)
+    public static Vector2 Snap(Vector2 pPosition, float xSnap, float ySnap)
     {
         pPosition.X = (float)(int)Math.Floor(pPosition.X / xSnap) * xSnap;
         pPosition.Y = (float)(int)Math.Floor(pPosition.Y / ySnap) * ySnap;
         return pPosition;
     }
 
-    public static Vec2 SnapRound(Vec2 pPosition, float xSnap, float ySnap)
+    public static Vector2 SnapRound(Vector2 pPosition, float xSnap, float ySnap)
     {
         pPosition.X = (float)(int)Math.Round(pPosition.X / xSnap) * xSnap;
         pPosition.Y = (float)(int)Math.Round(pPosition.Y / ySnap) * ySnap;

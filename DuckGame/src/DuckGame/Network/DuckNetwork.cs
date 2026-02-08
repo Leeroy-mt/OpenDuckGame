@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -1419,19 +1420,19 @@ public class DuckNetwork
         _ducknetUIGroup.Add(_core._confirmMenu, doAnchor: false);
         _core._confirmBlacklistMenu.Add(new UIText("", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _core._confirmBlacklistMenu.Add(new UIText("Are you sure you want to avoid", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _core._confirmBlacklistMenu.Add(new UIText("this level in the future?", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _core._confirmBlacklistMenu.Add(new UIText("", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _core._confirmBlacklistMenu.Add(new UIMenuItem("|DGRED|@blacklist@YES!", new UIMenuActionCloseMenuCallFunction(_ducknetUIGroup, GameMode.Blacklist)));
         _core._confirmBlacklistMenu.Add(new UIMenuItem("BACK", new UIMenuActionOpenMenu(_core._confirmBlacklistMenu, _core._ducknetMenu), UIAlign.Center, default(Color), backButton: true));
@@ -2561,24 +2562,24 @@ public class DuckNetwork
                         }
                     }
                     p2.netData.Set("spectatorTongue", p2.inputProfile.rightStick);
-                    Vec2 additionalTilt = Vec2.Zero;
+                    Vector2 additionalTilt = Vector2.Zero;
                     if (p2.inputProfile.leftStick.Length() < 0.05f)
                     {
                         if (p2.inputProfile.Down("LEFT"))
                         {
-                            additionalTilt += new Vec2(-1f, 0f);
+                            additionalTilt += new Vector2(-1f, 0f);
                         }
                         if (p2.inputProfile.Down("RIGHT"))
                         {
-                            additionalTilt += new Vec2(1f, 0f);
+                            additionalTilt += new Vector2(1f, 0f);
                         }
                         if (p2.inputProfile.Down("DOWN"))
                         {
-                            additionalTilt += new Vec2(0f, -1f);
+                            additionalTilt += new Vector2(0f, -1f);
                         }
                         if (p2.inputProfile.Down("UP"))
                         {
-                            additionalTilt += new Vec2(0f, 1f);
+                            additionalTilt += new Vector2(0f, 1f);
                         }
                     }
                     else
@@ -3748,16 +3749,16 @@ public class DuckNetwork
         {
             return;
         }
-        Vec2 size = new Vec2(Layer.Console.width, Layer.Console.height);
+        Vector2 size = new Vector2(Layer.Console.width, Layer.Console.height);
         float yDraw = 0f;
         int numDraw = 8;
         float chatScale = DuckNetwork.chatScale;
         float duckfontScale = ((Resolution.current.x > 1920) ? 2f : 1f);
-        _core._chatFont.Scale = new Vec2(Resolution.fontSizeMultiplier * chatScale);
-        _core._chatFont.Scale = new Vec2(duckfontScale, duckfontScale);
+        _core._chatFont.Scale = new Vector2(Resolution.fontSizeMultiplier * chatScale);
+        _core._chatFont.Scale = new Vector2(duckfontScale, duckfontScale);
         if (_core._chatFont is RasterFont)
         {
-            _core._chatFont.Scale = new Vec2(0.5f);
+            _core._chatFont.Scale = new Vector2(0.5f);
         }
         float opacity = (float)Options.Data.chatOpacity / 100f;
         if (_core.enteringText && !_core.stopEnteringText)
@@ -3777,8 +3778,8 @@ public class DuckNetwork
             }
             float messageWidth = _core._chatFont.GetWidth(fullWords + "_") + 8f * chatScale;
             float messageHeight = (float)(_core._chatFont.characterHeight + 2) * _core._chatFont.Scale.Y;
-            Vec2 messagePos = new Vec2(14f, yDraw + (size.Y - (float)(_core._chatFont.characterHeight + 10) * _core._chatFont.Scale.Y));
-            Graphics.DrawRect(messagePos + new Vec2(-1f, -1f), messagePos + new Vec2(messageWidth, messageHeight) + new Vec2(1f, 1f), Color.Black * opacity, 0.7f, filled: false, 1f * chatScale);
+            Vector2 messagePos = new Vector2(14f, yDraw + (size.Y - (float)(_core._chatFont.characterHeight + 10) * _core._chatFont.Scale.Y));
+            Graphics.DrawRect(messagePos + new Vector2(-1f, -1f), messagePos + new Vector2(messageWidth, messageHeight) + new Vector2(1f, 1f), Color.Black * opacity, 0.7f, filled: false, 1f * chatScale);
             Color boxColor = Color.White;
             Color textColor = Color.Black;
             if (p.persona != null)
@@ -3789,9 +3790,9 @@ public class DuckNetwork
             {
                 boxColor = Colors.DGPurple;
             }
-            Graphics.DrawRect(messagePos, messagePos + new Vec2(messageWidth, messageHeight), boxColor * 0.85f * opacity, 0.8f);
+            Graphics.DrawRect(messagePos, messagePos + new Vector2(messageWidth, messageHeight), boxColor * 0.85f * opacity, 0.8f);
             _core._chatFont.symbolYOffset = 4f;
-            _core._chatFont.Draw(fullString, messagePos + new Vec2(2f, 2f), textColor * opacity, 1f);
+            _core._chatFont.Draw(fullString, messagePos + new Vector2(2f, 2f), textColor * opacity, 1f);
             yDraw -= messageHeight + 4f * _core._chatFont.Scale.Y;
         }
         float hatDepth = 0.1f;
@@ -3799,11 +3800,11 @@ public class DuckNetwork
         {
             float leftOffset = (float)(10 * (Options.Data.chatHeadScale + 1)) * duckfontScale;
             _core._chatFont._currentConnection = ((message.who.connection == localConnection) ? null : message.who.connection);
-            _core._chatFont.Scale = new Vec2(Resolution.fontSizeMultiplier * message.scale * chatScale);
-            _core._chatFont.Scale = new Vec2(duckfontScale, duckfontScale) * message.scale;
+            _core._chatFont.Scale = new Vector2(Resolution.fontSizeMultiplier * message.scale * chatScale);
+            _core._chatFont.Scale = new Vector2(duckfontScale, duckfontScale) * message.scale;
             if (_core._chatFont is RasterFont)
             {
-                _core._chatFont.Scale = new Vec2(0.5f);
+                _core._chatFont.Scale = new Vector2(0.5f);
             }
             float messageWidth2 = _core._chatFont.GetWidth(message.text) + leftOffset + 8f * chatScale;
             if (message.who.slotType == SlotType.Spectator)
@@ -3819,9 +3820,9 @@ public class DuckNetwork
                 }
             }
             float messageHeight2 = (float)(message.newlines * (_core._chatFont.characterHeight + 2)) * _core._chatFont.Scale.Y;
-            Vec2 messagePos2 = new Vec2(14f, yDraw + (size.Y - (messageHeight2 + 10f)));
-            Vec2 messageBR = messagePos2 + new Vec2(messageWidth2, messageHeight2);
-            Graphics.DrawRect(messagePos2 + new Vec2(-1f, -1f), messageBR + new Vec2(1f, 1f), Color.Black * 0.8f * message.alpha * opacity, hatDepth - 0.0015f, filled: false, 1f * chatScale);
+            Vector2 messagePos2 = new Vector2(14f, yDraw + (size.Y - (messageHeight2 + 10f)));
+            Vector2 messageBR = messagePos2 + new Vector2(messageWidth2, messageHeight2);
+            Graphics.DrawRect(messagePos2 + new Vector2(-1f, -1f), messageBR + new Vector2(1f, 1f), Color.Black * 0.8f * message.alpha * opacity, hatDepth - 0.0015f, filled: false, 1f * chatScale);
             float extraScale = 0.3f + (float)message.text.Length * 0.007f;
             if (extraScale > 0.5f)
             {
@@ -3853,7 +3854,7 @@ public class DuckNetwork
                 }
                 SpriteMap hat = null;
                 SpriteMap torso = message.who.persona.chatBust;
-                Vec2 offset = Vec2.Zero;
+                Vector2 offset = Vector2.Zero;
                 if (message.who.team != null && message.who.team.hasHat && (message.who.connection != localConnection || !message.who.team.locked))
                 {
                     offset = message.who.team.hatOffset * duckfontScale * (Options.Data.chatHeadScale + 1);
@@ -3864,7 +3865,7 @@ public class DuckNetwork
                 {
                     quack = message.who.duck.quack > 0;
                 }
-                Vec2 hatDraw = new Vec2(messagePos2.X, messagePos2.Y + (float)(-2 * (Options.Data.chatHeadScale + 1)));
+                Vector2 hatDraw = new Vector2(messagePos2.X, messagePos2.Y + (float)(-2 * (Options.Data.chatHeadScale + 1)));
                 if (hat != null)
                 {
                     hat.CenterOrigin();
@@ -3878,9 +3879,9 @@ public class DuckNetwork
                     {
                         hat.frame = 0;
                     }
-                    hat.Scale = new Vec2(duckfontScale, duckfontScale) * (Options.Data.chatHeadScale + 1);
+                    hat.Scale = new Vector2(duckfontScale, duckfontScale) * (Options.Data.chatHeadScale + 1);
                     Graphics.Draw(hat, hatDraw.X - offset.X, hatDraw.Y - offset.Y);
-                    hat.Scale = new Vec2(1f, 1f);
+                    hat.Scale = new Vector2(1f, 1f);
                     hat.Alpha = 1f;
                 }
                 if (quack)
@@ -3893,7 +3894,7 @@ public class DuckNetwork
                 }
                 torso.Depth = hatDepth - 0.0015f;
                 torso.Alpha = message.alpha * opacity;
-                torso.Scale = new Vec2(duckfontScale, duckfontScale) * (Options.Data.chatHeadScale + 1);
+                torso.Scale = new Vector2(duckfontScale, duckfontScale) * (Options.Data.chatHeadScale + 1);
                 Graphics.Draw(torso, hatDraw.X + 2f * torso.Scale.X, hatDraw.Y + 5f * torso.Scale.Y);
                 boxColor2 *= 0.85f;
                 boxColor2.a = byte.MaxValue;
@@ -3903,11 +3904,11 @@ public class DuckNetwork
             _core._chatFont.lineGap = 2f;
             if (message.who.slotType == SlotType.Spectator)
             {
-                _core._chatFont.Draw("@SPECTATORBIG@" + message.text, messagePos2 + new Vec2(2f + leftOffset, 1f * _core._chatFont.Scale.Y), textColor2 * message.alpha * opacity, 1f);
+                _core._chatFont.Draw("@SPECTATORBIG@" + message.text, messagePos2 + new Vector2(2f + leftOffset, 1f * _core._chatFont.Scale.Y), textColor2 * message.alpha * opacity, 1f);
             }
             else
             {
-                _core._chatFont.Draw(message.text, messagePos2 + new Vec2(2f + leftOffset, 1f * _core._chatFont.Scale.Y), textColor2 * message.alpha * opacity, 1f);
+                _core._chatFont.Draw(message.text, messagePos2 + new Vector2(2f + leftOffset, 1f * _core._chatFont.Scale.Y), textColor2 * message.alpha * opacity, 1f);
             }
             _core._chatFont._currentConnection = null;
             yDraw -= messageHeight2 + 4f;

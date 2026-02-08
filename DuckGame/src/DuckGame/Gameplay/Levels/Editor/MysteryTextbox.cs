@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -14,9 +15,9 @@ public class MysteryTextbox
 
     public int _cursorPosition;
 
-    private Vec2 _position;
+    private Vector2 _position;
 
-    private Vec2 _size;
+    private Vector2 _size;
 
     private float _blink;
 
@@ -40,7 +41,7 @@ public class MysteryTextbox
 
     private string _drawText = "";
 
-    private Vec2 _cursorPos;
+    private Vector2 _cursorPos;
 
     private bool _highlightDrag;
 
@@ -64,7 +65,7 @@ public class MysteryTextbox
 
     public Color cursorColor = Color.Black;
 
-    public Vec2 position
+    public Vector2 position
     {
         get
         {
@@ -76,7 +77,7 @@ public class MysteryTextbox
         }
     }
 
-    public Vec2 size
+    public Vector2 size
     {
         get
         {
@@ -96,10 +97,10 @@ public class MysteryTextbox
     public MysteryTextbox(float x, float y, float width, float height, float scale = 1f, int maxLines = int.MaxValue, string emptyText = "", string font = "smallFont")
     {
         _font = new FancyBitmapFont(font);
-        _font.Scale = new Vec2(scale);
+        _font.Scale = new Vector2(scale);
         _font.maxWidth = (int)width;
-        _position = new Vec2(x, y);
-        _size = new Vec2(width, height);
+        _position = new Vector2(x, y);
+        _size = new Vector2(width, height);
         _maxLines = maxLines;
         _emptyText = emptyText;
         Keyboard.keyString = "";
@@ -155,7 +156,7 @@ public class MysteryTextbox
     public void Update(int page = 0, int rowsPerPage = -1, int firstPageRows = 0)
     {
         bool hovered = false;
-        Vec2 mousePos = Mouse.position;
+        Vector2 mousePos = Mouse.position;
         if (mousePos.X > _position.X && mousePos.Y > _position.Y && mousePos.X < _position.X + _size.X && mousePos.Y < _position.Y + _size.Y)
         {
             hovered = true;
@@ -166,7 +167,7 @@ public class MysteryTextbox
             }
         }
         allowFocusStealing = true;
-        Vec2 textDrawPos = _position;
+        Vector2 textDrawPos = _position;
         Keyboard.repeat = true;
         Input._imeAllowed = true;
         int prevLen = text.Length;
@@ -347,9 +348,9 @@ public class MysteryTextbox
         _font.Draw(_drawText, _position.X, _position.Y, (text.Length == 0) ? (Colors.BlueGray * 0.8f) : color, depth);
         if (_blink >= 0.5f)
         {
-            Vec2 cursPos = _cursorPos;
+            Vector2 cursPos = _cursorPos;
             cursPos.X += 1f * _font.Scale.X;
-            Graphics.DrawLine(_position + cursPos, _position + cursPos + new Vec2(0f, 8f * _font.Scale.Y), cursorColor, 0.5f, depth);
+            Graphics.DrawLine(_position + cursPos, _position + cursPos + new Vector2(0f, 8f * _font.Scale.Y), cursorColor, 0.5f, depth);
         }
     }
 }

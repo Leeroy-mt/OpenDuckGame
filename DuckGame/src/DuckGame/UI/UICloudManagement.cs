@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -175,7 +176,7 @@ public class UICloudManagement : UIMenu
     {
         if (open && currentFolder != null)
         {
-            Vec2 pos = new(X - 124, Y - 66);
+            Vector2 pos = new(X - 124, Y - 66);
             float yOffset = 0;
             int idx = 0;
             int drawIndex = 0;
@@ -202,7 +203,7 @@ public class UICloudManagement : UIMenu
                     drawName = $"{drawName[..30]}..";
                 drawName = (f.files == null) ? ((_flagged.Contains(f) ? "@DELETEFLAG_ON@" : "@DELETEFLAG_OFF@") + drawName) : ((_flagged.Contains(f) ? "@FOLDERDELETEICON@" : "@FOLDERICON@") + drawName);
                 drawName = (idx != _selection) ? (" " + drawName) : ("@SELECTICON@" + drawName);
-                _littleFont.Draw(drawName, pos + new Vec2(0, yOffset), Color.White, 0.5f);
+                _littleFont.Draw(drawName, pos + new Vector2(0, yOffset), Color.White, 0.5f);
                 yOffset += 8;
                 idx++;
                 drawIndex++;
@@ -216,7 +217,7 @@ public class UICloudManagement : UIMenu
             }
             if (_flagged.Count > 0)
                 controlsText += " @MENU2@DELETE";
-            _littleFont.Draw(controlsText, new Vec2(X - _littleFont.GetWidth(controlsText) / 2, Y + 74), Color.White, 0.5f);
+            _littleFont.Draw(controlsText, new Vector2(X - _littleFont.GetWidth(controlsText) / 2, Y + 74), Color.White, 0.5f);
         }
         base.Draw();
     }

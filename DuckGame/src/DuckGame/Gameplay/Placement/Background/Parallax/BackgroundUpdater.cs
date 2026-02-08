@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class BackgroundUpdater : Thing
@@ -54,7 +56,7 @@ public class BackgroundUpdater : Thing
         editorTooltip = "Adds a parallaxing background visual to the level (limit 1 per level)";
     }
 
-    public static Vec2 GetWallScissor()
+    public static Vector2 GetWallScissor()
     {
         Matrix m = Level.current.camera.getMatrix();
         int xScissor = 0;
@@ -66,7 +68,7 @@ public class BackgroundUpdater : Thing
             {
                 xRight = (int)Resolution.size.X;
             }
-            Vec2 wallPos = Vec2.Transform(wall.Position, m) * xMul;
+            Vector2 wallPos = Vector2.Transform(wall.Position, m) * xMul;
             if (!wall.flipHorizontal && wallPos.X > (float)xScissor)
             {
                 xScissor = (int)wallPos.X;
@@ -84,15 +86,15 @@ public class BackgroundUpdater : Thing
         {
             xRight = (int)Resolution.size.X;
         }
-        return new Vec2(xScissor, xRight);
+        return new Vector2(xScissor, xRight);
     }
 
     public override void Update()
     {
         if (!overrideBaseScissorCall)
         {
-            Vec2 wallScissor = GetWallScissor();
-            if (wallScissor != Vec2.Zero)
+            Vector2 wallScissor = GetWallScissor();
+            if (wallScissor != Vector2.Zero)
             {
                 scissor = new Rectangle((int)wallScissor.X, 0f, (int)wallScissor.Y, Resolution.current.y);
             }

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -16,9 +17,9 @@ public class SnowPile : MaterialThing
     {
         graphic = new SpriteMap("bigDrift", 32, 32);
         base.hugWalls = WallHug.Floor;
-        Center = new Vec2(12f, 24f);
-        collisionSize = new Vec2(24f, 10f);
-        collisionOffset = new Vec2(-12f, -2f);
+        Center = new Vector2(12f, 24f);
+        collisionSize = new Vector2(24f, 10f);
+        collisionOffset = new Vector2(-12f, -2f);
         base.layer = Layer.Game;
         base.Depth = 0.85f;
         editorTooltip = "A nice, big, fluffy sneaky snow pile.";
@@ -70,13 +71,13 @@ public class SnowPile : MaterialThing
                 {
                     mul = 0.7f;
                 }
-                Level.Add(new SnowFallParticle(base.X + Rando.Float(-9f, 9f), base.Y + 7f + Rando.Float(-16f, 0f), new Vec2(hPower * mul * 0.1f + Rando.Float(-0.2f * (vPower * mul), 0.2f * (vPower * mul)), (0f - Rando.Float(0.8f, 1.5f)) * (vPower * mul * 0.15f)), i < 6));
+                Level.Add(new SnowFallParticle(base.X + Rando.Float(-9f, 9f), base.Y + 7f + Rando.Float(-16f, 0f), new Vector2(hPower * mul * 0.1f + Rando.Float(-0.2f * (vPower * mul), 0.2f * (vPower * mul)), (0f - Rando.Float(0.8f, 1.5f)) * (vPower * mul * 0.15f)), i < 6));
             }
         }
         base.OnSoftImpact(with, from);
     }
 
-    public override void HeatUp(Vec2 location)
+    public override void HeatUp(Vector2 location)
     {
         melt = true;
         base.HeatUp(location);

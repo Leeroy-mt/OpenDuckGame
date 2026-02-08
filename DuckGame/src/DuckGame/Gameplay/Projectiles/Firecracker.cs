@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +16,7 @@ public class Firecracker : PhysicsParticle, ITeleport
         : base(xpos, ypos)
     {
         graphic = new Sprite("fireCracker");
-        Center = new Vec2(4f, 4f);
+        Center = new Vector2(4f, 4f);
         _bounceSound = "plasticBounce";
         _airFriction = 0.02f;
         _bounceEfficiency = 0.65f;
@@ -48,7 +49,7 @@ public class Firecracker : PhysicsParticle, ITeleport
     {
         float xpos = d.ReadShort();
         float ypos = d.ReadShort();
-        netLerpPosition = new Vec2(xpos, ypos);
+        netLerpPosition = new Vector2(xpos, ypos);
         _spinAngle = d.ReadFloat();
     }
 
@@ -74,7 +75,7 @@ public class Firecracker : PhysicsParticle, ITeleport
     {
         if ((bool)_sparkTimer)
         {
-            Level.Add(Spark.New(base.X, base.Y - 2f, new Vec2(Rando.Float(-1f, 1f), -0.5f), 0.1f));
+            Level.Add(Spark.New(base.X, base.Y - 2f, new Vector2(Rando.Float(-1f, 1f), -0.5f), 0.1f));
         }
         _life = 1f;
         base.AngleDegrees = _spinAngle;

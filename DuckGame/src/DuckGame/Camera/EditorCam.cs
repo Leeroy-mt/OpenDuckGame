@@ -1,14 +1,16 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class EditorCam : Camera
 {
-    protected new Vec2 _zoomPoint;
+    protected new Vector2 _zoomPoint;
 
     protected float _zoomInc;
 
     protected float _zoom = 1f;
 
-    public new Vec2 zoomPoint
+    public new Vector2 zoomPoint
     {
         get
         {

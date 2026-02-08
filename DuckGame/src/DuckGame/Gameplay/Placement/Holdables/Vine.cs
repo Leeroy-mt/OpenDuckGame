@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -27,9 +28,9 @@ public class Vine : Holdable, ISwing
 
     public bool changeSpeed = true;
 
-    protected Vec2 _wallPoint;
+    protected Vector2 _wallPoint;
 
-    protected Vec2 _grappleTravel;
+    protected Vector2 _grappleTravel;
 
     public List<VineSection> points
     {
@@ -76,20 +77,20 @@ public class Vine : Holdable, ISwing
         }
     }
 
-    public Vec2 wallPoint => _wallPoint;
+    public Vector2 wallPoint => _wallPoint;
 
-    public Vec2 grappelTravel => _grappleTravel;
+    public Vector2 grappelTravel => _grappleTravel;
 
     public Vine(float xpos, float ypos, float init)
         : base(xpos, ypos)
     {
         _sprite = new SpriteMap("vine", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         _vinePartSprite = new Sprite("vine");
-        _vinePartSprite.Center = new Vec2(8f, 0f);
-        collisionOffset = new Vec2(-5f, -4f);
-        collisionSize = new Vec2(11f, 7f);
+        _vinePartSprite.Center = new Vector2(8f, 0f);
+        collisionOffset = new Vector2(-5f, -4f);
+        collisionSize = new Vector2(11f, 7f);
         weight = 0.1f;
         thickness = 0.1f;
         canPickUp = false;
@@ -112,10 +113,10 @@ public class Vine : Holdable, ISwing
         Level.Add(_harpoon);
         if (Level.current is not Editor)
         {
-            Vec2 pos = Position;
+            Vector2 pos = Position;
             Y += (int)length * 16 - 8;
             _harpoon.noisy = false;
-            _harpoon.Fire(pos + new Vec2(0, -8), new Vec2(0, -1));
+            _harpoon.Fire(pos + new Vector2(0, -8), new Vector2(0, -1));
             _rope = new Rope(X, Y, null, _harpoon, duck, vine: true, _vinePartSprite);
             if (initLength != 0)
             {
@@ -191,10 +192,10 @@ public class Vine : Holdable, ISwing
 
     public void MoveDuck()
     {
-        Vec2 travel = _rope.attach1.Position - _rope.attach2.Position;
+        Vector2 travel = _rope.attach1.Position - _rope.attach2.Position;
         if (travel.Length() > _rope.properLength)
         {
-            travel = travel.Normalized;
+            travel.Normalize(); // TODO: travel = Vector2.Normalize(travel)
             if (base.duck != null)
             {
                 PhysicsObject attach = base.duck;
@@ -264,7 +265,7 @@ public class Vine : Holdable, ISwing
             frictionMult = 1f;
             gravMultiplier = 1f;
         }
-        Vec2 travel = _rope.attach1.Position - _rope.attach2.Position;
+        Vector2 travel = _rope.attach1.Position - _rope.attach2.Position;
         if (_rope.properLength < 0f)
         {
             _rope.properLength = travel.Length();
@@ -273,7 +274,7 @@ public class Vine : Holdable, ISwing
         {
             return;
         }
-        travel = travel.Normalized;
+        travel.Normalize(); // TODO: travel = Vector2.Normalize(travel)
         if (base.duck != null)
         {
             PhysicsObject attach = base.duck;
@@ -284,7 +285,7 @@ public class Vine : Holdable, ISwing
             }
             _ = attach.Position;
             attach.Position = _rope.attach2.Position + travel * _rope.properLength;
-            Vec2 dif = attach.Position - attach.lastPosition;
+            Vector2 dif = attach.Position - attach.lastPosition;
             if (changeSpeed)
             {
                 attach.hSpeed = dif.X;
@@ -295,7 +296,7 @@ public class Vine : Holdable, ISwing
         {
             _ = Position;
             Position = _rope.attach2.Position + travel * _rope.properLength;
-            Vec2 dif2 = Position - base.lastPosition;
+            Vector2 dif2 = Position - base.lastPosition;
             hSpeed = dif2.X;
             vSpeed = dif2.Y;
         }
@@ -305,7 +306,7 @@ public class Vine : Holdable, ISwing
     {
         if (Level.current is Editor)
         {
-            graphic.Center = new Vec2(8f, 8f);
+            graphic.Center = new Vector2(8f, 8f);
             graphic.Depth = base.Depth;
             for (int i = 0; i < (int)length; i++)
             {

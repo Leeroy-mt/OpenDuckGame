@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -84,10 +85,10 @@ public class DuckAI : InputProfile
         return false;
     }
 
-    public bool SetTarget(Vec2 t)
+    public bool SetTarget(Vector2 t)
     {
         _locomotion.target = t;
-        return _locomotion.target == Vec2.Zero;
+        return _locomotion.target == Vector2.Zero;
     }
 
     public void TrimLastTarget()
@@ -161,10 +162,10 @@ public class DuckAI : InputProfile
         {
             return;
         }
-        Vec2 lastNode = Vec2.Zero;
+        Vector2 lastNode = Vector2.Zero;
         foreach (PathNodeLink n in _locomotion.pathFinder.path)
         {
-            if (lastNode != Vec2.Zero)
+            if (lastNode != Vector2.Zero)
             {
                 Graphics.DrawLine(lastNode, n.owner.Position, new Color(255, 0, 255), 2f, 0.9f);
             }

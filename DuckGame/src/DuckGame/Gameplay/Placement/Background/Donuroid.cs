@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -10,7 +11,7 @@ public class Donuroid
 
     public Depth _depth;
 
-    private Vec2 _position;
+    private Vector2 _position;
 
     private float _scale = 1f;
 
@@ -22,11 +23,11 @@ public class Donuroid
         _frame = frame;
         _depth = depth;
         _scale = scale;
-        _position = new Vec2(xpos, ypos);
+        _position = new Vector2(xpos, ypos);
         _sin = Rando.Float(8f);
     }
 
-    public void Draw(Vec2 pos)
+    public void Draw(Vector2 pos)
     {
         _image.frame = _frame;
         _image.Depth = _depth;

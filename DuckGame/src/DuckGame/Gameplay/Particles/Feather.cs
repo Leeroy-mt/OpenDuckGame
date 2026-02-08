@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class Feather : Thing
@@ -49,7 +51,7 @@ public class Feather : Thing
         };
         _sprite.AddAnimation("feather", 1, true, 0, 1, 2, 3);
         graphic = _sprite;
-        Center = new Vec2(6, 1);
+        Center = new Vector2(6, 1);
     }
 
     private void Init(float xpos, float ypos, DuckPersona who)

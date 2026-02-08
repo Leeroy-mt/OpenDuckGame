@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -167,7 +168,7 @@ public class BufferedGhostState
         _framesApplied = NetworkConnection.packetsEvery;
     }
 
-    private Vec2 Slerp(Vec2 from, Vec2 to, float step)
+    private Vector2 Slerp(Vector2 from, Vector2 to, float step)
     {
         if (step == 0f)
         {
@@ -177,7 +178,7 @@ public class BufferedGhostState
         {
             return to;
         }
-        double theta = Math.Acos(Vec2.Dot(from, to));
+        double theta = Math.Acos(Vector2.Dot(from, to));
         if (theta == 0.0)
         {
             return to;

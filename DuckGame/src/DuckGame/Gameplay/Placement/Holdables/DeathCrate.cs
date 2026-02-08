@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,9 +63,9 @@ public class DeathCrate : Holdable, IPlatform
         _hitPoints = 15f;
         _sprite = new SpriteMap("deathcrate", 16, 19);
         graphic = _sprite;
-        Center = new Vec2(8f, 11f);
-        collisionOffset = new Vec2(-8f, -11f);
-        collisionSize = new Vec2(16f, 18f);
+        Center = new Vector2(8f, 11f);
+        collisionOffset = new Vector2(-8f, -11f);
+        collisionSize = new Vector2(16f, 18f);
         base.Depth = -0.5f;
         _editorName = "Death Crate";
         editorTooltip = "Explodes in a violent surprise when triggered.";
@@ -73,7 +74,7 @@ public class DeathCrate : Holdable, IPlatform
         _sprite.AddAnimation("idle", 1f, true, default(int));
         _sprite.AddAnimation("activate", 0.35f, false, 1, 2, 3, 4, 4, 5, 4, 4, 5, 6, 6, 6, 6, 6, 6, 6, 6, 5, 7, 7, 7, 7, 7, 7, 7, 7, 5, 8, 8, 8, 8, 8, 8, 8, 8, 5, 9, 9, 5);
         _sprite.SetAnimation("idle");
-        _holdOffset = new Vec2(2f, 0f);
+        _holdOffset = new Vector2(2f, 0f);
         flammable = 0f;
         base.collideSounds.Add("crateHit");
         for (int i = 0; i < 100; i++)
@@ -97,8 +98,8 @@ public class DeathCrate : Holdable, IPlatform
             activated = true;
             _sprite.SetAnimation("activate");
             SFX.Play("click");
-            collisionOffset = new Vec2(-8f, -8f);
-            collisionSize = new Vec2(16f, 15f);
+            collisionOffset = new Vector2(-8f, -8f);
+            collisionSize = new Vector2(16f, 15f);
         }
         base.OnSolidImpact(with, from);
     }
@@ -128,8 +129,8 @@ public class DeathCrate : Holdable, IPlatform
         if (activated && _sprite.currentAnimation != "activate")
         {
             _sprite.SetAnimation("activate");
-            collisionOffset = new Vec2(-8f, -8f);
-            collisionSize = new Vec2(16f, 15f);
+            collisionOffset = new Vector2(-8f, -8f);
+            collisionSize = new Vector2(16f, 15f);
         }
         if (_sprite.imageIndex == 6 && _beeps == 0)
         {

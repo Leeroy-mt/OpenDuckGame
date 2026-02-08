@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Stuff|Props")]
@@ -60,7 +62,7 @@ public class DrumSet : Holdable, IPlatform
 
     private int hitsSinceThrow;
 
-    public override Vec2 netPosition
+    public override Vector2 netPosition
     {
         get
         {
@@ -75,17 +77,17 @@ public class DrumSet : Holdable, IPlatform
     public DrumSet(float xpos, float ypos)
         : base(xpos, ypos)
     {
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -11f);
-        collisionSize = new Vec2(16f, 14f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -11f);
+        collisionSize = new Vector2(16f, 14f);
         base.Depth = 0.5f;
         thickness = 0f;
         weight = 7f;
         _editorIcon = new Sprite("drumsIcon");
-        _holdOffset = new Vec2(1f, 7f);
+        _holdOffset = new Vector2(1f, 7f);
         flammable = 0.3f;
         base.collideSounds.Add("rockHitGround2");
-        handOffset = new Vec2(0f, -9999f);
+        handOffset = new Vector2(0f, -9999f);
         holsterable = false;
         tapeable = false;
         base.hugWalls = WallHug.Floor;
@@ -122,18 +124,18 @@ public class DrumSet : Holdable, IPlatform
         Level.Add(_highTom);
         _bass.Position = Position;
         _bass.Depth = base.Depth + 1;
-        _snare.Position = Position + new Vec2(10f, -7f);
+        _snare.Position = Position + new Vector2(10f, -7f);
         _snare.Depth = base.Depth;
         _hat.Depth = base.Depth - 1;
-        _hat.Position = Position + new Vec2(13f, -11f);
+        _hat.Position = Position + new Vector2(13f, -11f);
         _lowTom.Depth = base.Depth - 1;
-        _lowTom.Position = Position + new Vec2(-9f, -5f);
+        _lowTom.Position = Position + new Vector2(-9f, -5f);
         _crash.Depth = base.Depth;
-        _crash.Position = Position + new Vec2(-15f, -15f);
+        _crash.Position = Position + new Vector2(-15f, -15f);
         _medTom.Depth = base.Depth + 3;
-        _medTom.Position = Position + new Vec2(-8f, -12f);
+        _medTom.Position = Position + new Vector2(-8f, -12f);
         _highTom.Depth = base.Depth + 3;
-        _highTom.Position = Position + new Vec2(7f, -12f);
+        _highTom.Position = Position + new Vector2(7f, -12f);
         _netBassDrum.function = _bass.Hit;
         _netSnare.function = _snare.Hit;
         _netHat.function = _hat.Hit;
@@ -299,17 +301,17 @@ public class DrumSet : Holdable, IPlatform
         }
         _bass.Position = Position;
         _bass.Depth = base.Depth + 1;
-        _snare.Position = Position + new Vec2(10f, -7f);
+        _snare.Position = Position + new Vector2(10f, -7f);
         _snare.Depth = base.Depth;
         _hat.Depth = base.Depth - 1;
-        _hat.Position = Position + new Vec2(13f, -11f);
+        _hat.Position = Position + new Vector2(13f, -11f);
         _lowTom.Depth = base.Depth - 1;
-        _lowTom.Position = Position + new Vec2(-9f, -5f);
+        _lowTom.Position = Position + new Vector2(-9f, -5f);
         _crash.Depth = base.Depth;
-        _crash.Position = Position + new Vec2(-15f, -15f);
+        _crash.Position = Position + new Vector2(-15f, -15f);
         _medTom.Depth = base.Depth + 3;
-        _medTom.Position = Position + new Vec2(-8f, -12f);
+        _medTom.Position = Position + new Vector2(-8f, -12f);
         _highTom.Depth = base.Depth + 3;
-        _highTom.Position = Position + new Vec2(7f, -12f);
+        _highTom.Position = Position + new Vector2(7f, -12f);
     }
 }

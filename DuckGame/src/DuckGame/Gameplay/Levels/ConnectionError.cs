@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Linq;
 
 namespace DuckGame;
@@ -75,7 +76,7 @@ public class ConnectionError : Level, IConnectionScreen
         foreach (string text in array2)
         {
             xoff = Graphics.GetStringHeight(text);
-            Graphics.DrawString(text, new Vec2(Layer.HUD.camera.width / 2f - Graphics.GetStringWidth(text) / 2f, Layer.HUD.camera.height / 2f - xoff / 2f), Color.White);
+            Graphics.DrawString(text, new Vector2(Layer.HUD.camera.width / 2f - Graphics.GetStringWidth(text) / 2f, Layer.HUD.camera.height / 2f - xoff / 2f), Color.White);
             xoff += 8f;
         }
     }

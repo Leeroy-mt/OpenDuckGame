@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -21,16 +22,16 @@ public class Trophy : Holdable
     {
         _sprite = new SpriteMap("trophy", 17, 20);
         graphic = _sprite;
-        Center = new Vec2(8f, 10f);
-        collisionOffset = new Vec2(-7f, -10f);
-        collisionSize = new Vec2(15f, 19f);
+        Center = new Vector2(8f, 10f);
+        collisionOffset = new Vector2(-7f, -10f);
+        collisionSize = new Vector2(15f, 19f);
         base.Depth = -0.5f;
         thickness = 4f;
         weight = 4f;
         flammable = 0.3f;
         base.collideSounds.Add("rockHitGround2");
         physicsMaterial = PhysicsMaterial.Metal;
-        _holdOffset = new Vec2(-2f, 0f);
+        _holdOffset = new Vector2(-2f, 0f);
         editorTooltip = "It doesn't count if you don't EARN it.";
     }
 
@@ -42,10 +43,10 @@ public class Trophy : Holdable
         }
         if (base.duck != null && ownerAction)
         {
-            _holdOffset = Lerp.Vec2(_holdOffset, new Vec2(-13f, -4f), 2f);
+            _holdOffset = Lerp.Vector2(_holdOffset, new Vector2(-13f, -4f), 2f);
             Angle = Lerp.Float(Angle, -1f, 0.1f);
             handFlip = true;
-            handOffset = Lerp.Vec2(handOffset, new Vec2(-3f, -4f), 1f);
+            handOffset = Lerp.Vector2(handOffset, new Vector2(-3f, -4f), 1f);
             _canRaise = false;
         }
         else
@@ -59,9 +60,9 @@ public class Trophy : Holdable
             {
                 lerpSpeed = 20f;
             }
-            _holdOffset = Lerp.Vec2(_holdOffset, new Vec2(-2f, 0f), lerpSpeed * 2f);
+            _holdOffset = Lerp.Vector2(_holdOffset, new Vector2(-2f, 0f), lerpSpeed * 2f);
             handFlip = false;
-            handOffset = Lerp.Vec2(handOffset, new Vec2(0f, 0f), 1f * lerpSpeed);
+            handOffset = Lerp.Vector2(handOffset, new Vector2(0f, 0f), 1f * lerpSpeed);
             _canRaise = true;
         }
         if (owner == null && base.level.simulatePhysics)

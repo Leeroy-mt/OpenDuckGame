@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class SubBackgroundOffice : SubBackgroundTile
@@ -7,8 +9,8 @@ public class SubBackgroundOffice : SubBackgroundTile
     {
         graphic = new SpriteMap("officeSubBackground", 32, 32, calculateTransparency: true);
         _opacityFromGraphic = true;
-        Center = new Vec2(24, 16);
-        collisionSize = new Vec2(32);
-        collisionOffset = new Vec2(-16);
+        Center = new Vector2(24, 16);
+        collisionSize = new Vector2(32);
+        collisionOffset = new Vector2(-16);
     }
 }

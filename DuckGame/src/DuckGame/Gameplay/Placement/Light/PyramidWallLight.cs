@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -14,7 +15,7 @@ public class PyramidWallLight : Thing
 
     private SpriteMap _sprite;
 
-    private Vec2 lightPos;
+    private Vector2 lightPos;
 
     public PyramidWallLight(float xpos, float ypos)
         : base(xpos, ypos)
@@ -23,9 +24,9 @@ public class PyramidWallLight : Thing
         _sprite.AddAnimation("go", 0.2f, true, 0, 1, 2, 3, 4);
         _sprite.SetAnimation("go");
         graphic = _sprite;
-        Center = new Vec2(7f, 8f);
-        _collisionSize = new Vec2(8f, 8f);
-        _collisionOffset = new Vec2(-4f, -4f);
+        Center = new Vector2(7f, 8f);
+        _collisionSize = new Vector2(8f, 8f);
+        _collisionOffset = new Vector2(-4f, -4f);
         base.Depth = -0.9f;
         base.Alpha = 0.7f;
         base.layer = Layer.Game;
@@ -51,17 +52,17 @@ public class PyramidWallLight : Thing
     {
         if (!(Level.current is Editor))
         {
-            _occluders.Add(new LightOccluder(Position + new Vec2(-15f, 3f), Position + new Vec2(-15f, -4f), new Color(0.95f, 0.9f, 0.85f)));
-            _occluders.Add(new LightOccluder(Position + new Vec2(15f, 3f), Position + new Vec2(15f, -4f), new Color(0.95f, 0.9f, 0.85f)));
-            _occluders.Add(new LightOccluder(Position + new Vec2(-15f, 2f), Position + new Vec2(15f, 2f), new Color(0.95f, 0.9f, 0.85f)));
+            _occluders.Add(new LightOccluder(Position + new Vector2(-15f, 3f), Position + new Vector2(-15f, -4f), new Color(0.95f, 0.9f, 0.85f)));
+            _occluders.Add(new LightOccluder(Position + new Vector2(15f, 3f), Position + new Vector2(15f, -4f), new Color(0.95f, 0.9f, 0.85f)));
+            _occluders.Add(new LightOccluder(Position + new Vector2(-15f, 2f), Position + new Vector2(15f, 2f), new Color(0.95f, 0.9f, 0.85f)));
             if (flipHorizontal)
             {
-                lightPos = new Vec2(base.X, base.Y);
+                lightPos = new Vector2(base.X, base.Y);
                 Level.Add(new PointLight(lightPos.X, lightPos.Y, lightColor, 120f, _occluders, strangeFalloff: true));
             }
             else
             {
-                lightPos = new Vec2(base.X, base.Y);
+                lightPos = new Vector2(base.X, base.Y);
                 Level.Add(new PointLight(lightPos.X, lightPos.Y, lightColor, 120f, _occluders, strangeFalloff: true));
             }
         }

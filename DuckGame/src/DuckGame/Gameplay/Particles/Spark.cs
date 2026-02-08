@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class Spark : PhysicsParticle
@@ -14,7 +16,7 @@ public class Spark : PhysicsParticle
 
     public float _width = 0.5f;
 
-    public static Spark New(float xpos, float ypos, Vec2 hitAngle, float killSpeed = 0.02f)
+    public static Spark New(float xpos, float ypos, Vector2 hitAngle, float killSpeed = 0.02f)
     {
         Spark spark = null;
         if (_sparks[_lastActiveSpark] == null)
@@ -38,7 +40,7 @@ public class Spark : PhysicsParticle
     {
     }
 
-    private void Init(float xpos, float ypos, Vec2 hitAngle, float killSpeed = 0.02f)
+    private void Init(float xpos, float ypos, Vector2 hitAngle, float killSpeed = 0.02f)
     {
         X = xpos;
         Y = ypos;
@@ -63,10 +65,10 @@ public class Spark : PhysicsParticle
 
     public override void Draw()
     {
-        Vec2 dir = base.velocity.Normalized;
+        Vector2 dir = Vector2.Normalize(velocity);
         float speed = base.velocity.Length() * 2f;
-        Vec2 end = Position + dir * speed;
-        Vec2 intersect;
+        Vector2 end = Position + dir * speed;
+        Vector2 intersect;
         Block touch = Level.CheckLine<Block>(Position, end, out intersect);
         Graphics.DrawLine(Position, (touch != null) ? intersect : end, _color * base.Alpha, _width, base.Depth);
     }

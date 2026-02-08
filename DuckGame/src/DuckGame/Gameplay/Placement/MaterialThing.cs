@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -312,7 +313,7 @@ public abstract class MaterialThing : Thing
 
     public float totalImpactPower => impactPowerH + impactPowerV;
 
-    public Vec2 impactDirection => new Vec2(impactDirectionH, impactDirectionV);
+    public Vector2 impactDirection => new Vector2(impactDirectionH, impactDirectionV);
 
     public Organizer<ImpactedFrom, string> collideSounds
     {
@@ -362,14 +363,14 @@ public abstract class MaterialThing : Thing
         return true;
     }
 
-    public static Vec2 ImpactVector(ImpactedFrom from)
+    public static Vector2 ImpactVector(ImpactedFrom from)
     {
         return from switch
         {
-            ImpactedFrom.Left => new Vec2(-1f, 0f),
-            ImpactedFrom.Right => new Vec2(1f, 0f),
-            ImpactedFrom.Top => new Vec2(0f, -1f),
-            _ => new Vec2(0f, 1f),
+            ImpactedFrom.Left => new Vector2(-1f, 0f),
+            ImpactedFrom.Right => new Vector2(1f, 0f),
+            ImpactedFrom.Top => new Vector2(0f, -1f),
+            _ => new Vector2(0f, 1f),
         };
     }
 
@@ -390,7 +391,7 @@ public abstract class MaterialThing : Thing
 
     public void CheckIsland()
     {
-        if (island != null && island.owner != this && base.level != null && base.level.simulatePhysics && (Position - island.owner.Position).lengthSq > island.radiusSquared)
+        if (island != null && island.owner != this && base.level != null && base.level.simulatePhysics && (Position - island.owner.Position).LengthSquared() > island.radiusSquared)
         {
             island.RemoveThing(this);
             UpdateIsland();
@@ -550,12 +551,12 @@ public abstract class MaterialThing : Thing
         _destroyed = false;
     }
 
-    public virtual bool DoHit(Bullet bullet, Vec2 hitPos)
+    public virtual bool DoHit(Bullet bullet, Vector2 hitPos)
     {
         return Hit(bullet, hitPos);
     }
 
-    public virtual bool Hit(Bullet bullet, Vec2 hitPos)
+    public virtual bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (physicsMaterial == PhysicsMaterial.Metal)
         {
@@ -580,16 +581,16 @@ public abstract class MaterialThing : Thing
         return thickness > bullet.ammo.penetration;
     }
 
-    public virtual void DoExitHit(Bullet bullet, Vec2 exitPos)
+    public virtual void DoExitHit(Bullet bullet, Vector2 exitPos)
     {
         ExitHit(bullet, exitPos);
     }
 
-    public virtual void ExitHit(Bullet bullet, Vec2 exitPos)
+    public virtual void ExitHit(Bullet bullet, Vector2 exitPos)
     {
     }
 
-    public virtual void Burn(Vec2 firePosition, Thing litBy)
+    public virtual void Burn(Vector2 firePosition, Thing litBy)
     {
         if (Network.isActive && !base.isServerForObject && !isBurnMessage && !_onFire && this is Duck && (this as Duck).profile != null)
         {
@@ -612,7 +613,7 @@ public abstract class MaterialThing : Thing
         Level.Add(SmallFire.New(Rando.Float((base.left - base.X) * 0.7f, (base.right - base.X) * 0.7f), Rando.Float((base.top - base.Y) * 0.7f, (base.bottom - base.Y) * 0.7f), 0f, 0f, shortLife: false, this));
     }
 
-    protected virtual bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected virtual bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         if (flammable < 0.001f)
         {
@@ -627,7 +628,7 @@ public abstract class MaterialThing : Thing
         return true;
     }
 
-    public virtual void DoHeatUp(float val, Vec2 location)
+    public virtual void DoHeatUp(float val, Vector2 location)
     {
         bool hadNegativeHeat = heat < 0f;
         if (!hadNegativeHeat || val > 0f)
@@ -653,11 +654,11 @@ public abstract class MaterialThing : Thing
         DoHeatUp(val, Position);
     }
 
-    public virtual void HeatUp(Vec2 location)
+    public virtual void HeatUp(Vector2 location)
     {
     }
 
-    public virtual void DoFreeze(float val, Vec2 location)
+    public virtual void DoFreeze(float val, Vector2 location)
     {
         if (val < 0f)
         {
@@ -676,7 +677,7 @@ public abstract class MaterialThing : Thing
         DoFreeze(val, Position);
     }
 
-    public virtual void Freeze(Vec2 location)
+    public virtual void Freeze(Vector2 location)
     {
     }
 

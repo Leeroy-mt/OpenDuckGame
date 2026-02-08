@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -150,7 +151,7 @@ public class SpriteMap : Sprite, ICloneable
         frameHeight = Math.Min(_texture.height, frameHeight);
         tex.frameWidth = frameWidth;
         tex.frameHeight = frameHeight;
-        Position = new Vec2(X, Y);
+        Position = new Vector2(X, Y);
         _width = frameWidth;
         _height = frameHeight;
         AddDefaultAnimation();
@@ -169,7 +170,7 @@ public class SpriteMap : Sprite, ICloneable
         frameHeight = Math.Min(_texture.height, frameHeight);
         _texture.frameWidth = frameWidth;
         _texture.frameHeight = frameHeight;
-        Position = new Vec2(base.X, base.Y);
+        Position = new Vector2(base.X, base.Y);
         _width = frameWidth;
         _height = frameHeight;
         AddDefaultAnimation();

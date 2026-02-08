@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class HiHat : Drum
@@ -8,9 +10,9 @@ public class HiHat : Drum
         : base(xpos, ypos)
     {
         graphic = new Sprite("drumset/hat");
-        Center = new Vec2(graphic.w / 2, graphic.h / 2);
+        Center = new Vector2(graphic.w / 2, graphic.h / 2);
         _stand = new Sprite("drumset/hatStand");
-        _stand.Center = new Vec2(_stand.w / 2, 0f);
+        _stand.Center = new Vector2(_stand.w / 2, 0f);
         _sound = "hatClosed";
         _alternateSound = "hatOpen";
     }

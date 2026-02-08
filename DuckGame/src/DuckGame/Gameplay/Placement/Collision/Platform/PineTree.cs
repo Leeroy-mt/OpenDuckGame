@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -28,11 +29,11 @@ public abstract class PineTree : AutoPlatform
     {
         _sprite = new SpriteMap(tileset, 8, 16);
         graphic = _sprite;
-        collisionSize = new Vec2(8f, 16f);
+        collisionSize = new Vector2(8f, 16f);
         thickness = 0.2f;
         base.CenterX = 4f;
         base.CenterY = 8f;
-        collisionOffset = new Vec2(-4f, -8f);
+        collisionOffset = new Vector2(-4f, -8f);
         base.Depth = -0.12f;
         placementLayerOverride = Layer.Foreground;
         forceEditorGrid = 8;
@@ -51,12 +52,12 @@ public abstract class PineTree : AutoPlatform
         }
     }
 
-    public virtual void KnockOffSnow(Vec2 dir, bool vertShake)
+    public virtual void KnockOffSnow(Vector2 dir, bool vertShake)
     {
         knocked = true;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         shiftTime = 1f;
         shiftAmount = ((bullet.travelDirNormalized.X > 0f) ? 1 : (-1));
@@ -113,23 +114,23 @@ public abstract class PineTree : AutoPlatform
         if (_graphic != null)
         {
             Sprite sprite = _graphic;
-            Vec2 vec = Position;
+            Vector2 vec = Position;
             _ = shiftAmount;
-            sprite.Position = vec + new Vec2(0f * shiftTime, _vertPush * 1.5f);
+            sprite.Position = vec + new Vector2(0f * shiftTime, _vertPush * 1.5f);
             _graphic.Alpha = base.Alpha;
             _graphic.Angle = Angle;
             _graphic.Depth = base.Depth;
-            _graphic.Scale = base.Scale + new Vec2(Math.Abs((float)shiftAmount * 0f) * shiftTime, _vertPush * 0.2f);
+            _graphic.Scale = base.Scale + new Vector2(Math.Abs((float)shiftAmount * 0f) * shiftTime, _vertPush * 0.2f);
             _graphic.Center = Center;
             _graphic.Draw();
         }
         if (shiftTime > 0f)
         {
-            _graphic.Position = Position + new Vec2((float)(shiftAmount * 2) * shiftTime, 0f);
+            _graphic.Position = Position + new Vector2((float)(shiftAmount * 2) * shiftTime, 0f);
             _graphic.Alpha = base.Alpha;
             _graphic.Angle = Angle;
             _graphic.Depth = base.Depth + 10;
-            _graphic.Scale = base.Scale + new Vec2(Math.Abs((float)shiftAmount * 0f) * shiftTime, 0f);
+            _graphic.Scale = base.Scale + new Vector2(Math.Abs((float)shiftAmount * 0f) * shiftTime, 0f);
             _graphic.Center = Center;
             _graphic.Alpha = 0.6f;
             _graphic.Draw();

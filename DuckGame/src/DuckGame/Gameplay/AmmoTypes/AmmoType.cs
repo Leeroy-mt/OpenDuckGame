@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ public abstract class AmmoType
             bindings = new List<ClassMember>();
             foreach (ClassMember c in members)
             {
-                if (!(c.name == "complexSync") && (c.type.IsPrimitive || c.type == typeof(Vec2) || c.type == typeof(Color)))
+                if (!(c.name == "complexSync") && (c.type.IsPrimitive || c.type == typeof(Vector2) || c.type == typeof(Color)))
                 {
                     bindings.Add(c);
                 }
@@ -156,7 +157,7 @@ public abstract class AmmoType
         }
     }
 
-    public virtual void MakeNetEffect(Vec2 pos, bool fromNetwork = false)
+    public virtual void MakeNetEffect(Vector2 pos, bool fromNetwork = false)
     {
     }
 
@@ -184,7 +185,7 @@ public abstract class AmmoType
         return bullet;
     }
 
-    public virtual Bullet FireBullet(Vec2 position, Thing owner = null, float angle = 0f, Thing firedFrom = null)
+    public virtual Bullet FireBullet(Vector2 position, Thing owner = null, float angle = 0f, Thing firedFrom = null)
     {
         Bullet bullet = GetBullet(position.X, position.Y, owner, angle, firedFrom);
         Level.current.AddThing(bullet);

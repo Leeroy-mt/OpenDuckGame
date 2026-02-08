@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Details|Lights", EditorItemType.Lighting)]
@@ -8,9 +10,9 @@ public class Sun : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("officeLight");
-        Center = new Vec2(16f, 3f);
-        _collisionSize = new Vec2(30f, 6f);
-        _collisionOffset = new Vec2(-15f, -3f);
+        Center = new Vector2(16f, 3f);
+        _collisionSize = new Vector2(30f, 6f);
+        _collisionOffset = new Vector2(-15f, -3f);
         base.Depth = 0.9f;
         base.hugWalls = WallHug.Ceiling;
         base.layer = Layer.Game;

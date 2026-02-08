@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -277,9 +278,9 @@ public class UnlockScreen : Thing
     {
         if (!(base.Alpha < 0.01f))
         {
-            Graphics.DrawRect(new Vec2(26f, 22f), new Vec2(Layer.HUD.width - 105f, 140f), new Color(20, 20, 20) * base.Alpha * 0.7f, -0.9f);
-            Vec2 namePos = new Vec2(20f, 8f);
-            Vec2 nameSize = new Vec2(226f, 11f);
+            Graphics.DrawRect(new Vector2(26f, 22f), new Vector2(Layer.HUD.width - 105f, 140f), new Color(20, 20, 20) * base.Alpha * 0.7f, -0.9f);
+            Vector2 namePos = new Vector2(20f, 8f);
+            Vector2 nameSize = new Vector2(226f, 11f);
             Graphics.DrawRect(namePos, namePos + nameSize, Color.Black);
             bool unlo = _tree.selected.ProfileUnlocked(Profiles.active[0]);
             bool canSee = true;
@@ -292,7 +293,7 @@ public class UnlockScreen : Thing
             {
                 name = "???";
             }
-            Graphics.DrawString(name, namePos + new Vec2((nameSize.X - 27f) / 2f - Graphics.GetStringWidth(name) / 2f, 2f), (unlo ? new Color(163, 206, 39) : Color.Red) * base.Alpha, 0.5f);
+            Graphics.DrawString(name, namePos + new Vector2((nameSize.X - 27f) / 2f - Graphics.GetStringWidth(name) / 2f, 2f), (unlo ? new Color(163, 206, 39) : Color.Red) * base.Alpha, 0.5f);
             _tail.Depth = 0.5f;
             _tail.Alpha = base.Alpha;
             _tail.flipH = false;

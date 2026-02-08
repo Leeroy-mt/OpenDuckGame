@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class GameContext
@@ -39,7 +41,7 @@ public class GameContext
         RevertStates();
     }
 
-    public void Draw(RenderTarget2D target = null, Camera c = null, Vec2 offset = default(Vec2))
+    public void Draw(RenderTarget2D target = null, Camera c = null, Vector2 offset = default(Vector2))
     {
         ApplyStates();
         c.position += offset;

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Pistols")]
@@ -12,15 +14,15 @@ public class SuicidePistol : Gun
         _ammoType.immediatelyDeadly = true;
         _type = "gun";
         graphic = new Sprite("suicidePistol");
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -5f);
-        collisionSize = new Vec2(16f, 10f);
-        _barrelOffsetTL = new Vec2(8f, 13f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -5f);
+        collisionSize = new Vector2(16f, 10f);
+        _barrelOffsetTL = new Vector2(8f, 13f);
         _fireSound = "magnum";
         _kickForce = -3.5f;
         _fireRumble = RumbleIntensity.Kick;
-        handOffset = new Vec2(6f, 0f);
-        _holdOffset = new Vec2(6f, 0f);
+        handOffset = new Vector2(6f, 0f);
+        _holdOffset = new Vector2(6f, 0f);
         loseAccuracy = 0.1f;
         maxAccuracyLost = 0.6f;
         editorTooltip = "There's something odd about this gun but I can't quite put my finger on it.";
@@ -30,17 +32,17 @@ public class SuicidePistol : Gun
     {
         if (_raised)
         {
-            handOffset = new Vec2(0f, 0f);
-            _holdOffset = new Vec2(0f, 0f);
-            collisionOffset = new Vec2(-8f, -5f);
-            collisionSize = new Vec2(16f, 10f);
+            handOffset = new Vector2(0f, 0f);
+            _holdOffset = new Vector2(0f, 0f);
+            collisionOffset = new Vector2(-8f, -5f);
+            collisionSize = new Vector2(16f, 10f);
         }
         else
         {
-            handOffset = new Vec2(7f, 0f);
-            _holdOffset = new Vec2(4f, -1f);
-            collisionOffset = new Vec2(-8f, -5f);
-            collisionSize = new Vec2(8f, 10f);
+            handOffset = new Vector2(7f, 0f);
+            _holdOffset = new Vector2(4f, -1f);
+            collisionOffset = new Vector2(-8f, -5f);
+            collisionSize = new Vector2(8f, 10f);
         }
         base.Update();
     }

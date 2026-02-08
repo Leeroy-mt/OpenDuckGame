@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ToolbarButton : Thing
@@ -27,7 +29,7 @@ public class ToolbarButton : Thing
         if (image == 99)
         {
             graphic = new Sprite("steamIcon");
-            graphic.Scale = new Vec2(0.5f, 0.5f);
+            graphic.Scale = new Vector2(0.5f, 0.5f);
         }
         else
         {
@@ -77,7 +79,7 @@ public class ToolbarButton : Thing
 
     public override void Draw()
     {
-        Graphics.DrawRect(Position, Position + new Vec2(16f, 16f), _hover ? new Color(170, 170, 170) : new Color(70, 70, 70), 0.87f);
+        Graphics.DrawRect(Position, Position + new Vector2(16f, 16f), _hover ? new Color(170, 170, 170) : new Color(70, 70, 70), 0.87f);
         graphic.Position = Position;
         graphic.Depth = 0.88f;
         graphic.Draw();

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ExplosionPart : Thing
@@ -33,7 +35,7 @@ public class ExplosionPart : Thing
         _sprite.speed = 0.4f + Rando.Float(0.2f);
         base.ScaleX = 0.5f + Rando.Float(0.5f);
         base.ScaleY = base.ScaleX;
-        Center = new Vec2(32f, 32f);
+        Center = new Vector2(32f, 32f);
         _wait = Rando.Float(1f);
         _smokeFrame = Rando.Int(1, 3);
         base.Depth = 1f;

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class DrumStick : Thing
@@ -8,7 +10,7 @@ public class DrumStick : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("drumset/drumStick");
-        Center = new Vec2(graphic.w / 2, graphic.h / 2);
+        Center = new Vector2(graphic.w / 2, graphic.h / 2);
         _startY = ypos;
         vSpeed = -3f;
     }

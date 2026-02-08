@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -68,7 +69,7 @@ public class BigTitle : Thing
 
     public override void Draw()
     {
-        Graphics.DrawRect(Position + new Vec2(-300, -30), Position + new Vec2(300, 30), Color.Black * 0.6f * Alpha, Depth - 100);
+        Graphics.DrawRect(Position + new Vector2(-300, -30), Position + new Vector2(300, 30), Color.Black * 0.6f * Alpha, Depth - 100);
         if (_showFart)
         {
             _demo.Alpha = Alpha;

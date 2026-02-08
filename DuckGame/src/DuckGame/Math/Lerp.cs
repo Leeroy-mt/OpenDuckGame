@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public static class Lerp
@@ -38,17 +40,17 @@ public static class Lerp
         return newVal;
     }
 
-    public static Vec2 Vec2(Vec2 current, Vec2 to, float amount)
+    public static Vector2 Vector2(Vector2 current, Vector2 to, float amount)
     {
-        Vec2 c = current;
-        Vec2 c2 = to;
-        Vec2 c3norm = c2 - c;
+        Vector2 c = current;
+        Vector2 c2 = to;
+        Vector2 c3norm = c2 - c;
         if (c3norm.Length() < 0.0001f)
         {
             return current;
         }
         c3norm.Normalize();
-        Vec2 ret = c + c3norm * amount;
+        Vector2 ret = c + c3norm * amount;
         if (c2.X > c.X && ret.X > c2.X)
         {
             ret.X = c2.X;
@@ -68,14 +70,14 @@ public static class Lerp
         return ret;
     }
 
-    public static Vec2 Vec2Smooth(Vec2 current, Vec2 to, float amount)
+    public static Vector2 Vec2Smooth(Vector2 current, Vector2 to, float amount)
     {
         return current + amount * (to - current);
     }
 
-    public static Vec2 Vec2Smooth(Vec2 current, Vec2 to, float amount, float thresh = 0f)
+    public static Vector2 Vec2Smooth(Vector2 current, Vector2 to, float amount, float thresh = 0f)
     {
-        Vec2 newval = current + amount * (to - current);
+        Vector2 newval = current + amount * (to - current);
         if ((newval - to).Length() < thresh)
         {
             return to;
@@ -85,9 +87,9 @@ public static class Lerp
 
     public static T Generic<T>(T current, T to, float amount)
     {
-        if (current is Vec2)
+        if (current is Vector2)
         {
-            return (T)(object)Vec2Smooth((Vec2)(object)current, (Vec2)(object)to, amount);
+            return (T)(object)Vec2Smooth((Vector2)(object)current, (Vector2)(object)to, amount);
         }
         if (current is float)
         {

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -99,7 +100,7 @@ public class MonoFileDialog : ContextMenu
         base.Depth = 0.9f;
         _showBackground = false;
         _fancyFont = new FancyBitmapFont("smallFont");
-        itemSize = new Vec2(390f, 16f);
+        itemSize = new Vector2(390f, 16f);
         _root = true;
         _dialog = new TextEntryDialog();
         _dialog.filename = true;
@@ -132,9 +133,9 @@ public class MonoFileDialog : ContextMenu
         _previewSprite = null;
         float windowWidth = 350f;
         float windowHeight = 350f;
-        Vec2 topLeft = new Vec2(base.layer.width / 2f - windowWidth / 2f + hOffset, base.layer.height / 2f - windowHeight / 2f);
-        new Vec2(base.layer.width / 2f + windowWidth / 2f + hOffset, base.layer.height / 2f + windowHeight / 2f);
-        Position = topLeft + new Vec2(4f, 40f);
+        Vector2 topLeft = new Vector2(base.layer.width / 2f - windowWidth / 2f + hOffset, base.layer.height / 2f - windowHeight / 2f);
+        new Vector2(base.layer.width / 2f + windowWidth / 2f + hOffset, base.layer.height / 2f + windowHeight / 2f);
+        Position = topLeft + new Vector2(4f, 40f);
         _save = save;
         rootFolder = rootFolder.Replace('\\', '/');
         currentFolder = currentFolder.Replace('\\', '/');
@@ -265,7 +266,7 @@ public class MonoFileDialog : ContextMenu
             dirItem.layer = base.layer;
             dirItem.text = "@NEWICONTINY@New File...";
             dirItem.data = "New File...";
-            dirItem.itemSize = new Vec2(itemWidth, 16f);
+            dirItem.itemSize = new Vector2(itemWidth, 16f);
             AddItem(dirItem);
         }
         if (_currentDirectory != _rootFolder)
@@ -275,7 +276,7 @@ public class MonoFileDialog : ContextMenu
             bool modPath = false;
             dirItem2.text = "@LOADICON@../";
             dirItem2.data = "../";
-            dirItem2.itemSize = new Vec2(itemWidth, 16f);
+            dirItem2.itemSize = new Vector2(itemWidth, 16f);
             dirItem2.isModPath = modPath;
             AddItem(dirItem2);
         }
@@ -290,7 +291,7 @@ public class MonoFileDialog : ContextMenu
                     dirItem3.fancy = true;
                     dirItem3.text = "@RAINBOWTINY@|DGBLUE|" + m.configuration.name;
                     dirItem3.data = m.configuration.contentDirectory + "/Levels";
-                    dirItem3.itemSize = new Vec2(itemWidth, 16f);
+                    dirItem3.itemSize = new Vector2(itemWidth, 16f);
                     dirItem3.mod = m;
                     dirItem3.isModPath = true;
                     dirItem3.isModRoot = true;
@@ -306,7 +307,7 @@ public class MonoFileDialog : ContextMenu
                     dirItem4.fancy = true;
                     dirItem4.text = "|DGBLUE|" + m2.mod.configuration.name;
                     dirItem4.data = m2.mod.configuration.directory;
-                    dirItem4.itemSize = new Vec2(itemWidth, 16f);
+                    dirItem4.itemSize = new Vector2(itemWidth, 16f);
                     dirItem4.mod = m2.mod;
                     dirItem4.isModPath = true;
                     dirItem4.isModRoot = true;
@@ -332,7 +333,7 @@ public class MonoFileDialog : ContextMenu
                 dirItem5.data = name;
             }
             dirItem5.isModPath = pIsModPath;
-            dirItem5.itemSize = new Vec2(itemWidth, 16f);
+            dirItem5.itemSize = new Vector2(itemWidth, 16f);
             AddItem(dirItem5);
         }
         int idx = 0;
@@ -362,7 +363,7 @@ public class MonoFileDialog : ContextMenu
                     {
                         dirItem6.data = name2;
                     }
-                    dirItem6.itemSize = new Vec2(itemWidth, 16f);
+                    dirItem6.itemSize = new Vector2(itemWidth, 16f);
                     dirItem6.isModPath = pIsModPath;
                     AddItem(dirItem6);
                 }
@@ -377,7 +378,7 @@ public class MonoFileDialog : ContextMenu
                 dirItem7.fancy = true;
                 dirItem7.path = shortName;
                 dirItem7.isChecked = Editor.activatedLevels.Contains(shortName);
-                dirItem7.itemSize = new Vec2(itemWidth, 16f);
+                dirItem7.itemSize = new Vector2(itemWidth, 16f);
                 AddItem(dirItem7);
             }
             idx++;
@@ -392,7 +393,7 @@ public class MonoFileDialog : ContextMenu
                 continue;
             }
             _items[j].visible = true;
-            _items[j].Position = new Vec2(_items[j].Position.X, base.Y + 3f + (float)index * (_items[j].itemSize.Y + 1f));
+            _items[j].Position = new Vector2(_items[j].Position.X, base.Y + 3f + (float)index * (_items[j].itemSize.Y + 1f));
             index++;
         }
         menuSize.Y = _fdHeight;
@@ -633,7 +634,7 @@ public class MonoFileDialog : ContextMenu
                 _previewSprite = new Sprite(_preview);
                 if (_type == ContextFileType.Block || _type == ContextFileType.Background || _type == ContextFileType.Platform || _type == ContextFileType.Parallax)
                 {
-                    _previewSprite.Scale = new Vec2(2f, 2f);
+                    _previewSprite.Scale = new Vector2(2f, 2f);
                 }
             }
             else
@@ -809,7 +810,7 @@ public class MonoFileDialog : ContextMenu
             }
             _ = _items[j];
             _items[j].visible = true;
-            _items[j].Position = new Vec2(_items[j].Position.X, base.Y + 3f + (float)index * _items[j].itemSize.Y);
+            _items[j].Position = new Vector2(_items[j].Position.X, base.Y + 3f + (float)index * _items[j].itemSize.Y);
             index++;
         }
     }
@@ -824,20 +825,20 @@ public class MonoFileDialog : ContextMenu
         base.Draw();
         float width = 350f;
         float height = _fdHeight + 22f;
-        Vec2 topLeft = new Vec2(base.layer.width / 2f - width / 2f + hOffset - 1f, base.layer.height / 2f - height / 2f - 15f);
-        Vec2 bottomRight = new Vec2(base.layer.width / 2f + width / 2f + hOffset + 1f, base.layer.height / 2f + height / 2f - 12f);
+        Vector2 topLeft = new Vector2(base.layer.width / 2f - width / 2f + hOffset - 1f, base.layer.height / 2f - height / 2f - 15f);
+        Vector2 bottomRight = new Vector2(base.layer.width / 2f + width / 2f + hOffset + 1f, base.layer.height / 2f + height / 2f - 12f);
         Graphics.DrawRect(topLeft, bottomRight, new Color(70, 70, 70), base.Depth, filled: false);
         Graphics.DrawRect(topLeft, bottomRight, new Color(30, 30, 30), base.Depth - 8);
-        Graphics.DrawRect(topLeft + new Vec2(3f, 23f), bottomRight + new Vec2(-18f, -4f), new Color(10, 10, 10), base.Depth - 4);
-        Vec2 scrollBarTL = new Vec2(bottomRight.X - 16f, topLeft.Y + 23f);
-        Vec2 scrollBarBR = bottomRight + new Vec2(-3f, -4f);
+        Graphics.DrawRect(topLeft + new Vector2(3f, 23f), bottomRight + new Vector2(-18f, -4f), new Color(10, 10, 10), base.Depth - 4);
+        Vector2 scrollBarTL = new Vector2(bottomRight.X - 16f, topLeft.Y + 23f);
+        Vector2 scrollBarBR = bottomRight + new Vector2(-3f, -4f);
         Graphics.DrawRect(scrollBarTL, scrollBarBR, new Color(10, 10, 10), base.Depth - 4);
-        Graphics.DrawRect(topLeft + new Vec2(3f, 3f), new Vec2(bottomRight.X - 3f, topLeft.Y + 19f), new Color(70, 70, 70), base.Depth - 4);
+        Graphics.DrawRect(topLeft + new Vector2(3f, 3f), new Vector2(bottomRight.X - 3f, topLeft.Y + 19f), new Color(70, 70, 70), base.Depth - 4);
         if (_scrollBar)
         {
             _scrollLerp = Lerp.Float(_scrollLerp, _scrollPosition, 0.05f);
-            Vec2 barTL = new Vec2(bottomRight.X - 14f, base.topRight.Y + 7f + (240f * _scrollLerp - 4f));
-            Vec2 barBR = new Vec2(bottomRight.X - 5f, base.topRight.Y + 11f + (240f * _scrollLerp + 8f));
+            Vector2 barTL = new Vector2(bottomRight.X - 14f, base.topRight.Y + 7f + (240f * _scrollLerp - 4f));
+            Vector2 barBR = new Vector2(bottomRight.X - 5f, base.topRight.Y + 11f + (240f * _scrollLerp + 8f));
             bool hover = false;
             if (Mouse.x > barTL.X && Mouse.x < barBR.X && Mouse.y > barTL.Y && Mouse.y < barBR.Y)
             {
@@ -885,12 +886,12 @@ public class MonoFileDialog : ContextMenu
         string headingString = "";
         headingString = (_save ? "@SAVEICON@Save Level" : (_selectLevels ? "Select Active Levels" : ((_type == ContextFileType.Block) ? "@LOADICON@Custom" : ((_type == ContextFileType.Platform) ? "@LOADICON@Custom" : ((_type == ContextFileType.Background) ? "@LOADICON@Custom" : ((_type == ContextFileType.Parallax) ? "@LOADICON@Custom" : ((_type != ContextFileType.ArcadeStyle) ? "@LOADICON@Load Level" : "@LOADICON@Custom")))))));
         string drawPath = path;
-        Graphics.DrawString(headingString + ((drawPath == "") ? "" : (" - " + drawPath)), topLeft + new Vec2(5f, 7f), Color.White, base.Depth + 8);
-        Vec2 part2TL = new Vec2(bottomRight.X + 2f, topLeft.Y);
-        Vec2 part2BR = part2TL + new Vec2(164f, 120f);
+        Graphics.DrawString(headingString + ((drawPath == "") ? "" : (" - " + drawPath)), topLeft + new Vector2(5f, 7f), Color.White, base.Depth + 8);
+        Vector2 part2TL = new Vector2(bottomRight.X + 2f, topLeft.Y);
+        Vector2 part2BR = part2TL + new Vector2(164f, 120f);
         if (_previewSprite != null && _previewSprite.texture != null && (_type == ContextFileType.Block || _type == ContextFileType.Background || _type == ContextFileType.Platform || _type == ContextFileType.Parallax || _type == ContextFileType.ArcadeStyle || _type == ContextFileType.ArcadeAnimation))
         {
-            part2BR = ((_type != ContextFileType.Parallax) ? (part2TL + new Vec2(_previewSprite.width + 4, _previewSprite.height + 4)) : (part2TL + new Vec2(_previewSprite.width / 2 + 4, _previewSprite.height / 2 + 4)));
+            part2BR = ((_type != ContextFileType.Parallax) ? (part2TL + new Vector2(_previewSprite.width + 4, _previewSprite.height + 4)) : (part2TL + new Vector2(_previewSprite.width / 2 + 4, _previewSprite.height / 2 + 4)));
         }
         Graphics.DrawRect(part2TL, part2BR, new Color(70, 70, 70), base.Depth, filled: false);
         Graphics.DrawRect(part2TL, part2BR, new Color(30, 30, 30), base.Depth - 8);
@@ -899,10 +900,10 @@ public class MonoFileDialog : ContextMenu
             return;
         }
         _previewSprite.Depth = 0.95f;
-        _previewSprite.Scale = new Vec2(0.5f);
+        _previewSprite.Scale = new Vector2(0.5f);
         if (_type == ContextFileType.Block || _type == ContextFileType.Background || _type == ContextFileType.Platform)
         {
-            _previewSprite.Scale = new Vec2(1f);
+            _previewSprite.Scale = new Vector2(1f);
         }
         Graphics.Draw(_previewSprite, part2TL.X + 2f, part2TL.Y + 2f);
         if (_previewPair == null)
@@ -923,9 +924,9 @@ public class MonoFileDialog : ContextMenu
         string prepend = "";
         if (_previewPair.strange)
         {
-            Graphics.DrawString(prepend + "STRANGE LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGPurple, base.Depth + 8);
-            part2TL += new Vec2(0f, 122f);
-            part2BR = part2TL + new Vec2(166f, 36f);
+            Graphics.DrawString(prepend + "STRANGE LEVEL", part2TL + new Vector2(5f, 107f), Colors.DGPurple, base.Depth + 8);
+            part2TL += new Vector2(0f, 122f);
+            part2BR = part2TL + new Vector2(166f, 36f);
             Graphics.DrawRect(part2TL, part2BR, new Color(70, 70, 70), base.Depth, filled: false);
             Graphics.DrawRect(part2TL, part2BR, new Color(30, 30, 30), base.Depth - 8);
             _fancyFont.Draw("Must place at least one Duck Spawn Point to make a valid level.", part2TL.X + 4f, part2TL.Y + 4f, Color.White, base.Depth + 8);
@@ -933,21 +934,21 @@ public class MonoFileDialog : ContextMenu
         }
         if (_previewPair.arcade)
         {
-            Graphics.DrawString(prepend + "ARCADE LAYOUT", part2TL + new Vec2(5f, 107f), Colors.DGYellow, base.Depth + 8);
+            Graphics.DrawString(prepend + "ARCADE LAYOUT", part2TL + new Vector2(5f, 107f), Colors.DGYellow, base.Depth + 8);
             return;
         }
         if (_previewPair.challenge)
         {
-            Graphics.DrawString(prepend + "CHALLENGE LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGRed, base.Depth + 8);
+            Graphics.DrawString(prepend + "CHALLENGE LEVEL", part2TL + new Vector2(5f, 107f), Colors.DGRed, base.Depth + 8);
             return;
         }
         if (_previewPair.invalid == null || _previewPair.invalid.Count == 0)
         {
-            Graphics.DrawString(prepend + "ONLINE LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGGreen, base.Depth + 8);
+            Graphics.DrawString(prepend + "ONLINE LEVEL", part2TL + new Vector2(5f, 107f), Colors.DGGreen, base.Depth + 8);
             return;
         }
-        Graphics.DrawString(prepend + "LOCAL LEVEL", part2TL + new Vec2(5f, 107f), Colors.DGBlue, base.Depth + 8);
-        part2TL += new Vec2(0f, 122f);
+        Graphics.DrawString(prepend + "LOCAL LEVEL", part2TL + new Vector2(5f, 107f), Colors.DGBlue, base.Depth + 8);
+        part2TL += new Vector2(0f, 122f);
         _fancyFont.Draw("Contains the following Local-Only objects:", part2TL.X + 4f, part2TL.Y + 4f, Color.White, base.Depth + 8);
         int i = 22;
         if (_previewPair.invalid != null)
@@ -963,7 +964,7 @@ public class MonoFileDialog : ContextMenu
                 i += 12;
             }
         }
-        part2BR = part2TL + new Vec2(166f, 6 + i);
+        part2BR = part2TL + new Vector2(166f, 6 + i);
         Graphics.DrawRect(part2TL, part2BR, new Color(70, 70, 70), base.Depth, filled: false);
         Graphics.DrawRect(part2TL, part2BR, new Color(30, 30, 30), base.Depth - 8);
     }

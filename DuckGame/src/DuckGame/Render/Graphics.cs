@@ -27,8 +27,8 @@ public static class Graphics
 
     public static long frame;
 
-    public static Vec2 topLeft;
-    public static Vec2 bottomRight;
+    public static Vector2 topLeft;
+    public static Vector2 bottomRight;
     public static Viewport? _screenViewport;
 
     public static GraphicsDeviceManager _manager;
@@ -58,7 +58,7 @@ public static class Graphics
     static float _baseDeviceWidth;
     static float _baseDeviceHeight;
 
-    static Vec2 _currentDrawOffset = Vec2.Zero;
+    static Vector2 _currentDrawOffset = Vector2.Zero;
     static Matrix _projectionMatrix;
     static Rectangle _currentTargetSize;
     static Viewport _oldViewport;
@@ -192,7 +192,7 @@ public static class Graphics
     public static float aspect => .5625f;
     public static float barSize => (width * aspect - width * .5625f) / 2f;
 
-    public static Vec2 currentDrawOffset
+    public static Vector2 currentDrawOffset
     {
         get => _currentDrawOffset;
         set => _currentDrawOffset = value;
@@ -379,23 +379,23 @@ public static class Graphics
         return 1 - fDepth;
     }
 
-    public static void DrawString(string text, Vec2 position, Color color, Depth depth = default, InputProfile pro = null, float scale = 1)
+    public static void DrawString(string text, Vector2 position, Color color, Depth depth = default, InputProfile pro = null, float scale = 1)
     {
         if (caseSensitiveStringDrawing)
         {
-            _biosFontCaseSensitive.Scale = new Vec2(scale);
+            _biosFontCaseSensitive.Scale = new Vector2(scale);
             _biosFontCaseSensitive.Draw(text, position.X, position.Y, color, depth, pro);
-            _biosFontCaseSensitive.Scale = Vec2.One;
+            _biosFontCaseSensitive.Scale = Vector2.One;
         }
         else
         {
-            _biosFont.Scale = new Vec2(scale);
+            _biosFont.Scale = new Vector2(scale);
             _biosFont.Draw(text, position.X, position.Y, color, depth, pro);
-            _biosFont.Scale = Vec2.One;
+            _biosFont.Scale = Vector2.One;
         }
     }
 
-    public static void DrawPassword(string text, Vec2 position, Color color, Depth depth = default, float scale = 1)
+    public static void DrawPassword(string text, Vector2 position, Color color, Depth depth = default, float scale = 1)
     {
         for (int i = 0; i < text.Length; i++)
         {
@@ -407,7 +407,7 @@ public static class Graphics
                 _passwordFont.frame = 2;
             if (text[i] == 'D')
                 _passwordFont.frame = 3;
-            _passwordFont.Scale = new Vec2(scale);
+            _passwordFont.Scale = new Vector2(scale);
             _passwordFont.color = color;
             _passwordFont.Depth = depth;
             Draw(_passwordFont, position.X, position.Y);
@@ -415,35 +415,35 @@ public static class Graphics
         }
     }
 
-    public static void DrawStringColoredSymbols(string text, Vec2 position, Color color, Depth depth = default, InputProfile pro = null, float scale = 1)
+    public static void DrawStringColoredSymbols(string text, Vector2 position, Color color, Depth depth = default, InputProfile pro = null, float scale = 1)
     {
         if (caseSensitiveStringDrawing)
         {
-            _biosFontCaseSensitive.Scale = new Vec2(scale);
+            _biosFontCaseSensitive.Scale = new Vector2(scale);
             _biosFontCaseSensitive.Draw(text, position.X, position.Y, color, depth, pro, colorSymbols: true);
-            _biosFontCaseSensitive.Scale = Vec2.One;
+            _biosFontCaseSensitive.Scale = Vector2.One;
         }
         else
         {
-            _biosFont.Scale = new Vec2(scale);
+            _biosFont.Scale = new Vector2(scale);
             _biosFont.Draw(text, position.X, position.Y, color, depth, pro, colorSymbols: true);
-            _biosFont.Scale = Vec2.One;
+            _biosFont.Scale = Vector2.One;
         }
     }
 
-    public static void DrawStringOutline(string text, Vec2 position, Color color, Color outline, Depth depth = default, float scale = 1)
+    public static void DrawStringOutline(string text, Vector2 position, Color color, Color outline, Depth depth = default, float scale = 1)
     {
-        _biosFont.Scale = new Vec2(scale);
+        _biosFont.Scale = new Vector2(scale);
         _biosFont.DrawOutline(text, position, color, outline, depth);
-        _biosFont.Scale = Vec2.One;
+        _biosFont.Scale = Vector2.One;
     }
 
     public static float GetStringWidth(string text, bool thinButtons = false, float scale = 1)
     {
-        _biosFont.Scale = new Vec2(scale);
+        _biosFont.Scale = new Vector2(scale);
         text = text.ToUpperInvariant();
         float result = _biosFont.GetWidth(text, thinButtons);
-        _biosFont.Scale = Vec2.One;
+        _biosFont.Scale = Vector2.One;
         return result;
     }
 
@@ -452,19 +452,19 @@ public static class Graphics
         return text.Split('\n').Length * _biosFont.height;
     }
 
-    public static void DrawFancyString(string text, Vec2 position, Color color, Depth depth = default, float scale = 1)
+    public static void DrawFancyString(string text, Vector2 position, Color color, Depth depth = default, float scale = 1)
     {
-        _fancyBiosFont.Scale = new Vec2(scale);
+        _fancyBiosFont.Scale = new Vector2(scale);
         _fancyBiosFont.Draw(text, position.X, position.Y, color, depth);
-        _fancyBiosFont.Scale = Vec2.One;
+        _fancyBiosFont.Scale = Vector2.One;
     }
 
     public static float GetFancyStringWidth(string text, bool thinButtons = false, float scale = 1)
     {
-        _fancyBiosFont.Scale = new Vec2(scale);
+        _fancyBiosFont.Scale = new Vector2(scale);
         text = text.ToUpperInvariant();
         float result = _fancyBiosFont.GetWidth(text, thinButtons);
-        _fancyBiosFont.Scale = Vec2.One;
+        _fancyBiosFont.Scale = Vector2.One;
         return result;
     }
 
@@ -476,8 +476,8 @@ public static class Graphics
     public static void DrawRecorderItemLerped(ref RecorderFrameItem item, ref RecorderFrameItem lerpTo, float dist)
     {
         RecorderFrameItem lerped = item;
-        lerped.topLeft = Vec2.Lerp(item.topLeft, lerpTo.topLeft, dist);
-        lerped.bottomRight = Vec2.Lerp(item.bottomRight, lerpTo.bottomRight, dist);
+        lerped.topLeft = Vector2.Lerp(item.topLeft, lerpTo.topLeft, dist);
+        lerped.bottomRight = Vector2.Lerp(item.bottomRight, lerpTo.bottomRight, dist);
         float rot1 = item.rotation % 360;
         float rot2 = lerpTo.rotation % 360;
         if (rot1 > 180)
@@ -502,10 +502,10 @@ public static class Graphics
             Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, 0, -1, out var projection);
             projection.M41 += -.5f * projection.M11;
             projection.M42 += -.5f * projection.M22;
-            bottomRight = new Vec2(32);
-            bottomRight = Vec2.Transform(bottomRight, projection);
-            topLeft = Vec2.Zero;
-            topLeft = Vec2.Transform(topLeft, projection);
+            bottomRight = new Vector2(32);
+            bottomRight = Vector2.Transform(bottomRight, projection);
+            topLeft = Vector2.Zero;
+            topLeft = Vector2.Transform(topLeft, projection);
         }
     }
 
@@ -514,7 +514,7 @@ public static class Graphics
         _currentBatch.DrawExistingBatchItem(item);
     }
 
-    public static void Draw(Tex2D texture, Vec2 position, Rectangle? sourceRectangle, Color color, float rotation, Vec2 origin, Vec2 scale, SpriteEffects effects, Depth depth = default)
+    public static void Draw(Tex2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, Depth depth = default)
     {
         if (texture.nativeObject is Microsoft.Xna.Framework.Graphics.RenderTarget2D)
         {
@@ -551,7 +551,7 @@ public static class Graphics
         g.Draw(sourceRectangle);
     }
 
-    public static void Draw(Sprite g, float x, float y, Rectangle sourceRectangle, Vec2 scale)
+    public static void Draw(Sprite g, float x, float y, Rectangle sourceRectangle, Vector2 scale)
     {
         g.X = x;
         g.Y = y;
@@ -586,7 +586,7 @@ public static class Graphics
 
     public static void Draw(Tex2D target, float x, float y, float xscale = 1, float yscale = 1, Depth depth = default)
     {
-        Draw(target, new Vec2(x, y), null, Color.White, 0, Vec2.Zero, new Vec2(xscale, yscale), SpriteEffects.None, depth);
+        Draw(target, new Vector2(x, y), null, Color.White, 0, Vector2.Zero, new Vector2(xscale, yscale), SpriteEffects.None, depth);
     }
 
     public static void Draw(SpriteMap g, int frame, float x, float y, float scaleX = 1, float scaleY = 1, bool maintainFrame = false)
@@ -611,110 +611,110 @@ public static class Graphics
         g.DrawWithoutUpdate();
     }
 
-    public static void DrawLine(Vec2 p1, Vec2 p2, Color col, float width = 1, Depth depth = default)
+    public static void DrawLine(Vector2 p1, Vector2 p2, Color col, float width = 1, Depth depth = default)
     {
         currentDrawIndex++;
         float angle = float.Atan2(p2.Y - p1.Y, p2.X - p1.X);
         float length = (p1 - p2).Length();
-        Draw(_blank, p1, null, col, angle, new Vec2(0, .5f), new Vec2(length, width), SpriteEffects.None, depth);
+        Draw(_blank, p1, null, col, angle, new Vector2(0, .5f), new Vector2(length, width), SpriteEffects.None, depth);
     }
 
-    public static void DrawDottedLine(Vec2 p1, Vec2 p2, Color col, float width = 1, float dotLength = 8, Depth depth = default)
+    public static void DrawDottedLine(Vector2 p1, Vector2 p2, Color col, float width = 1, float dotLength = 8, Depth depth = default)
     {
         currentDrawIndex++;
-        Vec2 start = p1;
-        Vec2 travel = p2 - p1;
+        Vector2 start = p1;
+        Vector2 travel = p2 - p1;
         float length = travel.Length();
         int num = (int)(length / dotLength);
         travel.Normalize();
         bool off = false;
         for (int i = 0; i < num; i++)
         {
-            Vec2 end = start;
+            Vector2 end = start;
             end += travel * dotLength;
             if ((end - p1).Length() > length)
                 end = p2;
             if (!off)
-                DrawLine(new Vec2(start.X, start.Y), new Vec2(end.X, end.Y), col, width, depth);
+                DrawLine(new Vector2(start.X, start.Y), new Vector2(end.X, end.Y), col, width, depth);
             off = !off;
             start = end;
         }
     }
 
-    public static void DrawCircle(Vec2 pos, float radius, Color col, float width = 1, Depth depth = default, int iterations = 32)
+    public static void DrawCircle(Vector2 pos, float radius, Color col, float width = 1, Depth depth = default, int iterations = 32)
     {
-        Vec2 prev = Vec2.Zero;
+        Vector2 prev = Vector2.Zero;
         for (int i = 0; i < iterations; i++)
         {
             float val = Maths.DegToRad(360f / (iterations - 1) * i);
-            Vec2 cur = new(float.Cos(val) * radius, -float.Sin(val) * radius);
+            Vector2 cur = new(float.Cos(val) * radius, -float.Sin(val) * radius);
             if (i > 0)
                 DrawLine(pos + cur, pos + prev, col, width, depth);
             prev = cur;
         }
     }
 
-    public static void DrawTexturedLine(Tex2D texture, Vec2 p1, Vec2 p2, Color col, float width = 1, Depth depth = default)
+    public static void DrawTexturedLine(Tex2D texture, Vector2 p1, Vector2 p2, Color col, float width = 1, Depth depth = default)
     {
         currentDrawIndex++;
         if (texture.width > 1)
         {
-            p1 = new Vec2(p1.X, p1.Y);
-            p2 = new Vec2(p2.X, p2.Y);
+            p1 = new Vector2(p1.X, p1.Y);
+            p2 = new Vector2(p2.X, p2.Y);
             float angle = (float)Math.Atan2(p2.Y - p1.Y, p2.X - p1.X);
             float length = (p1 - p2).Length() / texture.width;
-            Draw(texture, p1, null, col, angle, new Vec2(0f, texture.height / 2), new Vec2(length, width), SpriteEffects.None, depth);
+            Draw(texture, p1, null, col, angle, new Vector2(0f, texture.height / 2), new Vector2(length, width), SpriteEffects.None, depth);
         }
         else
         {
-            p1 = new Vec2(p1.X, p1.Y);
-            p2 = new Vec2(p2.X, p2.Y);
+            p1 = new Vector2(p1.X, p1.Y);
+            p2 = new Vector2(p2.X, p2.Y);
             float angle2 = (float)Math.Atan2(p2.Y - p1.Y, p2.X - p1.X);
             float length2 = (p1 - p2).Length();
-            Draw(texture, p1, null, col, angle2, new Vec2(0, texture.height / 2), new Vec2(length2, width), SpriteEffects.None, depth);
+            Draw(texture, p1, null, col, angle2, new Vector2(0, texture.height / 2), new Vector2(length2, width), SpriteEffects.None, depth);
         }
     }
 
-    public static void DrawRect(Vec2 p1, Vec2 p2, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
+    public static void DrawRect(Vector2 p1, Vector2 p2, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
     {
         currentDrawIndex++;
         if (filled)
         {
-            Draw(_blank2, p1, null, col, 0, Vec2.Zero, new Vec2(-(p1.X - p2.X), -(p1.Y - p2.Y)), SpriteEffects.None, depth);
+            Draw(_blank2, p1, null, col, 0, Vector2.Zero, new Vector2(-(p1.X - p2.X), -(p1.Y - p2.Y)), SpriteEffects.None, depth);
             return;
         }
         float wideDiv = borderWidth / 2;
-        DrawLine(new Vec2(p1.X, p1.Y + wideDiv), new Vec2(p2.X, p1.Y + wideDiv), col, borderWidth, depth);
-        DrawLine(new Vec2(p1.X + wideDiv, p1.Y + borderWidth), new Vec2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, depth);
-        DrawLine(new Vec2(p2.X, p2.Y - wideDiv), new Vec2(p1.X, p2.Y - wideDiv), col, borderWidth, depth);
-        DrawLine(new Vec2(p2.X - wideDiv, p2.Y - borderWidth), new Vec2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, depth);
+        DrawLine(new Vector2(p1.X, p1.Y + wideDiv), new Vector2(p2.X, p1.Y + wideDiv), col, borderWidth, depth);
+        DrawLine(new Vector2(p1.X + wideDiv, p1.Y + borderWidth), new Vector2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, depth);
+        DrawLine(new Vector2(p2.X, p2.Y - wideDiv), new Vector2(p1.X, p2.Y - wideDiv), col, borderWidth, depth);
+        DrawLine(new Vector2(p2.X - wideDiv, p2.Y - borderWidth), new Vector2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, depth);
     }
 
     public static void DrawRect(Rectangle r, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
     {
         currentDrawIndex++;
-        Vec2 p1 = new(r.Left, r.Top);
-        Vec2 p2 = new(r.Right, r.Bottom);
+        Vector2 p1 = new(r.Left, r.Top);
+        Vector2 p2 = new(r.Right, r.Bottom);
         if (filled)
         {
-            Draw(_blank2, p1, null, col, 0, Vec2.Zero, new Vec2(-(p1.X - p2.X), -(p1.Y - p2.Y)), SpriteEffects.None, depth);
+            Draw(_blank2, p1, null, col, 0, Vector2.Zero, new Vector2(-(p1.X - p2.X), -(p1.Y - p2.Y)), SpriteEffects.None, depth);
             return;
         }
         float wideDiv = borderWidth / 2;
-        DrawLine(new Vec2(p1.X, p1.Y + wideDiv), new Vec2(p2.X, p1.Y + wideDiv), col, borderWidth, depth);
-        DrawLine(new Vec2(p1.X + wideDiv, p1.Y + borderWidth), new Vec2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, depth);
-        DrawLine(new Vec2(p2.X, p2.Y - wideDiv), new Vec2(p1.X, p2.Y - wideDiv), col, borderWidth, depth);
-        DrawLine(new Vec2(p2.X - wideDiv, p2.Y - borderWidth), new Vec2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, depth);
+        DrawLine(new Vector2(p1.X, p1.Y + wideDiv), new Vector2(p2.X, p1.Y + wideDiv), col, borderWidth, depth);
+        DrawLine(new Vector2(p1.X + wideDiv, p1.Y + borderWidth), new Vector2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, depth);
+        DrawLine(new Vector2(p2.X, p2.Y - wideDiv), new Vector2(p1.X, p2.Y - wideDiv), col, borderWidth, depth);
+        DrawLine(new Vector2(p2.X - wideDiv, p2.Y - borderWidth), new Vector2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, depth);
     }
 
-    public static void DrawDottedRect(Vec2 p1, Vec2 p2, Color col, Depth depth = default, float borderWidth = 1, float dotLength = 8)
+    public static void DrawDottedRect(Vector2 p1, Vector2 p2, Color col, Depth depth = default, float borderWidth = 1, float dotLength = 8)
     {
         currentDrawIndex++;
         float wideDiv = borderWidth / 2;
-        DrawDottedLine(new Vec2(p1.X, p1.Y + wideDiv), new Vec2(p2.X, p1.Y + wideDiv), col, borderWidth, dotLength, depth);
-        DrawDottedLine(new Vec2(p1.X + wideDiv, p1.Y + borderWidth), new Vec2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, dotLength, depth);
-        DrawDottedLine(new Vec2(p2.X, p2.Y - wideDiv), new Vec2(p1.X, p2.Y - wideDiv), col, borderWidth, dotLength, depth);
-        DrawDottedLine(new Vec2(p2.X - wideDiv, p2.Y - borderWidth), new Vec2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, dotLength, depth);
+        DrawDottedLine(new Vector2(p1.X, p1.Y + wideDiv), new Vector2(p2.X, p1.Y + wideDiv), col, borderWidth, dotLength, depth);
+        DrawDottedLine(new Vector2(p1.X + wideDiv, p1.Y + borderWidth), new Vector2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, dotLength, depth);
+        DrawDottedLine(new Vector2(p2.X, p2.Y - wideDiv), new Vector2(p1.X, p2.Y - wideDiv), col, borderWidth, dotLength, depth);
+        DrawDottedLine(new Vector2(p2.X - wideDiv, p2.Y - borderWidth), new Vector2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, dotLength, depth);
     }
 
     public static Tex2D Recolor(string sprite, Vec3 color)
@@ -737,7 +737,7 @@ public static class Graphics
         Clear(new Color(0, 0, 0, 0));
         mat.Apply();
         screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, mat.effect, Matrix.Identity);
-        Draw(sprite, default, null, Color.White, 0, default, Vec2.One, SpriteEffects.None, .5f);
+        Draw(sprite, default, null, Color.White, 0, default, Vector2.One, SpriteEffects.None, .5f);
         screen.End();
         device.SetRenderTarget(null);
         Tex2D tex = new(sprite.w, sprite.h);
@@ -756,7 +756,7 @@ public static class Graphics
         Clear(new Color(0, 0, 0, 0));
         mat.Apply();
         screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, mat.effect, Matrix.Identity);
-        Draw(sprite, default, null, Color.White, 0, default, Vec2.One, SpriteEffects.None, .5f);
+        Draw(sprite, default, null, Color.White, 0, default, Vector2.One, SpriteEffects.None, .5f);
         screen.End();
         device.SetRenderTarget(null);
         Tex2D tex2D = new(sprite.w, sprite.h);

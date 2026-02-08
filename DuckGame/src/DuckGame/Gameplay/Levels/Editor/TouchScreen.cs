@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -212,7 +213,7 @@ internal class TouchScreen
                     System_MapTouch(new TSData(0)
                     {
                         fingerId = 0,
-                        touchXY = new Vec2(Mouse.xConsole - _spoofFingerDistance, Mouse.yConsole) + new Vec2((float)Math.Sin(_spoofFinger1Waver), (float)Math.Cos(_spoofFinger1Waver * 2f)) * 2f
+                        touchXY = new Vector2(Mouse.xConsole - _spoofFingerDistance, Mouse.yConsole) + new Vector2((float)Math.Sin(_spoofFinger1Waver), (float)Math.Cos(_spoofFinger1Waver * 2f)) * 2f
                     });
                 }
                 if (Mouse.right == InputState.Down)
@@ -220,7 +221,7 @@ internal class TouchScreen
                     System_MapTouch(new TSData(0)
                     {
                         fingerId = 1,
-                        touchXY = new Vec2(Mouse.xConsole + _spoofFingerDistance, Mouse.yConsole) + new Vec2((float)Math.Sin(_spoofFinger2Waver * 1.5f), (float)Math.Cos(_spoofFinger2Waver * 0.3f)) * 3f
+                        touchXY = new Vector2(Mouse.xConsole + _spoofFingerDistance, Mouse.yConsole) + new Vector2((float)Math.Sin(_spoofFinger2Waver * 1.5f), (float)Math.Cos(_spoofFinger2Waver * 0.3f)) * 3f
                     });
                 }
                 if (Mouse.middle == InputState.Down)
@@ -228,7 +229,7 @@ internal class TouchScreen
                     System_MapTouch(new TSData(0)
                     {
                         fingerId = 2,
-                        touchXY = new Vec2(Mouse.xConsole, Mouse.yConsole)
+                        touchXY = new Vector2(Mouse.xConsole, Mouse.yConsole)
                     });
                 }
                 _spoofFingerDistance += Mouse.scroll * 0.1f;
@@ -257,9 +258,9 @@ internal class TouchScreen
         return false;
     }
 
-    private static Vec2 System_FastTransformTouchScreenToCustomCamera(Vec2 touchXY, Camera customCam)
+    private static Vector2 System_FastTransformTouchScreenToCustomCamera(Vector2 touchXY, Camera customCam)
     {
-        Vec2 transCoords = default(Vec2);
+        Vector2 transCoords = default(Vector2);
         float fractionTouchX = touchXY.X / (float)Graphics.viewport.Width;
         float fractionTouchY = touchXY.Y / (float)Graphics.viewport.Height;
         transCoords.X = fractionTouchX * customCam.width;

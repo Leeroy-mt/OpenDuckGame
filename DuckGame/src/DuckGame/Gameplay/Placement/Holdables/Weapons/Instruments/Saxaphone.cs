@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -33,15 +34,15 @@ public class Saxaphone : Gun
         _ammoType.accuracy = 0.8f;
         _type = "gun";
         graphic = new Sprite("saxaphone");
-        Center = new Vec2(20f, 18f);
-        collisionOffset = new Vec2(-4f, -7f);
-        collisionSize = new Vec2(8f, 16f);
-        _barrelOffsetTL = new Vec2(24f, 16f);
+        Center = new Vector2(20f, 18f);
+        collisionOffset = new Vector2(-4f, -7f);
+        collisionSize = new Vector2(8f, 16f);
+        _barrelOffsetTL = new Vector2(24f, 16f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 3f;
-        _holdOffset = new Vec2(6f, 2f);
+        _holdOffset = new Vector2(6f, 2f);
         holsterAngle = 90f;
         _notePitchBinding.skipLerp = true;
         _editorName = "Saxophone";
@@ -123,25 +124,25 @@ public class Saxaphone : Gun
             if (_raised)
             {
                 handAngle = 0f;
-                handOffset = new Vec2(0f, 0f);
-                _holdOffset = new Vec2(0f, 2f);
-                collisionOffset = new Vec2(-4f, -7f);
-                collisionSize = new Vec2(8f, 16f);
+                handOffset = new Vector2(0f, 0f);
+                _holdOffset = new Vector2(0f, 2f);
+                collisionOffset = new Vector2(-4f, -7f);
+                collisionSize = new Vector2(8f, 16f);
                 OnReleaseAction();
             }
             else
             {
-                handOffset = new Vec2(5f + (1f - handPitch) * 2f, -2f + (1f - handPitch) * 4f);
+                handOffset = new Vector2(5f + (1f - handPitch) * 2f, -2f + (1f - handPitch) * 4f);
                 handAngle = (1f - handPitch) * 0.4f * (float)offDir;
-                _holdOffset = new Vec2(4f + handPitch * 2f, handPitch * 2f);
-                collisionOffset = new Vec2(-1f, -7f);
-                collisionSize = new Vec2(2f, 16f);
+                _holdOffset = new Vector2(4f + handPitch * 2f, handPitch * 2f);
+                collisionOffset = new Vector2(-1f, -7f);
+                collisionSize = new Vector2(2f, 16f);
             }
         }
         else
         {
-            collisionOffset = new Vec2(-4f, -7f);
-            collisionSize = new Vec2(8f, 16f);
+            collisionOffset = new Vector2(-4f, -7f);
+            collisionSize = new Vector2(8f, 16f);
         }
         prevNotePitch = notePitch;
         base.Update();

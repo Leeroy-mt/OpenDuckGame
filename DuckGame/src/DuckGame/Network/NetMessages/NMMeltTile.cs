@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMMeltTile : NMEvent
@@ -10,7 +12,7 @@ public class NMMeltTile : NMEvent
     {
     }
 
-    public NMMeltTile(Vec2 pPosition)
+    public NMMeltTile(Vector2 pPosition)
     {
         x = (short)pPosition.X;
         y = (short)pPosition.Y;
@@ -18,7 +20,7 @@ public class NMMeltTile : NMEvent
 
     public override void Activate()
     {
-        Level.CheckPoint<SnowTileset>(new Vec2(x, y))?.Melt(pServer: false, pNetMessage: true);
+        Level.CheckPoint<SnowTileset>(new Vector2(x, y))?.Melt(pServer: false, pNetMessage: true);
         base.Activate();
     }
 }

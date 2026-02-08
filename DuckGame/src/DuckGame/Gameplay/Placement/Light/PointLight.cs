@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,7 +132,7 @@ public class PointLight : Thing, ILight
             return;
         }
         _geo = MTSpriteBatch.CreateGeometryItem();
-        Vec2 prevPos = Vec2.Zero;
+        Vector2 prevPos = Vector2.Zero;
         Color farColPrev = Color.White;
         bool hasPrev = false;
         if (_objectsInRange == null)
@@ -143,16 +144,16 @@ public class PointLight : Thing, ILight
         {
             Color farColor = Color.Black;
             float a = (float)i / (float)loops * 360f;
-            Vec2 dir = new Vec2((float)Math.Cos(Maths.DegToRad(a)), 0f - (float)Math.Sin(Maths.DegToRad(a)));
-            Vec2 rayPos = Vec2.Zero;
-            Vec2 castTo = Position + dir * _range;
+            Vector2 dir = new Vector2((float)Math.Cos(Maths.DegToRad(a)), 0f - (float)Math.Sin(Maths.DegToRad(a)));
+            Vector2 rayPos = Vector2.Zero;
+            Vector2 castTo = Position + dir * _range;
             if (_strangeFalloff)
             {
                 rayPos = castTo;
             }
             else
             {
-                rayPos = new Vec2(999999f, 999999f);
+                rayPos = new Vector2(999999f, 999999f);
                 float nearestRay = 9999999f;
                 for (int iBlock = 0; iBlock < _objectsInRange.Count; iBlock++)
                 {
@@ -160,10 +161,10 @@ public class PointLight : Thing, ILight
                     {
                         continue;
                     }
-                    Vec2 point = Collision.LinePoint(Position, castTo, _objectsInRange[iBlock]);
-                    if (point != Vec2.Zero)
+                    Vector2 point = Collision.LinePoint(Position, castTo, _objectsInRange[iBlock]);
+                    if (point != Vector2.Zero)
                     {
-                        float len = (point - Position).lengthSq;
+                        float len = (point - Position).LengthSquared();
                         if (len < nearestRay)
                         {
                             rayPos = point;

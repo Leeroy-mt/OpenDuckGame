@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -116,9 +117,9 @@ public class NetworkDebugger : Level
 
     public static int[] logsScroll = new int[4];
 
-    private Vec2[] mouseClickPos = new Vec2[4];
+    private Vector2[] mouseClickPos = new Vector2[4];
 
-    private Vec2[] mouseClickTop = new Vec2[4];
+    private Vector2[] mouseClickTop = new Vector2[4];
 
     private bool[] scrollerDrag = new bool[4];
 
@@ -850,7 +851,7 @@ public class NetworkDebugger : Level
             }
             if (g.thing.ghostObject != null && !g.thing.ghostObject.IsInitialized())
             {
-                Graphics.DrawRect(g.thing.topLeft + new Vec2(-1f, -1f), g.thing.bottomRight + new Vec2(1f, 1f), Color.Orange * 0.8f, 1f, filled: false);
+                Graphics.DrawRect(g.thing.topLeft + new Vector2(-1f, -1f), g.thing.bottomRight + new Vector2(1f, 1f), Color.Orange * 0.8f, 1f, filled: false);
             }
             foreach (KeyValuePair<DuckPersona, long> pair in debug.dataReceivedFrames)
             {
@@ -858,19 +859,19 @@ public class NetworkDebugger : Level
                 {
                     if (pair.Key == Persona.Duck1)
                     {
-                        Graphics.DrawRect(g.thing.topLeft + new Vec2(-4f, -4f), g.thing.topLeft + new Vec2(-2f, -2f), pair.Key.colorUsable, 1f, filled: false);
+                        Graphics.DrawRect(g.thing.topLeft + new Vector2(-4f, -4f), g.thing.topLeft + new Vector2(-2f, -2f), pair.Key.colorUsable, 1f, filled: false);
                     }
                     else if (pair.Key == Persona.Duck2)
                     {
-                        Graphics.DrawRect(g.thing.topRight + new Vec2(4f, -4f), g.thing.topRight + new Vec2(2f, -2f), pair.Key.colorUsable, 1f, filled: false);
+                        Graphics.DrawRect(g.thing.topRight + new Vector2(4f, -4f), g.thing.topRight + new Vector2(2f, -2f), pair.Key.colorUsable, 1f, filled: false);
                     }
                     else if (pair.Key == Persona.Duck3)
                     {
-                        Graphics.DrawRect(g.thing.bottomLeft + new Vec2(-4f, 2f), g.thing.bottomLeft + new Vec2(-2f, 4f), pair.Key.colorUsable, 1f, filled: false);
+                        Graphics.DrawRect(g.thing.bottomLeft + new Vector2(-4f, 2f), g.thing.bottomLeft + new Vector2(-2f, 4f), pair.Key.colorUsable, 1f, filled: false);
                     }
                     else if (pair.Key == Persona.Duck4)
                     {
-                        Graphics.DrawRect(g.thing.bottomRight + new Vec2(4f, 2f), g.thing.bottomRight + new Vec2(2f, 4f), pair.Key.colorUsable, 1f, filled: false);
+                        Graphics.DrawRect(g.thing.bottomRight + new Vector2(4f, 2f), g.thing.bottomRight + new Vector2(2f, 4f), pair.Key.colorUsable, 1f, filled: false);
                     }
                 }
             }
@@ -976,7 +977,7 @@ public class NetworkDebugger : Level
         };
     }
 
-    private void DrawLogWindow(Vec2 pos, Vec2 size, int page, int index)
+    private void DrawLogWindow(Vector2 pos, Vector2 size, int page, int index)
     {
         if (_instances.Count <= page)
         {
@@ -988,14 +989,14 @@ public class NetworkDebugger : Level
             maxLines = maxLines / 2 - 2;
         }
         Queue<DCLine> lines = _instances[page].consoleCore.lines;
-        Vec2 logsTL = pos;
-        Vec2 logsBR = pos + size;
+        Vector2 logsTL = pos;
+        Vector2 logsBR = pos + size;
         Graphics.DrawRect(logsTL, logsBR, Color.Black, 0.8f);
         if (logSwitchIndex == index)
         {
             Graphics.DrawRect(logsTL, logsBR, Color.White * 0.5f, 0.88f, filled: false);
         }
-        Graphics.DrawRect(logsTL + new Vec2(0f, -14f), logsTL + new Vec2(100f, 0f), Color.Black, 0.8f);
+        Graphics.DrawRect(logsTL + new Vector2(0f, -14f), logsTL + new Vector2(100f, 0f), Color.Black, 0.8f);
         Color c = Colors.Duck1;
         switch (page)
         {
@@ -1009,7 +1010,7 @@ public class NetworkDebugger : Level
                 c = Colors.Duck4;
                 break;
         }
-        Graphics.DrawString("Player " + (page + 1), logsTL + new Vec2(4f, -12f), c * ((logSwitchIndex == index) ? 1f : 0.6f), 0.81f);
+        Graphics.DrawString("Player " + (page + 1), logsTL + new Vector2(4f, -12f), c * ((logSwitchIndex == index) ? 1f : 0.6f), 0.81f);
         int lineCount = 0;
         foreach (DCLine l in lines)
         {
@@ -1018,13 +1019,13 @@ public class NetworkDebugger : Level
                 lineCount++;
             }
         }
-        Graphics.DrawRect(new Vec2(logsTL.X + (size.X - 12f), logsTL.Y), logsBR, Color.Gray * 0.5f, 0.81f);
+        Graphics.DrawRect(new Vector2(logsTL.X + (size.X - 12f), logsTL.Y), logsBR, Color.Gray * 0.5f, 0.81f);
         float scroll = (float)logsScroll[index] / (float)lineCount;
         float maxBarSize = 300f;
         float barSize = Math.Max(maxBarSize - (float)lineCount, 20f) / maxBarSize;
         float scrollBarHeight = size.Y * barSize;
-        Vec2 scrollerTL = new Vec2(logsTL.X + (size.X - 12f), logsTL.Y + scroll * (size.Y - scrollBarHeight));
-        Vec2 scrollerBR = new Vec2(logsTL.X + size.X, logsTL.Y + scroll * (size.Y - scrollBarHeight) + scrollBarHeight);
+        Vector2 scrollerTL = new Vector2(logsTL.X + (size.X - 12f), logsTL.Y + scroll * (size.Y - scrollBarHeight));
+        Vector2 scrollerBR = new Vector2(logsTL.X + size.X, logsTL.Y + scroll * (size.Y - scrollBarHeight) + scrollBarHeight);
         bool scrollerHover = false;
         if (Mouse.xConsole > scrollerTL.X && Mouse.xConsole < scrollerBR.X && Mouse.yConsole > scrollerTL.Y && Mouse.yConsole < scrollerBR.Y)
         {
@@ -1038,8 +1039,8 @@ public class NetworkDebugger : Level
         }
         if (scrollerDrag[index])
         {
-            Vec2 mouseDif = mouseClickPos[index] - Mouse.positionConsole;
-            Vec2 scrollTop = mouseClickTop[index] - mouseDif;
+            Vector2 mouseDif = mouseClickPos[index] - Mouse.positionConsole;
+            Vector2 scrollTop = mouseClickTop[index] - mouseDif;
             if (scrollTop.Y < logsTL.Y)
             {
                 scrollTop.Y = logsTL.Y;
@@ -1078,7 +1079,7 @@ public class NetworkDebugger : Level
         {
             logsScroll[index] = 0;
         }
-        Vec2 linePos = logsTL + new Vec2(8f, 8f);
+        Vector2 linePos = logsTL + new Vector2(8f, 8f);
         int lineDrawIndex = 0;
         for (int i = 0; i < maxLines; i++)
         {
@@ -1107,15 +1108,15 @@ public class NetworkDebugger : Level
                     col.g = (byte)((float)(int)col.g * 0.3f);
                     col.b = (byte)((float)(int)col.b * 0.3f);
                 }
-                Graphics.DrawRect(linePos + new Vec2(-4f, -1f), new Vec2(logsBR.X - 14f, linePos.Y + 9f), col, 0.85f);
+                Graphics.DrawRect(linePos + new Vector2(-4f, -1f), new Vector2(logsBR.X - 14f, linePos.Y + 9f), col, 0.85f);
                 if (line.frames + frames > 0)
                 {
                     linePos.Y += 1f;
-                    Graphics.DrawLine(linePos + new Vec2(-4f, 10f), new Vec2(logsBR.X - 14f, linePos.Y + 10f), Color.White * 0.24f, 1f, 0.9f);
+                    Graphics.DrawLine(linePos + new Vector2(-4f, 10f), new Vector2(logsBR.X - 14f, linePos.Y + 10f), Color.White * 0.24f, 1f, 0.9f);
                     linePos.Y += 2f;
                     if (line.frames + frames > 30)
                     {
-                        Graphics.DrawString("~" + (line.frames + frames) + " frames~", linePos + new Vec2(80f, 10f), Color.White * 0.2f, 0.9f);
+                        Graphics.DrawString("~" + (line.frames + frames) + " frames~", linePos + new Vector2(80f, 10f), Color.White * 0.2f, 0.9f);
                         linePos.Y += 10f;
                         maxLines--;
                     }
@@ -1144,16 +1145,16 @@ public class NetworkDebugger : Level
                         numShowing++;
                     }
                 }
-                Vec2[] positions = new Vec2[4];
-                Vec2 tl = new Vec2(20f, 80f);
+                Vector2[] positions = new Vector2[4];
+                Vector2 tl = new Vector2(20f, 80f);
                 if (showFilters)
                 {
-                    Graphics.DrawRect(tl + new Vec2(0f, -42f), tl + new Vec2(890f, -30f), Color.Black * 0.9f, 0.8f);
+                    Graphics.DrawRect(tl + new Vector2(0f, -42f), tl + new Vector2(890f, -30f), Color.Black * 0.9f, 0.8f);
                     for (int j = 0; j < 9; j++)
                     {
                         if (j == 8)
                         {
-                            Graphics.DrawString("ALL (9)", tl + new Vec2(j * 110, -40f), Color.White, 0.82f);
+                            Graphics.DrawString("ALL (9)", tl + new Vector2(j * 110, -40f), Color.White, 0.82f);
                             continue;
                         }
                         DCSection s = (DCSection)Enum.GetValues(typeof(DCSection)).GetValue(j);
@@ -1162,21 +1163,21 @@ public class NetworkDebugger : Level
                         {
                             filt = "GENERAL";
                         }
-                        Graphics.DrawString(filt + " (" + (j + 1) + ")", tl + new Vec2(j * 110, -40f), Color.White * (logFilters[s] ? 1f : 0.5f), 0.82f);
+                        Graphics.DrawString(filt + " (" + (j + 1) + ")", tl + new Vector2(j * 110, -40f), Color.White * (logFilters[s] ? 1f : 0.5f), 0.82f);
                     }
                 }
                 positions[0] = tl;
-                Vec2 logSize = new Vec2(Layer.Console.width - 40f, Layer.Console.height - 100f);
+                Vector2 logSize = new Vector2(Layer.Console.width - 40f, Layer.Console.height - 100f);
                 if (numShowing > 1)
                 {
-                    logSize = new Vec2(logSize.X / 2f - 4f, Layer.Console.height - 100f);
-                    positions[1] = tl + new Vec2(logSize.X + 4f, 0f);
+                    logSize = new Vector2(logSize.X / 2f - 4f, Layer.Console.height - 100f);
+                    positions[1] = tl + new Vector2(logSize.X + 4f, 0f);
                 }
                 if (numShowing > 2)
                 {
-                    logSize = new Vec2(logSize.X, logSize.Y / 2f - 16f);
-                    positions[2] = tl + new Vec2(0f, logSize.Y + 16f);
-                    positions[3] = tl + new Vec2(logSize.X + 4f, logSize.Y + 16f);
+                    logSize = new Vector2(logSize.X, logSize.Y / 2f - 16f);
+                    positions[2] = tl + new Vector2(0f, logSize.Y + 16f);
+                    positions[3] = tl + new Vector2(logSize.X + 4f, logSize.Y + 16f);
                 }
                 for (int k = 0; k < 4; k++)
                 {
@@ -1193,7 +1194,7 @@ public class NetworkDebugger : Level
                 i2.debugInterface.Draw();
                 if (i2.debugInterface.visible)
                 {
-                    Network.netGraph.DrawChart(i2.consoleSize.tl + new Vec2(10f, 300f));
+                    Network.netGraph.DrawChart(i2.consoleSize.tl + new Vector2(10f, 300f));
                 }
                 UnlockInstance(i2);
             }

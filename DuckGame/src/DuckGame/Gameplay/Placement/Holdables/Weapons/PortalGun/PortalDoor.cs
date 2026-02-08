@@ -1,14 +1,15 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
 
 public class PortalDoor
 {
-    public Vec2 point1;
+    public Vector2 point1;
 
-    public Vec2 point2;
+    public Vector2 point2;
 
-    public Vec2 center;
+    public Vector2 center;
 
     public bool horizontal;
 
@@ -30,9 +31,9 @@ public class PortalDoor
 
     public void Update()
     {
-        Vec2 position = new Vec2(center.X, center.Y);
+        Vector2 position = new Vector2(center.X, center.Y);
         Matrix m = Level.current.camera.getMatrix();
-        Vec2 vec = Vec2.Transform(position, m);
+        Vector2 vec = Vector2.Transform(position, m);
         int xScissor = (int)vec.X;
         if (xScissor < 0)
         {

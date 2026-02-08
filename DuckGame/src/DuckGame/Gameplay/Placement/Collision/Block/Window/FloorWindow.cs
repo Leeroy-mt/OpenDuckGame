@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -9,13 +10,13 @@ public class FloorWindow : Window
         : base(xpos, ypos)
     {
         Angle = -(float)Math.PI / 2f;
-        collisionSize = new Vec2(32f, 6f);
-        collisionOffset = new Vec2(-16f, -2f);
+        collisionSize = new Vector2(32f, 6f);
+        collisionOffset = new Vector2(-16f, -2f);
         _editorName = "Floor Window";
         editorTooltip = "When you really want to see what's underneath your house.";
         _editorIcon = new Sprite("windowIconHorizontal");
-        Center = new Vec2(2f, 16f);
-        base.editorOffset = new Vec2(8f, -6f);
+        Center = new Vector2(2f, 16f);
+        base.editorOffset = new Vector2(8f, -6f);
         floor = true;
         UpdateHeight();
     }

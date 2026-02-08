@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -25,13 +26,13 @@ public class PelletGun : Gun
 
     public int _aimWait;
 
-    private Vec2 _posOffset;
+    private Vector2 _posOffset;
 
     public int firesTillFail = 8;
 
-    private Vec2 springPos = Vec2.Zero;
+    private Vector2 springPos = Vector2.Zero;
 
-    private Vec2 springVel = Vec2.Zero;
+    private Vector2 springVel = Vector2.Zero;
 
     private bool _rising;
 
@@ -55,20 +56,20 @@ public class PelletGun : Gun
         _type = "gun";
         _sprite = new SpriteMap("pelletGun", 31, 7);
         graphic = _sprite;
-        Center = new Vec2(15f, 2f);
-        collisionOffset = new Vec2(-8f, -2f);
-        collisionSize = new Vec2(16f, 5f);
+        Center = new Vector2(15f, 2f);
+        collisionOffset = new Vector2(-8f, -2f);
+        collisionSize = new Vector2(16f, 5f);
         _spring = new Sprite("dandiSpring");
-        _barrelOffsetTL = new Vec2(30f, 2f);
+        _barrelOffsetTL = new Vector2(30f, 2f);
         _fireSound = "pelletgun";
         _kickForce = 0f;
         _manualLoad = true;
-        _holdOffset = new Vec2(-2f, -1f);
+        _holdOffset = new Vector2(-2f, -1f);
         editorTooltip = "Careful with that thing, you'll lose an eye!";
         _editorName = "Dandylion";
     }
 
-    public override Vec2 Offset(Vec2 pos)
+    public override Vector2 Offset(Vector2 pos)
     {
         return Position + _posOffset + OffsetLocal(pos);
     }
@@ -90,7 +91,7 @@ public class PelletGun : Gun
             {
                 _ammoType = new ATFailedPellet();
             }
-            Vec2 dif = Offset(new Vec2(0f, -8f)) - springPos;
+            Vector2 dif = Offset(new Vector2(0f, -8f)) - springPos;
             springVel += dif * 0.15f;
             springVel *= 0.9f;
             springPos += springVel;
@@ -111,11 +112,11 @@ public class PelletGun : Gun
         }
         if (base.held)
         {
-            Center = new Vec2(11f, 2f);
+            Center = new Vector2(11f, 2f);
         }
         else
         {
-            Center = new Vec2(15f, 2f);
+            Center = new Vector2(15f, 2f);
         }
         if (_loadState > -1)
         {
@@ -127,18 +128,18 @@ public class PelletGun : Gun
                 }
                 _loadState = -1;
                 _angleOffset = 0f;
-                _posOffset = Vec2.Zero;
-                handOffset = Vec2.Zero;
+                _posOffset = Vector2.Zero;
+                handOffset = Vector2.Zero;
                 _aimAngle = 0f;
                 _angleOffset2 = 0f;
             }
             if (_loadState > 0 && _loadState < 4)
             {
-                _posOffset = Lerp.Vec2(_posOffset, new Vec2(2f, 2f), 0.2f);
+                _posOffset = Lerp.Vector2(_posOffset, new Vector2(2f, 2f), 0.2f);
             }
             else
             {
-                _posOffset = Lerp.Vec2(_posOffset, new Vec2(0f, 0f), 0.24f);
+                _posOffset = Lerp.Vector2(_posOffset, new Vector2(0f, 0f), 0.24f);
             }
             if (_loadState >= 2 && _loadState < 3)
             {
@@ -315,7 +316,7 @@ public class PelletGun : Gun
         {
             _sprite.Angle = Angle + _angleOffset + _angleOffset2;
         }
-        Vec2 p = Offset(_posOffset);
+        Vector2 p = Offset(_posOffset);
         Graphics.Draw(_sprite, p.X, p.Y);
         _sprite.frame = 1;
         if (offDir > 0)
@@ -330,7 +331,7 @@ public class PelletGun : Gun
         if (firesTillFail <= 0)
         {
             _spring.Depth = base.Depth - 5;
-            _spring.Center = new Vec2(4f, 7f);
+            _spring.Center = new Vector2(4f, 7f);
             _spring.AngleDegrees = Maths.PointDirection(Position + _posOffset, springPos) - 90f;
             _spring.ScaleY = (Position.Y + _posOffset.Y - springPos.Y) / 8f;
             _spring.flipH = offDir < 0;

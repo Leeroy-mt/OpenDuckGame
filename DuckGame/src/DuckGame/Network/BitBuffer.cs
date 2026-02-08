@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,7 @@ public class BitBuffer
         typeof(long),
         typeof(ulong),
         typeof(char),
-        typeof(Vec2),
+        typeof(Vector2),
         typeof(Color),
         typeof(NetIndex16),
         typeof(NetIndex2),
@@ -575,9 +576,9 @@ public class BitBuffer
         return result;
     }
 
-    public Vec2 ReadVec2()
+    public Vector2 ReadVec2()
     {
-        return new Vec2
+        return new Vector2
         {
             X = ReadFloat(),
             Y = ReadFloat()
@@ -749,7 +750,7 @@ public class BitBuffer
         {
             return ReadChar();
         }
-        if (type == typeof(Vec2))
+        if (type == typeof(Vector2))
         {
             return ReadVec2();
         }
@@ -826,13 +827,13 @@ public class BitBuffer
             if (levelIndex != Level.core.currentLevel.networkIndex)
             {
                 ghost = new GhostObject(t, GhostManager.context, index);
-                t.Position = new Vec2(-2000f, -2000f);
+                t.Position = new Vector2(-2000f, -2000f);
                 GhostManager.context.pendingBitBufferGhosts.Add(ghost);
             }
             else
             {
                 ghost = GhostManager.context.MakeGhost(t, index);
-                t.Position = new Vec2(-2000f, -2000f);
+                t.Position = new Vector2(-2000f, -2000f);
                 ghost.ClearStateMask(NetworkConnection.context);
                 t.level = Level.current;
                 t.isBitBufferCreatedGhostThing = true;
@@ -1146,7 +1147,7 @@ public class BitBuffer
         position += bytes.Count();
     }
 
-    public void Write(Vec2 val)
+    public void Write(Vector2 val)
     {
         Write(val.X);
         Write(val.Y);
@@ -1370,9 +1371,9 @@ public class BitBuffer
         {
             Write((char)obj);
         }
-        else if (obj is Vec2)
+        else if (obj is Vector2)
         {
-            Write((Vec2)obj);
+            Write((Vector2)obj);
         }
         else if (obj is Color)
         {

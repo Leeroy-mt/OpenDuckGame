@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Linq;
 
 namespace DuckGame;
@@ -21,9 +22,9 @@ public class ScoreRock : Holdable, IPlatform
 
     private Sprite _dropShadow = new Sprite("dropShadow");
 
-    private Vec2 _dropShadowPoint;
+    private Vector2 _dropShadowPoint;
 
-    private Vec2 _pos = Vec2.Zero;
+    private Vector2 _pos = Vector2.Zero;
 
     private Profile _profile;
 
@@ -58,9 +59,9 @@ public class ScoreRock : Holdable, IPlatform
     {
         _sprite = new SpriteMap("scoreRock", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -6f);
-        collisionSize = new Vec2(16f, 13f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -6f);
+        collisionSize = new Vector2(16f, 13f);
         base.Depth = -0.5f;
         thickness = 4f;
         weight = 7f;
@@ -115,18 +116,18 @@ public class ScoreRock : Holdable, IPlatform
             if (profile.team.rockTexture != null)
             {
                 _sprite = new SpriteMap(profile.team.rockTexture, 24, 24);
-                Center = new Vec2(12f, 12f);
+                Center = new Vector2(12f, 12f);
                 graphic = _sprite;
                 _customRock = true;
-                collisionOffset = new Vec2(-8f, -1f);
-                collisionSize = new Vec2(16f, 13f);
+                collisionOffset = new Vector2(-8f, -1f);
+                collisionSize = new Vector2(16f, 13f);
             }
         }
     }
 
     public override void Update()
     {
-        foreach (Block block in Level.CheckLineAll<Block>(Position, Position + new Vec2(0f, 100f)))
+        foreach (Block block in Level.CheckLineAll<Block>(Position, Position + new Vector2(0f, 100f)))
         {
             if (block.solid)
             {
@@ -157,8 +158,8 @@ public class ScoreRock : Holdable, IPlatform
         {
             SpriteMap hat = _profile.team.GetHat(_profile.persona);
             hat.Depth = base.Depth + 1;
-            hat.Center = new Vec2(16f, 16f);
-            Vec2 pos = Position - _profile.team.hatOffset;
+            hat.Center = new Vector2(16f, 16f);
+            Vector2 pos = Position - _profile.team.hatOffset;
             Graphics.Draw(hat, pos.X, pos.Y - 5f);
         }
     }

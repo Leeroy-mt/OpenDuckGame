@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -35,15 +36,15 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
         _maxHealth = 15f;
         _hitPoints = 15f;
         graphic = new Sprite("yellowBarrel");
-        Center = new Vec2(7f, 8f);
+        Center = new Vector2(7f, 8f);
         _melting = new Sprite("yellowBarrelMelting");
         _toreUp = new SpriteMap("yellowBarrelToreUp", 14, 17);
         _toreUp.frame = 1;
-        _toreUp.Center = new Vec2(0f, -6f);
+        _toreUp.Center = new Vector2(0f, -6f);
         base.sequence = new SequenceItem(this);
         base.sequence.type = SequenceItemType.Goody;
-        collisionOffset = new Vec2(-7f, -8f);
-        collisionSize = new Vec2(14f, 16f);
+        collisionOffset = new Vector2(-7f, -8f);
+        collisionSize = new Vector2(14f, 16f);
         base.Depth = -0.1f;
         _editorName = "Barrel (Gasoline)";
         editorTooltip = "Do not smoke near this barrel. In fact, don't smoke at all. It's not cool, kids!";
@@ -51,7 +52,7 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
         weight = 5f;
         physicsMaterial = PhysicsMaterial.Metal;
         base.collideSounds.Add("barrelThud");
-        _holdOffset = new Vec2(1f, 0f);
+        _holdOffset = new Vector2(1f, 0f);
         flammable = 0.3f;
         _fluid = Fluid.Gas;
         base.sequence.isValid = valid.value;
@@ -64,7 +65,7 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
         base.Initialize();
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (_hitPoints <= 0f)
         {
@@ -82,9 +83,9 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
         return base.Hit(bullet, hitPos);
     }
 
-    public void MakeHole(Vec2 pPos, Vec2 pImpaleDirection)
+    public void MakeHole(Vector2 pPos, Vector2 pImpaleDirection)
     {
-        Vec2 offset = pPos - Position;
+        Vector2 offset = pPos - Position;
         bool found = false;
         foreach (FluidStream hole in _holes)
         {
@@ -98,15 +99,15 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
         }
         if (!found)
         {
-            Vec2 holeVec = (-pImpaleDirection).Rotate(Rando.Float(-0.2f, 0.2f), Vec2.Zero);
+            Vector2 holeVec = (-pImpaleDirection).Rotate(Rando.Float(-0.2f, 0.2f), Vector2.Zero);
             _holes.Add(new FluidStream(0f, 0f, holeVec, 1f, offset));
         }
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 exitPos)
+    public override void ExitHit(Bullet bullet, Vector2 exitPos)
     {
         exitPos -= bullet.travelDirNormalized * 2f;
-        Vec2 offset = exitPos - Position;
+        Vector2 offset = exitPos - Position;
         bool found = false;
         foreach (FluidStream hole in _holes)
         {
@@ -120,8 +121,8 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
         }
         if (!found)
         {
-            Vec2 holeVec = bullet.travelDirNormalized;
-            holeVec = holeVec.Rotate(Rando.Float(-0.2f, 0.2f), Vec2.Zero);
+            Vector2 holeVec = bullet.travelDirNormalized;
+            holeVec = holeVec.Rotate(Rando.Float(-0.2f, 0.2f), Vector2.Zero);
             _holes.Add(new FluidStream(0f, 0f, holeVec, 1f, offset));
         }
     }
@@ -140,10 +141,10 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
                 dat.amount = spray / 20f;
                 for (int i = 0; i < 20; i++)
                 {
-                    Level.Add(new Fluid(base.X + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f), new Vec2(Rando.Float(-4f, 4f), Rando.Float(-4f, 0f)), dat));
+                    Level.Add(new Fluid(base.X + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f), new Vector2(Rando.Float(-4f, 4f), Rando.Float(-4f, 0f)), dat));
                 }
                 dat.amount = glob;
-                Level.Add(new Fluid(base.X, base.Y - 8f, new Vec2(0f, -1f), dat));
+                Level.Add(new Fluid(base.X, base.Y - 8f, new Vector2(0f, -1f), dat));
                 Level.Add(SmallSmoke.New(base.X, base.Y));
                 SFX.Play("bulletHitWater");
                 SFX.Play("crateDestroy");
@@ -171,10 +172,10 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
         if (!_bottomHoles && burnt > 0.6f)
         {
             _bottomHoles = true;
-            FluidStream hole = new FluidStream(0f, 0f, new Vec2(-1f, -1f), 1f, new Vec2(-7f, 8f));
+            FluidStream hole = new FluidStream(0f, 0f, new Vector2(-1f, -1f), 1f, new Vector2(-7f, 8f));
             hole.holeThickness = 2f;
             _holes.Add(hole);
-            hole = new FluidStream(0f, 0f, new Vec2(1f, -1f), 1f, new Vec2(7f, 8f));
+            hole = new FluidStream(0f, 0f, new Vector2(1f, -1f), 1f, new Vector2(7f, 8f));
             hole.holeThickness = 2f;
             _holes.Add(hole);
         }
@@ -236,7 +237,7 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
             graphic.Depth = base.Depth + 1;
             graphic.Scale = base.Scale;
             float ypos = level * (float)graphic.height;
-            graphic.Center = Center - new Vec2(0f, (int)ypos);
+            graphic.Center = Center - new Vector2(0f, (int)ypos);
             Graphics.Draw(graphic, base.X, base.Y, new Rectangle(0f, (int)ypos, graphic.w, (int)((float)graphic.h - ypos)));
         }
     }

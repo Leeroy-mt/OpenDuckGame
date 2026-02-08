@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public abstract class EjectedShell : PhysicsParticle
@@ -11,7 +13,7 @@ public abstract class EjectedShell : PhysicsParticle
         vSpeed = 0f - (Rando.Float(1.5f) + 1f);
         _sprite = new SpriteMap(shellSprite, 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         _bounceSound = bounceSound;
         base.Depth = 0.3f + Rando.Float(0f, 0.1f);
     }

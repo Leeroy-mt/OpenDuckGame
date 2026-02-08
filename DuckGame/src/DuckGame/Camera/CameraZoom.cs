@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -26,9 +27,9 @@ public class CameraZoom : Thing
     public CameraZoom()
     {
         graphic = new Sprite("swirl");
-        Center = new Vec2(8f, 8f);
-        collisionSize = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        collisionSize = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -8f);
         _canFlip = false;
         _visibleInGame = false;
     }

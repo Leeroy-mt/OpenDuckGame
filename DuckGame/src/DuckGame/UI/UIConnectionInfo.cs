@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -227,36 +228,36 @@ public class UIConnectionInfo : UIMenuItem
     public override void Draw()
     {
         _textElement.text = "";
-        _littleFont.Draw(_nameText, Position + new Vec2(-88, -3), Color.White, Depth + 10);
+        _littleFont.Draw(_nameText, Position + new Vector2(-88, -3), Color.White, Depth + 10);
         int pingval = GetPing();
         string ping = pingval.ToString();
         ping += "|WHITE|MS";
         ping = (pingval < 150) ? ("|DGGREEN|" + ping + "@SIGNALGOOD@") : ((pingval < 250) ? ("|DGYELLOW|" + ping + "@SIGNALNORMAL@") : ((_profile.connection == null) ? ("|DGRED|" + ping + "@SIGNALDEAD@") : ("|DGRED|" + ping + "@SIGNALBAD@")));
-        _littleFont.Draw(ping, Position + new Vec2(90 - _littleFont.GetWidth(ping), -3), Color.White, Depth + 10);
+        _littleFont.Draw(ping, Position + new Vector2(90 - _littleFont.GetWidth(ping), -3), Color.White, Depth + 10);
         if (_showKickMenu)
         {
-            Graphics.DrawRect(new Vec2(0), new Vec2(Layer.HUD.width, Layer.HUD.height), Color.Black * 0.5f, 0.85f);
-            Vec2 posTL = Position + new Vec2(-60, 4);
-            Vec2 posBR = posTL + new Vec2(76, _additionalOptions.Count * 8 + 3);
+            Graphics.DrawRect(new Vector2(0), new Vector2(Layer.HUD.width, Layer.HUD.height), Color.Black * 0.5f, 0.85f);
+            Vector2 posTL = Position + new Vector2(-60, 4);
+            Vector2 posBR = posTL + new Vector2(76, _additionalOptions.Count * 8 + 3);
             Graphics.DrawRect(posTL, posBR, Color.Black, 0.9f);
             Graphics.DrawRect(posTL, posBR, Color.White, 0.9f, filled: false);
             for (int i = 0; i < _additionalOptions.Count; i++)
             {
-                _littleFont.Draw(_additionalOptions[i], posTL + new Vec2(10, 3 + i * 8), (_additionalOptionIndex == i) ? Color.White : (Color.White * 0.6f), 0.91f);
+                _littleFont.Draw(_additionalOptions[i], posTL + new Vector2(10, 3 + i * 8), (_additionalOptionIndex == i) ? Color.White : (Color.White * 0.6f), 0.91f);
                 if (_additionalOptionIndex == i)
                     Graphics.Draw(_arrow._image, posTL.X + 4, posTL.Y + 6 + i * 8, 0.91f);
                 if (i != _aoMuteIndex || !_showMuteMenu)
                     continue;
-                Graphics.DrawRect(new Vec2(0), new Vec2(Layer.HUD.width, Layer.HUD.height), Color.Black * 0.5f, 0.92f);
-                Vec2 muteTL = posTL + new Vec2(8, 26);
-                Vec2 muteBR = muteTL + new Vec2(60, _muteOptions.Count * 8 + 4);
+                Graphics.DrawRect(new Vector2(0), new Vector2(Layer.HUD.width, Layer.HUD.height), Color.Black * 0.5f, 0.92f);
+                Vector2 muteTL = posTL + new Vector2(8, 26);
+                Vector2 muteBR = muteTL + new Vector2(60, _muteOptions.Count * 8 + 4);
                 Graphics.DrawRect(muteTL, muteBR, Color.Black, 0.93f);
                 Graphics.DrawRect(muteTL, muteBR, Color.White, 0.93f, filled: false);
                 for (int j = 0; j < _muteOptions.Count; j++)
                 {
                     string muteText = _muteOptions[j];
                     muteText = (j == 0 && _profile.muteChat) ? ("@DELETEFLAG_ON@" + muteText) : ((j == 1 && _profile.muteHat) ? ("@DELETEFLAG_ON@" + muteText) : ((j == 2 && _profile.muteRoom) ? ("@DELETEFLAG_ON@" + muteText) : ((j != 3 || !_profile.muteName) ? ("@DELETEFLAG_OFF@" + muteText) : ("@DELETEFLAG_ON@" + muteText))));
-                    _littleFont.Draw(muteText, muteTL + new Vec2(10, 4 + j * 8), (_muteOptionIndex == j) ? Color.White : (Color.White * 0.6f), 0.94f);
+                    _littleFont.Draw(muteText, muteTL + new Vector2(10, 4 + j * 8), (_muteOptionIndex == j) ? Color.White : (Color.White * 0.6f), 0.94f);
                     if (_muteOptionIndex == j)
                         Graphics.Draw(_arrow._image, muteTL.X + 4, muteTL.Y + 6 + j * 8, 0.94f);
                 }

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -42,15 +43,15 @@ public abstract class PhysicsParticle : Thing
 
     protected float _life = 1f;
 
-    public Vec2 lerpPos = Vec2.Zero;
+    public Vector2 lerpPos = Vector2.Zero;
 
-    public new Vec2 lerpSpeed = Vec2.Zero;
+    public new Vector2 lerpSpeed = Vector2.Zero;
 
     private static Map<byte, Type> _netParticleTypes = new Map<byte, Type>();
 
     private static byte _netParticleTypeIndex = 0;
 
-    protected Vec2 netLerpPosition = Vec2.Zero;
+    protected Vector2 netLerpPosition = Vector2.Zero;
 
     public bool customGravity;
 
@@ -85,12 +86,12 @@ public abstract class PhysicsParticle : Thing
     {
     }
 
-    public void LerpPosition(Vec2 pos)
+    public void LerpPosition(Vector2 pos)
     {
         lerpPos = pos;
     }
 
-    public void LerpSpeed(Vec2 speed)
+    public void LerpSpeed(Vector2 speed)
     {
         lerpSpeed = speed;
     }
@@ -136,7 +137,7 @@ public abstract class PhysicsParticle : Thing
     {
         float xpos = d.ReadShort();
         float ypos = d.ReadShort();
-        netLerpPosition = new Vec2(xpos, ypos);
+        netLerpPosition = new Vector2(xpos, ypos);
     }
 
     public override void ResetProperties()
@@ -164,9 +165,9 @@ public abstract class PhysicsParticle : Thing
     {
         if (!isLocal)
         {
-            Vec2 me = Position;
-            Vec2 targ = netLerpPosition;
-            if ((me - targ).lengthSq > 2048f || (me - targ).lengthSq < 1f)
+            Vector2 me = Position;
+            Vector2 targ = netLerpPosition;
+            if ((me - targ).LengthSquared() > 2048f || (me - targ).LengthSquared() < 1f)
             {
                 Position = targ;
             }

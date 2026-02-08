@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Background", EditorItemType.Pyramid)]
@@ -9,9 +11,9 @@ public class BackgroundPyramid : BackgroundTile
         : base(xpos, ypos)
     {
         graphic = new SpriteMap("pyramidBackground", 16, 16, calculateTransparency: true);
-        Center = new Vec2(8f, 8f);
-        collisionSize = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        collisionSize = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -8f);
         _editorName = "Pyramid";
     }
 
@@ -28,7 +30,7 @@ public class BackgroundPyramid : BackgroundTile
             SpriteMap s = graphic as SpriteMap;
             if (!flipHorizontal && s.frame % 8 == 0)
             {
-                if (Level.CheckPoint<BackgroundPyramid>(Position + new Vec2(-16f, 0f)) != null)
+                if (Level.CheckPoint<BackgroundPyramid>(Position + new Vector2(-16f, 0f)) != null)
                 {
                     s.frame++;
                     s.UpdateFrame();
@@ -36,7 +38,7 @@ public class BackgroundPyramid : BackgroundTile
             }
             else if (!flipHorizontal && s.frame % 8 == 7)
             {
-                if (Level.CheckPoint<BackgroundPyramid>(Position + new Vec2(16f, 0f)) != null)
+                if (Level.CheckPoint<BackgroundPyramid>(Position + new Vector2(16f, 0f)) != null)
                 {
                     s.frame--;
                     s.UpdateFrame();
@@ -44,13 +46,13 @@ public class BackgroundPyramid : BackgroundTile
             }
             else if (flipHorizontal && s.frame % 8 == 0)
             {
-                if (Level.CheckPoint<BackgroundPyramid>(Position + new Vec2(16f, 0f)) != null)
+                if (Level.CheckPoint<BackgroundPyramid>(Position + new Vector2(16f, 0f)) != null)
                 {
                     s.frame++;
                     s.UpdateFrame();
                 }
             }
-            else if (flipHorizontal && s.frame % 8 == 7 && Level.CheckPoint<BackgroundPyramid>(Position + new Vec2(-16f, 0f)) != null)
+            else if (flipHorizontal && s.frame % 8 == 7 && Level.CheckPoint<BackgroundPyramid>(Position + new Vector2(-16f, 0f)) != null)
             {
                 s.frame--;
                 s.UpdateFrame();

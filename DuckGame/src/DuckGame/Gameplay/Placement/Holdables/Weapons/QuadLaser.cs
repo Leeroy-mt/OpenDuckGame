@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Lasers")]
@@ -10,16 +12,16 @@ public class QuadLaser : Gun
         _ammoType = new AT9mm();
         _type = "gun";
         graphic = new Sprite("quadLaser");
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(16f, 8f);
-        _barrelOffsetTL = new Vec2(20f, 8f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(16f, 8f);
+        _barrelOffsetTL = new Vector2(20f, 8f);
         _fireSound = "pistolFire";
         _kickForce = 3f;
         _fireRumble = RumbleIntensity.Kick;
         loseAccuracy = 0.1f;
         maxAccuracyLost = 0.6f;
-        _holdOffset = new Vec2(2f, -2f);
+        _holdOffset = new Vector2(2f, -2f);
         _bio = "Stop moving...";
         _editorName = "Quad Laser";
         editorTooltip = "Shoots a slow-moving science block of doom that passes through walls.";
@@ -31,7 +33,7 @@ public class QuadLaser : Gun
         {
             return;
         }
-        Vec2 barrel = Offset(base.barrelOffset);
+        Vector2 barrel = Offset(base.barrelOffset);
         if (base.isServerForObject)
         {
             QuadLaserBullet b = new QuadLaserBullet(barrel.X, barrel.Y, base.barrelVector);

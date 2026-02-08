@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Stuff|Props")]
@@ -25,9 +27,9 @@ public class Rock : Holdable, IPlatform
     {
         _sprite = new SpriteMap("rock01", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -5f);
-        collisionSize = new Vec2(16f, 12f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -5f);
+        collisionSize = new Vector2(16f, 12f);
         base.Depth = -0.5f;
         thickness = 4f;
         weight = 7f;
@@ -138,21 +140,21 @@ public class Rock : Holdable, IPlatform
         {
             if (!_changedCollision)
             {
-                collisionSize = new Vec2(collisionSize.Y, collisionSize.X);
-                collisionOffset = new Vec2(collisionOffset.Y, collisionOffset.X);
+                collisionSize = new Vector2(collisionSize.Y, collisionSize.X);
+                collisionOffset = new Vector2(collisionOffset.Y, collisionOffset.X);
                 _changedCollision = true;
             }
         }
         else if (_changedCollision)
         {
-            collisionSize = new Vec2(collisionSize.Y, collisionSize.X);
-            collisionOffset = new Vec2(collisionOffset.Y, collisionOffset.X);
+            collisionSize = new Vector2(collisionSize.Y, collisionSize.X);
+            collisionOffset = new Vector2(collisionOffset.Y, collisionOffset.X);
             _changedCollision = false;
         }
         base.Update();
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal && owner == null)
         {

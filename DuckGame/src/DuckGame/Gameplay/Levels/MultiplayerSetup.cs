@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class MultiplayerSetup : Level
@@ -10,7 +12,7 @@ public class MultiplayerSetup : Level
     {
         base.camera.x = 480f;
         UIMenu multiplayerMenu = new UIMenu("MULTIPLAYER", (float)Graphics.width / 2f, (float)Graphics.height / 2f, 160f);
-        multiplayerMenu.Scale = new Vec2(4f);
+        multiplayerMenu.Scale = new Vector2(4f);
         multiplayerMenu.Add(new UIMenuItemNumber("ROUNDS PER SET", null, new FieldBinding(this, "roundsPerSet", 0f, 50f)));
         multiplayerMenu.Add(new UIMenuItemNumber("SETS PER GAME", null, new FieldBinding(this, "setsPerGame", 0f, 50f)));
         multiplayerMenu.Add(new UIText(" ", Color.White));

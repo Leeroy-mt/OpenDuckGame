@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -151,7 +152,7 @@ public class UIFlagSelection : UIMenu
         {
             int xIndex = i % 16;
             int yIndex = i / 16;
-            Graphics.Draw(_flagTexture, new Vec2(xOffset + xDraw, yOffset + yDraw), new Rectangle(xIndex * 61, yIndex * 41, 61, 41), (flagIndx == _flagSelection) ? Color.White : (Color.White * 0.7f), 0f, Vec2.Zero, new Vec2(0.14f, 0.14f), SpriteEffects.None, 0.9f);
+            Graphics.Draw(_flagTexture, new Vector2(xOffset + xDraw, yOffset + yDraw), new Rectangle(xIndex * 61, yIndex * 41, 61, 41), (flagIndx == _flagSelection) ? Color.White : (Color.White * 0.7f), 0f, Vector2.Zero, new Vector2(0.14f, 0.14f), SpriteEffects.None, 0.9f);
             xDraw += 9;
             idx++;
             flagIndx++;

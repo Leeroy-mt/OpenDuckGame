@@ -1,16 +1,18 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class DustSparkle
 {
-    public Vec2 position;
+    public Vector2 position;
 
-    public Vec2 velocity;
+    public Vector2 velocity;
 
     public float alpha;
 
     public float sin;
 
-    public DustSparkle(Vec2 pos, Vec2 vel)
+    public DustSparkle(Vector2 pos, Vector2 vel)
     {
         position = pos;
         velocity = vel;

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Stuff|Props|Barrels")]
@@ -8,7 +10,7 @@ public class BlueBarrel : YellowBarrel
         : base(xpos, ypos)
     {
         graphic = new Sprite("blueBarrel");
-        Center = new Vec2(7f, 8f);
+        Center = new Vector2(7f, 8f);
         _melting = new Sprite("blueBarrelMelting");
         _editorName = "Barrel";
         editorTooltip = "Your standard water barrel - for carrying delicious, refreshing water. Choose water!";
@@ -16,6 +18,6 @@ public class BlueBarrel : YellowBarrel
         _fluid = Fluid.Water;
         _toreUp = new SpriteMap("blueBarrelToreUp", 14, 17);
         _toreUp.frame = 1;
-        _toreUp.Center = new Vec2(0f, -6f);
+        _toreUp.Center = new Vector2(0f, -6f);
     }
 }

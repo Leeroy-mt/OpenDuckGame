@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMDuckPhysicsState : NMPhysicsState
@@ -10,7 +12,7 @@ public class NMDuckPhysicsState : NMPhysicsState
     {
     }
 
-    public NMDuckPhysicsState(Vec2 Position, Vec2 Velocity, ushort ObjectID, int ClientFrame, int InputState, ushort Holding)
+    public NMDuckPhysicsState(Vector2 Position, Vector2 Velocity, ushort ObjectID, int ClientFrame, int InputState, ushort Holding)
         : base(Position, Velocity, ObjectID, ClientFrame)
     {
         inputState = InputState;

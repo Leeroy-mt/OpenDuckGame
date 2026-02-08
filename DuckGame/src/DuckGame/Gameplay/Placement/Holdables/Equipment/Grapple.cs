@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -16,7 +17,7 @@ public class Grapple : Equipment, ISwing
 
     public Rope _rope;
 
-    protected Vec2 _barrelOffsetTL;
+    protected Vector2 _barrelOffsetTL;
 
     private float _grappleLength = 200f;
 
@@ -24,11 +25,11 @@ public class Grapple : Equipment, ISwing
 
     public Sprite _ropeSprite;
 
-    protected Vec2 _wallPoint;
+    protected Vector2 _wallPoint;
 
-    private Vec2 _lastHit = Vec2.Zero;
+    private Vector2 _lastHit = Vector2.Zero;
 
-    protected Vec2 _grappleTravel;
+    protected Vector2 _grappleTravel;
 
     protected Sprite _sightHit;
 
@@ -38,27 +39,27 @@ public class Grapple : Equipment, ISwing
 
     private int _lagFrames;
 
-    public Vec2 barrelPosition => Offset(barrelOffset);
+    public Vector2 barrelPosition => Offset(barrelOffset);
 
-    public Vec2 barrelOffset => _barrelOffsetTL - Center;
+    public Vector2 barrelOffset => _barrelOffsetTL - Center;
 
     public bool hookInGun => _harpoon.inGun;
 
-    public Vec2 wallPoint => _wallPoint;
+    public Vector2 wallPoint => _wallPoint;
 
-    public Vec2 grappelTravel => _grappleTravel;
+    public Vector2 grappelTravel => _grappleTravel;
 
     public Grapple(float xpos, float ypos)
         : base(xpos, ypos)
     {
         _sprite = new SpriteMap("grappleArm", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-5f, -4f);
-        collisionSize = new Vec2(11f, 7f);
-        _offset = new Vec2(0f, 7f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-5f, -4f);
+        collisionSize = new Vector2(11f, 7f);
+        _offset = new Vector2(0f, 7f);
         _equippedDepth = 12;
-        _barrelOffsetTL = new Vec2(10f, 4f);
+        _barrelOffsetTL = new Vector2(10f, 4f);
         _jumpMod = true;
         thickness = 0.1f;
         _laserTex = Content.Load<Tex2D>("pointerLaser");
@@ -86,7 +87,7 @@ public class Grapple : Equipment, ISwing
         _sightHit = new Sprite("laserSightHit");
         _sightHit.CenterOrigin();
         _ropeSprite = new Sprite("grappleWire");
-        _ropeSprite.Center = new Vec2(8f, 0f);
+        _ropeSprite.Center = new Vector2(8f, 0f);
     }
 
     public Rope GetRopeParent(Thing child)
@@ -127,7 +128,7 @@ public class Grapple : Equipment, ISwing
             r.attach1 = r;
             r._thing = null;
             Level.Add(r);
-            Vec2 pos = CompressedVec2Binding.GetUncompressedVec2(ropeData.ReadInt());
+            Vector2 pos = CompressedVec2Binding.GetUncompressedVec2(ropeData.ReadInt());
             if (r == _rope)
             {
                 r.attach1 = r;
@@ -229,7 +230,7 @@ public class Grapple : Equipment, ISwing
             }
             if (_harpoon.inGun)
             {
-                Vec2 pos = Offset(barrelOffset);
+                Vector2 pos = Offset(barrelOffset);
                 if (_lagFrames > 0)
                 {
                     _lagFrames--;
@@ -354,7 +355,7 @@ public class Grapple : Equipment, ISwing
             frictionMult = 1f;
             gravMultiplier = 1f;
         }
-        Vec2 travel = _rope.attach1.Position - _rope.attach2.Position;
+        Vector2 travel = _rope.attach1.Position - _rope.attach2.Position;
         if (_rope.properLength < 0f)
         {
             _rope.properLength = (_rope.startLength = travel.Length());
@@ -363,7 +364,7 @@ public class Grapple : Equipment, ISwing
         {
             return;
         }
-        travel = travel.Normalized;
+        travel.Normalize(); // TODO: travel = Vector2.Normalize(travel)
         if (base.duck != null)
         {
             base.duck.grappleMul = true;
@@ -375,7 +376,7 @@ public class Grapple : Equipment, ISwing
             }
             _ = attach.Position;
             attach.Position = _rope.attach2.Position + travel * _rope.properLength;
-            Vec2 dif = attach.Position - attach.lastPosition;
+            Vector2 dif = attach.Position - attach.lastPosition;
             attach.hSpeed = dif.X;
             attach.vSpeed = dif.Y;
         }
@@ -383,7 +384,7 @@ public class Grapple : Equipment, ISwing
         {
             _ = Position;
             Position = _rope.attach2.Position + travel * _rope.properLength;
-            Vec2 dif2 = Position - base.lastPosition;
+            Vector2 dif2 = Position - base.lastPosition;
             hSpeed = dif2.X;
             vSpeed = dif2.Y;
         }
@@ -397,18 +398,18 @@ public class Grapple : Equipment, ISwing
         }
         else if (_autoOffset)
         {
-            Vec2 off = _offset;
+            Vector2 off = _offset;
             if (_equippedDuck.offDir < 0)
             {
                 off.X *= -1f;
             }
-            Vec2 handOffset = Vec2.Zero;
+            Vector2 handOffset = Vector2.Zero;
             if (_equippedDuck.holdObject != null)
             {
                 handOffset = _equippedDuck.holdObject.handOffset;
                 handOffset.X *= _equippedDuck.offDir;
             }
-            Vec2 pos = _equippedDuck.armPosition + handOffset;
+            Vector2 pos = _equippedDuck.armPosition + handOffset;
             Position = pos;
         }
         if (!Options.Data.fireGlow)

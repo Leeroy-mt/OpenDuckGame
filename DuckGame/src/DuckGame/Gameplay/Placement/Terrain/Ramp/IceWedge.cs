@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -11,9 +12,9 @@ public class IceWedge : MaterialThing
         _canFlipVert = true;
         graphic = new SpriteMap("iceWedge", 17, 17);
         base.hugWalls = WallHug.Left | WallHug.Right | WallHug.Floor;
-        Center = new Vec2(8f, 14f);
-        collisionSize = new Vec2(14f, 8f);
-        collisionOffset = new Vec2(-7f, -6f);
+        Center = new Vector2(8f, 14f);
+        collisionSize = new Vector2(14f, 8f);
+        collisionOffset = new Vector2(-7f, -6f);
         base.Depth = -0.9f;
     }
 
@@ -71,31 +72,31 @@ public class IceWedge : MaterialThing
             if (flipHorizontal)
             {
                 base.AngleDegrees = 180f;
-                Center = new Vec2(8f, 14f);
-                collisionSize = new Vec2(14f, 8f);
-                collisionOffset = new Vec2(-7f, -2f);
+                Center = new Vector2(8f, 14f);
+                collisionSize = new Vector2(14f, 8f);
+                collisionOffset = new Vector2(-7f, -2f);
             }
             else
             {
                 base.AngleDegrees = 90f;
-                Center = new Vec2(3f, 9f);
-                collisionSize = new Vec2(14f, 8f);
-                collisionOffset = new Vec2(-7f, -2f);
+                Center = new Vector2(3f, 9f);
+                collisionSize = new Vector2(14f, 8f);
+                collisionOffset = new Vector2(-7f, -2f);
             }
         }
         else if (flipHorizontal)
         {
             base.AngleDegrees = 270f;
-            Center = new Vec2(3f, 9f);
-            collisionSize = new Vec2(14f, 8f);
-            collisionOffset = new Vec2(-7f, -6f);
+            Center = new Vector2(3f, 9f);
+            collisionSize = new Vector2(14f, 8f);
+            collisionOffset = new Vector2(-7f, -6f);
         }
         else
         {
             base.AngleDegrees = 0f;
-            Center = new Vec2(8f, 14f);
-            collisionSize = new Vec2(14f, 8f);
-            collisionOffset = new Vec2(-7f, -6f);
+            Center = new Vector2(8f, 14f);
+            collisionSize = new Vector2(14f, 8f);
+            collisionOffset = new Vector2(-7f, -6f);
         }
         base.Draw();
     }

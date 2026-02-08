@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +12,7 @@ public class GhostObject
 {
     public byte removeLogCooldown;
 
-    public Vec2 prevPosition;
+    public Vector2 prevPosition;
 
     public float prevRotation;
 
@@ -199,7 +200,7 @@ public class GhostObject
         }
         if (state is CompressedVec2Binding || state is InterpolatedVec2Binding)
         {
-            return new BufferedGhostProperty<Vec2>
+            return new BufferedGhostProperty<Vector2>
             {
                 binding = state,
                 value = value,
@@ -227,9 +228,9 @@ public class GhostObject
                 tick = tick
             };
         }
-        if (state.type == typeof(Vec2))
+        if (state.type == typeof(Vector2))
         {
-            return new BufferedGhostProperty<Vec2>
+            return new BufferedGhostProperty<Vector2>
             {
                 binding = state,
                 value = value,
@@ -739,7 +740,7 @@ public class GhostObject
         return bufferedState;
     }
 
-    private Vec2 Slerp(Vec2 from, Vec2 to, float step)
+    private Vector2 Slerp(Vector2 from, Vector2 to, float step)
     {
         if (step == 0f)
         {
@@ -749,7 +750,7 @@ public class GhostObject
         {
             return to;
         }
-        double theta = Math.Acos(Vec2.Dot(from, to));
+        double theta = Math.Acos(Vector2.Dot(from, to));
         if (theta == 0.0)
         {
             return to;

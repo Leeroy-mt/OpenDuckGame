@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class Harpoon : Thing
@@ -49,9 +51,9 @@ public class Harpoon : Thing
         _belongsTo = belongsTo;
         owner = belongsTo;
         graphic = new Sprite("hook");
-        Center = new Vec2(3f, 3f);
-        collisionOffset = new Vec2(-5f, -1.5f);
-        collisionSize = new Vec2(10f, 5f);
+        Center = new Vector2(3f, 3f);
+        collisionOffset = new Vector2(-5f, -1.5f);
+        collisionSize = new Vector2(10f, 5f);
     }
 
     public override void Update()
@@ -78,21 +80,21 @@ public class Harpoon : Thing
         }
     }
 
-    public void Latch(Vec2 point)
+    public void Latch(Vector2 point)
     {
         _inGun = false;
         Position = point;
         _stuck = true;
     }
 
-    public void SetStuckPoint(Vec2 pPoint)
+    public void SetStuckPoint(Vector2 pPoint)
     {
         _inGun = false;
         Position = pPoint;
         _stuck = true;
     }
 
-    public void Fire(Vec2 point, Vec2 travel)
+    public void Fire(Vector2 point, Vector2 travel)
     {
         if (!_inGun)
         {

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Stuff|Spikes")]
@@ -13,15 +15,15 @@ public class Saws : MaterialThing, IDontMove
         _sprite = new SpriteMap("movingSpikes", 16, 21);
         _sprite.speed = 0.3f;
         graphic = _sprite;
-        Center = new Vec2(8f, 14f);
-        collisionOffset = new Vec2(-6f, -2f);
-        collisionSize = new Vec2(12f, 4f);
+        Center = new Vector2(8f, 14f);
+        collisionOffset = new Vector2(-6f, -2f);
+        collisionSize = new Vector2(12f, 4f);
         base.Depth = 0.28f;
         _editorName = "Saws Up";
         editorTooltip = "Deadly hazards, able to cut through even the strongest of boots";
         thickness = 3f;
         physicsMaterial = PhysicsMaterial.Metal;
-        base.editorOffset = new Vec2(0f, 6f);
+        base.editorOffset = new Vector2(0f, 6f);
         base.hugWalls = WallHug.Floor;
         _editorImageCenter = true;
         editorCycleType = typeof(SawsRight);

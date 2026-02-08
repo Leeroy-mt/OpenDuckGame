@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class MetalRebound : Thing
@@ -41,7 +43,7 @@ public class MetalRebound : Thing
         base.Alpha = 1f;
         _sprite.frame = Rando.Int(3);
         _sprite.flipH = offDir < 0;
-        Center = new Vec2(16f, 8f);
+        Center = new Vector2(16f, 8f);
     }
 
     public override void Update()

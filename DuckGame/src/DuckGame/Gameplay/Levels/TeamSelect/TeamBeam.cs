@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,11 +33,11 @@ public class TeamBeam : MaterialThing
         _selectBeam = new Sprite("selectBeam");
         _selectBeam.Alpha = 0.9f;
         _selectBeam.Depth = -0.8f;
-        _selectBeam.Center = new Vec2(_selectBeam.w / 2, 0f);
+        _selectBeam.Center = new Vector2(_selectBeam.w / 2, 0f);
         base.Depth = 0f;
-        _collisionOffset = new Vec2(0f - (float)(_selectBeam.w / 2) * 0.8f, 0f);
-        _collisionSize = new Vec2((float)_selectBeam.w * 0.8f, 180f);
-        Center = new Vec2(_selectBeam.w / 2);
+        _collisionOffset = new Vector2(0f - (float)(_selectBeam.w / 2) * 0.8f, 0f);
+        _collisionSize = new Vector2((float)_selectBeam.w * 0.8f, 180f);
+        Center = new Vector2(_selectBeam.w / 2);
         thickness = 10f;
     }
 
@@ -105,12 +106,12 @@ public class TeamBeam : MaterialThing
         if (TeamSelect2.zoomedOut)
         {
             _beamHeight = 270f;
-            _collisionSize = new Vec2((float)_selectBeam.w * 0.8f, 270f);
+            _collisionSize = new Vector2((float)_selectBeam.w * 0.8f, 270f);
         }
         else
         {
             _beamHeight = 180f;
-            _collisionSize = new Vec2((float)_selectBeam.w * 0.8f, 180f);
+            _collisionSize = new Vector2((float)_selectBeam.w * 0.8f, 180f);
         }
         _selectBeam.color = new Color(0.3f, 0.3f + _wave2.normalized * 0.2f, 0.5f + _wave.normalized * 0.3f) * (1f + _flash);
         _flash = Maths.CountDown(_flash, 0.1f);
@@ -254,7 +255,7 @@ public class TeamBeam : MaterialThing
             g.hSpeed = 0f;
             if (Math.Abs(Position.X - g.Position.X) < 6f)
             {
-                g.Position = Vec2.Lerp(g.Position, new Vec2(Position.X, g.Position.Y - 3f), 0.1f);
+                g.Position = Vector2.Lerp(g.Position, new Vector2(Position.X, g.Position.Y - 3f), 0.1f);
                 g.Alpha = Maths.LerpTowards(g.Alpha, 0f, 0.1f);
                 if (g.Alpha <= 0f)
                 {
@@ -265,17 +266,17 @@ public class TeamBeam : MaterialThing
             }
             else
             {
-                g.Position = Vec2.Lerp(g.Position, new Vec2(Position.X, g.Position.Y), 0.2f);
+                g.Position = Vector2.Lerp(g.Position, new Vector2(Position.X, g.Position.Y), 0.2f);
             }
         }
         base.Update();
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         for (int i = 0; i < 6; i++)
         {
-            Level.Add(new GlassParticle(hitPos.X, hitPos.Y, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+            Level.Add(new GlassParticle(hitPos.X, hitPos.Y, new Vector2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
         }
         _flash = 1f;
         if (bullet != null)

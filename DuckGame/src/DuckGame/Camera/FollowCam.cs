@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,13 @@ public class FollowCam : Camera
 
     private HashSet<Thing> _follow = new HashSet<Thing>();
 
-    private Dictionary<Thing, Vec2> _prevPositions = new Dictionary<Thing, Vec2>();
+    private Dictionary<Thing, Vector2> _prevPositions = new Dictionary<Thing, Vector2>();
 
     private new float _viewSize;
 
     public float manualViewSize = -1f;
 
-    public Vec2 _center;
+    public Vector2 _center;
 
     private float _lerpSpeed = 1f;
 
@@ -35,7 +36,7 @@ public class FollowCam : Camera
 
     private bool _startedFollowing;
 
-    private Vec2 _averagePosition = Vec2.Zero;
+    private Vector2 _averagePosition = Vector2.Zero;
 
     private bool _startCentered = true;
 
@@ -291,18 +292,18 @@ public class FollowCam : Camera
         float rightmost = -99999f;
         float topmost = 99999f;
         float bottommost = -99999f;
-        Vec2 average = Vec2.Zero;
+        Vector2 average = Vector2.Zero;
         _removeList.Clear();
         foreach (Thing t in _follow)
         {
-            Vec2 followPos = t.cameraPosition;
+            Vector2 followPos = t.cameraPosition;
             if (t.removeFromLevel)
             {
                 _removeList.Add(t);
             }
             if (_prevPositions.ContainsKey(t))
             {
-                Vec2 pos = _prevPositions[t];
+                Vector2 pos = _prevPositions[t];
                 if (_overFollow || boost || t.overfollow > 0f)
                 {
                     float overfollowVal = 0.3f;
@@ -310,12 +311,12 @@ public class FollowCam : Camera
                     {
                         overfollowVal = t.overfollow;
                     }
-                    Vec2 move = (t.cameraPosition - pos) * 24f;
+                    Vector2 move = (t.cameraPosition - pos) * 24f;
                     if (move.Length() > 100f)
                     {
-                        move = move.Normalized * 100f;
+                        move = Vector2.Normalize(move) * 100f;
                     }
-                    Vec2 over = t.cameraPosition + move;
+                    Vector2 over = t.cameraPosition + move;
                     followPos = Lerp.Vec2Smooth(followPos, over, overfollowVal);
                 }
                 if ((pos - followPos).Length() > 2500f && !_allowWarps)

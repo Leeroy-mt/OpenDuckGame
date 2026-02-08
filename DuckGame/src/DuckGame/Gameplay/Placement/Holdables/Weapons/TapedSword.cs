@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class TapedSword : Sword
@@ -6,11 +8,11 @@ public class TapedSword : Sword
         : base(xval, yval)
     {
         graphic = new Sprite("tapedSword");
-        Center = new Vec2(4f, 44f);
-        collisionOffset = new Vec2(-2f, -16f);
-        collisionSize = new Vec2(4f, 18f);
-        centerHeld = new Vec2(4f, 44f);
-        centerUnheld = new Vec2(4f, 22f);
+        Center = new Vector2(4f, 44f);
+        collisionOffset = new Vector2(-2f, -16f);
+        collisionSize = new Vector2(4f, 18f);
+        centerHeld = new Vector2(4f, 44f);
+        centerUnheld = new Vector2(4f, 22f);
     }
 
     public override bool CanTapeTo(Thing pThing)

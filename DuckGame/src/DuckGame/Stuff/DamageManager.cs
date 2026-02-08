@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -69,7 +70,7 @@ public static class DamageManager
         return _damageMaps[_nextDamageMap];
     }
 
-    public static void RegisterHit(Vec2 pt, Thing t, DamageType tp)
+    public static void RegisterHit(Vector2 pt, Thing t, DamageType tp)
     {
         bool found = false;
         foreach (DamageHit hit in _hits)
@@ -114,7 +115,7 @@ public static class DamageManager
             _hits.RemoveAt(index);
             float s = (float)hit.thing.graphic.width / (float)hit.thing.graphic.width;
             Camera cam = new Camera(0f, 0f, hit.thing.graphic.width, hit.thing.graphic.height);
-            cam.position = new Vec2(hit.thing.X - hit.thing.CenterX * s, hit.thing.Y - hit.thing.CenterY * s);
+            cam.position = new Vector2(hit.thing.X - hit.thing.CenterX * s, hit.thing.Y - hit.thing.CenterY * s);
             Graphics.SetRenderTarget(hit.thing.graphic.renderTexture);
             DepthStencilState state = new DepthStencilState
             {
@@ -125,7 +126,7 @@ public static class DamageManager
                 DepthBufferEnable = false
             };
             Graphics.screen.Begin(SpriteSortMode.BackToFront, _blendState, SamplerState.PointClamp, state, RasterizerState.CullNone, null, cam.getMatrix());
-            foreach (Vec2 p in hit.points)
+            foreach (Vector2 p in hit.points)
             {
                 _bulletHoles.Depth = 1f;
                 _bulletHoles.X = p.X + Rando.Float(-1f, 1f);

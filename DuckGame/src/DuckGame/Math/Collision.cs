@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -8,7 +9,7 @@ public static class Collision
     {
     }
 
-    public static bool Point(Vec2 point, Thing t)
+    public static bool Point(Vector2 point, Thing t)
     {
         if (point.X >= t.left && point.X <= t.right && point.Y >= t.top && point.Y <= t.bottom)
         {
@@ -17,7 +18,7 @@ public static class Collision
         return false;
     }
 
-    public static bool Point(Vec2 point, Rectangle r)
+    public static bool Point(Vector2 point, Rectangle r)
     {
         if (point.X >= r.Left && point.X <= r.Right && point.Y >= r.Top && point.Y <= r.Bottom)
         {
@@ -26,7 +27,7 @@ public static class Collision
         return false;
     }
 
-    public static bool Line(Vec2 point1, Vec2 point2, Thing t)
+    public static bool Line(Vector2 point1, Vector2 point2, Thing t)
     {
         double a_rectangleMinX = t.left;
         double a_rectangleMinY = t.top;
@@ -82,7 +83,7 @@ public static class Collision
         return true;
     }
 
-    public static bool Line(Vec2 point1, Vec2 point2, Rectangle rect)
+    public static bool Line(Vector2 point1, Vector2 point2, Rectangle rect)
     {
         double a_rectangleMinX = rect.x;
         double a_rectangleMinY = rect.y;
@@ -138,12 +139,12 @@ public static class Collision
         return true;
     }
 
-    public static bool CCW(Vec2 A, Vec2 B, Vec2 C)
+    public static bool CCW(Vector2 A, Vector2 B, Vector2 C)
     {
         return (C.Y - A.Y) * (B.X - A.X) > (B.Y - A.Y) * (C.X - A.X);
     }
 
-    public static bool LineIntersect(Vec2 p1, Vec2 p2, Vec2 p3, Vec2 p4)
+    public static bool LineIntersect(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
     {
         if (CCW(p1, p3, p4) != CCW(p2, p3, p4))
         {
@@ -152,9 +153,9 @@ public static class Collision
         return false;
     }
 
-    public static bool Circle(Vec2 center, float radius, Thing t)
+    public static bool Circle(Vector2 center, float radius, Thing t)
     {
-        Vec2 closestPoint = new Vec2(center);
+        Vector2 closestPoint = center;
         if (center.X < t.left)
         {
             closestPoint.X = t.left;
@@ -171,7 +172,7 @@ public static class Collision
         {
             closestPoint.Y = t.bottom;
         }
-        Vec2 diff = closestPoint - center;
+        Vector2 diff = closestPoint - center;
         if (diff.X * diff.X + diff.Y * diff.Y > radius * radius)
         {
             return false;
@@ -179,9 +180,9 @@ public static class Collision
         return true;
     }
 
-    public static bool Circle(Vec2 center, float radius, Rectangle t)
+    public static bool Circle(Vector2 center, float radius, Rectangle t)
     {
-        Vec2 closestPoint = new Vec2(center);
+        Vector2 closestPoint = center;
         if (center.X < t.Left)
         {
             closestPoint.X = t.Left;
@@ -198,7 +199,7 @@ public static class Collision
         {
             closestPoint.Y = t.Bottom;
         }
-        Vec2 diff = closestPoint - center;
+        Vector2 diff = closestPoint - center;
         if (diff.X * diff.X + diff.Y * diff.Y > radius * radius)
         {
             return false;
@@ -206,7 +207,7 @@ public static class Collision
         return true;
     }
 
-    public static bool Rect(Vec2 tl1, Vec2 br1, Thing t)
+    public static bool Rect(Vector2 tl1, Vector2 br1, Thing t)
     {
         if (!(br1.Y < t.top) && !(tl1.Y > t.bottom) && !(tl1.X > t.right))
         {
@@ -215,7 +216,7 @@ public static class Collision
         return false;
     }
 
-    public static bool Rect(Vec2 tl1, Vec2 br1, Rectangle t)
+    public static bool Rect(Vector2 tl1, Vector2 br1, Rectangle t)
     {
         if (!(br1.Y < t.y) && !(tl1.Y > t.Bottom) && !(tl1.X > t.Right))
         {
@@ -242,7 +243,7 @@ public static class Collision
         return false;
     }
 
-    public static Vec2 LineIntersectPoint(Vec2 line1V1, Vec2 line1V2, Vec2 line2V1, Vec2 line2V2)
+    public static Vector2 LineIntersectPoint(Vector2 line1V1, Vector2 line1V2, Vector2 line2V1, Vector2 line2V2)
     {
         float A1 = line1V2.Y - line1V1.Y;
         float B1 = line1V1.X - line1V2.X;
@@ -253,16 +254,16 @@ public static class Collision
         float det = A1 * B2 - A2 * B1;
         if (det == 0f)
         {
-            return Vec2.Zero;
+            return Vector2.Zero;
         }
         float x = (B2 * C1 - B1 * C2) / det;
         float y = (A1 * C2 - A2 * C1) / det;
-        return new Vec2(x, y);
+        return new Vector2(x, y);
     }
 
-    public static Vec2 LinePoint(Vec2 point1, Vec2 point2, Thing thing)
+    public static Vector2 LinePoint(Vector2 point1, Vector2 point2, Thing thing)
     {
-        Vec2 dif = point2 - point1;
+        Vector2 dif = point2 - point1;
         float[] p = new float[4]
         {
             0f - dif.X,
@@ -285,7 +286,7 @@ public static class Collision
             {
                 if (q[i] < 0f)
                 {
-                    return Vec2.Zero;
+                    return Vector2.Zero;
                 }
                 continue;
             }
@@ -301,14 +302,14 @@ public static class Collision
         }
         if (u1 > u2 || u1 > 1f || u1 < 0f)
         {
-            return Vec2.Zero;
+            return Vector2.Zero;
         }
-        return new Vec2(point1.X + u1 * dif.X, point1.Y + u1 * dif.Y);
+        return new Vector2(point1.X + u1 * dif.X, point1.Y + u1 * dif.Y);
     }
 
-    public static Vec2 LinePoint(Vec2 point1, Vec2 point2, Rectangle rect)
+    public static Vector2 LinePoint(Vector2 point1, Vector2 point2, Rectangle rect)
     {
-        Vec2 dif = point2 - point1;
+        Vector2 dif = point2 - point1;
         float[] p = new float[4]
         {
             0f - dif.X,
@@ -331,7 +332,7 @@ public static class Collision
             {
                 if (q[i] < 0f)
                 {
-                    return Vec2.Zero;
+                    return Vector2.Zero;
                 }
                 continue;
             }
@@ -347,8 +348,8 @@ public static class Collision
         }
         if (u1 > u2 || u1 > 1f || u1 < 0f)
         {
-            return Vec2.Zero;
+            return Vector2.Zero;
         }
-        return new Vec2(point1.X + u1 * dif.X, point1.Y + u1 * dif.Y);
+        return new Vector2(point1.X + u1 * dif.X, point1.Y + u1 * dif.Y);
     }
 }

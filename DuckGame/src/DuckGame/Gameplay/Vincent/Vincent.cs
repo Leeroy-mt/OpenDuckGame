@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -1261,7 +1262,7 @@ public class Vincent
             Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, state, RasterizerState.CullNone, null, cam.getMatrix());
             string priceString = "$" + Math.Min(Math.Max(products[i].cost, 0), 9999);
             _furniTag.frame = priceString.Length - 1;
-            _priceFontRightways.Draw(priceString, new Vec2((float)(5 - priceString.Length) / 5f * 20f, 0f), (products[i].cost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : Color.Black, 0.97f);
+            _priceFontRightways.Draw(priceString, new Vector2((float)(5 - priceString.Length) / 5f * 20f, 0f), (products[i].cost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : Color.Black, 0.97f);
             Graphics.screen.End();
             Graphics.SetRenderTarget(null);
         }
@@ -1269,15 +1270,15 @@ public class Vincent
 
     public static void Draw()
     {
-        new Vec2(-200f + _listLerp * 270f, 20f);
+        new Vector2(-200f + _listLerp * 270f, 20f);
         if (_challengeLerp < 0.01f && _chancyLerp < 0.01f)
         {
             return;
         }
-        Vec2 dealerOffset = new Vec2(100f * (1f - _chancyLerp), 100f * (1f - _chancyLerp) - 4f);
-        Vec2 descSize = new Vec2(280f, 30f);
-        Vec2 descPos = new Vec2(20f, 132f) + dealerOffset;
-        Graphics.DrawRect(descPos + new Vec2(-2f, 0f), descPos + descSize + new Vec2(2f, 0f), Color.Black, 0.96f);
+        Vector2 dealerOffset = new Vector2(100f * (1f - _chancyLerp), 100f * (1f - _chancyLerp) - 4f);
+        Vector2 descSize = new Vector2(280f, 30f);
+        Vector2 descPos = new Vector2(20f, 132f) + dealerOffset;
+        Graphics.DrawRect(descPos + new Vector2(-2f, 0f), descPos + descSize + new Vector2(2f, 0f), Color.Black, 0.96f);
         int index = 0;
         for (int i = _lineProgress.Count - 1; i >= 0; i--)
         {
@@ -1286,7 +1287,7 @@ public class Vincent
             float xpos = descPos.X + descSize.X / 2f - wide / 2f;
             for (int j = _lineProgress[i].segments.Count - 1; j >= 0; j--)
             {
-                _descriptionFont.Draw(_lineProgress[i].segments[j].text, new Vec2(xpos, ypos), _lineProgress[i].segments[j].color, 0.97f);
+                _descriptionFont.Draw(_lineProgress[i].segments[j].text, new Vector2(xpos, ypos), _lineProgress[i].segments[j].color, 0.97f);
                 xpos += (float)(_lineProgress[i].segments[j].text.Length * 8);
             }
             index++;
@@ -1320,7 +1321,7 @@ public class Vincent
         _newSticker.Alpha = alpha;
         _rareSticker.Alpha = alpha;
         _soldSprite.Alpha = alpha;
-        Vec2 furniPos = new Vec2(84f, 46f);
+        Vector2 furniPos = new Vector2(84f, 46f);
         _cheapTape.Depth = 0.968f;
         _furniFrame.Depth = 0.96f;
         _furniFill.Depth = 0.965f;
@@ -1332,10 +1333,10 @@ public class Vincent
         if (products.Count > 0)
         {
             int idx = 0;
-            Vec2 framePos = new Vec2(furniPos.X - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y);
+            Vector2 framePos = new Vector2(furniPos.X - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y);
             if (products.Count == 1)
             {
-                framePos = new Vec2(furniPos.X - 200f + Math.Min(_showLerp * 275f, 240f), furniPos.Y + 30f);
+                framePos = new Vector2(furniPos.X - 200f + Math.Min(_showLerp * 275f, 240f), furniPos.Y + 30f);
             }
             Graphics.Draw(_furniFrame, framePos.X, framePos.Y);
             int pCost = products[0].cost;
@@ -1344,7 +1345,7 @@ public class Vincent
             {
                 crossout = true;
                 pCost = products[0].originalCost;
-                Graphics.Draw(_priceTargets[0], new Vec2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
+                Graphics.Draw(_priceTargets[0], new Vector2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.9685f);
                 Graphics.Draw(_cheapTape, framePos.X, framePos.Y);
             }
             _furniFill.color = products[idx].color;
@@ -1379,12 +1380,12 @@ public class Vincent
                 {
                     vertString = vertString + text[k] + "\n";
                 }
-                ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString, new Vec2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
+                ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString, new Vector2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
             }
             if (products.Count > 1)
             {
                 idx = 1;
-                framePos = new Vec2(furniPos.X + 70f - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y);
+                framePos = new Vector2(furniPos.X + 70f - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y);
                 Graphics.Draw(_furniFrame, framePos.X, framePos.Y);
                 pCost = products[1].cost;
                 crossout = false;
@@ -1392,7 +1393,7 @@ public class Vincent
                 {
                     crossout = true;
                     pCost = products[1].originalCost;
-                    Graphics.Draw(_priceTargets[1], new Vec2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
+                    Graphics.Draw(_priceTargets[1], new Vector2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.9685f);
                     Graphics.Draw(_cheapTape, framePos.X, framePos.Y);
                 }
                 _furniFill.color = products[idx].color;
@@ -1427,13 +1428,13 @@ public class Vincent
                     {
                         vertString2 = vertString2 + text[k] + "\n";
                     }
-                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString2, new Vec2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
+                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString2, new Vector2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
                 }
             }
             if (products.Count > 2)
             {
                 idx = 2;
-                framePos = new Vec2(furniPos.X - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y + 54f);
+                framePos = new Vector2(furniPos.X - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y + 54f);
                 Graphics.Draw(_furniFrame, framePos.X, framePos.Y);
                 pCost = products[2].cost;
                 crossout = false;
@@ -1441,7 +1442,7 @@ public class Vincent
                 {
                     crossout = true;
                     pCost = products[2].originalCost;
-                    Graphics.Draw(_priceTargets[2], new Vec2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
+                    Graphics.Draw(_priceTargets[2], new Vector2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.9685f);
                     Graphics.Draw(_cheapTape, framePos.X, framePos.Y);
                 }
                 _furniFill.color = products[idx].color;
@@ -1476,13 +1477,13 @@ public class Vincent
                     {
                         vertString3 = vertString3 + text[k] + "\n";
                     }
-                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString3, new Vec2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
+                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString3, new Vector2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
                 }
             }
             if (products.Count > 3)
             {
                 idx = 3;
-                framePos = new Vec2(furniPos.X + 70f - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y + 54f);
+                framePos = new Vector2(furniPos.X + 70f - 200f + Math.Min(_showLerp * (float)(200 + 40 * idx), 200f), furniPos.Y + 54f);
                 Graphics.Draw(_furniFrame, framePos.X, framePos.Y);
                 pCost = products[3].cost;
                 crossout = false;
@@ -1490,7 +1491,7 @@ public class Vincent
                 {
                     crossout = true;
                     pCost = products[3].originalCost;
-                    Graphics.Draw(_priceTargets[3], new Vec2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vec2.Zero, Vec2.One, SpriteEffects.None, 0.9685f);
+                    Graphics.Draw(_priceTargets[3], new Vector2(framePos.X - 13f, framePos.Y - 27f), null, Color.White, 0.3f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.9685f);
                     Graphics.Draw(_cheapTape, framePos.X, framePos.Y);
                 }
                 _furniFill.color = products[idx].color;
@@ -1525,7 +1526,7 @@ public class Vincent
                     {
                         vertString4 = vertString4 + text[k] + "\n";
                     }
-                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString4, new Vec2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
+                    ((!crossout) ? _priceFont : _priceFontCrossout).Draw(vertString4, new Vector2(framePos.X + 24f, framePos.Y - 16f), (pCost > Profiles.experienceProfile.littleManBucks) ? Colors.DGRed : ((!crossout) ? Color.Black : Color.White), 0.974f);
                 }
             }
         }
@@ -1536,11 +1537,11 @@ public class Vincent
             {
                 sel = _selectIndex;
             }
-            Vec2 namePos = new Vec2(20f, 6f);
-            Vec2 nameSize = new Vec2(226f, 11f);
+            Vector2 namePos = new Vector2(20f, 6f);
+            Vector2 nameSize = new Vector2(226f, 11f);
             Graphics.DrawRect(namePos, namePos + nameSize, Color.Black, 0.96f);
             string name = products[sel].name;
-            Graphics.DrawString(name, namePos + new Vec2(nameSize.X / 2f - Graphics.GetStringWidth(name) / 2f, 2f), new Color(163, 206, 39) * alpha, 0.97f);
+            Graphics.DrawString(name, namePos + new Vector2(nameSize.X / 2f - Graphics.GetStringWidth(name) / 2f, 2f), new Color(163, 206, 39) * alpha, 0.97f);
             _tail.Depth = 0.5f;
             _tail.Alpha = alpha;
             _tail.flipH = false;

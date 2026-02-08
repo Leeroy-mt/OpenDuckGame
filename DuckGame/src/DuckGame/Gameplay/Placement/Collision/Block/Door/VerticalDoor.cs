@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Stuff|Doors")]
@@ -19,13 +21,13 @@ public class VerticalDoor : Block, IPlatform
 
     protected bool _opened;
 
-    protected Vec2 _topLeft;
+    protected Vector2 _topLeft;
 
-    protected Vec2 _topRight;
+    protected Vector2 _topRight;
 
-    protected Vec2 _bottomLeft;
+    protected Vector2 _bottomLeft;
 
-    protected Vec2 _bottomRight;
+    protected Vector2 _bottomRight;
 
     protected bool _cornerInit;
 
@@ -44,9 +46,9 @@ public class VerticalDoor : Block, IPlatform
     {
         _sensorSprite = (_sprite = new SpriteMap("verticalDoor", 16, 32));
         graphic = _sprite;
-        Center = new Vec2(8f, 24f);
-        collisionSize = new Vec2(6f, 32f);
-        collisionOffset = new Vec2(-3f, -24f);
+        Center = new Vector2(8f, 24f);
+        collisionSize = new Vector2(6f, 32f);
+        collisionOffset = new Vector2(-3f, -24f);
         base.Depth = -0.5f;
         _editorName = "Vertical Door";
         thickness = 3f;
@@ -71,7 +73,7 @@ public class VerticalDoor : Block, IPlatform
         if (!slideLocked)
         {
             _sprite = _sensorSprite;
-            Duck hit = Level.CheckRect<Duck>(_topLeft - new Vec2(18f, 0f), _bottomRight + new Vec2(18f, 0f));
+            Duck hit = Level.CheckRect<Duck>(_topLeft - new Vector2(18f, 0f), _bottomRight + new Vector2(18f, 0f));
             if (hit != null)
             {
                 if (!filterDefault || !Profiles.IsDefault(hit.profile))
@@ -84,7 +86,7 @@ public class VerticalDoor : Block, IPlatform
                     showedWarning = true;
                 }
             }
-            else if (Level.CheckRectFilter(new Vec2(base.X - 4f, base.Y - 24f), new Vec2(base.X + 4f, base.Y + 8f), (PhysicsObject d) => !(d is TeamHat)) == null)
+            else if (Level.CheckRectFilter(new Vector2(base.X - 4f, base.Y - 24f), new Vector2(base.X + 4f, base.Y + 8f), (PhysicsObject d) => !(d is TeamHat)) == null)
             {
                 _desiredOpen = 0f;
             }
@@ -97,7 +99,7 @@ public class VerticalDoor : Block, IPlatform
             }
             _sprite = _noSensorSprite;
             _desiredOpen = (slideLockOpened ? 1f : 0f);
-            if (Level.CheckRectFilter(new Vec2(base.X - 4f, base.Y - 24f), new Vec2(base.X + 4f, base.Y + 8f), (PhysicsObject d) => !(d is TeamHat)) != null && _opened)
+            if (Level.CheckRectFilter(new Vector2(base.X - 4f, base.Y - 24f), new Vector2(base.X + 4f, base.Y + 8f), (PhysicsObject d) => !(d is TeamHat)) != null && _opened)
             {
                 _desiredOpen = 1f;
             }

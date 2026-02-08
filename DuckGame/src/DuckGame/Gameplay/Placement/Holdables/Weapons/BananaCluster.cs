@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Explosives")]
@@ -18,11 +20,11 @@ public class BananaCluster : Gun
         _sprite = new SpriteMap("banana", 16, 16);
         _sprite.frame = 4;
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-6f, -4f);
-        collisionSize = new Vec2(12f, 11f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-6f, -4f);
+        collisionSize = new Vector2(12f, 11f);
         physicsMaterial = PhysicsMaterial.Rubber;
-        _holdOffset = new Vec2(0f, 2f);
+        _holdOffset = new Vector2(0f, 2f);
         base.bouncy = 0.4f;
         friction = 0.05f;
         editorTooltip = "Need more than one banana? Have I got news for you...";

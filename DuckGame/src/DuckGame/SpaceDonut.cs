@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -27,8 +28,8 @@ public class SpaceDonut : Thing
         Random generator = new(4562280);
         Random old = Rando.generator;
         Rando.generator = generator;
-        Vec2 launch = new(-22, -14);
-        Vec2 start = new(130, 120);
+        Vector2 launch = new(-22, -14);
+        Vector2 start = new(130, 120);
         for (int i = 0; i < 20; i++)
         {
             _roids.Add(new Donuroid(start.X + Rando.Float(-6, 6), start.Y + Rando.Float(-18, 18), _donuroid, Rando.Int(0, 7), 1, 1));

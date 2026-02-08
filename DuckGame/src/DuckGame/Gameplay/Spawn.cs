@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +25,7 @@ public class Spawn
             usedSpawns.Add(teamSpawn);
             for (int i = 0; i < team.numMembers; i++)
             {
-                Vec2 pos = teamSpawn.Position;
+                Vector2 pos = teamSpawn.Position;
                 if (team.numMembers == 2)
                 {
                     float spread = 18.823528f;

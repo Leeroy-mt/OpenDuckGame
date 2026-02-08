@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class EscapingGhost : Thing
@@ -10,7 +12,7 @@ public class EscapingGhost : Thing
         _sprite = new SpriteMap("ghost", 32, 32);
         _sprite.AddAnimation("wither", 0.5f, false, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
         _sprite.SetAnimation("wither");
-        Center = new Vec2(16f, 32f);
+        Center = new Vector2(16f, 32f);
         base.Alpha = 0.6f;
         base.Depth = 0.9f;
         graphic = _sprite;

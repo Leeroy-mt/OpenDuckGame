@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -18,7 +19,7 @@ public class ControlWave : Thing, ITeleport
         _owner = owner;
         graphic = new Sprite("controlWave");
         graphic.flipH = offDir < 0;
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         base.ScaleX = (base.ScaleY = 0.2f);
         Angle = dir;
         _isLocalWave = local;
@@ -36,10 +37,10 @@ public class ControlWave : Thing, ITeleport
                 Level.Remove(this);
             }
             base.Alpha = Maths.NormalizeSection(_fade, 0.2f, 0.3f);
-            Vec2 dir = Vec2.Zero;
+            Vector2 dir = Vector2.Zero;
             if (_owner.controlledDuck == null && !_isNotControlRay)
             {
-                dir = new Vec2((float)Math.Cos(Angle), (float)(0.0 - Math.Sin(Angle)));
+                dir = new Vector2((float)Math.Cos(Angle), (float)(0.0 - Math.Sin(Angle)));
                 if (_isLocalWave)
                 {
                     foreach (IAmADuck d in Level.CheckCircleAll<IAmADuck>(Position, 3f))
@@ -69,7 +70,7 @@ public class ControlWave : Thing, ITeleport
                 {
                     dir = _owner.controlledDuck.cameraPosition - Position;
                     dir.Normalize();
-                    base.AngleDegrees = 0f - Maths.PointDirection(Vec2.Zero, dir);
+                    base.AngleDegrees = 0f - Maths.PointDirection(Vector2.Zero, dir);
                 }
                 _isNotControlRay = true;
             }
@@ -79,7 +80,7 @@ public class ControlWave : Thing, ITeleport
         {
             float num = (base.ScaleY = 1f);
             base.ScaleX = num;
-            Vec2 dir2 = new Vec2((float)Math.Cos(Angle), (float)(0.0 - Math.Sin(Angle)));
+            Vector2 dir2 = new Vector2((float)Math.Cos(Angle), (float)(0.0 - Math.Sin(Angle)));
             Position += dir2 * 2.6f;
         }
     }

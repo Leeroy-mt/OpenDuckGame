@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -54,9 +55,9 @@ public class Mine : Gun
         _sprite.AddAnimation("idle", 0.05f, true, 1, 2);
         _sprite.SetAnimation("pickup");
         graphic = _sprite;
-        Center = new Vec2(9f, 8f);
-        collisionOffset = new Vec2(-5f, -5f);
-        collisionSize = new Vec2(10f, 9f);
+        Center = new Vector2(9f, 8f);
+        collisionOffset = new Vector2(-5f, -5f);
+        collisionSize = new Vector2(10f, 9f);
         _mineFlash = new Sprite("mineFlash");
         _mineFlash.CenterOrigin();
         _mineFlash.Alpha = 0f;
@@ -102,19 +103,19 @@ public class Mine : Gun
         {
             canPickUp = false;
             _sprite.SetAnimation("idle");
-            collisionOffset = new Vec2(-6f, -2f);
-            collisionSize = new Vec2(12f, 3f);
+            collisionOffset = new Vector2(-6f, -2f);
+            collisionSize = new Vector2(12f, 3f);
             base.Depth = 0.8f;
             _hasOldDepth = false;
             thickness = 1f;
-            Center = new Vec2(9f, 14f);
+            Center = new Vector2(9f, 14f);
         }
         else
         {
             canPickUp = true;
             _sprite.SetAnimation("pickup");
-            collisionOffset = new Vec2(-5f, -4f);
-            collisionSize = new Vec2(10f, 8f);
+            collisionOffset = new Vector2(-5f, -4f);
+            collisionSize = new Vector2(10f, 8f);
             thickness = -1f;
         }
     }
@@ -123,16 +124,16 @@ public class Mine : Gun
     {
         if (!pin)
         {
-            collisionOffset = new Vec2(-6f, -2f);
-            collisionSize = new Vec2(12f, 3f);
+            collisionOffset = new Vector2(-6f, -2f);
+            collisionSize = new Vector2(12f, 3f);
         }
         base.Update();
         if (!pin && Math.Abs(prevAngle - Angle) > 0.1f)
         {
-            Vec2 colSizeWide = new Vec2(14f, 3f);
-            Vec2 colOffsetWide = new Vec2(-7f, -2f);
-            Vec2 colSizeTall = new Vec2(4f, 14f);
-            Vec2 colOffsetTall = new Vec2(-2f, -7f);
+            Vector2 colSizeWide = new Vector2(14f, 3f);
+            Vector2 colOffsetWide = new Vector2(-7f, -2f);
+            Vector2 colSizeTall = new Vector2(4f, 14f);
+            Vector2 colOffsetTall = new Vector2(-2f, -7f);
             float norm = (float)Math.Abs(Math.Sin(Angle));
             collisionSize = colSizeWide * (1f - norm) + colSizeTall * norm;
             collisionOffset = colOffsetWide * (1f - norm) + colOffsetTall * norm;
@@ -167,7 +168,7 @@ public class Mine : Gun
         {
             canPickUp = false;
             float holdWeight = addWeight;
-            IEnumerable<PhysicsObject> col = Level.CheckLineAll<PhysicsObject>(new Vec2(base.X - 6f, base.Y - 3f), new Vec2(base.X + 6f, base.Y - 3f));
+            IEnumerable<PhysicsObject> col = Level.CheckLineAll<PhysicsObject>(new Vector2(base.X - 6f, base.Y - 3f), new Vector2(base.X + 6f, base.Y - 3f));
             List<Duck> ducks = new List<Duck>();
             Duck stepDuck = null;
             bool hadServerThing = false;
@@ -299,7 +300,7 @@ public class Mine : Gun
         {
             if (p != this)
             {
-                Vec2 dir = p.Position - Position;
+                Vector2 dir = p.Position - Position;
                 float mul = 1f - Math.Min(dir.Length(), 22f) / 22f;
                 float len = mul * 4f;
                 dir.Normalize();
@@ -334,7 +335,7 @@ public class Mine : Gun
         Level.Remove(this);
     }
 
-    public void MakeBlowUpHappen(Vec2 pos)
+    public void MakeBlowUpHappen(Vector2 pos)
     {
         if (!blownUp)
         {
@@ -359,13 +360,13 @@ public class Mine : Gun
         }
     }
 
-    public override void OnNetworkBulletsFired(Vec2 pos)
+    public override void OnNetworkBulletsFired(Vector2 pos)
     {
         MakeBlowUpHappen(pos);
         base.OnNetworkBulletsFired(pos);
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal && owner == null && !canPickUp && _timer > 0f)
         {

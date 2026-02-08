@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -202,7 +203,7 @@ public class NetDebugInterface
         rect.y += 8f;
         rect.height = 120f;
         float depth = 0.8f;
-        Vec2 offset = rect.tl + new Vec2(8f, 8f);
+        Vector2 offset = rect.tl + new Vector2(8f, 8f);
         foreach (NetDebugElement e in _elements)
         {
             e.depth = depth;

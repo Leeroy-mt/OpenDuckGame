@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,9 +12,9 @@ public class DeathmatchLevel : XMLLevel, IHaveAVirtualTransition
 
     protected FollowCam _followCam;
 
-    private Vec2 _p1;
+    private Vector2 _p1;
 
-    private Vec2 _p2;
+    private Vector2 _p2;
 
     protected List<Duck> _pendingSpawns;
 
@@ -97,8 +98,8 @@ public class DeathmatchLevel : XMLLevel, IHaveAVirtualTransition
         }
         followCam.Adjust();
         _things.RefreshState();
-        _p1 = new Vec2(9999f, -9999f);
-        _p2 = Vec2.Zero;
+        _p1 = new Vector2(9999f, -9999f);
+        _p2 = Vector2.Zero;
         int numDucks = 0;
         foreach (Duck duck2 in base.things[typeof(Duck)])
         {
@@ -264,7 +265,7 @@ public class DeathmatchLevel : XMLLevel, IHaveAVirtualTransition
     {
         if (layer == Layer.HUD && _waitAfterSpawnDings > 0 && _fontFade > 0.01f)
         {
-            _font.Scale = new Vec2(2f, 2f);
+            _font.Scale = new Vector2(2f, 2f);
             _font.Alpha = _fontFade;
             string s = "GET";
             if (_waitAfterSpawnDings == 2)

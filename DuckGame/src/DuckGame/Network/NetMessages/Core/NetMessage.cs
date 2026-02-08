@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -175,9 +176,9 @@ public class NetMessage
             {
                 field.SetValue(this, msg.ReadNetIndex16());
             }
-            else if (field.FieldType == typeof(Vec2))
+            else if (field.FieldType == typeof(Vector2))
             {
-                field.SetValue(this, new Vec2
+                field.SetValue(this, new Vector2
                 {
                     X = msg.ReadFloat(),
                     Y = msg.ReadFloat()
@@ -290,9 +291,9 @@ public class NetMessage
             {
                 _serializedData.WritePacked((NetIndex16)field.GetValue(this), 16);
             }
-            else if (field.FieldType == typeof(Vec2))
+            else if (field.FieldType == typeof(Vector2))
             {
-                Vec2 val = (Vec2)field.GetValue(this);
+                Vector2 val = (Vector2)field.GetValue(this);
                 _serializedData.Write(val.X);
                 _serializedData.Write(val.Y);
             }

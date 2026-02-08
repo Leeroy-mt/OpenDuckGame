@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -66,7 +67,7 @@ public class PlasmaLayer : Layer
             Graphics.currentLayer = this;
             Graphics.screen = _batch;
             _batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, _state, null, base.camera.getMatrix());
-            Graphics.Draw(_target, Vec2.Zero, null, Color.White * alpha, 0f, Vec2.Zero, new Vec2(1f, 1f), SpriteEffects.None, 1f);
+            Graphics.Draw(_target, Vector2.Zero, null, Color.White * alpha, 0f, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 1f);
             _batch.End();
             Graphics.screen = null;
             Graphics.currentLayer = null;

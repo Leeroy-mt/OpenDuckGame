@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -44,7 +45,7 @@ public class UIBox : UIComponent
         _sections = new SpriteMap("uiBox", 10, 10);
         _vertical = vert;
         _borderVisible = isVisible;
-        borderSize = (_borderVisible ? new Vec2(8) : Vec2.Zero);
+        borderSize = (_borderVisible ? new Vector2(8) : Vector2.Zero);
         _canFit = true;
     }
 
@@ -54,7 +55,7 @@ public class UIBox : UIComponent
         _sections = new SpriteMap("uiBox", 10, 10);
         _vertical = vert;
         _borderVisible = isVisible;
-        borderSize = (_borderVisible ? new Vec2(8) : Vec2.Zero);
+        borderSize = (_borderVisible ? new Vector2(8) : Vector2.Zero);
         _canFit = true;
     }
     #endregion
@@ -232,9 +233,9 @@ public class UIBox : UIComponent
             if ((component.condition == null || component.condition()) && component.canFit)
             {
                 if (vertical)
-                    component.collisionSize = new Vec2(collisionSize.X - borderSize.X * 2, component.collisionSize.Y);
+                    component.collisionSize = new Vector2(collisionSize.X - borderSize.X * 2, component.collisionSize.Y);
                 else
-                    component.collisionSize = new Vec2(component.collisionSize.X, collisionSize.Y - borderSize.Y * 2);
+                    component.collisionSize = new Vector2(component.collisionSize.X, collisionSize.Y - borderSize.Y * 2);
             }
     }
 

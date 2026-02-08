@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -72,7 +73,7 @@ public class NetGraph
                 int num = _characterMap[(uint)text[i]];
                 int uvX = num % 16 * _tileSize;
                 int uvY = num / 16 * _tileSize;
-                batch.Draw(_texture, new Vec2(xpos + xOff, ypos), new Rectangle(uvX, uvY, _tileSize, _tileSize), c, 0f, Vec2.Zero, new Vec2(1f, 1f), SpriteEffects.None, 1f);
+                batch.Draw(_texture, new Vector2(xpos + xOff, ypos), new Rectangle(uvX, uvY, _tileSize, _tileSize), c, 0f, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 1f);
                 xOff += (float)_tileSize;
             }
         }
@@ -150,14 +151,14 @@ public class NetGraph
         DevConsole.UpdateGraph(NetworkDebugger.currentIndex, this);
     }
 
-    public void DrawLine(Vec2 p1, Vec2 p2, Color col, float width = 1f)
+    public void DrawLine(Vector2 p1, Vector2 p2, Color col, float width = 1f)
     {
         Graphics.currentDrawIndex++;
-        p1 = new Vec2(p1.X, p1.Y);
-        p2 = new Vec2(p2.X, p2.Y);
+        p1 = new Vector2(p1.X, p1.Y);
+        p2 = new Vector2(p2.X, p2.Y);
         float angle = (float)Math.Atan2(p2.Y - p1.Y, p2.X - p1.X);
         float length = (p1 - p2).Length();
-        batch.Draw(_blank, p1, null, col, angle, new Vec2(0f, 0.5f), new Vec2(length, width), SpriteEffects.None, 1f);
+        batch.Draw(_blank, p1, null, col, angle, new Vector2(0f, 0.5f), new Vector2(length, width), SpriteEffects.None, 1f);
     }
 
     public void InitializeDraw(GraphicsDevice device)
@@ -178,7 +179,7 @@ public class NetGraph
         {
             InitializeDraw(device);
         }
-        Vec2 pos = new Vec2(8f, 10f);
+        Vector2 pos = new Vector2(8f, 10f);
         while (_packets.Count > _packetsToDraw)
         {
             _packets.Dequeue();
@@ -186,20 +187,20 @@ public class NetGraph
         int curCount = 0;
         int packetNum = 0;
         int newMaxSize = 0;
-        DrawLine(pos, new Vec2(pos.X + (float)_packetsToDraw * _widthPerPacket, pos.Y), Color.White);
+        DrawLine(pos, new Vector2(pos.X + (float)_packetsToDraw * _widthPerPacket, pos.Y), Color.White);
         int total = 0;
         foreach (NCPacketBreakdown packet in _packets)
         {
             curCount = 0;
-            Vec2 barPos = new Vec2(pos.X + (float)packetNum * _widthPerPacket, pos.Y + _maxHeightPerPacket);
+            Vector2 barPos = new Vector2(pos.X + (float)packetNum * _widthPerPacket, pos.Y + _maxHeightPerPacket);
             foreach (NCPacketDataType type in NCPacketBreakdown.dataTypes)
             {
                 int count = packet.Get(type);
                 if (count > 0)
                 {
                     Color c = NCPacketBreakdown.GetTypeColor(type);
-                    Vec2 barBottom = barPos - new Vec2(0f, (float)curCount / (float)_currentMaxSize * _maxHeightPerPacket);
-                    Vec2 barTop = barBottom - new Vec2(0f, (float)count / (float)_currentMaxSize * _maxHeightPerPacket);
+                    Vector2 barBottom = barPos - new Vector2(0f, (float)curCount / (float)_currentMaxSize * _maxHeightPerPacket);
+                    Vector2 barTop = barBottom - new Vector2(0f, (float)count / (float)_currentMaxSize * _maxHeightPerPacket);
                     DrawLine(barBottom, barTop, c, _widthPerPacket);
                     curCount += count;
                     total += count;
@@ -223,7 +224,7 @@ public class NetGraph
         _biosFont.Draw(batch, "fps: " + fps + "    ping: " + (int)(ping * 1000f) + "ms", pos.X, pos.Y + _maxHeightPerPacket + 8f, Color.White);
     }
 
-    public void DrawChart(Vec2 pos)
+    public void DrawChart(Vector2 pos)
     {
         if (!(Network.activeNetwork.core is NCBasic))
         {
@@ -240,20 +241,20 @@ public class NetGraph
         int curCount = 0;
         int packetNum = 0;
         int newMaxSize = 0;
-        Graphics.DrawLine(pos, new Vec2(pos.X + (float)_packetsToDraw * _widthPerPacket, pos.Y), Color.White, 1f, 0.9f);
+        Graphics.DrawLine(pos, new Vector2(pos.X + (float)_packetsToDraw * _widthPerPacket, pos.Y), Color.White, 1f, 0.9f);
         int total = 0;
         foreach (NCPacketBreakdown packet in _packets)
         {
             curCount = 0;
-            Vec2 barPos = new Vec2(pos.X + (float)packetNum * _widthPerPacket, pos.Y + _maxHeightPerPacket);
+            Vector2 barPos = new Vector2(pos.X + (float)packetNum * _widthPerPacket, pos.Y + _maxHeightPerPacket);
             foreach (NCPacketDataType type in NCPacketBreakdown.dataTypes)
             {
                 int count = packet.Get(type);
                 if (count > 0)
                 {
                     Color c = NCPacketBreakdown.GetTypeColor(type);
-                    Vec2 vec = barPos - new Vec2(0f, (float)curCount / (float)_currentMaxSize * _maxHeightPerPacket);
-                    Vec2 barTop = vec - new Vec2(0f, (float)count / (float)_currentMaxSize * _maxHeightPerPacket);
+                    Vector2 vec = barPos - new Vector2(0f, (float)curCount / (float)_currentMaxSize * _maxHeightPerPacket);
+                    Vector2 barTop = vec - new Vector2(0f, (float)count / (float)_currentMaxSize * _maxHeightPerPacket);
                     Graphics.DrawLine(vec, barTop, c, _widthPerPacket, 0.9f);
                     curCount += count;
                     total += count;
@@ -290,8 +291,8 @@ public class NetGraph
             numAckBytes = 0;
             numFrames = 0;
         }
-        Graphics.DrawString("in: " + _currentMaxSize / 8 + " bytes - " + (int)((float)total / (float)_packets.Count / 8f) + " avg", new Vec2(pos.X, pos.Y - 9f), Color.White, 0.9f);
-        Graphics.DrawString("fps: " + fps + "    ping: " + (int)(ping * 1000f) + "ms     bytes out:" + avgBytes.ToString("0.00") + " hdr:" + avgHeaderBytes.ToString("0.00") + " ack:" + avgAckBytes.ToString("0.00") + " gst:" + avgGhostBytes.ToString("0.00"), new Vec2(pos.X, pos.Y + _maxHeightPerPacket + 8f), Color.White, 0.9f);
+        Graphics.DrawString("in: " + _currentMaxSize / 8 + " bytes - " + (int)((float)total / (float)_packets.Count / 8f) + " avg", new Vector2(pos.X, pos.Y - 9f), Color.White, 0.9f);
+        Graphics.DrawString("fps: " + fps + "    ping: " + (int)(ping * 1000f) + "ms     bytes out:" + avgBytes.ToString("0.00") + " hdr:" + avgHeaderBytes.ToString("0.00") + " ack:" + avgAckBytes.ToString("0.00") + " gst:" + avgGhostBytes.ToString("0.00"), new Vector2(pos.X, pos.Y + _maxHeightPerPacket + 8f), Color.White, 0.9f);
     }
 
     public void PreUpdate()

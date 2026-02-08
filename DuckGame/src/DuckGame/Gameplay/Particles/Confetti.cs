@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class Confetti : Thing
@@ -44,8 +46,8 @@ public class Confetti : Thing
 
     public override void Draw()
     {
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         pos.X += _sin.value * _size;
-        Graphics.DrawRect(pos, pos + new Vec2(2f, 2f), _color, base.Depth);
+        Graphics.DrawRect(pos, pos + new Vector2(2f, 2f), _color, base.Depth);
     }
 }

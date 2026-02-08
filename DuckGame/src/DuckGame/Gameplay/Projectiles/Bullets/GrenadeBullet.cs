@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -31,7 +32,7 @@ public class GrenadeBullet : Bullet
             item.Destroy(new DTImpact(this));
         }
         List<Bullet> firedBullets = new List<Bullet>();
-        Vec2 bPos = Position;
+        Vector2 bPos = Position;
         bPos -= travelDirNormalized;
         for (int i = 0; i < 12; i++)
         {
@@ -57,7 +58,7 @@ public class GrenadeBullet : Bullet
         }
     }
 
-    protected override void Rebound(Vec2 pos, float dir, float rng)
+    protected override void Rebound(Vector2 pos, float dir, float rng)
     {
         GrenadeBullet obj = ammo.GetBullet(pos.X, pos.Y, null, 0f - dir, base.firedFrom, rng, _tracer) as GrenadeBullet;
         obj._teleporter = _teleporter;

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [BaggedProperty("canSpawn", false)]
@@ -9,15 +11,15 @@ public class ChainPart : Vine
     {
         _sprite = new SpriteMap("chain", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-5f, -4f);
-        collisionSize = new Vec2(11f, 7f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-5f, -4f);
+        collisionSize = new Vector2(11f, 7f);
         weight = 0.1f;
         thickness = 0.1f;
         canPickUp = false;
         initLength = init;
         base.Depth = -0.5f;
         _vinePartSprite = new Sprite("chain");
-        _vinePartSprite.Center = new Vec2(8f, 0f);
+        _vinePartSprite.Center = new Vector2(8f, 0f);
     }
 }

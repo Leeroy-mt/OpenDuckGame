@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -7,9 +8,9 @@ public class GinormoCard : Thing
 {
     private float _slideWait;
 
-    private Vec2 _start;
+    private Vector2 _start;
 
-    private Vec2 _end;
+    private Vector2 _end;
 
     private List<SpriteMap> _sprites = new List<SpriteMap>();
 
@@ -35,7 +36,7 @@ public class GinormoCard : Thing
 
     private bool _smallMode;
 
-    public GinormoCard(float slideWait, Vec2 start, Vec2 end, Team team, BoardMode mode, int idx, bool smallMode)
+    public GinormoCard(float slideWait, Vector2 start, Vector2 end, Team team, BoardMode mode, int idx, bool smallMode)
     {
         _smallMode = smallMode;
         base.layer = GinormoBoard.boardLayer;
@@ -76,7 +77,7 @@ public class GinormoCard : Thing
     {
         if (_slideWait < 0f)
         {
-            Position = Vec2.Lerp(Position, _end, 0.15f);
+            Position = Vector2.Lerp(Position, _end, 0.15f);
         }
         _slideWait -= 0.4f;
         Graphics.SetRenderTarget(_faceTarget);
@@ -117,7 +118,7 @@ public class GinormoCard : Thing
             float xpos = (i * 8 + 8) * 2;
             float ypos = 16f;
             p.persona.quackSprite.Depth = 0.7f;
-            p.persona.quackSprite.Scale = new Vec2(2f, 2f);
+            p.persona.quackSprite.Scale = new Vector2(2f, 2f);
             if (_smallMode)
             {
                 Graphics.Draw(p.persona.quackSprite, 0, xpos - 8f, ypos - 8f);
@@ -127,12 +128,12 @@ public class GinormoCard : Thing
                 Graphics.Draw(p.persona.quackSprite, 0, xpos, ypos, 2f, 2f);
             }
             p.persona.quackSprite.color = Color.White;
-            p.persona.quackSprite.Scale = new Vec2(1f, 1f);
-            Vec2 offset = DuckRig.GetHatPoint(p.persona.sprite.imageIndex);
+            p.persona.quackSprite.Scale = new Vector2(1f, 1f);
+            Vector2 offset = DuckRig.GetHatPoint(p.persona.sprite.imageIndex);
             SpriteMap hat = p.team.GetHat(p.persona);
             hat.Depth = 0.8f;
-            hat.Center = new Vec2(16f, 16f) + p.team.hatOffset;
-            hat.Scale = new Vec2(2f, 2f);
+            hat.Center = new Vector2(16f, 16f) + p.team.hatOffset;
+            hat.Scale = new Vector2(2f, 2f);
             if ((float)hat.texture.width > 16f)
             {
                 hat.frame = 1;
@@ -146,7 +147,7 @@ public class GinormoCard : Thing
                 Graphics.Draw(hat, hat.frame, xpos + offset.X * 2f, ypos + offset.Y * 2f, 2f, 2f);
             }
             hat.color = Color.White;
-            hat.Scale = new Vec2(1f, 1f);
+            hat.Scale = new Vector2(1f, 1f);
             hat.frame = 0;
             i++;
         }
@@ -157,7 +158,7 @@ public class GinormoCard : Thing
 
     public override void Draw()
     {
-        _font.Scale = new Vec2(1f, 1f);
+        _font.Scale = new Vector2(1f, 1f);
         string name = _team.currentDisplayName;
         float hOffset = 0f;
         float vOffset = 0f;
@@ -170,11 +171,11 @@ public class GinormoCard : Thing
         {
             BitmapFont namefont = null;
             namefont = ((_team.activeProfiles.Count <= 1) ? _team.activeProfiles[0].font : Profiles.EnvironmentProfile.font);
-            namefont.Scale = new Vec2(1f, 1f);
+            namefont.Scale = new Vector2(1f, 1f);
             namefont.Draw(nameText, base.X + 182f + hOffset - namefont.GetWidth(nameText), base.Y + 2f + vOffset, Color.White, base.Depth);
         }
-        _font.Scale = new Vec2(1f, 1f);
-        _targetSprite.Scale = new Vec2(1f, 1f);
+        _font.Scale = new Vector2(1f, 1f);
+        _targetSprite.Scale = new Vector2(1f, 1f);
         Graphics.Draw(_targetSprite, base.X, base.Y);
         int i = 0;
         if (_mode == BoardMode.Points)
@@ -182,12 +183,12 @@ public class GinormoCard : Thing
             string t = Change.ToString(_team.score);
             if (_smallMode)
             {
-                _smallFont.Scale = new Vec2(1f, 1f);
+                _smallFont.Scale = new Vector2(1f, 1f);
                 _smallFont.Draw(t, base.X + 32f - _smallFont.GetWidth(t), base.Y + 2f, Color.White, base.Depth);
             }
             else
             {
-                _smallFont.Scale = new Vec2(2f, 2f);
+                _smallFont.Scale = new Vector2(2f, 2f);
                 _smallFont.Draw(t, base.X + 183f - _smallFont.GetWidth(t), base.Y + 10f, Color.White, base.Depth);
             }
             return;

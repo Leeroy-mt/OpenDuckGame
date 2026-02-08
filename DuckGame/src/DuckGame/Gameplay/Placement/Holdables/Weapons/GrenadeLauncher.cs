@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Explosives")]
@@ -42,14 +44,14 @@ public class GrenadeLauncher : Gun
         ammo = 6;
         _type = "gun";
         graphic = new Sprite("grenadeLauncher");
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-6f, -4f);
-        collisionSize = new Vec2(16f, 7f);
-        _barrelOffsetTL = new Vec2(28f, 14f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-6f, -4f);
+        collisionSize = new Vector2(16f, 7f);
+        _barrelOffsetTL = new Vector2(28f, 14f);
         _fireSound = "pistol";
         _kickForce = 3f;
         _fireRumble = RumbleIntensity.Light;
-        _holdOffset = new Vec2(4f, 0f);
+        _holdOffset = new Vector2(4f, 0f);
         _ammoType = new ATGrenade();
         _fireSound = "deepMachineGun";
         _bulletColor = Color.White;

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -15,13 +16,13 @@ public class LaserBulletOrange : LaserBullet
         _beem = Content.Load<Texture2D>("laserBeemOrange");
     }
 
-    protected override void CheckTravelPath(Vec2 pStart, Vec2 pEnd)
+    protected override void CheckTravelPath(Vector2 pStart, Vector2 pEnd)
     {
         if (_thickness > 1f && _travels > 0)
         {
             for (int i = 0; i < 10; i++)
             {
-                Vec2 vec = pStart + (pEnd - pStart) * ((float)i / 10f);
+                Vector2 vec = pStart + (pEnd - pStart) * ((float)i / 10f);
                 if (ATMissile.DestroyRadius(vec, 16f, this, pExplode: true) > 0 && !_exploded)
                 {
                     _exploded = true;

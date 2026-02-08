@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
@@ -16,19 +17,19 @@ public static class Debug
     }
 
     [Conditional("DEBUG")]
-    public static void DrawLine(Vec2 p1, Vec2 p2, Color col, float width = 1f)
+    public static void DrawLine(Vector2 p1, Vector2 p2, Color col, float width = 1f)
     {
-        p1 = new Vec2((int)p1.X, (int)p1.Y);
-        p2 = new Vec2((int)p2.X, (int)p2.Y);
+        p1 = new Vector2((int)p1.X, (int)p1.Y);
+        p2 = new Vector2((int)p2.X, (int)p2.Y);
         float angle = (float)Math.Atan2(p2.Y - p1.Y, p2.X - p1.X);
         float length = (p1 - p2).Length();
-        Graphics.Draw(_blank, p1, null, col, angle, Vec2.Zero, new Vec2(length, width), SpriteEffects.None, 1f);
+        Graphics.Draw(_blank, p1, null, col, angle, Vector2.Zero, new Vector2(length, width), SpriteEffects.None, 1f);
     }
 
     [Conditional("DEBUG")]
-    public static void DrawRect(Vec2 p1, Vec2 p2, Color col)
+    public static void DrawRect(Vector2 p1, Vector2 p2, Color col)
     {
-        Graphics.Draw(_blank, p1, null, col, 0f, Vec2.Zero, new Vec2(0f - (p1.X - p2.X), 0f - (p1.Y - p2.Y)), SpriteEffects.None, 1f);
+        Graphics.Draw(_blank, p1, null, col, 0f, Vector2.Zero, new Vector2(0f - (p1.X - p2.X), 0f - (p1.Y - p2.Y)), SpriteEffects.None, 1f);
     }
 
     [Conditional("DEBUG")]

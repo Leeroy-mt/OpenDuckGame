@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -39,9 +40,9 @@ public class BufferedGhostProperty<T> : BufferedGhostProperty
         {
             if (binding is CompressedVec2Binding)
             {
-                Vec2 me = binding.getTyped<Vec2>();
-                Vec2 targ = (Vec2)value;
-                if ((me - targ).lengthSq > 1024f)
+                Vector2 me = binding.getTyped<Vector2>();
+                Vector2 targ = (Vector2)value;
+                if ((me - targ).LengthSquared() > 1024f)
                 {
                     binding.setTyped(targ);
                 }
@@ -52,10 +53,10 @@ public class BufferedGhostProperty<T> : BufferedGhostProperty
             }
             else if (binding.isRotation)
             {
-                Vec2 vec = Maths.AngleToVec(binding.getTyped<float>());
-                Vec2 angle2 = Maths.AngleToVec((float)value);
-                Vec2 angle3 = BufferedGhostProperty.Slerp(vec, angle2, lerp);
-                binding.setTyped(Maths.DegToRad(Maths.PointDirection(Vec2.Zero, angle3)));
+                Vector2 vec = Maths.AngleToVec(binding.getTyped<float>());
+                Vector2 angle2 = Maths.AngleToVec((float)value);
+                Vector2 angle3 = BufferedGhostProperty.Slerp(vec, angle2, lerp);
+                binding.setTyped(Maths.DegToRad(Maths.PointDirection(Vector2.Zero, angle3)));
             }
             else
             {
@@ -66,7 +67,7 @@ public class BufferedGhostProperty<T> : BufferedGhostProperty
         {
             if (binding.name == "netPosition")
             {
-                _ = ((Vec2)value).X;
+                _ = ((Vector2)value).X;
                 _ = 47f;
             }
             binding.setTyped(_value);
@@ -108,7 +109,7 @@ public abstract class BufferedGhostProperty
         UpdateFrom(prop.binding);
     }
 
-    protected static Vec2 Slerp(Vec2 from, Vec2 to, float step)
+    protected static Vector2 Slerp(Vector2 from, Vector2 to, float step)
     {
         if (step == 0f)
         {
@@ -118,7 +119,7 @@ public abstract class BufferedGhostProperty
         {
             return to;
         }
-        double theta = Math.Acos(Vec2.Dot(from, to));
+        double theta = Math.Acos(Vector2.Dot(from, to));
         if (theta == 0.0)
         {
             return to;

@@ -1,18 +1,19 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
 
 public class ElectricalCharge : Thing
 {
-    private List<Vec2> _prevPositions = new List<Vec2>();
+    private List<Vector2> _prevPositions = new List<Vector2>();
 
-    private Vec2 _travelVec;
+    private Vector2 _travelVec;
 
     public ElectricalCharge(float xpos, float ypos, int off, Thing own)
         : base(xpos, ypos)
     {
         offDir = (sbyte)off;
-        _travelVec = new Vec2((float)offDir * Rando.Float(6f, 10f), Rando.Float(-10f, 10f));
+        _travelVec = new Vector2((float)offDir * Rando.Float(6f, 10f), Rando.Float(-10f, 10f));
         owner = own;
     }
 
@@ -22,9 +23,9 @@ public class ElectricalCharge : Thing
         {
             _prevPositions.Insert(0, Position);
         }
-        Vec2 p = Position;
+        Vector2 p = Position;
         Position += _travelVec;
-        _travelVec = new Vec2((float)offDir * Rando.Float(6f, 10f), Rando.Float(-10f, 10f));
+        _travelVec = new Vector2((float)offDir * Rando.Float(6f, 10f), Rando.Float(-10f, 10f));
         _prevPositions.Insert(0, Position);
         base.Alpha -= 0.1f;
         if (base.Alpha < 0f)
@@ -43,10 +44,10 @@ public class ElectricalCharge : Thing
 
     public override void Draw()
     {
-        Vec2 prev = Vec2.Zero;
+        Vector2 prev = Vector2.Zero;
         bool hasPrev = false;
         float a = 1f;
-        foreach (Vec2 v in _prevPositions)
+        foreach (Vector2 v in _prevPositions)
         {
             if (!hasPrev)
             {

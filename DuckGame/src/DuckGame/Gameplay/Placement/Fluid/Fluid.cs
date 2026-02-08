@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -58,7 +59,7 @@ public class Fluid : PhysicsParticle
         }
     }
 
-    public Fluid(float xpos, float ypos, Vec2 hitAngle, FluidData dat, Fluid stream = null, float thickMult = 1f)
+    public Fluid(float xpos, float ypos, Vector2 hitAngle, FluidData dat, Fluid stream = null, float thickMult = 1f)
         : base(xpos, ypos)
     {
         hSpeed = (0f - hitAngle.X) * 2f * (Rando.Float(1f) + 0.3f);
@@ -108,8 +109,8 @@ public class Fluid : PhysicsParticle
             }
             if (p == null)
             {
-                Vec2 hitPos;
-                Block b = Level.CheckLine<AutoBlock>(Position + new Vec2(0f, -8f), Position + new Vec2(0f, 16f), out hitPos);
+                Vector2 hitPos;
+                Block b = Level.CheckLine<AutoBlock>(Position + new Vector2(0f, -8f), Position + new Vector2(0f, 16f), out hitPos);
                 if (b != null && hitPos.Y == b.top)
                 {
                     p = new FluidPuddle(hitPos.X, hitPos.Y, b);
@@ -171,7 +172,7 @@ public class Fluid : PhysicsParticle
             }
             else
             {
-                Graphics.DrawRect(Position - new Vec2(_thickness / 2f, _thickness / 2f), Position + new Vec2(_thickness / 2f, _thickness / 2f), new Color(data.color) * base.Alpha, base.Depth);
+                Graphics.DrawRect(Position - new Vector2(_thickness / 2f, _thickness / 2f), Position + new Vector2(_thickness / 2f, _thickness / 2f), new Color(data.color) * base.Alpha, base.Depth);
             }
         }
     }

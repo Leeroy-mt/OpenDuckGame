@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Pistols")]
@@ -21,14 +23,14 @@ public class G18 : Gun
         _sprite.AddAnimation("fire", 0.8f, false, 1, 2, 3);
         _sprite.AddAnimation("empty", 1f, true, 2);
         graphic = _sprite;
-        Center = new Vec2(7f, 3f);
-        collisionOffset = new Vec2(-7f, -3f);
-        collisionSize = new Vec2(14f, 7f);
-        _barrelOffsetTL = new Vec2(12f, 2f);
+        Center = new Vector2(7f, 3f);
+        collisionOffset = new Vector2(-7f, -3f);
+        collisionSize = new Vector2(14f, 7f);
+        _barrelOffsetTL = new Vector2(12f, 2f);
         _fireSound = "smg";
         _kickForce = 0.3f;
         _fireRumble = RumbleIntensity.Kick;
-        _holdOffset = new Vec2(-1f, 0f);
+        _holdOffset = new Vector2(-1f, 0f);
         _bio = "Old faithful, the 9MM pistol.";
         _editorName = "Machine Pistol";
         editorTooltip = "Need to deliver a bunch of bullets to someone in a hurry? Try this.";
@@ -56,8 +58,8 @@ public class G18 : Gun
             _sprite.SetAnimation("fire");
             for (int i = 0; i < 3; i++)
             {
-                Vec2 pos = Offset(new Vec2(-9f, 0f));
-                Vec2 rot = base.barrelVector.Rotate(Rando.Float(1f), Vec2.Zero);
+                Vector2 pos = Offset(new Vector2(-9f, 0f));
+                Vector2 rot = base.barrelVector.Rotate(Rando.Float(1f), Vector2.Zero);
                 Level.Add(Spark.New(pos.X, pos.Y, rot, 0.1f));
             }
         }

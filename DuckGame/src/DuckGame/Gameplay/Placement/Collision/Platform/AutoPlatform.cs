@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontMove, IPathNodeBlocker
@@ -81,7 +83,7 @@ public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontM
         }
     }
 
-    public override void SetTranslation(Vec2 translation)
+    public override void SetTranslation(Vector2 translation)
     {
         if (_leftNub != null)
         {
@@ -116,11 +118,11 @@ public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontM
         }
         _tileset = tileset;
         graphic = _sprite;
-        collisionSize = new Vec2(16f, 16f);
+        collisionSize = new Vector2(16f, 16f);
         thickness = 0.2f;
         base.CenterX = 8f;
         base.CenterY = 8f;
-        collisionOffset = new Vec2(-8f, -8f);
+        collisionOffset = new Vector2(-8f, -8f);
         base.Depth = 0.3f;
         _canBeGrouped = true;
         _isStatic = true;
@@ -245,28 +247,28 @@ public abstract class AutoPlatform : MaterialThing, IAutoTile, IPlatform, IDontM
             case 44:
             case 49:
             case 50:
-                collisionSize = new Vec2(verticalWidth, 16f);
-                collisionOffset = new Vec2((0f - verticalWidth) / 2f, -8f);
+                collisionSize = new Vector2(verticalWidth, 16f);
+                collisionOffset = new Vector2((0f - verticalWidth) / 2f, -8f);
                 break;
             case 37:
             case 43:
             case 45:
             case 52:
             case 60:
-                collisionSize = new Vec2(8f + verticalWidth / 2f, 16f);
-                collisionOffset = new Vec2(-8f, -8f);
+                collisionSize = new Vector2(8f + verticalWidth / 2f, 16f);
+                collisionOffset = new Vector2(-8f, -8f);
                 break;
             case 32:
             case 41:
             case 51:
             case 53:
             case 58:
-                collisionSize = new Vec2(8f + verticalWidth / 2f, 16f);
-                collisionOffset = new Vec2((0f - verticalWidth) / 2f, -8f);
+                collisionSize = new Vector2(8f + verticalWidth / 2f, 16f);
+                collisionOffset = new Vector2((0f - verticalWidth) / 2f, -8f);
                 break;
             default:
-                collisionSize = new Vec2(16f, 16f);
-                collisionOffset = new Vec2(-8f, -8f);
+                collisionSize = new Vector2(16f, 16f);
+                collisionOffset = new Vector2(-8f, -8f);
                 break;
         }
         switch (_sprite.frame)

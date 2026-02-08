@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ public class OldEnergyScimi : Sword
     {
         public RagdollPart part;
 
-        public Vec2 offset;
+        public Vector2 offset;
     }
 
     public StateBinding _glowBinding = new StateBinding(nameof(_glow));
@@ -82,23 +83,23 @@ public class OldEnergyScimi : Sword
 
     public List<WarpLine> warpLines = new List<WarpLine>();
 
-    public override Vec2 barrelStartPos
+    public override Vector2 barrelStartPos
     {
         get
         {
             if (_stuck)
             {
-                return Position - (Offset(base.barrelOffset) - Position).Normalized * -5f;
+                return Position - Vector2.Normalize(Offset(base.barrelOffset) - Position) * -5f;
             }
             if (owner == null)
             {
-                return Position - (Offset(base.barrelOffset) - Position).Normalized * 6f;
+                return Position - Vector2.Normalize(Offset(base.barrelOffset) - Position) * 6f;
             }
             if (_slamStance)
             {
-                return Position + (Offset(base.barrelOffset) - Position).Normalized * 12f;
+                return Position + Vector2.Normalize(Offset(base.barrelOffset) - Position) * 12f;
             }
-            return Position + (Offset(base.barrelOffset) - Position).Normalized * 2f;
+            return Position + Vector2.Normalize(Offset(base.barrelOffset) - Position) * 2f;
         }
     }
 
@@ -120,21 +121,21 @@ public class OldEnergyScimi : Sword
         : base(pX, pY)
     {
         graphic = new Sprite("energyScimiHilt");
-        Center = new Vec2(6f, 26f);
-        collisionOffset = new Vec2(-2f, -24f);
-        collisionSize = new Vec2(4f, 28f);
+        Center = new Vector2(6f, 26f);
+        collisionOffset = new Vector2(-2f, -24f);
+        collisionSize = new Vector2(4f, 28f);
         _blade = new Sprite("energyScimiBlade");
         _bladeTrail = new Sprite("energyScimiBladeTrail");
         _whiteGlow = new Sprite("whiteGlow");
-        _whiteGlow.Center = new Vec2(16f, 28f);
+        _whiteGlow.Center = new Vector2(16f, 28f);
         _whiteGlow.ScaleX = 0.8f;
         _whiteGlow.ScaleY = 1.4f;
         thickness = 0.01f;
         _impactThreshold = 0.5f;
-        centerHeld = new Vec2(6f, 29f);
-        centerUnheld = new Vec2(6f, 16f);
+        centerHeld = new Vector2(6f, 29f);
+        centerUnheld = new Vector2(6f, 16f);
         _bladeMaterial = new MaterialEnergyBlade(this);
-        additionalHoldOffset = new Vec2(0f, -3f);
+        additionalHoldOffset = new Vector2(0f, -3f);
         _swingSound = null;
         _enforceJabSwing = false;
         _allowJabMotion = false;
@@ -148,17 +149,17 @@ public class OldEnergyScimi : Sword
         for (int i = 0; i < 6; i++)
         {
             EnergyBlocker b = new EnergyBlocker(this);
-            b.collisionSize = new Vec2(6f, 6f);
-            b.Center = new Vec2(3f, 3f);
-            b.collisionOffset = new Vec2(-3f, -3f);
+            b.collisionSize = new Vector2(6f, 6f);
+            b.Center = new Vector2(3f, 3f);
+            b.collisionOffset = new Vector2(-3f, -3f);
             _walls.Add(b);
             Level.Add(b);
         }
         _platform = new Platform(0f, 0f, 20f, 8f);
         _platform.solid = false;
         _platform.enablePhysics = false;
-        _platform.Center = new Vec2(10f, 4f);
-        _platform.collisionOffset = new Vec2(-10f, -2f);
+        _platform.Center = new Vector2(10f, 4f);
+        _platform.collisionOffset = new Vector2(-10f, -2f);
         _platform.thickness = 0.01f;
         Level.Add(_platform);
         _hum = new ConstantSound("scimiHum");
@@ -167,7 +168,7 @@ public class OldEnergyScimi : Sword
         base.Initialize();
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         return false;
     }
@@ -200,23 +201,23 @@ public class OldEnergyScimi : Sword
     {
         if (pHeld)
         {
-            collisionOffset = new Vec2(-4f, 0f);
-            collisionSize = new Vec2(4f, 4f);
+            collisionOffset = new Vector2(-4f, 0f);
+            collisionSize = new Vector2(4f, 4f);
             if (_crouchStance && !_jabStance)
             {
-                collisionOffset = new Vec2(-2f, -19f);
-                collisionSize = new Vec2(4f, 16f);
+                collisionOffset = new Vector2(-2f, -19f);
+                collisionSize = new Vector2(4f, 16f);
                 thickness = 3f;
             }
         }
         else
         {
-            collisionOffset = new Vec2(-2f, -24f);
-            collisionSize = new Vec2(4f, 28f);
+            collisionOffset = new Vector2(-2f, -24f);
+            collisionSize = new Vector2(4f, 28f);
             if (_wasLifted)
             {
-                collisionOffset = new Vec2(-4f, -2f);
-                collisionSize = new Vec2(8f, 4f);
+                collisionOffset = new Vector2(-4f, -2f);
+                collisionSize = new Vector2(8f, 4f);
             }
         }
     }
@@ -283,7 +284,7 @@ public class OldEnergyScimi : Sword
             _upFlyTime = 0f;
             if (Math.Abs(hSpeed) > 2f)
             {
-                if (Level.CheckLine<Block>(Position + new Vec2(-16f, 0f), Position + new Vec2(16f, 0f)) == null)
+                if (Level.CheckLine<Block>(Position + new Vector2(-16f, 0f), Position + new Vector2(16f, 0f)) == null)
                 {
                     _airFly = true;
                     _airFlyDir = Math.Sign(hSpeed);
@@ -296,7 +297,7 @@ public class OldEnergyScimi : Sword
             }
             else if (Math.Abs(vSpeed) > 2f)
             {
-                if (Level.CheckLine<Block>(Position + new Vec2(0f, -16f), Position + new Vec2(0f, 16f)) == null)
+                if (Level.CheckLine<Block>(Position + new Vector2(0f, -16f), Position + new Vector2(0f, 16f)) == null)
                 {
                     _airFly = true;
                     _airFlyDir = Math.Sign(vSpeed);
@@ -363,7 +364,7 @@ public class OldEnergyScimi : Sword
             bool hit = false;
             if (_airFlyVertical)
             {
-                Block b = Level.CheckLine<Block>(Position, Position + new Vec2(0f, vSpeed));
+                Block b = Level.CheckLine<Block>(Position, Position + new Vector2(0f, vSpeed));
                 if (b != null)
                 {
                     hit = true;
@@ -382,7 +383,7 @@ public class OldEnergyScimi : Sword
             }
             else
             {
-                Block b2 = Level.CheckLine<Block>(Position, Position + new Vec2(hSpeed, 0f));
+                Block b2 = Level.CheckLine<Block>(Position, Position + new Vector2(hSpeed, 0f));
                 if (b2 != null)
                 {
                     hit = true;
@@ -417,7 +418,7 @@ public class OldEnergyScimi : Sword
         if (base.isServerForObject)
         {
             Fondle(pBullet);
-            EnergyScimitarBlast b = new EnergyScimitarBlast(pBullet.Position, new Vec2(offDir * 2000, 0f));
+            EnergyScimitarBlast b = new EnergyScimitarBlast(pBullet.Position, new Vector2(offDir * 2000, 0f));
             Level.Add(b);
             Level.Remove(pBullet);
             if (Network.isActive)
@@ -432,34 +433,34 @@ public class OldEnergyScimi : Sword
         if (!_crouchStance)
         {
             _hold = -0.3f;
-            handOffset = new Vec2(_addOffsetX + 4f, _addOffsetY);
-            _holdOffset = new Vec2(2f + _addOffsetX, 6f + _addOffsetY) + additionalHoldOffset;
+            handOffset = new Vector2(_addOffsetX + 4f, _addOffsetY);
+            _holdOffset = new Vector2(2f + _addOffsetX, 6f + _addOffsetY) + additionalHoldOffset;
         }
         else if (base.duck != null && base.duck.sliding)
         {
             _hold = 2.24159f;
             if (handFlip)
             {
-                _holdOffset = new Vec2(-4f + _addOffsetX, -3f + _addOffsetY) + additionalHoldOffset;
+                _holdOffset = new Vector2(-4f + _addOffsetX, -3f + _addOffsetY) + additionalHoldOffset;
             }
             else
             {
-                _holdOffset = new Vec2(2f + _addOffsetX, -3f + _addOffsetY) + additionalHoldOffset;
+                _holdOffset = new Vector2(2f + _addOffsetX, -3f + _addOffsetY) + additionalHoldOffset;
             }
-            handOffset = new Vec2(3f + _addOffsetX, -6f + _addOffsetY);
+            handOffset = new Vector2(3f + _addOffsetX, -6f + _addOffsetY);
         }
         else
         {
             _hold = 2.5415902f;
             if (handFlip)
             {
-                _holdOffset = new Vec2(-4f + _addOffsetX, -7f + _addOffsetY) + additionalHoldOffset;
+                _holdOffset = new Vector2(-4f + _addOffsetX, -7f + _addOffsetY) + additionalHoldOffset;
             }
             else
             {
-                _holdOffset = new Vec2(2f + _addOffsetX, -7f + _addOffsetY) + additionalHoldOffset;
+                _holdOffset = new Vector2(2f + _addOffsetX, -7f + _addOffsetY) + additionalHoldOffset;
             }
-            handOffset = new Vec2(3f + _addOffsetX, -10f + _addOffsetY);
+            handOffset = new Vector2(3f + _addOffsetX, -10f + _addOffsetY);
         }
     }
 
@@ -505,15 +506,15 @@ public class OldEnergyScimi : Sword
             {
                 if (!_airFlyVertical)
                 {
-                    d.part.Position = Offset(new Vec2(-10f, 10f));
+                    d.part.Position = Offset(new Vector2(-10f, 10f));
                 }
                 else if (_airFlyDir < 0f)
                 {
-                    d.part.Position = Offset(new Vec2(0f, 0f));
+                    d.part.Position = Offset(new Vector2(0f, 0f));
                 }
                 else
                 {
-                    d.part.Position = Offset(new Vec2(0f, 20f));
+                    d.part.Position = Offset(new Vector2(0f, 20f));
                 }
                 d.part.doll.Position = d.part.Position;
                 d.part.doll.captureDuck.Position = d.part.Position;
@@ -564,7 +565,7 @@ public class OldEnergyScimi : Sword
                 warpLines.Add(new WarpLine
                 {
                     start = base.duck.Position,
-                    end = base.duck.Position + new Vec2(0f, -80f),
+                    end = base.duck.Position + new Vector2(0f, -80f),
                     lerp = 0f,
                     wide = 24f
                 });
@@ -576,8 +577,8 @@ public class OldEnergyScimi : Sword
                 _slowV = false;
                 warpLines.Add(new WarpLine
                 {
-                    start = base.duck.Position + new Vec2(-offDir * 16, 4f),
-                    end = base.duck.Position + new Vec2(offDir * 62, 4f),
+                    start = base.duck.Position + new Vector2(-offDir * 16, 4f),
+                    end = base.duck.Position + new Vector2(offDir * 62, 4f),
                     lerp = 0f,
                     wide = 20f
                 });
@@ -657,10 +658,10 @@ public class OldEnergyScimi : Sword
                     }
                 }
                 float len = 20f + max;
-                Vec2 pos = Position + OffsetLocal(new Vec2(0f, -2f));
+                Vector2 pos = Position + OffsetLocal(new Vector2(0f, -2f));
                 foreach (EnergyBlocker wall in _walls)
                 {
-                    pos += OffsetLocal(new Vec2(0f, (0f - len) / (float)_walls.Count));
+                    pos += OffsetLocal(new Vector2(0f, (0f - len) / (float)_walls.Count));
                     wall.Position = pos;
                     wall.solid = _glow > 0.5f;
                 }
@@ -668,15 +669,15 @@ public class OldEnergyScimi : Sword
             else
             {
                 _didOwnerSwitchLogic = false;
-                Vec2 pos2 = Position + OffsetLocal(new Vec2(0f, _stuck ? (-25) : (-14)));
+                Vector2 pos2 = Position + OffsetLocal(new Vector2(0f, _stuck ? (-25) : (-14)));
                 foreach (EnergyBlocker wall2 in _walls)
                 {
-                    pos2 += OffsetLocal(new Vec2(0f, 18f / (float)_walls.Count));
+                    pos2 += OffsetLocal(new Vector2(0f, 18f / (float)_walls.Count));
                     wall2.Position = pos2;
                     wall2.solid = _glow > 0.5f;
                 }
             }
-            if (base.duck != null && _timeSincePickedUp > 0.4f && base.held && _swinging && Level.CheckLine<Block>(Position, Position + new Vec2(offDir * 16, 0f)) != null)
+            if (base.duck != null && _timeSincePickedUp > 0.4f && base.held && _swinging && Level.CheckLine<Block>(Position, Position + new Vector2(offDir * 16, 0f)) != null)
             {
                 base.duck.Swear();
                 _ = Angle;
@@ -705,8 +706,8 @@ public class OldEnergyScimi : Sword
                 Level.Remove(this);
             }
         }
-        _extraOffset = new Vec2(0f, 0f - max);
-        _barrelOffsetTL = new Vec2(4f, 3f - max);
+        _extraOffset = new Vector2(0f, 0f - max);
+        _barrelOffsetTL = new Vector2(4f, 3f - max);
         _lastAngleHum = Angle;
         if (_glow > 1f)
         {
@@ -767,16 +768,16 @@ public class OldEnergyScimi : Sword
         base.Update();
         _platform.solid = false;
         _platform.enablePhysics = false;
-        _platform.Position = new Vec2(-99999f, -99999f);
+        _platform.Position = new Vector2(-99999f, -99999f);
         if (_stuck)
         {
             if (Math.Abs(barrelStartPos.Y - base.barrelPosition.Y) < 6f)
             {
                 _platform.solid = true;
                 _platform.enablePhysics = true;
-                _platform.Position = Offset(new Vec2(0f, -10f));
+                _platform.Position = Offset(new Vector2(0f, -10f));
             }
-            Center = new Vec2(6f, 29f);
+            Center = new Vector2(6f, 29f);
         }
     }
 
@@ -789,7 +790,7 @@ public class OldEnergyScimi : Sword
         Color c = swordColor;
         foreach (WarpLine l in warpLines)
         {
-            Vec2 vec = l.start - l.end;
+            Vector2 vec = l.start - l.end;
             _ = l.end - l.start;
             float lerp1 = Math.Min(l.lerp, 0.5f) / 0.5f;
             float lerp2 = Math.Max((l.lerp - 0.5f) * 2f, 0f);
@@ -818,11 +819,11 @@ public class OldEnergyScimi : Sword
         swordColor = Color.Lerp(properColor, Color.Red, heat);
         if (_glow > 1f)
         {
-            _blade.Scale = new Vec2(1f + (_glow - 1f) * 0.03f, 1f);
+            _blade.Scale = new Vector2(1f + (_glow - 1f) * 0.03f, 1f);
         }
         else
         {
-            _blade.Scale = new Vec2(1f);
+            _blade.Scale = new Vector2(1f);
         }
         _bladeTrail.ScaleY = _blade.ScaleY + max;
         Graphics.Draw(_blade, base.X, base.Y, base.Depth - 1);
@@ -839,11 +840,11 @@ public class OldEnergyScimi : Sword
         float rlAngle = Angle;
         _ = AngleValue;
         float alph = 1f;
-        Vec2 drawPos = Position;
+        Vector2 drawPos = Position;
         _ = Position;
         for (int i = 0; i < 8; i++)
         {
-            Vec2 prevPosLock = Vec2.Zero;
+            Vector2 prevPosLock = Vector2.Zero;
             float prevAngLock = 0f;
             for (int j = 0; j < 4; j++)
             {

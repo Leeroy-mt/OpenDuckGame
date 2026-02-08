@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,9 +165,9 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
 
     private bool explicitlyCreated;
 
-    private Vec2 oldCameraPos = Vec2.Zero;
+    private Vector2 oldCameraPos = Vector2.Zero;
 
-    private Vec2 oldCameraSize = Vec2.Zero;
+    private Vector2 oldCameraSize = Vector2.Zero;
 
     public static bool eightPlayersActive;
 
@@ -890,7 +891,7 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
             networkIndex = 0;
         }
         _countdown = new SpriteMap("countdown", 32, 32);
-        _countdown.Center = new Vec2(16f, 16f);
+        _countdown.Center = new Vector2(16f, 16f);
         showEightPlayerSelected = false;
         List<Profile> defaults = defaultProfiles;
         ProfileBox2 b = new ProfileBox2(1f, 1f, InputProfile.Get(InputProfile.MPPlayer1), defaults[0], this, 0);
@@ -927,7 +928,7 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
             PrepareForOnline();
         }
         _font = new BitmapFont("biosFont", 8);
-        _font.Scale = new Vec2(1f, 1f);
+        _font.Scale = new Vector2(1f, 1f);
         _buttons = new SpriteMap("buttons", 14, 14);
         _buttons.CenterOrigin();
         _buttons.Depth = 0.9f;
@@ -984,75 +985,75 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
         _playOnlineBumper = new UIMenu("PLAYING ONLINE", Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 220f, -1f, "@SELECT@OK!");
         _playOnlineBumper.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("There are many tools of expression", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("in Duck Game. Please use them for", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("|PINK|love|WHITE| and not for |DGRED|hate...|WHITE|", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("Things every Duck aught to remember:", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("-Trolling and hate appear exactly the same online.".Padded(padLength), Colors.DGBlue, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("-Please! be kind to one another.".Padded(padLength), Colors.DGBlue, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("-Please! don't use hate speech or strong words.".Padded(padLength), Colors.DGBlue, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("-Please! don't use hacks in public lobbies.".Padded(padLength), Colors.DGBlue, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("-Please! keep custom content tasteful.".Padded(padLength), Colors.DGBlue, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("-Angle shots are neat (and are not hacks).".Padded(padLength), Colors.DGBlue, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("If anyone is hacking or being unkind, please", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("hover their name in the pause menu", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("and go 'Mute -> Block'.", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _playOnlineBumper.SetAcceptFunction(new UIMenuActionOpenMenu(_playOnlineBumper, _playOnlineMenu));
         _playOnlineBumper.SetBackFunction(new UIMenuActionOpenMenu(_playOnlineBumper, _playOnlineMenu));
@@ -1318,20 +1319,20 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
         zoomedOut = false;
         if (growCamera || UISlotEditor.editingSlots || eightPlayer || eightPlayersActive || showEightPlayerSelected)
         {
-            if (oldCameraSize == Vec2.Zero)
+            if (oldCameraSize == Vector2.Zero)
             {
                 oldCameraSize = Level.current.camera.size;
                 oldCameraPos = Level.current.camera.position;
             }
             float camSize = 500f;
-            Vec2 s = Level.current.camera.size;
-            s = Lerp.Vec2Smooth(s, new Vec2(camSize, camSize / 1.77777f), 0.1f, 0.08f);
+            Vector2 s = Level.current.camera.size;
+            s = Lerp.Vec2Smooth(s, new Vector2(camSize, camSize / 1.77777f), 0.1f, 0.08f);
             Level.current.camera.size = s;
-            Level.current.camera.position = Lerp.Vec2Smooth(Level.current.camera.position, new Vec2(-1f, -7f), 0.1f, 0.08f);
+            Level.current.camera.position = Lerp.Vec2Smooth(Level.current.camera.position, new Vector2(-1f, -7f), 0.1f, 0.08f);
             eightPlayersActive = true;
             zoomedOut = true;
         }
-        else if (oldCameraSize != Vec2.Zero)
+        else if (oldCameraSize != Vector2.Zero)
         {
             Level.current.camera.size = Lerp.Vec2Smooth(Level.current.camera.size, oldCameraSize, 0.1f, 0.08f);
             Level.current.camera.position = Lerp.Vec2Smooth(Level.current.camera.position, oldCameraPos, 0.1f, 0.08f);
@@ -1804,16 +1805,16 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
             {
                 if (UISlotEditor._slot == b.controllerIndex)
                 {
-                    Graphics.DrawRect(b.Position, b.Position + new Vec2(141f, 89f), Color.White, 0.95f, filled: false);
+                    Graphics.DrawRect(b.Position, b.Position + new Vector2(141f, 89f), Color.White, 0.95f, filled: false);
                 }
                 else
                 {
-                    Graphics.DrawRect(b.Position, b.Position + new Vec2(141f, 89f), Color.Black * 0.5f, 0.95f);
+                    Graphics.DrawRect(b.Position, b.Position + new Vector2(141f, 89f), Color.Black * 0.5f, 0.95f);
                 }
             }
             foreach (BlankDoor b2 in Level.current.things[typeof(BlankDoor)])
             {
-                Graphics.DrawRect(b2.Position, b2.Position + new Vec2(141f, 89f), Color.Black * 0.5f, 0.95f);
+                Graphics.DrawRect(b2.Position, b2.Position + new Vector2(141f, 89f), Color.Black * 0.5f, 0.95f);
             }
         }
         _ = Layer.Background;
@@ -1822,11 +1823,11 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
             if (_afkTimeout >= _afkShowTimeout)
             {
                 _timeoutFade = Lerp.Float(_timeoutFade, 1f, 0.05f);
-                Graphics.DrawRect(new Vec2(-1000f, -1000f), new Vec2(10000f, 10000f), Color.Black * 0.7f * _timeoutFade, 0.95f);
+                Graphics.DrawRect(new Vector2(-1000f, -1000f), new Vector2(10000f, 10000f), Color.Black * 0.7f * _timeoutFade, 0.95f);
                 string timeoutString = "AFK TIMEOUT IN";
                 string timeoutTime = ((int)(_afkMaxTimeout - _afkTimeout)).ToString();
-                Graphics.DrawString(timeoutString, new Vec2(layer.width / 2f - Graphics.GetStringWidth(timeoutString) / 2f, layer.height / 2f - 8f), Color.White * _timeoutFade, 0.96f);
-                Graphics.DrawString(timeoutTime, new Vec2(layer.width / 2f - Graphics.GetStringWidth(timeoutTime), layer.height / 2f + 4f), Color.White * _timeoutFade, 0.96f, null, 2f);
+                Graphics.DrawString(timeoutString, new Vector2(layer.width / 2f - Graphics.GetStringWidth(timeoutString) / 2f, layer.height / 2f - 8f), Color.White * _timeoutFade, 0.96f);
+                Graphics.DrawString(timeoutTime, new Vector2(layer.width / 2f - Graphics.GetStringWidth(timeoutTime), layer.height / 2f + 4f), Color.White * _timeoutFade, 0.96f, null, 2f);
             }
             else
             {
@@ -1841,8 +1842,8 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
             }
             if (Level.core.gameInProgress)
             {
-                Vec2 topPos = new Vec2(0f, Layer.HUD.barSize);
-                Graphics.DrawRect(new Vec2(0f, topPos.Y), new Vec2(320f, topPos.Y + 10f), Color.Black, 0.9f);
+                Vector2 topPos = new Vector2(0f, Layer.HUD.barSize);
+                Graphics.DrawRect(new Vector2(0f, topPos.Y), new Vector2(320f, topPos.Y + 10f), Color.Black, 0.9f);
                 _littleFont.Depth = 0.95f;
                 string realText = "GAME STILL IN PROGRESS, HOST RETURNED TO LOBBY.";
                 string scrollText = "";
@@ -1883,7 +1884,7 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
                 {
                     _topScroll += 1f;
                 }
-                _littleFont.Draw(scrollText, new Vec2(1f - _topScroll * (_littleFont.GetWidth(realText) + 7f), topPos.Y + 3f), Color.White, 0.95f);
+                _littleFont.Draw(scrollText, new Vector2(1f - _topScroll * (_littleFont.GetWidth(realText) + 7f), topPos.Y + 3f), Color.White, 0.95f);
             }
             if (_setupFade > 0.01f)
             {

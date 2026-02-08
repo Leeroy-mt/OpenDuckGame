@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Equipment")]
@@ -13,16 +15,16 @@ public class PowerHolster : Holster
     {
         _sprite = new SpriteMap("powerHolster", 14, 12);
         _overPart = new SpriteMap("powerHolsterOver", 10, 3);
-        _overPart.Center = new Vec2(6f, -1f);
+        _overPart.Center = new Vector2(6f, -1f);
         _underPart = new SpriteMap("powerHolsterUnder", 11, 10);
-        _underPart.Center = new Vec2(10f, 8f);
+        _underPart.Center = new Vector2(10f, 8f);
         graphic = _sprite;
-        collisionOffset = new Vec2(-5f, -5f);
-        collisionSize = new Vec2(10f, 10f);
-        Center = new Vec2(6f, 6f);
+        collisionOffset = new Vector2(-5f, -5f);
+        collisionSize = new Vector2(10f, 10f);
+        Center = new Vector2(6f, 6f);
         physicsMaterial = PhysicsMaterial.Wood;
         _equippedDepth = 4;
-        _wearOffset = new Vec2(1f, 1f);
+        _wearOffset = new Vector2(1f, 1f);
         editorTooltip = "Lets you carry around an additional item!";
         backOffset = -10f;
     }
@@ -80,7 +82,7 @@ public class PowerHolster : Holster
                 _underPart.Depth = ownerDepthObject.Depth + -7;
             }
             _underPart.frame = (trigger ? 1 : 0);
-            Vec2 pos2 = Offset(new Vec2(-2f, 0f));
+            Vector2 pos2 = Offset(new Vector2(-2f, 0f));
             Graphics.Draw(_underPart, pos2.X, pos2.Y);
         }
         else

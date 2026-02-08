@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Background|Parallax")]
@@ -15,9 +17,9 @@ public class SpaceBackground : BackgroundUpdater
         {
             frame = 3
         };
-        Center = new Vec2(8f, 8f);
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(-8f, -8f);
         base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
@@ -36,7 +38,7 @@ public class SpaceBackground : BackgroundUpdater
             float speed = 0.4f * _speedMult;
             Sprite s = new Sprite("background/planet4");
             s.Depth = -0.9f;
-            s.Position = new Vec2(200f, 50f);
+            s.Position = new Vector2(200f, 50f);
             _parallax.AddZoneSprite(s, 19, 0.99f, speed);
             _parallax.AddZone(20, 0.93f, speed, _moving);
             _parallax.AddZone(21, 0.9f, speed, _moving);

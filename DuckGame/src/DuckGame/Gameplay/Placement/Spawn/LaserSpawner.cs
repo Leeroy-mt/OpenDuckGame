@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -28,9 +29,9 @@ public class LaserSpawner : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("laserSpawner");
-        Center = new Vec2(8f, 8f);
-        collisionSize = new Vec2(12f, 12f);
-        collisionOffset = new Vec2(-6f, -6f);
+        Center = new Vector2(8f, 8f);
+        collisionSize = new Vector2(12f, 12f);
+        collisionOffset = new Vector2(-6f, -6f);
         base.Depth = 0.99f;
         base.hugWalls = WallHug.None;
         _visibleInGame = false;
@@ -59,8 +60,8 @@ public class LaserSpawner : Thing
             }
             else
             {
-                Vec2 move = Maths.AngleToVec(Maths.DegToRad(direction)) * firePower;
-                Vec2 spawn = Position - move.Normalized * 16f;
+                Vector2 move = Maths.AngleToVec(Maths.DegToRad(direction)) * firePower;
+                Vector2 spawn = Position - Vector2.Normalize(move) * 16f;
                 Level.Add(new QuadLaserBullet(spawn.X, spawn.Y, move));
                 _spawnWait = 0f;
                 _numSpawned++;
@@ -159,7 +160,7 @@ public class LaserSpawner : Thing
 
     public override void DrawHoverInfo()
     {
-        Vec2 move = Maths.AngleToVec(Maths.DegToRad(direction)) * (firePower * 5f);
+        Vector2 move = Maths.AngleToVec(Maths.DegToRad(direction)) * (firePower * 5f);
         Graphics.DrawLine(Position, Position + move, Color.Red, 2f, 1f);
     }
 

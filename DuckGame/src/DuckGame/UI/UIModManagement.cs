@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -87,7 +88,7 @@ public class UIModManagement : UIMenu
 
     string _updateButtonText = "UPDATE MOD!";
 
-    Vec2 _oldPos;
+    Vector2 _oldPos;
 
     Rectangle _updateButton;
 
@@ -148,26 +149,26 @@ public class UIModManagement : UIMenu
         _moreArrow.CenterOrigin();
         _steamIcon = new Sprite("steamIconSmall")
         {
-            Scale = new Vec2(.5f)
+            Scale = new Vector2(.5f)
         };
         _localIcon = new SpriteMap("iconSheet", 16, 16)
         {
-            Scale = new Vec2(.5f)
+            Scale = new Vector2(.5f)
         };
         _localIcon.SetFrameWithoutReset(1);
         _modErrorIcon = new Sprite("modloadError");
         _newIcon = new SpriteMap("presents", 16, 16)
         {
-            Scale = new Vec2(2)
+            Scale = new Vector2(2)
         };
         _newIcon.SetFrameWithoutReset(0);
         _settingsIcon = new SpriteMap("settingsWrench", 16, 16)
         {
-            Scale = new Vec2(2)
+            Scale = new Vector2(2)
         };
         _noImage = new Sprite("notexture")
         {
-            Scale = new Vec2(2)
+            Scale = new Vector2(2)
         };
         _cursor = new SpriteMap("cursors", 16, 16);
         _mods = [.. ModLoader.allMods.Where(a => a is not CoreMod)];
@@ -376,8 +377,8 @@ public class UIModManagement : UIMenu
                 if (_updateTextBox != null)
                 {
                     Editor.hoverTextBox = false;
-                    _updateTextBox.position = new Vec2(_box.X - _box.halfWidth + 16, _box.Y - _box.halfHeight + 48);
-                    _updateTextBox.size = new Vec2(_box.width - 32, _box.height - 80);
+                    _updateTextBox.position = new Vector2(_box.X - _box.halfWidth + 16, _box.Y - _box.halfHeight + 48);
+                    _updateTextBox.size = new Vector2(_box.width - 32, _box.height - 80);
                     _updateTextBox._maxLines = (int)(_updateTextBox.size.Y / _fancyFont.characterHeight);
                     _updateTextBox.Update();
                     float sw = Graphics.GetStringWidth(_updateButtonText, thinButtons: false, 2);
@@ -512,7 +513,7 @@ public class UIModManagement : UIMenu
                     _hoverIndex += 10;
                 if (_hoverIndex < 0)
                     _hoverIndex = 0;
-                if ((_oldPos - Mouse.positionScreen).lengthSq > 200)
+                if ((_oldPos - Mouse.positionScreen).LengthSquared() > 200)
                     _gamepadMode = false;
             }
             else
@@ -541,7 +542,7 @@ public class UIModManagement : UIMenu
                     _draggingScrollbar = false;
                 else
                 {
-                    Vec2 delta = Mouse.position - _oldPos;
+                    Vector2 delta = Mouse.position - _oldPos;
                     _oldPos = Mouse.position;
                     scrollBarOffset += (int)delta.Y;
                     if (scrollBarOffset > scrollBarScrollableHeight)
@@ -599,14 +600,14 @@ public class UIModManagement : UIMenu
             if (Mouse.available && !_gamepadMode)
             {
                 _cursor.Depth = 1;
-                _cursor.Scale = Vec2.One;
+                _cursor.Scale = Vector2.One;
                 _cursor.Position = Mouse.position;
                 _cursor.frame = 0;
                 if (Editor.hoverTextBox)
                 {
                     _cursor.frame = 7;
                     _cursor.Y -= 4;
-                    _cursor.Scale = new Vec2(0.5f, 1);
+                    _cursor.Scale = new Vector2(0.5f, 1);
                 }
                 _cursor.Draw();
             }
@@ -624,11 +625,11 @@ public class UIModManagement : UIMenu
             {
                 float boxLeft = _box.X - _box.halfWidth;
                 float boxTop = _box.Y - _box.halfHeight;
-                _fancyFont.Scale = Vec2.One;
+                _fancyFont.Scale = Vector2.One;
                 int wide = _fancyFont.maxWidth;
                 _fancyFont.maxRows = 40;
                 _fancyFont.maxWidth = (int)width - 10;
-                _fancyFont.Draw(showingError, new Vec2(boxLeft + 4, boxTop + 4), Color.White, 0.5f);
+                _fancyFont.Draw(showingError, new Vector2(boxLeft + 4, boxTop + 4), Color.White, 0.5f);
                 _fancyFont.maxRows = 2;
                 _fancyFont.maxWidth = wide;
                 base.Draw();
@@ -643,8 +644,8 @@ public class UIModManagement : UIMenu
                 Layer.HUD.camera.height *= 2;
                 fixView = false;
             }
-            Graphics.DrawRect(new Vec2(_box.X - _box.halfWidth, _box.Y - _box.halfHeight), new Vec2(_box.X + _box.halfWidth - 14, _box.Y + _box.halfHeight), Color.Black, 0.4f);
-            Graphics.DrawRect(new Vec2(_box.X + _box.halfWidth - 12, _box.Y - _box.halfHeight), new Vec2(_box.X + _box.halfWidth, _box.Y + _box.halfHeight), Color.Black, 0.4f);
+            Graphics.DrawRect(new Vector2(_box.X - _box.halfWidth, _box.Y - _box.halfHeight), new Vector2(_box.X + _box.halfWidth - 14, _box.Y + _box.halfHeight), Color.Black, 0.4f);
+            Graphics.DrawRect(new Vector2(_box.X + _box.halfWidth - 12, _box.Y - _box.halfHeight), new Vector2(_box.X + _box.halfWidth, _box.Y + _box.halfHeight), Color.Black, 0.4f);
             Rectangle sb = ScrollBarBox();
             Graphics.DrawRect(sb, (_draggingScrollbar || sb.Contains(Mouse.position)) ? Color.LightGray : Color.Gray, 0.5f);
             for (int i = 0; i < _maxModsToShow; i++)
@@ -655,37 +656,37 @@ public class UIModManagement : UIMenu
                 float boxLeft2 = _box.X - _box.halfWidth;
                 float boxTop2 = _box.Y - _box.halfHeight + (36 * i);
                 if (_transferItem == null && _hoverIndex == modIndex)
-                    Graphics.DrawRect(new Vec2(boxLeft2, boxTop2), new Vec2(boxLeft2 + _box.width - 14, boxTop2 + 36), Color.White * 0.6f, 0.45f);
+                    Graphics.DrawRect(new Vector2(boxLeft2, boxTop2), new Vector2(boxLeft2 + _box.width - 14, boxTop2 + 36), Color.White * 0.6f, 0.45f);
                 else if ((modIndex & 1) != 0)
-                    Graphics.DrawRect(new Vec2(boxLeft2, boxTop2), new Vec2(boxLeft2 + _box.width - 14, boxTop2 + 36), Color.White * 0.1f, 0.45f);
+                    Graphics.DrawRect(new Vector2(boxLeft2, boxTop2), new Vector2(boxLeft2 + _box.width - 14, boxTop2 + 36), Color.White * 0.1f, 0.45f);
                 Mod mod = _mods[modIndex];
                 if (mod != null)
                 {
                     if (mod is UI_ModSettings)
                     {
                         Graphics.Draw(_settingsIcon, boxLeft2 + 2, boxTop2 + 1, 0.5f);
-                        _fancyFont.Scale = new Vec2(1.5f);
-                        _fancyFont.Draw("Mod Settings", new Vec2(boxLeft2 + 36, boxTop2 + 11), Color.White, 0.5f);
-                        _fancyFont.Scale = Vec2.One;
+                        _fancyFont.Scale = new Vector2(1.5f);
+                        _fancyFont.Draw("Mod Settings", new Vector2(boxLeft2 + 36, boxTop2 + 11), Color.White, 0.5f);
+                        _fancyFont.Scale = Vector2.One;
                         continue;
                     }
                     Tex2D preview = mod.previewTexture;
                     if (preview != null && _noImage.texture != preview)
                     {
                         _noImage.texture = preview;
-                        _noImage.Scale = new Vec2(32F / preview.width);
+                        _noImage.Scale = new Vector2(32F / preview.width);
                     }
-                    Graphics.DrawRect(new Vec2(boxLeft2 + 2, boxTop2 + 2), new Vec2(boxLeft2 + 34, boxTop2 + 34), Color.Gray, 0.44f, filled: false, 2);
+                    Graphics.DrawRect(new Vector2(boxLeft2 + 2, boxTop2 + 2), new Vector2(boxLeft2 + 34, boxTop2 + 34), Color.Gray, 0.44f, filled: false, 2);
                     Graphics.Draw(_noImage, boxLeft2 + 2, boxTop2 + 2, 0.5f);
                     string titleString = $"#{modIndex}: ";
                     if (mod.configuration.error != null)
                     {
-                        _modErrorIcon.Scale = new Vec2(2);
+                        _modErrorIcon.Scale = new Vector2(2);
                         Graphics.Draw(_modErrorIcon, boxLeft2 + 2, boxTop2 + 2, 0.55f);
                         titleString += "|DGRED|";
                     }
                     if (mod.configuration.error != null || mod.configuration.disabled)
-                        Graphics.DrawRect(new Vec2(boxLeft2, boxTop2), new Vec2(boxLeft2 + _box.width - 14, boxTop2 + 36), Color.Black * 0.4f, 0.85f);
+                        Graphics.DrawRect(new Vector2(boxLeft2, boxTop2), new Vector2(boxLeft2 + _box.width - 14, boxTop2 + 36), Color.Black * 0.4f, 0.85f);
                     bool reskin = mod.configuration.modType == ModConfiguration.Type.Reskin || mod.configuration.isExistingReskinMod;
                     titleString = !mod.configuration.loaded
                                   ? $"{titleString}{mod.configuration.name}"
@@ -699,37 +700,37 @@ public class UIModManagement : UIMenu
                     else if (mod.configuration.modType == ModConfiguration.Type.HatPack)
                         titleString += "|DGPURPLE| (Hat Pack)";
                     titleString += (mod.configuration.disabled ? "|DGRED| (Disabled)" : "|DGGREEN| (Enabled)");
-                    _fancyFont.Draw(titleString, new Vec2(boxLeft2 + 46, boxTop2 + 2), Color.Yellow, 0.5f);
+                    _fancyFont.Draw(titleString, new Vector2(boxLeft2 + 46, boxTop2 + 2), Color.Yellow, 0.5f);
                     Graphics.Draw(!mod.configuration.isWorkshop ? _localIcon : _steamIcon, boxLeft2 + 36, boxTop2 + 2.5f, 0.5f);
                     if (mod.configuration.error != null && (mod.configuration.disabled || mod is ErrorMod))
                     {
                         string er = mod.configuration.error;
                         if (er.Length > 150)
                             er = er[..150];
-                        _fancyFont.Draw(mod.configuration.error.StartsWith('!') ? $"|DGYELLOW|{er[1..]}" : $"|DGRED|Failed with error: {er}", new Vec2(boxLeft2 + 36, boxTop2 + _fancyFont.characterHeight + 6), Color.White, 0.5f);
+                        _fancyFont.Draw(mod.configuration.error.StartsWith('!') ? $"|DGYELLOW|{er[1..]}" : $"|DGRED|Failed with error: {er}", new Vector2(boxLeft2 + 36, boxTop2 + _fancyFont.characterHeight + 6), Color.White, 0.5f);
                     }
                     else if (!mod.configuration.loaded)
                     {
                         if (mod.configuration.disabled)
-                            _fancyFont.Draw("Mod is disabled.", new Vec2(boxLeft2 + 36, boxTop2 + _fancyFont.characterHeight + 6), Color.LightGray, 0.5f);
+                            _fancyFont.Draw("Mod is disabled.", new Vector2(boxLeft2 + 36, boxTop2 + _fancyFont.characterHeight + 6), Color.LightGray, 0.5f);
                         else
-                            _fancyFont.Draw("|DGGREEN|Mod will be enabled on next restart.", new Vec2(boxLeft2 + 36, boxTop2 + _fancyFont.characterHeight + 6), Color.Orange, 0.5f);
+                            _fancyFont.Draw("|DGGREEN|Mod will be enabled on next restart.", new Vector2(boxLeft2 + 36, boxTop2 + _fancyFont.characterHeight + 6), Color.Orange, 0.5f);
                     }
                     else if (mod.configuration.disabled)
-                        _fancyFont.Draw("|DGRED|Mod will be disabled on next restart.", new Vec2(boxLeft2 + 36, boxTop2 + _fancyFont.characterHeight + 6), Color.Orange, 0.5f);
+                        _fancyFont.Draw("|DGRED|Mod will be disabled on next restart.", new Vector2(boxLeft2 + 36, boxTop2 + _fancyFont.characterHeight + 6), Color.Orange, 0.5f);
                     else
-                        _fancyFont.Draw(mod.configuration.description, new Vec2(boxLeft2 + 36, boxTop2 + _fancyFont.characterHeight + 6), Color.White, 0.5f);
+                        _fancyFont.Draw(mod.configuration.description, new Vector2(boxLeft2 + 36, boxTop2 + _fancyFont.characterHeight + 6), Color.White, 0.5f);
                 }
                 else
                 {
                     Graphics.Draw(_newIcon, boxLeft2 + 2, boxTop2 + 1, 0.5f);
-                    _fancyFont.Scale = new Vec2(1.5f);
-                    _fancyFont.Draw($"Get {(_mods.Count == 1 ? "some" : "more")} mods!", new Vec2(boxLeft2 + 36, boxTop2 + 11), Color.White, 0.5f);
-                    _fancyFont.Scale = Vec2.One;
+                    _fancyFont.Scale = new Vector2(1.5f);
+                    _fancyFont.Draw($"Get {(_mods.Count == 1 ? "some" : "more")} mods!", new Vector2(boxLeft2 + 36, boxTop2 + 11), Color.White, 0.5f);
+                    _fancyFont.Scale = Vector2.One;
                 }
             }
             if (_awaitingChanges)
-                Graphics.DrawString("Restart required for some changes to take effect!", new Vec2(X - halfWidth + 128, Y - halfHeight + 8), Color.Red, 0.6f);
+                Graphics.DrawString("Restart required for some changes to take effect!", new Vector2(X - halfWidth + 128, Y - halfHeight + 8), Color.Red, 0.6f);
             if (_transferItem != null)
             {
                 Graphics.DrawRect(new Rectangle(_box.X - _box.halfWidth, _box.Y - _box.halfHeight, _box.width, _box.height), Color.Black * 0.9f, 0.7f);
@@ -761,10 +762,10 @@ public class UIModManagement : UIMenu
                     Graphics.DrawRect(new Rectangle(_updateTextBox.position.X, _updateTextBox.position.Y, _updateTextBox.size.X, _updateTextBox.size.Y), Color.Black, 0.85f);
                     _updateTextBox.Draw();
                     centerTopText = "Enter change notes:";
-                    Graphics.DrawString(_updateButtonText, new Vec2(_updateButton.x, _updateButton.y), _updateButton.Contains(Mouse.position) ? Color.Yellow : Color.White, 0.9f, null, 2);
+                    Graphics.DrawString(_updateButtonText, new Vector2(_updateButton.x, _updateButton.y), _updateButton.Contains(Mouse.position) ? Color.Yellow : Color.White, 0.9f, null, 2);
                 }
                 float width = Graphics.GetStringWidth(centerTopText, thinButtons: false, 2);
-                Graphics.DrawString(centerTopText, new Vec2(_box.X - width / 2, _box.Y - _box.halfHeight + 24), Color.White, 0.8f, null, 2);
+                Graphics.DrawString(centerTopText, new Vector2(_box.X - width / 2, _box.Y - _box.halfHeight + 24), Color.White, 0.8f, null, 2);
             }
         }
         base.Draw();

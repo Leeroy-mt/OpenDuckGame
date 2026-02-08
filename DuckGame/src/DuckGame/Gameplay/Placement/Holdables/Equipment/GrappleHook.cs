@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class GrappleHook : PhysicsObject
@@ -15,9 +17,9 @@ public class GrappleHook : PhysicsObject
     {
         _owner = ownerVal;
         graphic = new Sprite("harpoon");
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-5f, -1.5f);
-        collisionSize = new Vec2(10f, 5f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-5f, -1.5f);
+        collisionSize = new Vector2(10f, 5f);
     }
 
     public override void Update()

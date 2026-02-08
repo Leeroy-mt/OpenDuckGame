@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Background|Parallax|custom", EditorItemType.Custom)]
@@ -22,9 +24,9 @@ public class CustomParallaxSegment : Thing
         {
             frame = 6
         };
-        Center = new Vec2(8f, 8f);
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(-8f, -8f);
         base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;

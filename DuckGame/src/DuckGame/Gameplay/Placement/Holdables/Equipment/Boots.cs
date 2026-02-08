@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Equipment")]
@@ -14,9 +16,9 @@ public class Boots : Equipment
         _pickupSprite = new Sprite("bootsPickup");
         _sprite = new SpriteMap("boots", 32, 32);
         graphic = _pickupSprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-6f, -6f);
-        collisionSize = new Vec2(12f, 13f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-6f, -6f);
+        collisionSize = new Vector2(12f, 13f);
         _equippedDepth = 3;
         editorTooltip = "Keeps feet safe and smashes bugs, among other things.";
         flammable = 0.3f;
@@ -36,10 +38,10 @@ public class Boots : Equipment
     {
         if (_equippedDuck != null && !destroyed)
         {
-            Center = new Vec2(16f, 12f);
+            Center = new Vector2(16f, 12f);
             graphic = _sprite;
-            collisionOffset = new Vec2(0f, -9999f);
-            collisionSize = new Vec2(0f, 0f);
+            collisionOffset = new Vector2(0f, -9999f);
+            collisionSize = new Vector2(0f, 0f);
             solid = false;
             _sprite.frame = _equippedDuck._sprite.imageIndex;
             if (_equippedDuck.ragdoll != null)
@@ -50,10 +52,10 @@ public class Boots : Equipment
         }
         else
         {
-            Center = new Vec2(8f, 8f);
+            Center = new Vector2(8f, 8f);
             graphic = _pickupSprite;
-            collisionOffset = new Vec2(-6f, -6f);
-            collisionSize = new Vec2(12f, 13f);
+            collisionOffset = new Vector2(-6f, -6f);
+            collisionSize = new Vector2(12f, 13f);
             solid = true;
             _sprite.frame = 0;
             _sprite.flipH = false;

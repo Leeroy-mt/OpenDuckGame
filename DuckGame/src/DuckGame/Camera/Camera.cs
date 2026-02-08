@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -8,19 +9,19 @@ public class Camera
 
     protected bool _dirty = true;
 
-    protected Vec2 _position;
+    protected Vector2 _position;
 
-    protected Vec2 _size = new Vec2(320f, 320f * Graphics.aspect);
+    protected Vector2 _size = new Vector2(320f, 320f * Graphics.aspect);
 
-    protected Vec2 _zoomPoint = new Vec2(0f, 0f);
+    protected Vector2 _zoomPoint = new Vector2(0f, 0f);
 
     public bool skipUpdate;
 
     private Rectangle _rectangle;
 
-    public Vec2 _viewSize;
+    public Vector2 _viewSize;
 
-    public Vec2 position
+    public Vector2 position
     {
         get
         {
@@ -68,11 +69,11 @@ public class Camera
         }
     }
 
-    public Vec2 center
+    public Vector2 center
     {
         get
         {
-            return new Vec2(centerX, centerY);
+            return new Vector2(centerX, centerY);
         }
         set
         {
@@ -125,7 +126,7 @@ public class Camera
 
     public float right => x + width;
 
-    public Vec2 size
+    public Vector2 size
     {
         get
         {
@@ -170,7 +171,7 @@ public class Camera
         }
     }
 
-    public Vec2 zoomPoint
+    public Vector2 zoomPoint
     {
         get
         {
@@ -186,7 +187,7 @@ public class Camera
 
     public void InitializeToScreenAspect()
     {
-        _size = new Vec2(320f, 320f / Resolution.current.aspect);
+        _size = new Vector2(320f, 320f / Resolution.current.aspect);
         _dirty = true;
     }
 
@@ -200,24 +201,24 @@ public class Camera
         return height * (percent / 100f);
     }
 
-    public Vec2 PercentWH(float wide, float high)
+    public Vector2 PercentWH(float wide, float high)
     {
-        return new Vec2(width * (wide / 100f), height * (high / 100f));
+        return new Vector2(width * (wide / 100f), height * (high / 100f));
     }
 
-    public Vec2 OffsetTL(float t, float l)
+    public Vector2 OffsetTL(float t, float l)
     {
-        return new Vec2(x + t, y + l);
+        return new Vector2(x + t, y + l);
     }
 
-    public Vec2 OffsetBR(float t, float l)
+    public Vector2 OffsetBR(float t, float l)
     {
-        return new Vec2(x + width + t, y + height + l);
+        return new Vector2(x + width + t, y + height + l);
     }
 
-    public Vec2 OffsetCenter(float t, float l)
+    public Vector2 OffsetCenter(float t, float l)
     {
-        return new Vec2(x + PercentW(50f) + t, y + PercentH(50f) + l);
+        return new Vector2(x + PercentW(50f) + t, y + PercentH(50f) + l);
     }
 
     public Camera()
@@ -256,34 +257,34 @@ public class Camera
     {
     }
 
-    public virtual Vec2 transformScreenVector(Vec2 vector)
+    public virtual Vector2 transformScreenVector(Vector2 vector)
     {
         Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Matrix.Invert(getMatrix()));
-        return new Vec2(newvec3.x, newvec3.y);
+        return new Vector2(newvec3.x, newvec3.y);
     }
 
-    public virtual Vec2 transformTime(Vec2 vector)
+    public virtual Vector2 transformTime(Vector2 vector)
     {
         Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Resolution.getTransformationMatrix() * getMatrix());
-        return new Vec2(newvec3.x, newvec3.y);
+        return new Vector2(newvec3.x, newvec3.y);
     }
 
-    public virtual Vec2 transformWorldVector(Vec2 vector)
+    public virtual Vector2 transformWorldVector(Vector2 vector)
     {
         Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Matrix.Invert(Resolution.getTransformationMatrix()) * getMatrix());
-        return new Vec2(newvec3.x, newvec3.y);
+        return new Vector2(newvec3.x, newvec3.y);
     }
 
-    public virtual Vec2 transform(Vec2 vector)
+    public virtual Vector2 transform(Vector2 vector)
     {
         Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), getMatrix());
-        return new Vec2(newvec3.x, newvec3.y);
+        return new Vector2(newvec3.x, newvec3.y);
     }
 
-    public virtual Vec2 transformInverse(Vec2 vector)
+    public virtual Vector2 transformInverse(Vector2 vector)
     {
         Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Matrix.Invert(getMatrix()));
-        return new Vec2(newvec3.x, newvec3.y);
+        return new Vector2(newvec3.x, newvec3.y);
     }
 
     public virtual Matrix getMatrix()
@@ -291,8 +292,8 @@ public class Camera
         if (_dirty || (float)Graphics.viewport.Width != _viewSize.X || (float)Graphics.viewport.Height != _viewSize.Y)
         {
             _rectangle = new Rectangle(left - 16f, top - 16f, size.X + 32f, size.Y + 32f);
-            _viewSize = new Vec2(Graphics.viewport.Width, Graphics.viewport.Height);
-            Vec2 pos = position;
+            _viewSize = new Vector2(Graphics.viewport.Width, Graphics.viewport.Height);
+            Vector2 pos = position;
             float wid = width;
             float hig = height;
             _matrix = Matrix.CreateTranslation(new Vec3(0f - pos.X, 0f - pos.Y, 0f)) * Matrix.CreateScale(_viewSize.X / wid, _viewSize.Y / hig, 1f);

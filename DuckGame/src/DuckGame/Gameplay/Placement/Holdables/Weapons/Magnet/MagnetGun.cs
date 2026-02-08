@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
@@ -32,9 +33,9 @@ public class MagnetGun : Gun
 
     private Block _stuck;
 
-    private Vec2 _stickPos = Vec2.Zero;
+    private Vector2 _stickPos = Vector2.Zero;
 
-    private Vec2 _stickNormal = Vec2.Zero;
+    private Vector2 _stickNormal = Vector2.Zero;
 
     private Sound _beamSound;
 
@@ -42,7 +43,7 @@ public class MagnetGun : Gun
 
     private List<MagnaLine> _lines = new List<MagnaLine>();
 
-    private Vec2 _rayHit;
+    private Vector2 _rayHit;
 
     private bool _hasRay;
 
@@ -78,10 +79,10 @@ public class MagnetGun : Gun
         _ammoType.penetration = -1f;
         _type = "gun";
         graphic = new Sprite("magnetGun");
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -4f);
-        collisionSize = new Vec2(14f, 9f);
-        _barrelOffsetTL = new Vec2(24f, 14f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -4f);
+        collisionSize = new Vector2(14f, 9f);
+        _barrelOffsetTL = new Vector2(24f, 14f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
@@ -91,7 +92,7 @@ public class MagnetGun : Gun
         _bio = "Nope.";
         _editorName = "Magnet Gun";
         editorTooltip = "Attracts metal objects. This seems like a bad idea.";
-        _holdOffset = new Vec2(3f, 1f);
+        _holdOffset = new Vector2(3f, 1f);
         _lowerOnFire = false;
     }
 
@@ -159,7 +160,7 @@ public class MagnetGun : Gun
         {
             _power = 1f;
         }
-        Vec2 pos = Offset(base.barrelOffset);
+        Vector2 pos = Offset(base.barrelOffset);
         bool grabLoop = _grabbed is MagnetGun && (_grabbed as MagnetGun)._grabbed == this;
         if (_magnetActive && base.held && !grabLoop)
         {
@@ -182,10 +183,10 @@ public class MagnetGun : Gun
             {
                 Holdable nearest = null;
                 float nearestDist = 0f;
-                Vec2 downVec = base.barrelVector.Rotate(Maths.DegToRad(90f), Vec2.Zero).Normalized;
+                Vector2 downVec = Vector2.Normalize(barrelVector.Rotate(Maths.DegToRad(90f), Vector2.Zero));
                 for (int i = 0; i < 3; i++)
                 {
-                    Vec2 checkPos = pos;
+                    Vector2 checkPos = pos;
                     switch (i)
                     {
                         case 0:
@@ -231,7 +232,7 @@ public class MagnetGun : Gun
                             duckOwner = null;
                         }
                     }
-                    Vec2 vec = (pos - nearest.Position).Normalized;
+                    Vector2 vec = Vector2.Normalize(pos - nearest.Position);
                     if (duckOwner != null && nearest is Equipment)
                     {
                         if (duckOwner.ragdoll != null)
@@ -294,19 +295,19 @@ public class MagnetGun : Gun
                 }
                 else if (base.isServerForObject && _stuck == null && (Math.Abs(Angle) < 0.05f || Math.Abs(Angle) > 1.5f))
                 {
-                    Vec2 checkPos2 = owner.Position;
+                    Vector2 checkPos2 = owner.Position;
                     if (base.duck.sliding)
                     {
                         checkPos2.Y += 4f;
                     }
-                    Vec2 rayHit;
+                    Vector2 rayHit;
                     Block b = Level.CheckRay<Block>(checkPos2, checkPos2 + base.barrelVector * _ammoType.range, out rayHit);
                     _hasRay = true;
                     _rayHit = rayHit;
                     if (b != null && b.physicsMaterial == PhysicsMaterial.Metal)
                     {
                         float power2 = (1f - Math.Min((b.Position - checkPos2).Length(), _ammoType.range) / _ammoType.range) * 0.8f;
-                        Vec2 pull = rayHit - base.duck.Position;
+                        Vector2 pull = rayHit - base.duck.Position;
                         float length2 = pull.Length();
                         pull.Normalize();
                         owner.hSpeed += pull.X * power2;
@@ -331,7 +332,7 @@ public class MagnetGun : Gun
                 {
                     ReleaseGrab(_grabbed);
                     _grabbed = null;
-                    _collisionSize = new Vec2(14f, _collisionSize.Y);
+                    _collisionSize = new Vector2(14f, _collisionSize.Y);
                 }
                 if (_stuck != null)
                 {
@@ -406,7 +407,7 @@ public class MagnetGun : Gun
             {
                 (_grabbed as TapedGun).UpdatePositioning();
             }
-            _collisionSize = new Vec2(16f + _grabbed.width, _collisionSize.Y);
+            _collisionSize = new Vector2(16f + _grabbed.width, _collisionSize.Y);
             if (_grabbed is Duck d2)
             {
                 d2.grounded = true;
@@ -423,7 +424,7 @@ public class MagnetGun : Gun
             SFX.Play("grappleHook");
             for (int k = 0; k < 6; k++)
             {
-                Level.Add(Spark.New(pos.X - base.barrelVector.X * 2f + Rando.Float(-1f, 1f), pos.Y - base.barrelVector.Y * 2f + Rando.Float(-1f, 1f), base.barrelVector + new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+                Level.Add(Spark.New(pos.X - base.barrelVector.X * 2f + Rando.Float(-1f, 1f), pos.Y - base.barrelVector.Y * 2f + Rando.Float(-1f, 1f), base.barrelVector + new Vector2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
             }
             localAttachIndex = attachIndex;
         }
@@ -474,14 +475,14 @@ public class MagnetGun : Gun
         {
             if (_grabbed is Duck)
             {
-                Vec2 poss = Offset(base.barrelOffset + new Vec2(0f, -6f));
+                Vector2 poss = Offset(base.barrelOffset + new Vector2(0f, -6f));
                 _grabbed.Position = poss + base.barrelVector * _grabbed.halfWidth;
                 (_grabbed as Duck).UpdateSkeleton();
                 (_grabbed as Duck).gripped = true;
             }
             else
             {
-                Vec2 poss2 = Offset(base.barrelOffset);
+                Vector2 poss2 = Offset(base.barrelOffset);
                 _grabbed.Position = poss2 + base.barrelVector * _grabbed.halfWidth;
             }
         }
@@ -515,7 +516,7 @@ public class MagnetGun : Gun
     public override void Draw()
     {
         base.Draw();
-        Draw(_magnet, new Vec2(5f, -2f + (float)_wave * _waveMult));
+        Draw(_magnet, new Vector2(5f, -2f + (float)_wave * _waveMult));
         foreach (MagnaLine line in _lines)
         {
             line.Draw();

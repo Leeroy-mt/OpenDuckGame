@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -18,7 +19,7 @@ public class GinormoBoard : Thing
 
     private BoardMode _mode;
 
-    private Vec2 _pos;
+    private Vector2 _pos;
 
     private Layer boardLightingLayer;
 
@@ -45,7 +46,7 @@ public class GinormoBoard : Thing
     {
         _smallMode = smallMode;
         _board = new Sprite("rockThrow/boardMiddle");
-        _board.Center = new Vec2(_board.w / 2, _board.h / 2 - 30);
+        _board.Center = new Vector2(_board.w / 2, _board.h / 2 - 30);
         _lighting = new SpriteMap("rockThrow/lighting", 191, 23);
         _lighting.frame = 1;
         boardLightingLayer = new Layer("LIGHTING", -85);
@@ -74,12 +75,12 @@ public class GinormoBoard : Thing
             _boardTop = new Sprite("rockThrow/boardTop");
             _boardBottom = new Sprite("rockThrow/boardBottom");
         }
-        _boardTop.Center = new Vec2(_boardTop.w / 2, _boardTop.h / 2 - 30);
-        _boardBottom.Center = new Vec2(_boardBottom.w / 2, _boardBottom.h / 2 - 30);
+        _boardTop.Center = new Vector2(_boardTop.w / 2, _boardTop.h / 2 - 30);
+        _boardBottom.Center = new Vector2(_boardBottom.w / 2, _boardBottom.h / 2 - 30);
         base.layer = Layer.Background;
-        _pos = new Vec2(xpos, ypos);
+        _pos = new Vector2(xpos, ypos);
         _mode = mode;
-        boardLayer = new Layer("BOARD", -85, null, targetLayer: true, new Vec2(GinormoScreen.GetSize(_smallMode).X, GinormoScreen.GetSize(_smallMode).Y));
+        boardLayer = new Layer("BOARD", -85, null, targetLayer: true, new Vector2(GinormoScreen.GetSize(_smallMode).X, GinormoScreen.GetSize(_smallMode).Y));
         boardLayer.camera = new Camera(0f, 0f, GinormoScreen.GetSize(_smallMode).X, GinormoScreen.GetSize(_smallMode).Y);
         boardLayer.targetOnly = true;
         boardLayer.targetClearColor = new Color(0.05f, 0.05f, 0.05f);

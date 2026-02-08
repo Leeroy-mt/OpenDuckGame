@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -21,17 +22,17 @@ public class Shotgun : Gun
         wideBarrel = true;
         _type = "gun";
         graphic = new Sprite("shotgun");
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(16f, 8f);
-        _barrelOffsetTL = new Vec2(30f, 14f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(16f, 8f);
+        _barrelOffsetTL = new Vector2(30f, 14f);
         _fireSound = "shotgunFire2";
         _kickForce = 4f;
         _fireRumble = RumbleIntensity.Light;
         _numBulletsPerFire = 6;
         _manualLoad = true;
         _loaderSprite = new SpriteMap("shotgunLoader", 8, 8);
-        _loaderSprite.Center = new Vec2(4f, 4f);
+        _loaderSprite.Center = new Vector2(4f, 4f);
         editorTooltip = "It's...a shotgun. I don't really have anything more to say about it.";
     }
 
@@ -93,8 +94,8 @@ public class Shotgun : Gun
     public override void Draw()
     {
         base.Draw();
-        Vec2 bOffset = new Vec2(13f, -2f);
+        Vector2 bOffset = new Vector2(13f, -2f);
         float offset = (float)Math.Sin(_loadAnimation * 3.14f) * 3f;
-        Draw(_loaderSprite, new Vec2(bOffset.X - 8f - offset, bOffset.Y + 4f));
+        Draw(_loaderSprite, new Vector2(bOffset.X - 8f - offset, bOffset.Y + 4f));
     }
 }

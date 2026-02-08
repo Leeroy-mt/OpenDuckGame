@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -558,7 +559,7 @@ public class Deathmatch : Thing
                                     PlusOne plusOne = new PlusOne(0f, 0f, realProfile);
                                     plusOne._duck = p3.duck;
                                     plusOne.anchor = p3.duck;
-                                    plusOne.anchor.offset = new Vec2(0f, -16f);
+                                    plusOne.anchor.offset = new Vector2(0f, -16f);
                                     Level.Add(plusOne);
                                 }
                             }
@@ -672,7 +673,7 @@ public class Deathmatch : Thing
             usedSpawns.Add(teamSpawn);
             for (int i = 0; i < team.numMembers; i++)
             {
-                Vec2 pos = teamSpawn.Position;
+                Vector2 pos = teamSpawn.Position;
                 if (team.numMembers == 2)
                 {
                     float spread = 18.823528f;

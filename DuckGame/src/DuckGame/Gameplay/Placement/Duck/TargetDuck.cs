@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
@@ -76,13 +77,13 @@ public class TargetDuck : Duck, ISequenceItem
         _base = new Sprite("popupPad");
         _woodWing = new Sprite("woodWing");
         graphic = _sprite;
-        Center = new Vec2(16f, 22f);
+        Center = new Vector2(16f, 22f);
         _stance = stance;
         UpdateCollision();
         physicsMaterial = PhysicsMaterial.Wood;
         thickness = 0.5f;
         _hitPoints = (_maxHealth = 0.1f);
-        base.editorOffset = new Vec2(0f, -4f);
+        base.editorOffset = new Vector2(0f, -4f);
         base.hugWalls = WallHug.Floor;
         _canHaveChance = false;
         base.sequence = new SequenceItem(this);
@@ -106,11 +107,11 @@ public class TargetDuck : Duck, ISequenceItem
         {
             if (_stance != TargetStance.Fly)
             {
-                base.Scale = new Vec2(1f, 0f);
+                base.Scale = new Vector2(1f, 0f);
             }
             else
             {
-                base.Scale = new Vec2(0f, 1f);
+                base.Scale = new Vector2(0f, 1f);
             }
             ChallengeLevel.allTargetsShot = false;
             _autoFireWait = autofire.value;
@@ -135,23 +136,23 @@ public class TargetDuck : Duck, ISequenceItem
 
     public override void ReturnItemToWorld(Thing t)
     {
-        Vec2 vec = Position + new Vec2(offDir * 3, 0f);
-        Block rightWall = Level.CheckLine<Block>(vec, vec + new Vec2(16f, 0f));
+        Vector2 vec = Position + new Vector2(offDir * 3, 0f);
+        Block rightWall = Level.CheckLine<Block>(vec, vec + new Vector2(16f, 0f));
         if (rightWall != null && rightWall.solid && t.right > rightWall.left)
         {
             t.right = rightWall.left;
         }
-        Block leftWall = Level.CheckLine<Block>(vec, vec - new Vec2(16f, 0f));
+        Block leftWall = Level.CheckLine<Block>(vec, vec - new Vector2(16f, 0f));
         if (leftWall != null && leftWall.solid && t.left < leftWall.right)
         {
             t.left = leftWall.right;
         }
-        Block topWall = Level.CheckLine<Block>(vec, vec + new Vec2(0f, -16f));
+        Block topWall = Level.CheckLine<Block>(vec, vec + new Vector2(0f, -16f));
         if (topWall != null && topWall.solid && t.top < topWall.bottom)
         {
             t.top = topWall.bottom;
         }
-        Block bottomWall = Level.CheckLine<Block>(vec, vec + new Vec2(0f, 16f));
+        Block bottomWall = Level.CheckLine<Block>(vec, vec + new Vector2(0f, 16f));
         if (bottomWall != null && bottomWall.solid && t.bottom > bottomWall.top)
         {
             t.bottom = bottomWall.top;
@@ -167,38 +168,38 @@ public class TargetDuck : Duck, ISequenceItem
             if (_stance == TargetStance.Stand)
             {
                 _sprite.frame = 0;
-                _collisionOffset = new Vec2(-6f, -24f);
-                collisionSize = new Vec2(12f, 24f);
+                _collisionOffset = new Vector2(-6f, -24f);
+                collisionSize = new Vector2(12f, 24f);
                 base.hugWalls = WallHug.Floor;
             }
             else if (_stance == TargetStance.StandArmed)
             {
                 _sprite.frame = 1;
-                _collisionOffset = new Vec2(-6f, -23f);
-                collisionSize = new Vec2(12f, 23f);
+                _collisionOffset = new Vector2(-6f, -23f);
+                collisionSize = new Vector2(12f, 23f);
                 base.hugWalls = WallHug.Floor;
             }
             else if (_stance == TargetStance.Crouch)
             {
                 _sprite.frame = 2;
-                _collisionOffset = new Vec2(-6f, -18f);
-                collisionSize = new Vec2(12f, 18f);
+                _collisionOffset = new Vector2(-6f, -18f);
+                collisionSize = new Vector2(12f, 18f);
                 crouch = true;
                 base.hugWalls = WallHug.Floor;
             }
             else if (_stance == TargetStance.Slide)
             {
                 _sprite.frame = 3;
-                _collisionOffset = new Vec2(-6f, -10f);
-                collisionSize = new Vec2(12f, 10f);
+                _collisionOffset = new Vector2(-6f, -10f);
+                collisionSize = new Vector2(12f, 10f);
                 sliding = true;
                 base.hugWalls = WallHug.Floor;
             }
             else if (_stance == TargetStance.Fly)
             {
                 _sprite.frame = 4;
-                _collisionOffset = new Vec2(-8f, -24f);
-                collisionSize = new Vec2(16f, 24f);
+                _collisionOffset = new Vector2(-8f, -24f);
+                collisionSize = new Vector2(16f, 24f);
                 base.hugWalls = WallHug.Left | WallHug.Right;
             }
         }
@@ -226,13 +227,13 @@ public class TargetDuck : Duck, ISequenceItem
                 _sprite.frame = 4;
                 base.hugWalls = WallHug.Left | WallHug.Right;
             }
-            _collisionOffset = new Vec2(-6000f, 0f);
-            collisionSize = new Vec2(2f, 2f);
+            _collisionOffset = new Vector2(-6000f, 0f);
+            collisionSize = new Vector2(2f, 2f);
         }
         _collisionOffset.Y += 10f;
         _collisionSize.Y -= 1f;
-        _featherVolume.collisionSize = new Vec2(collisionSize.X + 2f, collisionSize.Y + 2f);
-        _featherVolume.collisionOffset = new Vec2(collisionOffset.X - 1f, collisionOffset.Y - 1f);
+        _featherVolume.collisionSize = new Vector2(collisionSize.X + 2f, collisionSize.Y + 2f);
+        _featherVolume.collisionOffset = new Vector2(collisionOffset.X - 1f, collisionOffset.Y - 1f);
     }
 
     public override void OnSequenceActivate()
@@ -288,7 +289,7 @@ public class TargetDuck : Duck, ISequenceItem
             {
                 SFX.Play("targetRebound", Rando.Float(0.7f, 0.8f), Rando.Float(-0.2f, 0.2f));
             }
-            Vec2 flyDir = Vec2.Zero;
+            Vector2 flyDir = Vector2.Zero;
             if (type is DTShot)
             {
                 flyDir = (type as DTShot).bullet.travelDirNormalized;
@@ -309,7 +310,7 @@ public class TargetDuck : Duck, ISequenceItem
         return false;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (_up && _popup)
         {
@@ -318,7 +319,7 @@ public class TargetDuck : Duck, ISequenceItem
         return false;
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 hitPos)
+    public override void ExitHit(Bullet bullet, Vector2 hitPos)
     {
         if (_up && !_popup)
         {
@@ -365,9 +366,9 @@ public class TargetDuck : Duck, ISequenceItem
         {
             f = 11;
         }
-        _skeleton.head.position = Offset(DuckRig.GetHatPoint(f) + new Vec2(0f, -off));
-        _skeleton.upperTorso.position = Offset(DuckRig.GetChestPoint(f) + new Vec2(0f, -off));
-        _skeleton.lowerTorso.position = Position + new Vec2(0f, 10 - off);
+        _skeleton.head.position = Offset(DuckRig.GetHatPoint(f) + new Vector2(0f, -off));
+        _skeleton.upperTorso.position = Offset(DuckRig.GetChestPoint(f) + new Vector2(0f, -off));
+        _skeleton.lowerTorso.position = Position + new Vector2(0f, 10 - off);
         if (sliding)
         {
             _skeleton.head.orientation = Maths.DegToRad(90f);
@@ -393,7 +394,7 @@ public class TargetDuck : Duck, ISequenceItem
             return;
         }
         holdObject.UpdateAction();
-        holdObject.Position = base.armPosition + holdObject.holdOffset + new Vec2(holdOffX, holdOffY) + new Vec2(2 * offDir, 0f);
+        holdObject.Position = base.armPosition + holdObject.holdOffset + new Vector2(holdOffX, holdOffY) + new Vector2(2 * offDir, 0f);
         holdObject.offDir = offDir;
         if (_sprite.currentAnimation == "slide")
         {
@@ -413,7 +414,7 @@ public class TargetDuck : Duck, ISequenceItem
         }
         _ = _stance;
         _ = 4;
-        holdObject.Position = HoldOffset(holdObject.holdOffset) + new Vec2(offDir * 3, 0f);
+        holdObject.Position = HoldOffset(holdObject.holdOffset) + new Vector2(offDir * 3, 0f);
         holdObject.Angle = holdObject.handAngle + holdAngleOff;
     }
 
@@ -429,12 +430,12 @@ public class TargetDuck : Duck, ISequenceItem
         {
             range = g.ammoType.range;
         }
-        Vec2 at = holdObject.Offset(new Vec2(range * holdObject.angleMul, 0f));
+        Vector2 at = holdObject.Offset(new Vector2(range * holdObject.angleMul, 0f));
         if (_autoFireWait <= 0f)
         {
             foreach (Duck d in Level.current.things[typeof(Duck)].Where((Thing thing) => !(thing is TargetDuck)))
             {
-                if ((Collision.Line(holdObject.Position + new Vec2(0f, -5f), at + new Vec2(0f, -5f), d.rectangle) || Collision.Line(holdObject.Position + new Vec2(0f, 5f), at + new Vec2(0f, 5f), d.rectangle)) && Level.CheckLine<Block>(holdObject.Position, d.Position) == null)
+                if ((Collision.Line(holdObject.Position + new Vector2(0f, -5f), at + new Vector2(0f, -5f), d.rectangle) || Collision.Line(holdObject.Position + new Vector2(0f, 5f), at + new Vector2(0f, 5f), d.rectangle)) && Level.CheckLine<Block>(holdObject.Position, d.Position) == null)
                 {
                     _waitFire -= 0.03f;
                     break;
@@ -583,7 +584,7 @@ public class TargetDuck : Duck, ISequenceItem
         {
             _reticule = new Sprite("challenge/reticule");
         }
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         if (base.ragdoll != null)
         {
             pos = base.ragdoll.part1.Position;
@@ -613,9 +614,9 @@ public class TargetDuck : Duck, ISequenceItem
             }
             pos = Level.current.camera.transform(pos);
             pos = Layer.HUD.camera.transformInverse(pos);
-            Graphics.DrawRect(pos + new Vec2(-5f, -5f), pos + new Vec2(5f, 5f), Color.Black, 0.8f);
-            Graphics.DrawRect(pos + new Vec2(-5f, -5f), pos + new Vec2(5f, 5f), Color.White, 0.81f, filled: false);
-            Graphics.Draw(_reticule.texture, pos, null, Color.White, 0f, new Vec2(_reticule.width / 2, _reticule.height / 2), new Vec2(0.5f, 0.5f), SpriteEffects.None, 0.9f + base.Depth.span);
+            Graphics.DrawRect(pos + new Vector2(-5f, -5f), pos + new Vector2(5f, 5f), Color.Black, 0.8f);
+            Graphics.DrawRect(pos + new Vector2(-5f, -5f), pos + new Vector2(5f, 5f), Color.White, 0.81f, filled: false);
+            Graphics.Draw(_reticule.texture, pos, null, Color.White, 0f, new Vector2(_reticule.width / 2, _reticule.height / 2), new Vector2(0.5f, 0.5f), SpriteEffects.None, 0.9f + base.Depth.span);
         }
     }
 
@@ -636,13 +637,13 @@ public class TargetDuck : Duck, ISequenceItem
             }
             else if (_stance != TargetStance.Fly)
             {
-                graphic.Center = Center + new Vec2(0f, 10f);
-                graphic.Position = Position + new Vec2(0f, 10f);
+                graphic.Center = Center + new Vector2(0f, 10f);
+                graphic.Position = Position + new Vector2(0f, 10f);
             }
             else
             {
-                graphic.Center = Center + new Vec2(-12f, 10f);
-                graphic.Position = Position + new Vec2(-12 * offDir, 10f);
+                graphic.Center = Center + new Vector2(-12f, 10f);
+                graphic.Position = Position + new Vector2(-12 * offDir, 10f);
             }
             graphic.Depth = base.Depth;
             graphic.Alpha = base.Alpha;

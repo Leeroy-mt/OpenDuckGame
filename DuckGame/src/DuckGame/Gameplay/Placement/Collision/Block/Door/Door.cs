@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -38,13 +39,13 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
 
     public float _openForce;
 
-    private Vec2 _topLeft;
+    private Vector2 _topLeft;
 
-    private Vec2 _topRight;
+    private Vector2 _topRight;
 
-    private Vec2 _bottomLeft;
+    private Vector2 _bottomLeft;
 
-    private Vec2 _bottomRight;
+    private Vector2 _bottomRight;
 
     private bool _cornerInit;
 
@@ -100,7 +101,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         }
     }
 
-    public override void SetTranslation(Vec2 translation)
+    public override void SetTranslation(Vector2 translation)
     {
         if (_frame != null)
         {
@@ -122,9 +123,9 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         _hitPoints = 50f;
         _sprite = new SpriteMap("door", 32, 32);
         graphic = _sprite;
-        Center = new Vec2(16f, 25f);
-        collisionSize = new Vec2(6f, 32f);
-        collisionOffset = new Vec2(-3f, -25f);
+        Center = new Vector2(16f, 25f);
+        collisionSize = new Vector2(6f, 32f);
+        collisionOffset = new Vector2(-3f, -25f);
         base.Depth = -0.5f;
         _editorName = "Door";
         thickness = 2f;
@@ -132,7 +133,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         _lock.CenterOrigin();
         _impactThreshold = 0f;
         _key = new SpriteMap("keyInDoor", 16, 16);
-        _key.Center = new Vec2(2f, 8f);
+        _key.Center = new Vector2(2f, 8f);
         _canFlip = false;
         physicsMaterial = PhysicsMaterial.Wood;
         base.sequence = new SequenceItem(this);
@@ -225,7 +226,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         return true;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal)
         {
@@ -259,7 +260,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         return base.Hit(bullet, hitPos);
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 exitPos)
+    public override void ExitHit(Bullet bullet, Vector2 exitPos)
     {
         exitPos += bullet.travelDirNormalized;
         for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
@@ -304,7 +305,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         }
     }
 
-    public void DoUnlock(Vec2 keyPos)
+    public void DoUnlock(Vector2 keyPos)
     {
         SFX.Play("deedleBeep");
         Level.Add(SmallSmoke.New(keyPos.X, keyPos.Y));
@@ -392,10 +393,10 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         if (_open < 0.9f && _open > -0.9f)
         {
             bool slamOpen = false;
-            Thing hit = Level.CheckRectFilter(_topLeft - new Vec2(18f, 0f), _bottomRight + new Vec2(18f, 0f), (Duck d) => !(d is TargetDuck));
+            Thing hit = Level.CheckRectFilter(_topLeft - new Vector2(18f, 0f), _bottomRight + new Vector2(18f, 0f), (Duck d) => !(d is TargetDuck));
             if (hit == null)
             {
-                hit = Level.CheckRectFilter(_topLeft - new Vec2(32f, 0f), _bottomRight + new Vec2(32f, 0f), (Duck d) => !(d is TargetDuck) && Math.Abs(d.hSpeed) > 4f);
+                hit = Level.CheckRectFilter(_topLeft - new Vector2(32f, 0f), _bottomRight + new Vector2(32f, 0f), (Duck d) => !(d is TargetDuck) && Math.Abs(d.hSpeed) > 4f);
                 slamOpen = true;
             }
             if (hit != null)
@@ -404,7 +405,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
                 if (hit.X < base.X)
                 {
                     _coll.Clear();
-                    Level.CheckRectAll(_topRight, _bottomRight + new Vec2(10f, 0f), _coll);
+                    Level.CheckRectAll(_topRight, _bottomRight + new Vector2(10f, 0f), _coll);
                     bool canOpen = true;
                     _jam = 1f;
                     foreach (PhysicsObject thing in _coll)
@@ -466,7 +467,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
                 else
                 {
                     _coll.Clear();
-                    Level.CheckRectAll(_topLeft - new Vec2(10f, 0f), _bottomLeft, _coll);
+                    Level.CheckRectAll(_topLeft - new Vector2(10f, 0f), _bottomLeft, _coll);
                     bool canOpen2 = true;
                     _jam = -1f;
                     foreach (PhysicsObject thing2 in _coll)
@@ -532,7 +533,7 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
             }
         }
         _coll.Clear();
-        Level.CheckRectAll(_topLeft - new Vec2(18f, 0f), _bottomRight + new Vec2(18f, 0f), _coll);
+        Level.CheckRectAll(_topLeft - new Vector2(18f, 0f), _bottomRight + new Vector2(18f, 0f), _coll);
         foreach (PhysicsObject hit2 in _coll)
         {
             if (hit2 is TeamHat || (!(hit2 is Duck) && _jammed) || (hit2 is Holdable && !(hit2 is Mine) && !(hit2 as Holdable).canPickUp) || !hit2.solid)
@@ -672,16 +673,16 @@ public class Door : Block, IPlatform, IDontMove, ISequenceItem
         }
         if (_sprite.frame > 9)
         {
-            collisionSize = new Vec2(0f, 0f);
+            collisionSize = new Vector2(0f, 0f);
             solid = false;
-            collisionOffset = new Vec2(0f, -999999f);
+            collisionOffset = new Vector2(0f, -999999f);
             base.Depth = -0.7f;
         }
         else
         {
-            collisionSize = new Vec2(colWide, 32f);
+            collisionSize = new Vector2(colWide, 32f);
             solid = true;
-            collisionOffset = new Vec2((0f - colWide) / 2f, -24f);
+            collisionOffset = new Vector2((0f - colWide) / 2f, -24f);
             base.Depth = -0.5f;
         }
         if (_hitPoints <= 0f && !base._destroyed)

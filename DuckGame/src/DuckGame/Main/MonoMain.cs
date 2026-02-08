@@ -1253,7 +1253,7 @@ public class MonoMain : Game
                 Graphics.height = height2;
                 Graphics.SetRenderTarget(null);
                 Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.Identity);
-                Graphics.Draw(Graphics.screenTarget, Vec2.Zero, null, Color.White, 0, Vec2.Zero, Vec2.One, SpriteEffects.None);
+                Graphics.Draw(Graphics.screenTarget, Vector2.Zero, null, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None);
                 Graphics.screen.End();
                 return;
             }
@@ -1270,10 +1270,10 @@ public class MonoMain : Game
                     _pauseMaterial.dim = Lerp.FloatSmooth(_pauseMaterial.dim, doPauseFade ? 0.6f : 1f, 0.1f, 1.1f);
                 }
                 Graphics.SetFullViewport();
-                new Vec2(Layer.HUD.camera.width / _screenCapture.width, Layer.HUD.camera.height / _screenCapture.height);
+                new Vector2(Layer.HUD.camera.width / _screenCapture.width, Layer.HUD.camera.height / _screenCapture.height);
                 Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullNone, null, Matrix.Identity);
                 Graphics.material = _pauseMaterial;
-                Graphics.Draw(_screenCapture, Vec2.Zero, null, new Color(120, 120, 120), 0, Vec2.Zero, Vec2.One, SpriteEffects.None, -0.9f);
+                Graphics.Draw(_screenCapture, Vector2.Zero, null, new Color(120, 120, 120), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, -0.9f);
                 Graphics.material = null;
                 Graphics.screen.End();
                 Graphics.RestoreOldViewport();

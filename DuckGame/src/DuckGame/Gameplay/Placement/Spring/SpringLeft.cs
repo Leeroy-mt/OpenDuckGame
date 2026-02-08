@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Stuff|Springs")]
@@ -17,17 +19,17 @@ public class SpringLeft : Spring
             offDir = (sbyte)((!_flipHorizontal) ? 1 : (-1));
             if (!_flipHorizontal)
             {
-                Center = new Vec2(8f, 7f);
-                collisionOffset = new Vec2(0f, -8f);
-                collisionSize = new Vec2(8f, 16f);
+                Center = new Vector2(8f, 7f);
+                collisionOffset = new Vector2(0f, -8f);
+                collisionSize = new Vector2(8f, 16f);
                 base.AngleDegrees = -90f;
                 base.hugWalls = WallHug.Right;
             }
             else
             {
-                Center = new Vec2(8f, 7f);
-                collisionOffset = new Vec2(-8f, -8f);
-                collisionSize = new Vec2(8f, 16f);
+                Center = new Vector2(8f, 7f);
+                collisionOffset = new Vector2(-8f, -8f);
+                collisionSize = new Vector2(8f, 16f);
                 base.AngleDegrees = 90f;
                 base.hugWalls = WallHug.Left;
             }
@@ -38,9 +40,9 @@ public class SpringLeft : Spring
         : base(xpos, ypos)
     {
         UpdateSprite();
-        Center = new Vec2(8f, 7f);
-        collisionOffset = new Vec2(0f, -8f);
-        collisionSize = new Vec2(8f, 16f);
+        Center = new Vector2(8f, 7f);
+        collisionOffset = new Vector2(0f, -8f);
+        collisionSize = new Vector2(8f, 16f);
         base.Depth = -0.5f;
         _editorName = "Spring Left";
         editorTooltip = "Can't reach a high platform or want to get somewhere fast? That's why we built springs.";

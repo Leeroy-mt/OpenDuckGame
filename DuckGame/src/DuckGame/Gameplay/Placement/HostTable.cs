@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -8,13 +9,13 @@ public class HostTable : Thing
     {
         public bool quack;
 
-        public Vec2 tongueLerp;
+        public Vector2 tongueLerp;
 
-        public Vec2 tongueSlowLerp;
+        public Vector2 tongueSlowLerp;
 
-        public Vec2 tilt;
+        public Vector2 tilt;
 
-        public Vec2 bob;
+        public Vector2 bob;
 
         public Duck duck;
 
@@ -46,7 +47,7 @@ public class HostTable : Thing
     {
         base.layer = Layer.HUD;
         graphic.CenterOrigin();
-        Center = new Vec2(graphic.w / 2, 0f);
+        Center = new Vector2(graphic.w / 2, 0f);
         _chair = new Sprite("hostChair");
         _beverage = new SpriteMap("beverages", 16, 18);
         _chair.CenterOrigin();
@@ -107,7 +108,7 @@ public class HostTable : Thing
             {
                 m.ai.Release("QUACK");
             }
-            m.ai.virtualDevice.rightStick = p2.netData.Get("spectatorTongue", Vec2.Zero);
+            m.ai.virtualDevice.rightStick = p2.netData.Get("spectatorTongue", Vector2.Zero);
             m.ai.virtualDevice.leftTrigger = p2.netData.Get("quackPitch", 0f);
             if (p2.team.hasHat && m.duck.hat == null)
             {
@@ -208,21 +209,21 @@ public class HostTable : Thing
             {
                 Graphics.Draw(_crown, drawX, base.Y + 2f, base.Depth + 2);
             }
-            Vec2 chairPos = new Vec2(drawX, base.Y - 2f);
-            chairPos += new Vec2(m.tilt.X, (0f - m.tilt.Y) * 0.25f) * 4f;
-            Vec2 drawPos = chairPos;
-            Vec2 bob = m.bob;
+            Vector2 chairPos = new Vector2(drawX, base.Y - 2f);
+            chairPos += new Vector2(m.tilt.X, (0f - m.tilt.Y) * 0.25f) * 4f;
+            Vector2 drawPos = chairPos;
+            Vector2 bob = m.bob;
             if (bob.Y < 0f)
             {
                 bob.Y *= 1.6f;
             }
-            drawPos += new Vec2(bob.X, (0f - bob.Y) * 1.5f) * 4f;
-            m.tilt = Lerp.Vec2Smooth(m.tilt, p.netData.Get("spectatorTilt", Vec2.Zero), 0.15f);
-            m.bob = Lerp.Vec2Smooth(m.bob, p.netData.Get("spectatorBob", Vec2.Zero), 0.15f);
+            drawPos += new Vector2(bob.X, (0f - bob.Y) * 1.5f) * 4f;
+            m.tilt = Lerp.Vec2Smooth(m.tilt, p.netData.Get("spectatorTilt", Vector2.Zero), 0.15f);
+            m.bob = Lerp.Vec2Smooth(m.bob, p.netData.Get("spectatorBob", Vector2.Zero), 0.15f);
             p.netData.Get("quack", pDefault: false);
             if (m.duck != null)
             {
-                m.duck.Position = drawPos + new Vec2(0f, -5f);
+                m.duck.Position = drawPos + new Vector2(0f, -5f);
                 m.duck.offDir = (sbyte)((!flip) ? 1 : (-1));
             }
             _chair.flipH = flip;

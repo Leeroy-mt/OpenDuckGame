@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -70,16 +71,16 @@ public class RCCar : Holdable, IPlatform
         _sprite.AddAnimation("idle", 1f, true, default(int));
         _sprite.AddAnimation("beep", 0.2f, true, 0, 1);
         graphic = _sprite;
-        Center = new Vec2(16f, 24f);
-        collisionOffset = new Vec2(-8f, 0f);
-        collisionSize = new Vec2(16f, 11f);
+        Center = new Vector2(16f, 24f);
+        collisionOffset = new Vector2(-8f, 0f);
+        collisionSize = new Vector2(16f, 11f);
         base.Depth = -0.5f;
         _editorName = "RC Car";
         thickness = 2f;
         weight = 5f;
         flammable = 0.3f;
         _wheel = new Sprite("rcWheel");
-        _wheel.Center = new Vec2(4f, 4f);
+        _wheel.Center = new Vector2(4f, 4f);
         weight = 0.5f;
         physicsMaterial = PhysicsMaterial.Metal;
     }
@@ -131,7 +132,7 @@ public class RCCar : Holdable, IPlatform
         return true;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal && owner == null)
         {

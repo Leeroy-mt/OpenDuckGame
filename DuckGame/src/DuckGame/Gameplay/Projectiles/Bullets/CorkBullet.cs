@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class CorkBullet : Bullet
@@ -10,7 +12,7 @@ public class CorkBullet : Bullet
         : base(xval, yval, type, ang, owner, rbound, distance, tracer, network)
     {
         _cork = new Sprite("cork");
-        _cork.Center = new Vec2(3f, 2.5f);
+        _cork.Center = new Vector2(3f, 2.5f);
     }
 
     public override void Update()

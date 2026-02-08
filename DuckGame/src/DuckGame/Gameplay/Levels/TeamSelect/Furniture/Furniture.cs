@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -216,7 +217,7 @@ public class Furniture
         return spr;
     }
 
-    public void Draw(Vec2 pos, Depth depth, int variation = 0, Profile profile = null, bool affectScale = false, bool halfscale = false, float angle = 0f)
+    public void Draw(Vector2 pos, Depth depth, int variation = 0, Profile profile = null, bool affectScale = false, bool halfscale = false, float angle = 0f)
     {
         ulong seed = 0uL;
         if (profile == null)
@@ -256,8 +257,8 @@ public class Furniture
                     for (int i = 0; i < 30; i++)
                     {
                         float sinOffset = (float)Math.Sin((float)Graphics.frame / 10f + (float)i * 0.18f);
-                        Vec2 flagStart = pos + new Vec2((spr.flipH ? (-2f) : 2f) * spr.Scale.X, -9f * spr.Scale.Y);
-                        Graphics.Draw(s.texture, flagStart + new Vec2((float)(i * 2) * scale * (spr.flipH ? (-1f) : 1f), sinOffset * 1.4f * ((float)i / 51f)), new Rectangle(i * 2, 0f, 3f, 41f), Color.White, 0f, Vec2.Zero, spr.flipH ? new Vec2(0f - scale, scale) : new Vec2(scale), SpriteEffects.None, depth - 2);
+                        Vector2 flagStart = pos + new Vector2((spr.flipH ? (-2f) : 2f) * spr.Scale.X, -9f * spr.Scale.Y);
+                        Graphics.Draw(s.texture, flagStart + new Vector2((float)(i * 2) * scale * (spr.flipH ? (-1f) : 1f), sinOffset * 1.4f * ((float)i / 51f)), new Rectangle(i * 2, 0f, 3f, 41f), Color.White, 0f, Vector2.Zero, spr.flipH ? new Vector2(0f - scale, scale) : new Vector2(scale), SpriteEffects.None, depth - 2);
                     }
                 }
             }
@@ -283,7 +284,7 @@ public class Furniture
             _photoSprite.Depth = depth + 6;
             _photoSprite.Scale = sprite.Scale;
             Graphics.Draw(_photoSprite, pos.X - 6f * _photoSprite.ScaleX, pos.Y - 4f * _photoSprite.ScaleY, new Rectangle(2f, 0f, 12f, 10f));
-            Graphics.DrawRect(pos + new Vec2(-6f * _photoSprite.ScaleX, -6f * _photoSprite.ScaleY), pos + new Vec2(6f * _photoSprite.ScaleX, 6f * _photoSprite.ScaleY), Colors.DGBlue, depth - 4);
+            Graphics.DrawRect(pos + new Vector2(-6f * _photoSprite.ScaleX, -6f * _photoSprite.ScaleY), pos + new Vector2(6f * _photoSprite.ScaleX, 6f * _photoSprite.ScaleY), Colors.DGBlue, depth - 4);
             spr.frame = 0;
         }
         else if (name == "EASEL")
@@ -307,24 +308,24 @@ public class Furniture
         }
         if (font != null && sprite == null)
         {
-            font.Scale = new Vec2(1f, 1f);
-            font.Draw("F", pos + new Vec2(-3.5f, -3f), Color.Black, depth + 8);
+            font.Scale = new Vector2(1f, 1f);
+            font.Draw("F", pos + new Vector2(-3.5f, -3f), Color.Black, depth + 8);
         }
         if (affectScale)
         {
             if (halfscale && (spr.width > 30 || spr.height > 30))
             {
-                spr.Scale = new Vec2(0.5f);
+                spr.Scale = new Vector2(0.5f);
             }
             else
             {
-                spr.Scale = new Vec2(1f);
+                spr.Scale = new Vector2(1f);
             }
         }
         spr.Depth = depth;
         spr.Angle = angle;
         Graphics.Draw(spr, pos.X, pos.Y - yOffset);
-        spr.Scale = new Vec2(1f);
+        spr.Scale = new Vector2(1f);
     }
 
     public Furniture(

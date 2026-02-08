@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Special|Goodies", EditorItemType.Arcade)]
@@ -27,10 +29,10 @@ public class InvisiGoody : Goody
     public void UpdateHeight()
     {
         float s = size.value;
-        Center = new Vec2(8f, 8f);
-        collisionSize = new Vec2(s * 16f);
-        collisionOffset = new Vec2((0f - s * 16f) / 2f);
-        base.Scale = new Vec2(s);
+        Center = new Vector2(8f, 8f);
+        collisionSize = new Vector2(s * 16f);
+        collisionOffset = new Vector2((0f - s * 16f) / 2f);
+        base.Scale = new Vector2(s);
     }
 
     public InvisiGoody(float xpos, float ypos)

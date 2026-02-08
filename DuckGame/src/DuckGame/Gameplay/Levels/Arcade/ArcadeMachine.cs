@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -156,7 +157,7 @@ public class ArcadeMachine : Thing
         _wagnus = new Sprite("arcade/wagnustrainer");
         _wagnusOverlay = new Sprite("arcade/wagnusOverlay");
         _font = new BitmapFont("biosFont", 8);
-        Center = new Vec2(_sprite.width / 2, _sprite.h / 2);
+        Center = new Vector2(_sprite.width / 2, _sprite.h / 2);
         _data = c;
         _light = new SpriteMap("arcade/lights2", 56, 57);
         _fixture = new Sprite("arcade/fixture");
@@ -170,8 +171,8 @@ public class ArcadeMachine : Thing
         _flashWagnus.AddAnimation("idle", 0.1f, true, 0, 1, 2);
         _flashWagnus.SetAnimation("idle");
         _covered = new Sprite("arcade/coveredMachine");
-        _collisionSize = new Vec2(28f, 34f);
-        _collisionOffset = new Vec2(-14f, -17f);
+        _collisionSize = new Vector2(28f, 34f);
+        _collisionOffset = new Vector2(-14f, -17f);
         base.hugWalls = WallHug.Floor;
         respect._tooltip = "How much Chancy needs to like you before this machine unlocks.";
         requirement._tooltip = "How many challenges must be completed before this machine unlocks.";
@@ -393,17 +394,17 @@ public class ArcadeMachine : Thing
                 if (ld != null && ld.previewData.preview != null)
                 {
                     Tex2D previewTex = Editor.StringToTexture(ld.previewData.preview);
-                    Vec2 pos = new Vec2(base.X - 28f, base.Y + 30f - (float)previewTex.width / 8f - 6f);
+                    Vector2 pos = new Vector2(base.X - 28f, base.Y + 30f - (float)previewTex.width / 8f - 6f);
                     switch (i)
                     {
                         case 1:
-                            pos = new Vec2(base.X + 28f - (float)previewTex.width / 8f, base.Y + 30f - (float)previewTex.width / 8f - 6f);
+                            pos = new Vector2(base.X + 28f - (float)previewTex.width / 8f, base.Y + 30f - (float)previewTex.width / 8f - 6f);
                             break;
                         case 2:
-                            pos = new Vec2(base.X - (float)previewTex.width / 8f / 2f, base.Y + 30f - (float)previewTex.width / 8f);
+                            pos = new Vector2(base.X - (float)previewTex.width / 8f / 2f, base.Y + 30f - (float)previewTex.width / 8f);
                             break;
                     }
-                    Graphics.DrawRect(new Vec2(pos.X - 0.5f, pos.Y - 0.5f), new Vec2(pos.X + (float)previewTex.width / 8f + 0.5f, pos.Y + (float)previewTex.height / 8f + 0.5f), Color.White, (i == 2) ? 0.9f : 0.8f);
+                    Graphics.DrawRect(new Vector2(pos.X - 0.5f, pos.Y - 0.5f), new Vector2(pos.X + (float)previewTex.width / 8f + 0.5f, pos.Y + (float)previewTex.height / 8f + 0.5f), Color.White, (i == 2) ? 0.9f : 0.8f);
                     Graphics.Draw(previewTex, pos.X, pos.Y, 0.125f, 0.125f, (i == 2) ? 0.99f : 0.85f);
                 }
             }
@@ -479,13 +480,13 @@ public class ArcadeMachine : Thing
         {
             if (_underlayStyle)
             {
-                _customMachineUnderlay.Center = new Vec2(23f, 30f);
+                _customMachineUnderlay.Center = new Vector2(23f, 30f);
                 _customMachineUnderlay.Depth = base.Depth;
                 Graphics.Draw(_customMachineUnderlay, base.X, base.Y);
             }
             else
             {
-                _machineStyleSprite.Center = new Vec2(23f, 30f);
+                _machineStyleSprite.Center = new Vector2(23f, 30f);
                 _machineStyleSprite.Depth = base.Depth;
                 Graphics.Draw(_machineStyleSprite, base.X, base.Y);
             }

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -6,13 +7,13 @@ public class MaterialDustSparkle : Material
 {
     private Tex2D _cone;
 
-    public Vec2 position;
+    public Vector2 position;
 
-    public Vec2 size;
+    public Vector2 size;
 
     public float fade;
 
-    public MaterialDustSparkle(Vec2 pos, Vec2 s, bool wide, bool lit)
+    public MaterialDustSparkle(Vector2 pos, Vector2 s, bool wide, bool lit)
     {
         _effect = Content.Load<MTEffect>("Shaders/dustsparkle");
         if (!lit)

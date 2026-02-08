@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -49,12 +50,12 @@ public class ATMissile : AmmoType
                 float dir = (float)i * 30f - 10f + Rando.Float(20f);
                 shrap = new ATMissileShrapnel();
                 shrap.range = 15f + Rando.Float(5f);
-                Vec2 shrapDir = new Vec2((float)Math.Cos(Maths.DegToRad(dir)), (float)Math.Sin(Maths.DegToRad(dir)));
+                Vector2 shrapDir = new Vector2((float)Math.Cos(Maths.DegToRad(dir)), (float)Math.Sin(Maths.DegToRad(dir)));
                 Bullet bullet = new Bullet(b.X + shrapDir.X * 8f, b.Y - shrapDir.Y * 8f, shrap, dir);
                 bullet.firedFrom = b;
                 firedBullets.Add(bullet);
                 Level.Add(bullet);
-                Level.Add(Spark.New(b.X + Rando.Float(-8f, 8f), b.Y + Rando.Float(-8f, 8f), shrapDir + new Vec2(Rando.Float(-0.1f, 0.1f), Rando.Float(-0.1f, 0.1f))));
+                Level.Add(Spark.New(b.X + Rando.Float(-8f, 8f), b.Y + Rando.Float(-8f, 8f), shrapDir + new Vector2(Rando.Float(-0.1f, 0.1f), Rando.Float(-0.1f, 0.1f))));
                 Level.Add(SmallSmoke.New(b.X + shrapDir.X * 8f + Rando.Float(-8f, 8f), b.Y + shrapDir.Y * 8f + Rando.Float(-8f, 8f)));
             }
             if (Network.isActive && b.isLocal)
@@ -71,7 +72,7 @@ public class ATMissile : AmmoType
         base.OnHit(destroyed, b);
     }
 
-    public static int DestroyRadius(Vec2 pPosition, float pRadius, Thing pBullet, bool pExplode = false)
+    public static int DestroyRadius(Vector2 pPosition, float pRadius, Thing pBullet, bool pExplode = false)
     {
         foreach (Window w in Level.CheckCircleAll<Window>(pPosition, pRadius - 20f))
         {

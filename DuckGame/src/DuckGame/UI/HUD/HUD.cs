@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -308,16 +309,16 @@ public class HUD
     {
         if (DevConsole.debugOrigin)
         {
-            Graphics.DrawLine(new Vec2(0f, -32f), new Vec2(0f, 32f), Color.Orange);
-            Graphics.DrawLine(new Vec2(-32f, 0f), new Vec2(32f, 0f), Color.Orange);
-            Graphics.DrawRect(new Vec2(-2f, -2f), new Vec2(2f, 2f), Color.Red);
+            Graphics.DrawLine(new Vector2(0f, -32f), new Vector2(0f, 32f), Color.Orange);
+            Graphics.DrawLine(new Vector2(-32f, 0f), new Vector2(32f, 0f), Color.Orange);
+            Graphics.DrawRect(new Vector2(-2f, -2f), new Vector2(2f, 2f), Color.Red);
         }
         if (DevConsole.debugBounds && Level.current != null)
         {
-            Graphics.DrawLine(Level.current.topLeft, new Vec2(Level.current.bottomRight.X, Level.current.topLeft.Y), Color.Green);
-            Graphics.DrawLine(Level.current.topLeft, new Vec2(Level.current.topLeft.X, Level.current.bottomRight.Y), Color.Green);
-            Graphics.DrawLine(Level.current.bottomRight, new Vec2(Level.current.topLeft.X, Level.current.bottomRight.Y), Color.Green);
-            Graphics.DrawLine(Level.current.bottomRight, new Vec2(Level.current.bottomRight.X, Level.current.topLeft.Y), Color.Green);
+            Graphics.DrawLine(Level.current.topLeft, new Vector2(Level.current.bottomRight.X, Level.current.topLeft.Y), Color.Green);
+            Graphics.DrawLine(Level.current.topLeft, new Vector2(Level.current.topLeft.X, Level.current.bottomRight.Y), Color.Green);
+            Graphics.DrawLine(Level.current.bottomRight, new Vector2(Level.current.topLeft.X, Level.current.bottomRight.Y), Color.Green);
+            Graphics.DrawLine(Level.current.bottomRight, new Vector2(Level.current.bottomRight.X, Level.current.topLeft.Y), Color.Green);
         }
     }
 
@@ -329,7 +330,7 @@ public class HUD
         }
         foreach (CornerDisplay d in _core._inputChangeDisplays)
         {
-            Vec2 vec = new Vec2(Layer.HUD.camera.width / 2f, Layer.HUD.camera.height);
+            Vector2 vec = new Vector2(Layer.HUD.camera.width / 2f, Layer.HUD.camera.height);
             string text = d.text;
             if (text == null)
             {
@@ -340,19 +341,19 @@ public class HUD
             float stringHeight = Graphics.GetStringHeight(text);
             float high = stringHeight + 4f;
             float topOff = 0f;
-            Vec2 topLeft = vec;
-            Vec2 topLeftRect = vec;
+            Vector2 topLeft = vec;
+            Vector2 topLeftRect = vec;
             topLeft.X -= stringWidth / 2f;
             topLeftRect.X -= stringWidth / 2f;
             float offDist = Layer.HUD.camera.width / 32f + high;
-            Vec2 tlOffset = Vec2.Zero;
-            tlOffset = new Vec2(0f, 0f - offDist);
-            Graphics.DrawRect(topLeftRect + tlOffset * d.slide, topLeftRect + new Vec2(wide, high - 1f) + tlOffset * d.slide, Color.Black, 0.95f);
-            Graphics.DrawString(text, topLeft + new Vec2((wide - stringWidth) / 2f, (high - stringHeight) / 2f + topOff) + tlOffset * d.slide, Color.White, 0.97f, d.profile);
+            Vector2 tlOffset = Vector2.Zero;
+            tlOffset = new Vector2(0f, 0f - offDist);
+            Graphics.DrawRect(topLeftRect + tlOffset * d.slide, topLeftRect + new Vector2(wide, high - 1f) + tlOffset * d.slide, Color.Black, 0.95f);
+            Graphics.DrawString(text, topLeft + new Vector2((wide - stringWidth) / 2f, (high - stringHeight) / 2f + topOff) + tlOffset * d.slide, Color.White, 0.97f, d.profile);
         }
         foreach (CornerDisplay d2 in _core._playerChangeDisplays)
         {
-            Vec2 vec2 = new Vec2(Layer.HUD.camera.width / 2f, 0f);
+            Vector2 vec2 = new Vector2(Layer.HUD.camera.width / 2f, 0f);
             string text2 = d2.text;
             if (text2 == null)
             {
@@ -363,15 +364,15 @@ public class HUD
             float stringHeight2 = Graphics.GetStringHeight(text2);
             float high2 = stringHeight2 + 4f;
             float topOff2 = 0f;
-            Vec2 topLeft2 = vec2;
-            Vec2 topLeftRect2 = vec2;
+            Vector2 topLeft2 = vec2;
+            Vector2 topLeftRect2 = vec2;
             topLeft2.X -= stringWidth2 / 2f;
             topLeftRect2.X -= stringWidth2 / 2f;
             float offDist2 = Layer.HUD.camera.width / 32f + high2;
-            Vec2 tlOffset2 = Vec2.Zero;
-            tlOffset2 = new Vec2(0f, offDist2);
-            Graphics.DrawRect(topLeftRect2 + tlOffset2 * d2.slide, topLeftRect2 + new Vec2(wide2, high2 - 1f) + tlOffset2 * d2.slide, Color.Black, 0.95f);
-            Graphics.DrawString(text2, topLeft2 + new Vec2((wide2 - stringWidth2) / 2f, (high2 - stringHeight2) / 2f + topOff2) + tlOffset2 * d2.slide, Color.White, 0.97f, d2.profile);
+            Vector2 tlOffset2 = Vector2.Zero;
+            tlOffset2 = new Vector2(0f, offDist2);
+            Graphics.DrawRect(topLeftRect2 + tlOffset2 * d2.slide, topLeftRect2 + new Vector2(wide2, high2 - 1f) + tlOffset2 * d2.slide, Color.Black, 0.95f);
+            Graphics.DrawString(text2, topLeft2 + new Vector2((wide2 - stringWidth2) / 2f, (high2 - stringHeight2) / 2f + topOff2) + tlOffset2 * d2.slide, Color.White, 0.97f, d2.profile);
         }
         int numTopLeft = 0;
         int numTopRight = 0;
@@ -381,31 +382,31 @@ public class HUD
         int numTopMiddle = 0;
         foreach (CornerDisplay d3 in _core._cornerDisplays)
         {
-            Vec2 pos = new Vec2(0f, 0f);
+            Vector2 pos = new Vector2(0f, 0f);
             switch (d3.corner)
             {
                 case HUDCorner.TopLeft:
-                    pos = new Vec2(0f, numTopLeft * 12);
+                    pos = new Vector2(0f, numTopLeft * 12);
                     numTopLeft++;
                     break;
                 case HUDCorner.TopRight:
-                    pos = new Vec2(Layer.HUD.camera.width, numTopRight * 12);
+                    pos = new Vector2(Layer.HUD.camera.width, numTopRight * 12);
                     numTopRight++;
                     break;
                 case HUDCorner.BottomLeft:
-                    pos = new Vec2(0f, Layer.HUD.camera.height - (float)(numBottomLeft * 12));
+                    pos = new Vector2(0f, Layer.HUD.camera.height - (float)(numBottomLeft * 12));
                     numBottomLeft++;
                     break;
                 case HUDCorner.BottomRight:
-                    pos = new Vec2(Layer.HUD.camera.width, Layer.HUD.camera.height - (float)(numBottomRight * 12));
+                    pos = new Vector2(Layer.HUD.camera.width, Layer.HUD.camera.height - (float)(numBottomRight * 12));
                     numBottomRight++;
                     break;
                 case HUDCorner.BottomMiddle:
-                    pos = new Vec2(Layer.HUD.camera.width / 2f, Layer.HUD.camera.height - (float)(numBottomMiddle * 12));
+                    pos = new Vector2(Layer.HUD.camera.width / 2f, Layer.HUD.camera.height - (float)(numBottomMiddle * 12));
                     numBottomMiddle++;
                     break;
                 case HUDCorner.TopMiddle:
-                    pos = new Vec2(Layer.HUD.camera.width / 2f, numTopMiddle * 12);
+                    pos = new Vector2(Layer.HUD.camera.width / 2f, numTopMiddle * 12);
                     numTopMiddle++;
                     break;
             }
@@ -457,8 +458,8 @@ public class HUD
             float wideThin = stringWidth4 + 8f;
             float stringHeight3 = Graphics.GetStringHeight(text3);
             float high3 = stringHeight3 + 4f;
-            Vec2 topLeft3 = pos;
-            Vec2 topLeftRect3 = pos;
+            Vector2 topLeft3 = pos;
+            Vector2 topLeftRect3 = pos;
             if (d3.corner == HUDCorner.TopRight || d3.corner == HUDCorner.BottomRight)
             {
                 topLeft3.X -= wide3 * d3.slide;
@@ -487,35 +488,35 @@ public class HUD
                 topLeftRect3.Y += 24f * (1f - d3.slide);
             }
             float offDist3 = Layer.HUD.camera.width / 32f;
-            Vec2 tlOffset3 = Vec2.Zero;
+            Vector2 tlOffset3 = Vector2.Zero;
             if (d3.corner == HUDCorner.TopLeft)
             {
-                tlOffset3 = new Vec2(offDist3, offDist3);
+                tlOffset3 = new Vector2(offDist3, offDist3);
             }
             else if (d3.corner == HUDCorner.TopRight)
             {
-                tlOffset3 = new Vec2(0f - offDist3, offDist3);
+                tlOffset3 = new Vector2(0f - offDist3, offDist3);
             }
             else if (d3.corner == HUDCorner.BottomLeft)
             {
-                tlOffset3 = new Vec2(offDist3, 0f - offDist3);
+                tlOffset3 = new Vector2(offDist3, 0f - offDist3);
             }
             else if (d3.corner == HUDCorner.BottomRight)
             {
-                tlOffset3 = new Vec2(0f - offDist3, 0f - offDist3);
+                tlOffset3 = new Vector2(0f - offDist3, 0f - offDist3);
             }
             else if (d3.corner == HUDCorner.BottomMiddle)
             {
-                tlOffset3 = new Vec2(0f, 0f - offDist3);
+                tlOffset3 = new Vector2(0f, 0f - offDist3);
             }
             else if (d3.corner == HUDCorner.TopMiddle)
             {
-                tlOffset3 = new Vec2(0f, offDist3);
+                tlOffset3 = new Vector2(0f, offDist3);
             }
-            Graphics.DrawRect(topLeftRect3 + tlOffset3 * d3.slide, topLeftRect3 + new Vec2(wideThin, high3 - 1f) + tlOffset3 * d3.slide, Color.Black, 0.95f);
-            Graphics.DrawRect(topLeftRect3 + new Vec2(wideThin, 1f) + tlOffset3 * d3.slide, topLeftRect3 + new Vec2(wideThin + 1f, high3 - 2f) + tlOffset3 * d3.slide, Color.Black, 0.95f);
-            Graphics.DrawRect(topLeftRect3 + new Vec2(0f, 1f) + tlOffset3 * d3.slide, topLeftRect3 + new Vec2(-1f, high3 - 2f) + tlOffset3 * d3.slide, Color.Black, 0.95f);
-            Graphics.DrawString(text3, topLeft3 + new Vec2((wide3 - stringWidth3) / 2f, (high3 - stringHeight3) / 2f) + tlOffset3 * d3.slide, lowTime ? Color.Red : Color.White, 0.98f, d3.profile);
+            Graphics.DrawRect(topLeftRect3 + tlOffset3 * d3.slide, topLeftRect3 + new Vector2(wideThin, high3 - 1f) + tlOffset3 * d3.slide, Color.Black, 0.95f);
+            Graphics.DrawRect(topLeftRect3 + new Vector2(wideThin, 1f) + tlOffset3 * d3.slide, topLeftRect3 + new Vector2(wideThin + 1f, high3 - 2f) + tlOffset3 * d3.slide, Color.Black, 0.95f);
+            Graphics.DrawRect(topLeftRect3 + new Vector2(0f, 1f) + tlOffset3 * d3.slide, topLeftRect3 + new Vector2(-1f, high3 - 2f) + tlOffset3 * d3.slide, Color.Black, 0.95f);
+            Graphics.DrawString(text3, topLeft3 + new Vector2((wide3 - stringWidth3) / 2f, (high3 - stringHeight3) / 2f) + tlOffset3 * d3.slide, lowTime ? Color.Red : Color.White, 0.98f, d3.profile);
         }
         if (!(Level.current is ChallengeLevel))
         {

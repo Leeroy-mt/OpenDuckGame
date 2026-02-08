@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -34,7 +35,7 @@ public class SpawnCannon : ItemSpawner, IWirePeripheral, ISequenceItem
 
     private PhysicsObject _hoverThing;
 
-    private Vec2 _scaleLerp = Vec2.One;
+    private Vector2 _scaleLerp = Vector2.One;
 
     public float direction => fireDirection + (flipHorizontal ? 180f : 0f);
 
@@ -58,12 +59,12 @@ public class SpawnCannon : ItemSpawner, IWirePeripheral, ISequenceItem
         bing._tooltip = "If set, this cannon will BING this many frames before it activates.";
         showClock = new EditorProperty<bool>(val: false, this);
         cannonColor = new EditorProperty<int>(0, this, 0f, 3f, 1f);
-        _arrowHead = new Sprite("arrowHead", new Vec2(3.5f, 8f));
+        _arrowHead = new Sprite("arrowHead", new Vector2(3.5f, 8f));
         _sprite = new SpriteMap("cannon", 18, 18);
         graphic = _sprite;
-        Center = new Vec2(7f, 9f);
-        collisionSize = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-6f, -6f);
+        Center = new Vector2(7f, 9f);
+        collisionSize = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-6f, -6f);
         base.Depth = 0.8f;
         base.contains = c;
         base.hugWalls = WallHug.None;
@@ -76,7 +77,7 @@ public class SpawnCannon : ItemSpawner, IWirePeripheral, ISequenceItem
     public override void OnSequenceActivate()
     {
         SFX.Play("basketball", 0.8f, Rando.Float(0.2f, 0.4f));
-        base.Scale = new Vec2(2f, 2f);
+        base.Scale = new Vector2(2f, 2f);
         _running = true;
     }
 
@@ -137,8 +138,8 @@ public class SpawnCannon : ItemSpawner, IWirePeripheral, ISequenceItem
         _numSpawned++;
         if (!(base.contains == null) && Editor.CreateThing(base.contains) is PhysicsObject newThing)
         {
-            Vec2 move = Maths.AngleToVec(Maths.DegToRad(direction)) * firePower;
-            newThing.Position = Position + move.Normalized * 8f;
+            Vector2 move = Maths.AngleToVec(Maths.DegToRad(direction)) * firePower;
+            newThing.Position = Position + Vector2.Normalize(move) * 8f;
             newThing.hSpeed = move.X;
             newThing.vSpeed = move.Y;
             Level.Add(newThing);
@@ -165,7 +166,7 @@ public class SpawnCannon : ItemSpawner, IWirePeripheral, ISequenceItem
 
     public override void Update()
     {
-        base.Scale = Lerp.Vec2Smooth(base.Scale, Vec2.One, 0.2f);
+        base.Scale = Lerp.Vec2Smooth(base.Scale, Vector2.One, 0.2f);
         if ((base.sequence == null || !base.sequence.waitTillOrder || _running) && (_numSpawned < spawnNum || spawnNum == -1))
         {
             if (Level.current.simulatePhysics)
@@ -282,7 +283,7 @@ public class SpawnCannon : ItemSpawner, IWirePeripheral, ISequenceItem
         {
             containString = base.contains.Name;
         }
-        Graphics.DrawString(containString, Position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
+        Graphics.DrawString(containString, Position + new Vector2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
         if (!(base.contains != null))
         {
             return;
@@ -293,12 +294,12 @@ public class SpawnCannon : ItemSpawner, IWirePeripheral, ISequenceItem
         }
         if (_hoverThing != null)
         {
-            Vec2 move = Maths.AngleToVec(Maths.DegToRad(direction)) * firePower;
-            _hoverThing.Position = Position + move.Normalized * 8f;
+            Vector2 move = Maths.AngleToVec(Maths.DegToRad(direction)) * firePower;
+            _hoverThing.Position = Position + Vector2.Normalize(move) * 8f;
             _hoverThing.hSpeed = move.X;
             _hoverThing.vSpeed = move.Y;
             SFX.enabled = false;
-            Vec2 lastPos = _hoverThing.Position;
+            Vector2 lastPos = _hoverThing.Position;
             for (int i = 0; i < 100; i++)
             {
                 _hoverThing.UpdatePhysics();
@@ -322,12 +323,12 @@ public class SpawnCannon : ItemSpawner, IWirePeripheral, ISequenceItem
             {
                 fille += (float)Math.PI;
             }
-            Vec2 p = Offset(new Vec2(0f, 0f));
-            Vec2 pointer = Offset(Maths.AngleToVec(fille) * 3f);
+            Vector2 p = Offset(new Vector2(0f, 0f));
+            Vector2 pointer = Offset(Maths.AngleToVec(fille) * 3f);
             Graphics.DrawLine(p, pointer, Color.Black, 1f, base.Depth + 2);
-            Vec2 head = Offset(Maths.AngleToVec(fille) * 2f);
+            Vector2 head = Offset(Maths.AngleToVec(fille) * 2f);
             _arrowHead.Angle = (flipHorizontal ? fille : (0f - fille)) + Angle + (float)Math.PI * (flipHorizontal ? (-0.5f) : 0.5f);
-            _arrowHead.Scale = new Vec2(0.5f, 0.5f);
+            _arrowHead.Scale = new Vector2(0.5f, 0.5f);
             Graphics.Draw(_arrowHead, head.X, head.Y, base.Depth + 2);
         }
         normalizedTime = Maths.Clamp(normalizedTime, 0f, 1f);

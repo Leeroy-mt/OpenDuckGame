@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -10,14 +11,14 @@ public class CompressedVec2Binding : StateBinding
 
     public override Type type => typeof(int);
 
-    public override int intValue => GetCompressedVec2((Vec2)classValue, _range);
+    public override int intValue => GetCompressedVec2((Vector2)classValue, _range);
 
     public override object GetNetValue()
     {
-        return GetCompressedVec2(base.getTyped<Vec2>(), _range);
+        return GetCompressedVec2(base.getTyped<Vector2>(), _range);
     }
 
-    public static int GetCompressedVec2(Vec2 val, int range = int.MaxValue)
+    public static int GetCompressedVec2(Vector2 val, int range = int.MaxValue)
     {
         if (Math.Abs(val.X) < 1E-07f)
         {
@@ -48,11 +49,11 @@ public class CompressedVec2Binding : StateBinding
         return GetUncompressedVec2((int)pData.ReadBits(type, bits), _range);
     }
 
-    public static Vec2 GetUncompressedVec2(int val, int range = int.MaxValue)
+    public static Vector2 GetUncompressedVec2(int val, int range = int.MaxValue)
     {
         short yVal = (short)(val & 0xFFFF);
         short xVal = (short)((val >> 16) & 0xFFFF);
-        Vec2 vecVal = new Vec2(xVal, yVal);
+        Vector2 vecVal = new Vector2(xVal, yVal);
         if (range != int.MaxValue)
         {
             float rangeMult = 32767 / range;

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Explosives")]
@@ -11,14 +13,14 @@ public class Bazooka : TampingWeapon
         _ammoType = new ATMissile();
         _type = "gun";
         graphic = new Sprite("bazooka");
-        Center = new Vec2(15f, 5f);
-        collisionOffset = new Vec2(-15f, -4f);
-        collisionSize = new Vec2(30f, 10f);
-        _barrelOffsetTL = new Vec2(29f, 4f);
+        Center = new Vector2(15f, 5f);
+        collisionOffset = new Vector2(-15f, -4f);
+        collisionSize = new Vector2(30f, 10f);
+        _barrelOffsetTL = new Vector2(29f, 4f);
         _fireSound = "missile";
         _kickForce = 4f;
         _fireRumble = RumbleIntensity.Light;
-        _holdOffset = new Vec2(-2f, -2f);
+        _holdOffset = new Vector2(-2f, -2f);
         loseAccuracy = 0.1f;
         maxAccuracyLost = 0.6f;
         _bio = "Old faithful, the 9MM pistol.";

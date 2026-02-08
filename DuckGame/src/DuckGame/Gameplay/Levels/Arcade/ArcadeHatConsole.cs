@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -36,8 +37,8 @@ public class ArcadeHatConsole : Thing
         _selectConsole = new SpriteMap("selectConsole", 20, 19);
         _selectConsole.AddAnimation("idle", 1f, true, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         _selectConsole.SetAnimation("idle");
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(0f, 0f);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(0f, 0f);
         base.Depth = -0.5f;
         graphic = _selectConsole;
     }
@@ -74,7 +75,7 @@ public class ArcadeHatConsole : Thing
     {
         if (_duck != null)
         {
-            _profileBox._hatSelector.Position = new Vec2(85f, 45f);
+            _profileBox._hatSelector.Position = new Vector2(85f, 45f);
             _profileBox._hatSelector.Open(_duck.profile);
             _profileBox.OpenCorners();
             SFX.Play("consoleOpen", 0.5f);
@@ -85,7 +86,7 @@ public class ArcadeHatConsole : Thing
     {
         bool lastHover = hover;
         Duck d = Level.Nearest<Duck>(base.X, base.Y);
-        if (d != null && (d.Position - (Position + new Vec2(8f, 0f))).Length() < 16f)
+        if (d != null && (d.Position - (Position + new Vector2(8f, 0f))).Length() < 16f)
         {
             hover = true;
         }
@@ -109,7 +110,7 @@ public class ArcadeHatConsole : Thing
     {
         if (_light != null)
         {
-            _consoleFlash.Scale = new Vec2(0.75f, 0.75f);
+            _consoleFlash.Scale = new Vector2(0.75f, 0.75f);
             if (_selectConsole.imageIndex == 0)
             {
                 _light.visible = true;

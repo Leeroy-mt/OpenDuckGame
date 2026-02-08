@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ public class RainbowTrail : Thing
 
     private float _capeWaveMult;
 
-    private Vec2 _lastPos;
+    private Vector2 _lastPos;
 
     private bool _initLastPos = true;
 
@@ -95,8 +96,8 @@ public class RainbowTrail : Thing
         _capeWaveMult = velLength * 0.5f;
         float inverseMult = inverseVel * 0.5f;
         offDir = (sbyte)(-_attach.offDir);
-        Vec2 p1 = attach.Position;
-        Vec2 p2 = attach.Position;
+        Vector2 p1 = attach.Position;
+        Vector2 p2 = attach.Position;
         base.Depth = attach.Depth - 18;
         p1.Y += yOffset;
         p2.Y += yOffset;
@@ -140,14 +141,14 @@ public class RainbowTrail : Thing
         float maxCapeLength = 22f;
         float curLength = 0f;
         float capeWide = 13f;
-        Vec2 lastPart = Vec2.Zero;
-        Vec2 lastEdgeOffset = Vec2.Zero;
+        Vector2 lastPart = Vector2.Zero;
+        Vector2 lastEdgeOffset = Vector2.Zero;
         bool hasLastPart = false;
         bool bust = false;
-        Vec2 texTL = new Vec2(0f, 0f);
-        Vec2 texTR = new Vec2(1f, 0f);
-        Vec2 texBL = new Vec2(0f, 1f);
-        Vec2 texBR = new Vec2(1f, 1f);
+        Vector2 texTL = new Vector2(0f, 0f);
+        Vector2 texTR = new Vector2(1f, 0f);
+        Vector2 texBL = new Vector2(0f, 1f);
+        Vector2 texBR = new Vector2(1f, 1f);
         if (_capeTexture == null)
         {
             return;
@@ -156,17 +157,17 @@ public class RainbowTrail : Thing
         for (int i = capePeices.Count - 1; i >= 0; i--)
         {
             TrailPiece cp = capePeices[i];
-            Vec2 edgeOffset = lastEdgeOffset;
+            Vector2 edgeOffset = lastEdgeOffset;
             if (i > 0)
             {
-                Vec2 v = cp.p1 - capePeices[i - 1].p1;
+                Vector2 v = cp.p1 - capePeices[i - 1].p1;
                 v.Normalize();
-                edgeOffset = v.Rotate(Maths.DegToRad(90f), Vec2.Zero);
+                edgeOffset = v.Rotate(Maths.DegToRad(90f), Vector2.Zero);
             }
-            Vec2 pos = cp.p1;
+            Vector2 pos = cp.p1;
             if (hasLastPart)
             {
-                Vec2 v2 = pos - lastPart;
+                Vector2 v2 = pos - lastPart;
                 float partLength = v2.Length();
                 curLength += partLength;
                 v2.Normalize();

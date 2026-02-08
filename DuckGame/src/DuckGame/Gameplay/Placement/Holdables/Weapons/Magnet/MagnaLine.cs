@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -49,7 +50,7 @@ public class MagnaLine : Thing
         if (!(base.Alpha < 0.01f))
         {
             Position = _attach.barrelPosition + _attach.barrelVector * _length;
-            Vec2 off = _attach.barrelVector.Rotate(Maths.DegToRad(90f), Vec2.Zero);
+            Vector2 off = _attach.barrelVector.Rotate(Maths.DegToRad(90f), Vector2.Zero);
             Graphics.DrawLine(Position + off * 7f, Position - off * 7f, Color.Blue * base.Alpha, 1f + (1f - _length / _startLength) * 4f, 0.9f);
         }
     }

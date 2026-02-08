@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class SmallFire : PhysicsParticle, ITeleport
@@ -20,7 +22,7 @@ public class SmallFire : PhysicsParticle, ITeleport
 
     private byte _groundLife = 125;
 
-    private Vec2 _stickOffset;
+    private Vector2 _stickOffset;
 
     private MaterialThing _stick;
 
@@ -52,7 +54,7 @@ public class SmallFire : PhysicsParticle, ITeleport
         }
     }
 
-    public Vec2 stickOffset
+    public Vector2 stickOffset
     {
         get
         {
@@ -119,8 +121,8 @@ public class SmallFire : PhysicsParticle, ITeleport
                 }
                 else
                 {
-                    obj.X = Vec2.NetMin.X;
-                    obj.Y = Vec2.NetMin.Y;
+                    obj.X = Vector2.NetMin.X;
+                    obj.Y = Vector2.NetMin.Y;
                 }
             }
         }
@@ -155,7 +157,7 @@ public class SmallFire : PhysicsParticle, ITeleport
             }
             int xOffset = d.ReadSByte();
             int yOffset = d.ReadSByte();
-            stickOffset = new Vec2(xOffset, yOffset);
+            stickOffset = new Vector2(xOffset, yOffset);
             UpdateStick();
             hSpeed = 0f;
             vSpeed = 0f;
@@ -164,7 +166,7 @@ public class SmallFire : PhysicsParticle, ITeleport
         {
             float xpos = d.ReadShort();
             float ypos = d.ReadShort();
-            netLerpPosition = new Vec2(xpos, ypos);
+            netLerpPosition = new Vector2(xpos, ypos);
         }
     }
 
@@ -175,20 +177,20 @@ public class SmallFire : PhysicsParticle, ITeleport
         _sprite = new SpriteMap("smallFire", 16, 16);
         _sprite.AddAnimation("burn", 0.2f + Rando.Float(0.2f), true, 0, 1, 2, 3, 4);
         graphic = _sprite;
-        Center = new Vec2(8f, 14f);
+        Center = new Vector2(8f, 14f);
         _airFire = new SpriteMap("airFire", 16, 16);
         _airFire.AddAnimation("burn", 0.2f + Rando.Float(0.2f), true, 0, 1, 2, 1);
-        _airFire.Center = new Vec2(8f, 8f);
-        _collisionSize = new Vec2(12f, 12f);
-        _collisionOffset = new Vec2(-6f, -6f);
+        _airFire.Center = new Vector2(8f, 8f);
+        _collisionSize = new Vector2(12f, 12f);
+        _collisionOffset = new Vector2(-6f, -6f);
     }
 
     private void Init(float xpos, float ypos, float hspeed, float vspeed, bool shortLife = false, MaterialThing stick = null, bool canMultiply = true)
     {
         if (xpos == 0f && ypos == 0f && stick == null)
         {
-            xpos = Vec2.NetMin.X;
-            ypos = Vec2.NetMin.Y;
+            xpos = Vector2.NetMin.X;
+            ypos = Vector2.NetMin.Y;
         }
         X = xpos;
         Y = ypos;
@@ -225,7 +227,7 @@ public class SmallFire : PhysicsParticle, ITeleport
         }
         base.Depth = 0.6f;
         _stick = stick;
-        _stickOffset = new Vec2(xpos, ypos);
+        _stickOffset = new Vector2(xpos, ypos);
         UpdateStick();
         _alternate = kAlternate;
         kAlternate = !kAlternate;

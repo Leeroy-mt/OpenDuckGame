@@ -62,19 +62,19 @@ public struct Rectangle
         }
     }
 
-    public Vec2 tl => new Vec2(x, y);
+    public Vector2 tl => new Vector2(x, y);
 
-    public Vec2 tr => new Vec2(x + width, y);
+    public Vector2 tr => new Vector2(x + width, y);
 
-    public Vec2 bl => new Vec2(x, y + height);
+    public Vector2 bl => new Vector2(x, y + height);
 
-    public Vec2 br => new Vec2(x + width, y + height);
+    public Vector2 br => new Vector2(x + width, y + height);
 
-    public Vec2 Center
+    public Vector2 Center
     {
         get
         {
-            return new Vec2(x + width / 2f, y + height / 2f);
+            return new Vector2(x + width / 2f, y + height / 2f);
         }
         set
         {
@@ -93,7 +93,7 @@ public struct Rectangle
         this.height = height;
     }
 
-    public Rectangle(Vec2 tl, Vec2 br)
+    public Rectangle(Vector2 tl, Vector2 br)
     {
         if (tl.X > br.X)
         {
@@ -123,7 +123,7 @@ public struct Rectangle
         return new Rectangle(r.X, r.Y, r.Width, r.Height);
     }
 
-    public bool Contains(Vec2 position)
+    public bool Contains(Vector2 position)
     {
         if (position.X >= x && position.Y >= y && position.X <= x + width)
         {

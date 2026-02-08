@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -379,7 +380,7 @@ public class ContextToolbarItem : ContextMenu, IContextListener
     {
         SFX.Play("highClick", 0.3f, 0.2f);
         ContextMenu menu = null;
-        Vec2 menuOffset = new Vec2(2f, 21f);
+        Vector2 menuOffset = new Vector2(2f, 21f);
         if (button == _newButton)
         {
             Closed();
@@ -551,15 +552,15 @@ public class ContextToolbarItem : ContextMenu, IContextListener
     {
         if (toolBarToolTip != "" && toolBarToolTip != null && !menuOpen)
         {
-            Vec2 toolBarPosition = new Vec2(Position.X - 2f, Position.Y + 18f);
-            Graphics.DrawRect(toolBarPosition, toolBarPosition + new Vec2(100f, 15f), Color.Black * base.Alpha, base.Depth + 10);
+            Vector2 toolBarPosition = new Vector2(Position.X - 2f, Position.Y + 18f);
+            Graphics.DrawRect(toolBarPosition, toolBarPosition + new Vector2(100f, 15f), Color.Black * base.Alpha, base.Depth + 10);
             if (Editor.inputMode == EditorInput.Mouse)
             {
-                Graphics.DrawString(toolBarToolTip, toolBarPosition + new Vec2(4f, 4f), Color.White * base.Alpha, base.Depth + 11);
+                Graphics.DrawString(toolBarToolTip, toolBarPosition + new Vector2(4f, 4f), Color.White * base.Alpha, base.Depth + 11);
             }
             else
             {
-                Graphics.DrawString("@SELECT@" + toolBarToolTip, toolBarPosition + new Vec2(0f, 4f), Color.White * base.Alpha, base.Depth + 11);
+                Graphics.DrawString("@SELECT@" + toolBarToolTip, toolBarPosition + new Vector2(0f, 4f), Color.White * base.Alpha, base.Depth + 11);
             }
         }
         float xpos = Position.X;

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -231,13 +232,13 @@ public class LockerRoom : Level
         {
             if (_screen == LockerScreen.Locker)
             {
-                _background.Scale = new Vec2(1f, 1f);
+                _background.Scale = new Vector2(1f, 1f);
                 _background.Depth = 0.4f;
                 _background.Alpha = _fade;
                 Graphics.Draw(_background, 0f, 0f);
                 string text = _profile.name;
-                Vec2 textPos = new Vec2(115f, 46f);
-                Graphics.DrawString(text, textPos + new Vec2((0f - Graphics.GetStringWidth(text)) / 2f, 0f), Color.Gray * _fade, 0.5f);
+                Vector2 textPos = new Vector2(115f, 46f);
+                Graphics.DrawString(text, textPos + new Vector2((0f - Graphics.GetStringWidth(text)) / 2f, 0f), Color.Gray * _fade, 0.5f);
                 if (_selection == LockerSelection.Stats)
                 {
                     _boardHighlight.Depth = 0.5f;
@@ -258,25 +259,25 @@ public class LockerRoom : Level
                     Graphics.Draw(_trophiesHighlight, 161 + _trophiesHighlight.w / 2, 53 + _trophiesHighlight.h / 2);
                     text = "TROPHIES";
                 }
-                textPos = new Vec2(160f, 140f);
-                Graphics.DrawString(text, textPos + new Vec2((0f - Graphics.GetStringWidth(text)) / 2f, 0f), new Color(14, 20, 27) * _fade, 0.5f);
+                textPos = new Vector2(160f, 140f);
+                Graphics.DrawString(text, textPos + new Vector2((0f - Graphics.GetStringWidth(text)) / 2f, 0f), new Color(14, 20, 27) * _fade, 0.5f);
             }
             else if (_screen == LockerScreen.Stats)
             {
                 int index = 0;
                 foreach (LockerStat stat in _stats)
                 {
-                    Vec2 textPos2 = new Vec2(160f, (float)(18 + index * 10) - _statScroll * (float)(_stats.Count * 10 - 150));
+                    Vector2 textPos2 = new Vector2(160f, (float)(18 + index * 10) - _statScroll * (float)(_stats.Count * 10 - 150));
                     string text2 = stat.name;
-                    Graphics.DrawString(text2, textPos2 + new Vec2((0f - Graphics.GetStringWidth(text2)) / 2f, 0f), stat.color * _fade, 0.5f);
+                    Graphics.DrawString(text2, textPos2 + new Vector2((0f - Graphics.GetStringWidth(text2)) / 2f, 0f), stat.color * _fade, 0.5f);
                     index++;
                 }
             }
             else if (_screen == LockerScreen.Trophies)
             {
-                Vec2 textPos3 = new Vec2(160f, 84f);
+                Vector2 textPos3 = new Vector2(160f, 84f);
                 string text3 = "NOPE";
-                Graphics.DrawString(text3, textPos3 + new Vec2((0f - Graphics.GetStringWidth(text3)) / 2f, 0f), Color.White * _fade, 0.5f);
+                Graphics.DrawString(text3, textPos3 + new Vector2((0f - Graphics.GetStringWidth(text3)) / 2f, 0f), Color.White * _fade, 0.5f);
             }
         }
         base.PostDrawLayer(layer);

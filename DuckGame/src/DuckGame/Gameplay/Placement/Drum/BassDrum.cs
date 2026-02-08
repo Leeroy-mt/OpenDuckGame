@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class BassDrum : Drum
@@ -6,7 +8,7 @@ public class BassDrum : Drum
         : base(xpos, ypos)
     {
         graphic = new Sprite("drumset/bassDrum");
-        Center = new Vec2(graphic.w / 2, graphic.h / 2);
+        Center = new Vector2(graphic.w / 2, graphic.h / 2);
         _sound = "kick";
     }
 }

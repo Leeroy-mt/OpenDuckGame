@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -13,9 +14,9 @@ public class Net : PhysicsObject
     {
         _sprite = new SpriteMap("net", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 7f);
-        collisionOffset = new Vec2(-6f, -5f);
-        collisionSize = new Vec2(12f, 12f);
+        Center = new Vector2(8f, 7f);
+        collisionOffset = new Vector2(-6f, -5f);
+        collisionSize = new Vector2(12f, 12f);
         base.Depth = -0.5f;
         thickness = 2f;
         weight = 1f;
@@ -27,7 +28,7 @@ public class Net : PhysicsObject
     {
         if (Math.Abs(hSpeed) + Math.Abs(vSpeed) > 0.1f)
         {
-            base.AngleDegrees = 0f - Maths.PointDirection(Vec2.Zero, new Vec2(hSpeed, vSpeed));
+            base.AngleDegrees = 0f - Maths.PointDirection(Vector2.Zero, new Vector2(hSpeed, vSpeed));
         }
         if (base.grounded && Math.Abs(vSpeed) + Math.Abs(hSpeed) <= 0f)
         {
@@ -37,7 +38,7 @@ public class Net : PhysicsObject
         {
             Level.Remove(this);
         }
-        if (!base.onFire && Level.CheckRect<SmallFire>(Position + new Vec2(-4f, -4f), Position + new Vec2(4f, 4f), this) != null)
+        if (!base.onFire && Level.CheckRect<SmallFire>(Position + new Vector2(-4f, -4f), Position + new Vector2(4f, 4f), this) != null)
         {
             base.onFire = true;
             Level.Add(SmallFire.New(0f, 0f, 0f, 0f, shortLife: false, this, canMultiply: true, this));

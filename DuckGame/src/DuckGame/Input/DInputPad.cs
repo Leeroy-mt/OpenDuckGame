@@ -482,12 +482,12 @@ namespace DuckGame
         //            padState.buttons |= PadButton.DPadUp;
         //        if (state.down)
         //            padState.buttons |= PadButton.DPadDown;
-        //        padState.sticks.left = new Vec2(state.leftX, state.leftY * -1f);
-        //        padState.sticks.right = new Vec2(state.rightX, -state.rightY);
+        //        padState.sticks.left = new Vector2(state.leftX, state.leftY * -1f);
+        //        padState.sticks.right = new Vector2(state.rightX, -state.rightY);
         //        if (padState.sticks.left.Length() < 0.1f)
-        //            padState.sticks.left = Vec2.Zero;
+        //            padState.sticks.left = Vector2.Zero;
         //        if (padState.sticks.right.Length() < 0.1f)
-        //            padState.sticks.right = Vec2.Zero;
+        //            padState.sticks.right = Vector2.Zero;
         //        if (state.leftZ > 0f)
         //            padState.triggers.left = state.leftZ;
         //    }
@@ -531,12 +531,12 @@ namespace DuckGame
         //            padState.buttons |= PadButton.DPadUp;
         //        if (state.down)
         //            padState.buttons |= PadButton.DPadDown;
-        //        padState.sticks.left = new Vec2(state.leftX, state.leftY * -1f);
-        //        padState.sticks.right = new Vec2(state.leftZ, -state.rightZ);
+        //        padState.sticks.left = new Vector2(state.leftX, state.leftY * -1f);
+        //        padState.sticks.right = new Vector2(state.leftZ, -state.rightZ);
         //        if (padState.sticks.left.Length() < 0.1f)
-        //            padState.sticks.left = Vec2.Zero;
+        //            padState.sticks.left = Vector2.Zero;
         //        if (padState.sticks.right.Length() < 0.1f)
-        //            padState.sticks.right = Vec2.Zero;
+        //            padState.sticks.right = Vector2.Zero;
         //    }
         //    return padState;
         //} old
@@ -949,15 +949,15 @@ namespace DuckGame
 //			{
 //				newState.buttons |= PadButton.DPadDown;
 //			}
-//			newState.sticks.left = new Vec2(state.leftX, state.leftY * -1f);
-//			newState.sticks.right = new Vec2(state.rightX, 0f - state.rightY);
+//			newState.sticks.left = new Vector2(state.leftX, state.leftY * -1f);
+//			newState.sticks.right = new Vector2(state.rightX, 0f - state.rightY);
 //			if (newState.sticks.left.Length() < 0.1f)
 //			{
-//				newState.sticks.left = Vec2.Zero;
+//				newState.sticks.left = Vector2.Zero;
 //			}
 //			if (newState.sticks.right.Length() < 0.1f)
 //			{
-//				newState.sticks.right = Vec2.Zero;
+//				newState.sticks.right = Vector2.Zero;
 //			}
 //			if (state.leftZ > 0f)
 //			{
@@ -1032,15 +1032,15 @@ namespace DuckGame
 //			{
 //				newState.buttons |= PadButton.DPadDown;
 //			}
-//			newState.sticks.left = new Vec2(state.leftX, state.leftY * -1f);
-//			newState.sticks.right = new Vec2(state.leftZ, 0f - state.rightZ);
+//			newState.sticks.left = new Vector2(state.leftX, state.leftY * -1f);
+//			newState.sticks.right = new Vector2(state.leftZ, 0f - state.rightZ);
 //			if (newState.sticks.left.Length() < 0.1f)
 //			{
-//				newState.sticks.left = Vec2.Zero;
+//				newState.sticks.left = Vector2.Zero;
 //			}
 //			if (newState.sticks.right.Length() < 0.1f)
 //			{
-//				newState.sticks.right = Vec2.Zero;
+//				newState.sticks.right = Vector2.Zero;
 //			}
 //		}
 //		return newState;

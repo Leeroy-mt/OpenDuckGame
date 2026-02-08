@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -21,9 +22,9 @@ public class RoboDuck : PhysicsObject
         _sprite.AddAnimation("walk", 0.2f, true, 8, 9, 10, 11, 12, 13, 14, 15);
         _sprite.SetAnimation("walk");
         graphic = _sprite;
-        _collisionSize = new Vec2(8f, 22f);
-        _collisionOffset = new Vec2(-4f, -7f);
-        Center = new Vec2(16f, 16f);
+        _collisionSize = new Vector2(8f, 22f);
+        _collisionOffset = new Vector2(-4f, -7f);
+        Center = new Vector2(16f, 16f);
         wait = 0.1f + _waitDif;
         _waitDif += 0.1f;
         _visibleInGame = false;

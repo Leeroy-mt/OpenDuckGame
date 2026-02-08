@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -1828,7 +1829,7 @@ public class Profile
         bool hasLetter = Rando.Int(300) == 1;
         MTSpriteBatch screen = Graphics.screen;
         Graphics.screen = _batch;
-        _batch.Draw(_egg.texture, new Vec2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vec2(0f, 0f), 1f, SpriteEffects.None, 1f);
+        _batch.Draw(_egg.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
         if (hasSymbol)
         {
             if (hasLetter)
@@ -1842,14 +1843,14 @@ public class Profile
                 {
                     c = BitmapFont._characters[Rando.Int(BitmapFont._characters.Length - 1)];
                 }
-                Graphics.DrawString(c.ToString() ?? "", new Vec2(4f, 6f), new Color(60, 60, 60, 200), 0.9f);
+                Graphics.DrawString(c.ToString() ?? "", new Vector2(4f, 6f), new Color(60, 60, 60, 200), 0.9f);
             }
             else
             {
-                _batch.Draw(_eggSymbols.texture, new Vec2(0f, 0f), new Rectangle(symbol * 16, 0f, 16f, 16f), new Color(60, 60, 60, 200), 0f, new Vec2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
+                _batch.Draw(_eggSymbols.texture, new Vector2(0f, 0f), new Rectangle(symbol * 16, 0f, 16f, 16f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
             }
         }
-        _batch.Draw(_eggOuter.texture, new Vec2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vec2(0f, 0f), 1f, SpriteEffects.None, 1f);
+        _batch.Draw(_eggOuter.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
         _batch.End();
         Graphics.screen = screen;
         Graphics.SetRenderTarget(null);
@@ -1941,8 +1942,8 @@ public class Profile
         targ.SetData(cols);
         Graphics.SetRenderTarget(targ);
         _batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Matrix.Identity);
-        _batch.Draw(_eggShine.texture, new Vec2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vec2(0f, 0f), 1f, SpriteEffects.None, 1f);
-        _batch.Draw(_eggBorder.texture, new Vec2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vec2(0f, 0f), 1f, SpriteEffects.None, 1f);
+        _batch.Draw(_eggShine.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
+        _batch.Draw(_eggBorder.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
         _batch.End();
         Graphics.SetRenderTarget(null);
         Rando.generator = realGen;
@@ -2033,8 +2034,8 @@ public class Profile
         Rando.Int(300);
         MTSpriteBatch screen = Graphics.screen;
         Graphics.screen = _batch;
-        _batch.Draw(_easel.texture, new Vec2(0f, 0f), null, Color.White, 0f, new Vec2(0f, 0f), 1f, SpriteEffects.None, 1f);
-        _batch.Draw(_easelSymbols.texture, new Vec2(0f, 0f), new Rectangle(symbol * 19, 0f, 19f, 12f), new Color(60, 60, 60, 200), 0f, new Vec2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
+        _batch.Draw(_easel.texture, new Vector2(0f, 0f), null, Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
+        _batch.Draw(_easelSymbols.texture, new Vector2(0f, 0f), new Rectangle(symbol * 19, 0f, 19f, 12f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
         _batch.End();
         Graphics.screen = screen;
         Graphics.SetRenderTarget(null);

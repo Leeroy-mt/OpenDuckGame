@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ public class ThingContainer : Thing
 
     public List<Thing> things => _things;
 
-    public override void SetTranslation(Vec2 translation)
+    public override void SetTranslation(Vector2 translation)
     {
         foreach (Thing thing in _things)
         {
@@ -286,7 +287,7 @@ public class ThingContainer : Thing
                 for (i2 = 0; i2 < num; i2++)
                 {
                     BlockGroup group = new BlockGroup();
-                    group.Position = new Vec2(groupData.ReadFloat(), groupData.ReadFloat());
+                    group.Position = new Vector2(groupData.ReadFloat(), groupData.ReadFloat());
                     bool flip2 = Level.flipH;
                     if (Level.loadingOppositeSymmetry)
                     {
@@ -296,8 +297,8 @@ public class ThingContainer : Thing
                     {
                         group.X = 192f - group.X - 16f;
                     }
-                    group.collisionOffset = new Vec2(groupData.ReadFloat(), groupData.ReadFloat());
-                    group.collisionSize = new Vec2(groupData.ReadFloat(), groupData.ReadFloat());
+                    group.collisionOffset = new Vector2(groupData.ReadFloat(), groupData.ReadFloat());
+                    group.collisionSize = new Vector2(groupData.ReadFloat(), groupData.ReadFloat());
                     float cpos = 88f;
                     if (Level.symmetry)
                     {
@@ -309,8 +310,8 @@ public class ThingContainer : Thing
                                 float newWide = group.collisionSize.X - dif;
                                 group.X -= dif;
                                 group.X += newWide / 2f;
-                                group.collisionSize = new Vec2(newWide, group.collisionSize.Y);
-                                group.collisionOffset = new Vec2(0f - newWide / 2f, group.collisionOffset.Y);
+                                group.collisionSize = new Vector2(newWide, group.collisionSize.Y);
+                                group.collisionOffset = new Vector2(0f - newWide / 2f, group.collisionOffset.Y);
                                 group.right = cpos;
                             }
                         }
@@ -323,8 +324,8 @@ public class ThingContainer : Thing
                                 float newWide2 = group.collisionSize.X - dif2;
                                 group.X += dif2;
                                 group.X -= newWide2 / 2f;
-                                group.collisionSize = new Vec2(newWide2, group.collisionSize.Y);
-                                group.collisionOffset = new Vec2(0f - newWide2 / 2f, group.collisionOffset.Y);
+                                group.collisionSize = new Vector2(newWide2, group.collisionSize.Y);
+                                group.collisionOffset = new Vector2(0f - newWide2 / 2f, group.collisionOffset.Y);
                                 group.left = cpos;
                             }
                         }
@@ -580,7 +581,7 @@ public class ThingContainer : Thing
                 for (i2 = 0; i2 < groupElements.Count(); i2 += 7)
                 {
                     BlockGroup group = new BlockGroup();
-                    group.Position = new Vec2(Change.ToSingle(groupElements[i2]), Change.ToSingle(groupElements[i2 + 1]));
+                    group.Position = new Vector2(Change.ToSingle(groupElements[i2]), Change.ToSingle(groupElements[i2 + 1]));
                     bool flip2 = Level.flipH;
                     if (Level.loadingOppositeSymmetry)
                     {
@@ -590,8 +591,8 @@ public class ThingContainer : Thing
                     {
                         group.X = 192 - group.X - 16;
                     }
-                    group.collisionOffset = new Vec2(Change.ToSingle(groupElements[i2 + 2]), Change.ToSingle(groupElements[i2 + 3]));
-                    group.collisionSize = new Vec2(Change.ToSingle(groupElements[i2 + 4]), Change.ToSingle(groupElements[i2 + 5]));
+                    group.collisionOffset = new Vector2(Change.ToSingle(groupElements[i2 + 2]), Change.ToSingle(groupElements[i2 + 3]));
+                    group.collisionSize = new Vector2(Change.ToSingle(groupElements[i2 + 4]), Change.ToSingle(groupElements[i2 + 5]));
                     float cpos = 88f;
                     if (Level.symmetry)
                     {
@@ -603,8 +604,8 @@ public class ThingContainer : Thing
                                 float newWide = group.collisionSize.X - dif;
                                 group.X -= dif;
                                 group.X += newWide / 2f;
-                                group.collisionSize = new Vec2(newWide, group.collisionSize.Y);
-                                group.collisionOffset = new Vec2(0f - newWide / 2f, group.collisionOffset.Y);
+                                group.collisionSize = new Vector2(newWide, group.collisionSize.Y);
+                                group.collisionOffset = new Vector2(0f - newWide / 2f, group.collisionOffset.Y);
                                 group.right = cpos;
                             }
                         }
@@ -617,8 +618,8 @@ public class ThingContainer : Thing
                                 float newWide2 = group.collisionSize.X - dif2;
                                 group.X += dif2;
                                 group.X -= newWide2 / 2f;
-                                group.collisionSize = new Vec2(newWide2, group.collisionSize.Y);
-                                group.collisionOffset = new Vec2(0f - newWide2 / 2f, group.collisionOffset.Y);
+                                group.collisionSize = new Vector2(newWide2, group.collisionSize.Y);
+                                group.collisionOffset = new Vector2(0f - newWide2 / 2f, group.collisionOffset.Y);
                                 group.left = cpos;
                             }
                         }

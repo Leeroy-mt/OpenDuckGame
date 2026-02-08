@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -179,7 +180,7 @@ public class MapPack : ContentPack
         int num = 0;
         int rows = (int)Math.Ceiling(Math.Sqrt(files.Count()));
         float scaleFactor = 1280f / (float)rows / 1280f * 4f;
-        Vec2 offset = Vec2.Zero;
+        Vector2 offset = Vector2.Zero;
         string[] array = files;
         foreach (string f in array)
         {
@@ -193,9 +194,9 @@ public class MapPack : ContentPack
                 if (pair.preview != null && pair.preview.Width == 320 && pair.preview.Height == 200)
                 {
                     float scale = 0.95f;
-                    Vec2 scaledSize = new Vec2((float)pair.preview.Width * scaleFactor * scale, (float)pair.preview.Height * scaleFactor * scale);
-                    Vec2 realSize = new Vec2((float)pair.preview.Width * scaleFactor, (float)pair.preview.Height * scaleFactor);
-                    Graphics.Draw(pair.preview, new Vec2(offset.X + realSize.X / 2f - scaledSize.X / 2f, offset.Y + realSize.Y / 2f - scaledSize.Y / 2f), new Rectangle(0f, 10f, 320f, 180f), Color.White, 0f, Vec2.Zero, new Vec2(scale * scaleFactor), SpriteEffects.None, 0.9f);
+                    Vector2 scaledSize = new Vector2((float)pair.preview.Width * scaleFactor * scale, (float)pair.preview.Height * scaleFactor * scale);
+                    Vector2 realSize = new Vector2((float)pair.preview.Width * scaleFactor, (float)pair.preview.Height * scaleFactor);
+                    Graphics.Draw(pair.preview, new Vector2(offset.X + realSize.X / 2f - scaledSize.X / 2f, offset.Y + realSize.Y / 2f - scaledSize.Y / 2f), new Rectangle(0f, 10f, 320f, 180f), Color.White, 0f, Vector2.Zero, new Vector2(scale * scaleFactor), SpriteEffects.None, 0.9f);
                 }
             }
             catch (Exception)

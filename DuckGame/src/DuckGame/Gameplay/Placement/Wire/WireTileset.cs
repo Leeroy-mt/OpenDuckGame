@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -8,7 +9,7 @@ public class WireTileset : AutoTile
 {
     public class WireSignal
     {
-        public Vec2 position;
+        public Vector2 position;
 
         public WireConnection travel;
 
@@ -22,7 +23,7 @@ public class WireTileset : AutoTile
 
         public float life = 1f;
 
-        public Vec2 prevPosition;
+        public Vector2 prevPosition;
     }
 
     private List<WireConnection> _connections = new List<WireConnection>();
@@ -216,7 +217,7 @@ public class WireTileset : AutoTile
                 _addSignals.Add(s4);
             }
         }
-        Vec2 travelPoint = signal.travel.position;
+        Vector2 travelPoint = signal.travel.position;
         if (c.wireLeft && !dullSignalLeft && leftTile is WireTileset leftWire && leftWire != signal.currentWire)
         {
             signal.travel = leftWire.GetConnection(travelPoint);
@@ -285,13 +286,13 @@ public class WireTileset : AutoTile
         }
     }
 
-    public WireConnection GetConnection(Vec2 pos)
+    public WireConnection GetConnection(Vector2 pos)
     {
         float shortest = 9999f;
         WireConnection bestConnection = _centerWire;
         foreach (WireConnection c in _connections)
         {
-            float dist = (c.position - pos).lengthSq;
+            float dist = (c.position - pos).LengthSquared();
             if (dist < shortest)
             {
                 shortest = dist;
@@ -335,8 +336,8 @@ public class WireTileset : AutoTile
             float num = (_signalSprite.ScaleY = 1f);
             signalSprite.ScaleX = num;
             Graphics.Draw(_signalSprite, s.position.X, s.position.Y);
-            Vec2 curPos = s.prevPosition;
-            Vec2 travelVec = s.position - s.prevPosition;
+            Vector2 curPos = s.prevPosition;
+            Vector2 travelVec = s.position - s.prevPosition;
             float dist = travelVec.Length();
             travelVec.Normalize();
             float al = 0.3f;
@@ -363,11 +364,11 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection right = new WireConnection
             {
-                position = Position + new Vec2(8f, -4f),
+                position = Position + new Vector2(8f, -4f),
                 left = _centerWire,
                 wireRight = true
             };
@@ -379,11 +380,11 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection left = new WireConnection
             {
-                position = Position + new Vec2(-8f, -4f),
+                position = Position + new Vector2(-8f, -4f),
                 right = _centerWire,
                 wireLeft = true
             };
@@ -395,17 +396,17 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection right2 = new WireConnection
             {
-                position = Position + new Vec2(8f, -4f),
+                position = Position + new Vector2(8f, -4f),
                 left = _centerWire,
                 wireRight = true
             };
             WireConnection left2 = new WireConnection
             {
-                position = Position + new Vec2(-8f, -4f),
+                position = Position + new Vector2(-8f, -4f),
                 right = _centerWire,
                 wireLeft = true
             };
@@ -419,23 +420,23 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection right3 = new WireConnection
             {
-                position = Position + new Vec2(8f, -4f),
+                position = Position + new Vector2(8f, -4f),
                 left = _centerWire,
                 wireRight = true
             };
             WireConnection left3 = new WireConnection
             {
-                position = Position + new Vec2(-8f, -4f),
+                position = Position + new Vector2(-8f, -4f),
                 right = _centerWire,
                 wireLeft = true
             };
             WireConnection down = new WireConnection
             {
-                position = Position + new Vec2(0f, 8f),
+                position = Position + new Vector2(0f, 8f),
                 up = _centerWire,
                 wireDown = true
             };
@@ -451,29 +452,29 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection right4 = new WireConnection
             {
-                position = Position + new Vec2(8f, -4f),
+                position = Position + new Vector2(8f, -4f),
                 left = _centerWire,
                 wireRight = true
             };
             WireConnection left4 = new WireConnection
             {
-                position = Position + new Vec2(-8f, -4f),
+                position = Position + new Vector2(-8f, -4f),
                 right = _centerWire,
                 wireLeft = true
             };
             WireConnection down2 = new WireConnection
             {
-                position = Position + new Vec2(0f, 8f),
+                position = Position + new Vector2(0f, 8f),
                 up = _centerWire,
                 wireDown = true
             };
             WireConnection up = new WireConnection
             {
-                position = Position + new Vec2(0f, -8f),
+                position = Position + new Vector2(0f, -8f),
                 down = _centerWire,
                 wireUp = true
             };
@@ -491,11 +492,11 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, 0f)
+                position = Position + new Vector2(0f, 0f)
             };
             WireConnection up2 = new WireConnection
             {
-                position = Position + new Vec2(0f, -8f),
+                position = Position + new Vector2(0f, -8f),
                 down = _centerWire,
                 wireUp = true
             };
@@ -507,23 +508,23 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection left5 = new WireConnection
             {
-                position = Position + new Vec2(-8f, -4f),
+                position = Position + new Vector2(-8f, -4f),
                 right = _centerWire,
                 wireLeft = true
             };
             WireConnection down3 = new WireConnection
             {
-                position = Position + new Vec2(0f, 8f),
+                position = Position + new Vector2(0f, 8f),
                 up = _centerWire,
                 wireDown = true
             };
             WireConnection up3 = new WireConnection
             {
-                position = Position + new Vec2(0f, -8f),
+                position = Position + new Vector2(0f, -8f),
                 down = _centerWire,
                 wireUp = true
             };
@@ -539,11 +540,11 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, 0f)
+                position = Position + new Vector2(0f, 0f)
             };
             WireConnection down4 = new WireConnection
             {
-                position = Position + new Vec2(0f, 8f),
+                position = Position + new Vector2(0f, 8f),
                 up = _centerWire,
                 wireDown = true
             };
@@ -555,17 +556,17 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, 0f)
+                position = Position + new Vector2(0f, 0f)
             };
             WireConnection down5 = new WireConnection
             {
-                position = Position + new Vec2(0f, 8f),
+                position = Position + new Vector2(0f, 8f),
                 up = _centerWire,
                 wireDown = true
             };
             WireConnection up4 = new WireConnection
             {
-                position = Position + new Vec2(0f, -8f),
+                position = Position + new Vector2(0f, -8f),
                 down = _centerWire,
                 wireUp = true
             };
@@ -579,17 +580,17 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection right5 = new WireConnection
             {
-                position = Position + new Vec2(8f, -4f),
+                position = Position + new Vector2(8f, -4f),
                 left = _centerWire,
                 wireRight = true
             };
             WireConnection down6 = new WireConnection
             {
-                position = Position + new Vec2(0f, 8f),
+                position = Position + new Vector2(0f, 8f),
                 up = _centerWire,
                 wireDown = true
             };
@@ -603,17 +604,17 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection left6 = new WireConnection
             {
-                position = Position + new Vec2(-8f, -4f),
+                position = Position + new Vector2(-8f, -4f),
                 right = _centerWire,
                 wireLeft = true
             };
             WireConnection down7 = new WireConnection
             {
-                position = Position + new Vec2(0f, 8f),
+                position = Position + new Vector2(0f, 8f),
                 up = _centerWire,
                 wireDown = true
             };
@@ -627,23 +628,23 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection right6 = new WireConnection
             {
-                position = Position + new Vec2(8f, -4f),
+                position = Position + new Vector2(8f, -4f),
                 left = _centerWire,
                 wireRight = true
             };
             WireConnection down8 = new WireConnection
             {
-                position = Position + new Vec2(0f, 8f),
+                position = Position + new Vector2(0f, 8f),
                 up = _centerWire,
                 wireDown = true
             };
             WireConnection up5 = new WireConnection
             {
-                position = Position + new Vec2(0f, -8f),
+                position = Position + new Vector2(0f, -8f),
                 down = _centerWire,
                 wireUp = true
             };
@@ -659,23 +660,23 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection right7 = new WireConnection
             {
-                position = Position + new Vec2(8f, -4f),
+                position = Position + new Vector2(8f, -4f),
                 left = _centerWire,
                 wireRight = true
             };
             WireConnection left7 = new WireConnection
             {
-                position = Position + new Vec2(-8f, -4f),
+                position = Position + new Vector2(-8f, -4f),
                 right = _centerWire,
                 wireLeft = true
             };
             WireConnection up6 = new WireConnection
             {
-                position = Position + new Vec2(0f, -8f),
+                position = Position + new Vector2(0f, -8f),
                 down = _centerWire,
                 wireUp = true
             };
@@ -691,17 +692,17 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection right8 = new WireConnection
             {
-                position = Position + new Vec2(8f, -4f),
+                position = Position + new Vector2(8f, -4f),
                 left = _centerWire,
                 wireRight = true
             };
             WireConnection up7 = new WireConnection
             {
-                position = Position + new Vec2(0f, -8f),
+                position = Position + new Vector2(0f, -8f),
                 down = _centerWire,
                 wireUp = true
             };
@@ -715,17 +716,17 @@ public class WireTileset : AutoTile
         {
             _centerWire = new WireConnection
             {
-                position = Position + new Vec2(0f, -4f)
+                position = Position + new Vector2(0f, -4f)
             };
             WireConnection left8 = new WireConnection
             {
-                position = Position + new Vec2(-8f, -4f),
+                position = Position + new Vector2(-8f, -4f),
                 right = _centerWire,
                 wireLeft = true
             };
             WireConnection up8 = new WireConnection
             {
-                position = Position + new Vec2(0f, -8f),
+                position = Position + new Vector2(0f, -8f),
                 down = _centerWire,
                 wireUp = true
             };

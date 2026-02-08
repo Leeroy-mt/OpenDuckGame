@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -31,9 +32,9 @@ public class WaterCooler : MaterialThing, IPlatform
     {
         _sprite = new SpriteMap("waterCoolerJug", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-5f, -5f);
-        collisionSize = new Vec2(10f, 10f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-5f, -5f);
+        collisionSize = new Vector2(10f, 10f);
         base.Depth = -0.5f;
         _editorName = "Water Cooler";
         editorTooltip = "Looking for all the latest hot gossip? This is the place to hang.";
@@ -44,7 +45,7 @@ public class WaterCooler : MaterialThing, IPlatform
         flammable = 0.3f;
         _bottom = new Sprite("waterCoolerBottom");
         _bottom.CenterOrigin();
-        base.editorOffset = new Vec2(0f, -8f);
+        base.editorOffset = new Vector2(0f, -8f);
         _fluid = Fluid.Water;
     }
 
@@ -53,13 +54,13 @@ public class WaterCooler : MaterialThing, IPlatform
         return true;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         hitPos += bullet.travelDirNormalized * 2f;
         if (1f - (hitPos.Y - base.top) / (base.bottom - base.top) < _fluidLevel)
         {
             thickness = 2f;
-            Vec2 offset = hitPos - Position;
+            Vector2 offset = hitPos - Position;
             bool found = false;
             foreach (FluidStream hole in _holes)
             {
@@ -73,7 +74,7 @@ public class WaterCooler : MaterialThing, IPlatform
             }
             if (!found)
             {
-                Vec2 holeVec = (-bullet.travelDirNormalized).Rotate(Rando.Float(-0.2f, 0.2f), Vec2.Zero);
+                Vector2 holeVec = (-bullet.travelDirNormalized).Rotate(Rando.Float(-0.2f, 0.2f), Vector2.Zero);
                 FluidStream newHole = new FluidStream(0f, 0f, holeVec, 1f, offset);
                 _holes.Add(newHole);
                 newHole.streamSpeedMultiplier = 2f;
@@ -86,10 +87,10 @@ public class WaterCooler : MaterialThing, IPlatform
         return base.Hit(bullet, hitPos);
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 exitPos)
+    public override void ExitHit(Bullet bullet, Vector2 exitPos)
     {
         exitPos -= bullet.travelDirNormalized * 2f;
-        Vec2 offset = exitPos - Position;
+        Vector2 offset = exitPos - Position;
         bool found = false;
         foreach (FluidStream hole in _holes)
         {
@@ -103,8 +104,8 @@ public class WaterCooler : MaterialThing, IPlatform
         }
         if (!found)
         {
-            Vec2 holeVec = bullet.travelDirNormalized;
-            holeVec = holeVec.Rotate(Rando.Float(-0.2f, 0.2f), Vec2.Zero);
+            Vector2 holeVec = bullet.travelDirNormalized;
+            holeVec = holeVec.Rotate(Rando.Float(-0.2f, 0.2f), Vector2.Zero);
             _holes.Add(new FluidStream(0f, 0f, holeVec, 1f, offset));
         }
     }
@@ -147,7 +148,7 @@ public class WaterCooler : MaterialThing, IPlatform
     public override void Draw()
     {
         _sprite.frame = (int)((1f - _fluidLevel) * 10f);
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         float shakeOffset = (float)Math.Sin(_shakeInc) * _shakeMult * 1f;
         X += shakeOffset;
         base.Draw();

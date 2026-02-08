@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -16,9 +17,9 @@ public class Present : Holdable, IPlatform
         _sprite = new SpriteMap("presents", 16, 16);
         _sprite.frame = Rando.Int(0, 7);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-7f, -4f);
-        collisionSize = new Vec2(14f, 11f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-7f, -4f);
+        collisionSize = new Vector2(14f, 11f);
         base.Depth = -0.5f;
         thickness = 0f;
         weight = 3f;
@@ -40,7 +41,7 @@ public class Present : Holdable, IPlatform
             Holdable h = SpawnPresent(null);
             if (h != null)
             {
-                h.velocity = Rando.Vec2(-1f, 1f, -2f, 0f);
+                h.velocity = Rando.Vector2(-1f, 1f, -2f, 0f);
             }
             Level.Remove(this);
         }
@@ -54,7 +55,7 @@ public class Present : Holdable, IPlatform
         _contains = things[Rando.Int(things.Count - 1)];
     }
 
-    public static void OpenEffect(Vec2 pPosition, int pFrame, bool pIsNetMessage)
+    public static void OpenEffect(Vector2 pPosition, int pFrame, bool pIsNetMessage)
     {
         Level.Add(new OpenPresent(pPosition.X, pPosition.Y, pFrame));
         for (int i = 0; i < 4; i++)

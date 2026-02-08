@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Details|Signs")]
@@ -10,10 +12,10 @@ public class MallardBillboard : MaterialThing, IPlatform
     {
         _sprite = new SpriteMap("billboard", 217, 126);
         graphic = _sprite;
-        Center = new Vec2(126f, 77f);
-        _collisionSize = new Vec2(167f, 6f);
-        _collisionOffset = new Vec2(-84f, -2f);
-        base.editorOffset = new Vec2(0f, 40f);
+        Center = new Vector2(126f, 77f);
+        _collisionSize = new Vector2(167f, 6f);
+        _collisionOffset = new Vector2(-84f, -2f);
+        base.editorOffset = new Vector2(0f, 40f);
         base.Depth = -0.5f;
         _editorName = "Mallard Billboard";
         thickness = 0.2f;

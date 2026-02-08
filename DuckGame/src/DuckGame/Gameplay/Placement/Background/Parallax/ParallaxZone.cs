@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -40,7 +41,7 @@ public class ParallaxZone
         scroll += (1f - distance) * speed * mul;
     }
 
-    public void RenderSprites(Vec2 position)
+    public void RenderSprites(Vector2 position)
     {
         float dep = 0.4f + (float)_ypos * 0.01f;
         foreach (Sprite s in _sprites)

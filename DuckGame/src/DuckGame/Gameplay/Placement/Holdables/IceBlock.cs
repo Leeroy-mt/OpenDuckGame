@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -112,9 +113,9 @@ public class IceBlock : Holdable, IPlatform
     {
         _sprite = new SpriteMap("iceBlock", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -8f);
-        collisionSize = new Vec2(16f, 16f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -8f);
+        collisionSize = new Vector2(16f, 16f);
         base.Depth = -0.5f;
         _editorName = "Ice Block";
         editorTooltip = "Slippery, slidery, fun. Also great for keeping your (gigantic) drinks cold.";
@@ -124,7 +125,7 @@ public class IceBlock : Holdable, IPlatform
         _hitPoints = 1f;
         base.impactThreshold = -1f;
         physicsMaterial = PhysicsMaterial.Glass;
-        _holdOffset = new Vec2(2f, 0f);
+        _holdOffset = new Vector2(2f, 0f);
         flammable = 0f;
         base.collideSounds.Add("glassHit");
         superNonFlammable = true;
@@ -175,7 +176,7 @@ public class IceBlock : Holdable, IPlatform
         base.OnSolidImpact(with, from);
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal && owner == null)
         {
@@ -229,7 +230,7 @@ public class IceBlock : Holdable, IPlatform
         _hitPoints = 0f;
         Level.Remove(this);
         SFX.Play("glassHit");
-        Vec2 flyDir = Vec2.Zero;
+        Vector2 flyDir = Vector2.Zero;
         if (type is DTShot)
         {
             flyDir = (type as DTShot).bullet.travelDirNormalized;
@@ -253,7 +254,7 @@ public class IceBlock : Holdable, IPlatform
         return true;
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 exitPos)
+    public override void ExitHit(Bullet bullet, Vector2 exitPos)
     {
         for (int i = 0; i < 4; i++)
         {
@@ -274,7 +275,7 @@ public class IceBlock : Holdable, IPlatform
             _containedThing.active = true;
             _containedThing.material = null;
             _containedThing.visible = true;
-            _containedThing.velocity = base.velocity + new Vec2(0f, -2f);
+            _containedThing.velocity = base.velocity + new Vector2(0f, -2f);
             if (base.duck != null)
             {
                 base.duck.GiveHoldable(_containedThing as Holdable);
@@ -282,7 +283,7 @@ public class IceBlock : Holdable, IPlatform
         }
     }
 
-    public override void HeatUp(Vec2 location)
+    public override void HeatUp(Vector2 location)
     {
         _hitPoints -= 0.01f;
         if (_hitPoints < 0.05f)
@@ -294,7 +295,7 @@ public class IceBlock : Holdable, IPlatform
             {
                 FluidData dat = Fluid.Water;
                 dat.amount = 0.001f;
-                Level.Add(new Fluid(base.X + (float)Rando.Int(-6, 6), base.Y + (float)Rando.Int(-6, 6), Vec2.Zero, dat)
+                Level.Add(new Fluid(base.X + (float)Rando.Int(-6, 6), base.Y + (float)Rando.Int(-6, 6), Vector2.Zero, dat)
                 {
                     hSpeed = ((float)i / 16f - 0.5f) * Rando.Float(0.3f, 0.4f),
                     vSpeed = Rando.Float(-1.5f, 0.5f)
@@ -303,7 +304,7 @@ public class IceBlock : Holdable, IPlatform
         }
         FluidData dat2 = Fluid.Water;
         dat2.amount = 0.001f;
-        Level.Add(new Fluid(base.X + (float)Rando.Int(-6, 6), base.Y + (float)Rando.Int(-6, 6), Vec2.Zero, dat2)
+        Level.Add(new Fluid(base.X + (float)Rando.Int(-6, 6), base.Y + (float)Rando.Int(-6, 6), Vector2.Zero, dat2)
         {
             hSpeed = Rando.Float(-0.1f, 0.1f),
             vSpeed = Rando.Float(-0.3f, 0.3f)
@@ -349,7 +350,7 @@ public class IceBlock : Holdable, IPlatform
             _graphic.Scale = base.Scale;
             _graphic.Center = Center;
             int yOffset = (int)((1f - _hitPoints) * 12f);
-            Graphics.Draw(_graphic.texture, Position + new Vec2(0f, yOffset), new Rectangle(0f, 0f, 16f, 24 - yOffset), Color.White, Angle, _graphic.Center, base.Scale, graphic.flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.Depth);
+            Graphics.Draw(_graphic.texture, Position + new Vector2(0f, yOffset), new Rectangle(0f, 0f, 16f, 24 - yOffset), Color.White, Angle, _graphic.Center, base.Scale, graphic.flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.Depth);
             base.Y = ypos;
         }
         else
@@ -385,7 +386,7 @@ public class IceBlock : Holdable, IPlatform
             {
                 _sprite = new SpriteMap("iceSculpture", 16, 24);
                 graphic = _sprite;
-                Center = new Vec2(8f, 15f);
+                Center = new Vector2(8f, 15f);
                 for (int i = 0; i < 12; i++)
                 {
                     SmallSmoke smallSmoke = SmallSmoke.New(base.X + Rando.Float(-9f, 9f), base.Y + Rando.Float(-9f, 9f));
@@ -410,35 +411,35 @@ public class IceBlock : Holdable, IPlatform
             _sprite.frame = (int)Math.Floor((1f - _hitPoints / 1f) * 5f);
             if (_sprite.frame == 0)
             {
-                collisionOffset = new Vec2(-8f, -8f);
-                collisionSize = new Vec2(16f, 16f);
+                collisionOffset = new Vector2(-8f, -8f);
+                collisionSize = new Vector2(16f, 16f);
             }
             else if (_sprite.frame == 1)
             {
-                collisionOffset = new Vec2(-8f, -7f);
-                collisionSize = new Vec2(16f, 15f);
+                collisionOffset = new Vector2(-8f, -7f);
+                collisionSize = new Vector2(16f, 15f);
             }
             else if (_sprite.frame == 2)
             {
-                collisionOffset = new Vec2(-7f, -4f);
-                collisionSize = new Vec2(14f, 11f);
+                collisionOffset = new Vector2(-7f, -4f);
+                collisionSize = new Vector2(14f, 11f);
             }
             else if (_sprite.frame == 3)
             {
-                collisionOffset = new Vec2(-6f, -2f);
-                collisionSize = new Vec2(12f, 7f);
+                collisionOffset = new Vector2(-6f, -2f);
+                collisionSize = new Vector2(12f, 7f);
             }
             else if (_sprite.frame == 4)
             {
-                collisionOffset = new Vec2(-6f, -1f);
-                collisionSize = new Vec2(12f, 5f);
+                collisionOffset = new Vector2(-6f, -1f);
+                collisionSize = new Vector2(12f, 5f);
             }
         }
         else
         {
             int yOffset = (int)((1f - _hitPoints) * 12f);
-            collisionOffset = new Vec2(-8f, -8 + yOffset);
-            collisionSize = new Vec2(16f, 16 - yOffset);
+            collisionOffset = new Vector2(-8f, -8 + yOffset);
+            collisionSize = new Vector2(16f, 16 - yOffset);
         }
     }
 }

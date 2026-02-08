@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -168,13 +169,13 @@ public class UIBlockManagement : UIMenu
     {
         if (base.open)
         {
-            Vec2 pos = new Vec2(base.X - 124f, base.Y - 56f);
+            Vector2 pos = new Vector2(base.X - 124f, base.Y - 56f);
             float yOffset = 0f;
             int idx = 0;
             int drawIndex = 0;
             if (items.Count == 0)
             {
-                _littleFont.Draw("No blocked users! Happy day!", pos + new Vec2(8f, yOffset), Color.White, 0.5f);
+                _littleFont.Draw("No blocked users! Happy day!", pos + new Vector2(8f, yOffset), Color.White, 0.5f);
             }
             foreach (KeyValuePair<ulong, bool> pair in items)
             {
@@ -217,7 +218,7 @@ public class UIBlockManagement : UIMenu
                 {
                     drawName = "|DGRED|" + drawName;
                 }
-                _littleFont.Draw(drawName, pos + new Vec2(0f, yOffset), Color.White, 0.5f);
+                _littleFont.Draw(drawName, pos + new Vector2(0f, yOffset), Color.White, 0.5f);
                 yOffset += 8f;
                 idx++;
                 drawIndex++;
@@ -228,7 +229,7 @@ public class UIBlockManagement : UIMenu
                 controlsText = ((!items[_selection].Value) ? (controlsText + " @MENU1@BLOCK") : (controlsText + " @MENU1@UN-BLOCK"));
                 controlsText += " @SELECT@@STEAMICON@";
             }
-            _littleFont.Draw(controlsText, new Vec2(base.X - _littleFont.GetWidth(controlsText) / 2f, base.Y + 64f), Color.White, 0.5f);
+            _littleFont.Draw(controlsText, new Vector2(base.X - _littleFont.GetWidth(controlsText) / 2f, base.Y + 64f), Color.White, 0.5f);
         }
         base.Draw();
     }

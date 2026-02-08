@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -143,15 +144,15 @@ public class UIUnlockBox : UIMenu
             string text = "@LWING@UNLOCK@RWING@";
             if (_unlock.name == "UR THE BEST")
                 text = "@LWING@WOAH!@RWING@";
-            Vec2 fontPos = new(-_font.GetWidth(text) / 2, -42);
+            Vector2 fontPos = new(-_font.GetWidth(text) / 2, -42);
             _font.DrawOutline(text, Position + fontPos, Color.White, Color.Black, Depth + 2);
             string unlockText = $"}} {_unlock.name} }}";
-            _fancyFont.Scale = Vec2.One;
-            Vec2 unlockFontPos = new(-_fancyFont.GetWidth(unlockText) / 2, -25);
+            _fancyFont.Scale = Vector2.One;
+            Vector2 unlockFontPos = new(-_fancyFont.GetWidth(unlockText) / 2, -25);
             _fancyFont.DrawOutline(unlockText, Position + unlockFontPos, Colors.DGYellow, Color.Black, Depth + 2);
-            _fancyFont.Scale = new Vec2(0.5f);
+            _fancyFont.Scale = new Vector2(0.5f);
             string descriptionText = _unlock.description;
-            Vec2 descFontPos = new(-_fancyFont.GetWidth(descriptionText) / 2, 38);
+            Vector2 descFontPos = new(-_fancyFont.GetWidth(descriptionText) / 2, 38);
             _fancyFont.DrawOutline(descriptionText, Position + descFontPos, Colors.DGGreen, Color.Black, Depth + 2, 0.5f);
             _unlock.Draw(X, Y + 10, Depth + 4);
         }

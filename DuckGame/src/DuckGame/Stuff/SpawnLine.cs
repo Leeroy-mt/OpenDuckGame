@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class SpawnLine : Thing
@@ -31,6 +33,6 @@ public class SpawnLine : Thing
 
     public override void Draw()
     {
-        Graphics.DrawLine(Position, Position + new Vec2(0f, -1200f), _color * base.Alpha, _thickness, 0.9f);
+        Graphics.DrawLine(Position, Position + new Vector2(0f, -1200f), _color * base.Alpha, _thickness, 0.9f);
     }
 }

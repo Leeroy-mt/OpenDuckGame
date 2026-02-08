@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class EffectAnimation : Thing
@@ -6,7 +8,7 @@ public class EffectAnimation : Thing
 
     public Color color = Color.White;
 
-    public EffectAnimation(Vec2 pos, SpriteMap spr, float deep)
+    public EffectAnimation(Vector2 pos, SpriteMap spr, float deep)
         : base(pos.X, pos.Y)
     {
         base.Depth = deep;

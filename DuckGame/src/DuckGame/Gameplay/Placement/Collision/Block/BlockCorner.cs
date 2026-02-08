@@ -1,10 +1,11 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
 
-public class BlockCorner(Vec2 c, Block b, bool wall = false)
+public class BlockCorner(Vector2 c, Block b, bool wall = false)
 {
-    public Vec2 corner = c;
+    public Vector2 corner = c;
 
     public Block block = b;
 

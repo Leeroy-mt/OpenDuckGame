@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -62,9 +63,9 @@ public class UIDivider : UIComponent
 
     #region Public Methods
 
-    public Vec2 CalculateSizes()
+    public Vector2 CalculateSizes()
     {
-        Vec2 colSize = collisionSize;
+        Vector2 colSize = collisionSize;
         if (_vertical)
         {
             colSize.X -= _seperation;
@@ -80,7 +81,7 @@ public class UIDivider : UIComponent
                 leftSize = _splitPixels;
                 rightSize = colSize.X - (float)_splitPixels;
             }
-            return new Vec2(leftSize, rightSize);
+            return new Vector2(leftSize, rightSize);
         }
         colSize.Y -= _seperation;
         float topSize = _leftBox.collisionSize.Y;
@@ -95,27 +96,27 @@ public class UIDivider : UIComponent
             topSize = _splitPixels;
             bottomSize = colSize.Y - (float)_splitPixels;
         }
-        return new Vec2(topSize, bottomSize);
+        return new Vector2(topSize, bottomSize);
     }
 
     public override void Draw()
     {
         if (!_vertical)
         {
-            Vec2 tl = _rightBox.Position - new Vec2(_rightBox.width / 2, _rightBox.height / 2);
-            Vec2 tl2 = _leftBox.Position - new Vec2(_leftBox.width / 2, _leftBox.height / 2);
+            Vector2 tl = _rightBox.Position - new Vector2(_rightBox.width / 2, _rightBox.height / 2);
+            Vector2 tl2 = _leftBox.Position - new Vector2(_leftBox.width / 2, _leftBox.height / 2);
             if (tl2.X < tl.X)
                 tl.X = tl2.X;
             tl.Y -= _seperation / 2;
-            Vec2 br = _rightBox.Position + new Vec2(_rightBox.width / 2, _rightBox.height / 2);
-            Vec2 br2 = _leftBox.Position + new Vec2(_leftBox.width / 2, _leftBox.height / 2);
+            Vector2 br = _rightBox.Position + new Vector2(_rightBox.width / 2, _rightBox.height / 2);
+            Vector2 br2 = _leftBox.Position + new Vector2(_leftBox.width / 2, _leftBox.height / 2);
             if (br2.X > br.X)
                 br.X = br2.X;
             if (_splitPixels == 0)
                 _ = _splitPercent;
             else
                 _ = _splitPixels;
-            Graphics.DrawLine(new Vec2(tl.X, tl.Y), new Vec2(br.X, tl.Y), Color.White, 1, Depth + 10);
+            Graphics.DrawLine(new Vector2(tl.X, tl.Y), new Vector2(br.X, tl.Y), Color.White, 1, Depth + 10);
         }
         _ = debug;
         base.Draw();
@@ -133,7 +134,7 @@ public class UIDivider : UIComponent
             float minWidth = _leftBox.collisionSize.X + _rightBox.collisionSize.X + _seperation;
             if (_collisionSize.X < minWidth)
                 _collisionSize.X = minWidth;
-            Vec2 vec = CalculateSizes();
+            Vector2 vec = CalculateSizes();
             float leftSize = vec.X;
             float rightSize = vec.Y;
             if (leftSize < _leftBox.collisionSize.X)
@@ -157,7 +158,7 @@ public class UIDivider : UIComponent
             float minHeight2 = _leftBox.collisionSize.Y + _rightBox.collisionSize.Y + _seperation;
             if (_collisionSize.Y < minHeight2)
                 _collisionSize.Y = minHeight2;
-            Vec2 vec2 = CalculateSizes();
+            Vector2 vec2 = CalculateSizes();
             float topSize = vec2.X;
             float bottomSize = vec2.Y;
             if (topSize < _leftBox.collisionSize.Y)
@@ -181,15 +182,15 @@ public class UIDivider : UIComponent
     {
         if (_vertical)
         {
-            Vec2 sizes = CalculateSizes();
-            _leftBox.collisionSize = new Vec2(sizes.X, collisionSize.Y - borderSize.Y * 2);
-            _rightBox.collisionSize = new Vec2(sizes.Y, collisionSize.Y - borderSize.Y * 2);
+            Vector2 sizes = CalculateSizes();
+            _leftBox.collisionSize = new Vector2(sizes.X, collisionSize.Y - borderSize.Y * 2);
+            _rightBox.collisionSize = new Vector2(sizes.Y, collisionSize.Y - borderSize.Y * 2);
         }
         else
         {
-            Vec2 sizes2 = CalculateSizes();
-            _leftBox.collisionSize = new Vec2(collisionSize.X - borderSize.X * 2, sizes2.X);
-            _rightBox.collisionSize = new Vec2(collisionSize.X - borderSize.X * 2, sizes2.Y);
+            Vector2 sizes2 = CalculateSizes();
+            _leftBox.collisionSize = new Vector2(collisionSize.X - borderSize.X * 2, sizes2.X);
+            _rightBox.collisionSize = new Vector2(collisionSize.X - borderSize.X * 2, sizes2.Y);
         }
     }
 

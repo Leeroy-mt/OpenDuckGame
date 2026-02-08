@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -40,7 +41,7 @@ internal class MTSimpleSpriteBatchItem
         vertexBR.Color = color;
     }
 
-    public void Set(float x, float y, float dx, float dy, float w, float h, float sin, float cos, Microsoft.Xna.Framework.Color color, Vec2 texCoordTL, Vec2 texCoordBR)
+    public void Set(float x, float y, float dx, float dy, float w, float h, float sin, float cos, Microsoft.Xna.Framework.Color color, Vector2 texCoordTL, Vector2 texCoordBR)
     {
         vertexTL.Position.X = x + dx * cos - dy * sin;
         vertexTL.Position.Y = y + dx * sin + dy * cos;

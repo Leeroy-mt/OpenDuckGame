@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -20,9 +21,9 @@ public class WallDoor : Thing
         _sprite.AddAnimation("closed", 1f, false, default(int));
         _sprite.SetAnimation("closed");
         graphic = _sprite;
-        Center = new Vec2(10f, 22f);
-        collisionSize = new Vec2(21f, 30f);
-        collisionOffset = new Vec2(-10f, -20f);
+        Center = new Vector2(10f, 22f);
+        collisionSize = new Vector2(21f, 30f);
+        collisionOffset = new Vector2(-10f, -20f);
         base.Depth = -0.5f;
         _editorName = "Wall Door";
         _canFlip = false;
@@ -78,19 +79,19 @@ public class WallDoor : Thing
                 WallDoor transportDoor = null;
                 if (d2.inputProfile.Pressed("LEFT") || (d2.inputProfile.Down("LEFT") && d2.autoExitDoorFrames > 5))
                 {
-                    transportDoor = Level.CheckRay<WallDoor>(Position, Position + new Vec2(-10000f, 0f), this, out var _);
+                    transportDoor = Level.CheckRay<WallDoor>(Position, Position + new Vector2(-10000f, 0f), this, out var _);
                 }
                 if (d2.inputProfile.Pressed("RIGHT") || (d2.inputProfile.Down("RIGHT") && d2.autoExitDoorFrames > 5))
                 {
-                    transportDoor = Level.CheckRay<WallDoor>(Position, Position + new Vec2(10000f, 0f), this, out var _);
+                    transportDoor = Level.CheckRay<WallDoor>(Position, Position + new Vector2(10000f, 0f), this, out var _);
                 }
                 if (d2.inputProfile.Pressed("UP") || (d2.inputProfile.Down("UP") && d2.autoExitDoorFrames > 10))
                 {
-                    transportDoor = Level.CheckRay<WallDoor>(Position, Position + new Vec2(0f, -10000f), this, out var _);
+                    transportDoor = Level.CheckRay<WallDoor>(Position, Position + new Vector2(0f, -10000f), this, out var _);
                 }
                 if (d2.inputProfile.Pressed("DOWN") || (d2.inputProfile.Down("DOWN") && d2.autoExitDoorFrames > 5))
                 {
-                    transportDoor = Level.CheckRay<WallDoor>(Position, Position + new Vec2(0f, 10000f), this, out var _);
+                    transportDoor = Level.CheckRay<WallDoor>(Position, Position + new Vector2(0f, 10000f), this, out var _);
                 }
                 if (transportDoor != null)
                 {
@@ -135,7 +136,7 @@ public class WallDoor : Thing
             }
             if (d2.transportDoor != null && d2.autoExitDoorFrames <= 0)
             {
-                d2.Position = d2.transportDoor.Position + new Vec2(0f, -6f);
+                d2.Position = d2.transportDoor.Position + new Vector2(0f, -6f);
                 d2.transportDoor.AddDuck(d2);
                 d2.transportDoor = null;
                 _transportingDucks.RemoveAt(i);

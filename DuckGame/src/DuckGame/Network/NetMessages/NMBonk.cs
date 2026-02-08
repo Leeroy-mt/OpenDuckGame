@@ -1,16 +1,18 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMBonk : NMEvent
 {
-    public Vec2 position;
+    public Vector2 position;
 
-    public Vec2 velocity;
+    public Vector2 velocity;
 
     public NMBonk()
     {
     }
 
-    public NMBonk(Vec2 pPosition, Vec2 pVelocity)
+    public NMBonk(Vector2 pPosition, Vector2 pVelocity)
     {
         position = pPosition;
         velocity = pVelocity;

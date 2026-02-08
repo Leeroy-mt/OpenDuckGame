@@ -45,9 +45,9 @@ public abstract class JoyConBase : AnalogGamePad
 
     public override bool allowStartRemap => false;
 
-    public override Vec2 leftStick => new Vec2(_state.sticks.left.X, _state.sticks.left.Y);
+    public override Vector2 leftStick => new Vector2(_state.sticks.left.X, _state.sticks.left.Y);
 
-    public override Vec2 rightStick => Vec2.Zero;
+    public override Vector2 rightStick => Vector2.Zero;
 
     public abstract override bool isConnected { get; }
 
@@ -60,9 +60,9 @@ public abstract class JoyConBase : AnalogGamePad
         _productGUID = "";
     }
 
-    protected Vec2 ReadRightStick()
+    protected Vector2 ReadRightStick()
     {
-        return new Vec2(_state.sticks.right.X, _state.sticks.right.Y);
+        return new Vector2(_state.sticks.right.X, _state.sticks.right.Y);
     }
 
     public override Dictionary<int, string> GetTriggerNames()

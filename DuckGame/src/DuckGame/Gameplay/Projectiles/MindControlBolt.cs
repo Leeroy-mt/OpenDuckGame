@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class MindControlBolt : Thing
@@ -13,19 +15,19 @@ public class MindControlBolt : Thing
     {
         _controlledDuck = control;
         graphic = new Sprite("mindBolt");
-        Center = new Vec2(8f, 8f);
-        base.Scale = new Vec2(0.1f, 0.1f);
+        Center = new Vector2(8f, 8f);
+        base.Scale = new Vector2(0.1f, 0.1f);
         base.Alpha = 0f;
     }
 
     public override void Update()
     {
-        Vec2 pos = _controlledDuck.Position;
+        Vector2 pos = _controlledDuck.Position;
         if (_controlledDuck.ragdoll != null)
         {
             pos = _controlledDuck.ragdoll.part3.Position;
         }
-        Vec2 travel = pos - Position;
+        Vector2 travel = pos - Position;
         float length = travel.Length();
         travel.Normalize();
         base.AngleDegrees = 0f - Maths.PointDirection(Position, pos) + 90f;

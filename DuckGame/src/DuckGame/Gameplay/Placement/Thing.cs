@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -53,9 +54,9 @@ public abstract class Thing : Transform
 
     protected ushort _physicsIndex;
 
-    private Vec2 _lerpPosition = Vec2.Zero;
+    private Vector2 _lerpPosition = Vector2.Zero;
 
-    private Vec2 _lerpVector = Vec2.Zero;
+    private Vector2 _lerpVector = Vector2.Zero;
 
     private float _lerpSpeed;
 
@@ -141,7 +142,7 @@ public abstract class Thing : Transform
 
     protected bool _visibleInGame = true;
 
-    private Vec2 _editorOffset;
+    private Vector2 _editorOffset;
 
     private WallHug _hugWalls;
 
@@ -177,9 +178,9 @@ public abstract class Thing : Transform
 
     protected bool _solid = true;
 
-    protected Vec2 _collisionOffset;
+    protected Vector2 _collisionOffset;
 
-    protected Vec2 _collisionSize;
+    protected Vector2 _collisionSize;
 
     protected float _topQuick;
 
@@ -209,11 +210,11 @@ public abstract class Thing : Transform
 
     private bool _ignoreGhosting;
 
-    public Vec2 prevEndVelocity = Vec2.Zero;
+    public Vector2 prevEndVelocity = Vector2.Zero;
 
     private bool _redoLayer;
 
-    public virtual Vec2 netPosition
+    public virtual Vector2 netPosition
     {
         get
         {
@@ -347,7 +348,7 @@ public abstract class Thing : Transform
         }
     }
 
-    public virtual Vec2 cameraPosition => Position;
+    public virtual Vector2 cameraPosition => Position;
 
     public ushort globalIndex
     {
@@ -373,7 +374,7 @@ public abstract class Thing : Transform
         }
     }
 
-    public Vec2 lerpPosition
+    public Vector2 lerpPosition
     {
         get
         {
@@ -385,7 +386,7 @@ public abstract class Thing : Transform
         }
     }
 
-    public Vec2 lerpVector
+    public Vector2 lerpVector
     {
         get
         {
@@ -684,11 +685,11 @@ public abstract class Thing : Transform
         }
     }
 
-    public Vec2 velocity
+    public Vector2 velocity
     {
         get
         {
-            return new Vec2(hSpeed, vSpeed);
+            return new Vector2(hSpeed, vSpeed);
         }
         set
         {
@@ -733,7 +734,7 @@ public abstract class Thing : Transform
         }
     }
 
-    public virtual Vec2 anchorPosition => Position;
+    public virtual Vector2 anchorPosition => Position;
 
     public virtual sbyte offDir
     {
@@ -843,7 +844,7 @@ public abstract class Thing : Transform
 
     public bool visibleInGame => _visibleInGame;
 
-    public Vec2 editorOffset
+    public Vector2 editorOffset
     {
         get
         {
@@ -944,7 +945,7 @@ public abstract class Thing : Transform
         }
     }
 
-    public virtual Vec2 collisionOffset
+    public virtual Vector2 collisionOffset
     {
         get
         {
@@ -956,7 +957,7 @@ public abstract class Thing : Transform
         }
     }
 
-    public virtual Vec2 collisionSize
+    public virtual Vector2 collisionSize
     {
         get
         {
@@ -1036,13 +1037,13 @@ public abstract class Thing : Transform
         }
     }
 
-    public Vec2 topLeft => new Vec2(left, top);
+    public Vector2 topLeft => new Vector2(left, top);
 
-    public Vec2 topRight => new Vec2(right, top);
+    public Vector2 topRight => new Vector2(right, top);
 
-    public Vec2 bottomLeft => new Vec2(left, bottom);
+    public Vector2 bottomLeft => new Vector2(left, bottom);
 
-    public Vec2 bottomRight => new Vec2(right, bottom);
+    public Vector2 bottomRight => new Vector2(right, bottom);
 
     public bool isStatic
     {
@@ -1070,11 +1071,11 @@ public abstract class Thing : Transform
 
     public Rectangle rectangle => new Rectangle(left, top, (right - left), (bottom - top));
 
-    public Vec2 collisionCenter
+    public Vector2 collisionCenter
     {
         get
         {
-            return new Vec2(left + collisionSize.X / 2f, top + collisionSize.Y / 2f);
+            return new Vector2(left + collisionSize.X / 2f, top + collisionSize.Y / 2f);
         }
         set
         {
@@ -1255,7 +1256,7 @@ public abstract class Thing : Transform
     {
     }
 
-    public virtual void SetTranslation(Vec2 translation)
+    public virtual void SetTranslation(Vector2 translation)
     {
         Position += translation;
     }
@@ -1310,15 +1311,15 @@ public abstract class Thing : Transform
         }
     }
 
-    public void ApplyForce(Vec2 force)
+    public void ApplyForce(Vector2 force)
     {
         _hSpeed += force.X;
         _vSpeed += force.Y;
     }
 
-    public void ApplyForce(Vec2 force, Vec2 limits)
+    public void ApplyForce(Vector2 force, Vector2 limits)
     {
-        limits = new Vec2(Math.Abs(limits.X), Math.Abs(limits.Y));
+        limits = new Vector2(Math.Abs(limits.X), Math.Abs(limits.Y));
         if ((force.X < 0f && _hSpeed > 0f - limits.X) || (force.X > 0f && _hSpeed < limits.X))
         {
             _hSpeed += force.X;
@@ -1329,7 +1330,7 @@ public abstract class Thing : Transform
         }
     }
 
-    public void ApplyForceLimited(Vec2 force)
+    public void ApplyForceLimited(Vector2 force)
     {
         _hSpeed += force.X;
         if ((force.X < 0f && _hSpeed < force.X) || (force.X > 0f && _hSpeed > force.X))
@@ -1829,10 +1830,10 @@ public abstract class Thing : Transform
         }
         float s = (float)scalar / ((collisionSize.X > 0f && pUseCollisionSize) ? collisionSize.X : ((float)graphic.width));
         Camera cam = new Camera(0f, 0f, wide, high);
-        cam.position = new Vec2(base.X - base.CenterX * s, base.Y - base.CenterY * s);
+        cam.position = new Vector2(base.X - base.CenterX * s, base.Y - base.CenterY * s);
         if (pUseCollisionSize && collisionSize.X > 0f)
         {
-            cam.center = new Vec2((int)((left + right) / 2f), (int)((top + bottom) / 2f));
+            cam.center = new Vector2((int)((left + right) / 2f), (int)((top + bottom) / 2f));
         }
         RenderTarget2D curTarg = Graphics.currentRenderTarget;
         Graphics.SetRenderTarget(target);
@@ -1898,7 +1899,7 @@ public abstract class Thing : Transform
             return new Sprite(target);
         }
         Camera cam = new Camera(0f, 0f, wide, high);
-        cam.position = new Vec2(base.X - (float)(wide / 2), base.Y - (float)(high / 2));
+        cam.position = new Vector2(base.X - (float)(wide / 2), base.Y - (float)(high / 2));
         Graphics.SetRenderTarget(target);
         DepthStencilState state = new DepthStencilState
         {
@@ -1957,31 +1958,31 @@ public abstract class Thing : Transform
 
     public virtual void ReturnItemToWorld(Thing t)
     {
-        Block rightWall = Level.CheckLine<Block>(Position, Position + new Vec2(16f, 0f));
+        Block rightWall = Level.CheckLine<Block>(Position, Position + new Vector2(16f, 0f));
         if (rightWall != null && rightWall.solid && t.right > rightWall.left)
         {
             t.right = rightWall.left;
         }
-        Block leftWall = Level.CheckLine<Block>(Position, Position - new Vec2(16f, 0f));
+        Block leftWall = Level.CheckLine<Block>(Position, Position - new Vector2(16f, 0f));
         if (leftWall != null && leftWall.solid && t.left < leftWall.right)
         {
             t.left = leftWall.right;
         }
-        Block topWall = Level.CheckLine<Block>(Position, Position + new Vec2(0f, -16f));
+        Block topWall = Level.CheckLine<Block>(Position, Position + new Vector2(0f, -16f));
         if (topWall != null && topWall.solid && t.top < topWall.bottom)
         {
             t.top = topWall.bottom;
         }
-        Block bottomWall = Level.CheckLine<Block>(Position, Position + new Vec2(0f, 16f));
+        Block bottomWall = Level.CheckLine<Block>(Position, Position + new Vector2(0f, 16f));
         if (bottomWall != null && bottomWall.solid && t.bottom > bottomWall.top)
         {
             t.bottom = bottomWall.top;
         }
     }
 
-    public Vec2 NearestCorner(Vec2 to)
+    public Vector2 NearestCorner(Vector2 to)
     {
-        Vec2 nearest = topLeft;
+        Vector2 nearest = topLeft;
         float dist = (topLeft - to).Length();
         float test = (topRight - to).Length();
         if (test < dist)
@@ -2004,9 +2005,9 @@ public abstract class Thing : Transform
         return nearest;
     }
 
-    public Vec2 NearestOpenCorner(Vec2 to)
+    public Vector2 NearestOpenCorner(Vector2 to)
     {
-        Vec2 nearest = Vec2.Zero;
+        Vector2 nearest = Vector2.Zero;
         float dist = 9999999f;
         float test = 0f;
         test = (topLeft - to).Length();
@@ -2043,7 +2044,7 @@ public abstract class Thing : Transform
         graphic = sprite;
         if (sprite != null)
         {
-            _collisionSize = new Vec2(sprite.w, sprite.h);
+            _collisionSize = new Vector2(sprite.w, sprite.h);
         }
         if (Network.isActive)
         {
@@ -2051,27 +2052,27 @@ public abstract class Thing : Transform
         }
     }
 
-    public virtual Vec2 OffsetLocal(Vec2 pos)
+    public virtual Vector2 OffsetLocal(Vector2 pos)
     {
-        Vec2 offset = pos * base.Scale;
+        Vector2 offset = pos * base.Scale;
         if (offDir < 0)
         {
             offset.X *= -1f;
         }
-        return offset.Rotate(Angle, new Vec2(0f, 0f));
+        return offset.Rotate(Angle, new Vector2(0f, 0f));
     }
 
-    public virtual Vec2 ReverseOffsetLocal(Vec2 pos)
+    public virtual Vector2 ReverseOffsetLocal(Vector2 pos)
     {
-        return (pos * base.Scale).Rotate(0f - Angle, new Vec2(0f, 0f));
+        return (pos * base.Scale).Rotate(0f - Angle, new Vector2(0f, 0f));
     }
 
-    public virtual Vec2 Offset(Vec2 pos)
+    public virtual Vector2 Offset(Vector2 pos)
     {
         return Position + OffsetLocal(pos);
     }
 
-    public virtual Vec2 ReverseOffset(Vec2 pos)
+    public virtual Vector2 ReverseOffset(Vector2 pos)
     {
         pos -= Position;
         return ReverseOffsetLocal(pos);
@@ -2079,23 +2080,23 @@ public abstract class Thing : Transform
 
     public virtual float OffsetX(float pos)
     {
-        Vec2 offset = new Vec2(pos, 0f);
+        Vector2 offset = new Vector2(pos, 0f);
         if (offDir < 0)
         {
             offset.X *= -1f;
         }
-        offset = offset.Rotate(Angle, new Vec2(0f, 0f));
+        offset = offset.Rotate(Angle, new Vector2(0f, 0f));
         return (Position + offset).X;
     }
 
     public virtual float OffsetY(float pos)
     {
-        Vec2 offset = new Vec2(0f, pos);
+        Vector2 offset = new Vector2(0f, pos);
         if (offDir < 0)
         {
             offset.X *= -1f;
         }
-        offset = offset.Rotate(Angle, new Vec2(0f, 0f));
+        offset = offset.Rotate(Angle, new Vector2(0f, 0f));
         return (Position + offset).Y;
     }
 
@@ -2294,12 +2295,12 @@ public abstract class Thing : Transform
 
     public void Draw(Sprite spr, float xpos, float ypos, int d = 1)
     {
-        Draw(spr, new Vec2(xpos, ypos), d);
+        Draw(spr, new Vector2(xpos, ypos), d);
     }
 
-    public void Draw(Sprite spr, Vec2 pos, int d = 1)
+    public void Draw(Sprite spr, Vector2 pos, int d = 1)
     {
-        Vec2 drawOffset = Offset(pos);
+        Vector2 drawOffset = Offset(pos);
         if (graphic != null)
         {
             spr.flipH = graphic.flipH;
@@ -2312,9 +2313,9 @@ public abstract class Thing : Transform
         Graphics.Draw(spr, drawOffset.X, drawOffset.Y);
     }
 
-    public void DrawIgnoreAngle(Sprite spr, Vec2 pos, int d = 1)
+    public void DrawIgnoreAngle(Sprite spr, Vector2 pos, int d = 1)
     {
-        Vec2 drawOffset = Offset(pos);
+        Vector2 drawOffset = Offset(pos);
         spr.Alpha = base.Alpha;
         spr.Depth = base.Depth + d;
         spr.Scale = base.Scale;

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ public class BlockGroup : AutoBlock
 
     public List<Block> blocks => _blocks;
 
-    public override void SetTranslation(Vec2 translation)
+    public override void SetTranslation(Vector2 translation)
     {
         foreach (Block block in _blocks)
         {
@@ -46,8 +47,8 @@ public class BlockGroup : AutoBlock
 
     public void CalculateSize()
     {
-        Vec2 tl = new Vec2(99999f, 99999f);
-        Vec2 br = new Vec2(-99999f, -99999f);
+        Vector2 tl = new Vector2(99999f, 99999f);
+        Vector2 br = new Vector2(-99999f, -99999f);
         foreach (Block b in _blocks)
         {
             if (b.left < tl.X)
@@ -125,7 +126,7 @@ public class BlockGroup : AutoBlock
         }
         if (DevConsole.showCollision)
         {
-            Graphics.DrawRect(base.topLeft + new Vec2(-0.5f, 0.5f), base.bottomRight + new Vec2(0.5f, -0.5f), Color.Green * 0.5f, 1f);
+            Graphics.DrawRect(base.topLeft + new Vector2(-0.5f, 0.5f), base.bottomRight + new Vector2(0.5f, -0.5f), Color.Green * 0.5f, 1f);
         }
     }
 
@@ -140,7 +141,7 @@ public class BlockGroup : AutoBlock
         }
     }
 
-    public override void HeatUp(Vec2 location)
+    public override void HeatUp(Vector2 location)
     {
         if (willHeat)
         {

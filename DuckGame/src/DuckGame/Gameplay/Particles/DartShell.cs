@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class DartShell : PhysicsParticle
@@ -14,7 +16,7 @@ public class DartShell : PhysicsParticle
         _sprite = new SpriteMap("dart", 16, 16);
         _sprite.flipH = flip;
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         _bounceSound = "";
         _rotSpeed = rotSpeed;
         base.Depth = 0.3f;

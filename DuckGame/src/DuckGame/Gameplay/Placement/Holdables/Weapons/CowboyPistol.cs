@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Pistols", EditorItemType.PowerUser)]
@@ -15,17 +17,17 @@ public class CowboyPistol : Gun
         {
             if (!_raised && base.duck != null)
             {
-                Vec2 stick = base.duck.inputProfile.rightStick;
+                Vector2 stick = base.duck.inputProfile.rightStick;
                 if (stick.Length() < 0.1f)
                 {
-                    stick = Vec2.Zero;
+                    stick = Vector2.Zero;
                     return base.Angle;
                 }
                 if (offDir > 0)
                 {
-                    return Maths.DegToRad(Maths.PointDirection(Vec2.Zero, stick));
+                    return Maths.DegToRad(Maths.PointDirection(Vector2.Zero, stick));
                 }
-                return Maths.DegToRad(Maths.PointDirection(Vec2.Zero, stick) + 180f);
+                return Maths.DegToRad(Maths.PointDirection(Vector2.Zero, stick) + 180f);
             }
             return base.Angle;
         }
@@ -42,14 +44,14 @@ public class CowboyPistol : Gun
         _ammoType = new ATMagnum();
         _type = "gun";
         graphic = new Sprite("cowboyPistol");
-        Center = new Vec2(6f, 7f);
-        collisionOffset = new Vec2(-5f, -7f);
-        collisionSize = new Vec2(18f, 11f);
-        _barrelOffsetTL = new Vec2(21f, 3f);
+        Center = new Vector2(6f, 7f);
+        collisionOffset = new Vector2(-5f, -7f);
+        collisionSize = new Vector2(18f, 11f);
+        _barrelOffsetTL = new Vector2(21f, 3f);
         _fireSound = "magnum";
         _kickForce = 3f;
         _fireRumble = RumbleIntensity.Kick;
-        _holdOffset = new Vec2(-2f, 1f);
+        _holdOffset = new Vector2(-2f, 1f);
         _bio = "Standard issue .44 Magnum. Pretty great for killing things, really great for killing things that are trying to hide. Watch the kick, unless you're trying to shoot the ceiling.";
         _editorName = "Cowboy Pistol";
     }

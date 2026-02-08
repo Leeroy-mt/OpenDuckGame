@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -216,8 +217,8 @@ public class GameLevel : XMLLevel, IHaveAVirtualTransition
     public override void Start()
     {
         _things.RefreshState();
-        Vec2 p1 = new Vec2(9999f, -9999f);
-        Vec2 p2 = Vec2.Zero;
+        Vector2 p1 = new Vector2(9999f, -9999f);
+        Vector2 p2 = Vector2.Zero;
         int numDucks = 0;
         foreach (Duck duck in base.things[typeof(Duck)])
         {
@@ -236,8 +237,8 @@ public class GameLevel : XMLLevel, IHaveAVirtualTransition
     protected override void OnTransferComplete(NetworkConnection c)
     {
         Level.current.things.RefreshState();
-        Vec2 p1 = new Vec2(9999f, -9999f);
-        Vec2 p2 = Vec2.Zero;
+        Vector2 p1 = new Vector2(9999f, -9999f);
+        Vector2 p2 = Vector2.Zero;
         int numDucks = 0;
         List<Duck> spawns = new List<Duck>();
         foreach (Duck duck in base.things[typeof(Duck)])
@@ -351,22 +352,22 @@ public class GameLevel : XMLLevel, IHaveAVirtualTransition
                 }
                 float nameWidth = Graphics.GetStringWidth(levelName);
                 float lerpDist = (nameWidth + distFromEdge + 12f) * (1f - _infoSlide);
-                Vec2 backTL = new Vec2(0f - lerpDist, distFromEdge - 1f);
-                Vec2 backBR = new Vec2(distFromEdge + nameWidth + 4f, distFromEdge + 10f);
-                Graphics.DrawRect(backTL, backBR + new Vec2(0f - lerpDist, 0f), new Color(13, 130, 211), 0.95f);
-                Graphics.DrawRect(backTL + new Vec2(-2f, 2f), backBR + new Vec2(0f - lerpDist + 2f, 2f), Colors.BlueGray, 0.9f);
-                Graphics.DrawStringOutline(levelName, backTL + new Vec2(distFromEdge, 2f), Color.White, Color.Black, 1f);
+                Vector2 backTL = new Vector2(0f - lerpDist, distFromEdge - 1f);
+                Vector2 backBR = new Vector2(distFromEdge + nameWidth + 4f, distFromEdge + 10f);
+                Graphics.DrawRect(backTL, backBR + new Vector2(0f - lerpDist, 0f), new Color(13, 130, 211), 0.95f);
+                Graphics.DrawRect(backTL + new Vector2(-2f, 2f), backBR + new Vector2(0f - lerpDist + 2f, 2f), Colors.BlueGray, 0.9f);
+                Graphics.DrawStringOutline(levelName, backTL + new Vector2(distFromEdge, 2f), Color.White, Color.Black, 1f);
                 if (base.data.workshopData != null && base.data.workshopData.author != null && base.data.workshopData.author != "")
                 {
                     string authorName = base.data.workshopData.author;
                     string text = "BY " + authorName;
                     float stringWidth = Graphics.GetStringWidth(text);
                     float lerpDist2 = (stringWidth + distFromEdge + 12f) * (1f - _infoSlide);
-                    backTL = new Vec2(Layer.HUD.width - stringWidth - distFromEdge - 5f + lerpDist2, Layer.HUD.height - distFromEdge - 10f);
-                    backBR = new Vec2(Layer.HUD.width + lerpDist2, Layer.HUD.height - distFromEdge + 1f);
+                    backTL = new Vector2(Layer.HUD.width - stringWidth - distFromEdge - 5f + lerpDist2, Layer.HUD.height - distFromEdge - 10f);
+                    backBR = new Vector2(Layer.HUD.width + lerpDist2, Layer.HUD.height - distFromEdge + 1f);
                     Graphics.DrawRect(backTL, backBR, new Color(138, 38, 190), 0.95f);
-                    Graphics.DrawRect(backTL + new Vec2(-2f, -2f), backBR + new Vec2(2f, -2f), Colors.BlueGray, 0.9f);
-                    Graphics.DrawStringOutline(text, new Vec2(Layer.HUD.width - stringWidth - distFromEdge + lerpDist2, Layer.HUD.height - distFromEdge - 8f), Color.White, Color.Black, 1f);
+                    Graphics.DrawRect(backTL + new Vector2(-2f, -2f), backBR + new Vector2(2f, -2f), Colors.BlueGray, 0.9f);
+                    Graphics.DrawStringOutline(text, new Vector2(Layer.HUD.width - stringWidth - distFromEdge + lerpDist2, Layer.HUD.height - distFromEdge - 8f), Color.White, Color.Black, 1f);
                 }
             }
         }

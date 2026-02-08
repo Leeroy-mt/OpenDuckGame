@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Special", EditorItemType.Arcade)]
@@ -12,9 +14,9 @@ public class CTFSpawner : ItemSpawner
     {
         _sprite = new SpriteMap("ctf/spawner", 16, 4);
         graphic = _sprite;
-        Center = new Vec2(8f, 2f);
-        collisionOffset = new Vec2(-8f, -2f);
-        collisionSize = new Vec2(16f, 4f);
+        Center = new Vector2(8f, 2f);
+        collisionOffset = new Vector2(-8f, -2f);
+        collisionSize = new Vector2(16f, 4f);
         randomSpawn = true;
     }
 

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -358,9 +359,9 @@ public class UIMatchmakerMark2 : UIMenu
         Graphics.Draw(_signalCrossLocal, X - 45, starsOffsetY - 19);
         _signalCrossNetwork.Depth = Depth + 2;
         Graphics.Draw(_signalCrossNetwork, X + 55, starsOffsetY - 23);
-        Vec2 fontPos = new(-_font.GetWidth(_caption) / 2, -52);
+        Vector2 fontPos = new(-_font.GetWidth(_caption) / 2, -52);
         _font.DrawOutline(_caption, Position + fontPos, Color.White, Color.Black, Depth + 2);
-        _fancyFont.Scale = new Vec2(0.5f);
+        _fancyFont.Scale = new Vector2(0.5f);
         int yOff = 0;
         while (messages.Count > 10)
             messages.RemoveAt(0);
@@ -386,7 +387,7 @@ public class UIMatchmakerMark2 : UIMenu
                     t += elipsis;
                 }
             }
-            _fancyFont.Draw(t, new Vec2(X - 64, Y - 18 + yOff * 6), Color.White, Depth + 2);
+            _fancyFont.Draw(t, new Vector2(X - 64, Y - 18 + yOff * 6), Color.White, Depth + 2);
             yOff++;
             listIDX++;
         }
@@ -395,12 +396,12 @@ public class UIMatchmakerMark2 : UIMenu
         if (_totalLobbies >= 0)
         {
             if (_totalLobbies > 1)
-                _fancyFont.Draw($"Found {_totalLobbies} games already in progress.", Position + new Vec2(-65, 49), Color.Black, Depth + 2);
+                _fancyFont.Draw($"Found {_totalLobbies} games already in progress.", Position + new Vector2(-65, 49), Color.Black, Depth + 2);
             else
-                _fancyFont.Draw($"Found {_totalLobbies} game already in progress.", Position + new Vec2(-65, 49), Color.Black, Depth + 2);
+                _fancyFont.Draw($"Found {_totalLobbies} game already in progress.", Position + new Vector2(-65, 49), Color.Black, Depth + 2);
         }
         else
-            _fancyFont.Draw("Querying moon...", Position + new Vec2(-65, 49), Color.Black, Depth + 2);
+            _fancyFont.Draw("Querying moon...", Position + new Vector2(-65, 49), Color.Black, Depth + 2);
     }
 
     public void FinishAndClose()

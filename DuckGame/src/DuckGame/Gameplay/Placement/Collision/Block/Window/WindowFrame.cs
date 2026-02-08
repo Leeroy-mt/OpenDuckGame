@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class WindowFrame : Thing
@@ -10,7 +12,7 @@ public class WindowFrame : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("windowFrame");
-        Center = new Vec2(5f, 26f);
+        Center = new Vector2(5f, 26f);
         base.Depth = -0.95f;
         _editorCanModify = false;
         floor = f;

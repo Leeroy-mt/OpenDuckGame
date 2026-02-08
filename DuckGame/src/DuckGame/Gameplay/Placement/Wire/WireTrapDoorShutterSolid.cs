@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class WireTrapDoorShutterSolid : Block, IShutter
@@ -6,14 +8,14 @@ public class WireTrapDoorShutterSolid : Block, IShutter
 
     private bool _open;
 
-    private Vec2 _colSize;
+    private Vector2 _colSize;
 
     private SpriteMap _sprite;
 
     public void UpdateSprite()
     {
         _sprite.frame = (int)_button.length - 1 + (int)_button.color * 4;
-        _colSize = new Vec2(7 + 16 * (int)_button.length, 12f);
+        _colSize = new Vector2(7 + 16 * (int)_button.length, 12f);
         collisionSize = _colSize;
         UpdateOpenState();
     }
@@ -22,9 +24,9 @@ public class WireTrapDoorShutterSolid : Block, IShutter
         : base(xpos, ypos)
     {
         _button = b;
-        collisionSize = new Vec2(39f, 12f);
-        collisionOffset = new Vec2(-3f, -3f);
-        Center = new Vec2(3f, 3f);
+        collisionSize = new Vector2(39f, 12f);
+        collisionOffset = new Vector2(-3f, -3f);
+        Center = new Vector2(3f, 3f);
         _sprite = new SpriteMap("wireTrapDoorArmBig", 71, 13);
         graphic = _sprite;
     }
@@ -52,14 +54,14 @@ public class WireTrapDoorShutterSolid : Block, IShutter
             {
                 if (!(Level.current is Editor))
                 {
-                    foreach (PhysicsObject item in Level.CheckRectAll<PhysicsObject>(base.topLeft + new Vec2(0f, -8f), base.bottomRight))
+                    foreach (PhysicsObject item in Level.CheckRectAll<PhysicsObject>(base.topLeft + new Vector2(0f, -8f), base.bottomRight))
                     {
                         item.sleeping = false;
                     }
                 }
                 _open = true;
             }
-            collisionSize = new Vec2(1f, 1f);
+            collisionSize = new Vector2(1f, 1f);
         }
     }
 

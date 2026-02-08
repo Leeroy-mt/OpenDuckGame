@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -30,10 +31,10 @@ public class CampingRifle : Gun
         _sprite = new SpriteMap("camping", 23, 15);
         _sprite.speed = 0f;
         graphic = _sprite;
-        Center = new Vec2(11f, 7f);
-        collisionOffset = new Vec2(-10f, -5f);
-        collisionSize = new Vec2(20f, 12f);
-        _barrelOffsetTL = new Vec2(22f, 6f);
+        Center = new Vector2(11f, 7f);
+        collisionOffset = new Vector2(-10f, -5f);
+        collisionSize = new Vector2(20f, 12f);
+        _barrelOffsetTL = new Vector2(22f, 6f);
         _fireSound = "shotgunFire2";
         _kickForce = 4f;
         _fireRumble = RumbleIntensity.Light;
@@ -41,8 +42,8 @@ public class CampingRifle : Gun
         _manualLoad = true;
         flammable = 1f;
         _loaderSprite = new SpriteMap("camping_loader", 6, 4);
-        _loaderSprite.Center = new Vec2(3f, 2f);
-        _holdOffset = new Vec2(0f, -2f);
+        _loaderSprite.Center = new Vector2(3f, 2f);
+        _holdOffset = new Vector2(0f, -2f);
         _editorName = "Camping Gun";
         editorTooltip = "Designed to get campers into bed quickly.";
         loaded = false;
@@ -149,7 +150,7 @@ public class CampingRifle : Gun
                 }
                 SFX.Play("campingThwoom");
                 ApplyKick();
-                Vec2 pos = Offset(base.barrelOffset);
+                Vector2 pos = Offset(base.barrelOffset);
                 for (int i = 0; i < 6; i++)
                 {
                     CampingSmoke smoke = new CampingSmoke(base.barrelPosition.X - 8f + Rando.Float(8f) + (float)offDir * 8f, base.barrelPosition.Y - 8f + Rando.Float(8f));
@@ -199,8 +200,8 @@ public class CampingRifle : Gun
     public override void Draw()
     {
         base.Draw();
-        Vec2 bOffset = new Vec2(13f, -2f);
+        Vector2 bOffset = new Vector2(13f, -2f);
         float offset = (float)Math.Sin(_loadAnimation * 3.14f) * 3f;
-        Draw(_loaderSprite, new Vec2(bOffset.X - 8f - offset, bOffset.Y + 4f));
+        Draw(_loaderSprite, new Vector2(bOffset.X - 8f - offset, bOffset.Y + 4f));
     }
 }

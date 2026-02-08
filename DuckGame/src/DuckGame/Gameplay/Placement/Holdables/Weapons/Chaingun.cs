@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -42,15 +43,15 @@ public class Chaingun : Gun
         _ammoType.range = 170f;
         _ammoType.accuracy = 0.5f;
         wideBarrel = true;
-        barrelInsertOffset = new Vec2(0f, 0f);
+        barrelInsertOffset = new Vector2(0f, 0f);
         _type = "gun";
         _sprite = new SpriteMap("chaingun", 42, 28);
         graphic = _sprite;
-        Center = new Vec2(14f, 14f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(24f, 10f);
+        Center = new Vector2(14f, 14f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(24f, 10f);
         _tip = new SpriteMap("chaingunTip", 42, 28);
-        _barrelOffsetTL = new Vec2(39f, 14f);
+        _barrelOffsetTL = new Vector2(39f, 14f);
         _fireSound = "pistolFire";
         _fullAuto = true;
         _fireWait = 0.7f;
@@ -59,7 +60,7 @@ public class Chaingun : Gun
         weight = 8f;
         _spinUp = SFX.Get("chaingunSpinUp");
         _spinDown = SFX.Get("chaingunSpinDown");
-        _holdOffset = new Vec2(0f, 2f);
+        _holdOffset = new Vector2(0f, 2f);
         editorTooltip = "Like a chaingun, but for adults. Fires mean pointy metal things.";
     }
 
@@ -157,7 +158,7 @@ public class Chaingun : Gun
         _sprite.speed = _spin;
         _tip.speed = _spin;
         spinAmount += _spin;
-        barrelInsertOffset = new Vec2(0f, 2f + (float)Math.Sin(spinAmount / 9f * 3.14f) * 2f);
+        barrelInsertOffset = new Vector2(0f, 2f + (float)Math.Sin(spinAmount / 9f * 3.14f) * 2f);
         if (_spin > 0f)
         {
             _spin -= 0.01f;
@@ -171,11 +172,11 @@ public class Chaingun : Gun
         {
             if (!graphic.flipH)
             {
-                _topBullet.chainOffset = new Vec2(1f, 5f);
+                _topBullet.chainOffset = new Vector2(1f, 5f);
             }
             else
             {
-                _topBullet.chainOffset = new Vec2(-1f, 5f);
+                _topBullet.chainOffset = new Vector2(-1f, 5f);
             }
         }
     }

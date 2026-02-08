@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Pistols")]
@@ -19,15 +21,15 @@ public class OldPistol : Gun
         _type = "gun";
         _sprite = new SpriteMap("oldPistol", 32, 32);
         graphic = _sprite;
-        Center = new Vec2(16f, 17f);
-        collisionOffset = new Vec2(-8f, -4f);
-        collisionSize = new Vec2(16f, 8f);
-        _barrelOffsetTL = new Vec2(24f, 16f);
+        Center = new Vector2(16f, 17f);
+        collisionOffset = new Vector2(-8f, -4f);
+        collisionSize = new Vector2(16f, 8f);
+        _barrelOffsetTL = new Vector2(24f, 16f);
         _fireSound = "shotgun";
         _kickForce = 2f;
         _fireRumble = RumbleIntensity.Kick;
         _manualLoad = true;
-        _holdOffset = new Vec2(2f, 0f);
+        _holdOffset = new Vector2(2f, 0f);
         editorTooltip = "A pain in the tailfeathers to reload, but it'll get the job done.";
     }
 
@@ -67,7 +69,7 @@ public class OldPistol : Gun
             }
             _loadState = -1;
             _angleOffset = 0f;
-            handOffset = Vec2.Zero;
+            handOffset = Vector2.Zero;
         }
         if (_loadState == 0)
         {
@@ -177,7 +179,7 @@ public class OldPistol : Gun
             base.OnPressAction();
             for (int i = 0; i < 4; i++)
             {
-                Level.Add(Spark.New((offDir > 0) ? (base.X - 9f) : (base.X + 9f), base.Y - 6f, new Vec2(Rando.Float(-1f, 1f), -0.5f), 0.05f));
+                Level.Add(Spark.New((offDir > 0) ? (base.X - 9f) : (base.X + 9f), base.Y - 6f, new Vector2(Rando.Float(-1f, 1f), -0.5f), 0.05f));
             }
             for (int j = 0; j < 4; j++)
             {

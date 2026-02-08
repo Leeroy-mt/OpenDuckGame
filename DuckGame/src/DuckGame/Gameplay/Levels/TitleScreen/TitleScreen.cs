@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -648,71 +649,71 @@ public class TitleScreen : Level
         _duckGameUpdateMenu = new UIMenu("DUCK GAME 1.5!", Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 220f, -1f, "@SELECT@OK!");
         _duckGameUpdateMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("Duck Game has received a major update!", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("Some of the biggest changes include:", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Support for up to 8 players and 4 spectators".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-New hats, weapons, equipment and furniture".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-New city themed levels".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Custom font support for chat".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-4K and custom resolution support".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Host Migration, Invite Links, LAN play".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Major online synchronization improvements".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Major performance improvements".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("-Hundreds and hundreds of bug fixes".Padded(padLength), Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("Thank you for all your support!", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _duckGameUpdateMenu.SetAcceptFunction(new UIMenuActionCloseMenu(_pauseGroup));
         _duckGameUpdateMenu.SetBackFunction(new UIMenuActionCloseMenu(_pauseGroup));
@@ -721,35 +722,35 @@ public class TitleScreen : Level
         _steamWarningMessage = new UIMenu("Steam Not Connected!", Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 220f, -1f, "@SELECT@ I see...");
         _steamWarningMessage.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("It seems that either you're not logged in", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("to Steam, or Steam failed to authenticate.", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("You can still play- but realtime", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("features like Online Play and the Workshop", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("will be |DGRED|unavailable|PREV|.", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _steamWarningMessage.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _steamWarningMessage.SetAcceptFunction(new UIMenuActionCloseMenu(_pauseGroup));
         _steamWarningMessage.SetBackFunction(new UIMenuActionCloseMenu(_pauseGroup));
@@ -758,63 +759,63 @@ public class TitleScreen : Level
         _modsDisabledMenu = new UIMenu("MODS CHANGED!", Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 240f, -1f, "@SELECT@I see...");
         _modsDisabledMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("To ensure a smooth update, all enabled", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("mods have been temporarily set to |DGRED|disabled|PREV|.", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("Mod compatibility has been a high priority, and", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("most mods should work no problem with the new version.", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("They can be re-enabled through the |DGORANGE|MANAGE MODS|PREV| menu", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("accessible via the top left options console.", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("Some older mods may |DGRED|not|PREV| work...", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("Please be mindful of any crashes caused by", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("re-enabling specific mods, and use the '|DGBLUE|-nomods|PREV|'", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("launch option if you run into trouble!", Color.White, UIAlign.Center, 0f - heightAdd)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _modsDisabledMenu.SetAcceptFunction(new UIMenuActionCloseMenu(_pauseGroup));
         _modsDisabledMenu.SetBackFunction(new UIMenuActionCloseMenu(_pauseGroup));
@@ -1017,8 +1018,8 @@ public class TitleScreen : Level
                 }
                 particles.Add(new StarParticle
                 {
-                    pos = new Vec2(0f, (int)(Rando.Float(0f, 150f) / 1f)),
-                    speed = new Vec2(Rando.Float(0.5f, 1f), 0f),
+                    pos = new Vector2(0f, (int)(Rando.Float(0f, 150f) / 1f)),
+                    speed = new Vector2(Rando.Float(0.5f, 1f), 0f),
                     color = c,
                     flicker = Rando.Float(100f, 230f)
                 });
@@ -1491,7 +1492,7 @@ public class TitleScreen : Level
                     }
                     else
                     {
-                        Graphics.DrawString("@START@", new Vec2(Level.current.camera.PercentW(50f) - 7f, 16f), Color.White, 0.9f, prof);
+                        Graphics.DrawString("@START@", new Vector2(Level.current.camera.PercentW(50f) - 7f, 16f), Color.White, 0.9f, prof);
                     }
                 }
             }
@@ -1517,14 +1518,14 @@ public class TitleScreen : Level
                         if (line.Count == 1)
                         {
                             float wide = Graphics.GetStringWidth(line[0]);
-                            Graphics.DrawStringColoredSymbols(line[0], new Vec2(490f - wide / 2f, yDraw + (200f - creditsScroll)), Color.White, 1f);
+                            Graphics.DrawStringColoredSymbols(line[0], new Vector2(490f - wide / 2f, yDraw + (200f - creditsScroll)), Color.White, 1f);
                         }
                         else
                         {
                             Graphics.GetStringWidth(line[0]);
-                            Graphics.DrawStringColoredSymbols(line[0], new Vec2(347f, yDraw + (200f - creditsScroll)), Color.White, 1f);
+                            Graphics.DrawStringColoredSymbols(line[0], new Vector2(347f, yDraw + (200f - creditsScroll)), Color.White, 1f);
                             Graphics.GetStringWidth(line[1]);
-                            Graphics.DrawStringColoredSymbols(line[1], new Vec2(507f, yDraw + (200f - creditsScroll)), Color.White, 1f);
+                            Graphics.DrawStringColoredSymbols(line[1], new Vector2(507f, yDraw + (200f - creditsScroll)), Color.White, 1f);
                         }
                     }
                     yDraw += 11f;
@@ -1552,18 +1553,18 @@ public class TitleScreen : Level
                 {
                     starFade += base.camera.y / 52f;
                 }
-                Graphics.DrawRect(p.pos, p.pos + new Vec2(1f, 1f), Color.White * ((starFade + flickerDist * 0.6f) * (0.3f + (1f - extraFade) * 0.7f)), -0.3f);
+                Graphics.DrawRect(p.pos, p.pos + new Vector2(1f, 1f), Color.White * ((starFade + flickerDist * 0.6f) * (0.3f + (1f - extraFade) * 0.7f)), -0.3f);
                 float trailFade = 0.1f;
                 if (base.camera.y > 0f)
                 {
                     trailFade += base.camera.y / 52f;
                 }
-                Vec2 trailPos = p.pos;
+                Vector2 trailPos = p.pos;
                 int trailNum = 4;
                 for (int i = 0; i < trailNum; i++)
                 {
                     float move = p.speed.X * 8f;
-                    Graphics.DrawLine(trailPos + new Vec2(0f - move, 0.5f), trailPos + new Vec2(0f, 0.5f), p.color * ((1f - (float)i / (float)trailNum) * trailFade) * (0.3f + (1f - extraFade) * 0.7f), 1f, -0.4f);
+                    Graphics.DrawLine(trailPos + new Vector2(0f - move, 0.5f), trailPos + new Vector2(0f, 0.5f), p.color * ((1f - (float)i / (float)trailNum) * trailFade) * (0.3f + (1f - extraFade) * 0.7f), 1f, -0.4f);
                     trailPos.X -= move;
                 }
             }

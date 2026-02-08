@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,15 @@ public class TeamHat : Hat
     {
         private Team.CustomHatMetadata _metadata;
 
-        private Vec2 _particleAlpha;
+        private Vector2 _particleAlpha;
 
-        private Vec2 _particleScale;
+        private Vector2 _particleScale;
 
-        private Vec2 _particleGravity;
+        private Vector2 _particleGravity;
 
-        private Vec2 _particleFriction;
+        private Vector2 _particleFriction;
 
-        private Vec2 _particleRotation;
+        private Vector2 _particleRotation;
 
         public List<Texture2D> animationFrames;
 
@@ -31,13 +32,13 @@ public class TeamHat : Hat
 
         private float _lifespan;
 
-        private Vec2 _movementDif;
+        private Vector2 _movementDif;
 
-        private Vec2 _prevOwnerPosition;
+        private Vector2 _prevOwnerPosition;
 
-        private Vec2 _gravityVelocity;
+        private Vector2 _gravityVelocity;
 
-        public CustomParticle(Vec2 pPosition, Thing pOwner, Team.CustomHatMetadata pMetadata)
+        public CustomParticle(Vector2 pPosition, Thing pOwner, Team.CustomHatMetadata pMetadata)
             : base(pPosition.X, pPosition.Y)
         {
             _metadata = pMetadata;
@@ -50,12 +51,12 @@ public class TeamHat : Hat
             {
                 graphic.flipH = offDir < 0;
             }
-            Center = new Vec2(graphic.width / 2, graphic.height / 2);
+            Center = new Vector2(graphic.width / 2, graphic.height / 2);
             _lifespan = _metadata.ParticleLifespan.value;
             _prevOwnerPosition = _owner.Position;
             _particleAlpha = _metadata.ParticleAlpha.value;
             _particleScale = _metadata.ParticleScale.value;
-            _particleGravity = new Vec2(_owner.OffsetLocal(_metadata.ParticleGravity.value).X, _metadata.ParticleGravity.value.Y);
+            _particleGravity = new Vector2(_owner.OffsetLocal(_metadata.ParticleGravity.value).X, _metadata.ParticleGravity.value.Y);
             _particleFriction = _metadata.ParticleFriction.value;
             _particleRotation = _metadata.ParticleRotation.value;
             base.Depth = (_metadata.ParticleBackground.value ? (pOwner.Depth - 8) : (pOwner.Depth + 8));
@@ -103,7 +104,7 @@ public class TeamHat : Hat
             }
             if (_metadata.ParticleAnchor.value)
             {
-                Vec2 p = Position;
+                Vector2 p = Position;
                 sbyte ownerOffdir = _owner.offDir;
                 if (_metadata.HatNoFlip.value)
                 {
@@ -111,7 +112,7 @@ public class TeamHat : Hat
                 }
                 Position = _owner.Offset(Position);
                 _owner.offDir = ownerOffdir;
-                Vec2 preUpdate = Position;
+                Vector2 preUpdate = Position;
                 base.Update();
                 Position = p + (Position - preUpdate);
             }
@@ -134,7 +135,7 @@ public class TeamHat : Hat
         {
             if (_metadata.ParticleAnchor.value)
             {
-                Vec2 p = Position;
+                Vector2 p = Position;
                 sbyte ownerOffdir = _owner.offDir;
                 if (_metadata.HatNoFlip.value)
                 {
@@ -147,7 +148,7 @@ public class TeamHat : Hat
                 {
                     base.AngleDegrees += _owner.AngleDegrees;
                 }
-                Vec2 preUpdate = Position;
+                Vector2 preUpdate = Position;
                 base.Draw();
                 Position = p + (Position - preUpdate);
                 Angle = ang;
@@ -281,7 +282,7 @@ public class TeamHat : Hat
                 base.sprite = _team.GetHat(p).CloneMap();
                 base.pickupSprite = _team.GetHat(p).Clone();
             }
-            base.sprite.Center = new Vec2(16f, 16f);
+            base.sprite.Center = new Vector2(16f, 16f);
             base.hatOffset = _team.hatOffset;
             UpdateCape();
             _lastLoadedTeam = ((_team.facade != null) ? _team.facade : _team);
@@ -530,16 +531,16 @@ public class TeamHat : Hat
                 _addedParticles = new List<CustomParticle>();
             }
             int numSpawn = team.metadata.ParticleCount.value;
-            Vec2 emitTL = new Vec2((0f - team.metadata.ParticleEmitShapeSize.value.X) / 2f, (0f - team.metadata.ParticleEmitShapeSize.value.Y) / 2f);
-            Vec2 emitBR = new Vec2(team.metadata.ParticleEmitShapeSize.value.X / 2f, team.metadata.ParticleEmitShapeSize.value.Y / 2f);
-            Vec2 emissionPositionMain = team.metadata.ParticleEmitterOffset.value;
+            Vector2 emitTL = new Vector2((0f - team.metadata.ParticleEmitShapeSize.value.X) / 2f, (0f - team.metadata.ParticleEmitShapeSize.value.Y) / 2f);
+            Vector2 emitBR = new Vector2(team.metadata.ParticleEmitShapeSize.value.X / 2f, team.metadata.ParticleEmitShapeSize.value.Y / 2f);
+            Vector2 emissionPositionMain = team.metadata.ParticleEmitterOffset.value;
             for (int i = 0; i < numSpawn; i++)
             {
-                Vec2 emissionPosition = emissionPositionMain;
+                Vector2 emissionPosition = emissionPositionMain;
                 if (team.metadata.ParticleEmitShape.value.X == 1f)
                 {
                     float ang = Maths.DegToRad((team.metadata.ParticleEmitShape.value.Y == 2f) ? ((float)i * (360f / (float)numSpawn)) : Rando.Float(360f));
-                    Vec2 angVec = new Vec2((float)Math.Cos(ang) * (team.metadata.ParticleEmitShapeSize.value.X / 2f), (float)(0.0 - Math.Sin(ang)) * (team.metadata.ParticleEmitShapeSize.value.Y / 2f));
+                    Vector2 angVec = new Vector2((float)Math.Cos(ang) * (team.metadata.ParticleEmitShapeSize.value.X / 2f), (float)(0.0 - Math.Sin(ang)) * (team.metadata.ParticleEmitShapeSize.value.Y / 2f));
                     if (team.metadata.ParticleEmitShape.value.Y == 1f)
                     {
                         emissionPosition += angVec * Rando.Float(1f);
@@ -556,53 +557,53 @@ public class TeamHat : Hat
                         float sideMul = ((Rando.Float(1f) >= 0.5f) ? 1f : (-1f));
                         if (Rando.Float(1f) >= 0.5f)
                         {
-                            emissionPosition += new Vec2(team.metadata.ParticleEmitShapeSize.value.X * sideMul, Rando.Float((0f - team.metadata.ParticleEmitShapeSize.value.Y) / 2f, team.metadata.ParticleEmitShapeSize.value.Y / 2f));
+                            emissionPosition += new Vector2(team.metadata.ParticleEmitShapeSize.value.X * sideMul, Rando.Float((0f - team.metadata.ParticleEmitShapeSize.value.Y) / 2f, team.metadata.ParticleEmitShapeSize.value.Y / 2f));
                         }
                         else
                         {
-                            emissionPosition += new Vec2(Rando.Float((0f - team.metadata.ParticleEmitShapeSize.value.X) / 2f, team.metadata.ParticleEmitShapeSize.value.X / 2f), team.metadata.ParticleEmitShapeSize.value.Y * sideMul);
+                            emissionPosition += new Vector2(Rando.Float((0f - team.metadata.ParticleEmitShapeSize.value.X) / 2f, team.metadata.ParticleEmitShapeSize.value.X / 2f), team.metadata.ParticleEmitShapeSize.value.Y * sideMul);
                         }
                     }
                     else if (team.metadata.ParticleEmitShape.value.Y == 1f)
                     {
-                        emissionPosition += new Vec2(Rando.Float((0f - team.metadata.ParticleEmitShapeSize.value.X) / 2f, team.metadata.ParticleEmitShapeSize.value.X / 2f), Rando.Float((0f - team.metadata.ParticleEmitShapeSize.value.Y) / 2f, team.metadata.ParticleEmitShapeSize.value.Y / 2f));
+                        emissionPosition += new Vector2(Rando.Float((0f - team.metadata.ParticleEmitShapeSize.value.X) / 2f, team.metadata.ParticleEmitShapeSize.value.X / 2f), Rando.Float((0f - team.metadata.ParticleEmitShapeSize.value.Y) / 2f, team.metadata.ParticleEmitShapeSize.value.Y / 2f));
                     }
                     else if (team.metadata.ParticleEmitShape.value.Y == 2f)
                     {
                         float ang2 = Maths.DegToRad((team.metadata.ParticleEmitShape.value.Y == 2f) ? ((float)i * (360f / (float)numSpawn)) : Rando.Float(360f));
-                        Vec2 angVec2 = new Vec2((float)Math.Cos(ang2) * 100f, (float)(0.0 - Math.Sin(ang2)) * 100f);
-                        Vec2 col = Vec2.Zero;
+                        Vector2 angVec2 = new Vector2((float)Math.Cos(ang2) * 100f, (float)(0.0 - Math.Sin(ang2)) * 100f);
+                        Vector2 col = Vector2.Zero;
                         for (int iSide = 0; iSide < 4; iSide++)
                         {
-                            col = Vec2.Zero;
+                            col = Vector2.Zero;
                             switch (iSide)
                             {
                                 case 0:
-                                    if (Collision.LineIntersect(Vec2.Zero, angVec2, emitTL, new Vec2(emitTL.X, emitBR.Y)))
+                                    if (Collision.LineIntersect(Vector2.Zero, angVec2, emitTL, new Vector2(emitTL.X, emitBR.Y)))
                                     {
-                                        col = Collision.LineIntersectPoint(Vec2.Zero, angVec2, emitTL, new Vec2(emitTL.X, emitBR.Y));
+                                        col = Collision.LineIntersectPoint(Vector2.Zero, angVec2, emitTL, new Vector2(emitTL.X, emitBR.Y));
                                     }
                                     break;
                                 case 1:
-                                    if (Collision.LineIntersect(Vec2.Zero, angVec2, emitTL, new Vec2(emitBR.X, emitTL.Y)))
+                                    if (Collision.LineIntersect(Vector2.Zero, angVec2, emitTL, new Vector2(emitBR.X, emitTL.Y)))
                                     {
-                                        col = Collision.LineIntersectPoint(Vec2.Zero, angVec2, emitTL, new Vec2(emitBR.X, emitTL.Y));
+                                        col = Collision.LineIntersectPoint(Vector2.Zero, angVec2, emitTL, new Vector2(emitBR.X, emitTL.Y));
                                     }
                                     break;
                                 case 2:
-                                    if (Collision.LineIntersect(Vec2.Zero, angVec2, new Vec2(emitTL.X, emitBR.Y), emitBR))
+                                    if (Collision.LineIntersect(Vector2.Zero, angVec2, new Vector2(emitTL.X, emitBR.Y), emitBR))
                                     {
-                                        col = Collision.LineIntersectPoint(Vec2.Zero, angVec2, new Vec2(emitTL.X, emitBR.Y), emitBR);
+                                        col = Collision.LineIntersectPoint(Vector2.Zero, angVec2, new Vector2(emitTL.X, emitBR.Y), emitBR);
                                     }
                                     break;
                                 case 3:
-                                    if (Collision.LineIntersect(Vec2.Zero, angVec2, new Vec2(emitBR.X, emitTL.Y), emitBR))
+                                    if (Collision.LineIntersect(Vector2.Zero, angVec2, new Vector2(emitBR.X, emitTL.Y), emitBR))
                                     {
-                                        col = Collision.LineIntersectPoint(Vec2.Zero, angVec2, new Vec2(emitBR.X, emitTL.Y), emitBR);
+                                        col = Collision.LineIntersectPoint(Vector2.Zero, angVec2, new Vector2(emitBR.X, emitTL.Y), emitBR);
                                     }
                                     break;
                             }
-                            if (col != Vec2.Zero)
+                            if (col != Vector2.Zero)
                             {
                                 angVec2 = col;
                                 break;
@@ -629,7 +630,7 @@ public class TeamHat : Hat
             int val = Rando.Int(4) + 1;
             for (int j = 0; j < val; j++)
             {
-                Level.Add(new Fluid(base.X + (float)base.duck.offDir * (2f + Rando.Float(0f, 7f)), base.Y + 3f + Rando.Float(0f, 3f), new Vec2((float)base.duck.offDir * Rando.Float(0.5f, 3f), Rando.Float(0f, -2f)), dat, null, 2.5f)
+                Level.Add(new Fluid(base.X + (float)base.duck.offDir * (2f + Rando.Float(0f, 7f)), base.Y + 3f + Rando.Float(0f, 3f), new Vector2((float)base.duck.offDir * Rando.Float(0.5f, 3f), Rando.Float(0f, -2f)), dat, null, 2.5f)
                 {
                     Depth = base.Depth + 1
                 });
@@ -642,7 +643,7 @@ public class TeamHat : Hat
             int val2 = Rando.Int(3) + 1;
             for (int k = 0; k < val2; k++)
             {
-                Level.Add(new Fluid(base.X + (float)base.duck.offDir * (2f + Rando.Float(0f, 4f)), base.Y + 3f + Rando.Float(0f, 3f), new Vec2((float)base.duck.offDir * Rando.Float(0.5f, 3f), Rando.Float(0f, -2f)), dat2, null, 5f)
+                Level.Add(new Fluid(base.X + (float)base.duck.offDir * (2f + Rando.Float(0f, 4f)), base.Y + 3f + Rando.Float(0f, 3f), new Vector2((float)base.duck.offDir * Rando.Float(0.5f, 3f), Rando.Float(0f, -2f)), dat2, null, 5f)
                 {
                     Depth = base.Depth + 1
                 });
@@ -655,7 +656,7 @@ public class TeamHat : Hat
             int val3 = Rando.Int(6) + 2;
             for (int l = 0; l < val3; l++)
             {
-                Level.Add(new Fluid(base.X + (float)base.duck.offDir * (6f + Rando.Float(-2f, 4f)), base.Y + Rando.Float(-2f, 4f), new Vec2((float)base.duck.offDir * Rando.Float(1.2f, 4f), Rando.Float(0f, -2.8f)), dat3, null, 5f)
+                Level.Add(new Fluid(base.X + (float)base.duck.offDir * (6f + Rando.Float(-2f, 4f)), base.Y + Rando.Float(-2f, 4f), new Vector2((float)base.duck.offDir * Rando.Float(1.2f, 4f), Rando.Float(0f, -2.8f)), dat3, null, 5f)
                 {
                     Depth = base.Depth + 1
                 });
@@ -699,7 +700,7 @@ public class TeamHat : Hat
                 int val = Rando.Int(3) + 1;
                 for (int i = 0; i < val; i++)
                 {
-                    Level.Add(new Fluid(base.X + (float)base.duck.offDir * (3f + Rando.Float(0f, 6f)), base.Y + 4f + Rando.Float(0f, 1f), new Vec2((float)base.duck.offDir * Rando.Float(-2f, 2f), Rando.Float(-1f, -2f)), dat, null, 2.5f)
+                    Level.Add(new Fluid(base.X + (float)base.duck.offDir * (3f + Rando.Float(0f, 6f)), base.Y + 4f + Rando.Float(0f, 1f), new Vector2((float)base.duck.offDir * Rando.Float(-2f, 2f), Rando.Float(-1f, -2f)), dat, null, 2.5f)
                     {
                         Depth = base.Depth + 1
                     });
@@ -721,7 +722,7 @@ public class TeamHat : Hat
         {
             _team = base.duck.team;
         }
-        Vec2 poss = _hatOffset;
+        Vector2 poss = _hatOffset;
         if (_team != null)
         {
             if (_team.noCrouchOffset && base.duck != null && base.duck.crouch)
@@ -795,8 +796,8 @@ public class TeamHat : Hat
                     _specialSprite.Depth = base.Depth - 10;
                     _specialSprite.Angle += 0.02f;
                     float s = 0.8f + _wave.normalized * 0.2f;
-                    _specialSprite.Scale = new Vec2(s, s);
-                    Vec2 pos = Offset(new Vec2(2f, 4f));
+                    _specialSprite.Scale = new Vector2(s, s);
+                    Vector2 pos = Offset(new Vector2(2f, 4f));
                     Graphics.Draw(_specialSprite, pos.X, pos.Y);
                 }
             }
@@ -813,16 +814,16 @@ public class TeamHat : Hat
                 _specialSprite.Angle = Angle;
                 if (offDir < 0)
                 {
-                    Vec2 pos2 = Offset(new Vec2(1f, 2f));
+                    Vector2 pos2 = Offset(new Vector2(1f, 2f));
                     Graphics.Draw(_specialSprite, pos2.X, pos2.Y);
-                    pos2 = Offset(new Vec2(5f, 2f));
+                    pos2 = Offset(new Vector2(5f, 2f));
                     Graphics.Draw(_specialSprite, pos2.X, pos2.Y);
                 }
                 else
                 {
-                    Vec2 pos3 = Offset(new Vec2(0f, 2f));
+                    Vector2 pos3 = Offset(new Vector2(0f, 2f));
                     Graphics.Draw(_specialSprite, pos3.X, pos3.Y);
-                    pos3 = Offset(new Vec2(4f, 2f));
+                    pos3 = Offset(new Vector2(4f, 2f));
                     Graphics.Draw(_specialSprite, pos3.X, pos3.Y);
                 }
                 if (glow > 0f)

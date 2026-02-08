@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,9 +30,9 @@ public class WaterFlow : Thing
     {
         SpriteMap flow = new SpriteMap("waterFlow", 16, 16);
         graphic = flow;
-        Center = new Vec2(8f, 14f);
-        _collisionSize = new Vec2(16f, 4f);
-        _collisionOffset = new Vec2(-8f, -2f);
+        Center = new Vector2(8f, 14f);
+        _collisionSize = new Vector2(16f, 4f);
+        _collisionOffset = new Vector2(-8f, -2f);
         base.layer = Layer.Blocks;
         base.Depth = 0.3f;
         base.Alpha = 0.8f;
@@ -54,7 +55,7 @@ public class WaterFlow : Thing
             processed = true;
             if (!_wallLeft)
             {
-                WaterFlow lef = Level.CheckPoint<WaterFlow>(new Vec2(base.X - 16f, base.Y));
+                WaterFlow lef = Level.CheckPoint<WaterFlow>(new Vector2(base.X - 16f, base.Y));
                 if (lef != null && lef != this && lef.flipHorizontal == flipHorizontal)
                 {
                     rect = lef.ProcessGroupRect(rect);
@@ -67,7 +68,7 @@ public class WaterFlow : Thing
             }
             if (!_wallRight)
             {
-                WaterFlow rig = Level.CheckPoint<WaterFlow>(new Vec2(base.X + 16f, base.Y));
+                WaterFlow rig = Level.CheckPoint<WaterFlow>(new Vector2(base.X + 16f, base.Y));
                 if (rig != null && rig != this && rig.flipHorizontal == flipHorizontal)
                 {
                     rect = rig.ProcessGroupRect(rect);
@@ -88,11 +89,11 @@ public class WaterFlow : Thing
         if (!_initialized)
         {
             _initialized = true;
-            if (Level.CheckPoint<Block>(new Vec2(base.X - 16f, base.Y)) != null)
+            if (Level.CheckPoint<Block>(new Vector2(base.X - 16f, base.Y)) != null)
             {
                 _wallLeft = true;
             }
-            else if (Level.CheckPoint<Block>(new Vec2(base.X + 16f, base.Y)) != null)
+            else if (Level.CheckPoint<Block>(new Vector2(base.X + 16f, base.Y)) != null)
             {
                 _wallRight = true;
             }
@@ -107,8 +108,8 @@ public class WaterFlow : Thing
                         Level.Remove(item);
                         item._extraWater.Clear();
                     }
-                    _collisionSize = new Vec2(group.width, group.height);
-                    _collisionOffset = new Vec2(group.x - base.X, _collisionOffset.Y);
+                    _collisionSize = new Vector2(group.width, group.height);
+                    _collisionOffset = new Vector2(group.x - base.X, _collisionOffset.Y);
                 }
             }
         }

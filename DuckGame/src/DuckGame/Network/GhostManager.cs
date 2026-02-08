@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -366,7 +367,7 @@ public class GhostManager
         if (obj == null)
         {
             Thing thing = Editor.CreateThing(t);
-            thing.Position = new Vec2(-2000f, -2000f);
+            thing.Position = new Vector2(-2000f, -2000f);
             Level.Add(thing);
             thing.connection = pState.connection;
             obj = new GhostObject(thing, this, pState.id);

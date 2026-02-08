@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -24,13 +25,13 @@ public class SpikeHelm : Helmet
 
     private int throwCooldown;
 
-    private Vec2 prevPoke;
+    private Vector2 prevPoke;
 
     private Ragdoll prevRagdoll;
 
-    private Vec2 spikePoint => Offset(new Vec2(0f, -8f));
+    private Vector2 spikePoint => Offset(new Vector2(0f, -8f));
 
-    private Vec2 spikeDir => OffsetLocal(new Vec2(0f, -8f)).Normalized;
+    private Vector2 spikeDir => Vector2.Normalize(OffsetLocal(new Vector2(0f, -8f)));
 
     public override bool action
     {
@@ -54,15 +55,15 @@ public class SpikeHelm : Helmet
         _pickupSprite = new SpriteMap("spikehelm", 17, 22, 0);
         _sprite = new SpriteMap("spikehelmWorn", 17, 22);
         graphic = _pickupSprite;
-        Center = new Vec2(9f, 10f);
+        Center = new Vector2(9f, 10f);
         _hasUnequippedCenter = true;
-        collisionOffset = new Vec2(-6f, -4f);
-        collisionSize = new Vec2(11f, 10f);
-        _equippedCollisionOffset = new Vec2(-4f, -2f);
-        _equippedCollisionSize = new Vec2(11f, 12f);
+        collisionOffset = new Vector2(-6f, -4f);
+        collisionSize = new Vector2(11f, 10f);
+        _equippedCollisionOffset = new Vector2(-4f, -2f);
+        _equippedCollisionSize = new Vector2(11f, 12f);
         _hasEquippedCollision = true;
         strappedOn = true;
-        _sprite.Center = new Vec2(8f, 10f);
+        _sprite.Center = new Vector2(8f, 10f);
         base.Depth = 0.0001f;
         physicsMaterial = PhysicsMaterial.Metal;
         _isArmor = true;
@@ -106,9 +107,9 @@ public class SpikeHelm : Helmet
                 _filteredDuck = _prevDuckOwner;
             }
             _prevDuckOwner = base.equippedDuck.GetHeldByDuck();
-            IEnumerable<MaterialThing> enumerable = Level.CheckRectAll<MaterialThing>(spikePoint + new Vec2(-2f, -2f), spikePoint + new Vec2(2f, 2f));
-            Vec2 spikeDirection = spikeDir;
-            Vec2 vel = base.equippedDuck.velocity;
+            IEnumerable<MaterialThing> enumerable = Level.CheckRectAll<MaterialThing>(spikePoint + new Vector2(-2f, -2f), spikePoint + new Vector2(2f, 2f));
+            Vector2 spikeDirection = spikeDir;
+            Vector2 vel = base.equippedDuck.velocity;
             if (base.equippedDuck.ragdoll != null && base.equippedDuck.ragdoll.part1 != null)
             {
                 vel = base.equippedDuck.ragdoll.part1.velocity;
@@ -119,8 +120,8 @@ public class SpikeHelm : Helmet
             }
             foreach (MaterialThing t in enumerable)
             {
-                Vec2 dif = vel - t.velocity;
-                if (t == this || t == base.equippedDuck || t == oldPoke || (t.velocity.Length() < 0.5f && !(t is IAmADuck)) || Vec2.Dot(dif.Normalized, spikeDirection) < 0.65f || dif.Length() < 1.5f || _equippedDuck == null)
+                Vector2 dif = vel - t.velocity;
+                if (t == this || t == base.equippedDuck || t == oldPoke || (t.velocity.Length() < 0.5f && !(t is IAmADuck)) || Vector2.Dot(Vector2.Normalize(dif), spikeDirection) < 0.65f || dif.Length() < 1.5f || _equippedDuck == null)
                 {
                     continue;
                 }
@@ -180,10 +181,10 @@ public class SpikeHelm : Helmet
         prevPoke = spikePoint;
         if (_equippedDuck == null)
         {
-            Center = new Vec2(9f, 10f);
+            Center = new Vector2(9f, 10f);
             base.Depth = 0.0001f;
-            collisionOffset = new Vec2(-6f, -4f);
-            collisionSize = new Vec2(11f, 10f);
+            collisionOffset = new Vector2(-6f, -4f);
+            collisionSize = new Vector2(11f, 10f);
         }
         base.Update();
         if (oldPokeCooldown > 0f)
@@ -202,7 +203,7 @@ public class SpikeHelm : Helmet
         {
             Fondle(poked);
         }
-        poked.Position = Offset(new Vec2(1f, -9f));
+        poked.Position = Offset(new Vector2(1f, -9f));
         poked.lastGrounded = DateTime.Now;
         poked.visible = false;
         poked.solid = false;
@@ -257,7 +258,7 @@ public class SpikeHelm : Helmet
         (_pickupSprite as SpriteMap).frame = frm;
         if (poked != null)
         {
-            poked.Position = Offset(new Vec2(1f, -9f));
+            poked.Position = Offset(new Vector2(1f, -9f));
             poked.Depth = base.Depth + 2;
             poked.Angle = _sprite.Angle;
             poked.Draw();

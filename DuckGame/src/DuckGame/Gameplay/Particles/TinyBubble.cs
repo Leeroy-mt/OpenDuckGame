@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class TinyBubble : PhysicsParticle
@@ -24,7 +26,7 @@ public class TinyBubble : PhysicsParticle
         }
         spr.frame = Rando.Int(0, 1);
         graphic = spr;
-        Center = new Vec2(4f, 4f);
+        Center = new Vector2(4f, 4f);
         _waveSize = Rando.Float(0.1f, 0.3f);
         base.ScaleX = (base.ScaleY = 0.1f);
     }

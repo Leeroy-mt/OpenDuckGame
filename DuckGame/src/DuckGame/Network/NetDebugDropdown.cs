@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,11 +32,11 @@ public class NetDebugDropdown : NetDebugElement
         _downArrow.CenterOrigin();
     }
 
-    protected override bool Draw(Vec2 position, bool allowInput)
+    protected override bool Draw(Vector2 position, bool allowInput)
     {
         bool tookInput = !allowInput;
         position.X += indent;
-        Vec2 size = new Vec2(160f, 12f);
+        Vector2 size = new Vector2(160f, 12f);
         Graphics.DrawString(_name, position, Color.White, depth + 10);
         position.X += 100f;
         position.Y -= 2f;
@@ -61,7 +62,7 @@ public class NetDebugDropdown : NetDebugElement
                         selected = e;
                     }
                 }
-                Graphics.DrawString(e.name, dropList.tl + new Vec2(2f, 2f), Color.White, depth + 5);
+                Graphics.DrawString(e.name, dropList.tl + new Vector2(2f, 2f), Color.White, depth + 5);
                 dropList.y += size.Y;
             }
             if (Mouse.right == InputState.Pressed || (Mouse.left == InputState.Pressed && !dropList.Contains(Mouse.positionConsole)))
@@ -85,7 +86,7 @@ public class NetDebugDropdown : NetDebugElement
         {
             selectedName = selected.name;
         }
-        Graphics.DrawString(selectedName, position + new Vec2(4f, 2f), Color.White, depth + 10);
+        Graphics.DrawString(selectedName, position + new Vector2(4f, 2f), Color.White, depth + 10);
         return tookInput;
     }
 }

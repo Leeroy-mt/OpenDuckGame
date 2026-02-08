@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -115,15 +116,15 @@ public class Keytar : Gun
         _type = "gun";
         _sprite = new SpriteMap("keytar", 23, 8);
         graphic = _sprite;
-        Center = new Vec2(12f, 3f);
-        collisionOffset = new Vec2(-8f, -1f);
-        collisionSize = new Vec2(16f, 7f);
-        _barrelOffsetTL = new Vec2(12f, 3f);
+        Center = new Vector2(12f, 3f);
+        collisionOffset = new Vector2(-8f, -1f);
+        collisionSize = new Vector2(16f, 7f);
+        _barrelOffsetTL = new Vector2(12f, 3f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 3f;
-        _holdOffset = new Vec2(-8f, 2f);
+        _holdOffset = new Vector2(-8f, 2f);
         _keybed = new SpriteMap("keytarKeybed", 13, 4);
         _settingStrip = new SpriteMap("keytarSettingStrip", 9, 1);
         thickness = 1f;
@@ -175,7 +176,7 @@ public class Keytar : Gun
         base.OnSolidImpact(with, from);
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (base.isServerForObject)
         {
@@ -210,7 +211,7 @@ public class Keytar : Gun
             SFX.Play("smallElectronicBreak", 0.8f, Rando.Float(-0.1f, 0.1f));
             for (int i = 0; i < 8; i++)
             {
-                Level.Add(Spark.New(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-4f, 4f), new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+                Level.Add(Spark.New(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-4f, 4f), new Vector2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
             }
             if (base.isServerForObject && Rando.Int(5) == 0)
             {
@@ -342,16 +343,16 @@ public class Keytar : Gun
                     prevNote = -1;
                 }
             }
-            handOffset = new Vec2(5f + (1f - handPitch) * 2f, -2f + (1f - handPitch) * 4f);
+            handOffset = new Vector2(5f + (1f - handPitch) * 2f, -2f + (1f - handPitch) * 4f);
             handAngle = ((duckMoving ? 0f : (1f - handPitch)) * 0.2f + 0.2f + ((notePitch > 0f) ? 0.05f : 0f)) * (float)offDir;
-            _holdOffset = new Vec2(-4f + handPitch * 1f, (0f - handPitch) * 1f + 3f - (float)(duckMoving ? 3 : 0) + (float)(base.duck._hovering ? 2 : 0));
-            collisionOffset = new Vec2(-1f, -7f);
-            collisionSize = new Vec2(2f, 16f);
+            _holdOffset = new Vector2(-4f + handPitch * 1f, (0f - handPitch) * 1f + 3f - (float)(duckMoving ? 3 : 0) + (float)(base.duck._hovering ? 2 : 0));
+            collisionOffset = new Vector2(-1f, -7f);
+            collisionSize = new Vector2(2f, 16f);
         }
         else
         {
-            collisionOffset = new Vec2(-8f, -2f);
-            collisionSize = new Vec2(16f, 6f);
+            collisionOffset = new Vector2(-8f, -2f);
+            collisionSize = new Vector2(16f, 6f);
             if (noteSound != null)
             {
                 _prevSounds.Add(noteSound);
@@ -414,24 +415,24 @@ public class Keytar : Gun
                 spr.Depth = base.Depth + 4;
                 spr.flipH = offDir <= 0;
                 spr.Angle = Angle;
-                Vec2 pos = Offset(new Vec2(xOffset, -3f));
+                Vector2 pos = Offset(new Vector2(xOffset, -3f));
                 Graphics.Draw(spr, pos.X, pos.Y);
             }
             spr.frame = 19;
-            Vec2 pos2 = Offset(new Vec2(-8f, (0f - bender) * 1f));
+            Vector2 pos2 = Offset(new Vector2(-8f, (0f - bender) * 1f));
             Graphics.Draw(spr, pos2.X, pos2.Y);
         }
         _keybed.Depth = base.Depth + 2;
         _keybed.flipH = offDir <= 0;
         _keybed.Angle = Angle;
         _keybed.frame = ((notePitch != 0f) ? (currentNote + 1) : 0);
-        Vec2 bedOff = Offset(new Vec2(-5f, -2f));
+        Vector2 bedOff = Offset(new Vector2(-5f, -2f));
         Graphics.Draw(_keybed, bedOff.X, bedOff.Y);
         _settingStrip.Depth = base.Depth + 2;
         _settingStrip.flipH = offDir <= 0;
         _settingStrip.Angle = Angle;
         _settingStrip.frame = preset;
-        Vec2 stripOff = Offset(new Vec2(-1f, 3f));
+        Vector2 stripOff = Offset(new Vector2(-1f, 3f));
         Graphics.Draw(_settingStrip, stripOff.X, stripOff.Y);
         base.Draw();
     }

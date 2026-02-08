@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -22,9 +23,9 @@ public class MysteryGun : Thing, IContainPossibleThings
     {
         _sprite = new SpriteMap("mysteryGun", 32, 32);
         graphic = _sprite;
-        Center = new Vec2(16f, 16f);
-        collisionSize = new Vec2(10f, 10f);
-        collisionOffset = new Vec2(-5f, -5f);
+        Center = new Vector2(16f, 16f);
+        collisionSize = new Vector2(10f, 10f);
+        collisionOffset = new Vector2(-5f, -5f);
         base.Depth = 0.5f;
         _canFlip = false;
         editorTooltip = "Can be configured to spawn a random weapon or item from a specified list.";
@@ -165,7 +166,7 @@ public class MysteryGun : Thing, IContainPossibleThings
                 Color c = Color.White;
                 c = ((p.probability == 0f) ? Color.DarkGray : ((p.probability < 0.3f) ? Colors.DGRed : ((!(p.probability < 0.7f)) ? Color.Green : Color.Orange)));
                 string s = p.type.Name + ": " + p.probability.ToString("0.000");
-                Graphics.DrawString(s, Position + new Vec2((0f - Graphics.GetStringWidth(s, thinButtons: false, 0.5f)) / 2f, 0f - (16f + yOff)), c, 0.9f, null, 0.5f);
+                Graphics.DrawString(s, Position + new Vector2((0f - Graphics.GetStringWidth(s, thinButtons: false, 0.5f)) / 2f, 0f - (16f + yOff)), c, 0.9f, null, 0.5f);
                 yOff += 4f;
             }
         }

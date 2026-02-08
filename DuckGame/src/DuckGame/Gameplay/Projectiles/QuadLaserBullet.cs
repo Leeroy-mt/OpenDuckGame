@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class QuadLaserBullet : Thing, ITeleport
@@ -6,7 +8,7 @@ public class QuadLaserBullet : Thing, ITeleport
 
     public StateBinding _travelBinding = new CompressedVec2Binding(nameof(travel), 20);
 
-    private Vec2 _travel;
+    private Vector2 _travel;
 
     private SinWaveManualUpdate _wave = 0.5f;
 
@@ -18,7 +20,7 @@ public class QuadLaserBullet : Thing, ITeleport
 
     public float timeAlive;
 
-    public Vec2 travel
+    public Vector2 travel
     {
         get
         {
@@ -30,12 +32,12 @@ public class QuadLaserBullet : Thing, ITeleport
         }
     }
 
-    public QuadLaserBullet(float xpos, float ypos, Vec2 travel)
+    public QuadLaserBullet(float xpos, float ypos, Vector2 travel)
         : base(xpos, ypos)
     {
         _travel = travel;
-        collisionOffset = new Vec2(-1f, -1f);
-        _collisionSize = new Vec2(2f, 2f);
+        collisionOffset = new Vector2(-1f, -1f);
+        _collisionSize = new Vector2(2f, 2f);
     }
 
     public override void Update()
@@ -77,8 +79,8 @@ public class QuadLaserBullet : Thing, ITeleport
 
     public override void Draw()
     {
-        Graphics.DrawRect(Position + new Vec2(-4f, -4f), Position + new Vec2(4f, 4f), new Color(255 - (int)(_wave.normalized * 90f), 137 + (int)(_wave.normalized * 50f), 31 + (int)(_wave.normalized * 30f)), base.Depth);
-        Graphics.DrawRect(Position + new Vec2(-4f, -4f), Position + new Vec2(4f, 4f), new Color(255, 224 - (int)(_wave2.normalized * 150f), 90 + (int)(_wave2.normalized * 50f)), base.Depth + 1, filled: false);
+        Graphics.DrawRect(Position + new Vector2(-4f, -4f), Position + new Vector2(4f, 4f), new Color(255 - (int)(_wave.normalized * 90f), 137 + (int)(_wave.normalized * 50f), 31 + (int)(_wave.normalized * 30f)), base.Depth);
+        Graphics.DrawRect(Position + new Vector2(-4f, -4f), Position + new Vector2(4f, 4f), new Color(255, 224 - (int)(_wave2.normalized * 150f), 90 + (int)(_wave2.normalized * 50f)), base.Depth + 1, filled: false);
         base.Draw();
     }
 }

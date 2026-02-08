@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class BetaScreen : Level
@@ -79,7 +81,7 @@ public class BetaScreen : Level
                 text = "|WHITE|This is a near final release of |RED|DUCK GAME|WHITE|!\n|WHITE|Some stuff is still getting finished up, so\nplease bear with me |PINK|{|WHITE|.";
                 _font.Draw(text, layer.width / 2f - _font.GetWidth(text) / 2f, yPos, Color.White);
                 text = "|WHITE|Press @START@ to continue...";
-                _bigFont.Draw(text, new Vec2(layer.width / 2f - _bigFont.GetWidth(text) / 2f, yPos + 55f), Color.White);
+                _bigFont.Draw(text, new Vector2(layer.width / 2f - _bigFont.GetWidth(text) / 2f, yPos + 55f), Color.White);
             }
         }
     }

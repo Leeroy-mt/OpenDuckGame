@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -155,7 +156,7 @@ internal class WorkshopBrowser : Level
         _quackLoader = new SpriteMap("quackLoader", 31, 31);
         _quackLoader.speed = 0.2f;
         _quackLoader.CenterOrigin();
-        _quackLoader.Scale = new Vec2(0.5f, 0.5f);
+        _quackLoader.Scale = new Vector2(0.5f, 0.5f);
         _font = new FancyBitmapFont("smallFont");
         Layer.HUD.camera.width *= 2f;
         Layer.HUD.camera.height *= 2f;
@@ -213,36 +214,36 @@ internal class WorkshopBrowser : Level
         {
             if (_openedItem != null)
             {
-                _font.Scale = new Vec2(1f, 1f);
-                _font.Draw(_openedItem.name, new Vec2(16f, 16f), Color.White, 0.5f);
+                _font.Scale = new Vector2(1f, 1f);
+                _font.Draw(_openedItem.name, new Vector2(16f, 16f), Color.White, 0.5f);
                 if (_openedItem.preview != null)
                 {
                     Graphics.Draw(_openedItem.preview, 16f, 32f, 256f / (float)_openedItem.preview.height * 0.5f, 256f / (float)_openedItem.preview.height * 0.5f, 0.5f);
                 }
                 _font.maxWidth = 300;
-                _font.Draw(_openedItem.description, new Vec2(16f, 170f), Color.White, 0.5f);
+                _font.Draw(_openedItem.description, new Vector2(16f, 170f), Color.White, 0.5f);
                 _font.maxWidth = 0;
             }
             else
             {
-                Vec2 groupDrawPos = new Vec2(32f, 16f);
-                Vec2 itemSize = new Vec2(64f, 64f);
+                Vector2 groupDrawPos = new Vector2(32f, 16f);
+                Vector2 itemSize = new Vector2(64f, 64f);
                 int groupIndex = 0;
                 foreach (Group g in groups)
                 {
-                    Vec2 drawPos = groupDrawPos + new Vec2(0f, 12f);
-                    _font.Scale = new Vec2(1f, 1f);
+                    Vector2 drawPos = groupDrawPos + new Vector2(0f, 12f);
+                    _font.Scale = new Vector2(1f, 1f);
                     _font.Draw(g.name, groupDrawPos, Color.White, 0.5f);
                     int itemIndex = 0;
                     foreach (Item i in g.items)
                     {
-                        Vec2 extraOffset = new Vec2(0f);
+                        Vector2 extraOffset = new Vector2(0f);
                         float sizeMul = 0.25f;
                         float baseDepth = 0.1f;
                         if (groupIndex == _selectedGroup && itemIndex == _selectedItem)
                         {
-                            extraOffset = new Vec2(-4f, -4f);
-                            Graphics.DrawRect(drawPos + extraOffset + new Vec2(-1f, -1f), drawPos + extraOffset + itemSize + new Vec2(8f, 8f) + new Vec2(1f, 1f), Color.White, 0.5f, filled: false, 2f);
+                            extraOffset = new Vector2(-4f, -4f);
+                            Graphics.DrawRect(drawPos + extraOffset + new Vector2(-1f, -1f), drawPos + extraOffset + itemSize + new Vector2(8f, 8f) + new Vector2(1f, 1f), Color.White, 0.5f, filled: false, 2f);
                             sizeMul = 0.28f;
                             baseDepth = 0.5f;
                         }
@@ -250,16 +251,16 @@ internal class WorkshopBrowser : Level
                         {
                             float scaleFactor = 256f / (float)i.preview.height;
                             float xCrop = i.preview.width / 2 - i.preview.height / 2;
-                            Graphics.Draw(i.preview, drawPos + extraOffset, new Rectangle(xCrop, 0f, i.preview.height, i.preview.height), Color.White, 0f, Vec2.Zero, new Vec2(scaleFactor * sizeMul, scaleFactor * sizeMul), SpriteEffects.None, baseDepth);
+                            Graphics.Draw(i.preview, drawPos + extraOffset, new Rectangle(xCrop, 0f, i.preview.height, i.preview.height), Color.White, 0f, Vector2.Zero, new Vector2(scaleFactor * sizeMul, scaleFactor * sizeMul), SpriteEffects.None, baseDepth);
                         }
                         else
                         {
                             Graphics.Draw(_quackLoader, drawPos.X + itemSize.X / 2f, drawPos.Y + itemSize.Y / 2f);
                         }
-                        _font.Scale = new Vec2(0.5f, 0.5f);
+                        _font.Scale = new Vector2(0.5f, 0.5f);
                         string drawName = i.name.Reduced(21);
-                        _font.Draw(drawName, drawPos + extraOffset + new Vec2(2f, 2f), Color.White, baseDepth + 0.1f);
-                        Graphics.DrawRect(drawPos + extraOffset + new Vec2(1f, 1f), drawPos + extraOffset + new Vec2(_font.GetWidth(drawName) + 6f, 8f), Color.Black * 0.7f, baseDepth + 0.05f);
+                        _font.Draw(drawName, drawPos + extraOffset + new Vector2(2f, 2f), Color.White, baseDepth + 0.1f);
+                        Graphics.DrawRect(drawPos + extraOffset + new Vector2(1f, 1f), drawPos + extraOffset + new Vector2(_font.GetWidth(drawName) + 6f, 8f), Color.Black * 0.7f, baseDepth + 0.05f);
                         drawPos.X += itemSize.X;
                         if (drawPos.X + itemSize.X > Layer.HUD.width)
                         {

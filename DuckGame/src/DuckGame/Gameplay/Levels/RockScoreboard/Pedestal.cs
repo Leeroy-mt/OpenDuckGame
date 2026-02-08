@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -29,7 +30,7 @@ public class Pedestal : Thing
             _sprite = new SpriteMap("rockThrow/placePedastals", 38, 45);
         }
         _sprite.frame = place;
-        Center = new Vec2(_sprite.w / 2, _sprite.h);
+        Center = new Vector2(_sprite.w / 2, _sprite.h);
         graphic = _sprite;
         base.Depth = 0.062f;
         _scoreCard = new Sprite("rockThrow/scoreCard");

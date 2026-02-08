@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -186,7 +187,7 @@ public class UIGachaBox : UIMenu
         _frame = new Sprite("unlockFrame");
         _frame.CenterOrigin();
         _furni = new Sprite("furni/tub");
-        _furni.Center = new Vec2(_furni.width / 2, _furni.height);
+        _furni.Center = new Vector2(_furni.width / 2, _furni.height);
         _star = new Sprite("prettyStar");
         _star.CenterOrigin();
         _font = new BitmapFont("biosFontUI", 8, 7);
@@ -351,11 +352,11 @@ public class UIGachaBox : UIMenu
         Graphics.Draw(_frame, base.X, base.Y, new Rectangle(0f, 0f, 125f, 36f));
         if (_swapped)
         {
-            _contains.Draw(Position + new Vec2(0f, 10f), -0.8f);
+            _contains.Draw(Position + new Vector2(0f, 10f), -0.8f);
             if (_starGrow <= 1f)
             {
                 _star.Depth = 0.9f;
-                _star.Scale = new Vec2(2.5f + _starGrow * 3f);
+                _star.Scale = new Vector2(2.5f + _starGrow * 3f);
                 _star.Alpha = 1f - _starGrow;
                 Graphics.Draw(_star, base.X, base.Y + 10f);
             }
@@ -370,17 +371,17 @@ public class UIGachaBox : UIMenu
         {
             text = "@LWING@RARE TOY@RWING@";
         }
-        Vec2 fontPos = new Vec2(0f - _font.GetWidth(text) / 2f, -42f);
+        Vector2 fontPos = new Vector2(0f - _font.GetWidth(text) / 2f, -42f);
         _font.DrawOutline(text, Position + fontPos, _rare ? Colors.DGYellow : Color.White, Color.Black, base.Depth + 2);
         string unlockText = "  ???  ";
         if (_swapped)
         {
             unlockText = "} " + _contains.name + " }";
         }
-        _fancyFont.Scale = new Vec2(1f, 1f);
-        Vec2 unlockFontPos = new Vec2(0f - _fancyFont.GetWidth(unlockText) / 2f, -25f);
+        _fancyFont.Scale = new Vector2(1f, 1f);
+        Vector2 unlockFontPos = new Vector2(0f - _fancyFont.GetWidth(unlockText) / 2f, -25f);
         _fancyFont.DrawOutline(unlockText, Position + unlockFontPos, (_rare || (_swapped && _rareCapsule)) ? Colors.DGYellow : Color.White, Color.Black, base.Depth + 2);
-        _fancyFont.Scale = new Vec2(0.5f, 0.5f);
+        _fancyFont.Scale = new Vector2(0.5f, 0.5f);
         if (_insertCoin > 0.01f)
         {
             _duckCoin.frame = (_rare ? 1 : 0);
@@ -395,7 +396,7 @@ public class UIGachaBox : UIMenu
             {
                 descriptionText = "I've already got " + ((num - 1 >= numberNames.Count) ? num.ToString() : numberNames[num - 1]) + " of these...";
             }
-            Vec2 descFontPos = new Vec2(0f - _fancyFont.GetWidth(descriptionText) / 2f, 38f);
+            Vector2 descFontPos = new Vector2(0f - _fancyFont.GetWidth(descriptionText) / 2f, 38f);
             _fancyFont.DrawOutline(descriptionText, Position + descFontPos, (num > 0) ? Colors.DGYellow : Colors.DGGreen, Color.Black, base.Depth + 2, 0.5f);
         }
         base.Y -= yOffset;

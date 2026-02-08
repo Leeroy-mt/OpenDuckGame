@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class HeartPuff : Thing
@@ -10,7 +12,7 @@ public class HeartPuff : Thing
         _sprite = new SpriteMap("heartpuff", 16, 16);
         _sprite.AddAnimation("wither", 0.35f, false, 0, 1, 2, 3, 4);
         _sprite.SetAnimation("wither");
-        Center = new Vec2(5f, 16f);
+        Center = new Vector2(5f, 16f);
         base.Alpha = 0.6f;
         base.Depth = 0.9f;
         graphic = _sprite;
@@ -24,11 +26,11 @@ public class HeartPuff : Thing
             flipHorizontal = base.anchor.thing.offDir < 0;
             if (flipHorizontal)
             {
-                Center = new Vec2(10f, 16f);
+                Center = new Vector2(10f, 16f);
             }
             else
             {
-                Center = new Vec2(5f, 16f);
+                Center = new Vector2(5f, 16f);
             }
             Angle = base.anchor.thing.Angle;
         }

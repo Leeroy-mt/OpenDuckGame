@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -101,25 +102,25 @@ public class GenericController : InputDevice
         }
     }
 
-    public Vec2 leftStick
+    public Vector2 leftStick
     {
         get
         {
             if (_device == null)
             {
-                return Vec2.Zero;
+                return Vector2.Zero;
             }
             return _device.leftStick;
         }
     }
 
-    public Vec2 rightStick
+    public Vector2 rightStick
     {
         get
         {
             if (_device == null)
             {
-                return Vec2.Zero;
+                return Vector2.Zero;
             }
             return _device.rightStick;
         }

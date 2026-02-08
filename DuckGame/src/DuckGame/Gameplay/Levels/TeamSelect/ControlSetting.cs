@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -8,7 +9,7 @@ public class ControlSetting
 
     public string trigger;
 
-    public Vec2 position;
+    public Vector2 position;
 
     public int column;
 

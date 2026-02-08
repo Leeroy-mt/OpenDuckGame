@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -11,9 +12,9 @@ public class Textbox
 
     public int _cursorPosition;
 
-    private Vec2 _position;
+    private Vector2 _position;
 
-    private Vec2 _size;
+    private Vector2 _size;
 
     protected bool _inFocus;
 
@@ -29,13 +30,13 @@ public class Textbox
 
     private string _drawText = "";
 
-    private Vec2 _cursorPos;
+    private Vector2 _cursorPos;
 
     private bool _highlightDrag;
 
     private string _clipboardText = "";
 
-    public Vec2 position
+    public Vector2 position
     {
         get
         {
@@ -47,7 +48,7 @@ public class Textbox
         }
     }
 
-    public Vec2 size
+    public Vector2 size
     {
         get
         {
@@ -63,10 +64,10 @@ public class Textbox
     public Textbox(float x, float y, float width, float height, float scale = 1f, int maxLines = int.MaxValue, string emptyText = "")
     {
         _font = new FancyBitmapFont("smallFont");
-        _font.Scale = new Vec2(scale);
+        _font.Scale = new Vector2(scale);
         _font.maxWidth = (int)width;
-        _position = new Vec2(x, y);
-        _size = new Vec2(width, height);
+        _position = new Vector2(x, y);
+        _size = new Vector2(width, height);
         _maxLines = maxLines;
         _emptyText = emptyText;
     }
@@ -149,7 +150,7 @@ public class Textbox
                 Editor.PushFocus(this);
             }
         }
-        Vec2 textDrawPos = _position;
+        Vector2 textDrawPos = _position;
         if (_inFocus)
         {
             Input._imeAllowed = true;
@@ -326,9 +327,9 @@ public class Textbox
         _font.Draw(_drawText, _position, (text.Length == 0) ? (Colors.Silver * 0.8f) : Color.White, depth);
         if (_inFocus && _blink >= 0.5f)
         {
-            Vec2 cursPos = _cursorPos;
+            Vector2 cursPos = _cursorPos;
             cursPos.X += 1f * _font.Scale.X;
-            Graphics.DrawLine(_position + cursPos, _position + cursPos + new Vec2(0f, 8f * _font.Scale.Y), Color.White, 0.5f, depth);
+            Graphics.DrawLine(_position + cursPos, _position + cursPos + new Vector2(0f, 8f * _font.Scale.Y), Color.White, 0.5f, depth);
         }
     }
 }

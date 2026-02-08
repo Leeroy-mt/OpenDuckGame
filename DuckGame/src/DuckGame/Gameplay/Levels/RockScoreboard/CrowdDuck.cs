@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
 
@@ -243,10 +244,10 @@ public class CrowdDuck : Thing
         duckSprite.SetAnimation("idle");
         _sprite = duckSprite;
         graphic = _sprite;
-        collisionSize = new Vec2(_sprite.width, _sprite.height);
-        collisionOffset = new Vec2(-(_sprite.w / 2), -(_sprite.h / 2));
-        Center = new Vec2(0f, duckSprite.h);
-        collisionOffset = new Vec2(collisionOffset.X, -_sprite.h);
+        collisionSize = new Vector2(_sprite.width, _sprite.height);
+        collisionOffset = new Vector2(-(_sprite.w / 2), -(_sprite.h / 2));
+        Center = new Vector2(0f, duckSprite.h);
+        collisionOffset = new Vector2(collisionOffset.X, -_sprite.h);
         base.Depth = 0.3f - (float)row * 0.05f;
         base.layer = Layer.Background;
         _letterSign = new Sprite("letterSign");
@@ -349,7 +350,7 @@ public class CrowdDuck : Thing
         if (!_empty && _lastLoyalty != null && _lastLoyalty.persona != null && _lastLoyalty.team != null)
         {
             SpriteMap hat = _lastLoyalty.persona.defaultHead;
-            Vec2 offset2 = Vec2.Zero;
+            Vector2 offset2 = Vector2.Zero;
             if (_lastLoyalty.team.hasHat)
             {
                 offset2 = _lastLoyalty.team.hatOffset;

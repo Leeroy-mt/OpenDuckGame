@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class UIImage : UIComponent
@@ -10,7 +12,7 @@ public class UIImage : UIComponent
         : base(0f, 0f, -1f, -1f)
     {
         _image = new Sprite(imageVal);
-        _collisionSize = new Vec2(_image.w, _image.h);
+        _collisionSize = new Vector2(_image.w, _image.h);
         _image.CenterOrigin();
         base.align = al;
     }
@@ -19,7 +21,7 @@ public class UIImage : UIComponent
         : base(0f, 0f, -1f, -1f)
     {
         _image = imageVal;
-        _collisionSize = new Vec2(_image.w, _image.h);
+        _collisionSize = new Vector2(_image.w, _image.h);
         _image.CenterOrigin();
         base.align = al;
     }
@@ -28,9 +30,9 @@ public class UIImage : UIComponent
         : base(0f, 0f, -1f, -1f)
     {
         _image = imageVal;
-        _collisionSize = new Vec2((float)_image.w * s, (float)_image.h * s);
+        _collisionSize = new Vector2((float)_image.w * s, (float)_image.h * s);
         _image.CenterOrigin();
-        base.Scale = new Vec2(s);
+        base.Scale = new Vector2(s);
         base.align = al;
         yOffset = yOff;
     }

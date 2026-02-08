@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -33,18 +34,18 @@ public class Trumpet : Gun
         _ammoType.range = 170f;
         _ammoType.accuracy = 0.8f;
         wideBarrel = true;
-        barrelInsertOffset = new Vec2(-4f, -2f);
+        barrelInsertOffset = new Vector2(-4f, -2f);
         _type = "gun";
         graphic = new Sprite("trumpet");
-        Center = new Vec2(12f, 5f);
-        collisionOffset = new Vec2(-6f, -4f);
-        collisionSize = new Vec2(12f, 8f);
-        _barrelOffsetTL = new Vec2(24f, 4f);
+        Center = new Vector2(12f, 5f);
+        collisionOffset = new Vector2(-6f, -4f);
+        collisionSize = new Vector2(12f, 8f);
+        _barrelOffsetTL = new Vector2(24f, 4f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 3f;
-        _holdOffset = new Vec2(6f, 2f);
+        _holdOffset = new Vector2(6f, 2f);
         hoverRaise = false;
         ignoreHands = true;
         _notePitchBinding.skipLerp = true;
@@ -161,18 +162,18 @@ public class Trumpet : Gun
             }
             if (_raised)
             {
-                collisionOffset = new Vec2(4f, -4f);
-                collisionSize = new Vec2(8f, 8f);
-                _holdOffset = new Vec2(0f, 0f);
-                handOffset = new Vec2(0f, 0f);
+                collisionOffset = new Vector2(4f, -4f);
+                collisionSize = new Vector2(8f, 8f);
+                _holdOffset = new Vector2(0f, 0f);
+                handOffset = new Vector2(0f, 0f);
                 OnReleaseAction();
             }
             else
             {
-                collisionOffset = new Vec2(-6f, -4f);
-                collisionSize = new Vec2(8f, 8f);
-                _holdOffset = new Vec2(10f, -2f);
-                handOffset = new Vec2(5f, -2f);
+                collisionOffset = new Vector2(-6f, -4f);
+                collisionSize = new Vector2(8f, 8f);
+                _holdOffset = new Vector2(10f, -2f);
+                handOffset = new Vector2(5f, -2f);
             }
         }
         else
@@ -180,9 +181,9 @@ public class Trumpet : Gun
             leftPressed = false;
             rightPressed = false;
             currentPitch = -1;
-            collisionOffset = new Vec2(-6f, -4f);
-            collisionSize = new Vec2(8f, 8f);
-            _holdOffset = new Vec2(6f, 2f);
+            collisionOffset = new Vector2(-6f, -4f);
+            collisionSize = new Vector2(8f, 8f);
+            _holdOffset = new Vector2(6f, 2f);
         }
         prevNotePitch = notePitch;
         base.Update();
@@ -209,7 +210,7 @@ public class Trumpet : Gun
             fingerPositionSprite.Depth = base.Depth - 100;
             fingerPositionSprite.flipH = offDir <= 0;
             fingerPositionSprite.Angle = 0f;
-            Vec2 pos = Offset(new Vec2(-8f, -2f));
+            Vector2 pos = Offset(new Vector2(-8f, -2f));
             Graphics.Draw(fingerPositionSprite, pos.X, pos.Y);
         }
         base.Draw();

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -19,10 +20,10 @@ public class FireCrackers : Gun
         _type = "gun";
         _sprite = new SpriteMap("fireCrackers", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-4f, -4f);
-        collisionSize = new Vec2(8f, 8f);
-        _barrelOffsetTL = new Vec2(12f, 6f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-4f, -4f);
+        collisionSize = new Vector2(8f, 8f);
+        _barrelOffsetTL = new Vector2(12f, 6f);
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 1f;
@@ -117,7 +118,7 @@ public class FireCrackers : Gun
         }
     }
 
-    protected override bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected override bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         if (base.isServerForObject)
         {

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
 
@@ -61,12 +62,12 @@ public class UnlockableHat : Unlockable
             _persona.sprite.color = Color.White;
             Graphics.Draw(_persona.sprite, 0, x, ypos);
             _persona.armSprite.frame = _persona.sprite.imageIndex;
-            _persona.armSprite.Scale = new Vec2(1f, 1f);
+            _persona.armSprite.Scale = new Vector2(1f, 1f);
             _persona.armSprite.Depth = depth + 4;
             Graphics.Draw(_persona.armSprite, x - 3f, ypos + 6f);
-            Vec2 offset = DuckRig.GetHatPoint(_persona.sprite.imageIndex);
+            Vector2 offset = DuckRig.GetHatPoint(_persona.sprite.imageIndex);
             _team.hat.Depth = depth + 2;
-            _team.hat.Center = new Vec2(16f, 16f) + _team.hatOffset;
+            _team.hat.Center = new Vector2(16f, 16f) + _team.hatOffset;
             Graphics.Draw(_team.hat, _team.hat.frame, x + offset.X, ypos + offset.Y);
             if (_team.hat.texture.textureName == "hats/devhat" && _cape == null)
             {
@@ -88,7 +89,7 @@ public class UnlockableHat : Unlockable
             }
             if (_cape != null)
             {
-                _hat.Position = new Vec2(x + offset.X, ypos + offset.Y + 5f);
+                _hat.Position = new Vector2(x + offset.X, ypos + offset.Y + 5f);
                 _cape.Depth = depth + 2;
                 _cape.Update();
                 _cape.Draw();

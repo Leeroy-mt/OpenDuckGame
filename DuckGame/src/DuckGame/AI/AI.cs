@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ public static class AI
         return b;
     }
 
-    public static T Nearest<T>(Vec2 position, Thing ignore = null)
+    public static T Nearest<T>(Vector2 position, Thing ignore = null)
     {
         PathNode start = NearestNode(position);
         if (start == null)
@@ -63,7 +64,7 @@ public static class AI
         return PathNode.CanTraverse(from.Position, what.Position, what);
     }
 
-    public static Thing Nearest(Vec2 position, List<Thing> things)
+    public static Thing Nearest(Vector2 position, List<Thing> things)
     {
         PathNode start = NearestNode(position);
         if (start == null)
@@ -88,10 +89,10 @@ public static class AI
         return closest;
     }
 
-    public static PathNode NearestNode(Vec2 pos, Thing ignore = null)
+    public static PathNode NearestNode(Vector2 pos, Thing ignore = null)
     {
         List<Thing> list = Level.current.things[typeof(PathNode)].ToList();
-        list.Sort((Thing a, Thing b) => (!((a.Position - pos).lengthSq < (b.Position - pos).lengthSq)) ? 1 : (-1));
+        list.Sort((Thing a, Thing b) => (!((a.Position - pos).LengthSquared() < (b.Position - pos).LengthSquared())) ? 1 : (-1));
         PathNode node = null;
         foreach (Thing thing in list)
         {

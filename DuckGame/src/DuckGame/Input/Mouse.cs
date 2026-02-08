@@ -1,12 +1,13 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace DuckGame;
 
 public class Mouse : InputDevice
 {
-    private static Vec2 _mousePos;
+    private static Vector2 _mousePos;
 
-    private static Vec2 _mouseScreenPos;
+    private static Vector2 _mouseScreenPos;
 
     private static MouseState _mouseState;
 
@@ -106,25 +107,25 @@ public class Mouse : InputDevice
 
     public static float yConsole => positionConsole.Y;
 
-    public static Vec2 position
+    public static Vector2 position
     {
         get
         {
-            return new Vec2(x, y);
+            return new Vector2(x, y);
         }
         set
         {
             _mouseScreenPos = value;
-            value = new Vec2(value.X / Layer.HUD.camera.width * Resolution.size.X, value.Y / Layer.HUD.camera.height * Resolution.size.Y);
+            value = new Vector2(value.X / Layer.HUD.camera.width * Resolution.size.X, value.Y / Layer.HUD.camera.height * Resolution.size.Y);
             Microsoft.Xna.Framework.Input.Mouse.SetPosition((int)value.X, (int)value.Y);
         }
     }
 
-    public static Vec2 mousePos => _mousePos;
+    public static Vector2 mousePos => _mousePos;
 
-    public static Vec2 positionScreen => Level.current.camera.transformScreenVector(_mousePos);
+    public static Vector2 positionScreen => Level.current.camera.transformScreenVector(_mousePos);
 
-    public static Vec2 positionConsole => Layer.Console.camera.transformScreenVector(_mousePos);
+    public static Vector2 positionConsole => Layer.Console.camera.transformScreenVector(_mousePos);
 
     public override void Update()
     {
@@ -139,11 +140,11 @@ public class Mouse : InputDevice
         Vec3 mousePos = new Vec3(_mouseState.X, _mouseState.Y, 0f);
         if (Graphics._screenViewport.HasValue)
         {
-            _mouseScreenPos = new Vec2(mousePos.x / Resolution.size.X * Layer.HUD.camera.width, mousePos.y / Resolution.size.Y * Layer.HUD.camera.height);
+            _mouseScreenPos = new Vector2(mousePos.x / Resolution.size.X * Layer.HUD.camera.width, mousePos.y / Resolution.size.Y * Layer.HUD.camera.height);
         }
         _mouseScreenPos.X = (int)_mouseScreenPos.X;
         _mouseScreenPos.Y = (int)_mouseScreenPos.Y;
-        _mousePos = new Vec2(_mouseState.X, _mouseState.Y);
+        _mousePos = new Vector2(_mouseState.X, _mouseState.Y);
         if (_outOfFocus)
         {
             if (_mouseState.LeftButton == ButtonState.Released && _mouseState.MiddleButton == ButtonState.Released && _mouseState.RightButton == ButtonState.Released)

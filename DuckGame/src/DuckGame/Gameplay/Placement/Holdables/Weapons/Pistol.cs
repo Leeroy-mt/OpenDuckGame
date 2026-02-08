@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Pistols")]
@@ -13,21 +15,21 @@ public class Pistol : Gun
         ammo = 9;
         _ammoType = new AT9mm();
         wideBarrel = true;
-        barrelInsertOffset = new Vec2(0f, -1f);
+        barrelInsertOffset = new Vector2(0f, -1f);
         _type = "gun";
         _sprite = new SpriteMap("pistol", 18, 10);
         _sprite.AddAnimation("idle", 1f, true, default(int));
         _sprite.AddAnimation("fire", 0.8f, false, 1, 2, 2, 3, 3);
         _sprite.AddAnimation("empty", 1f, true, 2);
         graphic = _sprite;
-        Center = new Vec2(10f, 3f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(16f, 9f);
-        _barrelOffsetTL = new Vec2(18f, 2f);
+        Center = new Vector2(10f, 3f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(16f, 9f);
+        _barrelOffsetTL = new Vector2(18f, 2f);
         _fireSound = "pistolFire";
         _kickForce = 3f;
         _fireRumble = RumbleIntensity.Kick;
-        _holdOffset = new Vec2(0f, 0f);
+        _holdOffset = new Vector2(0f, 0f);
         loseAccuracy = 0.1f;
         maxAccuracyLost = 0.6f;
         _bio = "Old faithful, the 9MM pistol.";
@@ -52,8 +54,8 @@ public class Pistol : Gun
             _sprite.SetAnimation("fire");
             for (int i = 0; i < 3; i++)
             {
-                Vec2 pos = Offset(new Vec2(-9f, 0f));
-                Vec2 rot = base.barrelVector.Rotate(Rando.Float(1f), Vec2.Zero);
+                Vector2 pos = Offset(new Vector2(-9f, 0f));
+                Vector2 rot = base.barrelVector.Rotate(Rando.Float(1f), Vector2.Zero);
                 Level.Add(Spark.New(pos.X, pos.Y, rot, 0.1f));
             }
         }

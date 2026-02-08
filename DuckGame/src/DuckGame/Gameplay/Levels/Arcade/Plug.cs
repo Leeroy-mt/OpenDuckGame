@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -322,9 +323,9 @@ public class Plug
     public static void Draw()
     {
         Initialize();
-        Vec2 dealerOffset = new Vec2(100f * (1f - _chancyLerp), 100f * (1f - _chancyLerp) - 4f);
-        Vec2 descSize = new Vec2(280f, 30f);
-        Vec2 descPos = new Vec2(20f, 132f) + dealerOffset;
+        Vector2 dealerOffset = new Vector2(100f * (1f - _chancyLerp), 100f * (1f - _chancyLerp) - 4f);
+        Vector2 descSize = new Vector2(280f, 30f);
+        Vector2 descPos = new Vector2(20f, 132f) + dealerOffset;
         int index = 0;
         for (int i = _lineProgress.Count - 1; i >= 0; i--)
         {
@@ -333,7 +334,7 @@ public class Plug
             float xpos = descPos.X + descSize.X / 2f - wide / 2f;
             for (int j = _lineProgress[i].segments.Count - 1; j >= 0; j--)
             {
-                _font.Draw(_lineProgress[i].segments[j].text, new Vec2(xpos, ypos), _lineProgress[i].segments[j].color, 0.98f);
+                _font.Draw(_lineProgress[i].segments[j].text, new Vector2(xpos, ypos), _lineProgress[i].segments[j].color, 0.98f);
                 xpos += (float)(_lineProgress[i].segments[j].text.Length * 8);
             }
             index++;
@@ -341,6 +342,6 @@ public class Plug
         _dealer.Depth = 0.96f;
         _dealer.Alpha = 1f;
         Graphics.Draw(_dealer, 214f + dealerOffset.X, 6f + dealerOffset.Y);
-        Graphics.DrawRect(descPos + new Vec2(-2f, 0f), descPos + descSize + new Vec2(2f, 0f), Color.Black, 0.97f);
+        Graphics.DrawRect(descPos + new Vector2(-2f, 0f), descPos + descSize + new Vector2(2f, 0f), Color.Black, 0.97f);
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -26,8 +27,8 @@ public class CameraFixed : CustomCamera
         editorTooltip = "A fixed Camera that stays in one place.";
         Size._tooltip = "The size of the camera view (In pixels).";
         graphic = new Sprite("cameraIcon");
-        collisionSize = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-4f, -4f);
+        collisionSize = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-4f, -4f);
         _visibleInGame = false;
     }
 
@@ -52,7 +53,7 @@ public class CameraFixed : CustomCamera
                 Position = Level.current.camera.center;
                 if (MoveX.value != 0f || MoveY.value != 0f)
                 {
-                    CameraMover m = Level.CheckLine<CameraMover>(Position, Position + new Vec2(MoveX.value, MoveY.value));
+                    CameraMover m = Level.CheckLine<CameraMover>(Position, Position + new Vector2(MoveX.value, MoveY.value));
                     if (m != null && m != curMover && ((m.Position - Position).Length() < 0.5f || (MoveX.value != 0f && Math.Sign(m.Position.X - Position.X) != Math.Sign(MoveX.value)) || (MoveY.value != 0f && Math.Sign(m.Position.Y - Position.Y) != Math.Sign(MoveY.value))))
                     {
                         Position = m.Position;

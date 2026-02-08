@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class DisconnectFromGame : Level, IConnectionScreen
@@ -87,6 +89,6 @@ public class DisconnectFromGame : Level, IConnectionScreen
             }
         }
         string text = "Disconnecting";
-        Graphics.DrawString(text + elipsis, new Vec2(Layer.HUD.width / 2f - Graphics.GetStringWidth(text) / 2f, Layer.HUD.height / 2f - 4f), Color.White);
+        Graphics.DrawString(text + elipsis, new Vector2(Layer.HUD.width / 2f - Graphics.GetStringWidth(text) / 2f, Layer.HUD.height / 2f - 4f), Color.White);
     }
 }

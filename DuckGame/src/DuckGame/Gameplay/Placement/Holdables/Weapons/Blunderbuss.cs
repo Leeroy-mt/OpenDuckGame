@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Shotguns")]
@@ -16,14 +18,14 @@ public class Blunderbuss : TampingWeapon
         _ammoType.penetration = 0.4f;
         _type = "gun";
         graphic = new Sprite("blunderbuss");
-        Center = new Vec2(19f, 5f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(16f, 7f);
-        _barrelOffsetTL = new Vec2(34f, 4f);
+        Center = new Vector2(19f, 5f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(16f, 7f);
+        _barrelOffsetTL = new Vector2(34f, 4f);
         _fireSound = "shotgun";
         _kickForce = 2f;
         _fireRumble = RumbleIntensity.Light;
-        _holdOffset = new Vec2(4f, 1f);
+        _holdOffset = new Vector2(4f, 1f);
         editorTooltip = "Old-timey shotgun, takes approximately 150 years to reload.";
     }
 

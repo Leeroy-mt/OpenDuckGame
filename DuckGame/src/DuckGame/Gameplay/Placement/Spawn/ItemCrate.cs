@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -73,9 +74,9 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
         _hitPoints = 15f;
         _sprite = new SpriteMap("bigItemCrate", 32, 33);
         graphic = _sprite;
-        Center = new Vec2(16f, 24f);
-        collisionOffset = new Vec2(-16f, -24f);
-        collisionSize = new Vec2(32f, 32f);
+        Center = new Vector2(16f, 24f);
+        collisionOffset = new Vector2(-16f, -24f);
+        collisionSize = new Vector2(32f, 32f);
         base.Depth = -0.7f;
         thickness = 2f;
         weight = 10f;
@@ -214,7 +215,7 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
         if (randomSpawn && !revealRandom.value)
         {
             _sprite.frame = 4;
-            Vec2 off = Offset(new Vec2(0f, -8f));
+            Vector2 off = Offset(new Vector2(0f, -8f));
             _randomMark.Angle = Angle;
             _randomMark.flipH = offDir <= 0;
             Graphics.Draw(_randomMark, off.X, off.Y, base.Depth + 10);
@@ -223,7 +224,7 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
         {
             _sprite.frame = 4;
             _containedSprite.CenterOrigin();
-            Vec2 off2 = Offset(new Vec2(0f, -8f));
+            Vector2 off2 = Offset(new Vector2(0f, -8f));
             _containedSprite.Angle = Angle;
             _containedSprite.flipH = offDir <= 0;
             Graphics.Draw(_containedSprite, off2.X, off2.Y, base.Depth + 10);
@@ -302,7 +303,7 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
             {
                 spawn.heat = 0.8f;
             }
-            spawn.Position = Position + new Vec2(-4f + (float)k * 2.6666667f, 0f);
+            spawn.Position = Position + new Vector2(-4f + (float)k * 2.6666667f, 0f);
             if (k == 0 || k == 3)
             {
                 if (k == 0)
@@ -343,7 +344,7 @@ public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossi
         return true;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (_hitPoints <= 0f)
         {

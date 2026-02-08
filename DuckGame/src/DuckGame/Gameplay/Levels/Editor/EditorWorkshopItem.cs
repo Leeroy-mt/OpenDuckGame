@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
@@ -55,7 +56,7 @@ public class EditorWorkshopItem
                     Content.GeneratePreview(_level, pRefresh: true, previewTarget);
                     Content.customPreviewWidth = 0;
                     Content.customPreviewHeight = 0;
-                    Content.customPreviewCenter = Vec2.Zero;
+                    Content.customPreviewCenter = Vector2.Zero;
                     _preview = new Texture2D(Graphics.device, previewTarget.width, previewTarget.height);
                     Color[] colors = new Color[previewTarget.width * previewTarget.height];
                     previewTarget.GetData(colors);

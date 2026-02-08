@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
@@ -17,7 +18,7 @@ public class PortalBullet : Bullet
         _beem = Content.Load<Texture2D>("laserBeam");
     }
 
-    public override void OnCollide(Vec2 pos, Thing t, bool willBeStopped)
+    public override void OnCollide(Vector2 pos, Thing t, bool willBeStopped)
     {
         if (!(t is Block && willBeStopped) || !(owner is PortalGun gun))
         {
@@ -29,20 +30,20 @@ public class PortalBullet : Bullet
             portal = new Portal(gun);
             Level.Add(portal);
         }
-        Vec2 backPos = pos - travelDirNormalized;
+        Vector2 backPos = pos - travelDirNormalized;
         PortalDoor door = new PortalDoor();
         door.center = pos;
         if (Math.Abs(travelDirNormalized.Y) < 0.5f)
         {
             door.horizontal = false;
-            door.point1 = new Vec2(pos + new Vec2(0f, -16f));
-            door.point2 = new Vec2(pos + new Vec2(0f, 16f));
-            AutoBlock b = Level.CheckLine<AutoBlock>(backPos, backPos + new Vec2(0f, 16f));
+            door.point1 = pos + new Vector2(0f, -16f);
+            door.point2 = pos + new Vector2(0f, 16f);
+            AutoBlock b = Level.CheckLine<AutoBlock>(backPos, backPos + new Vector2(0f, 16f));
             if (b != null && b.top < door.point2.Y)
             {
                 door.point2.Y = b.top;
             }
-            b = Level.CheckLine<AutoBlock>(backPos, backPos + new Vec2(0f, -16f));
+            b = Level.CheckLine<AutoBlock>(backPos, backPos + new Vector2(0f, -16f));
             if (b != null && b.bottom > door.point1.Y)
             {
                 door.point1.Y = b.bottom;
@@ -51,14 +52,14 @@ public class PortalBullet : Bullet
         else
         {
             door.horizontal = true;
-            door.point1 = new Vec2(pos + new Vec2(-16f, 0f));
-            door.point2 = new Vec2(pos + new Vec2(16f, 0f));
-            AutoBlock b2 = Level.CheckLine<AutoBlock>(backPos, backPos + new Vec2(16f, 0f));
+            door.point1 = pos + new Vector2(-16f, 0f);
+            door.point2 = pos + new Vector2(16f, 0f);
+            AutoBlock b2 = Level.CheckLine<AutoBlock>(backPos, backPos + new Vector2(16f, 0f));
             if (b2 != null && b2.left < door.point2.X)
             {
                 door.point2.X = b2.left;
             }
-            b2 = Level.CheckLine<AutoBlock>(backPos, backPos + new Vec2(-16f, 0f));
+            b2 = Level.CheckLine<AutoBlock>(backPos, backPos + new Vector2(-16f, 0f));
             if (b2 != null && b2.right > door.point1.X)
             {
                 door.point1.X = b2.right;

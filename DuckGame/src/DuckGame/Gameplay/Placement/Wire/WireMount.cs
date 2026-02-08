@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -56,9 +57,9 @@ public class WireMount : Thing, IWirePeripheral
     {
         _sprite = new SpriteMap("wireMount", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -8f);
-        collisionSize = new Vec2(16f, 16f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -8f);
+        collisionSize = new Vector2(16f, 16f);
         base.Depth = -0.5f;
         _editorName = "Wire Mount";
         editorTooltip = "Specifies an object to trigger whenever a connected Button is pressed.";
@@ -131,7 +132,7 @@ public class WireMount : Thing, IWirePeripheral
         {
             containString = contains.Name;
         }
-        Graphics.DrawString(containString, Position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
+        Graphics.DrawString(containString, Position + new Vector2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
     }
 
     public override void Initialize()
@@ -170,7 +171,7 @@ public class WireMount : Thing, IWirePeripheral
                 if (_containedThing is Gun)
                 {
                     Gun g = _containedThing as Gun;
-                    Vec2 kickVector = -g.barrelVector * (g.kick * 5f);
+                    Vector2 kickVector = -g.barrelVector * (g.kick * 5f);
                     _containedThing.Position += kickVector;
                 }
             }

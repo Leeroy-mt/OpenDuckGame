@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -50,9 +51,9 @@ public class RockIntro : Level, IHaveAVirtualTransition, IOnlyTransitionIn
         _smallDome = new Sprite("domeSmall");
         _smallDome.CenterOrigin();
         _smallPillar = new Sprite("domePillar");
-        _smallPillar.Center = new Vec2(_smallPillar.w / 2, 0f);
+        _smallPillar.Center = new Vector2(_smallPillar.w / 2, 0f);
         _domeBleachers = new SpriteMap("domeBleachers", 25, 20);
-        _domeBleachers.Center = new Vec2(13f, 13f);
+        _domeBleachers.Center = new Vector2(13f, 13f);
         _virtualBackground = new VirtualBackground(0f, 0f, null);
         Level.Add(_virtualBackground);
         _cornerWedge = new Sprite("rockThrow/cornerWedge");
@@ -139,8 +140,8 @@ public class RockIntro : Level, IHaveAVirtualTransition, IOnlyTransitionIn
                 {
                     _smallDome.Depth = 0.4f;
                 }
-                Vec2 pos = new Vec2((float)Math.Cos(startRot + (float)i * rot), (0f - (float)Math.Sin(startRot + (float)i * rot)) * (0.4f * (1f - ypos / maxYPos)));
-                Vec2 drawPos = new Vec2(160f, 130f + ypos) + pos * 100f;
+                Vector2 pos = new Vector2((float)Math.Cos(startRot + (float)i * rot), (0f - (float)Math.Sin(startRot + (float)i * rot)) * (0.4f * (1f - ypos / maxYPos)));
+                Vector2 drawPos = new Vector2(160f, 130f + ypos) + pos * 100f;
                 Graphics.Draw(_smallDome, drawPos.X, drawPos.Y - 30f);
                 _smallPillar.Depth = _smallDome.Depth;
                 Graphics.Draw(_smallPillar, drawPos.X, drawPos.Y - 11f);
@@ -157,10 +158,10 @@ public class RockIntro : Level, IHaveAVirtualTransition, IOnlyTransitionIn
             {
                 float xpos = -320f + _intermissionSlide * 320f;
                 float ypos2 = 60f;
-                Graphics.DrawRect(new Vec2(xpos, ypos2), new Vec2(xpos + 320f, ypos2 + 30f), Color.Black, 0.9f);
+                Graphics.DrawRect(new Vector2(xpos, ypos2), new Vector2(xpos + 320f, ypos2 + 30f), Color.Black, 0.9f);
                 xpos = 320f - _intermissionSlide * 320f;
                 ypos2 = 60f;
-                Graphics.DrawRect(new Vec2(xpos, ypos2 + 30f), new Vec2(xpos + 320f, ypos2 + 60f), Color.Black, 0.9f);
+                Graphics.DrawRect(new Vector2(xpos, ypos2 + 30f), new Vector2(xpos + 320f, ypos2 + 60f), Color.Black, 0.9f);
                 Graphics.Draw(_intermissionText, -320f + _intermissionSlide * 336f, ypos2 + 18f);
                 _intermissionText.Depth = 0.91f;
             }

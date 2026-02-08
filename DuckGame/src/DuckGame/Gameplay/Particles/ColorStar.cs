@@ -1,15 +1,17 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ColorStar : PhysicsParticle
 {
     private float maxSize;
 
-    public ColorStar(float xpos, float ypos, Vec2 dir, Color pColor)
+    public ColorStar(float xpos, float ypos, Vector2 dir, Color pColor)
         : base(xpos, ypos)
     {
         graphic = new Sprite("colorStar");
         graphic.CenterOrigin();
-        Center = new Vec2(graphic.width / 2, graphic.height / 2);
+        Center = new Vector2(graphic.width / 2, graphic.height / 2);
         base.ScaleX = (base.ScaleY = 0.9f);
         hSpeed = dir.X;
         vSpeed = dir.Y;

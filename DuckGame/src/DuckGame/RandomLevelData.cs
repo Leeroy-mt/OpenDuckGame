@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -56,7 +57,7 @@ public class RandomLevelData
 
     bool mainLoad = true;
 
-    Vec2 posBeforeTranslate = Vec2.Zero;
+    Vector2 posBeforeTranslate = Vector2.Zero;
 
     #endregion
 
@@ -408,7 +409,7 @@ public class RandomLevelData
         if (doFlip && t is not ThingContainer)
         {
             if (t is not BackgroundTile)
-                t.SetTranslation(new Vec2(-t.X + (192 - t.X) - 16, 0));
+                t.SetTranslation(new Vector2(-t.X + (192 - t.X) - 16, 0));
             t.flipHorizontal = true;
             _ = t is BackgroundTile;
             if (t is Teleporter teleporter)
@@ -425,7 +426,7 @@ public class RandomLevelData
             _ = flip;
         posBeforeTranslate = t.Position;
         if (t is not BackgroundTile)
-            t.SetTranslation(new Vec2(x, y));
+            t.SetTranslation(new Vector2(x, y));
         return t;
     }
 

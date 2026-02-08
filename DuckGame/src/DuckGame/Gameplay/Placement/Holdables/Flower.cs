@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -21,10 +22,10 @@ public class Flower : Holdable
     {
         graphic = new Sprite("flower");
         _burnt = new Sprite("flower_burned");
-        Center = new Vec2(8f, 12f);
-        collisionOffset = new Vec2(-3f, -12f);
-        collisionSize = new Vec2(6f, 14f);
-        _holdOffset = new Vec2(-2f, 2f);
+        Center = new Vector2(8f, 12f);
+        collisionOffset = new Vector2(-3f, -12f);
+        collisionSize = new Vector2(6f, 14f);
+        _holdOffset = new Vector2(-2f, 2f);
         base.Depth = -0.5f;
         weight = 1f;
         flammable = 0.3f;
@@ -37,19 +38,19 @@ public class Flower : Holdable
         return false;
     }
 
-    public static void PoofEffect(Vec2 pPosition)
+    public static void PoofEffect(Vector2 pPosition)
     {
         for (int i = 0; i < 4; i++)
         {
             ConfettiParticle confettiParticle = new ConfettiParticle();
-            confettiParticle.Init(pPosition.X + Rando.Float(-4f, 0f), pPosition.Y + Rando.Float(-4f, 6f), new Vec2(Rando.Float(-1f, 0f), Rando.Float(-1f, 1f)));
+            confettiParticle.Init(pPosition.X + Rando.Float(-4f, 0f), pPosition.Y + Rando.Float(-4f, 6f), new Vector2(Rando.Float(-1f, 0f), Rando.Float(-1f, 1f)));
             confettiParticle._color = new Color(49, 163, 242);
             Level.Add(confettiParticle);
         }
         for (int j = 0; j < 2; j++)
         {
             ConfettiParticle confettiParticle2 = new ConfettiParticle();
-            confettiParticle2.Init(pPosition.X + Rando.Float(-4f, 0f), pPosition.Y + Rando.Float(-4f, 6f), new Vec2(Rando.Float(-1f, 0f), Rando.Float(-1f, 1f)));
+            confettiParticle2.Init(pPosition.X + Rando.Float(-4f, 0f), pPosition.Y + Rando.Float(-4f, 6f), new Vector2(Rando.Float(-1f, 0f), Rando.Float(-1f, 1f)));
             confettiParticle2._color = new Color(163, 206, 39);
             Level.Add(confettiParticle2);
         }
@@ -87,11 +88,11 @@ public class Flower : Holdable
                 }
                 if (!_stuck.removeFromLevel || !base.isServerForObject)
                 {
-                    Position = _stuck.Offset(_stuck.barrelOffset + _stuck.barrelInsertOffset + new Vec2(1f, 1f));
+                    Position = _stuck.Offset(_stuck.barrelOffset + _stuck.barrelInsertOffset + new Vector2(1f, 1f));
                     offDir = _stuck.offDir;
                     base.AngleDegrees = _stuck.AngleDegrees + (float)(90 * offDir);
                     base.Depth = _stuck.Depth - 4;
-                    base.velocity = Vec2.Zero;
+                    base.velocity = Vector2.Zero;
                     if (_stuck._barrelHeat < _prevBarrelHeat)
                     {
                         _prevBarrelHeat = _stuck._barrelHeat;
@@ -123,9 +124,9 @@ public class Flower : Holdable
             if (owner != null)
             {
                 framesSinceThrown = 0;
-                Center = new Vec2(8f, 12f);
-                collisionOffset = new Vec2(-3f, -12f);
-                collisionSize = new Vec2(6f, 14f);
+                Center = new Vector2(8f, 12f);
+                collisionOffset = new Vector2(-3f, -12f);
+                collisionSize = new Vector2(6f, 14f);
                 base.AngleDegrees = 0f;
                 graphic.flipH = offDir < 0;
             }
@@ -143,9 +144,9 @@ public class Flower : Holdable
                     }
                 }
                 framesSinceThrown++;
-                Center = new Vec2(8f, 8f);
-                collisionOffset = new Vec2(-7f, -5f);
-                collisionSize = new Vec2(14f, 6f);
+                Center = new Vector2(8f, 8f);
+                collisionOffset = new Vector2(-7f, -5f);
+                collisionSize = new Vector2(14f, 6f);
                 base.AngleDegrees = 90f;
                 graphic.flipH = true;
                 base.Depth = 0.4f;
@@ -196,11 +197,11 @@ public class Flower : Holdable
     {
         if (_stuck != null)
         {
-            Position = _stuck.Offset(_stuck.barrelOffset + _stuck.barrelInsertOffset + new Vec2(1f, 1f));
+            Position = _stuck.Offset(_stuck.barrelOffset + _stuck.barrelInsertOffset + new Vector2(1f, 1f));
             offDir = _stuck.offDir;
             base.AngleDegrees = _stuck.AngleDegrees + (float)(90 * offDir);
             base.Depth = _stuck.Depth - 4;
-            base.velocity = Vec2.Zero;
+            base.velocity = Vector2.Zero;
         }
         base.Draw();
     }

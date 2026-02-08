@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ContextObject : ContextMenu
@@ -132,12 +134,12 @@ public class ContextObject : ContextMenu
         {
             c = Color.White * 0.3f;
         }
-        Graphics.DrawFancyString(_text, Position + new Vec2(22f, 4f), c, base.Depth + 2);
+        Graphics.DrawFancyString(_text, Position + new Vector2(22f, 4f), c, base.Depth + 2);
         _image.Depth = base.Depth + 3;
         _image.X = base.X + 1f;
         _image.Y = base.Y;
         _image.color = c;
-        _image.Scale = new Vec2(1f);
+        _image.Scale = new Vector2(1f);
         _image.Draw();
     }
 }

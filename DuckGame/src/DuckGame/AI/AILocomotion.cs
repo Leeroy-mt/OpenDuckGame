@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -18,13 +19,13 @@ public class AILocomotion
 
     public AIPathFinder pathFinder => _path;
 
-    public Vec2 target
+    public Vector2 target
     {
         get
         {
             if (_path.target == null)
             {
-                return Vec2.Zero;
+                return Vector2.Zero;
             }
             return _path.target.link.Position;
         }
@@ -115,8 +116,8 @@ public class AILocomotion
         {
             return;
         }
-        Vec2 nextPoint = target;
-        Vec2 dist = new Vec2(nextPoint.X - duck.X, nextPoint.Y - duck.Y);
+        Vector2 nextPoint = target;
+        Vector2 dist = new Vector2(nextPoint.X - duck.X, nextPoint.Y - duck.Y);
         if (!PathNode.LineIsClear(duck.Position, nextPoint))
         {
             _path.Refresh();
@@ -125,7 +126,7 @@ public class AILocomotion
                 return;
             }
             nextPoint = target;
-            dist = new Vec2(nextPoint.X - duck.X, nextPoint.Y - duck.Y);
+            dist = new Vector2(nextPoint.X - duck.X, nextPoint.Y - duck.Y);
         }
         if (_path.path == null)
         {
@@ -139,7 +140,7 @@ public class AILocomotion
                 return;
             }
             nextPoint = target;
-            dist = new Vec2(nextPoint.X - duck.X, nextPoint.Y - duck.Y);
+            dist = new Vector2(nextPoint.X - duck.X, nextPoint.Y - duck.Y);
         }
         if (!PathNode.LineIsClear(duck.Position, nextPoint))
         {
@@ -149,7 +150,7 @@ public class AILocomotion
                 return;
             }
             nextPoint = target;
-            dist = new Vec2(nextPoint.X - duck.X, nextPoint.Y - duck.Y);
+            dist = new Vector2(nextPoint.X - duck.X, nextPoint.Y - duck.Y);
         }
         if (_path.path == null)
         {
@@ -168,7 +169,7 @@ public class AILocomotion
                 return;
             }
             nextPoint = target;
-            dist = new Vec2(nextPoint.X - duck.X, nextPoint.Y - duck.Y);
+            dist = new Vector2(nextPoint.X - duck.X, nextPoint.Y - duck.Y);
             _tryJump = -1;
         }
         if (_path.path == null)
@@ -182,7 +183,7 @@ public class AILocomotion
         }
         if (dist.X < (duck.hSpeed * 3f - 2f) * speedMul)
         {
-            if (duck.grounded && Level.CheckLine<Window>(duck.Position, duck.Position + new Vec2(-32f, 0f)) != null)
+            if (duck.grounded && Level.CheckLine<Window>(duck.Position, duck.Position + new Vector2(-32f, 0f)) != null)
             {
                 Slide(30);
             }
@@ -190,7 +191,7 @@ public class AILocomotion
         }
         else if (dist.X > (duck.hSpeed * 3f + 2f) * speedMul)
         {
-            if (duck.grounded && Level.CheckLine<Window>(duck.Position, duck.Position + new Vec2(32f, 0f)) != null)
+            if (duck.grounded && Level.CheckLine<Window>(duck.Position, duck.Position + new Vector2(32f, 0f)) != null)
             {
                 Slide(30);
             }
@@ -215,7 +216,7 @@ public class AILocomotion
         {
             minYdist = 200f;
         }
-        if (Math.Abs(dist.X) < 4f && Math.Abs(dist.Y) < minYdist && PathNode.LineIsClear(duck.Position - new Vec2(0f, 8f), nextPoint) && (!(_path.peek.link.Position.Y < duck.Y - 8f) || duck.grounded) && duck.grounded)
+        if (Math.Abs(dist.X) < 4f && Math.Abs(dist.Y) < minYdist && PathNode.LineIsClear(duck.Position - new Vector2(0f, 8f), nextPoint) && (!(_path.peek.link.Position.Y < duck.Y - 8f) || duck.grounded) && duck.grounded)
         {
             _path.AtTarget();
             _ai.canRefresh = true;

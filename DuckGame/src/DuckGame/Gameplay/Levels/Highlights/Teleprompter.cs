@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -370,7 +371,7 @@ public class Teleprompter : Thing
         {
             float wide = _font.GetWidth(_lineProgress[i].text);
             float ypos = 140 - (_lineProgress.Count - 1) * 9 + index * 9;
-            Graphics.DrawRect(new Vec2(132f - wide / 2f - 1f, ypos - 1f), new Vec2(132f + wide / 2f, ypos + 9f), Color.Black, 0.84f);
+            Graphics.DrawRect(new Vector2(132f - wide / 2f - 1f, ypos - 1f), new Vector2(132f + wide / 2f, ypos + 9f), Color.Black, 0.84f);
             float xpos = 132f - wide / 2f;
             for (int j = _lineProgress[i].segments.Count - 1; j >= 0; j--)
             {

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -394,19 +395,19 @@ public class GameMode
         _pauseGroup.Add(_confirmMenu, doAnchor: false);
         _confirmBlacklistMenu.Add(new UIText("", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _confirmBlacklistMenu.Add(new UIText("Are you sure you want to avoid", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _confirmBlacklistMenu.Add(new UIText("this level in the future?", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _confirmBlacklistMenu.Add(new UIText("", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _confirmBlacklistMenu.Add(new UIMenuItem("|DGRED|@blacklist@YES!", new UIMenuActionCloseMenuCallFunction(_pauseGroup, Blacklist)));
         _confirmBlacklistMenu.Add(new UIMenuItem("BACK", new UIMenuActionOpenMenu(_confirmBlacklistMenu, _pauseMenu), UIAlign.Center, default(Color), backButton: true));
@@ -575,7 +576,7 @@ public class GameMode
                 {
                     if (!Network.isActive && spawn.profile.team.name == "ZEKE")
                     {
-                        Ragdoll ragdoll = new Ragdoll(spawn.X, spawn.Y, null, slide: false, 0f, 0, Vec2.Zero);
+                        Ragdoll ragdoll = new Ragdoll(spawn.X, spawn.Y, null, slide: false, 0f, 0, Vector2.Zero);
                         Level.Add(ragdoll);
                         ragdoll.RunInit();
                         ragdoll.MakeZekeBear();
@@ -1065,7 +1066,7 @@ public class GameMode
         }
         if (_waitAfterSpawnDings > 0 && _fontFade > 0.01f)
         {
-            _font.Scale = new Vec2(2f, 2f);
+            _font.Scale = new Vector2(2f, 2f);
             _font.Alpha = _fontFade;
             string s = "GET";
             if (_waitAfterSpawnDings == 2)

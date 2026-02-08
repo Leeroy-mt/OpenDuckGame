@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -8,7 +9,7 @@ public class UIProgressBar : UIComponent
 
     float _step;
 
-    Vec2 _barSize;
+    Vector2 _barSize;
 
     FieldBinding _field;
 
@@ -20,7 +21,7 @@ public class UIProgressBar : UIComponent
         : base(0, 0, 0, 0)
     {
         _field = field;
-        _barSize = new Vec2(wide, high);
+        _barSize = new Vector2(wide, high);
         _collisionSize = _barSize;
         _step = increment;
     }
@@ -36,8 +37,8 @@ public class UIProgressBar : UIComponent
         int numParts = (int)Math.Ceiling((_field.max - _field.min) / _step);
         for (int i = 0; i < numParts; i++)
         {
-            Vec2 tl = Position - new Vec2(halfWidth, sizeY / 2) + new Vec2(i * (int)Math.Round(sizeX / numParts), 0);
-            Vec2 br = Position - new Vec2(halfWidth, -sizeY / 2) + new Vec2(((i + 1) * (int)Math.Round(sizeX / numParts)) - 1, 0);
+            Vector2 tl = Position - new Vector2(halfWidth, sizeY / 2) + new Vector2(i * (int)Math.Round(sizeX / numParts), 0);
+            Vector2 br = Position - new Vector2(halfWidth, -sizeY / 2) + new Vector2(((i + 1) * (int)Math.Round(sizeX / numParts)) - 1, 0);
             if ((align & UIAlign.Center) > UIAlign.Center)
             {
                 tl.X += halfWidth - sizeX / 2;

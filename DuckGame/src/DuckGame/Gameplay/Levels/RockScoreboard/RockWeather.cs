@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -34,7 +35,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0.06f),
             multiply = new Vec3(0.98f, 0.98f, 1f),
             sky = new Vec3(0.15f, 0.15f, 0.25f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 0f,
@@ -45,7 +46,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f),
             multiply = new Vec3(0.9f, 0.9f, 1f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -56,7 +57,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f),
             multiply = new Vec3(0.9f, 0.9f, 1f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -67,7 +68,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f),
             multiply = new Vec3(0.9f, 0.9f, 1f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -78,7 +79,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f),
             multiply = new Vec3(0.9f, 0.9f, 1f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -89,7 +90,7 @@ public class RockWeather : Thing
             add = new Vec3(0.08f, 0.05f, 0f),
             multiply = new Vec3(1f, 0.8f, 0.7f),
             sky = new Vec3(50f / 51f, 38f / 51f, 28f / 51f),
-            sunPos = new Vec2(0f, 1f),
+            sunPos = new Vector2(0f, 1f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -101,7 +102,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f),
             multiply = new Vec3(1f, 1f, 1f),
             sky = new Vec3(0.54509807f, 0.8f, 0.972549f),
-            sunPos = new Vec2(0.3f, 1.8f),
+            sunPos = new Vector2(0.3f, 1.8f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -113,7 +114,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f),
             multiply = new Vec3(1f, 1f, 1f),
             sky = new Vec3(0.54509807f, 0.8f, 0.972549f),
-            sunPos = new Vec2(0.5f, 0.9f),
+            sunPos = new Vector2(0.5f, 0.9f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -125,7 +126,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f),
             multiply = new Vec3(1f, 1f, 1f),
             sky = new Vec3(0.54509807f, 0.8f, 0.972549f),
-            sunPos = new Vec2(0.5f, 0.9f),
+            sunPos = new Vector2(0.5f, 0.9f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -137,7 +138,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f),
             multiply = new Vec3(1f, 1f, 1f),
             sky = new Vec3(0.54509807f, 0.8f, 0.972549f),
-            sunPos = new Vec2(0.5f, 0.9f),
+            sunPos = new Vector2(0.5f, 0.9f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -149,7 +150,7 @@ public class RockWeather : Thing
             add = new Vec3(0.08f, 0.05f, 0f),
             multiply = new Vec3(1f, 0.8f, 0.7f),
             sky = new Vec3(40f / 51f, 0.47058824f, 38f / 51f),
-            sunPos = new Vec2(0.6f, 0f),
+            sunPos = new Vector2(0.6f, 0f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -161,7 +162,7 @@ public class RockWeather : Thing
             add = new Vec3(0.08f, 0.05f, 0f),
             multiply = new Vec3(1f, 0.8f, 0.7f),
             sky = new Vec3(50f / 51f, 2f / 3f, 22f / 51f),
-            sunPos = new Vec2(0.7f, -0.5f),
+            sunPos = new Vector2(0.7f, -0.5f),
             lightOpacity = 0f,
             sunGlow = 0.3f,
             sunOpacity = 1f,
@@ -173,7 +174,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f),
             multiply = new Vec3(1f, 1f, 1f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0.8f, -1f),
+            sunPos = new Vector2(0.8f, -1f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -184,7 +185,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0.06f),
             multiply = new Vec3(0.98f, 0.98f, 1f),
             sky = new Vec3(0.15f, 0.15f, 0.25f),
-            sunPos = new Vec2(0.9f, -1.2f),
+            sunPos = new Vector2(0.9f, -1.2f),
             lightOpacity = 1f,
             sunGlow = -0.2f,
             sunOpacity = 0f,
@@ -199,7 +200,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.98f, 0.98f, 1f),
             sky = new Vec3(0.15f, 0.15f, 0.25f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 0f
@@ -209,7 +210,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.9f, 0.9f, 1f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f
@@ -219,7 +220,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.9f, 0.9f, 1f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f
@@ -229,7 +230,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.9f, 0.9f, 1f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f
@@ -239,7 +240,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.9f, 0.9f, 1f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f
@@ -249,7 +250,7 @@ public class RockWeather : Thing
             add = new Vec3(0.08f, 0.05f, 0f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(1f, 0.8f, 0.7f),
             sky = new Vec3(50f / 51f, 38f / 51f, 28f / 51f),
-            sunPos = new Vec2(0f, 1f),
+            sunPos = new Vector2(0f, 1f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -261,7 +262,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(1f, 1f, 1f),
             sky = new Vec3(0.54509807f, 0.8f, 0.972549f),
-            sunPos = new Vec2(0.3f, 1.8f),
+            sunPos = new Vector2(0.3f, 1.8f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -273,7 +274,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(1f, 1f, 1f),
             sky = new Vec3(0.54509807f, 0.8f, 0.972549f),
-            sunPos = new Vec2(0.5f, 0.9f),
+            sunPos = new Vector2(0.5f, 0.9f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -285,7 +286,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(1f, 1f, 1f),
             sky = new Vec3(0.54509807f, 0.8f, 0.972549f),
-            sunPos = new Vec2(0.5f, 0.9f),
+            sunPos = new Vector2(0.5f, 0.9f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -297,7 +298,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(1f, 1f, 1f),
             sky = new Vec3(0.54509807f, 0.8f, 0.972549f),
-            sunPos = new Vec2(0.5f, 0.9f),
+            sunPos = new Vector2(0.5f, 0.9f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -309,7 +310,7 @@ public class RockWeather : Thing
             add = new Vec3(0.08f, 0.05f, 0f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(1f, 0.8f, 0.7f),
             sky = new Vec3(40f / 51f, 0.47058824f, 38f / 51f),
-            sunPos = new Vec2(0.6f, 0f),
+            sunPos = new Vector2(0.6f, 0f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 1f,
@@ -321,7 +322,7 @@ public class RockWeather : Thing
             add = new Vec3(0.08f, 0.05f, 0f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(1f, 0.8f, 0.7f),
             sky = new Vec3(50f / 51f, 2f / 3f, 22f / 51f),
-            sunPos = new Vec2(0.7f, -0.5f),
+            sunPos = new Vector2(0.7f, -0.5f),
             lightOpacity = 0f,
             sunGlow = 0.3f,
             sunOpacity = 1f,
@@ -333,7 +334,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(1f, 1f, 1f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0.8f, -1f),
+            sunPos = new Vector2(0.8f, -1f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f
@@ -343,7 +344,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.98f, 0.98f, 1f),
             sky = new Vec3(0.15f, 0.15f, 0.25f),
-            sunPos = new Vec2(0.9f, -1.2f),
+            sunPos = new Vector2(0.9f, -1.2f),
             lightOpacity = 1f,
             sunGlow = -0.2f,
             sunOpacity = 0f
@@ -357,7 +358,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.91f, 0.99f, 0.94f),
             sky = new Vec3(0.15f, 0.15f, 0.25f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 0f
@@ -367,7 +368,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.91f, 0.99f, 0.94f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f
@@ -377,7 +378,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.91f, 0.99f, 0.94f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f
@@ -387,7 +388,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.91f, 0.99f, 0.94f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f
@@ -397,7 +398,7 @@ public class RockWeather : Thing
             add = new Vec3(0.1f, 0.1f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.9f, 0.9f, 1f),
             sky = new Vec3(0.1f, 0.1f, 0.2f),
-            sunPos = new Vec2(0f, 0.6f),
+            sunPos = new Vector2(0f, 0.6f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 1f
@@ -407,7 +408,7 @@ public class RockWeather : Thing
             add = new Vec3(0.08f, 0.05f, 0f) + new Vec3(-0.15f, -0.1f, 0.1f),
             multiply = new Vec3(1f, 0.85f, 0.7f),
             sky = new Vec3(44f / 51f, 2f / 3f, 28f / 51f),
-            sunPos = new Vec2(0f, 1f),
+            sunPos = new Vector2(0f, 1f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 0.5f,
@@ -419,7 +420,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f) + new Vec3(-0.15f, -0.1f, 0.1f),
             multiply = new Vec3(0.89f, 1.05f, 1f),
             sky = new Vec3(31f / 85f, 48f / 85f, 31f / 51f),
-            sunPos = new Vec2(0.3f, 1.8f),
+            sunPos = new Vector2(0.3f, 1.8f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 0.4f,
@@ -431,7 +432,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f) + new Vec3(-0.19f, -0.09f, 0.1f),
             multiply = new Vec3(0.89f, 1.05f, 1f),
             sky = new Vec3(31f / 85f, 48f / 85f, 31f / 51f),
-            sunPos = new Vec2(0.5f, 0.9f),
+            sunPos = new Vector2(0.5f, 0.9f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 0.4f,
@@ -443,7 +444,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f) + new Vec3(-0.2f, -0.1f, 0.07f),
             multiply = new Vec3(0.89f, 1.05f, 1f),
             sky = new Vec3(31f / 85f, 48f / 85f, 31f / 51f),
-            sunPos = new Vec2(0.5f, 0.9f),
+            sunPos = new Vector2(0.5f, 0.9f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 0.4f,
@@ -455,7 +456,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f) + new Vec3(-0.22f, -0.12f, 0f),
             multiply = new Vec3(0.86f, 1.05f, 1f),
             sky = new Vec3(0.3254902f, 38f / 85f, 0.5137255f),
-            sunPos = new Vec2(0.5f, 0.9f),
+            sunPos = new Vector2(0.5f, 0.9f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 0.4f,
@@ -467,7 +468,7 @@ public class RockWeather : Thing
             add = new Vec3(0.08f, 0.05f, 0f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(1f, 0.8f, 0.8f),
             sky = new Vec3(0.5882353f, 20f / 51f, 32f / 51f),
-            sunPos = new Vec2(0.6f, 0f),
+            sunPos = new Vector2(0.6f, 0f),
             lightOpacity = 0f,
             sunGlow = 0f,
             sunOpacity = 0.4f,
@@ -479,7 +480,7 @@ public class RockWeather : Thing
             add = new Vec3(0.08f, 0.05f, 0f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(1f, 0.8f, 0.7f),
             sky = new Vec3(0.7058824f, 28f / 51f, 0.7058824f),
-            sunPos = new Vec2(0.7f, -0.5f),
+            sunPos = new Vector2(0.7f, -0.5f),
             lightOpacity = 0f,
             sunGlow = 0.3f,
             sunOpacity = 0.4f,
@@ -491,7 +492,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(1f, 1f, 1f),
             sky = new Vec3(0.1f, 0.15f, 0.2f),
-            sunPos = new Vec2(0.8f, -1f),
+            sunPos = new Vector2(0.8f, -1f),
             lightOpacity = 1f,
             sunGlow = 0f,
             sunOpacity = 0.3f
@@ -501,7 +502,7 @@ public class RockWeather : Thing
             add = new Vec3(0f, 0f, 0.06f) + new Vec3(-0.1f, -0.1f, 0.2f),
             multiply = new Vec3(0.91f, 0.99f, 0.94f),
             sky = new Vec3(0.15f, 0.15f, 0.25f),
-            sunPos = new Vec2(0.9f, -1.2f),
+            sunPos = new Vector2(0.9f, -1.2f),
             lightOpacity = 1f,
             sunGlow = -0.2f,
             sunOpacity = 0f
@@ -518,7 +519,7 @@ public class RockWeather : Thing
 
     public static float sunOpacity = 1f;
 
-    public static Vec2 sunPos;
+    public static Vector2 sunPos;
 
     private RockWeatherState _lastAppliedState;
 
@@ -598,7 +599,7 @@ public class RockWeather : Thing
             newState.multiply = Lerp.Vec3(_lastAppliedState.multiply, curMap.multiply + (nextMap.multiply - curMap.multiply) * travel, lerpSpeed);
             newState.sky = Lerp.Vec3(_lastAppliedState.sky, curMap.sky + (nextMap.sky - curMap.sky) * travel, lerpSpeed);
             newState.lightOpacity = Lerp.Float(_lastAppliedState.lightOpacity, curMap.lightOpacity + (nextMap.lightOpacity - curMap.lightOpacity) * travel, lerpSpeed);
-            newState.sunPos = Lerp.Vec2(_lastAppliedState.sunPos, curMap.sunPos + (nextMap.sunPos - curMap.sunPos) * travel, lerpSpeed);
+            newState.sunPos = Lerp.Vector2(_lastAppliedState.sunPos, curMap.sunPos + (nextMap.sunPos - curMap.sunPos) * travel, lerpSpeed);
             newState.sunGlow = Lerp.Float(_lastAppliedState.sunGlow, curMap.sunGlow + (nextMap.sunGlow - curMap.sunGlow) * travel, lerpSpeed);
             newState.sunOpacity = Lerp.Float(_lastAppliedState.sunOpacity, curMap.sunOpacity + (nextMap.sunOpacity - curMap.sunOpacity) * travel, lerpSpeed);
             newState.rainbowLight = Lerp.Float(_lastAppliedState.rainbowLight, curMap.rainbowLight + (nextMap.rainbowLight - curMap.rainbowLight) * travel, lerpSpeed);
@@ -916,7 +917,7 @@ public class RockWeather : Thing
             while (_particleWait <= 0f)
             {
                 _particleWait += 1f;
-                SnowParticle particle = new SnowParticle(new Vec2(Rando.Float(-100f, 400f), Rando.Float(-500f, -550f)));
+                SnowParticle particle = new SnowParticle(new Vector2(Rando.Float(-100f, 400f), Rando.Float(-500f, -550f)));
                 particle.z = Rando.Float(0f, 200f);
                 _particles.Add(particle);
             }
@@ -927,7 +928,7 @@ public class RockWeather : Thing
             while (_particleWait <= 0f)
             {
                 _particleWait += 1f;
-                RainParticle particle2 = new RainParticle(new Vec2(Rando.Float(-100f, 900f), Rando.Float(-500f, -550f)));
+                RainParticle particle2 = new RainParticle(new Vector2(Rando.Float(-100f, 900f), Rando.Float(-500f, -550f)));
                 particle2.z = Rando.Float(0f, 200f);
                 _particles.Add(particle2);
             }

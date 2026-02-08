@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ATPortal : AmmoType
@@ -17,7 +19,7 @@ public class ATPortal : AmmoType
         _ownerGun = OwnerGun;
     }
 
-    public override Bullet FireBullet(Vec2 position, Thing owner = null, float angle = 0f, Thing firedFrom = null)
+    public override Bullet FireBullet(Vector2 position, Thing owner = null, float angle = 0f, Thing firedFrom = null)
     {
         angle *= -1f;
         Bullet bullet = new PortalBullet(position.X, position.Y, this, angle, _ownerGun, rebound, -1f, bulletThickness);

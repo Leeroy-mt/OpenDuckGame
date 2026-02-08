@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -115,7 +116,7 @@ public class Sprite : Transform, ICloneable
 
     public void CenterOrigin()
     {
-        Center = new Vec2((float)Math.Round((float)width / 2f), (float)Math.Round((float)height / 2f));
+        Center = new Vector2((float)Math.Round((float)width / 2f), (float)Math.Round((float)height / 2f));
     }
 
     public Sprite()
@@ -125,23 +126,23 @@ public class Sprite : Transform, ICloneable
     public Sprite(Tex2D tex, float x = 0f, float y = 0f)
     {
         _texture = tex;
-        Position = new Vec2(x, y);
+        Position = new Vector2(x, y);
     }
 
     public Sprite(RenderTarget2D tex, float x = 0f, float y = 0f)
     {
         _texture = tex;
         _renderTexture = tex;
-        Position = new Vec2(x, y);
+        Position = new Vector2(x, y);
     }
 
     public Sprite(string tex, float x = 0f, float y = 0f)
     {
         _texture = Content.Load<Tex2D>(tex);
-        Position = new Vec2(x, y);
+        Position = new Vector2(x, y);
     }
 
-    public Sprite(string tex, Vec2 pCenter)
+    public Sprite(string tex, Vector2 pCenter)
     {
         _texture = Content.Load<Tex2D>(tex);
         Center = pCenter;

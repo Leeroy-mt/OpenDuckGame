@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class CampingSmoke : Thing
@@ -8,9 +10,9 @@ public class CampingSmoke : Thing
 
     private float _fade;
 
-    public Vec2 move;
+    public Vector2 move;
 
-    public Vec2 fly;
+    public Vector2 fly;
 
     private float _fastGrow;
 
@@ -40,7 +42,7 @@ public class CampingSmoke : Thing
         backSmoke.CenterOrigin();
         glist.Add(backSmoke);
         graphic = glist;
-        Center = new Vec2(0f, 0f);
+        Center = new Vector2(0f, 0f);
         base.Depth = 1f;
         _backgroundSmoke = new Sprite("smokeBack");
         _shrinkSpeed = 0.01f + Rando.Float(0.005f);

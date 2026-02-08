@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class SpriteThing : Thing
@@ -9,9 +11,9 @@ public class SpriteThing : Thing
     public SpriteThing(float xpos, float ypos, Sprite spr)
         : base(xpos, ypos, spr)
     {
-        collisionSize = new Vec2(spr.width, spr.height);
-        Center = new Vec2(spr.w / 2, spr.h / 2);
-        collisionOffset = new Vec2(-(spr.w / 2), -(spr.h / 2));
+        collisionSize = new Vector2(spr.width, spr.height);
+        Center = new Vector2(spr.w / 2, spr.h / 2);
+        collisionOffset = new Vector2(-(spr.w / 2), -(spr.h / 2));
         color = Color.White;
     }
 

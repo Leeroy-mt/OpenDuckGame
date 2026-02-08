@@ -1,18 +1,20 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class TrailPiece
 {
-    internal Vec2 position;
+    internal Vector2 position;
 
-    internal Vec2 p1;
+    internal Vector2 p1;
 
-    internal Vec2 p2;
+    internal Vector2 p2;
 
-    internal Vec2 scale = new Vec2(1f, 1f);
+    internal Vector2 scale = new Vector2(1f, 1f);
 
     internal float wide = 1f;
 
-    internal TrailPiece(float _x, float _y, float _width, Vec2 _p1, Vec2 _p2)
+    internal TrailPiece(float _x, float _y, float _width, Vector2 _p1, Vector2 _p2)
     {
         position.X = _x;
         position.Y = _y;

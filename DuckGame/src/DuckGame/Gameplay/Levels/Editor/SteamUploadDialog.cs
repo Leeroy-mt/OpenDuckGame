@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,15 +44,15 @@ public class SteamUploadDialog : ContextMenu
 
     private static List<string> _possibleTagsMod = new List<string> { "Weapons", "Hats", "Items", "Equipment", "Total Conversion" };
 
-    private Vec2 _acceptPos;
+    private Vector2 _acceptPos;
 
-    private Vec2 _acceptSize;
+    private Vector2 _acceptSize;
 
     private bool _acceptHover;
 
-    private Vec2 _cancelPos;
+    private Vector2 _cancelPos;
 
-    private Vec2 _cancelSize;
+    private Vector2 _cancelSize;
 
     private bool _cancelHover;
 
@@ -61,7 +62,7 @@ public class SteamUploadDialog : ContextMenu
 
     private bool _testing;
 
-    private Vec2 _plusPosition;
+    private Vector2 _plusPosition;
 
     private ContextMenu _tagMenu;
 
@@ -71,7 +72,7 @@ public class SteamUploadDialog : ContextMenu
 
     private int _subItemTries;
 
-    private Dictionary<string, Vec2> tagPositions = new Dictionary<string, Vec2>();
+    private Dictionary<string, Vector2> tagPositions = new Dictionary<string, Vector2>();
 
     private Stack<EditorWorkshopItem> _publishStack = new Stack<EditorWorkshopItem>();
 
@@ -103,7 +104,7 @@ public class SteamUploadDialog : ContextMenu
         base.layer = Layer.HUD;
         base.Depth = 0.9f;
         _showBackground = false;
-        itemSize = new Vec2(386f, 16f);
+        itemSize = new Vector2(386f, 16f);
         _root = true;
         drawControls = false;
         _descriptionBox = new Textbox(base.X + 5f, base.Y + 225f, 316f, 40f, 0.5f, 9, "<ENTER DESCRIPTION>");
@@ -395,8 +396,8 @@ public class SteamUploadDialog : ContextMenu
             {
                 return;
             }
-            _ = new Vec2(base.layer.width / 2f - base.width / 2f + hOffset, base.layer.height / 2f - base.height / 2f - 15f) + new Vec2(7f, 276f);
-            foreach (KeyValuePair<string, Vec2> xpos in tagPositions)
+            _ = new Vector2(base.layer.width / 2f - base.width / 2f + hOffset, base.layer.height / 2f - base.height / 2f - 15f) + new Vector2(7f, 276f);
+            foreach (KeyValuePair<string, Vector2> xpos in tagPositions)
             {
                 if (Mouse.x > xpos.Value.X && Mouse.x < xpos.Value.X + 8f && Mouse.y > xpos.Value.Y && Mouse.y < xpos.Value.Y + 8f && Mouse.left == InputState.Pressed)
                 {
@@ -481,34 +482,34 @@ public class SteamUploadDialog : ContextMenu
         base.Draw();
         float width = 328f;
         float height = _fdHeight + 22f;
-        Vec2 topLeft = new Vec2(base.layer.width / 2f - width / 2f + hOffset, base.layer.height / 2f - height / 2f - 15f);
-        Vec2 bottomRight = new Vec2(base.layer.width / 2f + width / 2f + hOffset, base.layer.height / 2f + height / 2f - 12f);
+        Vector2 topLeft = new Vector2(base.layer.width / 2f - width / 2f + hOffset, base.layer.height / 2f - height / 2f - 15f);
+        Vector2 bottomRight = new Vector2(base.layer.width / 2f + width / 2f + hOffset, base.layer.height / 2f + height / 2f - 12f);
         Graphics.DrawRect(topLeft, bottomRight, new Color(70, 70, 70), base.Depth, filled: false);
         Graphics.DrawRect(topLeft, bottomRight, new Color(30, 30, 30), base.Depth - 8);
-        Graphics.DrawRect(topLeft + new Vec2(4f, 23f), bottomRight + new Vec2(-4f, -160f), new Color(10, 10, 10), base.Depth - 4);
-        Graphics.DrawRect(topLeft + new Vec2(4f, 206f), bottomRight + new Vec2(-4f, -66f), new Color(10, 10, 10), base.Depth - 4);
-        Graphics.DrawRect(topLeft + new Vec2(4f, 224f), bottomRight + new Vec2(-4f, -14f), new Color(10, 10, 10), base.Depth - 4);
-        Graphics.DrawRect(topLeft + new Vec2(3f, 3f), new Vec2(bottomRight.X - 3f, topLeft.Y + 19f), new Color(70, 70, 70), base.Depth - 4);
+        Graphics.DrawRect(topLeft + new Vector2(4f, 23f), bottomRight + new Vector2(-4f, -160f), new Color(10, 10, 10), base.Depth - 4);
+        Graphics.DrawRect(topLeft + new Vector2(4f, 206f), bottomRight + new Vector2(-4f, -66f), new Color(10, 10, 10), base.Depth - 4);
+        Graphics.DrawRect(topLeft + new Vector2(4f, 224f), bottomRight + new Vector2(-4f, -14f), new Color(10, 10, 10), base.Depth - 4);
+        Graphics.DrawRect(topLeft + new Vector2(3f, 3f), new Vector2(bottomRight.X - 3f, topLeft.Y + 19f), new Color(70, 70, 70), base.Depth - 4);
         if (_mod != null)
         {
-            Graphics.DrawString("Upload Mod to Workshop", topLeft + new Vec2(5f, 7f), Color.White, base.Depth + 8);
+            Graphics.DrawString("Upload Mod to Workshop", topLeft + new Vector2(5f, 7f), Color.White, base.Depth + 8);
         }
         else if (Editor.arcadeMachineMode)
         {
-            Graphics.DrawString("Upload " + _publishItem.levelType.ToString() + " to Workshop", topLeft + new Vec2(5f, 7f), Color.White, base.Depth + 8);
+            Graphics.DrawString("Upload " + _publishItem.levelType.ToString() + " to Workshop", topLeft + new Vector2(5f, 7f), Color.White, base.Depth + 8);
         }
         else
         {
-            Graphics.DrawString("Upload " + _publishItem.levelSize.ToString() + " " + _publishItem.levelType.ToString() + " to Workshop", topLeft + new Vec2(5f, 7f), Color.White, base.Depth + 8);
+            Graphics.DrawString("Upload " + _publishItem.levelSize.ToString() + " " + _publishItem.levelType.ToString() + " to Workshop", topLeft + new Vector2(5f, 7f), Color.White, base.Depth + 8);
         }
-        _descriptionBox.position = topLeft + new Vec2(6f, 226f);
+        _descriptionBox.position = topLeft + new Vector2(6f, 226f);
         _descriptionBox.depth = base.Depth + 2;
         _descriptionBox.Draw();
-        _nameBox.position = topLeft + new Vec2(6f, 208f);
+        _nameBox.position = topLeft + new Vector2(6f, 208f);
         _nameBox.depth = base.Depth + 2;
         _nameBox.Draw();
         int numTag = 0;
-        Vec2 tagPos = topLeft + new Vec2(7f, 276f);
+        Vector2 tagPos = topLeft + new Vector2(7f, 276f);
         int numX = 0;
         tagPositions.Clear();
         foreach (string tag in _publishItem.tags)
@@ -527,11 +528,11 @@ public class SteamUploadDialog : ContextMenu
             {
                 numX++;
             }
-            Graphics.DrawTexturedLine(_workshopTagMiddle.texture, tagPos + new Vec2(4f, 4f), tagPos + new Vec2(4f + stringWidth + xSize, 4f), Color.White, 1f, base.Depth + 10);
-            Graphics.DrawString(tag, tagPos + new Vec2(4f, 2f), Color.Black, base.Depth + 14, null, 0.5f);
+            Graphics.DrawTexturedLine(_workshopTagMiddle.texture, tagPos + new Vector2(4f, 4f), tagPos + new Vector2(4f + stringWidth + xSize, 4f), Color.White, 1f, base.Depth + 10);
+            Graphics.DrawString(tag, tagPos + new Vector2(4f, 2f), Color.Black, base.Depth + 14, null, 0.5f);
             if (num)
             {
-                Vec2 xPos = tagPos + new Vec2(stringWidth + 6f, 2f);
+                Vector2 xPos = tagPos + new Vector2(stringWidth + 6f, 2f);
                 tagPositions[tag] = xPos;
                 Graphics.DrawString("x", xPos, Color.Red, base.Depth + 14, null, 0.5f);
             }
@@ -547,24 +548,24 @@ public class SteamUploadDialog : ContextMenu
             Graphics.Draw(_tagPlus, tagPos.X, tagPos.Y);
             _plusPosition = tagPos;
         }
-        _acceptPos = bottomRight + new Vec2(-78f, -12f);
-        _acceptSize = new Vec2(34f, 8f);
+        _acceptPos = bottomRight + new Vector2(-78f, -12f);
+        _acceptSize = new Vector2(34f, 8f);
         Graphics.DrawRect(_acceptPos, _acceptPos + _acceptSize, _acceptHover ? new Color(180, 180, 180) : new Color(110, 110, 110), base.Depth - 4);
-        Graphics.DrawString("PUBLISH!", _acceptPos + new Vec2(2f, 2f), Color.White, base.Depth + 8, null, 0.5f);
-        _cancelPos = bottomRight + new Vec2(-36f, -12f);
-        _cancelSize = new Vec2(32f, 8f);
+        Graphics.DrawString("PUBLISH!", _acceptPos + new Vector2(2f, 2f), Color.White, base.Depth + 8, null, 0.5f);
+        _cancelPos = bottomRight + new Vector2(-36f, -12f);
+        _cancelSize = new Vector2(32f, 8f);
         Graphics.DrawRect(_cancelPos, _cancelPos + _cancelSize, _cancelHover ? new Color(180, 180, 180) : new Color(110, 110, 110), base.Depth - 4);
-        Graphics.DrawString("CANCEL!", _cancelPos + new Vec2(2f, 2f), Color.White, base.Depth + 8, null, 0.5f);
+        Graphics.DrawString("CANCEL!", _cancelPos + new Vector2(2f, 2f), Color.White, base.Depth + 8, null, 0.5f);
         if (_previewTarget.width < 300)
         {
             _previewTarget.Depth = base.Depth + 10;
-            _previewTarget.Scale = new Vec2(0.5f, 0.5f);
+            _previewTarget.Scale = new Vector2(0.5f, 0.5f);
             Graphics.Draw(_previewTarget, topLeft.X + (bottomRight.X - topLeft.X) / 2f - (float)_previewTarget.width * _previewTarget.Scale.X / 2f, topLeft.Y + (bottomRight.Y - topLeft.Y) / 2f - (float)_previewTarget.height * _previewTarget.Scale.Y / 2f - 20f);
         }
         else
         {
             _previewTarget.Depth = base.Depth + 10;
-            _previewTarget.Scale = new Vec2(0.25f, 0.25f);
+            _previewTarget.Scale = new Vector2(0.25f, 0.25f);
             Graphics.Draw(_previewTarget, topLeft.X + 4f, topLeft.Y + 23f);
         }
     }

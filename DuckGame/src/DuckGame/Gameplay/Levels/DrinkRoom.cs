@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class DrinkRoom : Level, IHaveAVirtualTransition
@@ -44,14 +46,14 @@ public class DrinkRoom : Level, IHaveAVirtualTransition
             if (drinks > 0)
             {
                 text = p.name + " |WHITE|drinks |RED|" + drinks;
-                Graphics.DrawString(text, new Vec2(Layer.HUD.camera.width / 2f - Graphics.GetStringWidth(text) / 2f, ypos), p.persona.colorUsable);
+                Graphics.DrawString(text, new Vector2(Layer.HUD.camera.width / 2f - Graphics.GetStringWidth(text) / 2f, ypos), p.persona.colorUsable);
                 ypos += 9f;
                 did = true;
             }
             foreach (PartyPerks perk in Party.GetPerks(p))
             {
                 text = p.name + " |WHITE|gets |GREEN|" + perk;
-                Graphics.DrawString(text, new Vec2(Layer.HUD.camera.width / 2f - Graphics.GetStringWidth(text) / 2f, ypos), p.persona.colorUsable);
+                Graphics.DrawString(text, new Vector2(Layer.HUD.camera.width / 2f - Graphics.GetStringWidth(text) / 2f, ypos), p.persona.colorUsable);
                 ypos += 9f;
                 did = true;
             }

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -18,7 +19,7 @@ public class TileButton : Thing
 
     private TileButtonAlign _align;
 
-    private Vec2 _alignOffset = Vec2.Zero;
+    private Vector2 _alignOffset = Vector2.Zero;
 
     public override bool visible
     {
@@ -63,13 +64,13 @@ public class TileButton : Thing
     {
         _sprite = image;
         _hoverText = hover;
-        collisionSize = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -8f);
-        image.Center = new Vec2(image.w / 2, image.h / 2);
+        collisionSize = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -8f);
+        image.Center = new Vector2(image.w / 2, image.h / 2);
         _binding = binding;
         _visibleBinding = visibleBinding;
         _align = align;
-        _alignOffset = new Vec2(xpos, ypos);
+        _alignOffset = new Vector2(xpos, ypos);
         base.AngleDegrees = angleDeg;
     }
 
@@ -77,7 +78,7 @@ public class TileButton : Thing
     {
         if (!visible)
         {
-            Position = new Vec2(-9999f, -9999f);
+            Position = new Vector2(-9999f, -9999f);
         }
         else
         {
@@ -135,29 +136,29 @@ public class TileButton : Thing
                 _binding.value = (int)val4;
             }
         }
-        else if (_binding.value.GetType() == typeof(Vec2))
+        else if (_binding.value.GetType() == typeof(Vector2))
         {
             if ((_focus != null && _focus.Pressed("MENULEFT")) || Keyboard.Pressed(Keys.Left) || dec)
             {
-                Vec2 val5 = (Vec2)_binding.value;
+                Vector2 val5 = (Vector2)_binding.value;
                 val5.X = Math.Max(val5.X - _binding.inc * changeMult, _binding.min);
                 _binding.value = val5;
             }
             else if ((_focus != null && _focus.Pressed("MENURIGHT")) || Keyboard.Pressed(Keys.Right) || inc)
             {
-                Vec2 val6 = (Vec2)_binding.value;
+                Vector2 val6 = (Vector2)_binding.value;
                 val6.X = Math.Min(val6.X + _binding.inc * changeMult, _binding.max);
                 _binding.value = val6;
             }
             else if ((_focus != null && _focus.Pressed("MENUUP")) || Keyboard.Pressed(Keys.Up) || dec)
             {
-                Vec2 val7 = (Vec2)_binding.value;
+                Vector2 val7 = (Vector2)_binding.value;
                 val7.Y = Math.Max(val7.Y - _binding.inc * changeMult, _binding.min);
                 _binding.value = val7;
             }
             else if ((_focus != null && _focus.Pressed("MENUDOWN")) || Keyboard.Pressed(Keys.Down) || inc)
             {
-                Vec2 val8 = (Vec2)_binding.value;
+                Vector2 val8 = (Vector2)_binding.value;
                 val8.Y = Math.Min(val8.Y + _binding.inc * changeMult, _binding.max);
                 _binding.value = val8;
             }
@@ -182,11 +183,11 @@ public class TileButton : Thing
         Graphics.Draw(_sprite, base.X, base.Y);
         if (_binding.value.GetType() == typeof(float))
         {
-            Graphics.DrawString(((float)_binding.value).ToString("0.00"), new Vec2(base.X + 12f, base.Y - 4f), Color.White);
+            Graphics.DrawString(((float)_binding.value).ToString("0.00"), new Vector2(base.X + 12f, base.Y - 4f), Color.White);
         }
         if (_binding.value.GetType() == typeof(int))
         {
-            Graphics.DrawString(((int)_binding.value).ToString(), new Vec2(base.X + 12f, base.Y - 4f), Color.White);
+            Graphics.DrawString(((int)_binding.value).ToString(), new Vector2(base.X + 12f, base.Y - 4f), Color.White);
         }
         _hover = false;
         base.Draw();

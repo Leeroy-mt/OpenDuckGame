@@ -1,14 +1,16 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class Anchor
 {
     private Thing _thing;
 
-    public Vec2 offset = Vec2.Zero;
+    public Vector2 offset = Vector2.Zero;
 
     public Thing thing => _thing;
 
-    public Vec2 position => _thing.anchorPosition + offset;
+    public Vector2 position => _thing.anchorPosition + offset;
 
     public Anchor(Thing to)
     {

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,7 +32,7 @@ public class Block : MaterialThing, IPlatform
 
     private bool _pathed;
 
-    private ConcaveLine nullLine = new ConcaveLine(Vec2.Zero, Vec2.Zero);
+    private ConcaveLine nullLine = new ConcaveLine(Vector2.Zero, Vector2.Zero);
 
     private List<ConcaveLine> G1;
 
@@ -237,7 +238,7 @@ public class Block : MaterialThing, IPlatform
         }
     }
 
-    public BlockCorner GetNearestCorner(Vec2 to)
+    public BlockCorner GetNearestCorner(Vector2 to)
     {
         List<BlockCorner> groupCorners = GetGroupCorners();
         float near = 9999999f;
@@ -278,7 +279,7 @@ public class Block : MaterialThing, IPlatform
                     {
                         off = -8;
                     }
-                    if (Level.CheckPoint<AutoBlock>(new Vec2(c1.corner.X + 8f, c1.corner.Y + (float)off)) != null && Level.CheckPoint<AutoBlock>(new Vec2(c1.corner.X - 8f, c1.corner.Y + (float)off)) != null && Level.CheckPoint<AutoBlock>(new Vec2(c2.corner.X + 8f, c2.corner.Y - (float)off)) != null && Level.CheckPoint<AutoBlock>(new Vec2(c2.corner.X - 8f, c2.corner.Y - (float)off)) != null)
+                    if (Level.CheckPoint<AutoBlock>(new Vector2(c1.corner.X + 8f, c1.corner.Y + (float)off)) != null && Level.CheckPoint<AutoBlock>(new Vector2(c1.corner.X - 8f, c1.corner.Y + (float)off)) != null && Level.CheckPoint<AutoBlock>(new Vector2(c2.corner.X + 8f, c2.corner.Y - (float)off)) != null && Level.CheckPoint<AutoBlock>(new Vector2(c2.corner.X - 8f, c2.corner.Y - (float)off)) != null)
                     {
                         verticalLines.Add(new ConcaveLine(c1.corner, c2.corner));
                     }
@@ -290,7 +291,7 @@ public class Block : MaterialThing, IPlatform
                     {
                         off2 = -8;
                     }
-                    if (Level.CheckPoint<AutoBlock>(new Vec2(c1.corner.X + (float)off2, c1.corner.Y - 8f)) != null && Level.CheckPoint<AutoBlock>(new Vec2(c1.corner.X + (float)off2, c1.corner.Y + 8f)) != null && Level.CheckPoint<AutoBlock>(new Vec2(c2.corner.X - (float)off2, c2.corner.Y - 8f)) != null && Level.CheckPoint<AutoBlock>(new Vec2(c2.corner.X - (float)off2, c2.corner.Y + 8f)) != null)
+                    if (Level.CheckPoint<AutoBlock>(new Vector2(c1.corner.X + (float)off2, c1.corner.Y - 8f)) != null && Level.CheckPoint<AutoBlock>(new Vector2(c1.corner.X + (float)off2, c1.corner.Y + 8f)) != null && Level.CheckPoint<AutoBlock>(new Vector2(c2.corner.X - (float)off2, c2.corner.Y - 8f)) != null && Level.CheckPoint<AutoBlock>(new Vector2(c2.corner.X - (float)off2, c2.corner.Y + 8f)) != null)
                     {
                         horizontalLines.Add(new ConcaveLine(c1.corner, c2.corner));
                     }
@@ -431,14 +432,14 @@ public class Block : MaterialThing, IPlatform
     public Block(float x, float y)
         : base(x, y)
     {
-        collisionSize = new Vec2(16f, 16f);
+        collisionSize = new Vector2(16f, 16f);
         thickness = 10f;
     }
 
     public Block(float x, float y, float wid, float hi, PhysicsMaterial mat = PhysicsMaterial.Default)
         : base(x, y)
     {
-        collisionSize = new Vec2(wid, hi);
+        collisionSize = new Vector2(wid, hi);
         thickness = 10f;
         physicsMaterial = mat;
     }

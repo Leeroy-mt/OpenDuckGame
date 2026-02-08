@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -52,7 +53,7 @@ public class NMAssignWin : NMEvent
                 PlusOne plusOne = new PlusOne(0f, 0f, winpro, temp: false, testMode: true);
                 plusOne._duck = p.duck;
                 plusOne.anchor = p.duck;
-                plusOne.anchor.offset = new Vec2(0f, -16f);
+                plusOne.anchor.offset = new Vector2(0f, -16f);
                 plusOne.Depth = 0.95f;
                 Level.Add(plusOne);
             }

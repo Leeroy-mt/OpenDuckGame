@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,21 +15,21 @@ public class Bullet : Thing
 
     public bool randomDir;
 
-    public Vec2 start;
+    public Vector2 start;
 
     public byte bulletIndex;
 
     public bool hitArmor;
 
-    private Vec2 _realEnd;
+    private Vector2 _realEnd;
 
-    public Vec2 travelStart;
+    public Vector2 travelStart;
 
-    public Vec2 travelEnd;
+    public Vector2 travelEnd;
 
-    public Vec2 travel;
+    public Vector2 travel;
 
-    public Vec2 willCol;
+    public Vector2 willCol;
 
     public bool create = true;
 
@@ -56,7 +57,7 @@ public class Bullet : Thing
 
     protected float _bulletSpeed = 28f;
 
-    public Vec2 _actualStart;
+    public Vector2 _actualStart;
 
     private bool _didPenetrate;
 
@@ -82,7 +83,7 @@ public class Bullet : Thing
 
     public bool reboundCalled;
 
-    public Vec2 travelDirNormalized;
+    public Vector2 travelDirNormalized;
 
     public bool reboundOnce;
 
@@ -94,17 +95,17 @@ public class Bullet : Thing
 
     private int hitsLogged;
 
-    public Vec2 currentTravel;
+    public Vector2 currentTravel;
 
     public bool renderedGhost;
 
     public float _totalLength;
 
-    public Vec2 drawStart;
+    public Vector2 drawStart;
 
-    protected Vec2 drawEnd;
+    protected Vector2 drawEnd;
 
-    protected List<Vec2> prev = new List<Vec2>();
+    protected List<Vector2> prev = new List<Vector2>();
 
     protected List<float> vel = new List<float>();
 
@@ -132,7 +133,7 @@ public class Bullet : Thing
         }
     }
 
-    public Vec2 end
+    public Vector2 end
     {
         get
         {
@@ -233,7 +234,7 @@ public class Bullet : Thing
             Angle += (-15f + nxt) * (1f - ammo.accuracy);
             travel.X = (float)Math.Cos(Maths.DegToRad(Angle)) * range;
             travel.Y = (float)(0.0 - Math.Sin(Maths.DegToRad(Angle))) * range;
-            start = new Vec2(base.X, base.Y);
+            start = new Vector2(base.X, base.Y);
             _actualStart = start;
             end = start + travel;
             travelDirNormalized = end - start;
@@ -269,10 +270,10 @@ public class Bullet : Thing
     public Bullet ReverseTravel()
     {
         reboundBulletsCreated++;
-        Vec2 incidence = travelDirNormalized;
-        Vec2 normal = new Vec2(-Math.Sign(travelDirNormalized.X), 0f);
-        Vec2 reflection = incidence - normal * 2f * Vec2.Dot(incidence, normal);
-        float newAngle = Maths.PointDirection(Vec2.Zero, reflection);
+        Vector2 incidence = travelDirNormalized;
+        Vector2 normal = new Vector2(-Math.Sign(travelDirNormalized.X), 0f);
+        Vector2 reflection = incidence - normal * 2f * Vector2.Dot(incidence, normal);
+        float newAngle = Maths.PointDirection(Vector2.Zero, reflection);
         float travelLen = (_actualStart - start).Length();
         if (travelLen > 2f)
         {
@@ -283,18 +284,18 @@ public class Bullet : Thing
             doneTravelling = true;
             Position = start;
             drawStart = start;
-            travelDirNormalized = Vec2.Zero;
+            travelDirNormalized = Vector2.Zero;
             OnHit(destroyed: true);
         }
         return _reboundedBullet;
     }
 
-    public virtual void DoRebound(Vec2 pos, float dir, float rng)
+    public virtual void DoRebound(Vector2 pos, float dir, float rng)
     {
         Rebound(pos, dir, rng);
     }
 
-    protected virtual void Rebound(Vec2 pos, float dir, float rng)
+    protected virtual void Rebound(Vector2 pos, float dir, float rng)
     {
         reboundBulletsCreated++;
         Bullet bullet = ammo.GetBullet(pos.X, pos.Y, null, 0f - dir, firedFrom, rng, _tracer);
@@ -307,15 +308,15 @@ public class Bullet : Thing
         Level.Add(bullet);
     }
 
-    public virtual void OnCollide(Vec2 pos, Thing t, bool willBeStopped)
+    public virtual void OnCollide(Vector2 pos, Thing t, bool willBeStopped)
     {
     }
 
-    protected virtual bool RaycastBullet(Vec2 p1, Vec2 p2, Vec2 dir, float length, List<MaterialThing> collideList)
+    protected virtual bool RaycastBullet(Vector2 p1, Vector2 p2, Vector2 dir, float length, List<MaterialThing> collideList)
     {
         int steps = (int)Math.Ceiling(length);
         currentTravel = p1;
-        _ = Vec2.Zero;
+        _ = Vector2.Zero;
         bool stopOnHit = false;
         reboundCalled = false;
         do
@@ -442,13 +443,13 @@ public class Bullet : Thing
                                 float newAngle = Maths.PointDirection(_actualStart, currentTravel);
                                 if ((int)_teleporter.teleHeight == 2 && (int)_teleporter._link.teleHeight == 2)
                                 {
-                                    Vec2 offset = _teleporter.Position - currentTravel;
+                                    Vector2 offset = _teleporter.Position - currentTravel;
                                     _teleporter = _teleporter.link;
                                     Rebound(_teleporter.Position - offset, newAngle, newLength);
                                 }
                                 else
                                 {
-                                    Vec2 offset2 = currentTravel;
+                                    Vector2 offset2 = currentTravel;
                                     if (_teleporter._dir.Y == 0f)
                                     {
                                         offset2.X = _teleporter._link.X - (_teleporter.X - currentTravel.X) + travelDirNormalized.X;
@@ -494,9 +495,9 @@ public class Bullet : Thing
                             float newLength2 = _totalLength - travelLen;
                             if (newLength2 > 0f)
                             {
-                                Vec2 normal = Vec2.Zero;
-                                Vec2 startPos = currentTravel;
-                                Vec2 oneBack = currentTravel - travelDirNormalized;
+                                Vector2 normal = Vector2.Zero;
+                                Vector2 startPos = currentTravel;
+                                Vector2 oneBack = currentTravel - travelDirNormalized;
                                 float dif = 0f;
                                 float minDif = 999.9f;
                                 if (currentTravel.Y >= thing.top && oneBack.Y < thing.top)
@@ -504,8 +505,8 @@ public class Bullet : Thing
                                     dif = Math.Abs(currentTravel.Y - oneBack.Y);
                                     if (dif < minDif)
                                     {
-                                        normal = new Vec2(0f, -1f);
-                                        startPos = new Vec2(currentTravel.X, thing.top - 1f);
+                                        normal = new Vector2(0f, -1f);
+                                        startPos = new Vector2(currentTravel.X, thing.top - 1f);
                                         minDif = dif;
                                     }
                                 }
@@ -514,8 +515,8 @@ public class Bullet : Thing
                                     dif = Math.Abs(currentTravel.Y - oneBack.Y);
                                     if (dif < minDif)
                                     {
-                                        normal = new Vec2(0f, 1f);
-                                        startPos = new Vec2(currentTravel.X, thing.bottom + 1f);
+                                        normal = new Vector2(0f, 1f);
+                                        startPos = new Vector2(currentTravel.X, thing.bottom + 1f);
                                         minDif = dif;
                                     }
                                 }
@@ -524,8 +525,8 @@ public class Bullet : Thing
                                     dif = Math.Abs(currentTravel.X - oneBack.X);
                                     if (dif < minDif)
                                     {
-                                        normal = new Vec2(1f, 0f);
-                                        startPos = new Vec2(thing.left - 1f, currentTravel.Y);
+                                        normal = new Vector2(1f, 0f);
+                                        startPos = new Vector2(thing.left - 1f, currentTravel.Y);
                                         minDif = dif;
                                     }
                                 }
@@ -534,25 +535,25 @@ public class Bullet : Thing
                                     dif = Math.Abs(currentTravel.X - oneBack.X);
                                     if (dif < minDif)
                                     {
-                                        normal = new Vec2(-1f, 0f);
-                                        startPos = new Vec2(thing.right + 1f, currentTravel.Y);
+                                        normal = new Vector2(-1f, 0f);
+                                        startPos = new Vector2(thing.right + 1f, currentTravel.Y);
                                         minDif = dif;
                                     }
                                 }
-                                if (normal == Vec2.Zero)
+                                if (normal == Vector2.Zero)
                                 {
-                                    normal = new Vec2(0f, -1f);
-                                    startPos = new Vec2(currentTravel.X, thing.top - 1f);
+                                    normal = new Vector2(0f, -1f);
+                                    startPos = new Vector2(currentTravel.X, thing.top - 1f);
                                     minDif = dif;
                                 }
-                                Vec2 incidence = travelDirNormalized;
-                                Vec2 reflection = incidence - normal * 2f * Vec2.Dot(incidence, normal);
+                                Vector2 incidence = travelDirNormalized;
+                                Vector2 reflection = incidence - normal * 2f * Vector2.Dot(incidence, normal);
                                 lastReboundSource = thing;
                                 if (reboundOnce)
                                 {
-                                    startPos += reflection.Normalized * 3f;
+                                    startPos += Vector2.Normalize(reflection) * 3f;
                                 }
-                                float newAngle2 = Maths.PointDirection(Vec2.Zero, reflection);
+                                float newAngle2 = Maths.PointDirection(Vector2.Zero, reflection);
                                 Rebound(startPos, newAngle2, newLength2);
                             }
                             didRebound = true;
@@ -587,7 +588,7 @@ public class Bullet : Thing
         ammo.OnHit(destroyed, this);
     }
 
-    protected virtual void CheckTravelPath(Vec2 pStart, Vec2 pEnd)
+    protected virtual void CheckTravelPath(Vector2 pStart, Vector2 pEnd)
     {
     }
 
@@ -596,7 +597,7 @@ public class Bullet : Thing
         travelDirNormalized = end - start;
         if (travelDirNormalized.X == float.NaN || travelDirNormalized.Y == float.NaN)
         {
-            travelDirNormalized = Vec2.One;
+            travelDirNormalized = Vector2.One;
             return;
         }
         float length = travelDirNormalized.Length();
@@ -630,7 +631,7 @@ public class Bullet : Thing
             else
             {
                 lengthDiv2 = current.length * 0.5f;
-                Vec2 halfPoint = current.p1 + travelDirNormalized * lengthDiv2;
+                Vector2 halfPoint = current.p1 + travelDirNormalized * lengthDiv2;
                 tests.Push(new TravelInfo(halfPoint, current.p2, lengthDiv2));
                 tests.Push(new TravelInfo(current.p1, halfPoint, lengthDiv2));
             }
@@ -714,10 +715,10 @@ public class Bullet : Thing
         drawdist = dist;
     }
 
-    public Vec2 GetPointOnArc(float distanceBack)
+    public Vector2 GetPointOnArc(float distanceBack)
     {
         float travelled = 0f;
-        Vec2 curTrav = prev.Last();
+        Vector2 curTrav = prev.Last();
         for (int i = prev.Count - 1; i > 0; i--)
         {
             if (i == 0)
@@ -753,10 +754,10 @@ public class Bullet : Thing
                 return;
             }
             int num = (int)Math.Ceiling((drawdist - startpoint) / 8f);
-            Vec2 prevus = prev.Last();
+            Vector2 prevus = prev.Last();
             for (int i = 0; i < num; i++)
             {
-                Vec2 cur = GetPointOnArc(i * 8);
+                Vector2 cur = GetPointOnArc(i * 8);
                 Graphics.DrawLine(cur, prevus, color * (1f - (float)i / (float)num) * base.Alpha, ammo.bulletThickness, 0.9f);
                 if (!(cur == prev.First()))
                 {
@@ -764,7 +765,7 @@ public class Bullet : Thing
                     if (i == 0 && ammo.sprite != null && !doneTravelling)
                     {
                         ammo.sprite.Depth = 1f;
-                        ammo.sprite.AngleDegrees = 0f - Maths.PointDirection(Vec2.Zero, travelDirNormalized);
+                        ammo.sprite.AngleDegrees = 0f - Maths.PointDirection(Vector2.Zero, travelDirNormalized);
                         Graphics.Draw(ammo.sprite, prevus.X, prevus.Y);
                     }
                     continue;
@@ -776,7 +777,7 @@ public class Bullet : Thing
         if (ammo.sprite != null && !doneTravelling)
         {
             ammo.sprite.Depth = base.Depth + 10;
-            ammo.sprite.AngleDegrees = 0f - Maths.PointDirection(Vec2.Zero, travelDirNormalized);
+            ammo.sprite.AngleDegrees = 0f - Maths.PointDirection(Vector2.Zero, travelDirNormalized);
             Graphics.Draw(ammo.sprite, drawEnd.X, drawEnd.Y);
         }
         float length = (drawStart - drawEnd).Length();

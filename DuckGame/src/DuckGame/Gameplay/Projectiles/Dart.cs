@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class Dart : PhysicsObject, IPlatform
@@ -21,9 +23,9 @@ public class Dart : PhysicsObject, IPlatform
     {
         _sprite = new SpriteMap("dart", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-4f, -2f);
-        collisionSize = new Vec2(9f, 4f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-4f, -2f);
+        collisionSize = new Vector2(9f, 4f);
         base.Depth = -0.5f;
         thickness = 1f;
         weight = 3f;
@@ -103,7 +105,7 @@ public class Dart : PhysicsObject, IPlatform
                     }
                     else
                     {
-                        Send.Message(new NMDartSmack(new Vec2(hSpeed * 0.7f, -1.5f), duck), duck.connection);
+                        Send.Message(new NMDartSmack(new Vector2(hSpeed * 0.7f, -1.5f), duck), duck.connection);
                     }
                 }
                 RagdollPart r = with as RagdollPart;
@@ -126,7 +128,7 @@ public class Dart : PhysicsObject, IPlatform
                     }
                     else
                     {
-                        Send.Message(new NMDartSmack(new Vec2(hSpeed * 0.7f, -1.5f), r), r.connection);
+                        Send.Message(new NMDartSmack(new Vector2(hSpeed * 0.7f, -1.5f), r), r.connection);
                     }
                 }
                 if (with is IPlatform || duck != null || r != null)
@@ -203,7 +205,7 @@ public class Dart : PhysicsObject, IPlatform
                 LightOnFire();
             }
             _sprite.frame = 0;
-            base.AngleDegrees = 0f - Maths.PointDirection(Vec2.Zero, new Vec2(hSpeed, vSpeed));
+            base.AngleDegrees = 0f - Maths.PointDirection(Vector2.Zero, new Vector2(hSpeed, vSpeed));
         }
         if (_stuck)
         {

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -274,13 +275,13 @@ public class GoodBook : Gun
         _type = "gun";
         _sprite = new SpriteMap("goodBook", 17, 12);
         graphic = _sprite;
-        Center = new Vec2(8f, 6f);
-        collisionOffset = new Vec2(-5f, -4f);
-        collisionSize = new Vec2(10f, 8f);
+        Center = new Vector2(8f, 6f);
+        collisionOffset = new Vector2(-5f, -4f);
+        collisionSize = new Vector2(10f, 8f);
         _halo = new Sprite("halo");
         _halo.CenterOrigin();
-        _holdOffset = new Vec2(3f, 4f);
-        handOffset = new Vec2(1f, 1f);
+        _holdOffset = new Vector2(3f, 4f);
+        handOffset = new Vector2(1f, 1f);
         _hasTrigger = false;
         base.bouncy = 0.4f;
         friction = 0.05f;
@@ -506,11 +507,11 @@ public class GoodBook : Gun
             Graphics.Draw(spriteArms, owner.X - (float)(5 * offDir), owner.Y + 3f + (float)(base.duck.crouch ? 3 : 0) + (float)(base.duck.sliding ? 3 : 0));
             spriteArms.Angle = a;
             spriteArms.flipH = flip;
-            handOffset = new Vec2(9999f, 9999f);
+            handOffset = new Vector2(9999f, 9999f);
         }
         else
         {
-            handOffset = new Vec2(1f, 1f);
+            handOffset = new Vector2(1f, 1f);
         }
         if (owner != null && _haloAlpha > 0.01f)
         {
@@ -524,12 +525,12 @@ public class GoodBook : Gun
             if (_ringPulse > 0f)
             {
                 int num3 = 16;
-                Vec2 prev = Vec2.Zero;
+                Vector2 prev = Vector2.Zero;
                 float range = _ammoType.range * 0.1f + (1f - _ringPulse) * (_ammoType.range * 0.9f);
                 for (int i = 0; i < num3; i++)
                 {
                     float val = Maths.DegToRad(360 / (num3 - 1) * i);
-                    Vec2 cur = new Vec2((float)Math.Cos(val) * range, (0f - (float)Math.Sin(val)) * range);
+                    Vector2 cur = new Vector2((float)Math.Cos(val) * range, (0f - (float)Math.Sin(val)) * range);
                     if (i > 0)
                     {
                         Graphics.DrawLine(owner.Position + cur, owner.Position + prev, Color.White * (_ringPulse * 0.6f), _ringPulse * 10f);

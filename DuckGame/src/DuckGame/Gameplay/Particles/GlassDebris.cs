@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class GlassDebris : PhysicsParticle
@@ -13,7 +15,7 @@ public class GlassDebris : PhysicsParticle
         _sprite.frame = Rando.Int(7);
         _sprite.color = Window.windowColors[tint] * 0.6f;
         graphic = _sprite;
-        Center = new Vec2(4f, 4f);
+        Center = new Vector2(4f, 4f);
         _bounceEfficiency = 0.3f;
         if (rotate)
         {

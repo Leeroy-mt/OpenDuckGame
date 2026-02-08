@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -6,11 +7,11 @@ public class IonCannon : Thing
 {
     public float _blast = 1f;
 
-    private Vec2 _target;
+    private Vector2 _target;
 
     public bool serverVersion;
 
-    public IonCannon(Vec2 pos, Vec2 target)
+    public IonCannon(Vector2 pos, Vector2 target)
         : base(pos.X, pos.Y)
     {
         _target = target;
@@ -18,8 +19,8 @@ public class IonCannon : Thing
 
     public override void Initialize()
     {
-        Vec2 upVec = (Position - _target).Rotate(Maths.DegToRad(-90f), Vec2.Zero).Normalized;
-        Vec2 downVec = (Position - _target).Rotate(Maths.DegToRad(90f), Vec2.Zero).Normalized;
+        Vector2 upVec = Vector2.Normalize((Position - _target).Rotate(Maths.DegToRad(-90f), Vector2.Zero));
+        Vector2 downVec = Vector2.Normalize((Position - _target).Rotate(Maths.DegToRad(90f), Vector2.Zero));
         Level.Add(new LaserLine(Position, _target - Position, upVec, 4f, Color.White, 1f, 0.03f));
         Level.Add(new LaserLine(Position, _target - Position, downVec, 4f, Color.White, 1f, 0.03f));
         Level.Add(new LaserLine(Position, _target - Position, upVec, 2.5f, Color.White, 2f, 0.03f));
@@ -31,12 +32,12 @@ public class IonCannon : Thing
         float wide = 64f;
         float numCheck = 12f;
         float inc = wide / (numCheck - 1f);
-        Vec2 checkStart = Position + upVec * wide / 2f;
+        Vector2 checkStart = Position + upVec * wide / 2f;
         HashSet<ushort> idx = new HashSet<ushort>();
         List<BlockGroup> wreckGroups = new List<BlockGroup>();
         for (int i = 0; (float)i < numCheck; i++)
         {
-            Vec2 test = checkStart + downVec * inc * i;
+            Vector2 test = checkStart + downVec * inc * i;
             foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(test, test + (_target - Position)))
             {
                 item.Destroy(new DTIncinerate(this));
@@ -107,15 +108,15 @@ public class IonCannon : Thing
         Maths.NormalizeSection(_blast, 0.6f, 1f);
         _ = _blast;
         _ = 0f;
-        Vec2 upVec = (Position - _target).Rotate(Maths.DegToRad(-90f), Vec2.Zero).Normalized;
-        Vec2 downVec = (Position - _target).Rotate(Maths.DegToRad(90f), Vec2.Zero).Normalized;
+        Vector2 upVec = Vector2.Normalize((Position - _target).Rotate(Maths.DegToRad(-90f), Vector2.Zero));
+        Vector2 downVec = Vector2.Normalize((Position - _target).Rotate(Maths.DegToRad(90f), Vector2.Zero));
         float wide = 64f;
         float numCheck = 7f;
         float inc = wide / (numCheck - 1f);
-        Vec2 checkStart = Position + upVec * wide / 2f;
+        Vector2 checkStart = Position + upVec * wide / 2f;
         for (int i = 0; (float)i < numCheck; i++)
         {
-            Vec2 vec = checkStart + downVec * inc * i;
+            Vector2 vec = checkStart + downVec * inc * i;
             Graphics.DrawLine(vec, vec + (_target - Position), Color.SkyBlue * (_blast * 0.9f), 2f, 0.9f);
         }
     }

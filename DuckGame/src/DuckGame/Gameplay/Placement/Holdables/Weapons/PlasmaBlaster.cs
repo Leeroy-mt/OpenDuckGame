@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Lasers")]
@@ -15,10 +17,10 @@ public class PlasmaBlaster : Gun
         _ammoType = new ATPlasmaBlaster();
         _type = "gun";
         graphic = new Sprite("plasmaBlaster");
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(16f, 8f);
-        _barrelOffsetTL = new Vec2(18f, 6f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(16f, 8f);
+        _barrelOffsetTL = new Vector2(18f, 6f);
         _fireSound = "plasmaFire";
         _kickForce = 1f;
         _fireRumble = RumbleIntensity.Kick;
@@ -26,7 +28,7 @@ public class PlasmaBlaster : Gun
         maxAccuracyLost = 0.9f;
         _bigFlare = new SpriteMap("plasmaFlare", 32, 32);
         _bigFlare.AddAnimation("idle", 1f, false, 0, 1, 2);
-        _bigFlare.Center = new Vec2(0f, 16f);
+        _bigFlare.Center = new Vector2(0f, 16f);
         _fullAuto = true;
         _bulletColor = Color.Orange;
         _bio = "Originally found in a crater next to a burnt power suit. It's origin and mechanism of action are unknown, but tests indicate that it is seriously badass.";
@@ -57,7 +59,7 @@ public class PlasmaBlaster : Gun
         }
         if (_flared)
         {
-            Draw(_bigFlare, base.barrelOffset + new Vec2(-8f, -1f));
+            Draw(_bigFlare, base.barrelOffset + new Vector2(-8f, -1f));
             if (_bigFlare.finished)
             {
                 _flared = false;

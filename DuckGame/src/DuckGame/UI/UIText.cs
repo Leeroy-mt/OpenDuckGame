@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -48,13 +49,13 @@ public class UIText : UIComponent
             if (minLength > 0)
                 while (_text.Length < minLength)
                     _text = " " + _text;
-            _collisionSize = new Vec2(_font.GetWidth(_text), _font.height + _heightAdd);
+            _collisionSize = new Vector2(_font.GetWidth(_text), _font.height + _heightAdd);
         }
     }
 
     public float scaleVal
     {
-        set => _font.Scale = new Vec2(value);
+        set => _font.Scale = new Vector2(value);
     }
 
     #endregion
@@ -97,8 +98,8 @@ public class UIText : UIComponent
         float yOffset = ((align & UIAlign.Top) > UIAlign.Center) ? (-height / 2) : (((align & UIAlign.Bottom) <= UIAlign.Center) ? (-_font.height / 2) : (height / 2 - _font.height));
         if (specialScale != 0)
         {
-            Vec2 s = _font.Scale;
-            _font.Scale = new Vec2(specialScale);
+            Vector2 s = _font.Scale;
+            _font.Scale = new Vector2(specialScale);
             _font.Draw(text, X + xOffset, Y + yOffset, UIMenu.disabledDraw ? Colors.BlueGray : _color, Depth, _controlProfile);
             _font.Scale = s;
         }
@@ -111,7 +112,7 @@ public class UIText : UIComponent
     {
         if (f != null)
             _font = f;
-        _collisionSize = new Vec2(_font.GetWidth(text), _font.height + _heightAdd);
+        _collisionSize = new Vector2(_font.GetWidth(text), _font.height + _heightAdd);
     }
 
     #endregion

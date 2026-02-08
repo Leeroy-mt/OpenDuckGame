@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Special", EditorItemType.Arcade)]
@@ -7,9 +9,9 @@ public class EnableWallJump : Thing
     public EnableWallJump()
     {
         graphic = new Sprite("swirl");
-        Center = new Vec2(8f, 8f);
-        collisionSize = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        collisionSize = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -8f);
         _canFlip = false;
         _visibleInGame = false;
     }

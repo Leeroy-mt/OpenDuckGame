@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -110,7 +111,7 @@ public class AIPathFinder
         }
     }
 
-    public void SetTarget(Vec2 target)
+    public void SetTarget(Vector2 target)
     {
         if (_followObject != null)
         {
@@ -130,12 +131,12 @@ public class AIPathFinder
         }
     }
 
-    public void SetTarget(Vec2 position, Vec2 target)
+    public void SetTarget(Vector2 position, Vector2 target)
     {
         _revert = null;
         _path = null;
         List<Thing> nodes = Level.current.things[typeof(PathNode)].ToList();
-        nodes.Sort((Thing a, Thing b) => (!((a.Position - position).lengthSq < (b.Position - position).lengthSq)) ? 1 : (-1));
+        nodes.Sort((Thing a, Thing b) => (!((a.Position - position).LengthSquared() < (b.Position - position).LengthSquared())) ? 1 : (-1));
         PathNode startNode = null;
         foreach (Thing t in nodes)
         {
@@ -149,7 +150,7 @@ public class AIPathFinder
         {
             return;
         }
-        nodes.Sort((Thing a, Thing b) => (!((a.Position - target).lengthSq < (b.Position - target).lengthSq)) ? 1 : (-1));
+        nodes.Sort((Thing a, Thing b) => (!((a.Position - target).LengthSquared() < (b.Position - target).LengthSquared())) ? 1 : (-1));
         PathNode endNode = null;
         foreach (Thing t2 in nodes)
         {

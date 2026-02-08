@@ -1,10 +1,11 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
 
 public class CannonGrenade : Grenade
 {
-    private List<Vec2> tail = new List<Vec2>();
+    private List<Vector2> tail = new List<Vector2>();
 
     public CannonGrenade(float xval, float yval)
         : base(xval, yval)

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Fire")]
@@ -22,16 +24,16 @@ public class FireExtinguisher : Gun
         ammo = _maxAmmo;
         _type = "gun";
         graphic = new Sprite("extinguisher");
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-3f, -8f);
-        collisionSize = new Vec2(6f, 16f);
-        _barrelOffsetTL = new Vec2(15f, 2f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-3f, -8f);
+        collisionSize = new Vector2(6f, 16f);
+        _barrelOffsetTL = new Vector2(15f, 2f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 1f;
         _guage = new SpriteMap("netGunGuage", 8, 8);
-        _holdOffset = new Vec2(0f, 2f);
+        _holdOffset = new Vector2(0f, 2f);
         if (Network.isActive)
         {
             ammo = 120;
@@ -47,8 +49,8 @@ public class FireExtinguisher : Gun
         {
             if (_smoke)
             {
-                Vec2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.5f, 0.5f));
-                Vec2 moveSpeed = new Vec2(travelDir.X * Rando.Float(0.9f, 3f), travelDir.Y * Rando.Float(0.9f, 3f));
+                Vector2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.5f, 0.5f));
+                Vector2 moveSpeed = new Vector2(travelDir.X * Rando.Float(0.9f, 3f), travelDir.Y * Rando.Float(0.9f, 3f));
                 ExtinguisherSmoke thing = new ExtinguisherSmoke(base.barrelPosition.X, base.barrelPosition.Y)
                 {
                     hSpeed = moveSpeed.X,
@@ -73,7 +75,7 @@ public class FireExtinguisher : Gun
         _guage.flipH = graphic.flipH;
         _guage.Alpha = graphic.Alpha;
         _guage.Depth = base.Depth + 1;
-        Draw(_guage, new Vec2(-6f, -8f));
+        Draw(_guage, new Vector2(-6f, -8f));
     }
 
     public override void OnPressAction()

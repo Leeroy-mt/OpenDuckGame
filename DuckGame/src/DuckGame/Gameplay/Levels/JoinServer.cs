@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class JoinServer : Level, IConnectionScreen
@@ -115,6 +117,6 @@ public class JoinServer : Level, IConnectionScreen
             }
         }
         string text = "Connecting";
-        Graphics.DrawString(text + elipsis, new Vec2(Layer.HUD.width / 2f - Graphics.GetStringWidth(text) / 2f, Layer.HUD.height / 2f - 4f), Color.White);
+        Graphics.DrawString(text + elipsis, new Vector2(Layer.HUD.width / 2f - Graphics.GetStringWidth(text) / 2f, Layer.HUD.height / 2f - 4f), Color.White);
     }
 }

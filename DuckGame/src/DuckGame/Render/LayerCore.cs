@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -158,7 +159,7 @@ public class LayerCore
         _layers.Add(new Layer("GLOW", -21));
         _glow = _layers[_layers.Count - 1];
         _glow.allowTallAspect = true;
-        _layers.Add(new Layer("LIGHTING", Layer.lightingTwoPointOh ? (-20) : (-10), null, targetLayer: true, new Vec2(Graphics.width, Graphics.height)));
+        _layers.Add(new Layer("LIGHTING", Layer.lightingTwoPointOh ? (-20) : (-10), null, targetLayer: true, new Vector2(Graphics.width, Graphics.height)));
         _lighting = _layers[_layers.Count - 1];
         _lighting.allowTallAspect = true;
         BlendState blend = new BlendState();

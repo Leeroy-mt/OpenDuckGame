@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -15,16 +16,16 @@ public class SpikesDown : Spikes
         _sprite = new SpriteMap("spikes", 16, 19);
         _sprite.speed = 0.1f;
         graphic = _sprite;
-        Center = new Vec2(8f, 14f);
-        collisionOffset = new Vec2(-7f, -2f);
-        collisionSize = new Vec2(13f, 5f);
+        Center = new Vector2(8f, 14f);
+        collisionOffset = new Vector2(-7f, -2f);
+        collisionSize = new Vector2(13f, 5f);
         _editorName = "Spikes Down";
         editorTooltip = "Pointy and dangerous.";
         physicsMaterial = PhysicsMaterial.Metal;
         editorCycleType = typeof(SpikesLeft);
         Angle = (float)Math.PI;
         up = false;
-        base.editorOffset = new Vec2(0f, -6f);
+        base.editorOffset = new Vector2(0f, -6f);
         base.hugWalls = WallHug.Ceiling;
         _killImpact = ImpactedFrom.Bottom;
     }

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Arcade", EditorItemType.ArcadeNew)]
@@ -27,10 +29,10 @@ internal class MirrorMode : Thing
         graphic = _sprite;
         mode = new EditorProperty<Setting>(Setting.Vertical, this);
         mode.value = Setting.Vertical;
-        collisionSize = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-4f, -4f);
-        Center = new Vec2(8f, 8f);
-        base.editorOffset = new Vec2(8f, 8f);
+        collisionSize = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-4f, -4f);
+        Center = new Vector2(8f, 8f);
+        base.editorOffset = new Vector2(8f, 8f);
         _visibleInGame = false;
     }
 }

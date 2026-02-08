@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class OpenPresent : PhysicsParticle
@@ -10,7 +12,7 @@ public class OpenPresent : PhysicsParticle
         _sprite = new SpriteMap("presents", 16, 16);
         _sprite.frame = frame + 8;
         graphic = _sprite;
-        Center = new Vec2(8f, 13f);
+        Center = new Vector2(8f, 13f);
         hSpeed = 0f;
         vSpeed = 0f;
         _bounceEfficiency = 0f;

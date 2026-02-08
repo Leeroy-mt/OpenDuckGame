@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -403,11 +404,11 @@ public class ArcadeHUD : Thing
             card.Alpha = base.Alpha;
             if (index == _selected && card == _viewing)
             {
-                card.Position = new Vec2(31f, _lerpOffset);
+                card.Position = new Vector2(31f, _lerpOffset);
             }
             else
             {
-                card.Position = new Vec2(31f, ypos + 12f + (float)(index * 44));
+                card.Position = new Vector2(31f, ypos + 12f + (float)(index * 44));
             }
             card.Draw();
             index++;

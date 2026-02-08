@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -78,7 +79,7 @@ public class PlusOne : Thing
         if (_profile != null && _profile.persona != null && !(base.anchor == null))
         {
             Position = base.anchor.position;
-            _font.Scale = new Vec2(1f + pulse * 0.5f);
+            _font.Scale = new Vector2(1f + pulse * 0.5f);
             _num = 1;
             string text = "+" + _num;
             float xposit = base.X - _font.GetWidth(text) / 2f;

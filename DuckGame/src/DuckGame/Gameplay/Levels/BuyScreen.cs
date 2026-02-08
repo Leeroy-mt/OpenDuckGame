@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Globalization;
 
 namespace DuckGame;
@@ -117,14 +118,14 @@ public class BuyScreen : Level
             _font.Draw(text, layer.width / 2f - _font.GetWidth(text) / 2f + 15f, layer.height / 2f - 18f, Color.White, 0.8f);
             if (_buy)
             {
-                Vec2 vec = new Vec2(layer.width / 2f - (float)(_payScreen.width / 2) + 6f, layer.height / 2f - 25f);
-                Vec2 size = new Vec2((float)_payScreen.width - 11.5f, 22f);
+                Vector2 vec = new Vector2(layer.width / 2f - (float)(_payScreen.width / 2) + 6f, layer.height / 2f - 25f);
+                Vector2 size = new Vector2((float)_payScreen.width - 11.5f, 22f);
                 Graphics.DrawRect(vec, vec + size, Color.White, 0.9f, filled: false);
             }
             else
             {
-                Vec2 vec2 = new Vec2(layer.width / 2f - (float)(_payScreen.width / 2) + 6f, layer.height / 2f + 3f);
-                Vec2 size2 = new Vec2((float)_payScreen.width - 11.5f, 22f);
+                Vector2 vec2 = new Vector2(layer.width / 2f - (float)(_payScreen.width / 2) + 6f, layer.height / 2f + 3f);
+                Vector2 size2 = new Vector2((float)_payScreen.width - 11.5f, 22f);
                 Graphics.DrawRect(vec2, vec2 + size2, Color.White, 0.9f, filled: false);
             }
             text = "PLAY DEMO";

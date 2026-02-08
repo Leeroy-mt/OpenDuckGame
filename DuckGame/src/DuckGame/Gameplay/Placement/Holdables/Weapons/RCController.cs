@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Misc")]
@@ -36,10 +38,10 @@ public class RCController : Gun
         _type = "gun";
         _sprite = new SpriteMap("rcController", 32, 32);
         graphic = _sprite;
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-6f, -4f);
-        collisionSize = new Vec2(12f, 9f);
-        _barrelOffsetTL = new Vec2(26f, 14f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-6f, -4f);
+        collisionSize = new Vector2(12f, 9f);
+        _barrelOffsetTL = new Vector2(26f, 14f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
@@ -121,7 +123,7 @@ public class RCController : Gun
         base.Update();
     }
 
-    protected override bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected override bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         _burning = true;
         return true;

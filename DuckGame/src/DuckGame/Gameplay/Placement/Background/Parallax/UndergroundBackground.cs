@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Background|Parallax")]
@@ -18,9 +20,9 @@ public class UndergroundBackground : BackgroundUpdater
         {
             frame = 4
         };
-        Center = new Vec2(8f, 8f);
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(-8f, -8f);
         base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
@@ -60,9 +62,9 @@ public class UndergroundBackground : BackgroundUpdater
 
     public override void Update()
     {
-        Vec2 vec = new Vec2(0f, 10f);
+        Vector2 vec = new Vector2(0f, 10f);
         Matrix m = Level.current.camera.getMatrix();
-        int yScissor = (int)Vec2.Transform(vec, m).Y;
+        int yScissor = (int)Vector2.Transform(vec, m).Y;
         if (yScissor < 0)
         {
             yScissor = 0;
@@ -72,11 +74,11 @@ public class UndergroundBackground : BackgroundUpdater
             yScissor = Resolution.current.y;
         }
         float yMul = (float)Resolution.current.y / (float)Graphics.height;
-        Vec2 wallScissor = BackgroundUpdater.GetWallScissor();
+        Vector2 wallScissor = BackgroundUpdater.GetWallScissor();
         _undergroundRocks.scissor = new Rectangle((int)wallScissor.X, (float)yScissor * yMul, (int)wallScissor.Y, Resolution.current.y - yScissor);
-        Vec2 vec2 = new Vec2(0f, -10f);
+        Vector2 vec2 = new Vector2(0f, -10f);
         m = Level.current.camera.getMatrix();
-        yScissor = (int)(Vec2.Transform(vec2, m).Y * yMul);
+        yScissor = (int)(Vector2.Transform(vec2, m).Y * yMul);
         if (yScissor < 0)
         {
             yScissor = 0;

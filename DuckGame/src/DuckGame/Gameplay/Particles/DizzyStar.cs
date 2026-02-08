@@ -1,10 +1,12 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class DizzyStar : PhysicsParticle
 {
     private float maxSize;
 
-    public DizzyStar(float xpos, float ypos, Vec2 dir)
+    public DizzyStar(float xpos, float ypos, Vector2 dir)
         : base(xpos, ypos)
     {
         graphic = new Sprite("dizzyStar");

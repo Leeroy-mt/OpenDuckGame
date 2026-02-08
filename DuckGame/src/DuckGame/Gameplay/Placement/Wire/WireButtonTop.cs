@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [BaggedProperty("isOnlineCapable", true)]
@@ -15,20 +17,20 @@ public class WireButtonTop : MaterialThing
         switch (orientation)
         {
             case 0:
-                collisionSize = new Vec2(12f, 4f);
-                collisionOffset = new Vec2(-6f, -2f);
+                collisionSize = new Vector2(12f, 4f);
+                collisionOffset = new Vector2(-6f, -2f);
                 break;
             case 1:
-                collisionSize = new Vec2(4f, 12f);
-                collisionOffset = new Vec2(-2f, -6f);
+                collisionSize = new Vector2(4f, 12f);
+                collisionOffset = new Vector2(-2f, -6f);
                 break;
             case 2:
-                collisionSize = new Vec2(12f, 4f);
-                collisionOffset = new Vec2(-6f, -2f);
+                collisionSize = new Vector2(12f, 4f);
+                collisionOffset = new Vector2(-6f, -2f);
                 break;
             case 3:
-                collisionSize = new Vec2(4f, 12f);
-                collisionOffset = new Vec2(-2f, -6f);
+                collisionSize = new Vector2(4f, 12f);
+                collisionOffset = new Vector2(-2f, -6f);
                 break;
         }
     }

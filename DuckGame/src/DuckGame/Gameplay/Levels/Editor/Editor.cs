@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -31,9 +32,9 @@ public class Editor : Level
 
         public string explanation;
 
-        public Vec2 position;
+        public Vector2 position;
 
-        public Vec2 size;
+        public Vector2 size;
 
         public bool threeFingerGesture;
 
@@ -83,7 +84,7 @@ public class Editor : Level
     public static string placementItemDetails = "";
     public static string tooltip;
 
-    public static Vec2 openPosition = Vec2.Zero;
+    public static Vector2 openPosition = Vector2.Zero;
 
     public static Texture2D previewCapture;
     public static LevelData _currentLevelData = new();
@@ -116,10 +117,10 @@ public class Editor : Level
     public int generatorComplexity;
     public int placementTotalCost;
 
-    public Vec2 _genSize = new(3);
-    public Vec2 _genTilePos = new(1);
-    public Vec2 _editTilePos = new(1);
-    public Vec2 _prevEditTilePos = new(1);
+    public Vector2 _genSize = new(3);
+    public Vector2 _genTilePos = new(1);
+    public Vector2 _editTilePos = new(1);
+    public Vector2 _prevEditTilePos = new(1);
 
     public MaterialSelection _selectionMaterial;
     public MaterialSelection _selectionMaterialPaste;
@@ -222,25 +223,25 @@ public class Editor : Level
     string _additionalSaveDirectory;
     string _prevSearchString = "";
 
-    Vec2 _sizeRestriction = new(800, 640);
-    Vec2 _topLeftMost = new(99999);
-    Vec2 _bottomRightMost = new(-99999);
-    Vec2 _camSize;
-    Vec2 _panAnchor;
-    Vec2 _tilePosition;
-    Vec2 _tileDragContext = Vec2.MinValue;
-    Vec2 _tilePositionPrev;
-    Vec2 _tileDragDif;
-    Vec2 _lastTilePosDraw;
-    Vec2 middleClickPos;
-    Vec2 lastMousePos = Vec2.Zero;
-    Vec2 _selectionDragStart = Vec2.Zero;
-    Vec2 _selectionDragEnd = Vec2.Zero;
-    Vec2 _moveDragStart = Vec2.Zero;
-    Vec2 _copyCenter;
-    Vec2 pasteOffset;
+    Vector2 _sizeRestriction = new(800, 640);
+    Vector2 _topLeftMost = new(99999);
+    Vector2 _bottomRightMost = new(-99999);
+    Vector2 _camSize;
+    Vector2 _panAnchor;
+    Vector2 _tilePosition;
+    Vector2 _tileDragContext = Vector2.MinValue;
+    Vector2 _tilePositionPrev;
+    Vector2 _tileDragDif;
+    Vector2 _lastTilePosDraw;
+    Vector2 middleClickPos;
+    Vector2 lastMousePos = Vector2.Zero;
+    Vector2 _selectionDragStart = Vector2.Zero;
+    Vector2 _selectionDragEnd = Vector2.Zero;
+    Vector2 _moveDragStart = Vector2.Zero;
+    Vector2 _copyCenter;
+    Vector2 pasteOffset;
     Rectangle _ultimateBounds;
-    Vec2 _procDrawOffset = Vec2.Zero;
+    Vector2 _procDrawOffset = Vector2.Zero;
 
     EditorCam _editorCam;
     SpriteMap _cursor;
@@ -1242,10 +1243,10 @@ public class Editor : Level
         Layer.Game.camera.height *= 2f;
         CalculateGridRestriction();
         EnterEditor();
-        _camSize = new Vec2(camera.width, camera.height);
+        _camSize = new Vector2(camera.width, camera.height);
         _font = new BitmapFont("biosFont", 8);
         _input = InputProfile.Get(InputProfile.MPPlayer1);
-        _tilePosition = new Vec2(0);
+        _tilePosition = new Vector2(0);
         _tilePositionPrev = _tilePosition;
         _objectMenu = new PlacementMenu(0, 0);
         Add(_objectMenu);
@@ -1269,7 +1270,7 @@ public class Editor : Level
         Add(new TileButton(0, 0, new FieldBinding(this, "_doGen"), new FieldBinding(this, "_miniMode"), new SpriteMap("Editor/regenBlock", 16, 16), "REGENERATE - HOLD @SELECT@ AND MOVE @DPAD@", TileButtonAlign.TileGridTopRight));
         _notify = new NotifyDialogue();
         Add(_notify);
-        Vec2 buttonSizeAdd = new(12);
+        Vector2 buttonSizeAdd = new(12);
         _touchButtons.Add(new EditorTouchButton
         {
             caption = "MENU",
@@ -1301,18 +1302,18 @@ public class Editor : Level
             explanation = "",
             state = EditorTouchState.PickTile
         };
-        _editTilesButton.size = new Vec2(Graphics.GetStringWidth(_editTilesButton.caption) + 6, 15) + buttonSizeAdd;
+        _editTilesButton.size = new Vector2(Graphics.GetStringWidth(_editTilesButton.caption) + 6, 15) + buttonSizeAdd;
         _editTilesButton.position = Layer.HUD.camera.OffsetTL(10, 10);
-        Vec2 buttonPlacement = Layer.HUD.camera.OffsetBR(-14, -14);
+        Vector2 buttonPlacement = Layer.HUD.camera.OffsetBR(-14, -14);
         for (int i = _touchButtons.Count - 1; i >= 0; i--)
         {
             EditorTouchButton button = _touchButtons[i];
             if (i == _touchButtons.Count - 1)
             {
-                _cancelButton.size = new Vec2(Graphics.GetStringWidth(_cancelButton.caption) + 6, 15) + buttonSizeAdd;
+                _cancelButton.size = new Vector2(Graphics.GetStringWidth(_cancelButton.caption) + 6, 15) + buttonSizeAdd;
                 _cancelButton.position = buttonPlacement - _cancelButton.size;
             }
-            button.size = new Vec2(Graphics.GetStringWidth(button.caption) + 6, 15) + buttonSizeAdd;
+            button.size = new Vector2(Graphics.GetStringWidth(button.caption) + 6, 15) + buttonSizeAdd;
             button.position = buttonPlacement - button.size;
             buttonPlacement.X -= button.size.X + 4;
         }
@@ -1344,7 +1345,7 @@ public class Editor : Level
         tooltip = null;
         foreach (Thing thing in things)
             thing.DoEditorUpdate();
-        if (lastMousePos == Vec2.Zero)
+        if (lastMousePos == Vector2.Zero)
             lastMousePos = Mouse.position;
         if (clickedContextBackground)
         {
@@ -1360,7 +1361,7 @@ public class Editor : Level
             {
                 if (inputMode == EditorInput.Mouse)
                 {
-                    _tilePosition = Maths.Snap(Mouse.positionScreen + new Vec2(8f, 8f), 16f, 16f);
+                    _tilePosition = Maths.Snap(Mouse.positionScreen + new Vector2(8f, 8f), 16f, 16f);
                     _tilePositionPrev = _tilePosition;
                 }
                 inputMode = EditorInput.Gamepad;
@@ -1472,7 +1473,7 @@ public class Editor : Level
             }
         }
         if (!Graphics.inFocus && !_updateEvenWhenInactive)
-            _tileDragDif = Vec2.MaxValue;
+            _tileDragDif = Vector2.MaxValue;
         else if (clickedMenu)
             clickedMenu = false;
         else
@@ -1610,7 +1611,7 @@ public class Editor : Level
                 clicked = TouchScreen.GetTap() != Touch.None;
             if (_cursorMode == CursorMode.Normal && (Keyboard.Down(Keys.RightShift) || Keyboard.Down(Keys.LeftShift)))
             {
-                Vec2 offset = new Vec2(0f, 0f);
+                Vector2 offset = new Vector2(0f, 0f);
                 if (Keyboard.Pressed(Keys.Up))
                     offset.Y -= 16f;
                 if (Keyboard.Pressed(Keys.Down))
@@ -1619,7 +1620,7 @@ public class Editor : Level
                     offset.X -= 16f;
                 if (Keyboard.Pressed(Keys.Right))
                     offset.X += 16f;
-                if (offset != Vec2.Zero)
+                if (offset != Vector2.Zero)
                 {
                     foreach (Thing t6 in Level.current.things)
                     {
@@ -1674,11 +1675,11 @@ public class Editor : Level
                     }
                     _procXPos = (int)_editTilePos.X;
                     _procYPos = (int)_editTilePos.Y;
-                    _genTilePos = new Vec2(_procXPos, _procYPos);
+                    _genTilePos = new Vector2(_procXPos, _procYPos);
                     _prevEditTilePos = _editTilePos;
                     int reqH = 144;
                     int reqW = 192;
-                    _procDrawOffset += new Vec2((_procXPos - _prevProcX) * reqW, (_procYPos - _prevProcY) * reqH);
+                    _procDrawOffset += new Vector2((_procXPos - _prevProcX) * reqW, (_procYPos - _prevProcY) * reqH);
                     _prevProcX = _procXPos;
                     _prevProcY = _procYPos;
                 }
@@ -1714,7 +1715,7 @@ public class Editor : Level
                 while (true)
                 {
                     _currentMapNode = LevelGenerator.MakeLevel(centerTile, (_pathEast && _pathWest), _procSeed, genType, _procTilesWide, _procTilesHigh, _loadPosX, _loadPosY);
-                    _procDrawOffset = new Vec2(0);
+                    _procDrawOffset = new Vector2(0);
                     _procContext = new GameContext();
                     _procContext.ApplyStates();
                     lev = new Level
@@ -1815,7 +1816,7 @@ public class Editor : Level
             if (_placeObjects.Count > 0)
             {
                 foreach (Thing t7 in _placeObjects)
-                    foreach (Thing item2 in CheckRectAll<IDontMove>(t7.topLeft + new Vec2(-16), t7.bottomRight + new Vec2(16)))
+                    foreach (Thing item2 in CheckRectAll<IDontMove>(t7.topLeft + new Vector2(-16), t7.bottomRight + new Vector2(16)))
                         item2.EditorObjectsChanged();
                 things.CleanAddList();
                 _placeObjects.Clear();
@@ -1885,7 +1886,7 @@ public class Editor : Level
                 {
                     if (_input.Pressed("CANCEL"))
                         _selectionDragStart = _tilePosition;
-                    if (_selectionDragStart != Vec2.Zero && (_selectionDragStart - _tilePosition).Length() > 4f)
+                    if (_selectionDragStart != Vector2.Zero && (_selectionDragStart - _tilePosition).Length() > 4f)
                     {
                         _dragSelectShiftModifier = _selection.Count != 0;
                         _cursorMode = CursorMode.Selection;
@@ -1893,7 +1894,7 @@ public class Editor : Level
                         return;
                     }
                     if (_input.Released("CANCEL"))
-                        _selectionDragStart = Vec2.Zero;
+                        _selectionDragStart = Vector2.Zero;
                 }
                 else if (inputMode == EditorInput.Mouse)
                 {
@@ -1913,14 +1914,14 @@ public class Editor : Level
                             _currentDragSelectionHover.Add(_secondaryHover);
                         }
                         UpdateSelection(pObjectsChanged: false);
-                        _selectionDragStart = Vec2.Zero;
+                        _selectionDragStart = Vector2.Zero;
                         if (_selection.Count > 0)
                         {
                             _cursorMode = CursorMode.HasSelection;
                             return;
                         }
                     }
-                    if (_selectionDragStart != Vec2.Zero && (_selectionDragStart - Mouse.positionScreen).Length() > 8f)
+                    if (_selectionDragStart != Vector2.Zero && (_selectionDragStart - Mouse.positionScreen).Length() > 8f)
                     {
                         if (!_dragSelectShiftModifier)
                         {
@@ -1932,7 +1933,7 @@ public class Editor : Level
                         return;
                     }
                     if (Mouse.right == InputState.Released || Mouse.left == InputState.Released)
-                        _selectionDragStart = Vec2.Zero;
+                        _selectionDragStart = Vector2.Zero;
                 }
             }
             if ((_placementMenu == null || _editMode) && _hoverMode == 0)
@@ -2129,8 +2130,8 @@ public class Editor : Level
                     inc = scroll * 32f;
                 else if (inputMode == EditorInput.Touch)
                     inc = scroll;
-                Vec2 prevSize = new(camera.width, camera.height);
-                Vec2 mouse = camera.transformScreenVector(Mouse.mousePos);
+                Vector2 prevSize = new(camera.width, camera.height);
+                Vector2 mouse = camera.transformScreenVector(Mouse.mousePos);
                 if (inputMode == EditorInput.Touch && _twoFingerGesture)
                     mouse = TouchScreen.GetAverageOfTouches().positionCamera;
                 if (inputMode == EditorInput.Gamepad)
@@ -2139,9 +2140,9 @@ public class Editor : Level
                 if (camera.width < 64f)
                     camera.width = 64f;
                 camera.height = camera.width / Resolution.current.aspect;
-                Vec2 camPos = camera.position;
+                Vector2 camPos = camera.position;
                 (Matrix.CreateTranslation(new Vec3(camPos.X, camPos.Y, 0)) * Matrix.CreateTranslation(new Vec3(0 - mouse.X, 0 - mouse.Y, 0)) * Matrix.CreateScale(camera.width / prevSize.X, camera.height / prevSize.Y, 1) * Matrix.CreateTranslation(new Vec3(mouse.X, mouse.Y, 0))).Decompose(out var _, out var _, out var translation);
-                camera.position = new Vec2(translation.x, translation.y);
+                camera.position = new Vector2(translation.x, translation.y);
             }
             didUIScroll = false;
             if (inputMode == EditorInput.Mouse)
@@ -2150,7 +2151,7 @@ public class Editor : Level
                     _panAnchor = Mouse.position;
                 if (Mouse.middle == InputState.Down)
                 {
-                    Vec2 dif = Mouse.position - _panAnchor;
+                    Vector2 dif = Mouse.position - _panAnchor;
                     _panAnchor = Mouse.position;
                     float mult = camera.width / Layer.HUD.width;
                     if ((double)dif.Length() > 0.01)
@@ -2166,7 +2167,7 @@ public class Editor : Level
             }
             else if (inputMode == EditorInput.Touch && _twoFingerGesture && !_twoFingerZooming)
             {
-                Vec2 dif2 = TouchScreen.GetAverageOfTouches().positionHUD - _panAnchor;
+                Vector2 dif2 = TouchScreen.GetAverageOfTouches().positionHUD - _panAnchor;
                 _panAnchor = TouchScreen.GetAverageOfTouches().positionHUD;
                 float mult2 = base.camera.width / Layer.HUD.width;
                 if ((double)dif2.Length() > 0.1)
@@ -2254,7 +2255,7 @@ public class Editor : Level
             }
             if (_move != null)
             {
-                _move.Position = new Vec2(_tilePosition);
+                _move.Position = _tilePosition;
             }
             UpdateDragSelection();
             if (!_editMode && !_copyMode && _cursorMode == CursorMode.Normal && !_dragSelectShiftModifier && _placementMenu == null)
@@ -2293,15 +2294,15 @@ public class Editor : Level
                 }
                 if (_dragMode)
                 {
-                    if (_tileDragDif == Vec2.MaxValue || inputMode == EditorInput.Gamepad)
+                    if (_tileDragDif == Vector2.MaxValue || inputMode == EditorInput.Gamepad)
                         _tileDragDif = _tilePosition;
-                    Vec2 snappedTilePos = Maths.Snap(_tilePosition, _cellSize, _cellSize);
-                    Vec2 lerp = _tilePosition;
-                    Vec2 prevPlace = Vec2.MaxValue;
+                    Vector2 snappedTilePos = Maths.Snap(_tilePosition, _cellSize, _cellSize);
+                    Vector2 lerp = _tilePosition;
+                    Vector2 prevPlace = Vector2.MaxValue;
                     do
                     {
-                        Vec2 snap = Maths.Snap(lerp, _cellSize, _cellSize);
-                        if ((Keyboard.control || (Input.Down("SELECT") && Input.Down("MENU1"))) && _tileDragContext == Vec2.MinValue)
+                        Vector2 snap = Maths.Snap(lerp, _cellSize, _cellSize);
+                        if ((Keyboard.control || (Input.Down("SELECT") && Input.Down("MENU1"))) && _tileDragContext == Vector2.MinValue)
                             _tileDragContext = snap;
                         if (snap == Maths.Snap(_tileDragDif, _cellSize, _cellSize) && snap != Maths.Snap(_tilePosition, _cellSize, _cellSize))
                             break;
@@ -2310,7 +2311,7 @@ public class Editor : Level
                             snap = _tilePosition;
                             _tileDragDif = _tilePosition;
                         }
-                        lerp = Lerp.Vec2(lerp, _tileDragDif, _cellSize);
+                        lerp = Lerp.Vector2(lerp, _tileDragDif, _cellSize);
                         if (_tileDragDif != _tilePosition)
                             UpdateHover(placementLayer, snap, isDrag: true);
                         if (!_deleteMode && _placementType != null)
@@ -2390,7 +2391,7 @@ public class Editor : Level
                     disableDragMode();
             }
             if (!Keyboard.control && !Input.Down("MENU1"))
-                _tileDragContext = Vec2.MinValue;
+                _tileDragContext = Vector2.MinValue;
             _tileDragDif = _tilePosition;
             _placingTiles = false;
             if (_placementType is BackgroundTile)
@@ -2476,20 +2477,20 @@ public class Editor : Level
             foreach (Thing thing2 in things)
                 thing2.DoEditorRender();
         if (layer == _procLayer && _procTarget != null && _procContext != null)
-            Graphics.Draw(_procTarget, new Vec2(0), null, Color.White * 0.5f, 0, Vec2.Zero, new Vec2(1), SpriteEffects.None);
+            Graphics.Draw(_procTarget, new Vector2(0), null, Color.White * 0.5f, 0, Vector2.Zero, new Vector2(1), SpriteEffects.None);
         if (layer == _gridLayer)
         {
             backgroundColor = new Color(20, 20, 20);
             Color gridColor = new(38, 38, 38);
             if (arcadeMachineMode)
-                Graphics.DrawRect(_levelThings[0].Position + new Vec2(-17, -21), _levelThings[0].Position + new Vec2(18, 21), gridColor, -0.9f, filled: false);
+                Graphics.DrawRect(_levelThings[0].Position + new Vector2(-17, -21), _levelThings[0].Position + new Vector2(18, 21), gridColor, -0.9f, filled: false);
             else
             {
                 float x = (0f - _cellSize) / 2f;
                 float y = (0f - _cellSize) / 2f;
                 if (_sizeRestriction.X > 0f)
                 {
-                    Vec2 center = -new Vec2(_gridW * _cellSize / 2, (_gridH - 1) * _cellSize / 2) + new Vec2(8, 0);
+                    Vector2 center = -new Vector2(_gridW * _cellSize / 2, (_gridH - 1) * _cellSize / 2) + new Vector2(8, 0);
                     x += (int)(center.X / _cellSize) * _cellSize;
                     y += (int)(center.Y / _cellSize) * _cellSize;
                 }
@@ -2531,13 +2532,13 @@ public class Editor : Level
                 int numHor = (int)(reqW / _cellSize);
                 int numVert = (int)(reqH / _cellSize);
                 for (int xpos = 0; xpos < numHor + 1; xpos++)
-                    Graphics.DrawLine(new Vec2(x + xpos * _cellSize, y), new Vec2(x + xpos * _cellSize, y + numVert * _cellSize), gridColor, 2, -0.9f);
+                    Graphics.DrawLine(new Vector2(x + xpos * _cellSize, y), new Vector2(x + xpos * _cellSize, y + numVert * _cellSize), gridColor, 2, -0.9f);
                 for (int ypos = 0; ypos < numVert + 1; ypos++)
-                    Graphics.DrawLine(new Vec2(x, y + ypos * _cellSize), new Vec2(x + numHor * _cellSize, y + ypos * _cellSize), gridColor, 2, -0.9f);
-                Graphics.DrawLine(new Vec2(_ultimateBounds.Left, _ultimateBounds.Top), new Vec2(_ultimateBounds.Right, _ultimateBounds.Top), gridColor, 2, -0.9f);
-                Graphics.DrawLine(new Vec2(_ultimateBounds.Right, _ultimateBounds.Top), new Vec2(_ultimateBounds.Right, _ultimateBounds.Bottom), gridColor, 2, -0.9f);
-                Graphics.DrawLine(new Vec2(_ultimateBounds.Right, _ultimateBounds.Bottom), new Vec2(_ultimateBounds.Left, _ultimateBounds.Bottom), gridColor, 2, -0.9f);
-                Graphics.DrawLine(new Vec2(_ultimateBounds.Left, _ultimateBounds.Bottom), new Vec2(_ultimateBounds.Left, _ultimateBounds.Top), gridColor, 2, -0.9f);
+                    Graphics.DrawLine(new Vector2(x, y + ypos * _cellSize), new Vector2(x + numHor * _cellSize, y + ypos * _cellSize), gridColor, 2, -0.9f);
+                Graphics.DrawLine(new Vector2(_ultimateBounds.Left, _ultimateBounds.Top), new Vector2(_ultimateBounds.Right, _ultimateBounds.Top), gridColor, 2, -0.9f);
+                Graphics.DrawLine(new Vector2(_ultimateBounds.Right, _ultimateBounds.Top), new Vector2(_ultimateBounds.Right, _ultimateBounds.Bottom), gridColor, 2, -0.9f);
+                Graphics.DrawLine(new Vector2(_ultimateBounds.Right, _ultimateBounds.Bottom), new Vector2(_ultimateBounds.Left, _ultimateBounds.Bottom), gridColor, 2, -0.9f);
+                Graphics.DrawLine(new Vector2(_ultimateBounds.Left, _ultimateBounds.Bottom), new Vector2(_ultimateBounds.Left, _ultimateBounds.Top), gridColor, 2, -0.9f);
                 if (_miniMode)
                 {
                     int sides = 0;
@@ -2546,7 +2547,7 @@ public class Editor : Level
                     else
                     {
                         _sideArrow.color = new Color(100, 200, 100);
-                        Graphics.DrawLine(new Vec2(x + (reqW / 2), y - 10), new Vec2(x + (reqW / 2), y + (reqH / 2) - 8), Color.Lime * 0.06f, 16);
+                        Graphics.DrawLine(new Vector2(x + (reqW / 2), y - 10), new Vector2(x + (reqW / 2), y + (reqH / 2) - 8), Color.Lime * 0.06f, 16);
                         sides++;
                     }
                     if (!_pathWest)
@@ -2554,7 +2555,7 @@ public class Editor : Level
                     else
                     {
                         _sideArrow.color = new Color(100, 200, 100);
-                        Graphics.DrawLine(new Vec2(x - 10, y + (reqH / 2)), new Vec2(x + (reqW / 2) - 8, y + (reqH / 2)), Color.Lime * 0.06f, 16);
+                        Graphics.DrawLine(new Vector2(x - 10, y + (reqH / 2)), new Vector2(x + (reqW / 2) - 8, y + (reqH / 2)), Color.Lime * 0.06f, 16);
                         sides++;
                     }
                     if (!_pathEast)
@@ -2562,7 +2563,7 @@ public class Editor : Level
                     else
                     {
                         _sideArrow.color = new Color(100, 200, 100);
-                        Graphics.DrawLine(new Vec2(x + (reqW / 2) + 8, y + (reqH / 2)), new Vec2(x + reqW + 10, y + (reqH / 2)), Color.Lime * 0.06f, 16);
+                        Graphics.DrawLine(new Vector2(x + (reqW / 2) + 8, y + (reqH / 2)), new Vector2(x + reqW + 10, y + (reqH / 2)), Color.Lime * 0.06f, 16);
                         sides++;
                     }
                     if (!_pathSouth)
@@ -2570,11 +2571,11 @@ public class Editor : Level
                     else
                     {
                         _sideArrow.color = new Color(100, 200, 100);
-                        Graphics.DrawLine(new Vec2(x + (reqW / 2), y + (reqH / 2) + 8), new Vec2(x + (reqW / 2), y + reqH + 10), Color.Lime * 0.06f, 16);
+                        Graphics.DrawLine(new Vector2(x + (reqW / 2), y + (reqH / 2) + 8), new Vector2(x + (reqW / 2), y + reqH + 10), Color.Lime * 0.06f, 16);
                         sides++;
                     }
                     if (sides > 0)
-                        Graphics.DrawLine(new Vec2(x + (reqW / 2) - 8, y + (reqH / 2)), new Vec2(x + (reqW / 2) + 8, y + (reqH / 2)), Color.Lime * 0.06f, 16);
+                        Graphics.DrawLine(new Vector2(x + (reqW / 2) - 8, y + (reqH / 2)), new Vector2(x + (reqW / 2) + 8, y + (reqH / 2)), Color.Lime * 0.06f, 16);
                 }
             }
         }
@@ -2605,7 +2606,7 @@ public class Editor : Level
                         int xDraw = i - _procXPos;
                         int yDraw = j - _procYPos;
                         if (i != _procXPos || j != _procYPos)
-                            Graphics.DrawRect(new Vec2(x2 + (reqW2 * xDraw), y2 + (reqH2 * yDraw)), new Vec2(x2 + (reqW2 * (xDraw + 1)), y2 + (reqH2 * (yDraw + 1))), Color.White * 0.2f, 1, filled: false);
+                            Graphics.DrawRect(new Vector2(x2 + (reqW2 * xDraw), y2 + (reqH2 * yDraw)), new Vector2(x2 + (reqW2 * (xDraw + 1)), y2 + (reqH2 * (yDraw + 1))), Color.White * 0.2f, 1, filled: false);
                     }
                 }
             }
@@ -2615,31 +2616,31 @@ public class Editor : Level
                 {
                     if (_secondaryHover != null && _placementMode)
                     {
-                        Vec2 p = _secondaryHover.topLeft;
-                        Vec2 p2 = _secondaryHover.bottomRight;
+                        Vector2 p = _secondaryHover.topLeft;
+                        Vector2 p2 = _secondaryHover.bottomRight;
                         Graphics.DrawRect(p, p2, Color.White * 0.5f, 1, filled: false);
                     }
                     else if (_hover != null && _placementMode && (inputMode != EditorInput.Touch || _editMode))
                     {
-                        Vec2 p3 = _hover.topLeft;
-                        Vec2 p4 = _hover.bottomRight;
+                        Vector2 p3 = _hover.topLeft;
+                        Vector2 p4 = _hover.bottomRight;
                         Graphics.DrawRect(p3, p4, Color.White * 0.5f, 1, filled: false);
                         _hover.DrawHoverInfo();
                     }
                 }
                 if (DevConsole.wagnusDebug)
                 {
-                    Graphics.DrawLine(_tilePosition, _tilePosition + new Vec2(128, 0), Color.White * 0.5f);
-                    Graphics.DrawLine(_tilePosition, _tilePosition + new Vec2(-128, 0), Color.White * 0.5f);
-                    Graphics.DrawLine(_tilePosition, _tilePosition + new Vec2(0, 128), Color.White * 0.5f);
-                    Graphics.DrawLine(_tilePosition, _tilePosition + new Vec2(0, -128), Color.White * 0.5f);
+                    Graphics.DrawLine(_tilePosition, _tilePosition + new Vector2(128, 0), Color.White * 0.5f);
+                    Graphics.DrawLine(_tilePosition, _tilePosition + new Vector2(-128, 0), Color.White * 0.5f);
+                    Graphics.DrawLine(_tilePosition, _tilePosition + new Vector2(0, 128), Color.White * 0.5f);
+                    Graphics.DrawLine(_tilePosition, _tilePosition + new Vector2(0, -128), Color.White * 0.5f);
                 }
                 if ((_hover == null || _cursorMode == CursorMode.DragHover || _cursorMode == CursorMode.Drag) && inputMode == EditorInput.Gamepad)
                 {
                     if (_cursorMode == CursorMode.DragHover || _cursorMode == CursorMode.Drag)
                     {
                         _cursor.Depth = 1;
-                        _cursor.Scale = new Vec2(1);
+                        _cursor.Scale = new Vector2(1);
                         _cursor.Position = _tilePosition;
                         if (_cursorMode == CursorMode.DragHover)
                             _cursor.frame = 1;
@@ -2648,7 +2649,7 @@ public class Editor : Level
                         _cursor.Draw();
                     }
                     else if (_placementMenu == null)
-                        Graphics.DrawRect(_tilePosition - new Vec2(_cellSize / 2), _tilePosition + new Vec2(_cellSize / 2), Color.White * 0.5f, 1, filled: false);
+                        Graphics.DrawRect(_tilePosition - new Vector2(_cellSize / 2), _tilePosition + new Vector2(_cellSize / 2), Color.White * 0.5f, 1, filled: false);
                 }
                 if (_cursorMode == CursorMode.Normal && _hover == null && _placementMode && inputMode != EditorInput.Touch && _placementMenu == null && _placementType != null)
                 {
@@ -2671,7 +2672,7 @@ public class Editor : Level
                 Graphics.material = _selectionMaterialPaste;
                 foreach (Thing item in _pasteBatch)
                 {
-                    Vec2 pos = item.Position;
+                    Vector2 pos = item.Position;
                     item.Position -= pasteOffset;
                     item.Draw();
                     item.Position = pos;
@@ -2696,15 +2697,15 @@ public class Editor : Level
                 if (_activeTouchButton != null || _fileDialog.opened)
                 {
                     if (_activeTouchButton != null)
-                        Graphics.DrawString(_activeTouchButton.explanation, Layer.HUD.camera.OffsetBR(-20f, touchTooltipYOffset) - new Vec2(Graphics.GetStringWidth(_activeTouchButton.explanation) + (_cancelButton.size.X + 4f), 0f), Color.Gray, 0.99f);
+                        Graphics.DrawString(_activeTouchButton.explanation, Layer.HUD.camera.OffsetBR(-20f, touchTooltipYOffset) - new Vector2(Graphics.GetStringWidth(_activeTouchButton.explanation) + (_cancelButton.size.X + 4f), 0f), Color.Gray, 0.99f);
                     else if (_fileDialog.opened)
                     {
                         string explanation = "Double tap level to open!";
-                        Graphics.DrawString(explanation, Layer.HUD.camera.OffsetBR(-20, touchTooltipYOffset) - new Vec2(Graphics.GetStringWidth(explanation) + (_cancelButton.size.X + 4), 0), Color.Gray, 0.99f);
+                        Graphics.DrawString(explanation, Layer.HUD.camera.OffsetBR(-20, touchTooltipYOffset) - new Vector2(Graphics.GetStringWidth(explanation) + (_cancelButton.size.X + 4), 0), Color.Gray, 0.99f);
                     }
                     Graphics.DrawRect(_cancelButton.position, _cancelButton.position + _cancelButton.size, new Color(70, 70, 70), 0.99f, filled: false);
                     Graphics.DrawRect(_cancelButton.position, _cancelButton.position + _cancelButton.size, new Color(30, 30, 30), 0.98f);
-                    Graphics.DrawString(_cancelButton.caption, _cancelButton.position + _cancelButton.size / 2 + new Vec2((0 - Graphics.GetStringWidth(_cancelButton.caption)) / 2, -4), Color.White, 0.99f);
+                    Graphics.DrawString(_cancelButton.caption, _cancelButton.position + _cancelButton.size / 2 + new Vector2((0 - Graphics.GetStringWidth(_cancelButton.caption)) / 2, -4), Color.White, 0.99f);
                 }
                 else if (!_fileDialog.opened)
                 {
@@ -2713,28 +2714,28 @@ public class Editor : Level
                     {
                         Graphics.DrawRect(button.position, button.position + button.size, new Color(70, 70, 70), 0.99f, filled: false);
                         Graphics.DrawRect(button.position, button.position + button.size, new Color(30, 30, 30), 0.98f);
-                        Graphics.DrawString(button.caption, button.position + button.size / 2f + new Vec2((0f - Graphics.GetStringWidth(button.caption)) / 2f, -4f), Color.White, 0.99f);
+                        Graphics.DrawString(button.caption, button.position + button.size / 2f + new Vector2((0f - Graphics.GetStringWidth(button.caption)) / 2f, -4f), Color.White, 0.99f);
                         totalSize += button.size.X;
                     }
                     if (_placementMenu != null && _placementMenu is EditorGroupMenu)
                     {
                         string explanation2 = "Double tap to select!";
-                        Graphics.DrawString(explanation2, Layer.HUD.camera.OffsetBR(-20, touchTooltipYOffset) - new Vec2(Graphics.GetStringWidth(explanation2) + (totalSize + 8), 0), Color.Gray, 0.99f);
+                        Graphics.DrawString(explanation2, Layer.HUD.camera.OffsetBR(-20, touchTooltipYOffset) - new Vector2(Graphics.GetStringWidth(explanation2) + (totalSize + 8), 0), Color.Gray, 0.99f);
                     }
                 }
                 if (_placingTiles && _placementMenu == null)
                 {
                     Graphics.DrawRect(_editTilesButton.position, _editTilesButton.position + _editTilesButton.size, new Color(70, 70, 70), 0.99f, filled: false);
                     Graphics.DrawRect(_editTilesButton.position, _editTilesButton.position + _editTilesButton.size, new Color(30, 30, 30), 0.98f);
-                    Graphics.DrawString(_editTilesButton.caption, _editTilesButton.position + _editTilesButton.size / 2 + new Vec2((0f - Graphics.GetStringWidth(_editTilesButton.caption)) / 2, -4), Color.White, 0.99f);
+                    Graphics.DrawString(_editTilesButton.caption, _editTilesButton.position + _editTilesButton.size / 2 + new Vector2((0f - Graphics.GetStringWidth(_editTilesButton.caption)) / 2, -4), Color.White, 0.99f);
                 }
             }
             if (hasUnsavedChanges)
-                Graphics.DrawFancyString("*", new Vec2(4), Color.White * 0.6f, 0.99f);
+                Graphics.DrawFancyString("*", new Vector2(4), Color.White * 0.6f, 0.99f);
             if (tooltip != null)
             {
-                Graphics.DrawRect(new Vec2(16, Layer.HUD.height - 14), new Vec2(16 + Graphics.GetFancyStringWidth(tooltip) + 2, Layer.HUD.height - 2), new Color(0, 0, 0) * 0.75f, 0.99f);
-                Graphics.DrawFancyString(tooltip, new Vec2(18, Layer.HUD.height - 12), Color.White, 0.99f);
+                Graphics.DrawRect(new Vector2(16, Layer.HUD.height - 14), new Vector2(16 + Graphics.GetFancyStringWidth(tooltip) + 2, Layer.HUD.height - 2), new Color(0, 0, 0) * 0.75f, 0.99f);
+                Graphics.DrawFancyString(tooltip, new Vector2(18, Layer.HUD.height - 12), Color.White, 0.99f);
             }
             bool showMouseControls = _input.lastActiveDevice is Keyboard;
             if (_hoverMode == 0 && _hoverButton == null)
@@ -2822,10 +2823,10 @@ public class Editor : Level
                 if (buttonText2 != null)
                 {
                     float wide = _font.GetWidth(buttonText2);
-                    Vec2 topLeft = new(layer.width - 28 - wide, layer.height - 28);
+                    Vector2 topLeft = new(layer.width - 28 - wide, layer.height - 28);
                     _font.Depth = 0.8f;
                     _font.Draw(buttonText2, topLeft.X, topLeft.Y, Color.White, 0.8f);
-                    Graphics.DrawRect(topLeft + new Vec2(-2), topLeft + new Vec2(wide + 2, 9), Color.Black * 0.5f, 0.6f);
+                    Graphics.DrawRect(topLeft + new Vector2(-2), topLeft + new Vector2(wide + 2, 9), Color.Black * 0.5f, 0.6f);
                 }
             }
             goto IL_2555;
@@ -2835,7 +2836,7 @@ public class Editor : Level
         if (inputMode == EditorInput.Mouse)
         {
             _cursor.Depth = 1;
-            _cursor.Scale = new Vec2(1);
+            _cursor.Scale = new Vector2(1);
             _cursor.Position = Mouse.position;
             if (_cursorMode == CursorMode.Normal)
                 _cursor.frame = 0;
@@ -2851,7 +2852,7 @@ public class Editor : Level
             {
                 _cursor.frame = 7;
                 _cursor.Y -= 4f;
-                _cursor.Scale = new Vec2(0.5f, 1);
+                _cursor.Scale = new Vector2(0.5f, 1);
             }
             _cursor.Draw();
         }
@@ -2859,19 +2860,19 @@ public class Editor : Level
             return;
         if (TouchScreen.GetTouches().Count == 0)
         {
-            Vec2 pos2 = _objectMenuLayer.camera.transformScreenVector(Mouse.positionConsole + new Vec2(TouchScreen._spoofFingerDistance, 0f));
-            Vec2 pos3 = _objectMenuLayer.camera.transformScreenVector(Mouse.positionConsole - new Vec2(TouchScreen._spoofFingerDistance, 0f));
+            Vector2 pos2 = _objectMenuLayer.camera.transformScreenVector(Mouse.positionConsole + new Vector2(TouchScreen._spoofFingerDistance, 0f));
+            Vector2 pos3 = _objectMenuLayer.camera.transformScreenVector(Mouse.positionConsole - new Vector2(TouchScreen._spoofFingerDistance, 0f));
             Graphics.DrawCircle(pos2, 4, Color.White * 0.2f, 2, 1);
             Graphics.DrawCircle(pos3, 4, Color.White * 0.2f, 2, 1);
-            Graphics.DrawRect(pos2 + new Vec2(-0.5f), pos2 + new Vec2(0.5f), Color.White, 1);
-            Graphics.DrawRect(pos3 + new Vec2(-0.5f), pos3 + new Vec2(0.5f), Color.White, 1);
+            Graphics.DrawRect(pos2 + new Vector2(-0.5f), pos2 + new Vector2(0.5f), Color.White, 1);
+            Graphics.DrawRect(pos3 + new Vector2(-0.5f), pos3 + new Vector2(0.5f), Color.White, 1);
             return;
         }
         foreach (Touch touch in TouchScreen.GetTouches())
             Graphics.DrawCircle(touch.Transform(_objectMenuLayer.camera), 4, Color.White, 2, 1);
         return;
     IL_2555:
-        _font.Scale = new Vec2(1);
+        _font.Scale = new Vector2(1);
         return;
     IL_18bd:
         if (inputMode == EditorInput.Touch)
@@ -2879,17 +2880,17 @@ public class Editor : Level
         if (buttonText != "")
         {
             float wide2 = _font.GetWidth(buttonText);
-            Vec2 topLeft2 = new(layer.width - 22 - wide2, layer.height - 28);
+            Vector2 topLeft2 = new(layer.width - 22 - wide2, layer.height - 28);
             _font.Depth = 0.8f;
             _font.Draw(buttonText, topLeft2.X, topLeft2.Y, Color.White, 0.7f, _input);
         }
-        _font.Scale = new Vec2(0.5f);
+        _font.Scale = new Vector2(0.5f);
         float contextObjectOffsetY = 0;
         if (placementLimit > 0)
         {
             contextObjectOffsetY -= 16;
-            Vec2 size = new(128, 12);
-            Vec2 topLeft3 = new(31, layer.height - 19 - size.Y);
+            Vector2 size = new(128, 12);
+            Vector2 topLeft3 = new(31, layer.height - 19 - size.Y);
             Graphics.DrawRect(topLeft3, topLeft3 + size, Color.Black * 0.5f, 0.6f);
             Graphics.Draw(_editorCurrency, topLeft3.X - 10, topLeft3.Y + 2, 0.95f);
             float wide3 = (size.X - 4) * Math.Min(placementTotalCost / placementLimit, 1);
@@ -2898,18 +2899,18 @@ public class Editor : Level
                 placementCostString += " FULL!";
             float placementCostStringWidth = _font.GetWidth(placementCostString);
             _font.Draw(placementCostString, topLeft3.X + size.X / 2 - placementCostStringWidth / 2, topLeft3.Y + 4, Color.White, 0.7f);
-            topLeft3 += new Vec2(2);
-            Graphics.DrawRect(topLeft3, topLeft3 + new Vec2(wide3, size.Y - 4), (placementLimitReached ? Colors.DGRed : Colors.DGGreen) * 0.5f, 0.6f);
+            topLeft3 += new Vector2(2);
+            Graphics.DrawRect(topLeft3, topLeft3 + new Vector2(wide3, size.Y - 4), (placementLimitReached ? Colors.DGRed : Colors.DGGreen) * 0.5f, 0.6f);
         }
         if (searching)
         {
-            Graphics.DrawRect(Vec2.Zero, new Vec2(layer.width, layer.height), Color.Black * 0.5f, 0.9f);
-            Vec2 searchPos = new Vec2(8, layer.height - 26);
+            Graphics.DrawRect(Vector2.Zero, new Vector2(layer.width, layer.height), Color.Black * 0.5f, 0.9f);
+            Vector2 searchPos = new Vector2(8, layer.height - 26);
             Graphics.DrawString("@searchiconwhitebig@", searchPos, Color.White, 0.95f);
             if (Keyboard.keyString == "")
-                Graphics.DrawString("|GRAY|Type to search...", searchPos + new Vec2(26, 7), Color.White, 0.95f);
+                Graphics.DrawString("|GRAY|Type to search...", searchPos + new Vector2(26, 7), Color.White, 0.95f);
             else
-                Graphics.DrawString(Keyboard.keyString + "_", searchPos + new Vec2(26, 7), Color.White, 0.95f);
+                Graphics.DrawString(Keyboard.keyString + "_", searchPos + new Vector2(26, 7), Color.White, 0.95f);
             if (inputMode == EditorInput.Mouse)
                 _searchHoverIndex = -1;
             float wide4 = 200;
@@ -2918,35 +2919,35 @@ public class Editor : Level
                 searchPos.Y -= 22;
                 for (int k = 0; k < 10 && k < searchItems.Count; k++)
                 {
-                    Graphics.DrawString(searchItems[k].thing.thing.editorName, new Vec2(searchPos.X + 24, searchPos.Y + 6), Color.White, 0.95f);
+                    Graphics.DrawString(searchItems[k].thing.thing.editorName, new Vector2(searchPos.X + 24, searchPos.Y + 6), Color.White, 0.95f);
                     searchItems[k].thing.image.Depth = 0.95f;
                     searchItems[k].thing.image.X = searchPos.X + 4;
                     searchItems[k].thing.image.Y = searchPos.Y;
                     searchItems[k].thing.image.color = Color.White;
-                    searchItems[k].thing.image.Scale = new Vec2(1);
+                    searchItems[k].thing.image.Scale = new Vector2(1);
                     searchItems[k].thing.image.Draw();
                     if ((inputMode == EditorInput.Mouse && Mouse.x > searchPos.X && Mouse.x < searchPos.X + 200 && Mouse.y > searchPos.Y - 2 && Mouse.y < searchPos.Y + 19) || k == _searchHoverIndex)
                     {
                         _searchHoverIndex = k;
-                        Graphics.DrawRect(searchPos + new Vec2(2, -2), searchPos + new Vec2(wide4 - 2, 18), new Color(70, 70, 70), 0.93f);
+                        Graphics.DrawRect(searchPos + new Vector2(2, -2), searchPos + new Vector2(wide4 - 2, 18), new Color(70, 70, 70), 0.93f);
                     }
                     searchPos.Y -= 20;
                 }
-                Graphics.DrawRect(searchPos + new Vec2(0, 16), new Vec2(searchPos.X + wide4, layer.height - 28), new Color(30, 30, 30), 0.91f);
+                Graphics.DrawRect(searchPos + new Vector2(0, 16), new Vector2(searchPos.X + wide4, layer.height - 28), new Color(30, 30, 30), 0.91f);
             }
-            Graphics.DrawRect(new Vec2(8, layer.height - 26), new Vec2(300, layer.height - 6), new Color(30, 30, 30), 0.91f);
+            Graphics.DrawRect(new Vector2(8, layer.height - 26), new Vector2(300, layer.height - 6), new Color(30, 30, 30), 0.91f);
         }
         float placementHeight = 0;
         if (_placementType != null && _cursorMode == CursorMode.Normal && _placementMenu == null)
         {
-            Vec2 size2 = new(_placementType.width, _placementType.height);
+            Vector2 size2 = new(_placementType.width, _placementType.height);
             size2.X += 4;
             size2.Y += 4;
             if (size2.X < 32)
                 size2.X = 32;
             if (size2.Y < 32)
                 size2.Y = 32;
-            Vec2 topLeft4 = new(19, layer.height - 19 - size2.Y + contextObjectOffsetY);
+            Vector2 topLeft4 = new(19, layer.height - 19 - size2.Y + contextObjectOffsetY);
             string deets = _placementType.GetDetailsString();
             while (deets.Count(c => c == '\n') > 5)
                 deets = deets[..deets.LastIndexOf('\n')];
@@ -2955,7 +2956,7 @@ public class Editor : Level
                 _font.Draw(deets, topLeft4.X + size2.X + 4, topLeft4.Y + 4, Color.White, 0.7f);
             else
                 wide5 = 0;
-            Graphics.DrawRect(topLeft4, topLeft4 + size2 + new Vec2(wide5, 0), Color.Black * 0.5f, 0.6f);
+            Graphics.DrawRect(topLeft4, topLeft4 + size2 + new Vector2(wide5, 0), Color.Black * 0.5f, 0.6f);
             editorDraw = true;
             _placementType.left = topLeft4.X + (size2.X / 2 - _placementType.w / 2);
             _placementType.top = topLeft4.Y + (size2.Y / 2 - _placementType.h / 2);
@@ -2970,14 +2971,14 @@ public class Editor : Level
             hoverDraw = _secondaryHover;
         if (hoverDraw != null && _cursorMode == CursorMode.Normal && _hoverMode == 0)
         {
-            Vec2 size3 = new Vec2(hoverDraw.width, hoverDraw.height);
+            Vector2 size3 = new Vector2(hoverDraw.width, hoverDraw.height);
             size3.X += 4;
             size3.Y += 4;
             if (size3.X < 32)
                 size3.X = 32;
             if (size3.Y < 32)
                 size3.Y = 32;
-            Vec2 topLeft5 = new Vec2(19, layer.height - 19 - size3.Y - (placementHeight + 10) + contextObjectOffsetY);
+            Vector2 topLeft5 = new Vector2(19, layer.height - 19 - size3.Y - (placementHeight + 10) + contextObjectOffsetY);
             string deets2 = hoverDraw.GetDetailsString();
             while (deets2.Count(c => c == '\n') > 5)
                 deets2 = deets2[..deets2.LastIndexOf('\n')];
@@ -2986,8 +2987,8 @@ public class Editor : Level
                 _font.Draw(deets2, topLeft5.X + size3.X + 4, topLeft5.Y + 4, Color.White, 0.7f);
             else
                 wide6 = 0f;
-            Graphics.DrawRect(topLeft5, topLeft5 + size3 + new Vec2(wide6, 0), Color.Black * 0.5f, 0.6f);
-            Vec2 pos4 = hoverDraw.Position;
+            Graphics.DrawRect(topLeft5, topLeft5 + size3 + new Vector2(wide6, 0), Color.Black * 0.5f, 0.6f);
+            Vector2 pos4 = hoverDraw.Position;
             Depth d = hoverDraw.Depth;
             editorDraw = true;
             hoverDraw.left = topLeft5.X + (size3.X / 2 - hoverDraw.w / 2);
@@ -3103,7 +3104,7 @@ public class Editor : Level
         {
             if (((MirrorMode.Setting)m.mode == MirrorMode.Setting.Both || (MirrorMode.Setting)m.mode == MirrorMode.Setting.Vertical) && Math.Abs(m.Position.X - obj.Position.X) > 2f)
             {
-                Vec2 newPos = obj.Position - new Vec2((obj.Position.X - m.Position.X) * 2f, 0f);
+                Vector2 newPos = obj.Position - new Vector2((obj.Position.X - m.Position.X) * 2f, 0f);
                 Thing mirror = Thing.LoadThing(obj.Serialize());
                 mirror.Position = newPos;
                 mirror.flipHorizontal = !obj.flipHorizontal;
@@ -3112,7 +3113,7 @@ public class Editor : Level
             }
             if (((MirrorMode.Setting)m.mode == MirrorMode.Setting.Both || (MirrorMode.Setting)m.mode == MirrorMode.Setting.Horizontal) && Math.Abs(m.Position.Y - obj.Position.Y) > 2f)
             {
-                Vec2 newPos2 = obj.Position - new Vec2(0f, (obj.Position.Y - m.Position.Y) * 2f);
+                Vector2 newPos2 = obj.Position - new Vector2(0f, (obj.Position.Y - m.Position.Y) * 2f);
                 Thing mirror2 = Thing.LoadThing(obj.Serialize());
                 mirror2.Position = newPos2;
                 AddObject(mirror2);
@@ -3120,7 +3121,7 @@ public class Editor : Level
             }
             if ((MirrorMode.Setting)m.mode == MirrorMode.Setting.Both && Math.Abs(m.Position.X - obj.Position.X) > 2f && Math.Abs(m.Position.Y - obj.Position.Y) > 2f)
             {
-                Vec2 newPos3 = obj.Position - new Vec2((obj.Position.X - m.Position.X) * 2f, (obj.Position.Y - m.Position.Y) * 2f);
+                Vector2 newPos3 = obj.Position - new Vector2((obj.Position.X - m.Position.X) * 2f, (obj.Position.Y - m.Position.Y) * 2f);
                 Thing mirror3 = Thing.LoadThing(obj.Serialize());
                 mirror3.Position = newPos3;
                 mirror3.flipHorizontal = !obj.flipHorizontal;
@@ -3150,21 +3151,21 @@ public class Editor : Level
         {
             if ((MirrorMode.Setting)m.mode == MirrorMode.Setting.Both || (MirrorMode.Setting)m.mode == MirrorMode.Setting.Vertical)
             {
-                Vec2 pairPos = obj.Position + new Vec2((0f - (obj.Position.X - m.Position.X)) * 2f, 0f);
+                Vector2 pairPos = obj.Position + new Vector2((0f - (obj.Position.X - m.Position.X)) * 2f, 0f);
                 Thing t = Level.current.CollisionPoint(pairPos, obj.GetType());
                 if (t != null)
                     RemoveObject(t);
             }
             if ((MirrorMode.Setting)m.mode == MirrorMode.Setting.Both || (MirrorMode.Setting)m.mode == MirrorMode.Setting.Horizontal)
             {
-                Vec2 pairPos2 = obj.Position + new Vec2(0f, (0f - (obj.Position.Y - m.Position.Y)) * 2f);
+                Vector2 pairPos2 = obj.Position + new Vector2(0f, (0f - (obj.Position.Y - m.Position.Y)) * 2f);
                 Thing t2 = Level.current.CollisionPoint(pairPos2, obj.GetType());
                 if (t2 != null)
                     RemoveObject(t2);
             }
             if ((MirrorMode.Setting)m.mode == MirrorMode.Setting.Both)
             {
-                Vec2 pairPos3 = obj.Position + new Vec2((0f - (obj.Position.X - m.Position.X)) * 2f, (0f - (obj.Position.Y - m.Position.Y)) * 2f);
+                Vector2 pairPos3 = obj.Position + new Vector2((0f - (obj.Position.X - m.Position.X)) * 2f, (0f - (obj.Position.Y - m.Position.Y)) * 2f);
                 Thing t3 = Level.current.CollisionPoint(pairPos3, obj.GetType());
                 if (t3 != null)
                     RemoveObject(t3);
@@ -3187,8 +3188,8 @@ public class Editor : Level
 
     public void RecalculateSizeLimits()
     {
-        _topLeftMost = new Vec2(99999f, 99999f);
-        _bottomRightMost = new Vec2(-99999f, -99999f);
+        _topLeftMost = new Vector2(99999f, 99999f);
+        _bottomRightMost = new Vector2(-99999f, -99999f);
         foreach (Thing t in _levelThings)
             AdjustSizeLimits(t);
     }
@@ -3252,7 +3253,7 @@ public class Editor : Level
         _closeMenu = false;
         Content.customPreviewWidth = 0;
         Content.customPreviewHeight = 0;
-        Content.customPreviewCenter = Vec2.Zero;
+        Content.customPreviewCenter = Vector2.Zero;
     }
 
     public void EnterEditor()
@@ -3270,7 +3271,7 @@ public class Editor : Level
         {
             _placementType = null;
             CenterView();
-            _tilePosition = new Vec2(0f, 0f);
+            _tilePosition = new Vector2(0f, 0f);
         }
         _ultimateBounds = Level.current.things.quadTree.rectangle;
         Layer.HUD.camera.InitializeToScreenAspect();
@@ -3322,10 +3323,10 @@ public class Editor : Level
             menu.X = Mouse.x;
             menu.Y = Mouse.y;
         }
-        if (openPosition != Vec2.Zero)
+        if (openPosition != Vector2.Zero)
         {
-            menu.Position = openPosition + new Vec2(-2, -3);
-            openPosition = Vec2.Zero;
+            menu.Position = openPosition + new Vector2(-2, -3);
+            openPosition = Vector2.Zero;
         }
         if (_showPlacementMenu)
         {
@@ -3710,7 +3711,7 @@ public class Editor : Level
         return tempName;
     }
 
-    public Vec2 GetAlignOffset(TileButtonAlign align)
+    public Vector2 GetAlignOffset(TileButtonAlign align)
     {
         switch (align)
         {
@@ -3718,14 +3719,14 @@ public class Editor : Level
                 {
                     int reqW3 = 192;
                     int reqH6 = 144;
-                    return new Vec2
+                    return new Vector2
                     {
                         X = -(_procTilesWide - (_procTilesWide - _procXPos)) * reqW3,
                         Y = -(_procTilesHigh - (_procTilesHigh - _procYPos)) * reqH6 - 16
                     };
                 }
             case TileButtonAlign.TileGridTopLeft:
-                return new Vec2
+                return new Vector2
                 {
                     X = 0,
                     Y = -16
@@ -3733,7 +3734,7 @@ public class Editor : Level
             case TileButtonAlign.TileGridTopRight:
                 {
                     int reqW2 = 192;
-                    return new Vec2
+                    return new Vector2
                     {
                         X = reqW2 - 16,
                         Y = -16
@@ -3742,7 +3743,7 @@ public class Editor : Level
             case TileButtonAlign.TileGridBottomLeft:
                 {
                     int reqH5 = 144;
-                    return new Vec2
+                    return new Vector2
                     {
                         X = 0,
                         Y = reqH5
@@ -3752,7 +3753,7 @@ public class Editor : Level
                 {
                     int reqH4 = 144;
                     int reqW = 192;
-                    return new Vec2
+                    return new Vector2
                     {
                         X = reqW - 16,
                         Y = reqH4
@@ -3761,22 +3762,22 @@ public class Editor : Level
             case TileButtonAlign.TileGridRight:
                 {
                     int reqH3 = 144;
-                    return new Vec2(192, reqH3 / 2 - 8);
+                    return new Vector2(192, reqH3 / 2 - 8);
                 }
             case TileButtonAlign.TileGridLeft:
                 {
                     int reqH2 = 144;
-                    return new Vec2(-16, reqH2 / 2 - 8);
+                    return new Vector2(-16, reqH2 / 2 - 8);
                 }
             case TileButtonAlign.TileGridTop:
-                return new Vec2(88, -16);
+                return new Vector2(88, -16);
             case TileButtonAlign.TileGridBottom:
                 {
                     int reqH = 144;
-                    return new Vec2(88, reqH);
+                    return new Vector2(88, reqH);
                 }
             default:
-                return Vec2.Zero;
+                return Vector2.Zero;
         }
     }
 
@@ -4165,13 +4166,13 @@ public class Editor : Level
     {
         if (_placementType is ItemSpawner)
             (_placementType as ItemSpawner)._seated = false;
-        if ((_placementType.hugWalls & WallHug.Right) != WallHug.None && CollisionLine<IPlatform>(_tilePosition, _tilePosition + new Vec2(16f, 0f), _placementType) is Thing b && b.GetType() != _placementType.GetType())
+        if ((_placementType.hugWalls & WallHug.Right) != WallHug.None && CollisionLine<IPlatform>(_tilePosition, _tilePosition + new Vector2(16f, 0f), _placementType) is Thing b && b.GetType() != _placementType.GetType())
             _tilePosition.X = b.left - _placementType.collisionSize.X - _placementType.collisionOffset.X;
-        if ((_placementType.hugWalls & WallHug.Left) != WallHug.None && CollisionLine<IPlatform>(_tilePosition, _tilePosition + new Vec2(-16f, 0f), _placementType) is Thing b2 && b2.GetType() != _placementType.GetType())
+        if ((_placementType.hugWalls & WallHug.Left) != WallHug.None && CollisionLine<IPlatform>(_tilePosition, _tilePosition + new Vector2(-16f, 0f), _placementType) is Thing b2 && b2.GetType() != _placementType.GetType())
             _tilePosition.X = b2.right - _placementType.collisionOffset.X;
-        if ((_placementType.hugWalls & WallHug.Ceiling) != WallHug.None && CollisionLine<IPlatform>(_tilePosition, _tilePosition + new Vec2(0f, -16f), _placementType) is Thing b3 && b3.GetType() != _placementType.GetType())
+        if ((_placementType.hugWalls & WallHug.Ceiling) != WallHug.None && CollisionLine<IPlatform>(_tilePosition, _tilePosition + new Vector2(0f, -16f), _placementType) is Thing b3 && b3.GetType() != _placementType.GetType())
             _tilePosition.Y = b3.bottom - _placementType.collisionOffset.Y;
-        if ((_placementType.hugWalls & WallHug.Floor) != WallHug.None && CollisionLine<IPlatform>(_tilePosition, _tilePosition + new Vec2(0f, 16f), _placementType) is Thing b4 && b4.GetType() != _placementType.GetType())
+        if ((_placementType.hugWalls & WallHug.Floor) != WallHug.None && CollisionLine<IPlatform>(_tilePosition, _tilePosition + new Vector2(0f, 16f), _placementType) is Thing b4 && b4.GetType() != _placementType.GetType())
         {
             _tilePosition.Y = b4.top - _placementType.collisionSize.Y - _placementType.collisionOffset.Y;
             if (_placementType is ItemSpawner)
@@ -4249,8 +4250,8 @@ public class Editor : Level
         if (_cursorMode == CursorMode.Selection)
         {
             _selectionDragEnd = ((inputMode == EditorInput.Mouse) ? Mouse.positionScreen : _tilePosition);
-            Vec2 tl = _selectionDragStart;
-            Vec2 br = _selectionDragEnd;
+            Vector2 tl = _selectionDragStart;
+            Vector2 br = _selectionDragEnd;
             if (br.X < tl.X)
                 (br.X, tl.X) = (tl.X, br.X);
             if (br.Y < tl.Y)
@@ -4289,19 +4290,19 @@ public class Editor : Level
                 dragStartInputType = InputType.eNone;
                 _cursorMode = ((_selection.Count > 0) ? CursorMode.HasSelection : CursorMode.Normal);
                 clickedMenu = true;
-                _selectionDragStart = Vec2.Zero;
+                _selectionDragStart = Vector2.Zero;
             }
             UpdateSelection(pObjectsChanged: false);
             return;
         }
         if (_cursorMode == CursorMode.Drag)
         {
-            Vec2 dragTo = Maths.Snap(Mouse.positionScreen + new Vec2(_cellSize / 2f), _cellSize, _cellSize);
+            Vector2 dragTo = Maths.Snap(Mouse.positionScreen + new Vector2(_cellSize / 2f), _cellSize, _cellSize);
             if (inputMode == EditorInput.Gamepad)
-                dragTo = Maths.Snap(_tilePosition + new Vec2(_cellSize / 2f), _cellSize, _cellSize);
+                dragTo = Maths.Snap(_tilePosition + new Vector2(_cellSize / 2f), _cellSize, _cellSize);
             if (dragTo != _moveDragStart)
             {
-                Vec2 dif = dragTo - _moveDragStart;
+                Vector2 dif = dragTo - _moveDragStart;
                 _moveDragStart = dragTo;
                 foreach (Thing t5 in _currentDragSelectionHover)
                 {
@@ -4339,7 +4340,7 @@ public class Editor : Level
             if (_selection.Count > 0 && (Keyboard.Pressed(Keys.C) || cut || _performCopypaste))
             {
                 _selectionCopy.Clear();
-                _copyCenter = Vec2.Zero;
+                _copyCenter = Vector2.Zero;
                 History.BeginUndoSection();
                 foreach (Thing t6 in _selection)
                 {
@@ -4394,7 +4395,7 @@ public class Editor : Level
                     {
                         _selection.Add(t7);
                         t7.Position -= pasteOffset;
-                        foreach (Thing col in CollisionRectAll<Thing>(t7.Position + new Vec2(-6f, -6f), t7.Position + new Vec2(6f, 6f), null))
+                        foreach (Thing col in CollisionRectAll<Thing>(t7.Position + new Vector2(-6f, -6f), t7.Position + new Vector2(6f, 6f), null))
                         {
                             if (col.placementLayer == t7.placementLayer && _levelThings.Contains(col))
                             {
@@ -4433,7 +4434,7 @@ public class Editor : Level
             _cursorMode = CursorMode.Normal;
         if (_selection.Count > 0 && _cursorMode != CursorMode.Pasting && (Keyboard.Pressed(Keys.F) || (_input.Pressed("MENU1") && inputMode == EditorInput.Gamepad)))
         {
-            Vec2 centerPoint = Vec2.Zero;
+            Vector2 centerPoint = Vector2.Zero;
             if (_cursorMode == CursorMode.Pasting)
             {
                 foreach (Thing t9 in _pasteBatch)
@@ -4452,7 +4453,7 @@ public class Editor : Level
                 foreach (Thing item in _pasteBatch)
                 {
                     float dif2 = item.Position.X - centerPoint.X;
-                    item.SetTranslation(new Vec2((0 - dif2) * 2, 0));
+                    item.SetTranslation(new Vector2((0 - dif2) * 2, 0));
                     item.EditorFlip(pVertical: false);
                     item.flipHorizontal = !item.flipHorizontal;
                 }
@@ -4465,7 +4466,7 @@ public class Editor : Level
                     float dif3 = t11.Position.X - centerPoint.X;
                     History.Add(() =>
                     {
-                        t11.SetTranslation(new Vec2((0 - dif3) * 2, 0));
+                        t11.SetTranslation(new Vector2((0 - dif3) * 2, 0));
                         t11.EditorFlip(pVertical: false);
                         t11.flipHorizontal = !t11.flipHorizontal;
                         if (t11 is IDontMove)
@@ -4475,7 +4476,7 @@ public class Editor : Level
                         }
                     }, () =>
                     {
-                        t11.SetTranslation(new Vec2(dif3 * 2, 0));
+                        t11.SetTranslation(new Vector2(dif3 * 2, 0));
                         t11.EditorFlip(pVertical: false);
                         t11.flipHorizontal = !t11.flipHorizontal;
                         if (t11 is IDontMove)
@@ -4540,9 +4541,9 @@ public class Editor : Level
                     History.BeginUndoSection();
                     _cursorMode = CursorMode.Drag;
                     if (inputMode == EditorInput.Gamepad)
-                        _moveDragStart = Maths.Snap(_tilePosition + new Vec2(_cellSize / 2), _cellSize, _cellSize);
+                        _moveDragStart = Maths.Snap(_tilePosition + new Vector2(_cellSize / 2), _cellSize, _cellSize);
                     else
-                        _moveDragStart = Maths.Snap(Mouse.positionScreen + new Vec2(_cellSize / 2), _cellSize, _cellSize);
+                        _moveDragStart = Maths.Snap(Mouse.positionScreen + new Vector2(_cellSize / 2), _cellSize, _cellSize);
                 }
                 else
                     endSelection = true;
@@ -4561,7 +4562,7 @@ public class Editor : Level
                 _currentDragSelectionHover.Clear();
                 UpdateSelection(pObjectsChanged: false);
             }
-            Vec2 offset = new(0);
+            Vector2 offset = new(0);
             if (Keyboard.Pressed(Keys.Up))
                 offset.Y -= cellSize;
             if (Keyboard.Pressed(Keys.Down))
@@ -4570,7 +4571,7 @@ public class Editor : Level
                 offset.X -= cellSize;
             if (Keyboard.Pressed(Keys.Right))
                 offset.X += cellSize;
-            if (!(offset != Vec2.Zero))
+            if (!(offset != Vector2.Zero))
                 return;
             hasUnsavedChanges = true;
             History.BeginUndoSection();
@@ -4603,7 +4604,7 @@ public class Editor : Level
         }
     }
 
-    void UpdateHover(Layer placementLayer, Vec2 tilePosition, bool isDrag = false)
+    void UpdateHover(Layer placementLayer, Vector2 tilePosition, bool isDrag = false)
     {
         IEnumerable<Thing> hoverList = [];
         if (inputMode == EditorInput.Gamepad || isDrag)
@@ -4701,8 +4702,8 @@ public class Editor : Level
 
     void CalculateGridRestriction()
     {
-        Vec2 size = _bottomRightMost - _topLeftMost;
-        Vec2 fullRestriction = _sizeRestriction * 2f - size - new Vec2(16);
+        Vector2 size = _bottomRightMost - _topLeftMost;
+        Vector2 fullRestriction = _sizeRestriction * 2f - size - new Vector2(16);
         if (fullRestriction.X > _sizeRestriction.X * 2f)
         {
             fullRestriction.X = _sizeRestriction.X * 2f;
@@ -4765,8 +4766,8 @@ public class Editor : Level
 
     LevelSize GetLevelSize()
     {
-        _topLeft = new Vec2(99999f, 99999f);
-        _bottomRight = new Vec2(-99999f, -99999f);
+        _topLeft = new Vector2(99999f, 99999f);
+        _bottomRight = new Vector2(-99999f, -99999f);
         CalculateBounds();
         float length = (base.topLeft - base.bottomRight).Length();
         LevelSize levelSizeVal = LevelSize.Ginormous;

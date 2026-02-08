@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -52,17 +53,17 @@ public class Chaindart : Gun
         _ammoType.range = 170f;
         _ammoType.accuracy = 0.5f;
         wideBarrel = true;
-        barrelInsertOffset = new Vec2(0f, 0f);
+        barrelInsertOffset = new Vector2(0f, 0f);
         _type = "gun";
         _sprite = new SpriteMap("dartchain", 38, 18);
         graphic = _sprite;
-        Center = new Vec2(14f, 9f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(24f, 10f);
+        Center = new Vector2(14f, 9f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(24f, 10f);
         _burned = new SpriteMap("dartchain_burned", 38, 18);
         graphic = _sprite;
         _tip = new SpriteMap("dartchain_tip", 38, 18);
-        _barrelOffsetTL = new Vec2(38f, 8f);
+        _barrelOffsetTL = new Vector2(38f, 8f);
         _fireSound = "pistolFire";
         _fullAuto = true;
         _fireWait = 0.7f;
@@ -71,7 +72,7 @@ public class Chaindart : Gun
         weight = 4f;
         _spinUp = SFX.Get("chaingunSpinUp");
         _spinDown = SFX.Get("chaingunSpinDown");
-        _holdOffset = new Vec2(4f, 2f);
+        _holdOffset = new Vector2(4f, 2f);
         flammable = 0.8f;
         physicsMaterial = PhysicsMaterial.Plastic;
         editorTooltip = "Like a chaingun, but for babies. Fires safety-capped sponge darts.";
@@ -178,7 +179,7 @@ public class Chaindart : Gun
     {
         if (!burntOut && burnt >= 1f)
         {
-            Vec2 smokePos = Offset(new Vec2(10f, 0f));
+            Vector2 smokePos = Offset(new Vector2(10f, 0f));
             Level.Add(SmallSmoke.New(smokePos.X, smokePos.Y));
             _onFire = false;
             flammable = 0f;
@@ -229,18 +230,18 @@ public class Chaindart : Gun
                 _spin = 0f;
             }
             spinAmount += _spin;
-            barrelInsertOffset = new Vec2(0f, 2f + (float)Math.Sin(spinAmount / 9f * 3.14f) * 2f);
+            barrelInsertOffset = new Vector2(0f, 2f + (float)Math.Sin(spinAmount / 9f * 3.14f) * 2f);
         }
         base.Update();
         if (_topBullet != null)
         {
             if (!graphic.flipH)
             {
-                _topBullet.chainOffset = new Vec2(1f, 5f);
+                _topBullet.chainOffset = new Vector2(1f, 5f);
             }
             else
             {
-                _topBullet.chainOffset = new Vec2(-1f, 5f);
+                _topBullet.chainOffset = new Vector2(-1f, 5f);
             }
         }
     }
@@ -257,7 +258,7 @@ public class Chaindart : Gun
         }
     }
 
-    protected override bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected override bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         if (!base.onFire)
         {

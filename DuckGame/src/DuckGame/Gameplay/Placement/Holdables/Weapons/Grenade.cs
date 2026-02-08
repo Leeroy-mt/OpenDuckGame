@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -47,9 +48,9 @@ public class Grenade : Gun
         _type = "gun";
         _sprite = new SpriteMap("grenade", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(7f, 8f);
-        collisionOffset = new Vec2(-4f, -5f);
-        collisionSize = new Vec2(8f, 10f);
+        Center = new Vector2(7f, 8f);
+        collisionOffset = new Vector2(-4f, -5f);
+        collisionSize = new Vector2(8f, 10f);
         base.bouncy = 0.4f;
         friction = 0.05f;
         _fireRumble = RumbleIntensity.Kick;
@@ -64,7 +65,7 @@ public class Grenade : Gun
         grenade++;
     }
 
-    public override void OnNetworkBulletsFired(Vec2 pos)
+    public override void OnNetworkBulletsFired(Vector2 pos)
     {
         _pin = false;
         _localDidExplode = true;
@@ -75,7 +76,7 @@ public class Grenade : Gun
         CreateExplosion(pos);
     }
 
-    public void CreateExplosion(Vec2 pos)
+    public void CreateExplosion(Vector2 pos)
     {
         if (!_explosionCreated)
         {

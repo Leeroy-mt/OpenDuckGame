@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Linq;
 
 namespace DuckGame;
@@ -74,7 +75,7 @@ public class BitmapFont : Transform
 
     public int characterYOffset;
 
-    public Vec2 spriteScale = new Vec2(1f, 1f);
+    public Vector2 spriteScale = new Vector2(1f, 1f);
 
     public Color colorOverride;
 
@@ -260,20 +261,20 @@ public class BitmapFont : Transform
         return widest;
     }
 
-    public void DrawOutline(string text, Vec2 pos, Color c, Color outline, Depth deep = default(Depth))
+    public void DrawOutline(string text, Vector2 pos, Color c, Color outline, Depth deep = default(Depth))
     {
-        Draw(text, pos + new Vec2(-1f * base.Scale.X, 0f), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(1f * base.Scale.X, 0f), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(0f, -1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(0f, 1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(-1f * base.Scale.X, -1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(1f * base.Scale.X, -1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(-1f * base.Scale.X, 1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
-        Draw(text, pos + new Vec2(1f * base.Scale.X, 1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vector2(-1f * base.Scale.X, 0f), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vector2(1f * base.Scale.X, 0f), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vector2(0f, -1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vector2(0f, 1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vector2(-1f * base.Scale.X, -1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vector2(1f * base.Scale.X, -1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vector2(-1f * base.Scale.X, 1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
+        Draw(text, pos + new Vector2(1f * base.Scale.X, 1f * base.Scale.Y), outline, deep + 2, null, colorSymbols: true);
         Draw(text, pos, c, deep + 5);
     }
 
-    public void Draw(string text, Vec2 pos, Color c, Depth deep = default(Depth), InputProfile input = null, bool colorSymbols = false)
+    public void Draw(string text, Vector2 pos, Color c, Depth deep = default(Depth), InputProfile input = null, bool colorSymbols = false)
     {
         Draw(text, pos.X, pos.Y, c, deep, input, colorSymbols);
     }
@@ -317,7 +318,7 @@ public class BitmapFont : Transform
                         spr.Alpha = base.Alpha * c.ToVector4().w;
                         if (spr != null)
                         {
-                            Vec2 sc = spr.Scale;
+                            Vector2 sc = spr.Scale;
                             spr.Scale *= spriteScale;
                             float yCenter = (int)((float)_texture.height * spriteScale.Y / 2f) - (int)((float)spr.height * spriteScale.Y / 2f);
                             if (spr.moji)

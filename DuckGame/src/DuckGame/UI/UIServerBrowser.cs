@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -191,7 +192,7 @@ public class UIServerBrowser : UIMenu
 
     long _lobbySearchCooldownNextAvailable;
 
-    Vec2 _oldPos;
+    Vector2 _oldPos;
 
     Queue<SearchMode> _modeQueue = new();
 
@@ -264,28 +265,28 @@ public class UIServerBrowser : UIMenu
         _moreArrow.CenterOrigin();
         _steamIcon = new Sprite("steamIconSmall")
         {
-            Scale = new Vec2(.5f)
+            Scale = new Vector2(.5f)
         };
         _lanIcon = new Sprite("lanIconSmall")
         {
-            Scale = new Vec2(.5f)
+            Scale = new Vector2(.5f)
         };
         _lockedServer = new Sprite("lockedServer");
         _globeIcon = new Sprite("smallEarth");
         _namedServer = new Sprite("namedServer");
         _localIcon = new SpriteMap("iconSheet", 16, 16)
         {
-            Scale = new Vec2(.5f)
+            Scale = new Vector2(.5f)
         };
         _localIcon.SetFrameWithoutReset(1);
         _newIcon = new SpriteMap("presents", 16, 16)
         {
-            Scale = new Vec2(2)
+            Scale = new Vector2(2)
         };
         _newIcon.SetFrameWithoutReset(0);
         _noImage = new Sprite("notexture")
         {
-            Scale = new Vec2(2)
+            Scale = new Vector2(2)
         };
         _cursor = new SpriteMap("cursors", 16, 16);
         _maxLobbiesToShow = 8;
@@ -521,7 +522,7 @@ public class UIServerBrowser : UIMenu
                     _hoverIndex += 10;
                 if (_hoverIndex < 0)
                     _hoverIndex = 0;
-                if ((_oldPos - Mouse.positionScreen).lengthSq > 200)
+                if ((_oldPos - Mouse.positionScreen).LengthSquared() > 200)
                     _gamepadMode = false;
             }
             else
@@ -550,7 +551,7 @@ public class UIServerBrowser : UIMenu
                     _draggingScrollbar = false;
                 else
                 {
-                    Vec2 delta = Mouse.position - _oldPos;
+                    Vector2 delta = Mouse.position - _oldPos;
                     _oldPos = Mouse.position;
                     scrollBarOffset += (int)delta.Y;
                     if (scrollBarOffset > scrollBarScrollableHeight)
@@ -610,8 +611,8 @@ public class UIServerBrowser : UIMenu
                 Layer.HUD.camera.height *= 2;
                 fixView = false;
             }
-            Graphics.DrawRect(new Vec2(_box.X - _box.halfWidth, _box.Y - _box.halfHeight), new Vec2(_box.X + _box.halfWidth - 12 - 2, _box.Y + _box.halfHeight), Color.Black, 0.4f);
-            Graphics.DrawRect(new Vec2(_box.X + _box.halfWidth - 12, _box.Y - _box.halfHeight), new Vec2(_box.X + _box.halfWidth, _box.Y + _box.halfHeight), Color.Black, 0.4f);
+            Graphics.DrawRect(new Vector2(_box.X - _box.halfWidth, _box.Y - _box.halfHeight), new Vector2(_box.X + _box.halfWidth - 12 - 2, _box.Y + _box.halfHeight), Color.Black, 0.4f);
+            Graphics.DrawRect(new Vector2(_box.X + _box.halfWidth - 12, _box.Y - _box.halfHeight), new Vector2(_box.X + _box.halfWidth, _box.Y + _box.halfHeight), Color.Black, 0.4f);
             Rectangle sb = ScrollBarBox();
             Graphics.DrawRect(sb, (_draggingScrollbar || sb.Contains(Mouse.position)) ? Color.LightGray : Color.Gray, 0.5f);
             if (_lobbies.Count == 0)
@@ -619,9 +620,9 @@ public class UIServerBrowser : UIMenu
                 float boxLeft = _box.X - _box.halfWidth;
                 float boxTop = _box.Y - _box.halfHeight;
                 if (mode == SearchMode.None)
-                    _fancyFont.Draw("No games found!", new Vec2(boxLeft + 10, boxTop + 2), Color.Yellow, 0.5f);
+                    _fancyFont.Draw("No games found!", new Vector2(boxLeft + 10, boxTop + 2), Color.Yellow, 0.5f);
                 else
-                    _fancyFont.Draw("Waiting for game list.", new Vec2(boxLeft + 10, boxTop + 2), Colors.DGGreen, 0.5f);
+                    _fancyFont.Draw("Waiting for game list.", new Vector2(boxLeft + 10, boxTop + 2), Colors.DGGreen, 0.5f);
             }
             if (mode != SearchMode.None)
             {
@@ -634,7 +635,7 @@ public class UIServerBrowser : UIMenu
                 for (int i = 0; i < 3; i++)
                     if (_refreshingDots * 4 > i + 1)
                         refreshString += ".";
-                _fancyFont.Draw($"{refreshString})", new Vec2(boxLeft2, boxTop2), Colors.DGGreen, 0.5f);
+                _fancyFont.Draw($"{refreshString})", new Vector2(boxLeft2, boxTop2), Colors.DGGreen, 0.5f);
             }
             _lobbies.Sort();
             for (int j = 0; j < _maxLobbiesToShow; j++)
@@ -645,16 +646,16 @@ public class UIServerBrowser : UIMenu
                 float boxLeft3 = _box.X - _box.halfWidth;
                 float boxTop3 = _box.Y - _box.halfHeight + (36 * j);
                 if (_hoverIndex == lobbyIndex)
-                    Graphics.DrawRect(new Vec2(boxLeft3, boxTop3), new Vec2(boxLeft3 + _box.width - 14, boxTop3 + 36), Color.White * 0.6f, 0.4f);
+                    Graphics.DrawRect(new Vector2(boxLeft3, boxTop3), new Vector2(boxLeft3 + _box.width - 14, boxTop3 + 36), Color.White * 0.6f, 0.4f);
                 else if ((lobbyIndex & 1) != 0)
-                    Graphics.DrawRect(new Vec2(boxLeft3, boxTop3), new Vec2(boxLeft3 + _box.width - 14, boxTop3 + 36), Color.White * 0.1f, 0.4f);
+                    Graphics.DrawRect(new Vector2(boxLeft3, boxTop3), new Vector2(boxLeft3 + _box.width - 14, boxTop3 + 36), Color.White * 0.1f, 0.4f);
                 LobbyData lobby = _lobbies[lobbyIndex];
                 if (lobby == null)
                     continue;
                 _noImage.texture = defaultImage;
                 if (lobby.lobby == null)
                     _noImage.texture = defaultImageLan;
-                _noImage.Scale = Vec2.One;
+                _noImage.Scale = Vector2.One;
                 List<Tex2D> workshopTextures = [];
                 string details = lobby.name;
                 if (lobby.lobby == null)
@@ -732,24 +733,24 @@ public class UIServerBrowser : UIMenu
                     modDetails = $"{modDetails}Custom Levels: {lobby.customLevels}. ";
                 if (!string.IsNullOrWhiteSpace(lobby.hasModifiers) && lobby.hasModifiers != "false")
                     modDetails += "Modifiers: ACTIVE.";
-                Graphics.DrawRect(new Vec2(boxLeft3 + 2, boxTop3 + 2), new Vec2(boxLeft3 + 34, boxTop3 + 34), Color.Gray, 0.5f, filled: false, 2);
+                Graphics.DrawRect(new Vector2(boxLeft3 + 2, boxTop3 + 2), new Vector2(boxLeft3 + 34, boxTop3 + 34), Color.Gray, 0.5f, filled: false, 2);
                 if (workshopTextures.Count > 0)
                 {
-                    Vec2 drawOffset = Vec2.Zero;
+                    Vector2 drawOffset = Vector2.Zero;
                     for (int iTex = 0; iTex < 4; iTex++)
                     {
                         if (iTex >= workshopTextures.Count)
                             continue;
                         _noImage.texture = workshopTextures[iTex];
                         if (workshopTextures.Count > 1)
-                            _noImage.Scale = new Vec2(16f / _noImage.texture.width);
+                            _noImage.Scale = new Vector2(16f / _noImage.texture.width);
                         else
-                            _noImage.Scale = new Vec2(32f / _noImage.texture.width);
+                            _noImage.Scale = new Vector2(32f / _noImage.texture.width);
                         if (_noImage.texture.width != _noImage.texture.height)
                         {
                             if (_noImage.texture.width > _noImage.texture.height)
                             {
-                                _noImage.Scale = new Vec2(32f / _noImage.texture.height);
+                                _noImage.Scale = new Vector2(32f / _noImage.texture.height);
                                 Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, new Rectangle(_noImage.texture.width / 2 - _noImage.texture.height / 2, 0, _noImage.texture.height, _noImage.texture.height), 0.5f);
                             }
                             else
@@ -797,7 +798,7 @@ public class UIServerBrowser : UIMenu
                                      ? $"{titleString}Cannot join."
                                      : $"{titleString}This game has blocked content."))))));
                     titleString += ")";
-                    Graphics.DrawRect(new Vec2(boxLeft3, boxTop3), new Vec2(boxLeft3 + _box.width - 14, boxTop3 + 36), Color.Black * 0.5f, 0.99f);
+                    Graphics.DrawRect(new Vector2(boxLeft3, boxTop3), new Vector2(boxLeft3 + _box.width - 14, boxTop3 + 36), Color.Black * 0.5f, 0.99f);
                 }
                 _fancyFont.maxWidth = 1000;
                 float passOffset = 0;
@@ -816,12 +817,12 @@ public class UIServerBrowser : UIMenu
                     Graphics.Draw(_globeIcon, boxLeft3 + passOffset + 46, boxTop3 + 2.5f, 0.5f);
                     passOffset += 10;
                 }
-                _fancyFont.Draw(titleString, new Vec2(boxLeft3 + passOffset + 46, boxTop3 + 2), Color.Yellow, 0.5f);
+                _fancyFont.Draw(titleString, new Vector2(boxLeft3 + passOffset + 46, boxTop3 + 2), Color.Yellow, 0.5f);
                 if (lobby.version == DG.version)
-                    _fancyFont.Draw(lobby.version, new Vec2(boxLeft3 + 440, boxTop3 + 2), Colors.DGGreen * 0.45f, 0.5f);
+                    _fancyFont.Draw(lobby.version, new Vector2(boxLeft3 + 440, boxTop3 + 2), Colors.DGGreen * 0.45f, 0.5f);
                 else
-                    _fancyFont.Draw(lobby.version, new Vec2(boxLeft3 + 440, boxTop3 + 2), Colors.DGRed * 0.45f, 0.5f);
-                _fancyFont.Draw("|WHITE|Ping:", new Vec2(boxLeft3 + 440, boxTop3 + 26), Color.White * 0.45f, 0.5f);
+                    _fancyFont.Draw(lobby.version, new Vector2(boxLeft3 + 440, boxTop3 + 2), Colors.DGRed * 0.45f, 0.5f);
+                _fancyFont.Draw("|WHITE|Ping:", new Vector2(boxLeft3 + 440, boxTop3 + 26), Color.White * 0.45f, 0.5f);
                 if (lobby.pingRefreshTimeout <= 0)
                 {
                     lobby.pingRefreshTimeout = 60;
@@ -835,27 +836,27 @@ public class UIServerBrowser : UIMenu
                         c = Colors.DGYellow;
                     if (lobby.estimatedPing > 250)
                         c = Colors.DGRed;
-                    _fancyFont.Draw($"{lobby.estimatedPing}ms", new Vec2(boxLeft3 + 470, boxTop3 + 26), c * 0.45f, 0.5f);
+                    _fancyFont.Draw($"{lobby.estimatedPing}ms", new Vector2(boxLeft3 + 470, boxTop3 + 26), c * 0.45f, 0.5f);
                 }
                 else
-                    _fancyFont.Draw("????ms", new Vec2(boxLeft3 + 470, boxTop3 + 26), Colors.DGRed * 0.45f, 0.5f);
+                    _fancyFont.Draw("????ms", new Vector2(boxLeft3 + 470, boxTop3 + 26), Colors.DGRed * 0.45f, 0.5f);
                 if (lobby.lobby != null)
                     Graphics.Draw(_steamIcon, boxLeft3 + 36, boxTop3 + 2.5f, 0.5f);
                 else
                     Graphics.Draw(_lanIcon, boxLeft3 + 36, boxTop3 + 2.5f, 0.5f);
-                _fancyFont.Draw(modDetails, new Vec2(boxLeft3 + 36, boxTop3 + _fancyFont.characterHeight + 6), Color.LightGray, 0.5f);
+                _fancyFont.Draw(modDetails, new Vector2(boxLeft3 + 36, boxTop3 + _fancyFont.characterHeight + 6), Color.LightGray, 0.5f);
             }
             if (Mouse.available && !_gamepadMode)
             {
                 _cursor.Depth = 1;
-                _cursor.Scale = Vec2.One;
+                _cursor.Scale = Vector2.One;
                 _cursor.Position = Mouse.position;
                 _cursor.frame = 0;
                 if (Editor.hoverTextBox)
                 {
                     _cursor.frame = 5;
                     _cursor.Y -= 4;
-                    _cursor.Scale = new Vec2(0.5f, 1);
+                    _cursor.Scale = new Vector2(0.5f, 1);
                 }
                 _cursor.Draw();
             }

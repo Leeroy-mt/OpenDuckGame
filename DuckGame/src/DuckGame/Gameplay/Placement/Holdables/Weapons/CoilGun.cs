@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Lasers", EditorItemType.PowerUser)]
@@ -76,16 +78,16 @@ public class CoilGun : Gun
     {
         ammo = 30;
         _type = "gun";
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-11f, -8f);
-        collisionSize = new Vec2(22f, 12f);
-        _barrelOffsetTL = new Vec2(25f, 13f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-11f, -8f);
+        collisionSize = new Vector2(22f, 12f);
+        _barrelOffsetTL = new Vector2(25f, 13f);
         _fireSound = "";
         _fullAuto = false;
         _fireWait = 1f;
         _kickForce = 1f;
         _fireRumble = RumbleIntensity.Kick;
-        _holdOffset = new Vec2(3f, 1f);
+        _holdOffset = new Vector2(3f, 1f);
         _editorName = "Death Laser";
         _chargeAnim = new SpriteMap("coilGun", 32, 32);
         _chargeAnim.AddAnimation("idle", 1f, true, default(int));

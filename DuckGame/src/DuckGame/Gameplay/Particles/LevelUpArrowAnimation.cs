@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -10,7 +11,7 @@ public class LevelUpArrowAnimation : EffectAnimation
 
     private float _vel;
 
-    public LevelUpArrowAnimation(Vec2 pos)
+    public LevelUpArrowAnimation(Vector2 pos)
         : base(pos, new SpriteMap("levelUpArrow", 16, 16), 0.9f)
     {
         base.layer = Layer.HUD;

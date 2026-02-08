@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ContextTextbox : ContextMenu
@@ -101,17 +103,17 @@ public class ContextTextbox : ContextMenu
             Graphics.DrawRect(Position, Position + itemSize, new Color(70, 70, 70), 0.82f);
             if (val.Length > 12)
             {
-                Vec2 pos = new Vec2(base.X, base.Y);
+                Vector2 pos = new Vector2(base.X, base.Y);
                 pos.X += itemSize.X + 4f;
                 pos.Y -= 2f;
                 float menuWidth = 200f;
                 float menuHeight = 100f;
-                Graphics.DrawString(_text, Position + new Vec2(2f, 5f), Color.White, 0.88f);
-                Graphics.DrawRect(pos, pos + new Vec2(menuWidth, menuHeight), new Color(70, 70, 70), 0.83f);
-                Graphics.DrawRect(pos + new Vec2(1f, 1f), pos + new Vec2(menuWidth - 1f, menuHeight - 1f), new Color(30, 30, 30), 0.84f);
+                Graphics.DrawString(_text, Position + new Vector2(2f, 5f), Color.White, 0.88f);
+                Graphics.DrawRect(pos, pos + new Vector2(menuWidth, menuHeight), new Color(70, 70, 70), 0.83f);
+                Graphics.DrawRect(pos + new Vector2(1f, 1f), pos + new Vector2(menuWidth - 1f, menuHeight - 1f), new Color(30, 30, 30), 0.84f);
                 _fancyFont.Depth = 0.8f;
                 _fancyFont.maxWidth = 200;
-                _fancyFont.Draw(val, pos + new Vec2(4f, 4f), Color.White, 0.86f);
+                _fancyFont.Draw(val, pos + new Vector2(4f, 4f), Color.White, 0.86f);
             }
             else
             {
@@ -120,18 +122,18 @@ public class ContextTextbox : ContextMenu
                     val += "_";
                 }
                 _fancyFont.maxWidth = 200;
-                _fancyFont.Draw(val, Position + new Vec2(2f, 5f), Color.White, 0.86f);
+                _fancyFont.Draw(val, Position + new Vector2(2f, 5f), Color.White, 0.86f);
             }
         }
         else
         {
-            Graphics.DrawString(_text, Position + new Vec2(2f, 5f), Color.White, 0.84f);
+            Graphics.DrawString(_text, Position + new Vector2(2f, 5f), Color.White, 0.84f);
             if (val.Length > 12)
             {
                 val = val.Substring(0, 12) + "..";
             }
             _fancyFont.Depth = 0.81f;
-            _fancyFont.Draw(val, Position + new Vec2(itemSize.X - 4f - _fancyFont.GetWidth(val), 5f), Color.White, 0.84f);
+            _fancyFont.Draw(val, Position + new Vector2(itemSize.X - 4f - _fancyFont.GetWidth(val), 5f), Color.White, 0.84f);
         }
     }
 }

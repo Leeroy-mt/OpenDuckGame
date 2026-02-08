@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -20,16 +21,16 @@ public class ECrate : Holdable, IPlatform
         _hitPoints = 15f;
         _sprite = new SpriteMap("eCrate", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -8f);
-        collisionSize = new Vec2(16f, 16f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -8f);
+        collisionSize = new Vector2(16f, 16f);
         base.Depth = -0.5f;
         _editorName = "E Crate";
         editorTooltip = "A mysterious unbreakable crate.";
         thickness = 2f;
         weight = 5f;
         flammable = 0.3f;
-        _holdOffset = new Vec2(2f, 0f);
+        _holdOffset = new Vector2(2f, 0f);
         _light = new Sprite("eCrateLight");
         _light.CenterOrigin();
         base.collideSounds.Add("crateHit");
@@ -40,7 +41,7 @@ public class ECrate : Holdable, IPlatform
         _hitPoints = 0f;
         for (int i = 0; i < 6; i++)
         {
-            Level.Add(new GlassParticle(base.X - 8f + Rando.Float(16f), base.Y - 8f + Rando.Float(16f), new Vec2(Rando.Float(-2f, 2f), Rando.Float(-2f, 2f))));
+            Level.Add(new GlassParticle(base.X - 8f + Rando.Float(16f), base.Y - 8f + Rando.Float(16f), new Vector2(Rando.Float(-2f, 2f), Rando.Float(-2f, 2f))));
         }
         for (int j = 0; j < 5; j++)
         {
@@ -54,7 +55,7 @@ public class ECrate : Holdable, IPlatform
         return true;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (_hitPoints <= 0f)
         {
@@ -92,7 +93,7 @@ public class ECrate : Holdable, IPlatform
         return base.Hit(bullet, hitPos);
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 exitPos)
+    public override void ExitHit(Bullet bullet, Vector2 exitPos)
     {
         for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
         {

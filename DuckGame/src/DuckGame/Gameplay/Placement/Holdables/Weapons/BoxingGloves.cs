@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [BaggedProperty("canSpawn", false)]
@@ -28,15 +30,15 @@ public class BoxingGloves : Gun
         _ammoType.accuracy = 0.8f;
         _type = "gun";
         graphic = new Sprite("boxingGlove");
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-4f, -4f);
-        collisionSize = new Vec2(8f, 8f);
-        _barrelOffsetTL = new Vec2(16f, 7f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-4f, -4f);
+        collisionSize = new Vector2(8f, 8f);
+        _barrelOffsetTL = new Vector2(16f, 7f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 3f;
-        _holdOffset = new Vec2(-4f, 4f);
+        _holdOffset = new Vector2(-4f, 4f);
         weight = 0.9f;
         physicsMaterial = PhysicsMaterial.Paper;
     }
@@ -46,7 +48,7 @@ public class BoxingGloves : Gun
         base.Initialize();
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         SFX.Play("ting");
         return base.Hit(bullet, hitPos);

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +16,7 @@ public class NMFireGun : NMEvent
 
     public byte ammoType;
 
-    public Vec2 position;
+    public Vector2 position;
 
     public byte owner;
 
@@ -50,7 +51,7 @@ public class NMFireGun : NMEvent
             {
                 _ammoTypeInstance = b.ammo;
                 ammoType = AmmoType.indexTypeMap[b.ammo.GetType()];
-                position = new Vec2(b.X, b.Y);
+                position = new Vector2(b.X, b.Y);
                 first = false;
             }
             NMFireBullet fire = new NMFireBullet(b.range, b.bulletSpeed, b.Angle);

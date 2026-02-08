@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,7 +82,7 @@ public class CardStrip : Thing
             {
                 sizeY += 10f;
             }
-            collisionSize = new Vec2((float)_numCardsPerScreen * (cards[0].width + 4f), sizeY);
+            collisionSize = new Vector2((float)_numCardsPerScreen * (cards[0].width + 4f), sizeY);
         }
     }
 
@@ -148,16 +149,16 @@ public class CardStrip : Thing
         float yDraw = base.Y;
         if (_heading != null && _heading != "")
         {
-            _font.Scale = new Vec2(0.75f, 0.75f);
+            _font.Scale = new Vector2(0.75f, 0.75f);
             _font.Draw(_heading, base.X + 4f, base.Y, Color.White, 0.95f);
             yDraw += 10f;
         }
-        Vec2 cardPos = Vec2.Zero;
-        Vec2 size = Vec2.Zero;
+        Vector2 cardPos = Vector2.Zero;
+        Vector2 size = Vector2.Zero;
         if (_cards.Count > 0)
         {
-            size = new Vec2(_cards[0].width, _cards[0].height);
-            cardPos = new Vec2(base.X - (size.X + 4f) + _indexSlide * (size.X + 4f), yDraw);
+            size = new Vector2(_cards[0].width, _cards[0].height);
+            cardPos = new Vector2(base.X - (size.X + 4f) + _indexSlide * (size.X + 4f), yDraw);
         }
         int curCard = 0;
         for (int i = _levelIndex - 1; i < _levelIndex + (_numCardsPerScreen + 1); i++)

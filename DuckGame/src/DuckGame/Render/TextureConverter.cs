@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Drawing;
@@ -16,12 +17,12 @@ internal static class TextureConverter
 
     public static bool lastLoadResultedInResize = false;
 
-    private static Vec2 _maxDimensions = Vec2.Zero;
+    private static Vector2 _maxDimensions = Vector2.Zero;
 
     internal unsafe static PNGData LoadPNGDataWithPinkAwesomeness(Bitmap bitmap, bool process)
     {
         lastLoadResultedInResize = false;
-        if (_maxDimensions != Vec2.Zero)
+        if (_maxDimensions != Vector2.Zero)
         {
             float width = _maxDimensions.X;
             float height = _maxDimensions.Y;
@@ -98,11 +99,11 @@ internal static class TextureConverter
         return texture2D;
     }
 
-    internal static Texture2D LoadPNGWithPinkAwesomenessAndMaxDimensions(GraphicsDevice device, Bitmap bitmap, bool process, Vec2 pMaxDimensions)
+    internal static Texture2D LoadPNGWithPinkAwesomenessAndMaxDimensions(GraphicsDevice device, Bitmap bitmap, bool process, Vector2 pMaxDimensions)
     {
         _maxDimensions = pMaxDimensions;
         PNGData dat = LoadPNGDataWithPinkAwesomeness(bitmap, process);
-        _maxDimensions = Vec2.Zero;
+        _maxDimensions = Vector2.Zero;
         Texture2D texture2D = new Texture2D(device, dat.width, dat.height);
         texture2D.SetData(dat.data);
         return texture2D;
@@ -126,7 +127,7 @@ internal static class TextureConverter
         return LoadPNGWithPinkAwesomeness(device, bmp, process);
     }
 
-    internal static Texture2D LoadPNGWithPinkAwesomenessAndMaxDimensions(GraphicsDevice device, string fileName, bool process, Vec2 maxDimensions)
+    internal static Texture2D LoadPNGWithPinkAwesomenessAndMaxDimensions(GraphicsDevice device, string fileName, bool process, Vector2 maxDimensions)
     {
         using Bitmap bmp = new Bitmap(fileName);
         return LoadPNGWithPinkAwesomenessAndMaxDimensions(device, bmp, process, maxDimensions);

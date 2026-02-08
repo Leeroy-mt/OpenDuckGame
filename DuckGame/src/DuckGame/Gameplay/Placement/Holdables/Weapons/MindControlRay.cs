@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Misc")]
@@ -53,12 +55,12 @@ public class MindControlRay : Gun
         _sprite = new SpriteMap("mindControlGun", 16, 16);
         _sprite.frame = 2;
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-7f, -4f);
-        collisionSize = new Vec2(14f, 10f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-7f, -4f);
+        collisionSize = new Vector2(14f, 10f);
         _hat = new SpriteMap("mindControlHelmet", 32, 32);
-        _hat.Center = new Vec2(16f, 16f);
-        _barrelOffsetTL = new Vec2(18f, 8f);
+        _hat.Center = new Vector2(16f, 16f);
+        _barrelOffsetTL = new Vector2(18f, 8f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
@@ -158,7 +160,7 @@ public class MindControlRay : Gun
         base.Update();
         if (_triggerHeld && _beamTimer.hit)
         {
-            Vec2 pos = Offset(base.barrelOffset);
+            Vector2 pos = Offset(base.barrelOffset);
             Level.Add(new ControlWave(pos.X, pos.Y, base.barrelAngle, this, base.isServerForObject));
             if (_controlledDuck != null)
             {
@@ -186,7 +188,7 @@ public class MindControlRay : Gun
         }
     }
 
-    protected override bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected override bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         base.onFire = true;
         return true;
@@ -208,7 +210,7 @@ public class MindControlRay : Gun
             {
                 _hat.AngleDegrees = 0f;
             }
-            Vec2 offset = DuckRig.GetHatPoint(d._sprite.imageIndex);
+            Vector2 offset = DuckRig.GetHatPoint(d._sprite.imageIndex);
             Graphics.Draw(_hat, d.X + offset.X * d._sprite.flipMultH, d.Y + offset.Y * d._sprite.flipMultV);
         }
     }

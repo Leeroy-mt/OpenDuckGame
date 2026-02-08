@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
 
@@ -94,7 +95,7 @@ public class ContextCheckBox : ContextMenu
         {
             Graphics.DrawRect(Position, Position + itemSize, new Color(70, 70, 70), 0.82f);
         }
-        Graphics.DrawString(_text, Position + new Vec2(2f, 5f), Color.White, 0.85f);
+        Graphics.DrawString(_text, Position + new Vector2(2f, 5f), Color.White, 0.85f);
         bool check = false;
         check = ((!(_field.value is IList)) ? ((bool)_field.value) : (_field.value as IList).Contains(_myType));
         _checkBox.Depth = 0.9f;

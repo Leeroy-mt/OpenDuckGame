@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class MuzzleFlare : Thing
@@ -9,7 +11,7 @@ public class MuzzleFlare : Thing
     {
         _sprite = new SpriteMap("smallFlare", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(0f, 8f);
+        Center = new Vector2(0f, 8f);
     }
 
     public override void Update()

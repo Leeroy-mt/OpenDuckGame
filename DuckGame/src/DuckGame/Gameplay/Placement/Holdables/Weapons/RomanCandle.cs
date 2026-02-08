@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Fire")]
@@ -26,10 +28,10 @@ public class RomanCandle : FlareGun
         _type = "gun";
         _sprite = new SpriteMap("romanCandle", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -4f);
-        collisionSize = new Vec2(16f, 6f);
-        _barrelOffsetTL = new Vec2(16f, 9f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -4f);
+        collisionSize = new Vector2(16f, 6f);
+        _barrelOffsetTL = new Vector2(16f, 9f);
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 1f;
@@ -51,10 +53,10 @@ public class RomanCandle : FlareGun
         {
             return;
         }
-        Vec2 fusePos = Offset(new Vec2(-6f, -4f));
+        Vector2 fusePos = Offset(new Vector2(-6f, -4f));
         if (_lit && (bool)_timer)
         {
-            Level.Add(Spark.New(fusePos.X, fusePos.Y, new Vec2(Rando.Float(-1f, 1f), -0.5f), 0.1f));
+            Level.Add(Spark.New(fusePos.X, fusePos.Y, new Vector2(Rando.Float(-1f, 1f), -0.5f), 0.1f));
         }
         if (_lit && _litTimer != null && (bool)_litTimer && _litStartTimer != null && (bool)_litStartTimer)
         {
@@ -75,10 +77,10 @@ public class RomanCandle : FlareGun
             }
             if (base.isServerForObject)
             {
-                Vec2 pos = Offset(base.barrelOffset);
+                Vector2 pos = Offset(base.barrelOffset);
                 CandleBall d = new CandleBall(pos.X, pos.Y, this, 4);
                 Fondle(d);
-                Vec2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.1f, 0.1f));
+                Vector2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.1f, 0.1f));
                 d.hSpeed = travelDir.X * 14f;
                 d.vSpeed = travelDir.Y * 14f;
                 Level.Add(d);
@@ -128,7 +130,7 @@ public class RomanCandle : FlareGun
         base.Terminate();
     }
 
-    protected override bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected override bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         Light();
         return true;

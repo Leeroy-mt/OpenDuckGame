@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ public class CityBackground : BackgroundUpdater
 
         public float textWidth => (bannerTarget == null) ? 1 : bannerTarget.width;
 
-        public Plane(Vec2 pos, string text, bool flyLeft)
+        public Plane(Vector2 pos, string text, bool flyLeft)
             : base("plane", 18, 13)
         {
             _font = new FancyBitmapFont("smallFont");
@@ -41,7 +42,7 @@ public class CityBackground : BackgroundUpdater
             _wiggle = new MaterialWiggle(this);
             Camera cam = new Camera(0f, 0f, bannerTarget.width, bannerTarget.height)
             {
-                position = Vec2.Zero
+                position = Vector2.Zero
             };
             Graphics.SetRenderTarget(bannerTarget);
             DepthStencilState state = new DepthStencilState
@@ -54,8 +55,8 @@ public class CityBackground : BackgroundUpdater
             };
             Graphics.Clear(Color.Transparent);
             Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, state, RasterizerState.CullNone, null, cam.getMatrix());
-            Graphics.DrawRect(new Vec2(0f, 2f), new Vec2(bannerTarget.width - 8, bannerTarget.height - 2), Color.Black);
-            _font.Draw(text, new Vec2(1f, 3f), new Color(47, 0, 66), 1f);
+            Graphics.DrawRect(new Vector2(0f, 2f), new Vector2(bannerTarget.width - 8, bannerTarget.height - 2), Color.Black);
+            _font.Draw(text, new Vector2(1f, 3f), new Color(47, 0, 66), 1f);
             Graphics.screen.End();
             Graphics.SetRenderTarget(null);
         }
@@ -74,7 +75,7 @@ public class CityBackground : BackgroundUpdater
         {
             if (bannerTarget != null)
             {
-                base.Scale = new Vec2(0.5f, 0.5f);
+                base.Scale = new Vector2(0.5f, 0.5f);
                 if (_flyLeft)
                 {
                     base.flipH = true;
@@ -94,7 +95,7 @@ public class CityBackground : BackgroundUpdater
         }
     }
 
-    private Vec2 backgroundPlanePos;
+    private Vector2 backgroundPlanePos;
 
     private List<Plane> _planes = new List<Plane>();
 
@@ -107,9 +108,9 @@ public class CityBackground : BackgroundUpdater
         {
             frame = 5
         };
-        Center = new Vec2(8f, 8f);
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(-8f, -8f);
         base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
@@ -159,7 +160,7 @@ public class CityBackground : BackgroundUpdater
         }
     }
 
-    public void SkySay(string text, Vec2 spawn = default(Vec2), bool pFlyLeft = false)
+    public void SkySay(string text, Vector2 spawn = default(Vector2), bool pFlyLeft = false)
     {
         List<string> parts = new List<string>();
         string part = "";
@@ -188,8 +189,8 @@ public class CityBackground : BackgroundUpdater
         {
             flyLeft = true;
         }
-        Vec2 offset = new Vec2(flyLeft ? 350 : (-50), 60f + Rando.Float(80f));
-        if (spawn != Vec2.Zero)
+        Vector2 offset = new Vector2(flyLeft ? 350 : (-50), 60f + Rando.Float(80f));
+        if (spawn != Vector2.Zero)
         {
             offset = spawn;
             flyLeft = pFlyLeft;

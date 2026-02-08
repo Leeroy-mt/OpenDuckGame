@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Special|Arcade", EditorItemType.Arcade)]
@@ -39,7 +41,7 @@ public class ImportMachine : ArcadeMachine
         _sprite = new SpriteMap("arcade/userMachine", 48, 48);
         graphic = _sprite;
         base.Depth = -0.5f;
-        Center = new Vec2(_sprite.width / 2 - 1, _sprite.h / 2 + 6);
+        Center = new Vector2(_sprite.width / 2 - 1, _sprite.h / 2 + 6);
         lit.value = false;
         Underlay_Style._tooltip = "If disabled, the Arcade Machine art will be completely replaced by your custom style.";
     }

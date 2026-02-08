@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -502,9 +503,9 @@ public class UIMatchmakingBox : UIMenu
         Graphics.Draw(_signalCrossLocal, X - 35, Y - 19);
         _signalCrossNetwork.Depth = Depth + 2;
         Graphics.Draw(_signalCrossNetwork, X + 45, Y - 23);
-        Vec2 fontPos = new(-_font.GetWidth(_caption) / 2, -42);
+        Vector2 fontPos = new(-_font.GetWidth(_caption) / 2, -42);
         _font.DrawOutline(_caption, Position + fontPos, Color.White, Color.Black, Depth + 2);
-        _fancyFont.Scale = new Vec2(0.5f);
+        _fancyFont.Scale = new Vector2(0.5f);
         int yOff = 0;
         int listIDX = 0;
         foreach (string status in _statusList)
@@ -527,7 +528,7 @@ public class UIMatchmakingBox : UIMenu
                     t += elipsis;
                 }
             }
-            _fancyFont.Draw(t, new Vec2(X - 52, Y - 8 + (yOff * 6)), Color.White, Depth + 2);
+            _fancyFont.Draw(t, new Vector2(X - 52, Y - 8 + (yOff * 6)), Color.White, Depth + 2);
             yOff++;
             listIDX++;
         }
@@ -537,14 +538,14 @@ public class UIMatchmakingBox : UIMenu
             if (_totalLobbiesFound == 1)
                 games = "game";
             if (_totalInGameLobbies > 0)
-                _fancyFont.Draw($"{_totalLobbiesFound} open {games} |DGYELLOW|({_totalInGameLobbies} in progress)", Position + new Vec2(-55, 38), Color.Black, Depth + 2);
+                _fancyFont.Draw($"{_totalLobbiesFound} open {games} |DGYELLOW|({_totalInGameLobbies} in progress)", Position + new Vector2(-55, 38), Color.Black, Depth + 2);
             else
-                _fancyFont.Draw($"{_totalLobbiesFound} open {games}", Position + new Vec2(-55, 38), Color.Black, Depth + 2);
+                _fancyFont.Draw($"{_totalLobbiesFound} open {games}", Position + new Vector2(-55, 38), Color.Black, Depth + 2);
         }
         else if (_searchingIsOver)
-            _fancyFont.Draw("Could not connect.", Position + new Vec2(-55, 38), Color.Black, Depth + 2);
+            _fancyFont.Draw("Could not connect.", Position + new Vector2(-55, 38), Color.Black, Depth + 2);
         else
-            _fancyFont.Draw("Querying moon...", Position + new Vec2(-55, 38), Color.Black, Depth + 2);
+            _fancyFont.Draw("Querying moon...", Position + new Vector2(-55, 38), Color.Black, Depth + 2);
     }
 
     public void ChangeState(MatchmakingState s, float wait = 0)

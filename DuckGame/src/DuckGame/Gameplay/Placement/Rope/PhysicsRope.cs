@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -72,11 +73,11 @@ public class PhysicsRope : Thing
     {
         _vine = new SpriteMap("vine", 16, 16);
         graphic = _vine;
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         _vineEnd = new Sprite("vineStretchEnd");
-        _vineEnd.Center = new Vec2(8f, 0f);
-        collisionOffset = new Vec2(-5f, -4f);
-        collisionSize = new Vec2(11f, 7f);
+        _vineEnd.Center = new Vector2(8f, 0f);
+        collisionOffset = new Vector2(-5f, -4f);
+        collisionSize = new Vector2(11f, 7f);
         graphic = _vine;
         _beam = new Sprite("vineStretch");
         _editorName = "Vine";
@@ -127,7 +128,7 @@ public class PhysicsRope : Thing
             {
                 int div = i;
                 Vine newLowest = _lowestVine;
-                Vec2 pos = new Vec2(base.X, base.Y + 8f);
+                Vector2 pos = new Vector2(base.X, base.Y + 8f);
                 _lowestVine = GetSection(pos.X, pos.Y, div * 8);
                 _lowestVine.length.value = div / 2;
                 _lowestVine.owner = d;
@@ -154,7 +155,7 @@ public class PhysicsRope : Thing
             }
             int div2 = i - _lowestVineSection;
             Vine prevLowest = _lowestVine;
-            Vec2 pos2 = new Vec2(base.X, base.Y + 8f);
+            Vector2 pos2 = new Vector2(base.X, base.Y + 8f);
             if (_lowestVine != null)
             {
                 pos2 = _lowestVine._rope.attach1Point;
@@ -209,7 +210,7 @@ public class PhysicsRope : Thing
             int idx = 0;
             foreach (PhysicsRopeSection node in _nodes)
             {
-                node.Position = Position + new Vec2(0f, idx * 8);
+                node.Position = Position + new Vector2(0f, idx * 8);
                 idx++;
             }
             _create = false;
@@ -277,7 +278,7 @@ public class PhysicsRope : Thing
                 }
                 if (section != null && m < section.lowestSection)
                 {
-                    Vec2 vec = section.pos2 - section.pos1;
+                    Vector2 vec = section.pos2 - section.pos1;
                     vec.Normalize();
                     _nodes[m].Position = section.pos1 + vec * moveIndex * 8f;
                     _nodes[m].calcPos = _nodes[m].Position;
@@ -377,7 +378,7 @@ public class PhysicsRope : Thing
     {
         if (Level.current is Editor)
         {
-            graphic.Center = new Vec2(8f, 8f);
+            graphic.Center = new Vector2(8f, 8f);
             graphic.Depth = base.Depth;
             for (int i = 0; i < (int)length; i++)
             {
@@ -387,13 +388,13 @@ public class PhysicsRope : Thing
         }
         UpdateVineProgress();
         Depth deep = -0.5f;
-        Vec2 prevPos = Position + new Vec2(0f, -4f);
+        Vector2 prevPos = Position + new Vector2(0f, -4f);
         if (_lowestVine != null && _lowestVine.owner != null)
         {
             prevPos = _lowestVine.owner.Position;
             if (highestVine != null && highestVine._rope.attach2 is Harpoon)
             {
-                Graphics.DrawTexturedLine(_beam.texture, Position + new Vec2(0f, -4f), _nodes[0].Position + new Vec2(0f, 2f), Color.White, 1f, deep);
+                Graphics.DrawTexturedLine(_beam.texture, Position + new Vector2(0f, -4f), _nodes[0].Position + new Vector2(0f, 2f), Color.White, 1f, deep);
             }
         }
         int index = -1;
@@ -403,7 +404,7 @@ public class PhysicsRope : Thing
             index++;
             if (index >= _lowestVineSection)
             {
-                Vec2 vec = (s.Position - prevPos).Normalized;
+                Vector2 vec = Vector2.Normalize(s.Position - prevPos);
                 if (index == _nodes.Count - 1)
                 {
                     Graphics.DrawTexturedLine(_vineEnd.texture, prevPos, s.Position + vec, Color.White, 1f, deep);

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("survival")]
@@ -14,9 +16,9 @@ public class CryoPlug : Holdable
     {
         _sprite = new SpriteMap("survival/cryoPlug", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        _collisionSize = new Vec2(12f, 12f);
-        _collisionOffset = new Vec2(-6f, -6f);
+        Center = new Vector2(8f, 8f);
+        _collisionSize = new Vector2(12f, 12f);
+        _collisionOffset = new Vector2(-6f, -6f);
         _sprite.frame = 0;
         base.Depth = 0.9f;
     }

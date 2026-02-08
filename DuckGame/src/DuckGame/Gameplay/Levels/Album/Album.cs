@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -182,9 +183,9 @@ public class Album : Level
                     int index = 0;
                     foreach (LockerStat stat in _stats)
                     {
-                        Vec2 textPos = new Vec2(160f, 40 + index * 10);
+                        Vector2 textPos = new Vector2(160f, 40 + index * 10);
                         string text = stat.name;
-                        Graphics.DrawString(text, textPos + new Vec2((0f - Graphics.GetStringWidth(text)) / 2f, 0f), stat.color, 0.5f);
+                        Graphics.DrawString(text, textPos + new Vector2((0f - Graphics.GetStringWidth(text)) / 2f, 0f), stat.color, 0.5f);
                         index++;
                     }
                 }
@@ -198,19 +199,19 @@ public class Album : Level
                             {
                                 if (Graphics.width > 1280)
                                 {
-                                    Vec2 pos = new Vec2(52f, 35f);
+                                    Vector2 pos = new Vector2(52f, 35f);
                                     float scale = 0.3f;
-                                    Vec2 picPos = new Vec2(pos.X + (float)(xpos * 110), pos.Y + (float)(ypos * 65));
+                                    Vector2 picPos = new Vector2(pos.X + (float)(xpos * 110), pos.Y + (float)(ypos * 65));
                                     Graphics.Draw(_textures[picIndex], picPos.X, picPos.Y, scale, scale);
-                                    Graphics.DrawRect(picPos + new Vec2(-3f, -3f), picPos + new Vec2((float)_textures[picIndex].Width * scale + 3f, (float)_textures[picIndex].Height * scale + 3f), Color.White, -0.7f);
+                                    Graphics.DrawRect(picPos + new Vector2(-3f, -3f), picPos + new Vector2((float)_textures[picIndex].Width * scale + 3f, (float)_textures[picIndex].Height * scale + 3f), Color.White, -0.7f);
                                 }
                                 else
                                 {
-                                    Vec2 pos2 = new Vec2(65f, 40f);
+                                    Vector2 pos2 = new Vector2(65f, 40f);
                                     float scale2 = 0.25f;
-                                    Vec2 picPos2 = new Vec2(pos2.X + (float)(xpos * 100), pos2.Y + (float)(ypos * 65));
+                                    Vector2 picPos2 = new Vector2(pos2.X + (float)(xpos * 100), pos2.Y + (float)(ypos * 65));
                                     Graphics.Draw(_textures[picIndex], picPos2.X, picPos2.Y, scale2, scale2);
-                                    Graphics.DrawRect(picPos2 + new Vec2(-3f, -3f), picPos2 + new Vec2((float)_textures[picIndex].Width * scale2 + 3f, (float)_textures[picIndex].Height * scale2 + 3f), Color.White, -0.7f);
+                                    Graphics.DrawRect(picPos2 + new Vector2(-3f, -3f), picPos2 + new Vector2((float)_textures[picIndex].Width * scale2 + 3f, (float)_textures[picIndex].Height * scale2 + 3f), Color.White, -0.7f);
                                 }
                             }
                             picIndex++;
@@ -218,12 +219,12 @@ public class Album : Level
                     }
                 }
                 string name = _pages[_currentPage].caption;
-                _font.Draw(name, new Vec2(Layer.HUD.width / 2f - _font.GetWidth(name) / 2f - 4f, 18f), Color.DarkSlateGray, -0.5f);
+                _font.Draw(name, new Vector2(Layer.HUD.width / 2f - _font.GetWidth(name) / 2f - 4f, 18f), Color.DarkSlateGray, -0.5f);
             }
             else
             {
                 string name2 = "EMPTY ALBUM :(";
-                _font.Draw(name2, new Vec2(Layer.HUD.width / 2f - _font.GetWidth(name2) / 2f - 4f, 18f), Color.DarkSlateGray, -0.5f);
+                _font.Draw(name2, new Vector2(Layer.HUD.width / 2f - _font.GetWidth(name2) / 2f - 4f, 18f), Color.DarkSlateGray, -0.5f);
             }
         }
         base.PostDrawLayer(layer);

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
@@ -30,10 +31,10 @@ public class LaserBullet : Bullet
                 return;
             }
             int num = (int)Math.Ceiling((drawdist - startpoint) / 8f);
-            Vec2 prevus = prev.Last();
+            Vector2 prevus = prev.Last();
             for (int i = 0; i < num; i++)
             {
-                Vec2 cur = GetPointOnArc(i * 8);
+                Vector2 cur = GetPointOnArc(i * 8);
                 Graphics.DrawTexturedLine(_beem, cur, prevus, color * (1f - (float)i / (float)num) * base.Alpha, ammo.bulletThickness, 0.9f);
                 if (!(cur == prev.First()))
                 {
@@ -41,7 +42,7 @@ public class LaserBullet : Bullet
                     if (i == 0 && ammo.sprite != null && !doneTravelling)
                     {
                         ammo.sprite.Depth = 1f;
-                        ammo.sprite.AngleDegrees = 0f - Maths.PointDirection(Vec2.Zero, travelDirNormalized);
+                        ammo.sprite.AngleDegrees = 0f - Maths.PointDirection(Vector2.Zero, travelDirNormalized);
                         Graphics.Draw(ammo.sprite, prevus.X, prevus.Y);
                     }
                     continue;
@@ -74,7 +75,7 @@ public class LaserBullet : Bullet
         }
     }
 
-    protected override void Rebound(Vec2 pos, float dir, float rng)
+    protected override void Rebound(Vector2 pos, float dir, float rng)
     {
         reboundBulletsCreated++;
         Bullet.isRebound = true;

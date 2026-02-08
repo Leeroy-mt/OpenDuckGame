@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NetDebugElement
@@ -21,17 +23,17 @@ public class NetDebugElement
         _interface = pInterface;
     }
 
-    public virtual bool DoDraw(Vec2 position, bool allowInput)
+    public virtual bool DoDraw(Vector2 position, bool allowInput)
     {
         bool val = Draw(position, allowInput);
         if (right != null)
         {
-            val |= right.DoDraw(position + new Vec2(width, 0f), !val);
+            val |= right.DoDraw(position + new Vector2(width, 0f), !val);
         }
         return val;
     }
 
-    protected virtual bool Draw(Vec2 position, bool allowInput)
+    protected virtual bool Draw(Vector2 position, bool allowInput)
     {
         return false;
     }

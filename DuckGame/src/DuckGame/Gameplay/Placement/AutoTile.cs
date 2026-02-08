@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public abstract class AutoTile : MaterialThing, IAutoTile, IDontMove, IPathNodeBlocker
@@ -40,7 +42,7 @@ public abstract class AutoTile : MaterialThing, IAutoTile, IDontMove, IPathNodeB
         }
     }
 
-    public override void SetTranslation(Vec2 translation)
+    public override void SetTranslation(Vector2 translation)
     {
         _leftNub?.SetTranslation(translation);
         _rightNub?.SetTranslation(translation);

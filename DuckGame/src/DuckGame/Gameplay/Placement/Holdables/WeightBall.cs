@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -22,9 +23,9 @@ public class WeightBall : Holdable, IPlatform
         if (isMace)
         {
             graphic = new Sprite("maceBall");
-            Center = new Vec2(9f, 9f);
-            _collisionOffset = new Vec2(-8f, -8f);
-            _collisionSize = new Vec2(14f, 14f);
+            Center = new Vector2(9f, 9f);
+            _collisionOffset = new Vector2(-8f, -8f);
+            _collisionSize = new Vector2(14f, 14f);
             _impactThreshold = 4f;
             canPickUp = false;
             onlyCrush = true;
@@ -33,9 +34,9 @@ public class WeightBall : Holdable, IPlatform
         else
         {
             graphic = new Sprite("weightBall");
-            Center = new Vec2(8f, 8f);
-            _collisionOffset = new Vec2(-7f, -7f);
-            _collisionSize = new Vec2(14f, 14f);
+            Center = new Vector2(8f, 8f);
+            _collisionOffset = new Vector2(-7f, -7f);
+            _collisionSize = new Vector2(14f, 14f);
             _impactThreshold = 2f;
         }
         weight = 9f;
@@ -93,7 +94,7 @@ public class WeightBall : Holdable, IPlatform
         base.OnSolidImpact(with, from);
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         hSpeed += bullet.travelDirNormalized.X;
         vSpeed += bullet.travelDirNormalized.Y;
@@ -105,7 +106,7 @@ public class WeightBall : Holdable, IPlatform
     {
         Thing body1 = ((b1.owner != null) ? b1.owner : b1);
         Thing body2 = ((b2.owner != null) ? b2.owner : b2);
-        Vec2 axis = b2.Position - b1.Position;
+        Vector2 axis = b2.Position - b1.Position;
         float currentDistance = axis.Length();
         if (currentDistance < 0.0001f)
         {
@@ -115,10 +116,10 @@ public class WeightBall : Holdable, IPlatform
         {
             return 0f;
         }
-        Vec2 unitAxis = axis * (1f / currentDistance);
-        Vec2 vel1 = new Vec2(body1.hSpeed, body1.vSpeed);
-        Vec2 vel2 = new Vec2(body2.hSpeed, body2.vSpeed);
-        float num = Vec2.Dot(vel2 - vel1, unitAxis);
+        Vector2 unitAxis = axis * (1f / currentDistance);
+        Vector2 vel1 = new Vector2(body1.hSpeed, body1.vSpeed);
+        Vector2 vel2 = new Vector2(body2.hSpeed, body2.vSpeed);
+        float num = Vector2.Dot(vel2 - vel1, unitAxis);
         float relDist = currentDistance - dist;
         float invMass1 = 2.5f;
         float invMass2 = 2.1f;
@@ -146,7 +147,7 @@ public class WeightBall : Holdable, IPlatform
             invMass2 = 10f;
         }
         float impulse = (num + relDist) / (invMass1 + invMass2);
-        Vec2 impulseVector = unitAxis * impulse;
+        Vector2 impulseVector = unitAxis * impulse;
         vel1 += impulseVector * invMass1;
         vel2 -= impulseVector * invMass2;
         body1.hSpeed = vel1.X;
@@ -199,7 +200,7 @@ public class WeightBall : Holdable, IPlatform
         if (_sparkWait == 0f && base.grounded && Math.Abs(hSpeed) > 1f)
         {
             _sparkWait = 0.25f;
-            Level.Add(Spark.New(base.X + (float)((hSpeed > 0f) ? (-2) : 2), base.Y + 7f, new Vec2(0f, 0.5f)));
+            Level.Add(Spark.New(base.X + (float)((hSpeed > 0f) ? (-2) : 2), base.Y + 7f, new Vector2(0f, 0.5f)));
         }
     }
 }

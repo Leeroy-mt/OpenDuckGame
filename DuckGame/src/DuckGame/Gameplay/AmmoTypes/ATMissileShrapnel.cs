@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ATMissileShrapnel : AmmoType
@@ -11,7 +13,7 @@ public class ATMissileShrapnel : AmmoType
         combustable = true;
     }
 
-    public override void MakeNetEffect(Vec2 pos, bool fromNetwork = false)
+    public override void MakeNetEffect(Vector2 pos, bool fromNetwork = false)
     {
         Level.Add(new ExplosionPart(pos.X + Rando.Float(-2f, 2f), pos.Y + Rando.Float(-2f, 2f), doWait: false));
         for (int repeat = 0; repeat < 4; repeat++)

@@ -1,10 +1,12 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMPhysicsState : NMObjectMessage
 {
-    public Vec2 position;
+    public Vector2 position;
 
-    public Vec2 velocity;
+    public Vector2 velocity;
 
     public int clientFrame;
 
@@ -12,7 +14,7 @@ public class NMPhysicsState : NMObjectMessage
     {
     }
 
-    public NMPhysicsState(Vec2 Position, Vec2 Velocity, ushort ObjectID, int ClientFrame)
+    public NMPhysicsState(Vector2 Position, Vector2 Velocity, ushort ObjectID, int ClientFrame)
         : base(ObjectID)
     {
         position = Position;

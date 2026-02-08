@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -26,7 +27,7 @@ public class GeometryItem
         length = 0;
     }
 
-    public void AddTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color c)
+    public void AddTriangle(Vector2 p1, Vector2 p2, Vector2 p3, Color c)
     {
         if (length + 3 >= size)
         {
@@ -50,7 +51,7 @@ public class GeometryItem
         length += 3;
     }
 
-    public void AddTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color c, Color c2, Color c3)
+    public void AddTriangle(Vector2 p1, Vector2 p2, Vector2 p3, Color c, Color c2, Color c3)
     {
         if (length + 3 >= size)
         {

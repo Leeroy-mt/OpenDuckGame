@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class PortalDrawTransformer : Thing
@@ -18,7 +20,7 @@ public class PortalDrawTransformer : Thing
 
     public override void Draw()
     {
-        Vec2 pos = _thing.Position;
+        Vector2 pos = _thing.Position;
         foreach (PortalDoor d in _portal.GetDoors())
         {
             if (Graphics.currentLayer == d.layer)

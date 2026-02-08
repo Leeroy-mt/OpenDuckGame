@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -9,11 +10,11 @@ public class StandingFluid : Thing
 
     public EditorProperty<int> fluidType = new EditorProperty<int>(0, null, 0f, 2f, 1f);
 
-    private Vec2 _prevPos = Vec2.Zero;
+    private Vector2 _prevPos = Vector2.Zero;
 
-    private Vec2 _leftSide;
+    private Vector2 _leftSide;
 
-    private Vec2 _rightSide;
+    private Vector2 _rightSide;
 
     private float _floor;
 
@@ -26,8 +27,8 @@ public class StandingFluid : Thing
     public StandingFluid(float xpos, float ypos)
         : base(xpos, ypos)
     {
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(-8f, -8f);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(-8f, -8f);
         _editorIcon = new Sprite("standingFluidIcon");
         _editorName = "Liquid";
         editorTooltip = "Place a liquid near the floor in a contained space and you've got yourself a pool party.";
@@ -56,7 +57,7 @@ public class StandingFluid : Thing
         if (!_filled && w8 > 2)
         {
             _filled = true;
-            Block b = Level.CheckRay<Block>(new Vec2(base.X, base.Y), new Vec2(base.X, base.Y + 64f));
+            Block b = Level.CheckRay<Block>(new Vector2(base.X, base.Y), new Vector2(base.X, base.Y + 64f));
             if (b != null)
             {
                 FluidPuddle p = new FluidPuddle(base.X, b.top, b);
@@ -96,7 +97,7 @@ public class StandingFluid : Thing
             {
                 _isValid = false;
                 _prevPos = Position;
-                if (Level.CheckRay<Block>(Position, Position - new Vec2(1000f, 0f), out var left) != null && Level.CheckRay<Block>(Position, Position + new Vec2(1000f, 0f), out var right) != null && Level.CheckRay<Block>(Position, Position + new Vec2(0f, 64f), out var bottom) != null)
+                if (Level.CheckRay<Block>(Position, Position - new Vector2(1000f, 0f), out var left) != null && Level.CheckRay<Block>(Position, Position + new Vector2(1000f, 0f), out var right) != null && Level.CheckRay<Block>(Position, Position + new Vector2(0f, 64f), out var bottom) != null)
                 {
                     _floor = bottom.Y;
                     _leftSide = left;
@@ -106,7 +107,7 @@ public class StandingFluid : Thing
             }
             if (_isValid)
             {
-                Graphics.DrawRect(new Vec2(_leftSide.X, _floor - (float)((int)deep * 8)), new Vec2(_rightSide.X, _floor), new Color(GetFluidType().color) * 0.5f, 0.9f);
+                Graphics.DrawRect(new Vector2(_leftSide.X, _floor - (float)((int)deep * 8)), new Vector2(_rightSide.X, _floor), new Color(GetFluidType().color) * 0.5f, 0.9f);
             }
         }
         base.Draw();

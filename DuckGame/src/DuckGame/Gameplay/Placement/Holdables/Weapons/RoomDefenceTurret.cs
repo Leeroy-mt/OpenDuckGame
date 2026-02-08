@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class RoomDefenceTurret : Gun
@@ -14,19 +16,19 @@ public class RoomDefenceTurret : Gun
 
     private Sprite _base;
 
-    public RoomDefenceTurret(Vec2 pPosition, Duck pOwner)
+    public RoomDefenceTurret(Vector2 pPosition, Duck pOwner)
         : base(pPosition.X, pPosition.Y)
     {
         graphic = new Sprite("turretHead");
-        Center = new Vec2(7f, 4f);
-        collisionSize = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-4f, -4f);
+        Center = new Vector2(7f, 4f);
+        collisionSize = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-4f, -4f);
         _friendly = pOwner;
         canPickUp = false;
         enablePhysics = false;
         _base = new Sprite("turretBase");
         _base.CenterOrigin();
-        _barrelOffsetTL = new Vec2(12f, 5f);
+        _barrelOffsetTL = new Vector2(12f, 5f);
         _ammoType = new ATDefenceLaser();
         _fireSound = "phaserSmall";
         _fireSoundPitch = 0.4f;
@@ -102,7 +104,7 @@ public class RoomDefenceTurret : Gun
 
     public override void Draw()
     {
-        Vec2 kickVector = Position + -base.barrelVector * (kick * 4f);
+        Vector2 kickVector = Position + -base.barrelVector * (kick * 4f);
         graphic.AngleDegrees = base.AngleDegrees;
         graphic.Center = Center;
         graphic.flipH = offDir < 0;

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Details|Terrain")]
@@ -8,9 +10,9 @@ public class WaterFallEdgeTop : Thing
     {
         SpriteMap flow = new SpriteMap("waterFallEdgeTop", 16, 20);
         graphic = flow;
-        Center = new Vec2(8f, 12f);
-        _collisionSize = new Vec2(8f, 8f);
-        _collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 12f);
+        _collisionSize = new Vector2(8f, 8f);
+        _collisionOffset = new Vector2(-8f, -8f);
         base.layer = Layer.Foreground;
         base.Depth = 0.9f;
         base.Alpha = 0.8f;

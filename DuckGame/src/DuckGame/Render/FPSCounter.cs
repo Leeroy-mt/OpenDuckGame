@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -74,7 +75,7 @@ internal static class FPSCounter
                 int num = _characterMap[(uint)text[i]];
                 int uvX = num % 16 * _tileSize;
                 int uvY = num / 16 * _tileSize;
-                batch.Draw(_texture, new Vec2(xpos + xOff, ypos), new Rectangle(uvX, uvY, _tileSize, _tileSize), c, 0f, Vec2.Zero, new Vec2(1f, 1f), SpriteEffects.None, 1f);
+                batch.Draw(_texture, new Vector2(xpos + xOff, ypos), new Rectangle(uvX, uvY, _tileSize, _tileSize), c, 0f, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 1f);
                 xOff += (float)_tileSize;
             }
         }

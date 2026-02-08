@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -14,9 +15,9 @@ public class UICaptureBox : UIMenu
 
     bool _resizable;
 
-    Vec2 _capturePosition;
+    Vector2 _capturePosition;
 
-    Vec2 _captureSize;
+    Vector2 _captureSize;
 
     RenderTarget2D _captureTarget;
 
@@ -30,10 +31,10 @@ public class UICaptureBox : UIMenu
         : base("", xpos, ypos, wide, high)
     {
         float captureSize = 38;
-        _capturePosition = new Vec2(Layer.HUD.camera.width / 2 - captureSize / 2, Layer.HUD.camera.height / 2 - captureSize / 2);
-        _captureSize = new Vec2(captureSize, captureSize);
+        _capturePosition = new Vector2(Layer.HUD.camera.width / 2 - captureSize / 2, Layer.HUD.camera.height / 2 - captureSize / 2);
+        _captureSize = new Vector2(captureSize, captureSize);
         if (resizable)
-            _captureSize = new Vec2(320, 180);
+            _captureSize = new Vector2(320, 180);
         _closeMenu = closeMenu;
         _resizable = resizable;
     }
@@ -74,7 +75,7 @@ public class UICaptureBox : UIMenu
                 if (_captureSize.Y > 720)
                     _captureSize.Y = 720;
 
-                Vec2 bigPos = _capturePosition * mult;
+                Vector2 bigPos = _capturePosition * mult;
                 if (bigPos.X < 0f)
                     bigPos.X = 0f;
                 if (bigPos.Y < 0f)
@@ -112,9 +113,9 @@ public class UICaptureBox : UIMenu
     {
         if (open)
         {
-            Graphics.DrawRect(new Vec2(_capturePosition.X - 1, _capturePosition.Y - 1), new Vec2(_capturePosition.X + (float)(int)_captureSize.X + 1, _capturePosition.Y + (float)(int)_captureSize.Y + 1), Color.White, 1, filled: false);
+            Graphics.DrawRect(new Vector2(_capturePosition.X - 1, _capturePosition.Y - 1), new Vector2(_capturePosition.X + (float)(int)_captureSize.X + 1, _capturePosition.Y + (float)(int)_captureSize.Y + 1), Color.White, 1, filled: false);
             if (_captureTarget != null)
-                Graphics.Draw(_captureTarget, _capturePosition, new Rectangle(0, 0, (int)_captureSize.X * 4, (int)_captureSize.Y * 4), Color.White, 0, Vec2.Zero, new Vec2(0.25f, 0.25f), SpriteEffects.None, 1);
+                Graphics.Draw(_captureTarget, _capturePosition, new Rectangle(0, 0, (int)_captureSize.X * 4, (int)_captureSize.Y * 4), Color.White, 0, Vector2.Zero, new Vector2(0.25f, 0.25f), SpriteEffects.None, 1);
         }
     }
 

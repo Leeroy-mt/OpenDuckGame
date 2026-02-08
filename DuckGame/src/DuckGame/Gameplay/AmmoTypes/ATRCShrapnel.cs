@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ATRCShrapnel : AmmoType
@@ -11,7 +13,7 @@ public class ATRCShrapnel : AmmoType
         combustable = true;
     }
 
-    public override void MakeNetEffect(Vec2 pos, bool fromNetwork = false)
+    public override void MakeNetEffect(Vector2 pos, bool fromNetwork = false)
     {
         int i;
         for (i = 0; i < 1; i++)

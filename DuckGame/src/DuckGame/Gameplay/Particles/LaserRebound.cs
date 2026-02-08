@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class LaserRebound : Thing
@@ -9,7 +11,7 @@ public class LaserRebound : Thing
     {
         graphic = new Sprite(_rebound);
         base.Depth = 0.9f;
-        Center = new Vec2(4f, 4f);
+        Center = new Vector2(4f, 4f);
     }
 
     public override void Update()

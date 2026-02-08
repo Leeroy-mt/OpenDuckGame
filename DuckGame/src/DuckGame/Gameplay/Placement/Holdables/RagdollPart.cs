@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -21,7 +22,7 @@ public class RagdollPart : Holdable, IAmADuck
 
     public float extraGravMultiplier = 1f;
 
-    public Vec2 _lastReasonablePosition;
+    public Vector2 _lastReasonablePosition;
 
     private SpriteMap _sprite;
 
@@ -53,9 +54,9 @@ public class RagdollPart : Holdable, IAmADuck
 
     private int _ownTime;
 
-    private Vec2 _stickLerp;
+    private Vector2 _stickLerp;
 
-    private Vec2 _stickSlowLerp;
+    private Vector2 _stickSlowLerp;
 
     public override NetworkConnection connection
     {
@@ -149,37 +150,37 @@ public class RagdollPart : Holdable, IAmADuck
             }
             if (part == 0)
             {
-                Center = new Vec2(16f, 13f);
+                Center = new Vector2(16f, 13f);
             }
             else if (part == 1)
             {
-                Center = new Vec2(16f, 13f);
+                Center = new Vector2(16f, 13f);
             }
             else if (part == 3)
             {
-                Center = new Vec2(6f, 8f);
+                Center = new Vector2(6f, 8f);
             }
             else
             {
-                Center = new Vec2(8f, 8f);
+                Center = new Vector2(8f, 8f);
             }
             if (part == 0 || part == 1)
             {
                 if (part == 0)
                 {
-                    collisionOffset = new Vec2(-4f, -5f);
-                    collisionSize = new Vec2(8f, 10f);
+                    collisionOffset = new Vector2(-4f, -5f);
+                    collisionSize = new Vector2(8f, 10f);
                 }
                 else
                 {
-                    collisionOffset = new Vec2(-4f, -5f);
-                    collisionSize = new Vec2(8f, 10f);
+                    collisionOffset = new Vector2(-4f, -5f);
+                    collisionSize = new Vector2(8f, 10f);
                 }
             }
             else
             {
-                collisionOffset = new Vec2(-1f, -1f);
-                collisionSize = new Vec2(2f, 2f);
+                collisionOffset = new Vector2(-1f, -1f);
+                collisionSize = new Vector2(2f, 2f);
             }
             if (_persona != null && (_prevPersona != _persona || prevPart != _part))
             {
@@ -259,19 +260,19 @@ public class RagdollPart : Holdable, IAmADuck
         _sprite.frame = ((_part != 0) ? 1 : 0);
         if (part == 0)
         {
-            Center = new Vec2(16f, 16f);
+            Center = new Vector2(16f, 16f);
         }
         else if (part == 1)
         {
-            Center = new Vec2(16f, 13f);
+            Center = new Vector2(16f, 13f);
         }
         else if (part == 3)
         {
-            Center = new Vec2(6f, 8f);
+            Center = new Vector2(6f, 8f);
         }
         else
         {
-            Center = new Vec2(8f, 8f);
+            Center = new Vector2(8f, 8f);
         }
         _zekeBear = true;
     }
@@ -290,7 +291,7 @@ public class RagdollPart : Holdable, IAmADuck
         thickness = 0.5f;
         weight = 0.05f;
         base.bouncy = 0.6f;
-        _holdOffset = new Vec2(2f, 0f);
+        _holdOffset = new Vector2(2f, 0f);
         flammable = 0.3f;
         tapeable = false;
         SortOutDetails(xpos, ypos, p, persona, off, doll);
@@ -335,7 +336,7 @@ public class RagdollPart : Holdable, IAmADuck
         doll.part3.hSpeed = hSpeed;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (_doll == null)
         {
@@ -424,7 +425,7 @@ public class RagdollPart : Holdable, IAmADuck
         return false;
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 exitPos)
+    public override void ExitHit(Bullet bullet, Vector2 exitPos)
     {
     }
 
@@ -458,7 +459,7 @@ public class RagdollPart : Holdable, IAmADuck
         }
         if (_doll.captureDuck != null)
         {
-            Vec2 prevPos = _doll.captureDuck.Position;
+            Vector2 prevPos = _doll.captureDuck.Position;
             _doll.captureDuck.collisionOffset = collisionOffset;
             _doll.captureDuck.collisionSize = collisionSize;
             _doll.captureDuck.Position = Position;
@@ -467,7 +468,7 @@ public class RagdollPart : Holdable, IAmADuck
         }
     }
 
-    public void UpdateLastReasonablePosition(Vec2 pPosition)
+    public void UpdateLastReasonablePosition(Vector2 pPosition)
     {
         if (pPosition.Y > -7000f && pPosition.Y < Level.activeLevel.lowestPoint + 400f)
         {
@@ -578,7 +579,7 @@ public class RagdollPart : Holdable, IAmADuck
         base.Update();
         if (_doll.captureDuck != null && _doll.captureDuck.HasEquipment(typeof(FancyShoes)) && _part == 0 && _doll.captureDuck.holdObject != null)
         {
-            _doll.captureDuck.holdObject.Position = Offset(new Vec2(3f, 5f) + _doll.captureDuck.holdObject.holdOffset);
+            _doll.captureDuck.holdObject.Position = Offset(new Vector2(3f, 5f) + _doll.captureDuck.holdObject.holdOffset);
             _doll.captureDuck.holdObject.Angle = Angle;
             if (_doll.captureDuck.holdObject != null && _doll.captureDuck.isServerForObject)
             {
@@ -598,7 +599,7 @@ public class RagdollPart : Holdable, IAmADuck
                 }
             }
         }
-        FluidPuddle p = Level.CheckPoint<FluidPuddle>(Position + new Vec2(0f, 4f));
+        FluidPuddle p = Level.CheckPoint<FluidPuddle>(Position + new Vector2(0f, 4f));
         if (p != null)
         {
             if (base.Y + 4f - p.top > 8f)
@@ -655,7 +656,7 @@ public class RagdollPart : Holdable, IAmADuck
         visible = _part != 2;
     }
 
-    protected override bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected override bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         if (!_onFire)
         {
@@ -678,21 +679,21 @@ public class RagdollPart : Holdable, IAmADuck
         {
             return;
         }
-        Vec2 pos = Position;
-        Vec2 gap = Position - _joint.Position;
+        Vector2 pos = Position;
+        Vector2 gap = Position - _joint.Position;
         float dist = gap.Length();
         if (dist > 8f)
         {
             dist = 8f;
         }
-        Position = _joint.Position + gap.Normalized * dist;
-        if (_part == 0 && _doll != null && _doll.captureDuck != null && (_doll.captureDuck.quack > 0 || (doll != null && doll.tongueStuck != Vec2.Zero)))
+        Position = _joint.Position + Vector2.Normalize(gap) * dist;
+        if (_part == 0 && _doll != null && _doll.captureDuck != null && (_doll.captureDuck.quack > 0 || (doll != null && doll.tongueStuck != Vector2.Zero)))
         {
-            Vec2 rs = _doll.captureDuck.tounge;
+            Vector2 rs = _doll.captureDuck.tounge;
             _stickLerp = Lerp.Vec2Smooth(_stickLerp, rs, 0.2f);
             _stickSlowLerp = Lerp.Vec2Smooth(_stickSlowLerp, rs, 0.1f);
-            Vec2 stick = _stickLerp;
-            Vec2 facing = Maths.AngleToVec(Angle);
+            Vector2 stick = _stickLerp;
+            Vector2 facing = Maths.AngleToVec(Angle);
             if (offDir < 0)
             {
                 stick *= Maths.Clamp(1f - (facing - stick * -1f).Length(), 0f, 1f);
@@ -702,36 +703,36 @@ public class RagdollPart : Holdable, IAmADuck
                 stick *= Maths.Clamp(1f - (facing - stick).Length(), 0f, 1f);
             }
             stick.Y *= -1f;
-            Vec2 stick2 = _stickSlowLerp;
+            Vector2 stick2 = _stickSlowLerp;
             stick2.Y *= -1f;
             float len = stick.Length();
             _ = 0.5f;
             bool tongueStuck = false;
-            if (doll != null && doll.tongueStuck != Vec2.Zero)
+            if (doll != null && doll.tongueStuck != Vector2.Zero)
             {
                 tongueStuck = true;
                 len = 1f;
             }
             if (len > 0.05f || tongueStuck)
             {
-                Vec2 offsetVec = (Position - _joint.Position).Normalized;
-                Vec2 mouthPos = Position - offsetVec * 3f;
+                Vector2 offsetVec = Vector2.Normalize(Position - _joint.Position);
+                Vector2 mouthPos = Position - offsetVec * 3f;
                 if (tongueStuck)
                 {
                     stick = (doll.tongueStuck - mouthPos) / 6f;
                     stick2 = (doll.tongueStuck - mouthPos) / 6f / 2f;
-                    stick2 = (Offset(new Vec2((doll.tongueStuck - mouthPos).Length() / 2f, 2f)) - mouthPos) / 6f;
+                    stick2 = (Offset(new Vector2((doll.tongueStuck - mouthPos).Length() / 2f, 2f)) - mouthPos) / 6f;
                 }
-                List<Vec2> list = Curve.Bezier(8, mouthPos, mouthPos + stick2 * 6f, mouthPos + stick * 6f);
-                Vec2 prev = Vec2.Zero;
+                List<Vector2> list = Curve.Bezier(8, mouthPos, mouthPos + stick2 * 6f, mouthPos + stick * 6f);
+                Vector2 prev = Vector2.Zero;
                 float lenMul = 1f;
-                foreach (Vec2 p in list)
+                foreach (Vector2 p in list)
                 {
-                    if (prev != Vec2.Zero)
+                    if (prev != Vector2.Zero)
                     {
-                        Vec2 dir = prev - p;
-                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.Normalized * 0.4f, p, new Color(223, 30, 30), 0.15f * lenMul, base.Depth + 1);
-                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.Normalized * 0.4f, p - dir.Normalized * 0.4f, Color.Black, 0.3f * lenMul, base.Depth - 1);
+                        Vector2 dir = prev - p;
+                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + Vector2.Normalize(dir) * 0.4f, p, new Color(223, 30, 30), 0.15f * lenMul, base.Depth + 1);
+                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + Vector2.Normalize(dir) * 0.4f, p - Vector2.Normalize(dir) * 0.4f, Color.Black, 0.3f * lenMul, base.Depth - 1);
                     }
                     lenMul -= 0.1f;
                     prev = p;
@@ -777,12 +778,12 @@ public class RagdollPart : Holdable, IAmADuck
             }
             else if (doll != null && doll.captureDuck != null)
             {
-                doll.captureDuck.tongueCheck = Vec2.Zero;
+                doll.captureDuck.tongueCheck = Vector2.Zero;
             }
         }
         else if (doll != null && doll.captureDuck != null)
         {
-            doll.captureDuck.tongueCheck = Vec2.Zero;
+            doll.captureDuck.tongueCheck = Vector2.Zero;
         }
         SpriteMap s = graphic as SpriteMap;
         if (s != null && doll != null && doll.inSleepingBag)

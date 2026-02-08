@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Equipment")]
@@ -18,15 +20,15 @@ public class ChestPlate : Equipment
         _pickupSprite = new Sprite("chestPlatePickup");
         _pickupSprite.CenterOrigin();
         graphic = _pickupSprite;
-        collisionOffset = new Vec2(-6f, -4f);
-        collisionSize = new Vec2(11f, 8f);
-        _equippedCollisionOffset = new Vec2(-7f, -5f);
-        _equippedCollisionSize = new Vec2(12f, 11f);
+        collisionOffset = new Vector2(-6f, -4f);
+        collisionSize = new Vector2(11f, 8f);
+        _equippedCollisionOffset = new Vector2(-7f, -5f);
+        _equippedCollisionSize = new Vector2(12f, 11f);
         _hasEquippedCollision = true;
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         physicsMaterial = PhysicsMaterial.Metal;
         _equippedDepth = 4;
-        _wearOffset = new Vec2(1f, 1f);
+        _wearOffset = new Vector2(1f, 1f);
         _isArmor = true;
         _equippedThickness = 3f;
         editorTooltip = "Protects against impacts to the chest. Makes you look swole.";
@@ -40,25 +42,25 @@ public class ChestPlate : Equipment
         }
         if (_equippedDuck != null && !destroyed)
         {
-            Center = new Vec2(16f, 16f);
+            Center = new Vector2(16f, 16f);
             solid = false;
             _sprite.flipH = base.duck._sprite.flipH;
             _spriteOver.flipH = base.duck._sprite.flipH;
             graphic = _sprite;
             if (_equippedDuck.sliding)
             {
-                _equippedCollisionOffset = new Vec2(-5f, -5f);
-                _equippedCollisionSize = new Vec2(10f, 13f);
+                _equippedCollisionOffset = new Vector2(-5f, -5f);
+                _equippedCollisionSize = new Vector2(10f, 13f);
             }
             else
             {
-                _equippedCollisionOffset = new Vec2(-7f, -5f);
-                _equippedCollisionSize = new Vec2(12f, 11f);
+                _equippedCollisionOffset = new Vector2(-7f, -5f);
+                _equippedCollisionSize = new Vector2(12f, 11f);
             }
         }
         else
         {
-            Center = new Vec2(_pickupSprite.w / 2, _pickupSprite.h / 2);
+            Center = new Vector2(_pickupSprite.w / 2, _pickupSprite.h / 2);
             solid = true;
             _sprite.frame = 0;
             _sprite.flipH = false;

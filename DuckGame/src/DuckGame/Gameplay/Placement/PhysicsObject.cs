@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
 
     private const short positionMax = 8191;
 
-    public Vec2 cameraPositionOverride = Vec2.Zero;
+    public Vector2 cameraPositionOverride = Vector2.Zero;
 
     public float vMax = 8f;
 
@@ -81,9 +82,9 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
 
     protected bool _inPhysicsLoop;
 
-    protected Vec2 _lastPosition = Vec2.Zero;
+    protected Vector2 _lastPosition = Vector2.Zero;
 
-    protected Vec2 _lastVelocity = Vec2.Zero;
+    protected Vector2 _lastVelocity = Vector2.Zero;
 
     public bool inRewindLoop;
 
@@ -93,7 +94,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
 
     private List<Duck> _hitDucks;
 
-    public Vec2 velocityBeforeFriction = Vec2.Zero;
+    public Vector2 velocityBeforeFriction = Vector2.Zero;
 
     private bool _initedNetSounds;
 
@@ -188,7 +189,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         }
     }
 
-    public virtual Vec2 netVelocity
+    public virtual Vector2 netVelocity
     {
         get
         {
@@ -236,7 +237,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         }
     }
 
-    public override Vec2 netPosition
+    public override Vector2 netPosition
     {
         get
         {
@@ -252,11 +253,11 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         }
     }
 
-    public override Vec2 cameraPosition
+    public override Vector2 cameraPosition
     {
         get
         {
-            if (!(cameraPositionOverride != Vec2.Zero))
+            if (!(cameraPositionOverride != Vector2.Zero))
             {
                 return base.cameraPosition;
             }
@@ -376,9 +377,9 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         }
     }
 
-    public Vec2 lastPosition => _lastPosition;
+    public Vector2 lastPosition => _lastPosition;
 
-    public Vec2 lastVelocity => _lastVelocity;
+    public Vector2 lastVelocity => _lastVelocity;
 
     public bool ownerIsLocalController
     {
@@ -427,7 +428,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
             if (_sleeping && !value)
             {
                 _sleeping = value;
-                foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(base.topLeft + new Vec2(0f, -4f), base.topRight + new Vec2(0f, -4f)))
+                foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(base.topLeft + new Vector2(0f, -4f), base.topRight + new Vector2(0f, -4f)))
                 {
                     item.sleeping = false;
                 }
@@ -655,8 +656,8 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         {
             hSpeed = 0f - hMax;
         }
-        Vec2 tl = base.topLeft + new Vec2(0f, 0.5f);
-        Vec2 br = base.bottomRight + new Vec2(0f, -0.5f);
+        Vector2 tl = base.topLeft + new Vector2(0f, 0.5f);
+        Vector2 br = base.bottomRight + new Vector2(0f, -0.5f);
         lastHSpeed = hSpeed;
         float realX = 0f;
         bool hasRealX = false;
@@ -679,7 +680,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
             if (Network.isActive && !base.isServerForObject && Math.Abs(hSpeed) > 0.5f)
             {
                 _hitDucks.Clear();
-                Level.CheckRectAll(tl + new Vec2(hSpeed * 2f, 0f), br + new Vec2(hSpeed * 2f, 0f), _hitDucks);
+                Level.CheckRectAll(tl + new Vector2(hSpeed * 2f, 0f), br + new Vector2(hSpeed * 2f, 0f), _hitDucks);
                 foreach (Duck d in _hitDucks)
                 {
                     if (hSpeed > 0f)
@@ -716,7 +717,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
                     {
                         continue;
                     }
-                    Vec2 prevPos = Position;
+                    Vector2 prevPos = Position;
                     bool touch = false;
                     if (t.left <= base.right && t.left > base.left)
                     {
@@ -788,8 +789,8 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
         {
             Math.Ceiling(vSpeed);
         }
-        tl = base.topLeft + new Vec2(0.5f, 0f);
-        br = base.bottomRight + new Vec2(-0.5f, 0f);
+        tl = base.topLeft + new Vector2(0.5f, 0f);
+        br = base.bottomRight + new Vector2(-0.5f, 0f);
         float floaterTop = -9999f;
         bool touchedWater = false;
         float oldVSpeed = vSpeed;
@@ -851,7 +852,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
                 {
                     continue;
                 }
-                Vec2 prevPos2 = Position;
+                Vector2 prevPos2 = Position;
                 bool touch2 = false;
                 if (t2.bottom >= base.top && t2.top < base.top)
                 {
@@ -987,7 +988,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
     {
         if (buoyancy > 0f)
         {
-            FluidPuddle p = Level.CheckPoint<FluidPuddle>(Position + new Vec2(0f, 4f));
+            FluidPuddle p = Level.CheckPoint<FluidPuddle>(Position + new Vector2(0f, 4f));
             if (p != null)
             {
                 if (onlyFloatInLava && p.data.heat < 0.5f)

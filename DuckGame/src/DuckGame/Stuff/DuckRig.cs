@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,9 +7,9 @@ namespace DuckGame;
 
 public class DuckRig
 {
-    private static List<Vec2> _hatPoints = new List<Vec2>();
+    private static List<Vector2> _hatPoints = new List<Vector2>();
 
-    private static List<Vec2> _chestPoints = new List<Vec2>();
+    private static List<Vector2> _chestPoints = new List<Vector2>();
 
     public static void Initialize()
     {
@@ -20,13 +21,13 @@ public class DuckRig
             int num = r.ReadInt32();
             for (int i = 0; i < num; i++)
             {
-                Vec2 hatPoint = new Vec2
+                Vector2 hatPoint = new Vector2
                 {
                     X = r.ReadInt32(),
                     Y = r.ReadInt32()
                 };
                 _hatPoints.Add(hatPoint);
-                Vec2 chestPoint = new Vec2
+                Vector2 chestPoint = new Vector2
                 {
                     X = r.ReadInt32(),
                     Y = r.ReadInt32()
@@ -42,12 +43,12 @@ public class DuckRig
         }
     }
 
-    public static Vec2 GetHatPoint(int frame)
+    public static Vector2 GetHatPoint(int frame)
     {
         return _hatPoints[frame];
     }
 
-    public static Vec2 GetChestPoint(int frame)
+    public static Vector2 GetChestPoint(int frame)
     {
         return _chestPoints[frame];
     }

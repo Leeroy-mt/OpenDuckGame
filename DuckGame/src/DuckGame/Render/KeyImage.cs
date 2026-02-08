@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class KeyImage : Sprite
@@ -25,6 +27,6 @@ public class KeyImage : Sprite
         _keySprite.Scale = base.Scale;
         _keySprite.Draw();
         _font.Scale = base.Scale;
-        _font.Draw(_keyString, Position + new Vec2((float)_keySprite.width * _keySprite.Scale.X / 2f - _font.GetWidth(_keyString) / 2f - 1f, 2f * _keySprite.Scale.Y), new Color(20, 32, 34), base.Depth + 2);
+        _font.Draw(_keyString, Position + new Vector2((float)_keySprite.width * _keySprite.Scale.X / 2f - _font.GetWidth(_keyString) / 2f - 1f, 2f * _keySprite.Scale.Y), new Color(20, 32, 34), base.Depth + 2);
     }
 }

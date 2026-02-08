@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Equipment")]
@@ -15,9 +17,9 @@ public class Helmet : Hat
         _pickupSprite = new Sprite("helmetPickup");
         _sprite = new SpriteMap("helmet", 32, 32);
         graphic = _pickupSprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-5f, -2f);
-        collisionSize = new Vec2(12f, 8f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-5f, -2f);
+        collisionSize = new Vector2(12f, 8f);
         _sprite.CenterOrigin();
         _isArmor = true;
         _equippedThickness = 3f;
@@ -40,19 +42,19 @@ public class Helmet : Hat
         {
             if (_equippedDuck.sliding)
             {
-                collisionOffset = new Vec2(-3f, -7f);
-                collisionSize = new Vec2(9f, 12f);
+                collisionOffset = new Vector2(-3f, -7f);
+                collisionSize = new Vector2(9f, 12f);
             }
             else
             {
-                collisionOffset = new Vec2(-5f, -2f);
-                collisionSize = new Vec2(12f, 8f);
+                collisionOffset = new Vector2(-5f, -2f);
+                collisionSize = new Vector2(12f, 8f);
             }
         }
         else
         {
-            collisionOffset = new Vec2(-5f, -2f);
-            collisionSize = new Vec2(12f, 8f);
+            collisionOffset = new Vector2(-5f, -2f);
+            collisionSize = new Vector2(12f, 8f);
         }
         base.Update();
     }

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ContextFile : ContextMenu
@@ -149,7 +151,7 @@ public class ContextFile : ContextMenu
             Graphics.DrawRect(Position, Position + itemSize, new Color(70, 70, 70), 0.83f);
             if (val.Length > 0)
             {
-                Vec2 pos = new Vec2(base.X, base.Y);
+                Vector2 pos = new Vector2(base.X, base.Y);
                 pos.X += itemSize.X + 4f;
                 pos.Y -= 2f;
                 int last = val.LastIndexOf("/") + 1;
@@ -158,11 +160,11 @@ public class ContextFile : ContextMenu
                 {
                     t = t.Substring(0, 20);
                 }
-                Graphics.DrawString(t + "...", Position + new Vec2(2f, 5f), Color.White, 0.85f);
+                Graphics.DrawString(t + "...", Position + new Vector2(2f, 5f), Color.White, 0.85f);
             }
             else
             {
-                Graphics.DrawString("NO FILE", Position + new Vec2(2f, 5f), Color.White, 0.85f);
+                Graphics.DrawString("NO FILE", Position + new Vector2(2f, 5f), Color.White, 0.85f);
             }
         }
         else if (val.Length > 0)
@@ -173,11 +175,11 @@ public class ContextFile : ContextMenu
             {
                 t2 = t2.Substring(0, 20);
             }
-            Graphics.DrawString(t2, Position + new Vec2(2f, 5f), Color.LimeGreen, 0.85f);
+            Graphics.DrawString(t2, Position + new Vector2(2f, 5f), Color.LimeGreen, 0.85f);
         }
         else
         {
-            Graphics.DrawString(_text, Position + new Vec2(2f, 5f), Color.Red, 0.85f);
+            Graphics.DrawString(_text, Position + new Vector2(2f, 5f), Color.Red, 0.85f);
         }
     }
 }

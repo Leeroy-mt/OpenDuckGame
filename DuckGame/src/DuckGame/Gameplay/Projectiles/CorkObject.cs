@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class CorkObject : PhysicsObject, ISwing, IPullBack
@@ -14,15 +16,15 @@ public class CorkObject : PhysicsObject, ISwing, IPullBack
         : base(pX, pY)
     {
         graphic = new Sprite("cork");
-        _collisionSize = new Vec2(4f, 4f);
-        _collisionOffset = new Vec2(-2f, -3f);
-        Center = new Vec2(3f, 3f);
+        _collisionSize = new Vector2(4f, 4f);
+        _collisionOffset = new Vector2(-2f, -3f);
+        Center = new Vector2(3f, 3f);
         _gun = pOwner;
         weight = 0.1f;
         base.bouncy = 0.5f;
         airFrictionMult = 0f;
         _ropeSprite = new Sprite("grappleWire");
-        _ropeSprite.Center = new Vec2(8f, 0f);
+        _ropeSprite.Center = new Vector2(8f, 0f);
     }
 
     public Rope GetRopeParent(Thing child)
@@ -88,7 +90,7 @@ public class CorkObject : PhysicsObject, ISwing, IPullBack
             }
             _rope.Position = Position;
             _rope.SetServer(base.isServerForObject);
-            Vec2 travel = _rope.attach1.Position - _rope.attach2.Position;
+            Vector2 travel = _rope.attach1.Position - _rope.attach2.Position;
             bool physics = true;
             if (_rope.properLength < 0f)
             {
@@ -99,10 +101,10 @@ public class CorkObject : PhysicsObject, ISwing, IPullBack
             }
             if (travel.Length() > _rope.properLength)
             {
-                travel = travel.Normalized;
+                travel.Normalize(); // TODO: travel = Vector2.Normalize(travel)
                 _ = Position;
-                Vec2 start = Position;
-                Vec2 p2 = _rope.attach2.Position + travel * _rope.properLength;
+                Vector2 start = Position;
+                Vector2 p2 = _rope.attach2.Position + travel * _rope.properLength;
                 Level.CheckRay<Block>(start, p2, out var _);
                 if (physics)
                 {
@@ -112,11 +114,11 @@ public class CorkObject : PhysicsObject, ISwing, IPullBack
                     float prevSpec = specialFrictionMod;
                     specialFrictionMod = 0f;
                     airFrictionMult = 0f;
-                    Vec2 lastPos = base.lastPosition;
+                    Vector2 lastPos = base.lastPosition;
                     UpdatePhysics();
                     gravMultiplier = 1f;
                     specialFrictionMod = prevSpec;
-                    Vec2 dif = p2 - lastPos;
+                    Vector2 dif = p2 - lastPos;
                     if (dif.Length() > 32f)
                     {
                         Position = p2;

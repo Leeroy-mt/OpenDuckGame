@@ -71,7 +71,7 @@ public struct Vec3 : IEquatable<Vec3>
         z = value;
     }
 
-    public Vec3(Vec2 value, float z)
+    public Vec3(Vector2 value, float z)
     {
         x = value.X;
         y = value.Y;
@@ -123,20 +123,20 @@ public struct Vec3 : IEquatable<Vec3>
         result = new Vec3(MathHelper.Clamp(value1.x, min.x, max.x), MathHelper.Clamp(value1.y, min.y, max.y), MathHelper.Clamp(value1.z, min.z, max.z));
     }
 
-    public static Vec3 Cross(Vec3 vector1, Vec3 Vec2)
+    public static Vec3 Cross(Vec3 vector1, Vec3 Vector2)
     {
         Vec3 result = default(Vec3);
-        result.x = vector1.y * Vec2.z - Vec2.y * vector1.z;
-        result.y = Vec2.x * vector1.z - vector1.x * Vec2.z;
-        result.z = vector1.x * Vec2.y - Vec2.x * vector1.y;
+        result.x = vector1.y * Vector2.z - Vector2.y * vector1.z;
+        result.y = Vector2.x * vector1.z - vector1.x * Vector2.z;
+        result.z = vector1.x * Vector2.y - Vector2.x * vector1.y;
         return result;
     }
 
-    public static void Cross(ref Vec3 vector1, ref Vec3 Vec2, out Vec3 result)
+    public static void Cross(ref Vec3 vector1, ref Vec3 Vector2, out Vec3 result)
     {
-        result.x = vector1.y * Vec2.z - Vec2.y * vector1.z;
-        result.y = Vec2.x * vector1.z - vector1.x * Vec2.z;
-        result.z = vector1.x * Vec2.y - Vec2.x * vector1.y;
+        result.x = vector1.y * Vector2.z - Vector2.y * vector1.z;
+        result.y = Vector2.x * vector1.z - vector1.x * Vector2.z;
+        result.z = vector1.x * Vector2.y - Vector2.x * vector1.y;
     }
 
     public static float Distance(Vec3 value1, Vec3 value2)
@@ -191,14 +191,14 @@ public struct Vec3 : IEquatable<Vec3>
         result.z = value1.z / value2.z;
     }
 
-    public static float Dot(Vec3 vector1, Vec3 Vec2)
+    public static float Dot(Vec3 vector1, Vec3 Vector2)
     {
-        return vector1.x * Vec2.x + vector1.y * Vec2.y + vector1.z * Vec2.z;
+        return vector1.x * Vector2.x + vector1.y * Vector2.y + vector1.z * Vector2.z;
     }
 
-    public static void Dot(ref Vec3 vector1, ref Vec3 Vec2, out float result)
+    public static void Dot(ref Vec3 vector1, ref Vec3 Vector2, out float result)
     {
-        result = vector1.x * Vec2.x + vector1.y * Vec2.y + vector1.z * Vec2.z;
+        result = vector1.x * Vector2.x + vector1.y * Vector2.y + vector1.z * Vector2.z;
     }
 
     public override bool Equals(object obj)

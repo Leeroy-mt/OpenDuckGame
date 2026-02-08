@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,9 +67,9 @@ public class ChallengeMode : Thing
     public ChallengeMode()
     {
         graphic = new Sprite("challengeIcon");
-        Center = new Vec2(8f, 8f);
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(-8f, -8f);
         base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _editorName = "Challenge";
@@ -312,7 +313,7 @@ public class ChallengeMode : Thing
             if (Teams.all[_hatIndex].hasHat)
             {
                 _hatMenu.image = Teams.all[_hatIndex].hat.CloneMap();
-                _hatMenu.image.Center = new Vec2(12f, 12f) + Teams.all[_hatIndex].hatOffset;
+                _hatMenu.image.Center = new Vector2(12f, 12f) + Teams.all[_hatIndex].hatOffset;
             }
             else
             {

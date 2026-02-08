@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -27,12 +28,12 @@ public class ForceWave : Thing
     {
         offDir = (sbyte)dir;
         graphic = new Sprite("sledgeForce");
-        Center = new Vec2(graphic.w, graphic.h);
+        Center = new Vector2(graphic.w, graphic.h);
         _alphaSub = alphaSub;
         _speed = speed;
         _speedv = speedv;
-        _collisionSize = new Vec2(6f, 30f);
-        _collisionOffset = new Vec2(-3f, -15f);
+        _collisionSize = new Vector2(6f, 30f);
+        _collisionOffset = new Vector2(-3f, -15f);
         graphic.flipH = offDir <= 0;
         _waveOwner = own;
         base.Depth = -0.7f;

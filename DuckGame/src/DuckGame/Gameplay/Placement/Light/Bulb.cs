@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -14,9 +15,9 @@ public class Bulb : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("bulb");
-        Center = new Vec2(8f, 4f);
-        _collisionSize = new Vec2(4f, 6f);
-        _collisionOffset = new Vec2(-2f, -4f);
+        Center = new Vector2(8f, 4f);
+        _collisionSize = new Vector2(4f, 6f);
+        _collisionOffset = new Vector2(-2f, -4f);
         base.Depth = 0.9f;
         base.hugWalls = WallHug.Ceiling;
         base.layer = Layer.Game;

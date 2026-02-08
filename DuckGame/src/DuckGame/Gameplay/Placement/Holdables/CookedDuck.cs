@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -26,9 +27,9 @@ public class CookedDuck : Holdable, IPlatform
         : base(xpos, ypos)
     {
         graphic = new Sprite("cookedDuck");
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-6f, -4f);
-        collisionSize = new Vec2(12f, 11f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-6f, -4f);
+        collisionSize = new Vector2(12f, 11f);
         base.Depth = -0.5f;
         thickness = 0.5f;
         weight = 5f;
@@ -40,7 +41,7 @@ public class CookedDuck : Holdable, IPlatform
             m.AddAnimation("idle", 0.12f, true, 3, 4, 5, 6, 7, 8);
             m.SetAnimation("idle");
             m.frame = Rando.Int(5);
-            m.Center = new Vec2(1f, 8f);
+            m.Center = new Vector2(1f, 8f);
             m.Alpha = 0.5f;
             _flavourLines.Add(m);
         }
@@ -52,7 +53,7 @@ public class CookedDuck : Holdable, IPlatform
         return false;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal)
         {
@@ -65,7 +66,7 @@ public class CookedDuck : Holdable, IPlatform
         return base.Hit(bullet, hitPos);
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 exitPos)
+    public override void ExitHit(Bullet bullet, Vector2 exitPos)
     {
         Level.Add(new WetPierceEffect(exitPos.X, exitPos.Y, bullet.travelDirNormalized, this));
     }

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Linq;
 
 namespace DuckGame;
@@ -31,9 +32,9 @@ public class WireButton : Block, IWirePeripheral
     {
         _sprite = new SpriteMap("wireButton", 16, 19);
         graphic = _sprite;
-        Center = new Vec2(8f, 11f);
-        collisionOffset = new Vec2(-8f, -8f);
-        collisionSize = new Vec2(16f, 16f);
+        Center = new Vector2(8f, 11f);
+        collisionOffset = new Vector2(-8f, -8f);
+        collisionSize = new Vector2(16f, 16f);
         base.Depth = -0.5f;
         _editorName = "Wire Button";
         editorTooltip = "Stepping on a Button triggers the behavior of connected objects.";
@@ -115,12 +116,12 @@ public class WireButton : Block, IWirePeripheral
             {
                 if (!releaseOnly.value && t.isServerForObject)
                 {
-                    Level.CheckRect<WireTileset>(base.topLeft + new Vec2(2f, 2f), base.bottomRight + new Vec2(-2f, -2f))?.Emit(null, 0f, offSignal.value ? 2 : 3);
+                    Level.CheckRect<WireTileset>(base.topLeft + new Vector2(2f, 2f), base.bottomRight + new Vector2(-2f, -2f))?.Emit(null, 0f, offSignal.value ? 2 : 3);
                 }
             }
             else if (!releaseOnly.value && t.isServerForObject)
             {
-                Level.CheckRect<WireTileset>(base.topLeft + new Vec2(2f, 2f), base.bottomRight + new Vec2(-2f, -2f))?.Emit(null, 0f, offSignal.value ? 1 : 0);
+                Level.CheckRect<WireTileset>(base.topLeft + new Vector2(2f, 2f), base.bottomRight + new Vector2(-2f, -2f))?.Emit(null, 0f, offSignal.value ? 1 : 0);
             }
         }
         prevO = t;
@@ -140,7 +141,7 @@ public class WireButton : Block, IWirePeripheral
         {
             if (_sprite.frame == 0)
             {
-                Level.CheckRect<WireTileset>(base.topLeft + new Vec2(2f, 2f), base.bottomRight + new Vec2(-2f, -2f))?.Emit(null, 0f, 1);
+                Level.CheckRect<WireTileset>(base.topLeft + new Vector2(2f, 2f), base.bottomRight + new Vector2(-2f, -2f))?.Emit(null, 0f, 1);
             }
             if (_sprite.frame == 1)
             {
@@ -165,7 +166,7 @@ public class WireButton : Block, IWirePeripheral
                     _sprite.frame = 0;
                     if ((offSignal.value || releaseOnly.value) && (prevO == null || prevO.isServerForObject))
                     {
-                        Level.CheckRect<WireTileset>(base.topLeft + new Vec2(2f, 2f), base.bottomRight + new Vec2(-2f, -2f))?.Emit(null, 0f, (!releaseOnly.value) ? 2 : 0);
+                        Level.CheckRect<WireTileset>(base.topLeft + new Vector2(2f, 2f), base.bottomRight + new Vector2(-2f, -2f))?.Emit(null, 0f, (!releaseOnly.value) ? 2 : 0);
                     }
                 }
             }

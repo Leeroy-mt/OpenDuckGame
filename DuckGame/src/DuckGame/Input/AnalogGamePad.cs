@@ -39,11 +39,11 @@ public class AnalogGamePad : InputDevice
 
     public static bool inputDelay = true;
 
-    private Vec2 _rumble;
+    private Vector2 _rumble;
 
-    private Vec2 _highestRumble = Vec2.Zero;
+    private Vector2 _highestRumble = Vector2.Zero;
 
-    private Vec2 _prevRumble;
+    private Vector2 _prevRumble;
 
     private int _rumbleWait;
 
@@ -55,9 +55,9 @@ public class AnalogGamePad : InputDevice
 
     public virtual float rightTrigger => Maths.NormalizeSection(_state.triggers.right, 0.1f, 1f);
 
-    public virtual Vec2 leftStick => new Vec2(_state.sticks.left.X, _state.sticks.left.Y);
+    public virtual Vector2 leftStick => new Vector2(_state.sticks.left.X, _state.sticks.left.Y);
 
-    public virtual Vec2 rightStick => new Vec2(_state.sticks.right.X, _state.sticks.right.Y);
+    public virtual Vector2 rightStick => new Vector2(_state.sticks.right.X, _state.sticks.right.Y);
 
     public AnalogGamePad(int idx)
         : base(idx)
@@ -76,12 +76,12 @@ public class AnalogGamePad : InputDevice
         {
             return;
         }
-        if (_rumble == Vec2.Zero && (leftIntensity != 0f || rightIntensity != 0f))
+        if (_rumble == Vector2.Zero && (leftIntensity != 0f || rightIntensity != 0f))
         {
             RumbleNow(leftIntensity, rightIntensity);
             return;
         }
-        _rumble = new Vec2(leftIntensity, rightIntensity);
+        _rumble = new Vector2(leftIntensity, rightIntensity);
         if (_rumble.X > _highestRumble.X)
         {
             _highestRumble.X = _rumble.X;
@@ -95,9 +95,9 @@ public class AnalogGamePad : InputDevice
     private void RumbleNow(float pLeft, float pRight)
     {
         GamePad.SetVibration((PlayerIndex)base.index, pLeft, pRight);
-        _prevRumble = new Vec2(pLeft, pRight);
+        _prevRumble = new Vector2(pLeft, pRight);
         _rumble = _prevRumble;
-        _highestRumble = Vec2.Zero;
+        _highestRumble = Vector2.Zero;
     }
 
     public override void Update()

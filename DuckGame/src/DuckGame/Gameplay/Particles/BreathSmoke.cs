@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -97,7 +98,7 @@ public class BreathSmoke : Thing
         _sprite2 = new SpriteMap("tinySmokeTestBack", 16, 16);
         _sprite2.currentAnimation = null;
         _orbiter.currentAnimation = null;
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
     }
 
     private void Init(float xpos, float ypos)
@@ -155,7 +156,7 @@ public class BreathSmoke : Thing
         float yOff = (float)Math.Cos(_orbitInc) * distPulse * s1;
         _sprite.imageIndex = _sprite.imageIndex;
         _sprite.Depth = base.Depth;
-        _sprite.Scale = new Vec2(s1);
+        _sprite.Scale = new Vector2(s1);
         _sprite.Center = Center;
         _sprite.Alpha = base.Alpha;
         _sprite.color = new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue, (byte)(base.Alpha * 255f));

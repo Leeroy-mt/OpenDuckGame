@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -26,15 +27,15 @@ public class Crate : Holdable, IPlatform
         _hitPoints = 15f;
         _sprite = new SpriteMap("crate", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -8f);
-        collisionSize = new Vec2(16f, 16f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -8f);
+        collisionSize = new Vector2(16f, 16f);
         base.Depth = -0.5f;
         _editorName = "Crate";
         thickness = 2f;
         weight = 5f;
         buoyancy = 1f;
-        _holdOffset = new Vec2(2f, 0f);
+        _holdOffset = new Vector2(2f, 0f);
         flammable = 0.3f;
         base.collideSounds.Add("crateHit");
         editorTooltip = "It's made of wood. That's...pretty much it.";
@@ -45,7 +46,7 @@ public class Crate : Holdable, IPlatform
         _hitPoints = 0f;
         Level.Remove(this);
         SFX.Play("crateDestroy");
-        Vec2 flyDir = Vec2.Zero;
+        Vector2 flyDir = Vector2.Zero;
         if (type is DTShot)
         {
             flyDir = (type as DTShot).bullet.travelDirNormalized;
@@ -104,7 +105,7 @@ public class Crate : Holdable, IPlatform
         }
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (_hitPoints <= 0f)
         {
@@ -145,7 +146,7 @@ public class Crate : Holdable, IPlatform
         return base.Hit(bullet, hitPos);
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 exitPos)
+    public override void ExitHit(Bullet bullet, Vector2 exitPos)
     {
         for (int i = 0; (float)i < 1f + damageMultiplier / 2f; i++)
         {

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -50,7 +51,7 @@ public class TampingWeapon : Gun
         : base(xval, yval)
     {
         _tampingHand = new Sprite("tampingHand");
-        _tampingHand.Center = new Vec2(4f, 8f);
+        _tampingHand.Center = new Vector2(4f, 8f);
     }
 
     public override void Update()
@@ -83,7 +84,7 @@ public class TampingWeapon : Gun
                         tampPos = (float)Math.Sin(_tampInc) * 2f;
                         if (tampPos < -1f && !_puffed)
                         {
-                            Vec2 pos = Offset(base.barrelOffset) - base.barrelVector * 8f;
+                            Vector2 pos = Offset(base.barrelOffset) - base.barrelVector * 8f;
                             Level.Add(SmallSmoke.New(pos.X, pos.Y));
                             _puffed = true;
                         }
@@ -124,7 +125,7 @@ public class TampingWeapon : Gun
                         tampPos = (float)Math.Sin(_tampInc) * 2f;
                         if (tampPos < -1f && !_puffed)
                         {
-                            Vec2 pos2 = Offset(base.barrelOffset) - base.barrelVector * 8f;
+                            Vector2 pos2 = Offset(base.barrelOffset) - base.barrelVector * 8f;
                             Level.Add(SmallSmoke.New(pos2.X, pos2.Y));
                             _puffed = true;
                         }
@@ -193,13 +194,13 @@ public class TampingWeapon : Gun
             }
             _tampingHand.Depth = base.Depth - 1;
             float rot = base.duck._spriteArms.Angle;
-            Vec2 vec = Offset(base.barrelOffset);
-            Vec2 end = vec + base.barrelVector * (tampPos * 2f + 3f);
+            Vector2 vec = Offset(base.barrelOffset);
+            Vector2 end = vec + base.barrelVector * (tampPos * 2f + 3f);
             Graphics.DrawLine(vec - base.barrelVector * 6f, end, Color.Gray, 1f, base.Depth - 2);
             base.duck._spriteArms.Depth = base.Depth - 1;
             Graphics.Draw(base.duck._spriteArms, end.X, end.Y);
             base.duck._spriteArms.Angle = rot;
         }
-        Position = new Vec2(Position.X, Position.Y - _offsetY);
+        Position = new Vector2(Position.X, Position.Y - _offsetY);
     }
 }

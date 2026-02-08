@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -35,18 +36,18 @@ public class Trombone : Gun
         _ammoType.range = 170f;
         _ammoType.accuracy = 0.8f;
         wideBarrel = true;
-        barrelInsertOffset = new Vec2(-1f, -3f);
+        barrelInsertOffset = new Vector2(-1f, -3f);
         _type = "gun";
         graphic = new Sprite("tromboneBody");
-        Center = new Vec2(10f, 16f);
-        collisionOffset = new Vec2(-4f, -5f);
-        collisionSize = new Vec2(8f, 11f);
-        _barrelOffsetTL = new Vec2(19f, 14f);
+        Center = new Vector2(10f, 16f);
+        collisionOffset = new Vector2(-4f, -5f);
+        collisionSize = new Vector2(8f, 11f);
+        _barrelOffsetTL = new Vector2(19f, 14f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 3f;
-        _holdOffset = new Vec2(6f, 2f);
+        _holdOffset = new Vector2(6f, 2f);
         _slide = new Sprite("tromboneSlide");
         _slide.CenterOrigin();
         _notePitchBinding.skipLerp = true;
@@ -133,25 +134,25 @@ public class Trombone : Gun
             if (_raised)
             {
                 handAngle = 0f;
-                handOffset = new Vec2(0f, 0f);
-                _holdOffset = new Vec2(0f, 2f);
-                collisionOffset = new Vec2(-4f, -7f);
-                collisionSize = new Vec2(8f, 16f);
+                handOffset = new Vector2(0f, 0f);
+                _holdOffset = new Vector2(0f, 2f);
+                collisionOffset = new Vector2(-4f, -7f);
+                collisionSize = new Vector2(8f, 16f);
             }
             else
             {
-                handOffset = new Vec2(6f + (1f - handPitch) * 4f, -4f + (1f - handPitch) * 4f);
+                handOffset = new Vector2(6f + (1f - handPitch) * 4f, -4f + (1f - handPitch) * 4f);
                 handAngle = (1f - handPitch) * 0.4f * (float)offDir;
-                _holdOffset = new Vec2(5f + handPitch * 2f, -9f + handPitch * 2f);
-                collisionOffset = new Vec2(-4f, -7f);
-                collisionSize = new Vec2(2f, 16f);
+                _holdOffset = new Vector2(5f + handPitch * 2f, -9f + handPitch * 2f);
+                collisionOffset = new Vector2(-4f, -7f);
+                collisionSize = new Vector2(2f, 16f);
                 _slideVal = 1f - handPitch;
             }
         }
         else
         {
-            collisionOffset = new Vec2(-4f, -5f);
-            collisionSize = new Vec2(8f, 11f);
+            collisionOffset = new Vector2(-4f, -5f);
+            collisionSize = new Vector2(8f, 11f);
         }
         prevNotePitch = notePitch;
         base.Update();
@@ -174,7 +175,7 @@ public class Trombone : Gun
         base.Draw();
         Material obj = Graphics.material;
         Graphics.material = base.material;
-        Draw(_slide, new Vec2(6f + _slideVal * 8f, 0f), -1);
+        Draw(_slide, new Vector2(6f + _slideVal * 8f, 0f), -1);
         Graphics.material = obj;
     }
 }

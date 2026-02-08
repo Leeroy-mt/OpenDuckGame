@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -69,7 +70,7 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
 
     public List<TypeProbPair> possible => _possible;
 
-    public override void SetTranslation(Vec2 translation)
+    public override void SetTranslation(Vector2 translation)
     {
         if (_ball1 != null)
         {
@@ -95,9 +96,9 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
     {
         _sprite = new SpriteMap("gunSpawner", 14, 10);
         graphic = _sprite;
-        Center = new Vec2(7f, 0f);
-        collisionSize = new Vec2(14f, 2f);
-        collisionOffset = new Vec2(-7f, 0f);
+        Center = new Vector2(7f, 0f);
+        collisionSize = new Vector2(14f, 2f);
+        collisionOffset = new Vector2(-7f, 0f);
         base.Depth = -0.35f;
         contains = c;
         base.hugWalls = WallHug.Floor;
@@ -191,7 +192,7 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
     {
         if (_seatingTries < 3 && _ball1 != null)
         {
-            if (Level.CheckPoint<IPlatform>(Position + new Vec2(0f, 6f)) != null)
+            if (Level.CheckPoint<IPlatform>(Position + new Vector2(0f, 6f)) != null)
             {
                 _seated = true;
                 _seatingTries = 3;
@@ -215,8 +216,8 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
                 previewSprite = previewThing.GeneratePreview(32, 32, transparentBack: true);
             }
         }
-        collisionSize = new Vec2(14f, 8f);
-        collisionOffset = new Vec2(-7f, -6f);
+        collisionSize = new Vector2(14f, 8f);
+        collisionOffset = new Vector2(-7f, -6f);
         base.EditorUpdate();
     }
 
@@ -250,7 +251,7 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
         else
         {
             float hoverHeight = 0f - (_hoverItem.bottom - _hoverItem.Y) - 2f + (float)_hoverSin * 2f;
-            _hoverItem.Position = Lerp.Vec2Smooth(_hoverItem.Position, Position + new Vec2(0f, hoverHeight), 0.2f);
+            _hoverItem.Position = Lerp.Vec2Smooth(_hoverItem.Position, Position + new Vector2(0f, hoverHeight), 0.2f);
             _hoverItem.vSpeed = 0f;
             _hoverItem.gravMultiplier = 0f;
             _ball1.desiredOrbitDistance = _hoverItem.collisionSize.X / 2f;
@@ -456,7 +457,7 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
                         Color c = Color.White;
                         c = ((p.probability == 0f) ? Color.DarkGray : ((p.probability < 0.3f) ? Colors.DGRed : ((!(p.probability < 0.7f)) ? Color.Green : Color.Orange)));
                         string s = p.type.Name + ": " + p.probability.ToString("0.000");
-                        Graphics.DrawString(s, Position + new Vec2((0f - Graphics.GetStringWidth(s, thinButtons: false, 0.5f)) / 2f, 0f - (16f + yOff)), c, 0.9f, null, 0.5f);
+                        Graphics.DrawString(s, Position + new Vector2((0f - Graphics.GetStringWidth(s, thinButtons: false, 0.5f)) / 2f, 0f - (16f + yOff)), c, 0.9f, null, 0.5f);
                         yOff += 4f;
                     }
                 }
@@ -468,7 +469,7 @@ public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
         {
             containString = contains.Name;
         }
-        Graphics.DrawString(containString, Position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
+        Graphics.DrawString(containString, Position + new Vector2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
     }
 
     public override string GetDetailsString()

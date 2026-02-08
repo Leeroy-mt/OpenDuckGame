@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -111,10 +112,10 @@ public class HotnessAnimation
         }
         _blueBar.Depth = 0.1f;
         Graphics.Draw(_blueBar, 30f, 18f);
-        Graphics.DrawRect(new Vec2(20f, 135f), new Vec2(260f, 160f), new Color(12, 90, 182), 0.1f);
-        Vec2 duckAreaTL = new Vec2(60f, 50f);
-        Vec2 duckAreaBR = new Vec2(200f, 150f);
-        Vec2 duckAreaSize = new Vec2(duckAreaBR.X - duckAreaTL.X, duckAreaBR.Y - duckAreaTL.Y);
+        Graphics.DrawRect(new Vector2(20f, 135f), new Vector2(260f, 160f), new Color(12, 90, 182), 0.1f);
+        Vector2 duckAreaTL = new Vector2(60f, 50f);
+        Vector2 duckAreaBR = new Vector2(200f, 150f);
+        Vector2 duckAreaSize = new Vector2(duckAreaBR.X - duckAreaTL.X, duckAreaBR.Y - duckAreaTL.Y);
         List<Profile> profiles = Profiles.active;
         int i = 0;
         foreach (Profile p in profiles)
@@ -138,26 +139,26 @@ public class HotnessAnimation
             p.persona.sprite.Depth = 0.3f;
             p.persona.sprite.color = Color.White;
             Graphics.Draw(p.persona.sprite, 0, xpos, ypos);
-            Vec2 offset = DuckRig.GetHatPoint(p.persona.sprite.imageIndex);
+            Vector2 offset = DuckRig.GetHatPoint(p.persona.sprite.imageIndex);
             p.team.hat.Depth = 0.31f;
-            p.team.hat.Center = new Vec2(16f, 16f) + p.team.hatOffset;
+            p.team.hat.Center = new Vector2(16f, 16f) + p.team.hatOffset;
             Graphics.Draw(p.team.hat, p.team.hat.frame, xpos + offset.X, ypos + offset.Y);
             if (_cool.Count > 4)
             {
-                Graphics.DrawRect(new Vec2(xpos - 9f, ypos + 16f), new Vec2(xpos + 9f, 160f), p.persona.colorUsable, 0.05f);
+                Graphics.DrawRect(new Vector2(xpos - 9f, ypos + 16f), new Vector2(xpos + 9f, 160f), p.persona.colorUsable, 0.05f);
             }
             else
             {
-                Graphics.DrawRect(new Vec2(xpos - 17f, ypos + 16f), new Vec2(xpos + 16f, 160f), p.persona.colorUsable, 0.05f);
+                Graphics.DrawRect(new Vector2(xpos - 17f, ypos + 16f), new Vector2(xpos + 16f, 160f), p.persona.colorUsable, 0.05f);
             }
             string text = temp + "=";
             _font.Depth = 0.25f;
             if (_cool.Count > 4)
             {
-                _font.Scale = new Vec2(0.5f);
+                _font.Scale = new Vector2(0.5f);
             }
-            _font.Draw(text, new Vec2(xpos - _font.GetWidth(text) / 2f + 3f, 140f), Color.White, 0.25f);
-            _font.Scale = new Vec2(1f);
+            _font.Draw(text, new Vector2(xpos - _font.GetWidth(text) / 2f + 3f, 140f), Color.White, 0.25f);
+            _font.Scale = new Vector2(1f);
             _icon.Depth = 0.3f;
             _icon.frame = (int)Math.Floor(normalizedHotness * 8.99f);
             if (_icon.frame != _lastFrame[i])
@@ -165,7 +166,7 @@ public class HotnessAnimation
                 _lastFrame[i] = _icon.frame;
                 _upScale[i] = 0.5f;
             }
-            _icon.Scale = new Vec2(1f + _upScale[i]);
+            _icon.Scale = new Vector2(1f + _upScale[i]);
             Graphics.Draw(_icon, xpos, ypos + 28f);
             i++;
         }

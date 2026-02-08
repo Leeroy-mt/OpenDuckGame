@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -5,11 +6,11 @@ namespace DuckGame;
 
 public class LauncherGrenade : PhysicsObject
 {
-    private List<Vec2> _trail = new List<Vec2>();
+    private List<Vector2> _trail = new List<Vector2>();
 
     private float _isVolatile = 1f;
 
-    private Vec2 _prevPosition;
+    private Vector2 _prevPosition;
 
     private bool _fade;
 
@@ -25,14 +26,14 @@ public class LauncherGrenade : PhysicsObject
         : base(xpos, ypos)
     {
         graphic = new Sprite("launcherGrenade");
-        Center = new Vec2(8f, 8f);
-        collisionSize = new Vec2(8f, 6f);
-        collisionOffset = new Vec2(-4f, -3f);
+        Center = new Vector2(8f, 8f);
+        collisionSize = new Vector2(8f, 6f);
+        collisionOffset = new Vector2(-4f, -3f);
         for (int i = 0; i < 17; i++)
         {
-            _trail.Add(new Vec2(0f, 0f));
+            _trail.Add(new Vector2(0f, 0f));
         }
-        _prevPosition = new Vec2(Position);
+        _prevPosition = Position;
         base.bouncy = 1f;
         friction = 0f;
         _dontCrush = true;
@@ -59,11 +60,11 @@ public class LauncherGrenade : PhysicsObject
         _isVolatile -= 0.06f;
         for (int i = 15; i >= 0; i--)
         {
-            _trail[i + 1] = new Vec2(_trail[i].X, _trail[i].Y);
+            _trail[i + 1] = new Vector2(_trail[i].X, _trail[i].Y);
         }
         if (!_fade)
         {
-            _trail[0] = new Vec2(base.X, base.Y);
+            _trail[0] = new Vector2(base.X, base.Y);
             _numTrail++;
         }
         else
@@ -139,7 +140,7 @@ public class LauncherGrenade : PhysicsObject
             if (i < _numTrail)
             {
                 float al = (1f - (float)i / 16f) * _fadeVal * 0.8f;
-                Graphics.DrawLine(new Vec2(_trail[i - 1].X, _trail[i - 1].Y), new Vec2(_trail[i].X, _trail[i].Y), Color.White * al);
+                Graphics.DrawLine(new Vector2(_trail[i - 1].X, _trail[i - 1].Y), new Vector2(_trail[i].X, _trail[i].Y), Color.White * al);
             }
         }
     }

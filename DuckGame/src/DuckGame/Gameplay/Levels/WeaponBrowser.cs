@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class WeaponBrowser : Level
@@ -8,13 +10,13 @@ public class WeaponBrowser : Level
     {
         Layer.Add(new GridBackground("GRID", 99999));
         _font = new BitmapFont("duckFont", 8);
-        _font.Scale = new Vec2(2f, 2f);
+        _font.Scale = new Vector2(2f, 2f);
         Gun m = new Saxaphone(0f, 0f);
-        m.Scale = new Vec2(2f, 2f);
+        m.Scale = new Vector2(2f, 2f);
         UIMenu multiplayerMenu = new UIMenu(m.editorName, Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 220f);
         UIBox div = new UIBox(vert: false, isVisible: false);
         UIImage image = new UIImage(m.GetEditorImage(64, 64, transparentBack: true));
-        image.collisionSize = new Vec2(64f, 32f);
+        image.collisionSize = new Vector2(64f, 32f);
         div.Add(image);
         UIBox infoBox = new UIBox(vert: true, isVisible: false);
         infoBox.Add(new UIText("AMMO: " + ((m.ammo > 900) ? "INFINITE" : m.ammo.ToString()), Color.White, UIAlign.Left));

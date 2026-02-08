@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -23,7 +24,7 @@ public class Ragdoll : Thing
 
     public StateBinding _physicsStateBinding = new RagdollFlagBinding();
 
-    public Vec2 tongueStuck = Vec2.Zero;
+    public Vector2 tongueStuck = Vector2.Zero;
 
     public Thing tongueStuckThing;
 
@@ -403,7 +404,7 @@ public class Ragdoll : Thing
         }
     }
 
-    public Ragdoll(float xpos, float ypos, Duck who, bool slide, float degrees, int off, Vec2 v, DuckPersona p = null)
+    public Ragdoll(float xpos, float ypos, Duck who, bool slide, float degrees, int off, Vector2 v, DuckPersona p = null)
         : base(xpos, ypos)
     {
         _duck = who;
@@ -448,7 +449,7 @@ public class Ragdoll : Thing
         return null;
     }
 
-    public void SortOutParts(float xpos, float ypos, Duck who, bool slide, float degrees, int off, Vec2 v)
+    public void SortOutParts(float xpos, float ypos, Duck who, bool slide, float degrees, int off, Vector2 v)
     {
         _duck = who;
         _slide = slide;
@@ -461,7 +462,7 @@ public class Ragdoll : Thing
 
     public void Organize()
     {
-        Vec2 vec = Maths.AngleToVec(Angle);
+        Vector2 vec = Maths.AngleToVec(Angle);
         if (_part1 == null)
         {
             _part1 = new RagdollPart(base.X - vec.X * partSep, base.Y - vec.Y * partSep, 0, (_duck != null) ? _duck.persona : persona, offDir, this);
@@ -671,16 +672,16 @@ public class Ragdoll : Thing
 
     public void Solve(PhysicsObject body1, PhysicsObject body2, float dist)
     {
-        Vec2 axis = body2.Position - body1.Position;
+        Vector2 axis = body2.Position - body1.Position;
         float currentDistance = axis.Length();
         if (currentDistance < 0.0001f)
         {
             currentDistance = 0.0001f;
         }
-        Vec2 unitAxis = axis * (1f / currentDistance);
-        Vec2 vel1 = new Vec2(body1.hSpeed, body1.vSpeed);
-        Vec2 vel2 = new Vec2(body2.hSpeed, body2.vSpeed);
-        float num = Vec2.Dot(vel2 - vel1, unitAxis);
+        Vector2 unitAxis = axis * (1f / currentDistance);
+        Vector2 vel1 = new Vector2(body1.hSpeed, body1.vSpeed);
+        Vector2 vel2 = new Vector2(body2.hSpeed, body2.vSpeed);
+        float num = Vector2.Dot(vel2 - vel1, unitAxis);
         float relDist = currentDistance - dist;
         float invMass1 = 2.1f;
         float invMass2 = 2.1f;
@@ -693,7 +694,7 @@ public class Ragdoll : Thing
             invMass2 = 6f;
         }
         float impulse = (num + relDist) / (invMass1 + invMass2);
-        Vec2 impulseVector = unitAxis * impulse;
+        Vector2 impulseVector = unitAxis * impulse;
         vel1 += impulseVector * invMass1;
         vel2 -= impulseVector * invMass2;
         if (body1.owner == null)
@@ -721,7 +722,7 @@ public class Ragdoll : Thing
     {
         Thing body1 = ((b1.owner != null) ? b1.owner : b1);
         Thing body2 = ((b2.owner != null) ? b2.owner : b2);
-        Vec2 axis = b2.Position - b1.Position;
+        Vector2 axis = b2.Position - b1.Position;
         float currentDistance = axis.Length();
         if (currentDistance < 0.0001f)
         {
@@ -731,10 +732,10 @@ public class Ragdoll : Thing
         {
             return 0f;
         }
-        Vec2 unitAxis = axis * (1f / currentDistance);
-        Vec2 vel1 = new Vec2(body1.hSpeed, body1.vSpeed);
-        Vec2 vel2 = new Vec2(body2.hSpeed, body2.vSpeed);
-        float num = Vec2.Dot(vel2 - vel1, unitAxis);
+        Vector2 unitAxis = axis * (1f / currentDistance);
+        Vector2 vel1 = new Vector2(body1.hSpeed, body1.vSpeed);
+        Vector2 vel2 = new Vector2(body2.hSpeed, body2.vSpeed);
+        float num = Vector2.Dot(vel2 - vel1, unitAxis);
         float relDist = currentDistance - dist;
         float invMass1 = 2.5f;
         float invMass2 = 2.1f;
@@ -762,7 +763,7 @@ public class Ragdoll : Thing
             invMass2 = ((!_zekeBear) ? 10f : 4f);
         }
         float impulse = (num + relDist) / (invMass1 + invMass2);
-        Vec2 impulseVector = unitAxis * impulse;
+        Vector2 impulseVector = unitAxis * impulse;
         vel1 += impulseVector * invMass1;
         vel2 -= impulseVector * invMass2;
         body1.hSpeed = vel1.X;
@@ -780,10 +781,10 @@ public class Ragdoll : Thing
         return impulse;
     }
 
-    public float SpecialSolve(PhysicsObject b1, Vec2 stuck, float dist)
+    public float SpecialSolve(PhysicsObject b1, Vector2 stuck, float dist)
     {
         Thing body1 = ((b1.owner != null) ? b1.owner : b1);
-        Vec2 axis = stuck - b1.Position;
+        Vector2 axis = stuck - b1.Position;
         float currentDistance = axis.Length();
         if (currentDistance < 0.0001f)
         {
@@ -793,10 +794,10 @@ public class Ragdoll : Thing
         {
             return 0f;
         }
-        Vec2 unitAxis = axis * (1f / currentDistance);
-        Vec2 vel1 = new Vec2(body1.hSpeed, body1.vSpeed);
-        Vec2 vec = new Vec2(0f, 0f);
-        float num = Vec2.Dot(vec - vel1, unitAxis);
+        Vector2 unitAxis = axis * (1f / currentDistance);
+        Vector2 vel1 = new Vector2(body1.hSpeed, body1.vSpeed);
+        Vector2 vec = new Vector2(0f, 0f);
+        float num = Vector2.Dot(vec - vel1, unitAxis);
         float relDist = currentDistance - dist;
         float invMass1 = 2.5f;
         float invMass2 = 2.1f;
@@ -805,7 +806,7 @@ public class Ragdoll : Thing
             invMass1 = ((!_zekeBear) ? 10f : 4f);
         }
         float impulse = (num + relDist) / (invMass1 + invMass2);
-        Vec2 impulseVector = unitAxis * impulse;
+        Vector2 impulseVector = unitAxis * impulse;
         vel1 += impulseVector * invMass1;
         _ = vec - impulseVector * invMass2;
         body1.hSpeed = vel1.X;
@@ -909,9 +910,9 @@ public class Ragdoll : Thing
             SpecialSolve(_part3, _part1.owner as Duck, 16f);
             SpecialSolve(_part1, _part3.owner as Duck, 16f);
         }
-        if (tongueStuck != Vec2.Zero && captureDuck != null)
+        if (tongueStuck != Vector2.Zero && captureDuck != null)
         {
-            Vec2 t = tongueStuck + new Vec2(captureDuck.offDir * -4, -6f);
+            Vector2 t = tongueStuck + new Vector2(captureDuck.offDir * -4, -6f);
             if (_part1.owner is Duck)
             {
                 SpecialSolve(_part3, _part1.owner as Duck, 16f);
@@ -925,7 +926,7 @@ public class Ragdoll : Thing
             if ((part1.Position - t).Length() > 4f)
             {
                 SpecialSolve(_part1, t, 4f);
-                _ = (t - part1.Position).Normalized;
+                _ = Vector2.Normalize(t - part1.Position);
                 if ((part1.Position - t).Length() > 12f)
                 {
                     part1.Position = Lerp.Vec2Smooth(part1.Position, t, 0.2f);
@@ -993,16 +994,16 @@ public class Ragdoll : Thing
             {
                 if (captureDuck.inputProfile.Pressed("RIGHT"))
                 {
-                    Vec2 velVec = (_part1.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vec2.Zero);
+                    Vector2 velVec = (_part1.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vector2.Zero);
                     part1.velocity += velVec * 0.2f;
-                    velVec = (_part3.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vec2.Zero);
+                    velVec = (_part3.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vector2.Zero);
                     part3.velocity += velVec * 0.2f;
                 }
                 else if (captureDuck.inputProfile.Pressed("LEFT"))
                 {
-                    Vec2 velVec2 = (_part1.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vec2.Zero);
+                    Vector2 velVec2 = (_part1.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vector2.Zero);
                     part1.velocity += velVec2 * -0.2f;
-                    velVec2 = (_part3.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vec2.Zero);
+                    velVec2 = (_part3.Position - _part2.Position).Rotate((float)Math.PI / 2f, Vector2.Zero);
                     part3.velocity += velVec2 * -0.2f;
                 }
             }
@@ -1044,7 +1045,7 @@ public class Ragdoll : Thing
         }
         if (tongueStuckThing != null && tongueStuckThing.removeFromLevel)
         {
-            tongueStuck = Vec2.Zero;
+            tongueStuck = Vector2.Zero;
             if (Network.isActive)
             {
                 Thing.Fondle(this, DuckNetwork.localConnection);
@@ -1066,9 +1067,9 @@ public class Ragdoll : Thing
                 ShakeOutOfSleepingBag();
             }
         }
-        else if (!_part1.held && !_part2.held && !_part3.held && (tongueStuck == Vec2.Zero || tongueShakes > 5) && base.isServerForObject)
+        else if (!_part1.held && !_part2.held && !_part3.held && (tongueStuck == Vector2.Zero || tongueShakes > 5) && base.isServerForObject)
         {
-            tongueStuck = Vec2.Zero;
+            tongueStuck = Vector2.Zero;
             if (Network.isActive)
             {
                 Thing.Fondle(this, DuckNetwork.localConnection);
@@ -1080,9 +1081,9 @@ public class Ragdoll : Thing
     public void ShakeOutOfSleepingBag()
     {
         tongueShakes++;
-        if (_part1 != null && _part1.owner == null && _part2 != null && _part2.owner == null && _part3 != null && _part3.owner == null && tongueStuck != Vec2.Zero && tongueShakes > 5)
+        if (_part1 != null && _part1.owner == null && _part2 != null && _part2.owner == null && _part3 != null && _part3.owner == null && tongueStuck != Vector2.Zero && tongueShakes > 5)
         {
-            tongueStuck = Vec2.Zero;
+            tongueStuck = Vector2.Zero;
         }
         if (sleepingBagHealth < 0 || captureDuck == null)
         {

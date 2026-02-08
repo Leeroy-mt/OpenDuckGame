@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -156,7 +157,7 @@ public class TapedGun : Gun
         ammo = 99;
         _type = "gun";
         graphic = new Sprite("tinyGun");
-        _barrelOffsetTL = new Vec2(20f, 15f);
+        _barrelOffsetTL = new Vector2(20f, 15f);
         _fireSound = "littleGun";
         _kickForce = 0f;
         _fireRumble = RumbleIntensity.Kick;
@@ -242,7 +243,7 @@ public class TapedGun : Gun
             }
             if (gun1.addVerticalTapeOffset)
             {
-                gun1.Position = Offset(new Vec2(0f, splitSize) + gun1.tapedOffset);
+                gun1.Position = Offset(new Vector2(0f, splitSize) + gun1.tapedOffset);
             }
             else
             {
@@ -308,7 +309,7 @@ public class TapedGun : Gun
             }
             if (gun2.addVerticalTapeOffset)
             {
-                gun2.Position = Offset(new Vec2(0f, 0f - splitSize) + gun2.tapedOffset);
+                gun2.Position = Offset(new Vector2(0f, 0f - splitSize) + gun2.tapedOffset);
             }
             else
             {
@@ -366,7 +367,7 @@ public class TapedGun : Gun
         {
             weight = 8f;
         }
-        Center = new Vec2(16f, 16f);
+        Center = new Vector2(16f, 16f);
         if (gun1 != null && gun2 != null)
         {
             if (_firstCalc)
@@ -378,15 +379,15 @@ public class TapedGun : Gun
                 float highest = Math.Min(gun1.top - gun1._extraOffset.Y, gun2.top - gun2._extraOffset.Y);
                 float lowest = Math.Max(gun1.bottom - gun1._extraOffset.Y, gun2.bottom - gun2._extraOffset.Y);
                 float highDif = base.Y - highest;
-                collisionOffset = new Vec2(-6f, 0f - highDif);
-                collisionSize = new Vec2(12f, lowest - highest);
+                collisionOffset = new Vector2(-6f, 0f - highDif);
+                collisionSize = new Vector2(12f, lowest - highest);
                 _firstCalc = false;
             }
         }
         else
         {
-            collisionOffset = new Vec2(-6f, 0f - height / 2f);
-            collisionSize = new Vec2(12f, height);
+            collisionOffset = new Vector2(-6f, 0f - height / 2f);
+            collisionSize = new Vector2(12f, height);
         }
     }
 
@@ -534,10 +535,10 @@ public class TapedGun : Gun
         _tape.Depth = base.Depth + 16;
         _tape.AngleDegrees = base.AngleDegrees;
         _tape.flipH = offDir < 0;
-        new Vec2(0f, base.bottom - base.top);
+        new Vector2(0f, base.bottom - base.top);
         if (gun2 != null)
         {
-            Vec2 pos = gun2.Offset(new Vec2(0f, 0f - collisionOffset.Y / 2f));
+            Vector2 pos = gun2.Offset(new Vector2(0f, 0f - collisionOffset.Y / 2f));
             Graphics.Draw(_tape, pos.X, pos.Y);
         }
         else
@@ -557,7 +558,7 @@ public class TapedGun : Gun
         }
     }
 
-    public override void Burn(Vec2 firePosition, Thing litBy)
+    public override void Burn(Vector2 firePosition, Thing litBy)
     {
         try
         {
@@ -577,7 +578,7 @@ public class TapedGun : Gun
         }
     }
 
-    public override void DoHeatUp(float val, Vec2 location)
+    public override void DoHeatUp(float val, Vector2 location)
     {
         try
         {

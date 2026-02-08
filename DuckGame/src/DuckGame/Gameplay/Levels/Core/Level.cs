@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -70,9 +71,9 @@ public class Level
 
     public bool bareInitialize;
 
-    protected Vec2 _topLeft = new Vec2(99999f, 99999f);
+    protected Vector2 _topLeft = new Vector2(99999f, 99999f);
 
-    protected Vec2 _bottomRight = new Vec2(-99999f, -99999f);
+    protected Vector2 _bottomRight = new Vector2(-99999f, -99999f);
 
     protected bool _readyForTransition = true;
 
@@ -242,9 +243,9 @@ public class Level
         }
     }
 
-    public Vec2 topLeft => _topLeft;
+    public Vector2 topLeft => _topLeft;
 
-    public Vec2 bottomRight => _bottomRight;
+    public Vector2 bottomRight => _bottomRight;
 
     public virtual string networkIdentifier => "";
 
@@ -783,8 +784,8 @@ public class Level
     {
         _lowestPointInitialized = true;
         lowestPoint = 999999f;
-        _topLeft = new Vec2(-99999f, -99999f);
-        _bottomRight = new Vec2(99999f, 99999f);
+        _topLeft = new Vector2(-99999f, -99999f);
+        _bottomRight = new Vector2(99999f, 99999f);
     }
 
     public void CalculateBounds()
@@ -793,14 +794,14 @@ public class Level
         CameraBounds bounds = FirstOfType<CameraBounds>();
         if (bounds != null)
         {
-            _topLeft = new Vec2(bounds.X - (float)((int)bounds.wide / 2), bounds.Y - (float)((int)bounds.high / 2));
-            _bottomRight = new Vec2(bounds.X + (float)((int)bounds.wide / 2), bounds.Y + (float)((int)bounds.high / 2));
+            _topLeft = new Vector2(bounds.X - (float)((int)bounds.wide / 2), bounds.Y - (float)((int)bounds.high / 2));
+            _bottomRight = new Vector2(bounds.X + (float)((int)bounds.wide / 2), bounds.Y + (float)((int)bounds.high / 2));
             lowestPoint = _bottomRight.Y;
             highestPoint = _topLeft.Y;
             return;
         }
-        _topLeft = new Vec2(99999f, 99999f);
-        _bottomRight = new Vec2(-99999f, -99999f);
+        _topLeft = new Vector2(99999f, 99999f);
+        _bottomRight = new Vector2(-99999f, -99999f);
         foreach (Block b in _things[typeof(Block)])
         {
             if (!(b is RockWall) && !(b.Y > 7500f))
@@ -1024,7 +1025,7 @@ public class Level
                 Material material = Graphics.material;
                 Graphics.material = null;
                 Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Matrix.Identity);
-                Graphics.DrawRect(new Vec2(0f, 0f), new Vec2(Resolution.current.x, Resolution.current.y), c, -1f);
+                Graphics.DrawRect(new Vector2(0f, 0f), new Vector2(Resolution.current.x, Resolution.current.y), c, -1f);
                 Graphics.screen.End();
                 Graphics.material = material;
                 Graphics.RestoreOldViewport();
@@ -1065,8 +1066,8 @@ public class Level
             if (dif > 0f)
             {
                 Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Matrix.Identity);
-                Graphics.DrawRect(Vec2.Zero, new Vec2(Resolution.size.X, dif / 2f), Color.Black, 0.9f);
-                Graphics.DrawRect(new Vec2(0f, Resolution.size.Y - dif / 2f), new Vec2(Resolution.size.X, Resolution.size.Y), Color.Black, 0.9f);
+                Graphics.DrawRect(Vector2.Zero, new Vector2(Resolution.size.X, dif / 2f), Color.Black, 0.9f);
+                Graphics.DrawRect(new Vector2(0f, Resolution.size.Y - dif / 2f), new Vector2(Resolution.size.X, Resolution.size.Y), Color.Black, 0.9f);
                 Graphics.screen.End();
             }
         }
@@ -1140,9 +1141,9 @@ public class Level
                             _burnGlow.CenterOrigin();
                         }
                         _burnGlow.Alpha = Math.Min(t.heat, 1f) / 1f - 0.2f;
-                        Vec2 scale = new Vec2((t.width + 22f) / (float)_burnGlow.width, (t.height + 22f) / (float)_burnGlow.height);
+                        Vector2 scale = new Vector2((t.width + 22f) / (float)_burnGlow.width, (t.height + 22f) / (float)_burnGlow.height);
                         _burnGlow.Scale = scale;
-                        Vec2 center = t.rectangle.Center;
+                        Vector2 center = t.rectangle.Center;
                         Graphics.Draw(_burnGlow, center.X, center.Y);
                         Graphics.Draw(_burnGlow, center.X, center.Y);
                     }
@@ -1160,10 +1161,10 @@ public class Level
                                 _burnGlowWide.CenterOrigin();
                                 _burnGlowWide.Alpha = 0.75f;
                                 _burnGlowWideLeft = new Sprite("redGlowWideLeft");
-                                _burnGlowWideLeft.Center = new Vec2(_burnGlowWideLeft.width, _burnGlowWideLeft.height / 2);
+                                _burnGlowWideLeft.Center = new Vector2(_burnGlowWideLeft.width, _burnGlowWideLeft.height / 2);
                                 _burnGlowWideLeft.Alpha = 0.75f;
                                 _burnGlowWideRight = new Sprite("redGlowWideRight");
-                                _burnGlowWideRight.Center = new Vec2(0f, _burnGlowWideRight.height / 2);
+                                _burnGlowWideRight.Center = new Vector2(0f, _burnGlowWideRight.height / 2);
                                 _burnGlowWideRight.Alpha = 0.75f;
                             }
                             int num2 = (int)Math.Floor(num / gap);
@@ -1225,255 +1226,255 @@ public class Level
 
     public static T Nearest<T>(float x, float y, Thing ignore, Layer layer)
     {
-        return current.NearestThing<T>(new Vec2(x, y), ignore, layer);
+        return current.NearestThing<T>(new Vector2(x, y), ignore, layer);
     }
 
     public static T Nearest<T>(float x, float y, Thing ignore)
     {
-        return current.NearestThing<T>(new Vec2(x, y), ignore);
+        return current.NearestThing<T>(new Vector2(x, y), ignore);
     }
 
     public static T Nearest<T>(float x, float y)
     {
-        return current.NearestThing<T>(new Vec2(x, y));
+        return current.NearestThing<T>(new Vector2(x, y));
     }
 
-    public static T Nearest<T>(Vec2 p)
+    public static T Nearest<T>(Vector2 p)
     {
         return current.NearestThing<T>(p);
     }
 
-    public static T Nearest<T>(Vec2 point, Thing ignore, int nearIndex, Layer layer)
+    public static T Nearest<T>(Vector2 point, Thing ignore, int nearIndex, Layer layer)
     {
         return current.NearestThing<T>(point, ignore, nearIndex, layer);
     }
 
-    public static T Nearest<T>(Vec2 point, Thing ignore, int nearIndex)
+    public static T Nearest<T>(Vector2 point, Thing ignore, int nearIndex)
     {
         return current.NearestThing<T>(point, ignore, nearIndex);
     }
 
     public static T CheckCircle<T>(float p1x, float p1y, float radius, Thing ignore)
     {
-        return current.CollisionCircle<T>(new Vec2(p1x, p1y), radius, ignore);
+        return current.CollisionCircle<T>(new Vector2(p1x, p1y), radius, ignore);
     }
 
     public static T CheckCircle<T>(float p1x, float p1y, float radius)
     {
-        return current.CollisionCircle<T>(new Vec2(p1x, p1y), radius);
+        return current.CollisionCircle<T>(new Vector2(p1x, p1y), radius);
     }
 
-    public static T CheckCircle<T>(Vec2 p1, float radius, Thing ignore)
+    public static T CheckCircle<T>(Vector2 p1, float radius, Thing ignore)
     {
         return current.CollisionCircle<T>(p1, radius, ignore);
     }
 
-    public static T CheckCircle<T>(Vec2 p1, float radius)
+    public static T CheckCircle<T>(Vector2 p1, float radius)
     {
         return current.CollisionCircle<T>(p1, radius);
     }
 
-    public static IEnumerable<T> CheckCircleAll<T>(Vec2 p1, float radius)
+    public static IEnumerable<T> CheckCircleAll<T>(Vector2 p1, float radius)
     {
         return current.CollisionCircleAll<T>(p1, radius);
     }
 
     public T CollisionCircle<T>(float p1x, float p1y, float radius, Thing ignore)
     {
-        return CollisionCircle<T>(new Vec2(p1x, p1y), radius, ignore);
+        return CollisionCircle<T>(new Vector2(p1x, p1y), radius, ignore);
     }
 
     public T CollisionCircle<T>(float p1x, float p1y, float radius)
     {
-        return CollisionCircle<T>(new Vec2(p1x, p1y), radius);
+        return CollisionCircle<T>(new Vector2(p1x, p1y), radius);
     }
 
     public static T CheckRect<T>(float p1x, float p1y, float p2x, float p2y, Thing ignore)
     {
-        return current.CollisionRect<T>(new Vec2(p1x, p1y), new Vec2(p2x, p2y), ignore);
+        return current.CollisionRect<T>(new Vector2(p1x, p1y), new Vector2(p2x, p2y), ignore);
     }
 
     public static T CheckRect<T>(float p1x, float p1y, float p2x, float p2y)
     {
-        return current.CollisionRect<T>(new Vec2(p1x, p1y), new Vec2(p2x, p2y));
+        return current.CollisionRect<T>(new Vector2(p1x, p1y), new Vector2(p2x, p2y));
     }
 
-    public static T CheckRectFilter<T>(Vec2 p1, Vec2 p2, Predicate<T> filter)
+    public static T CheckRectFilter<T>(Vector2 p1, Vector2 p2, Predicate<T> filter)
     {
         return current.CollisionRectFilter(p1, p2, filter);
     }
 
-    public static T CheckRect<T>(Vec2 p1, Vec2 p2, Thing ignore)
+    public static T CheckRect<T>(Vector2 p1, Vector2 p2, Thing ignore)
     {
         return current.CollisionRect<T>(p1, p2, ignore);
     }
 
-    public static T CheckRect<T>(Vec2 p1, Vec2 p2)
+    public static T CheckRect<T>(Vector2 p1, Vector2 p2)
     {
         return current.CollisionRect<T>(p1, p2);
     }
 
-    public static List<T> CheckRectAll<T>(Vec2 p1, Vec2 p2, List<T> outList)
+    public static List<T> CheckRectAll<T>(Vector2 p1, Vector2 p2, List<T> outList)
     {
         return current.CollisionRectAll(p1, p2, outList);
     }
 
-    public static IEnumerable<T> CheckRectAll<T>(Vec2 p1, Vec2 p2)
+    public static IEnumerable<T> CheckRectAll<T>(Vector2 p1, Vector2 p2)
     {
         return current.CollisionRectAll<T>(p1, p2, null);
     }
 
     public T CollisionRect<T>(float p1x, float p1y, float p2x, float p2y, Thing ignore)
     {
-        return CollisionRect<T>(new Vec2(p1x, p1y), new Vec2(p2x, p2y), ignore);
+        return CollisionRect<T>(new Vector2(p1x, p1y), new Vector2(p2x, p2y), ignore);
     }
 
     public T CollisionRect<T>(float p1x, float p1y, float p2x, float p2y)
     {
-        return CollisionRect<T>(new Vec2(p1x, p1y), new Vec2(p2x, p2y));
+        return CollisionRect<T>(new Vector2(p1x, p1y), new Vector2(p2x, p2y));
     }
 
     public static T CheckLine<T>(float p1x, float p1y, float p2x, float p2y, Thing ignore)
     {
-        return current.CollisionLine<T>(new Vec2(p1x, p1y), new Vec2(p2x, p2y), ignore);
+        return current.CollisionLine<T>(new Vector2(p1x, p1y), new Vector2(p2x, p2y), ignore);
     }
 
     public static T CheckLine<T>(float p1x, float p1y, float p2x, float p2y)
     {
-        return current.CollisionLine<T>(new Vec2(p1x, p1y), new Vec2(p2x, p2y));
+        return current.CollisionLine<T>(new Vector2(p1x, p1y), new Vector2(p2x, p2y));
     }
 
-    public static T CheckLine<T>(float p1x, float p1y, float p2x, float p2y, out Vec2 position, Thing ignore)
+    public static T CheckLine<T>(float p1x, float p1y, float p2x, float p2y, out Vector2 position, Thing ignore)
     {
-        return current.CollisionLine<T>(new Vec2(p1x, p1y), new Vec2(p2x, p2y), out position, ignore);
+        return current.CollisionLine<T>(new Vector2(p1x, p1y), new Vector2(p2x, p2y), out position, ignore);
     }
 
-    public static T CheckLine<T>(float p1x, float p1y, float p2x, float p2y, out Vec2 position)
+    public static T CheckLine<T>(float p1x, float p1y, float p2x, float p2y, out Vector2 position)
     {
-        return current.CollisionLine<T>(new Vec2(p1x, p1y), new Vec2(p2x, p2y), out position);
+        return current.CollisionLine<T>(new Vector2(p1x, p1y), new Vector2(p2x, p2y), out position);
     }
 
-    public static T CheckLine<T>(Vec2 p1, Vec2 p2, Thing ignore)
+    public static T CheckLine<T>(Vector2 p1, Vector2 p2, Thing ignore)
     {
         return current.CollisionLine<T>(p1, p2, ignore);
     }
 
-    public static T CheckLine<T>(Vec2 p1, Vec2 p2)
+    public static T CheckLine<T>(Vector2 p1, Vector2 p2)
     {
         return current.CollisionLine<T>(p1, p2);
     }
 
-    public static T CheckLine<T>(Vec2 p1, Vec2 p2, out Vec2 position, Thing ignore)
+    public static T CheckLine<T>(Vector2 p1, Vector2 p2, out Vector2 position, Thing ignore)
     {
         return current.CollisionLine<T>(p1, p2, out position, ignore);
     }
 
-    public static T CheckLine<T>(Vec2 p1, Vec2 p2, out Vec2 position)
+    public static T CheckLine<T>(Vector2 p1, Vector2 p2, out Vector2 position)
     {
         return current.CollisionLine<T>(p1, p2, out position);
     }
 
     public T CollisionLine<T>(float p1x, float p1y, float p2x, float p2y, Thing ignore)
     {
-        return CollisionLine<T>(new Vec2(p1x, p1y), new Vec2(p2x, p2y), ignore);
+        return CollisionLine<T>(new Vector2(p1x, p1y), new Vector2(p2x, p2y), ignore);
     }
 
     public T CollisionLine<T>(float p1x, float p1y, float p2x, float p2y)
     {
-        return CollisionLine<T>(new Vec2(p1x, p1y), new Vec2(p2x, p2y));
+        return CollisionLine<T>(new Vector2(p1x, p1y), new Vector2(p2x, p2y));
     }
 
-    public static IEnumerable<T> CheckLineAll<T>(Vec2 p1, Vec2 p2)
+    public static IEnumerable<T> CheckLineAll<T>(Vector2 p1, Vector2 p2)
     {
         return current.CollisionLineAll<T>(p1, p2);
     }
 
     public IEnumerable<T> CheckLineAll<T>(float p1x, float p1y, float p2x, float p2y)
     {
-        return CollisionLineAll<T>(new Vec2(p1x, p1y), new Vec2(p2x, p2y));
+        return CollisionLineAll<T>(new Vector2(p1x, p1y), new Vector2(p2x, p2y));
     }
 
     public static T CheckPoint<T>(float x, float y, Thing ignore, Layer layer)
     {
-        return current.CollisionPoint<T>(new Vec2(x, y), ignore, layer);
+        return current.CollisionPoint<T>(new Vector2(x, y), ignore, layer);
     }
 
     public static T CheckPoint<T>(float x, float y, Thing ignore)
     {
-        return current.CollisionPoint<T>(new Vec2(x, y), ignore);
+        return current.CollisionPoint<T>(new Vector2(x, y), ignore);
     }
 
     public static Thing CheckPoint(Type pType, float x, float y, Thing ignore)
     {
-        return current.CollisionPoint(pType, new Vec2(x, y), ignore);
+        return current.CollisionPoint(pType, new Vector2(x, y), ignore);
     }
 
     public static T CheckPoint<T>(float x, float y)
     {
-        return current.CollisionPoint<T>(new Vec2(x, y));
+        return current.CollisionPoint<T>(new Vector2(x, y));
     }
 
     public static T CheckPointPlacementLayer<T>(float x, float y, Thing ignore = null, Layer layer = null)
     {
-        return current.CollisionPointPlacementLayer<T>(new Vec2(x, y), ignore, layer);
+        return current.CollisionPointPlacementLayer<T>(new Vector2(x, y), ignore, layer);
     }
 
-    public static T CheckPoint<T>(Vec2 point, Thing ignore, Layer layer)
+    public static T CheckPoint<T>(Vector2 point, Thing ignore, Layer layer)
     {
         return current.CollisionPoint<T>(point, ignore, layer);
     }
 
-    public static T CheckPoint<T>(Vec2 point, Thing ignore)
+    public static T CheckPoint<T>(Vector2 point, Thing ignore)
     {
         return current.CollisionPoint<T>(point, ignore);
     }
 
-    public static T CheckPoint<T>(Vec2 point)
+    public static T CheckPoint<T>(Vector2 point)
     {
         return current.CollisionPoint<T>(point);
     }
 
-    public static T CheckPointPlacementLayer<T>(Vec2 point, Thing ignore = null, Layer layer = null)
+    public static T CheckPointPlacementLayer<T>(Vector2 point, Thing ignore = null, Layer layer = null)
     {
         return current.CollisionPointPlacementLayer<T>(point, ignore, layer);
     }
 
     public static IEnumerable<T> CheckPointAll<T>(float x, float y, Layer layer)
     {
-        return current.CollisionPointAll<T>(new Vec2(x, y), layer);
+        return current.CollisionPointAll<T>(new Vector2(x, y), layer);
     }
 
     public static IEnumerable<T> CheckPointAll<T>(float x, float y)
     {
-        return current.CollisionPointAll<T>(new Vec2(x, y));
+        return current.CollisionPointAll<T>(new Vector2(x, y));
     }
 
-    public static IEnumerable<T> CheckPointAll<T>(Vec2 point, Layer layer)
+    public static IEnumerable<T> CheckPointAll<T>(Vector2 point, Layer layer)
     {
         return current.CollisionPointAll<T>(point, layer);
     }
 
-    public static IEnumerable<T> CheckPointAll<T>(Vec2 point)
+    public static IEnumerable<T> CheckPointAll<T>(Vector2 point)
     {
         return current.CollisionPointAll<T>(point);
     }
 
     public T CollisionPoint<T>(float x, float y, Thing ignore, Layer layer)
     {
-        return CollisionPoint<T>(new Vec2(x, y), ignore, layer);
+        return CollisionPoint<T>(new Vector2(x, y), ignore, layer);
     }
 
     public T CollisionPoint<T>(float x, float y, Thing ignore)
     {
-        return CollisionPoint<T>(new Vec2(x, y), ignore);
+        return CollisionPoint<T>(new Vector2(x, y), ignore);
     }
 
     public T CollisionPoint<T>(float x, float y)
     {
-        return CollisionPoint<T>(new Vec2(x, y));
+        return CollisionPoint<T>(new Vector2(x, y));
     }
 
-    public Thing nearest_single(Vec2 point, HashSet<Thing> things, Thing ignore, Layer layer, bool placementLayer = false)
+    public Thing nearest_single(Vector2 point, HashSet<Thing> things, Thing ignore, Layer layer, bool placementLayer = false)
     {
         Thing ret = null;
         float dist = float.MaxValue;
@@ -1481,7 +1482,7 @@ public class Level
         {
             if (!t.removeFromLevel && t != ignore && (layer == null || ((placementLayer || t.layer == layer) && t.placementLayer == layer)))
             {
-                float curDist = (point - t.Position).lengthSq;
+                float curDist = (point - t.Position).LengthSquared();
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1492,7 +1493,7 @@ public class Level
         return ret;
     }
 
-    public Thing nearest_single(Vec2 point, HashSet<Thing> things, Thing ignore)
+    public Thing nearest_single(Vector2 point, HashSet<Thing> things, Thing ignore)
     {
         Thing ret = null;
         float dist = float.MaxValue;
@@ -1500,7 +1501,7 @@ public class Level
         {
             if (!t.removeFromLevel && t != ignore)
             {
-                float curDist = (point - t.Position).lengthSq;
+                float curDist = (point - t.Position).LengthSquared();
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1511,7 +1512,7 @@ public class Level
         return ret;
     }
 
-    public Thing nearest_single(Vec2 point, HashSet<Thing> things)
+    public Thing nearest_single(Vector2 point, HashSet<Thing> things)
     {
         Thing ret = null;
         float dist = float.MaxValue;
@@ -1519,7 +1520,7 @@ public class Level
         {
             if (!t.removeFromLevel)
             {
-                float curDist = (point - t.Position).lengthSq;
+                float curDist = (point - t.Position).LengthSquared();
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1530,7 +1531,7 @@ public class Level
         return ret;
     }
 
-    public Thing nearest_single(Vec2 point, IEnumerable<Thing> things, Thing ignore, Layer layer, bool placementLayer = false)
+    public Thing nearest_single(Vector2 point, IEnumerable<Thing> things, Thing ignore, Layer layer, bool placementLayer = false)
     {
         Thing ret = null;
         float dist = float.MaxValue;
@@ -1538,7 +1539,7 @@ public class Level
         {
             if (!t.removeFromLevel && t != ignore && (layer == null || ((placementLayer || t.layer == layer) && t.placementLayer == layer)))
             {
-                float curDist = (point - t.Position).lengthSq;
+                float curDist = (point - t.Position).LengthSquared();
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1549,7 +1550,7 @@ public class Level
         return ret;
     }
 
-    public Thing nearest_single(Vec2 point, IEnumerable<Thing> things, Thing ignore)
+    public Thing nearest_single(Vector2 point, IEnumerable<Thing> things, Thing ignore)
     {
         Thing ret = null;
         float dist = float.MaxValue;
@@ -1557,7 +1558,7 @@ public class Level
         {
             if (!t.removeFromLevel && t != ignore)
             {
-                float curDist = (point - t.Position).lengthSq;
+                float curDist = (point - t.Position).LengthSquared();
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1568,7 +1569,7 @@ public class Level
         return ret;
     }
 
-    public Thing nearest_single(Vec2 point, IEnumerable<Thing> things)
+    public Thing nearest_single(Vector2 point, IEnumerable<Thing> things)
     {
         Thing ret = null;
         float dist = float.MaxValue;
@@ -1576,7 +1577,7 @@ public class Level
         {
             if (!t.removeFromLevel)
             {
-                float curDist = (point - t.Position).lengthSq;
+                float curDist = (point - t.Position).LengthSquared();
                 if (curDist < dist)
                 {
                     dist = curDist;
@@ -1587,49 +1588,49 @@ public class Level
         return ret;
     }
 
-    public List<KeyValuePair<float, Thing>> nearest(Vec2 point, IEnumerable<Thing> things, Thing ignore, Layer layer, bool placementLayer = false)
+    public List<KeyValuePair<float, Thing>> nearest(Vector2 point, IEnumerable<Thing> things, Thing ignore, Layer layer, bool placementLayer = false)
     {
         List<KeyValuePair<float, Thing>> dists = new List<KeyValuePair<float, Thing>>();
         foreach (Thing t in things)
         {
             if (!t.removeFromLevel && t != ignore && (layer == null || ((placementLayer || t.layer == layer) && t.placementLayer == layer)))
             {
-                dists.Add(new KeyValuePair<float, Thing>((point - t.Position).lengthSq, t));
+                dists.Add(new KeyValuePair<float, Thing>((point - t.Position).LengthSquared(), t));
             }
         }
         dists.Sort((KeyValuePair<float, Thing> x, KeyValuePair<float, Thing> y) => (!(x.Key < y.Key)) ? 1 : (-1));
         return dists;
     }
 
-    public List<KeyValuePair<float, Thing>> nearest(Vec2 point, IEnumerable<Thing> things, Thing ignore)
+    public List<KeyValuePair<float, Thing>> nearest(Vector2 point, IEnumerable<Thing> things, Thing ignore)
     {
         List<KeyValuePair<float, Thing>> dists = new List<KeyValuePair<float, Thing>>();
         foreach (Thing t in things)
         {
             if (!t.removeFromLevel && t != ignore)
             {
-                dists.Add(new KeyValuePair<float, Thing>((point - t.Position).lengthSq, t));
+                dists.Add(new KeyValuePair<float, Thing>((point - t.Position).LengthSquared(), t));
             }
         }
         dists.Sort((KeyValuePair<float, Thing> x, KeyValuePair<float, Thing> y) => (!(x.Key < y.Key)) ? 1 : (-1));
         return dists;
     }
 
-    public List<KeyValuePair<float, Thing>> nearest(Vec2 point, IEnumerable<Thing> things)
+    public List<KeyValuePair<float, Thing>> nearest(Vector2 point, IEnumerable<Thing> things)
     {
         List<KeyValuePair<float, Thing>> dists = new List<KeyValuePair<float, Thing>>();
         foreach (Thing t in things)
         {
             if (!t.removeFromLevel)
             {
-                dists.Add(new KeyValuePair<float, Thing>((point - t.Position).lengthSq, t));
+                dists.Add(new KeyValuePair<float, Thing>((point - t.Position).LengthSquared(), t));
             }
         }
         dists.Sort((KeyValuePair<float, Thing> x, KeyValuePair<float, Thing> y) => (!(x.Key < y.Key)) ? 1 : (-1));
         return dists;
     }
 
-    public T NearestThing<T>(Vec2 point, Thing ignore, Layer layer)
+    public T NearestThing<T>(Vector2 point, Thing ignore, Layer layer)
     {
         Thing ret = null;
         Type t = typeof(T);
@@ -1641,7 +1642,7 @@ public class Level
         return (T)(object)ret;
     }
 
-    public T NearestThing<T>(Vec2 point, Thing ignore)
+    public T NearestThing<T>(Vector2 point, Thing ignore)
     {
         Thing ret = null;
         Type t = typeof(T);
@@ -1653,7 +1654,7 @@ public class Level
         return (T)(object)ret;
     }
 
-    public T NearestThing<T>(Vec2 point)
+    public T NearestThing<T>(Vector2 point)
     {
         Thing ret = null;
         Type t = typeof(T);
@@ -1665,7 +1666,7 @@ public class Level
         return (T)(object)ret;
     }
 
-    public T NearestThing<T>(Vec2 point, Thing ignore, int nearIndex, Layer layer)
+    public T NearestThing<T>(Vector2 point, Thing ignore, int nearIndex, Layer layer)
     {
         Type t = typeof(T);
         if (t == typeof(Thing))
@@ -1684,7 +1685,7 @@ public class Level
         return default(T);
     }
 
-    public T NearestThing<T>(Vec2 point, Thing ignore, int nearIndex)
+    public T NearestThing<T>(Vector2 point, Thing ignore, int nearIndex)
     {
         Type t = typeof(T);
         if (t == typeof(Thing))
@@ -1703,7 +1704,7 @@ public class Level
         return default(T);
     }
 
-    public T NearestThingFilter<T>(Vec2 point, Predicate<Thing> filter)
+    public T NearestThingFilter<T>(Vector2 point, Predicate<Thing> filter)
     {
         Thing ret = null;
         float dist = float.MaxValue;
@@ -1711,7 +1712,7 @@ public class Level
         {
             if (!t.removeFromLevel)
             {
-                float curDist = (point - t.Position).lengthSq;
+                float curDist = (point - t.Position).LengthSquared();
                 if (curDist < dist && filter(t))
                 {
                     dist = curDist;
@@ -1726,7 +1727,7 @@ public class Level
         return (T)(object)ret;
     }
 
-    public T NearestThingFilter<T>(Vec2 point, Predicate<Thing> filter, float maxDistance)
+    public T NearestThingFilter<T>(Vector2 point, Predicate<Thing> filter, float maxDistance)
     {
         maxDistance *= maxDistance;
         Thing ret = null;
@@ -1735,7 +1736,7 @@ public class Level
         {
             if (!t.removeFromLevel)
             {
-                float curDist = (point - t.Position).lengthSq;
+                float curDist = (point - t.Position).LengthSquared();
                 if (curDist < dist && curDist < maxDistance && filter(t))
                 {
                     dist = curDist;
@@ -1750,7 +1751,7 @@ public class Level
         return (T)(object)ret;
     }
 
-    public T CollisionCircle<T>(Vec2 p1, float radius, Thing ignore)
+    public T CollisionCircle<T>(Vector2 p1, float radius, Thing ignore)
     {
         Type t = typeof(T);
         foreach (Thing thing in _things.GetDynamicObjects(t))
@@ -1767,7 +1768,7 @@ public class Level
         return default(T);
     }
 
-    public T CollisionCircle<T>(Vec2 p1, float radius)
+    public T CollisionCircle<T>(Vector2 p1, float radius)
     {
         Type t = typeof(T);
         foreach (Thing thing in _things.GetDynamicObjects(t))
@@ -1784,7 +1785,7 @@ public class Level
         return default(T);
     }
 
-    public IEnumerable<T> CollisionCircleAll<T>(Vec2 p1, float radius)
+    public IEnumerable<T> CollisionCircleAll<T>(Vector2 p1, float radius)
     {
         List<object> list = GetNextCollisionList();
         Type t = typeof(T);
@@ -1802,7 +1803,7 @@ public class Level
         return list.AsEnumerable().Cast<T>();
     }
 
-    public T CollisionRectFilter<T>(Vec2 p1, Vec2 p2, Predicate<T> filter)
+    public T CollisionRectFilter<T>(Vector2 p1, Vector2 p2, Predicate<T> filter)
     {
         Type t = typeof(T);
         foreach (Thing thing in _things.GetDynamicObjects(t))
@@ -1819,7 +1820,7 @@ public class Level
         return default(T);
     }
 
-    public T CollisionRect<T>(Vec2 p1, Vec2 p2, Thing ignore)
+    public T CollisionRect<T>(Vector2 p1, Vector2 p2, Thing ignore)
     {
         Type t = typeof(T);
         foreach (Thing thing in _things.GetDynamicObjects(t))
@@ -1836,7 +1837,7 @@ public class Level
         return default(T);
     }
 
-    public T CollisionRect<T>(Vec2 p1, Vec2 p2)
+    public T CollisionRect<T>(Vector2 p1, Vector2 p2)
     {
         Type t = typeof(T);
         foreach (Thing thing in _things.GetDynamicObjects(t))
@@ -1853,7 +1854,7 @@ public class Level
         return default(T);
     }
 
-    public List<T> CollisionRectAll<T>(Vec2 p1, Vec2 p2, List<T> outList)
+    public List<T> CollisionRectAll<T>(Vector2 p1, Vector2 p2, List<T> outList)
     {
         List<T> list = ((outList == null) ? new List<T>() : outList);
         Type t = typeof(T);
@@ -1871,7 +1872,7 @@ public class Level
         return list;
     }
 
-    public T CollisionLine<T>(Vec2 p1, Vec2 p2, Thing ignore)
+    public T CollisionLine<T>(Vector2 p1, Vector2 p2, Thing ignore)
     {
         Type t = typeof(T);
         foreach (Thing thing in _things.GetDynamicObjects(t))
@@ -1888,7 +1889,7 @@ public class Level
         return default(T);
     }
 
-    public T CollisionLine<T>(Vec2 p1, Vec2 p2)
+    public T CollisionLine<T>(Vector2 p1, Vector2 p2)
     {
         Type t = typeof(T);
         foreach (Thing thing in _things.GetDynamicObjects(t))
@@ -1905,16 +1906,16 @@ public class Level
         return default(T);
     }
 
-    public T CollisionLine<T>(Vec2 p1, Vec2 p2, out Vec2 position, Thing ignore)
+    public T CollisionLine<T>(Vector2 p1, Vector2 p2, out Vector2 position, Thing ignore)
     {
-        position = new Vec2(0f, 0f);
+        position = new Vector2(0f, 0f);
         Type t = typeof(T);
         foreach (Thing thing in _things.GetDynamicObjects(t))
         {
             if (!thing.removeFromLevel && thing != ignore)
             {
-                Vec2 pos = Collision.LinePoint(p1, p2, thing);
-                if (pos != Vec2.Zero)
+                Vector2 pos = Collision.LinePoint(p1, p2, thing);
+                if (pos != Vector2.Zero)
                 {
                     position = pos;
                     return (T)(object)thing;
@@ -1928,16 +1929,16 @@ public class Level
         return default(T);
     }
 
-    public T CollisionLine<T>(Vec2 p1, Vec2 p2, out Vec2 position)
+    public T CollisionLine<T>(Vector2 p1, Vector2 p2, out Vector2 position)
     {
-        position = new Vec2(0f, 0f);
+        position = new Vector2(0f, 0f);
         Type t = typeof(T);
         foreach (Thing thing in _things.GetDynamicObjects(t))
         {
             if (!thing.removeFromLevel)
             {
-                Vec2 pos = Collision.LinePoint(p1, p2, thing);
-                if (pos != Vec2.Zero)
+                Vector2 pos = Collision.LinePoint(p1, p2, thing);
+                if (pos != Vector2.Zero)
                 {
                     position = pos;
                     return (T)(object)thing;
@@ -1951,7 +1952,7 @@ public class Level
         return default(T);
     }
 
-    public IEnumerable<T> CollisionLineAll<T>(Vec2 p1, Vec2 p2)
+    public IEnumerable<T> CollisionLineAll<T>(Vector2 p1, Vector2 p2)
     {
         List<object> list = GetNextCollisionList();
         Type t = typeof(T);
@@ -1970,7 +1971,7 @@ public class Level
         return list.AsEnumerable().Cast<T>();
     }
 
-    public T CollisionPoint<T>(Vec2 point, Thing ignore, Layer layer)
+    public T CollisionPoint<T>(Vector2 point, Thing ignore, Layer layer)
     {
         Type t = typeof(T);
         if (t == typeof(Thing))
@@ -1997,7 +1998,7 @@ public class Level
         return default(T);
     }
 
-    public T CollisionPoint<T>(Vec2 point, Thing ignore)
+    public T CollisionPoint<T>(Vector2 point, Thing ignore)
     {
         Type t = typeof(T);
         if (t == typeof(Thing))
@@ -2024,7 +2025,7 @@ public class Level
         return default(T);
     }
 
-    public Thing CollisionPoint(Type pType, Vec2 point, Thing ignore)
+    public Thing CollisionPoint(Type pType, Vector2 point, Thing ignore)
     {
         if (pType == typeof(Thing))
         {
@@ -2050,7 +2051,7 @@ public class Level
         return null;
     }
 
-    public T CollisionPoint<T>(Vec2 point)
+    public T CollisionPoint<T>(Vector2 point)
     {
         Type t = typeof(T);
         if (t == typeof(Thing))
@@ -2077,7 +2078,7 @@ public class Level
         return default(T);
     }
 
-    public T QuadTreePointFilter<T>(Vec2 point, Func<Thing, bool> pFilter)
+    public T QuadTreePointFilter<T>(Vector2 point, Func<Thing, bool> pFilter)
     {
         Type t = typeof(T);
         if (_things.HasStaticObjects(t))
@@ -2087,7 +2088,7 @@ public class Level
         return default(T);
     }
 
-    public Thing CollisionPoint(Vec2 point, Type t, Thing ignore, Layer layer)
+    public Thing CollisionPoint(Vector2 point, Type t, Thing ignore, Layer layer)
     {
         if (t == typeof(Thing))
         {
@@ -2113,7 +2114,7 @@ public class Level
         return null;
     }
 
-    public Thing CollisionPoint(Vec2 point, Type t, Thing ignore)
+    public Thing CollisionPoint(Vector2 point, Type t, Thing ignore)
     {
         if (t == typeof(Thing))
         {
@@ -2139,7 +2140,7 @@ public class Level
         return null;
     }
 
-    public Thing CollisionPoint(Vec2 point, Type t)
+    public Thing CollisionPoint(Vector2 point, Type t)
     {
         if (t == typeof(Thing))
         {
@@ -2165,7 +2166,7 @@ public class Level
         return null;
     }
 
-    public T CollisionPointPlacementLayer<T>(Vec2 point, Thing ignore = null, Layer layer = null)
+    public T CollisionPointPlacementLayer<T>(Vector2 point, Thing ignore = null, Layer layer = null)
     {
         Type t = typeof(T);
         if (t == typeof(Thing))
@@ -2192,7 +2193,7 @@ public class Level
         return default(T);
     }
 
-    public T CollisionPointFilter<T>(Vec2 point, Predicate<Thing> filter)
+    public T CollisionPointFilter<T>(Vector2 point, Predicate<Thing> filter)
     {
         Type t = typeof(T);
         if (t == typeof(Thing))
@@ -2219,7 +2220,7 @@ public class Level
         return default(T);
     }
 
-    public IEnumerable<T> CollisionPointAll<T>(Vec2 point, Layer layer)
+    public IEnumerable<T> CollisionPointAll<T>(Vector2 point, Layer layer)
     {
         List<object> list = GetNextCollisionList();
         Type t = typeof(T);
@@ -2241,7 +2242,7 @@ public class Level
         return list.AsEnumerable().Cast<T>();
     }
 
-    public IEnumerable<T> CollisionPointAll<T>(Vec2 point)
+    public IEnumerable<T> CollisionPointAll<T>(Vector2 point)
     {
         List<object> list = GetNextCollisionList();
         Type t = typeof(T);
@@ -2263,7 +2264,7 @@ public class Level
         return list.AsEnumerable().Cast<T>();
     }
 
-    public void CollisionBullet(Vec2 point, List<MaterialThing> output)
+    public void CollisionBullet(Vector2 point, List<MaterialThing> output)
     {
         Type t = typeof(MaterialThing);
         foreach (Thing thing in _things.GetDynamicObjects(t))
@@ -2283,30 +2284,30 @@ public class Level
         }
     }
 
-    public static T CheckRay<T>(Vec2 start, Vec2 end)
+    public static T CheckRay<T>(Vector2 start, Vector2 end)
     {
         return current.CollisionRay<T>(start, end);
     }
 
-    public T CollisionRay<T>(Vec2 start, Vec2 end)
+    public T CollisionRay<T>(Vector2 start, Vector2 end)
     {
-        Vec2 hitPos;
+        Vector2 hitPos;
         return CheckRay<T>(start, end, out hitPos);
     }
 
-    public static T CheckRay<T>(Vec2 start, Vec2 end, out Vec2 hitPos)
+    public static T CheckRay<T>(Vector2 start, Vector2 end, out Vector2 hitPos)
     {
         return current.CollisionRay<T>(start, end, out hitPos);
     }
 
-    public static T CheckRay<T>(Vec2 start, Vec2 end, Thing ignore, out Vec2 hitPos)
+    public static T CheckRay<T>(Vector2 start, Vector2 end, Thing ignore, out Vector2 hitPos)
     {
         return current.CollisionRay<T>(start, end, ignore, out hitPos);
     }
 
-    public T CollisionRay<T>(Vec2 start, Vec2 end, out Vec2 hitPos)
+    public T CollisionRay<T>(Vector2 start, Vector2 end, out Vector2 hitPos)
     {
-        Vec2 travelDirNormalized = end - start;
+        Vector2 travelDirNormalized = end - start;
         float length = travelDirNormalized.Length();
         travelDirNormalized.Normalize();
         Math.Ceiling(length);
@@ -2331,7 +2332,7 @@ public class Level
             else
             {
                 lengthDiv2 = current.length * 0.5f;
-                Vec2 halfPoint = current.p1 + travelDirNormalized * lengthDiv2;
+                Vector2 halfPoint = current.p1 + travelDirNormalized * lengthDiv2;
                 tests.Push(new TravelInfo(halfPoint, current.p2, lengthDiv2));
                 tests.Push(new TravelInfo(current.p1, halfPoint, lengthDiv2));
             }
@@ -2340,9 +2341,9 @@ public class Level
         return default(T);
     }
 
-    public T CollisionRay<T>(Vec2 start, Vec2 end, Thing ignore, out Vec2 hitPos)
+    public T CollisionRay<T>(Vector2 start, Vector2 end, Thing ignore, out Vector2 hitPos)
     {
-        Vec2 travelDirNormalized = end - start;
+        Vector2 travelDirNormalized = end - start;
         float length = travelDirNormalized.Length();
         travelDirNormalized.Normalize();
         Math.Ceiling(length);
@@ -2367,7 +2368,7 @@ public class Level
             else
             {
                 lengthDiv2 = current.length * 0.5f;
-                Vec2 halfPoint = current.p1 + travelDirNormalized * lengthDiv2;
+                Vector2 halfPoint = current.p1 + travelDirNormalized * lengthDiv2;
                 tests.Push(new TravelInfo(halfPoint, current.p2, lengthDiv2));
                 tests.Push(new TravelInfo(current.p1, halfPoint, lengthDiv2));
             }
@@ -2376,10 +2377,10 @@ public class Level
         return default(T);
     }
 
-    private T Raycast<T>(Vec2 p1, Vec2 dir, float length, out Vec2 hit)
+    private T Raycast<T>(Vector2 p1, Vector2 dir, float length, out Vector2 hit)
     {
         int steps = (int)Math.Ceiling(length);
-        Vec2 s = p1;
+        Vector2 s = p1;
         do
         {
             steps--;
@@ -2396,10 +2397,10 @@ public class Level
         return default(T);
     }
 
-    private T Raycast<T>(Vec2 p1, Vec2 dir, Thing ignore, float length, out Vec2 hit)
+    private T Raycast<T>(Vector2 p1, Vector2 dir, Thing ignore, float length, out Vector2 hit)
     {
         int steps = (int)Math.Ceiling(length);
-        Vec2 s = p1;
+        Vector2 s = p1;
         do
         {
             steps--;
@@ -2416,16 +2417,16 @@ public class Level
         return default(T);
     }
 
-    private T Rectcast<T>(Vec2 p1, Vec2 p2, Rectangle rect, out Vec2 hit)
+    private T Rectcast<T>(Vector2 p1, Vector2 p2, Rectangle rect, out Vector2 hit)
     {
-        Vec2 dir = p2 - p1;
+        Vector2 dir = p2 - p1;
         int steps = (int)Math.Ceiling(dir.Length());
         dir.Normalize();
-        Vec2 s = p1;
+        Vector2 s = p1;
         do
         {
             steps--;
-            T col = current.CollisionRect<T>(s + new Vec2(rect.Top, rect.Left), s + new Vec2(rect.Bottom, rect.Right));
+            T col = current.CollisionRect<T>(s + new Vector2(rect.Top, rect.Left), s + new Vector2(rect.Bottom, rect.Right));
             if (col != null)
             {
                 hit = s;

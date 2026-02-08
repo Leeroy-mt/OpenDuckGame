@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class InputObject : Thing, ITakeInput
@@ -18,9 +20,9 @@ public class InputObject : Thing, ITakeInput
 
     private sbyte _profileNumber;
 
-    private Vec2 _leftStick;
+    private Vector2 _leftStick;
 
-    private Vec2 _rightStick;
+    private Vector2 _rightStick;
 
     private float _leftTrigger;
 
@@ -49,7 +51,7 @@ public class InputObject : Thing, ITakeInput
         }
     }
 
-    public Vec2 leftStick
+    public Vector2 leftStick
     {
         get
         {
@@ -65,7 +67,7 @@ public class InputObject : Thing, ITakeInput
         }
     }
 
-    public Vec2 rightStick
+    public Vector2 rightStick
     {
         get
         {

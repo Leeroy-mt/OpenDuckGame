@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -465,7 +466,7 @@ public class DuckNetworkCore
             }
         }
         float chatScale = DuckNetwork.chatScale;
-        _chatFont.Scale = new Vec2(2f * pMessage.scale * chatScale);
+        _chatFont.Scale = new Vector2(2f * pMessage.scale * chatScale);
         if (_chatFont is RasterFont)
         {
             _chatFont.Scale *= 0.5f;

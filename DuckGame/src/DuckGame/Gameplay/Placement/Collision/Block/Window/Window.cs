@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -34,13 +35,13 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
 
     public bool landed = true;
 
-    private List<Vec2> _hits = new List<Vec2>();
+    private List<Vector2> _hits = new List<Vector2>();
 
     private SinWaveManualUpdate _shake = 0.8f;
 
     private float _shakeVal;
 
-    private Vec2 _shakeMult = Vec2.Zero;
+    private Vector2 _shakeMult = Vector2.Zero;
 
     public bool floor;
 
@@ -76,13 +77,13 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
 
     public bool lobbyRemoving;
 
-    private Vec2 _enter;
+    private Vector2 _enter;
 
     private bool _wrecked;
 
     private bool _hasGlass = true;
 
-    public override Vec2 netPosition
+    public override Vector2 netPosition
     {
         get
         {
@@ -109,7 +110,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
         base.sequence.isValid = valid.value;
     }
 
-    public override void SetTranslation(Vec2 translation)
+    public override void SetTranslation(Vector2 translation)
     {
         if (_frame != null)
         {
@@ -121,17 +122,17 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
     public virtual void UpdateHeight()
     {
         float high = (float)windowHeight.value * 16f;
-        Center = new Vec2(3f, 0f);
+        Center = new Vector2(3f, 0f);
         if (floor)
         {
-            collisionSize = new Vec2(high, 6f);
-            collisionOffset = new Vec2(0f - high + 16f, -2f);
+            collisionSize = new Vector2(high, 6f);
+            collisionOffset = new Vector2(0f - high + 16f, -2f);
             _sprite.AngleDegrees = -90f;
         }
         else
         {
-            collisionSize = new Vec2(6f, high);
-            collisionOffset = new Vec2(-3f, 0f - high + 8f);
+            collisionSize = new Vector2(6f, high);
+            collisionOffset = new Vector2(-3f, 0f - high + 8f);
             _sprite.Angle = 0f;
         }
         _sprite.ScaleY = high;
@@ -155,9 +156,9 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
         base.sequence = new SequenceItem(this);
         base.sequence.type = SequenceItemType.Goody;
         physicsMaterial = PhysicsMaterial.Glass;
-        Center = new Vec2(3f, 24f);
-        collisionSize = new Vec2(6f, 32f);
-        collisionOffset = new Vec2(-3f, -24f);
+        Center = new Vector2(3f, 24f);
+        collisionSize = new Vector2(6f, 32f);
+        collisionOffset = new Vector2(-3f, -24f);
         base.Depth = -0.5f;
         _editorName = "Window";
         editorTooltip = "Classic window. Really opens up the room.";
@@ -187,7 +188,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
             _wrecked = true;
             for (int i = 0; i < 8; i++)
             {
-                Level.Add(new GlassParticle(base.X - 4f + Rando.Float(8f), base.Y - 16f + Rando.Float(32f), Vec2.Zero, tint.value)
+                Level.Add(new GlassParticle(base.X - 4f + Rando.Float(8f), base.Y - 16f + Rando.Float(32f), Vector2.Zero, tint.value)
                 {
                     hSpeed = ((Rando.Float(1f) > 0.5f) ? 1f : (-1f)) * Rando.Float(3f),
                     vSpeed = 0f - Rando.Float(1f)
@@ -199,7 +200,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
                 {
                     Level.Add(new GlassDebris(rotate: false, base.left + (float)(j * 4), base.Y, 0f - Rando.Float(2f), 0f - Rando.Float(2f), 1));
                 }
-                foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(base.topLeft + new Vec2(-2f, -3f), base.topRight + new Vec2(2f, -3f)))
+                foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(base.topLeft + new Vector2(-2f, -3f), base.topRight + new Vector2(2f, -3f)))
                 {
                     item._sleeping = false;
                     item.vSpeed -= 2f;
@@ -222,7 +223,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
         base.Terminate();
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal)
         {
@@ -267,12 +268,12 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
         return base.Hit(bullet, hitPos);
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 exitPos)
+    public override void ExitHit(Bullet bullet, Vector2 exitPos)
     {
         if (_hasGlass)
         {
             _hits.Add(_enter);
-            Vec2 exit = exitPos - bullet.travelDirNormalized;
+            Vector2 exit = exitPos - bullet.travelDirNormalized;
             if (exit.X < base.X && exit.X < base.left + 2f)
             {
                 exit.X = base.left;
@@ -376,7 +377,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
         {
             damageMultiplier = 1f;
         }
-        _shakeMult = Lerp.Vec2(_shakeMult, Vec2.Zero, 0.1f);
+        _shakeMult = Lerp.Vector2(_shakeMult, Vector2.Zero, 0.1f);
         if (_localShakeTimes < shakeTimes)
         {
             Shake();
@@ -387,7 +388,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
 
     public override void Draw()
     {
-        Vec2 waver = Vec2.Zero;
+        Vector2 waver = Vector2.Zero;
         float shakeAmount = (float)_shake * _shakeVal * 0.8f;
         if (floor)
         {

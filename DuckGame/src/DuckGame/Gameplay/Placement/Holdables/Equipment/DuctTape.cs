@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -11,9 +12,9 @@ public class DuctTape : Equipment
     {
         _type = "gun";
         graphic = new Sprite("tape");
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-5f, -5f);
-        collisionSize = new Vec2(10f, 10f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-5f, -5f);
+        collisionSize = new Vector2(10f, 10f);
         wearable = false;
         _editorName = "Tape";
         editorTooltip = "Taping things together is always a good time!";

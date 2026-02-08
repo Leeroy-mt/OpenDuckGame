@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -8,5 +9,5 @@ public class StaticRenderSection
 
     public List<Thing> things = new List<Thing>();
 
-    public Vec2 position;
+    public Vector2 position;
 }

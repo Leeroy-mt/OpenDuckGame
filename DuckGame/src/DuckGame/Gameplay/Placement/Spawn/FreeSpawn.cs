@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Spawns")]
@@ -21,9 +23,9 @@ public class FreeSpawn : SpawnPoint
             Depth = 0.9f
         };
         _editorName = "Spawn Point";
-        Center = new Vec2(16f, 23f);
-        collisionSize = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -16f);
+        Center = new Vector2(16f, 23f);
+        collisionSize = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -16f);
         _visibleInGame = false;
         editorTooltip = "Basic spawn point for a single Duck. Every level needs at least one.";
         secondSpawn._tooltip = "If set, this duck will be the alternate duck in a 1V1 pair.";

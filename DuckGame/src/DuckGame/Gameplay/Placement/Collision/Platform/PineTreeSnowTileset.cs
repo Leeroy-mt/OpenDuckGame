@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Blocks|Snow")]
@@ -23,11 +25,11 @@ public class PineTreeSnowTileset : PineTree
         _snowFall.AddAnimation("fall", 0.2f + Rando.Float(0.1f), false, 0, 1, 2, 3, 4);
         _snowFall.AddAnimation("idle", 0.4f, false, default(int));
         _snowFall.SetAnimation("idle");
-        _snowFall.Center = new Vec2(4f, 0f);
+        _snowFall.Center = new Vector2(4f, 0f);
         snowWait = Rando.Float(4f);
     }
 
-    public override void KnockOffSnow(Vec2 dir, bool vertShake)
+    public override void KnockOffSnow(Vector2 dir, bool vertShake)
     {
         iterated = true;
         if (!knocked || vertShake)
@@ -50,7 +52,7 @@ public class PineTreeSnowTileset : PineTree
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Level.Add(new SnowFallParticle(base.X + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f), dir * Rando.Float(1f) + new Vec2(Rando.Float(-0.1f, -0.1f), Rando.Float(-0.1f, -0.1f) - Rando.Float(0.1f, 0.3f))));
+                    Level.Add(new SnowFallParticle(base.X + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f), dir * Rando.Float(1f) + new Vector2(Rando.Float(-0.1f, -0.1f), Rando.Float(-0.1f, -0.1f) - Rando.Float(0.1f, 0.3f))));
                 }
             }
         }
@@ -76,7 +78,7 @@ public class PineTreeSnowTileset : PineTree
                 snowWait = Rando.Float(2f, 3f);
                 if (Rando.Float(1f) > 0.92f)
                 {
-                    Level.Add(new SnowFallParticle(base.X + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f), new Vec2(0f, 0f)));
+                    Level.Add(new SnowFallParticle(base.X + Rando.Float(-4f, 4f), base.Y + Rando.Float(-4f, 4f), new Vector2(0f, 0f)));
                 }
             }
         }
@@ -88,7 +90,7 @@ public class PineTreeSnowTileset : PineTree
         if (!edge && _snowFall.currentAnimation != "idle" && !_snowFall.finished)
         {
             _snowFall.Depth = -0.1f;
-            _snowFall.Scale = new Vec2(1f, (float)_snowFall.frame / 5f * 0.4f + 0.2f);
+            _snowFall.Scale = new Vector2(1f, (float)_snowFall.frame / 5f * 0.4f + 0.2f);
             _snowFall.Alpha = 1f - (float)_snowFall.frame / 5f * 1f;
             Graphics.Draw(_snowFall, base.X, base.Y - 7f + (float)_snowFall.frame / 5f * 3f);
         }

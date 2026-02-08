@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -10,11 +11,11 @@ public abstract class Holdable : PhysicsObject
 
     public float raiseSpeed = 0.2f;
 
-    protected Vec2 _prevHoverPos;
+    protected Vector2 _prevHoverPos;
 
     private ItemSpawner _hoverSpawner;
 
-    protected Vec2 _lastReceivedPosition = Vec2.Zero;
+    protected Vector2 _lastReceivedPosition = Vector2.Zero;
 
     protected bool _immobilizeOwner;
 
@@ -32,7 +33,7 @@ public abstract class Holdable : PhysicsObject
 
     public float angleMul = 1f;
 
-    public Vec2 holsterOffset = Vec2.Zero;
+    public Vector2 holsterOffset = Vector2.Zero;
 
     public float holsterAngle;
 
@@ -44,11 +45,11 @@ public abstract class Holdable : PhysicsObject
 
     public bool canPickUp = true;
 
-    public Vec2 handOffset;
+    public Vector2 handOffset;
 
-    public Vec2 _holdOffset;
+    public Vector2 _holdOffset;
 
-    public Vec2 _extraOffset = Vec2.Zero;
+    public Vector2 _extraOffset = Vector2.Zero;
 
     public float handAngle;
 
@@ -122,19 +123,19 @@ public abstract class Holdable : PhysicsObject
         }
     }
 
-    public override Vec2 netPosition
+    public override Vector2 netPosition
     {
         get
         {
             if (owner != null && !(this is DrumSet))
             {
-                return new Vec2(-10000f, -8999f);
+                return new Vector2(-10000f, -8999f);
             }
             if (hoverSpawner == null)
             {
                 return Position;
             }
-            return hoverSpawner.Position + new Vec2(0f, -8f);
+            return hoverSpawner.Position + new Vector2(0f, -8f);
         }
         set
         {
@@ -171,9 +172,9 @@ public abstract class Holdable : PhysicsObject
 
     public bool hasTrigger => _hasTrigger;
 
-    public Vec2 holdOffset => new Vec2(_holdOffset.X * (float)offDir, _holdOffset.Y);
+    public Vector2 holdOffset => new Vector2(_holdOffset.X * (float)offDir, _holdOffset.Y);
 
-    public override Vec2 Center
+    public override Vector2 Center
     {
         get => CenterValue + _extraOffset;
         set => CenterValue = value;
@@ -248,7 +249,7 @@ public abstract class Holdable : PhysicsObject
         }
     }
 
-    public virtual Vec2 tapedOffset => Vec2.Zero;
+    public virtual Vector2 tapedOffset => Vector2.Zero;
 
     public bool tapedIsGun1
     {
@@ -329,19 +330,19 @@ public abstract class Holdable : PhysicsObject
     {
     }
 
-    public override Vec2 OffsetLocal(Vec2 pos)
+    public override Vector2 OffsetLocal(Vector2 pos)
     {
-        Vec2 offset = pos * base.Scale - _extraOffset;
+        Vector2 offset = pos * base.Scale - _extraOffset;
         if (offDir < 0)
         {
             offset.X *= -1f;
         }
-        return offset.Rotate(Angle, new Vec2(0f, 0f));
+        return offset.Rotate(Angle, new Vector2(0f, 0f));
     }
 
-    public override Vec2 ReverseOffsetLocal(Vec2 pos)
+    public override Vector2 ReverseOffsetLocal(Vector2 pos)
     {
-        return (pos * base.Scale - _extraOffset).Rotate(0f - Angle, new Vec2(0f, 0f));
+        return (pos * base.Scale - _extraOffset).Rotate(0f - Angle, new Vector2(0f, 0f));
     }
 
     public virtual bool CanTapeTo(Thing pThing)
@@ -393,7 +394,7 @@ public abstract class Holdable : PhysicsObject
         }
         if (offDir > 0)
         {
-            Block hit = Level.CheckLine<Block>(new Vec2(duckOwner.X, base.Y), new Vec2(base.right, base.Y));
+            Block hit = Level.CheckLine<Block>(new Vector2(duckOwner.X, base.Y), new Vector2(base.right, base.Y));
             if (hit is Door && ((hit as Door)._jam == 1f || (hit as Door)._jam == -1f))
             {
                 hit = null;
@@ -402,7 +403,7 @@ public abstract class Holdable : PhysicsObject
         }
         else
         {
-            Block hit2 = Level.CheckLine<Block>(new Vec2(base.left, base.Y), new Vec2(duckOwner.X, base.Y));
+            Block hit2 = Level.CheckLine<Block>(new Vector2(base.left, base.Y), new Vector2(duckOwner.X, base.Y));
             if (hit2 is Door && ((hit2 as Door)._jam == 1f || (hit2 as Door)._jam == -1f))
             {
                 hit2 = null;

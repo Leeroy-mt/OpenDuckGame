@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +54,7 @@ public class AIStateFindTarget : AIState
                         _scatterWait = 1f;
                     }
                 }
-                if (Math.Abs(duck.Y - _target.Y) < 16f && Math.Abs(duck.X - _target.X) < 150f && Level.CheckRay<Duck>(duck.Position + new Vec2(duck.offDir * 10, 0f), _target.Position) == _target)
+                if (Math.Abs(duck.Y - _target.Y) < 16f && Math.Abs(duck.X - _target.X) < 150f && Level.CheckRay<Duck>(duck.Position + new Vector2(duck.offDir * 10, 0f), _target.Position) == _target)
                 {
                     if (Level.CheckLine<Block>(duck.Position, _target.Position) == null)
                     {

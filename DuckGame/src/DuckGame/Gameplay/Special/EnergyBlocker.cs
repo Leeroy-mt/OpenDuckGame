@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class EnergyBlocker : MaterialThing
@@ -14,7 +16,7 @@ public class EnergyBlocker : MaterialThing
         weight = 0.01f;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (!_solid)
         {

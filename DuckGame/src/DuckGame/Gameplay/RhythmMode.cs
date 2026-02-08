@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -49,7 +50,7 @@ public class RhythmMode
             _ball = new Sprite("rhythmBall");
             _ball.CenterOrigin();
         }
-        Vec2 barPos = new Vec2(Layer.HUD.camera.width / 2f - (float)(_bar.w / 2), 10f);
+        Vector2 barPos = new Vector2(Layer.HUD.camera.width / 2f - (float)(_bar.w / 2), 10f);
         Graphics.Draw(_bar, barPos.X, barPos.Y);
         for (int i = 0; i < 5; i++)
         {
@@ -58,11 +59,11 @@ public class RhythmMode
             _ball.Alpha = ((float)Math.Sin((double)distance * (Math.PI * 2.0) - Math.PI / 2.0) + 1f) / 2f;
             if (((i == 1 && _pos > 0.5f) || (i == 2 && _pos <= 0.5f)) && inTime)
             {
-                _ball.Scale = new Vec2(2f, 2f);
+                _ball.Scale = new Vector2(2f, 2f);
             }
             else
             {
-                _ball.Scale = new Vec2(1f, 1f);
+                _ball.Scale = new Vector2(1f, 1f);
             }
             Graphics.Draw(_ball, xpos, barPos.Y + 4f);
         }

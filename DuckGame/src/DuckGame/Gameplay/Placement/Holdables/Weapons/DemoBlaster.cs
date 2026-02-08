@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [BaggedProperty("canSpawn", false)]
@@ -18,21 +20,21 @@ public class DemoBlaster : Gun
         _ammoType = new AT9mm();
         _type = "gun";
         graphic = new Sprite("demoBlaster");
-        Center = new Vec2(18f, 8f);
-        collisionOffset = new Vec2(-16f, -8f);
-        collisionSize = new Vec2(32f, 15f);
-        _barrelOffsetTL = new Vec2(37f, 7f);
+        Center = new Vector2(18f, 8f);
+        collisionOffset = new Vector2(-16f, -8f);
+        collisionSize = new Vector2(32f, 15f);
+        _barrelOffsetTL = new Vector2(37f, 7f);
         _fireSound = "pistolFire";
         _kickForce = 3f;
         _fireRumble = RumbleIntensity.Kick;
-        _holdOffset = new Vec2(-1f, -4f);
+        _holdOffset = new Vector2(-1f, -4f);
         weight = 8f;
         loseAccuracy = 0.1f;
         maxAccuracyLost = 0.6f;
         _bio = "";
         _editorName = "Demo Blaster";
         physicsMaterial = PhysicsMaterial.Metal;
-        _stream = new FluidStream(base.X, base.Y, new Vec2(1f, 0f), 1f);
+        _stream = new FluidStream(base.X, base.Y, new Vector2(1f, 0f), 1f);
         isFatal = false;
     }
 

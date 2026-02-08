@@ -444,7 +444,7 @@ public class DuckFile
                 }
                 if (File.Exists(fileName))
                 {
-                    Texture2D t = TextureConverter.LoadPNGWithPinkAwesomenessAndMaxDimensions(Graphics.device, fileName, process: true, new Vec2(28f, 28f));
+                    Texture2D t = TextureConverter.LoadPNGWithPinkAwesomenessAndMaxDimensions(Graphics.device, fileName, process: true, new Vector2(28f, 28f));
                     if (t != null)
                     {
                         if (t.Width <= 28 && t.Height <= 28)
@@ -542,11 +542,11 @@ public class DuckFile
         }
         if (s.width <= 16)
         {
-            s.Scale = new Vec2(2f, 2f);
+            s.Scale = new Vector2(2f, 2f);
         }
         else
         {
-            s.Scale = new Vec2(1f, 1f);
+            s.Scale = new Vector2(1f, 1f);
         }
         if (s.width > 28 || s.height > 28)
         {
@@ -583,7 +583,7 @@ public class DuckFile
         {
             try
             {
-                Texture2D t = TextureConverter.LoadPNGWithPinkAwesomenessAndMaxDimensions(Graphics.device, s, process: true, new Vec2(28f, 28f));
+                Texture2D t = TextureConverter.LoadPNGWithPinkAwesomenessAndMaxDimensions(Graphics.device, s, process: true, new Vector2(28f, 28f));
                 if (t == null)
                 {
                     continue;

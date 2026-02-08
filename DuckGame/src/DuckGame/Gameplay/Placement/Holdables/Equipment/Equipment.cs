@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public abstract class Equipment : Holdable
@@ -12,17 +14,17 @@ public abstract class Equipment : Holdable
 
     protected bool _hasEquippedCollision;
 
-    protected Vec2 _equippedCollisionOffset;
+    protected Vector2 _equippedCollisionOffset;
 
-    protected Vec2 _equippedCollisionSize;
+    protected Vector2 _equippedCollisionSize;
 
     protected bool _jumpMod;
 
-    protected Vec2 _offset;
+    protected Vector2 _offset;
 
     protected bool _autoOffset = true;
 
-    private Vec2 _colSize = Vec2.Zero;
+    private Vector2 _colSize = Vector2.Zero;
 
     private float _equipmentHealth = 1f;
 
@@ -30,7 +32,7 @@ public abstract class Equipment : Holdable
 
     public bool _prevEquipped;
 
-    protected Vec2 _wearOffset = Vec2.Zero;
+    protected Vector2 _wearOffset = Vector2.Zero;
 
     public bool wearable = true;
 
@@ -40,9 +42,9 @@ public abstract class Equipment : Holdable
 
     private bool _appliedEquippedCollision;
 
-    private Vec2 _unequippedCollisionSize;
+    private Vector2 _unequippedCollisionSize;
 
-    private Vec2 _unequippedCollisionOffset;
+    private Vector2 _unequippedCollisionOffset;
 
     public Duck netEquippedDuck
     {
@@ -64,7 +66,7 @@ public abstract class Equipment : Holdable
         }
     }
 
-    public override Vec2 collisionOffset
+    public override Vector2 collisionOffset
     {
         get
         {
@@ -80,7 +82,7 @@ public abstract class Equipment : Holdable
         }
     }
 
-    public override Vec2 collisionSize
+    public override Vector2 collisionSize
     {
         get
         {
@@ -98,7 +100,7 @@ public abstract class Equipment : Holdable
 
     public bool jumpMod => _jumpMod;
 
-    public Vec2 wearOffset
+    public Vector2 wearOffset
     {
         get
         {
@@ -163,12 +165,12 @@ public abstract class Equipment : Holdable
             offDir = owner.offDir;
             Position = bone.position;
             Angle = ((offDir > 0) ? (0f - bone.orientation) : bone.orientation);
-            Vec2 off = _wearOffset;
+            Vector2 off = _wearOffset;
             if (this is TeamHat)
             {
                 off -= (this as TeamHat).hatOffset;
             }
-            Position += new Vec2(off.X * (float)offDir, off.Y).Rotate(Angle, Vec2.Zero);
+            Position += new Vector2(off.X * (float)offDir, off.Y).Rotate(Angle, Vector2.Zero);
         }
     }
 
@@ -315,7 +317,7 @@ public abstract class Equipment : Holdable
         base.OnSoftImpact(with, from);
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (_equippedDuck == null || bullet.owner == base.duck || !bullet.isLocal)
         {

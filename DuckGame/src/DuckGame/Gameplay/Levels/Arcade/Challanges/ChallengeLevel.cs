@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -370,7 +371,7 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
                             frame = ArcadeLevel.currentArcade.GetFrame();
                             if (frame != null)
                             {
-                                Vec2 frameSize = frame.GetRenderTargetSize();
+                                Vector2 frameSize = frame.GetRenderTargetSize();
                                 float frameMult = frame.GetRenderTargetZoom();
                                 if (_captureTarget == null)
                                 {
@@ -389,7 +390,7 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
                                     Matrix mat = Level.current.camera.getMatrix();
                                     Vec3 pos = Graphics.viewport.Project(new Vec3(_duck.cameraPosition.X, _duck.cameraPosition.Y, 0f), projMatrix, mat, Matrix.Identity);
                                     Graphics.SetRenderTarget(_captureTarget);
-                                    cam.center = new Vec2(pos.x, pos.y);
+                                    cam.center = new Vector2(pos.x, pos.y);
                                     if (cam.bottom > (float)MonoMain.screenCapture.height)
                                     {
                                         cam.centerY = (float)MonoMain.screenCapture.height - cam.height / 2f;
@@ -853,7 +854,7 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
     {
         if (layer == Layer.HUD && (!_started || _finished) && _waitAfterSpawnDings > 0 && _fontFade > 0.01f)
         {
-            _font.Scale = new Vec2(2f, 2f);
+            _font.Scale = new Vector2(2f, 2f);
             _font.Alpha = _fontFade;
             string s = "GET";
             if (_finished)

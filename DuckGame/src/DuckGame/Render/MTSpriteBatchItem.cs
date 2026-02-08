@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -30,7 +31,7 @@ public class MTSpriteBatchItem
         vertexBR = default(VertexPositionColorTexture);
     }
 
-    public void Set(float x, float y, float w, float h, Color color, Vec2 texCoordTL, Vec2 texCoordBR)
+    public void Set(float x, float y, float w, float h, Color color, Vector2 texCoordTL, Vector2 texCoordBR)
     {
         vertexTL.Position.X = x;
         vertexTL.Position.Y = y;
@@ -58,7 +59,7 @@ public class MTSpriteBatchItem
         vertexBR.TextureCoordinate.Y = texCoordBR.Y;
     }
 
-    public void Set(Vec2 p1, Vec2 p2, Vec2 p3, Vec2 p4, Vec2 t1, Vec2 t2, Vec2 t3, Vec2 t4, Color c)
+    public void Set(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 t1, Vector2 t2, Vector2 t3, Vector2 t4, Color c)
     {
         vertexTL.Position.X = p1.X;
         vertexTL.Position.Y = p1.Y;
@@ -86,7 +87,7 @@ public class MTSpriteBatchItem
         vertexBR.TextureCoordinate.Y = t4.Y;
     }
 
-    public void Set(float x, float y, float dx, float dy, float w, float h, float sin, float cos, Color color, Vec2 texCoordTL, Vec2 texCoordBR)
+    public void Set(float x, float y, float dx, float dy, float w, float h, float sin, float cos, Color color, Vector2 texCoordTL, Vector2 texCoordBR)
     {
         vertexTL.Position.X = x + dx * cos - dy * sin;
         vertexTL.Position.Y = y + dx * sin + dy * cos;

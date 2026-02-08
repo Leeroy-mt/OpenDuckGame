@@ -29,7 +29,7 @@ public class Resolution
 
     public ScreenMode mode;
 
-    public Vec2 dimensions;
+    public Vector2 dimensions;
 
     public static Dictionary<ScreenMode, List<Resolution>> supportedDisplaySizes;
 
@@ -41,13 +41,13 @@ public class Resolution
 
     public static Resolution lastApplied => _lastApplied;
 
-    public static Vec2 size
+    public static Vector2 size
     {
         get
         {
             if (Graphics._screenViewport.HasValue)
             {
-                return new Vec2(Graphics._screenViewport.Value.Width, Graphics._screenViewport.Value.Height);
+                return new Vector2(Graphics._screenViewport.Value.Width, Graphics._screenViewport.Value.Height);
             }
             return current.dimensions;
         }
@@ -214,57 +214,57 @@ public class Resolution
         DevConsole.Log(DCSection.General, "Registered adapter size is (" + MonoMain.instance._adapterW + "x" + MonoMain.instance._adapterH + ")");
         RegisterDisplaySize(ScreenMode.Fullscreen, new Resolution
         {
-            dimensions = new Vec2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height)
+            dimensions = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height)
         }, pSort: false);
         RegisterDisplaySize(ScreenMode.Borderless, new Resolution
         {
-            dimensions = new Vec2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height)
+            dimensions = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height)
         }, pSort: false);
         RegisterDisplaySize(ScreenMode.Windowed, new Resolution
         {
-            dimensions = new Vec2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height)
+            dimensions = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height)
         }, pSort: false);
         foreach (DisplayMode m in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
         {
             RegisterDisplaySize(ScreenMode.Fullscreen, new Resolution
             {
-                dimensions = new Vec2(m.Width, m.Height)
+                dimensions = new Vector2(m.Width, m.Height)
             }, pSort: false);
             if (m.Width <= MonoMain.instance._adapterW && m.Height <= MonoMain.instance._adapterH)
             {
                 RegisterDisplaySize(ScreenMode.Windowed, new Resolution
                 {
-                    dimensions = new Vec2(m.Width, m.Height)
+                    dimensions = new Vector2(m.Width, m.Height)
                 }, pSort: false);
                 RegisterDisplaySize(ScreenMode.Borderless, new Resolution
                 {
-                    dimensions = new Vec2(m.Width, m.Height)
+                    dimensions = new Vector2(m.Width, m.Height)
                 }, pSort: false);
             }
         }
         RegisterDisplaySize(ScreenMode.Borderless, new Resolution
         {
-            dimensions = new Vec2(640f, 360f)
+            dimensions = new Vector2(640f, 360f)
         }, pSort: false);
         RegisterDisplaySize(ScreenMode.Borderless, new Resolution
         {
-            dimensions = new Vec2(320f, 180f)
+            dimensions = new Vector2(320f, 180f)
         }, pSort: false);
         RegisterDisplaySize(ScreenMode.Windowed, new Resolution
         {
-            dimensions = new Vec2(1280f, 720f)
+            dimensions = new Vector2(1280f, 720f)
         }, pSort: false, pRecommended: true);
         RegisterDisplaySize(ScreenMode.Windowed, new Resolution
         {
-            dimensions = new Vec2(1920f, 1080f)
+            dimensions = new Vector2(1920f, 1080f)
         }, pSort: false, pRecommended: true);
         RegisterDisplaySize(ScreenMode.Windowed, new Resolution
         {
-            dimensions = new Vec2(2560f, 1440f)
+            dimensions = new Vector2(2560f, 1440f)
         }, pSort: false, pRecommended: true);
         RegisterDisplaySize(ScreenMode.Windowed, new Resolution
         {
-            dimensions = new Vec2(2880f, 1620f)
+            dimensions = new Vector2(2880f, 1620f)
         }, pSort: false, pRecommended: true);
         DevConsole.Log(DCSection.General, "Finished enumerating display modes (F(" + supportedDisplaySizes[ScreenMode.Fullscreen].Count + ") W(" + supportedDisplaySizes[ScreenMode.Windowed].Count + ") B(" + supportedDisplaySizes[ScreenMode.Borderless].Count + "))");
         SortDisplaySizes();

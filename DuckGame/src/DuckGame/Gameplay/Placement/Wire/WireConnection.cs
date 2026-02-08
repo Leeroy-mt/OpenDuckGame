@@ -1,8 +1,10 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class WireConnection
 {
-    public Vec2 position;
+    public Vector2 position;
 
     public WireConnection up;
 

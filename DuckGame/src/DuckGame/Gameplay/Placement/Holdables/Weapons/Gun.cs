@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -21,7 +22,7 @@ public abstract class Gun : Holdable
 
     public bool wideBarrel;
 
-    public Vec2 barrelInsertOffset;
+    public Vector2 barrelInsertOffset;
 
     public float kick;
 
@@ -61,9 +62,9 @@ public abstract class Gun : Holdable
 
     protected string _bio = "No Info.";
 
-    protected Vec2 _barrelOffsetTL;
+    protected Vector2 _barrelOffsetTL;
 
-    protected Vec2 _laserOffsetTL;
+    protected Vector2 _laserOffsetTL;
 
     protected float _barrelAngleOffset;
 
@@ -115,7 +116,7 @@ public abstract class Gun : Holdable
 
     public bool isFatal = true;
 
-    protected Vec2 _wallPoint;
+    protected Vector2 _wallPoint;
 
     protected Sprite _sightHit;
 
@@ -147,13 +148,13 @@ public abstract class Gun : Holdable
 
     public string bio => _bio;
 
-    public Vec2 barrelPosition => Offset(barrelOffset);
+    public Vector2 barrelPosition => Offset(barrelOffset);
 
-    public Vec2 barrelOffset => _barrelOffsetTL - Center + _extraOffset;
+    public Vector2 barrelOffset => _barrelOffsetTL - Center + _extraOffset;
 
-    public Vec2 laserOffset => _laserOffsetTL - Center;
+    public Vector2 laserOffset => _laserOffsetTL - Center;
 
-    public Vec2 barrelVector => Offset(barrelOffset) - Offset(barrelOffset + new Vec2(-1f, 0f));
+    public Vector2 barrelVector => Offset(barrelOffset) - Offset(barrelOffset + new Vector2(-1f, 0f));
 
     public override float Angle
     {
@@ -169,7 +170,7 @@ public abstract class Gun : Holdable
 
     public float barrelAngleOffset => _barrelAngleOffset;
 
-    public float barrelAngle => Maths.DegToRad(Maths.PointDirection(Vec2.Zero, barrelVector) + _barrelAngleOffset * (float)offDir);
+    public float barrelAngle => Maths.DegToRad(Maths.PointDirection(Vector2.Zero, barrelVector) + _barrelAngleOffset * (float)offDir);
 
     public bool fullAuto => _fullAuto;
 
@@ -193,7 +194,7 @@ public abstract class Gun : Holdable
         UpdateMaterial();
     }
 
-    public virtual void OnNetworkBulletsFired(Vec2 pos)
+    public virtual void OnNetworkBulletsFired(Vector2 pos)
     {
     }
 
@@ -220,9 +221,9 @@ public abstract class Gun : Holdable
         : base(xval, yval)
     {
         _flare = new SpriteMap("smallFlare", 11, 10);
-        _flare.Center = new Vec2(0f, 5f);
+        _flare.Center = new Vector2(0f, 5f);
         _barrelSmoke = new SpriteMap("barrelSmoke", 8, 8);
-        _barrelSmoke.Center = new Vec2(1f, 8f);
+        _barrelSmoke.Center = new Vector2(1f, 8f);
         _barrelSmoke.ClearAnimations();
         _barrelSmoke.AddAnimation("puff", 1f, false, 0, 1, 2);
         _barrelSmoke.AddAnimation("loop", 1f, true, 3, 4, 5, 6, 7, 8);
@@ -234,7 +235,7 @@ public abstract class Gun : Holdable
         _dontCrush = true;
         _clickPuff = new SpriteMap("clickPuff", 16, 16);
         _clickPuff.AddAnimation("puff", 0.3f, false, 0, 1, 2, 3);
-        _clickPuff.Center = new Vec2(0f, 12f);
+        _clickPuff.Center = new Vector2(0f, 12f);
         _sightHit = new Sprite("laserSightHit");
         _sightHit.CenterOrigin();
         base.Depth = -0.1f;
@@ -257,7 +258,7 @@ public abstract class Gun : Holdable
         for (int i = 0; i < 2; i++)
         {
             SmallSmoke smallSmoke = SmallSmoke.New(barrelPosition.X, barrelPosition.Y);
-            smallSmoke.Scale = new Vec2(0.3f, 0.3f);
+            smallSmoke.Scale = new Vector2(0.3f, 0.3f);
             smallSmoke.hSpeed = Rando.Float(-0.1f, 0.1f);
             smallSmoke.vSpeed = 0f - Rando.Float(0.05f, 0.2f);
             smallSmoke.Alpha = 0.6f;
@@ -265,7 +266,7 @@ public abstract class Gun : Holdable
         }
     }
 
-    public override void HeatUp(Vec2 location)
+    public override void HeatUp(Vector2 location)
     {
         if (_ammoType != null && _ammoType.combustable && ammo > 0 && heat > 1f && Rando.Float(1f) > 0.8f)
         {
@@ -620,7 +621,7 @@ public abstract class Gun : Holdable
             }
             if (duckOwner != null && duckOwner.ragdoll != null && duckOwner.ragdoll.part2 != null && duckOwner.ragdoll.part1 != null && duckOwner.ragdoll.part3 != null)
             {
-                Vec2 dir = -barrelVector * (_kickForce / 2f);
+                Vector2 dir = -barrelVector * (_kickForce / 2f);
                 duckOwner.ragdoll.part1.hSpeed += dir.X;
                 duckOwner.ragdoll.part1.vSpeed += dir.Y;
                 duckOwner.ragdoll.part2.hSpeed += dir.X;
@@ -630,7 +631,7 @@ public abstract class Gun : Holdable
             }
             else
             {
-                Vec2 dir2 = -barrelVector * _kickForce;
+                Vector2 dir2 = -barrelVector * _kickForce;
                 if (Math.Sign(kick.hSpeed) != Math.Sign(dir2.X) || Math.Abs(dir2.X) > Math.Abs(kick.hSpeed))
                 {
                     kick.hSpeed = dir2.X;
@@ -687,7 +688,7 @@ public abstract class Gun : Holdable
                     {
                         if (base.isServerForObject)
                         {
-                            Vec2 pos = Offset(barrelOffset);
+                            Vector2 pos = Offset(barrelOffset);
                             Dart d = new Dart(pos.X, pos.Y, owner as Duck, 0f - shootAngle);
                             Fondle(d);
                             if (base.onFire || _barrelHeat > 6f)
@@ -697,7 +698,7 @@ public abstract class Gun : Holdable
                                 d.onFire = true;
                                 Burn(Position, this);
                             }
-                            Vec2 travelDir = Maths.AngleToVec(Maths.DegToRad(0f - shootAngle));
+                            Vector2 travelDir = Maths.AngleToVec(Maths.DegToRad(0f - shootAngle));
                             d.hSpeed = travelDir.X * 10f;
                             d.vSpeed = travelDir.Y * 10f;
                             d.vSpeed -= Rando.Float(2f);
@@ -737,7 +738,7 @@ public abstract class Gun : Holdable
             PlayFireSound();
             if (owner == null)
             {
-                Vec2 fly = barrelVector * Rando.Float(1f, 3f);
+                Vector2 fly = barrelVector * Rando.Float(1f, 3f);
                 fly.Y += Rando.Float(2f);
                 hSpeed -= fly.X;
                 vSpeed -= fly.Y;
@@ -798,7 +799,7 @@ public abstract class Gun : Holdable
             {
                 a += 180f;
             }
-            Vec2 pos = Offset(laserOffset);
+            Vector2 pos = Offset(laserOffset);
             tracer.penetration = 0.4f;
             Bullet b = new Bullet(pos.X, pos.Y, tracer, a, owner, rbound: false, -1f, tracer: true);
             _wallPoint = b.end;
@@ -866,15 +867,15 @@ public abstract class Gun : Holdable
             {
                 alpha = 0.4f;
             }
-            Vec2 startPos = Offset(laserOffset);
+            Vector2 startPos = Offset(laserOffset);
             float length = (startPos - _wallPoint).Length();
             float range = 100f;
             if (ammoType != null)
             {
                 range = ammoType.range;
             }
-            Vec2 travel = (_wallPoint - startPos).Normalized;
-            Vec2 endPos = startPos + travel * Math.Min(range, length);
+            Vector2 travel = Vector2.Normalize(_wallPoint - startPos);
+            Vector2 endPos = startPos + travel * Math.Min(range, length);
             Graphics.DrawTexturedLine(_laserTex, startPos, endPos, Color.Red * alpha, 0.5f, base.Depth - 1);
             if (length > range)
             {

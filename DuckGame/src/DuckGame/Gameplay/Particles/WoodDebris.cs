@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class WoodDebris : PhysicsParticle
@@ -35,7 +37,7 @@ public class WoodDebris : PhysicsParticle
     {
         _sprite = new SpriteMap("woodDebris", 8, 8);
         graphic = _sprite;
-        Center = new Vec2(4f, 4f);
+        Center = new Vector2(4f, 4f);
     }
 
     private void Init(float xpos, float ypos)

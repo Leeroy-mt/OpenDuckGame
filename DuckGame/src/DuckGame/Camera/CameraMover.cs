@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Arcade|Cameras", EditorItemType.ArcadeNew)]
@@ -14,9 +16,9 @@ internal class CameraMover : Thing
         : base(xPos, yPos)
     {
         graphic = new Sprite("cameraMover");
-        Center = new Vec2(8f, 8f);
-        collisionSize = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-4f, -4f);
+        Center = new Vector2(8f, 8f);
+        collisionSize = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-4f, -4f);
     }
 
     public override void Initialize()

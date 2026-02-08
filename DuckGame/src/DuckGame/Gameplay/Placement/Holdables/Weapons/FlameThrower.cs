@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Fire")]
@@ -21,31 +23,31 @@ public class FlameThrower : Gun
     public FlameThrower(float xval, float yval)
         : base(xval, yval)
     {
-        barrelInsertOffset = new Vec2(0f, -2f);
+        barrelInsertOffset = new Vector2(0f, -2f);
         wideBarrel = true;
         ammo = _maxAmmo;
         _ammoType = new AT9mm();
         _ammoType.combustable = true;
         _type = "gun";
         graphic = new Sprite("flamethrower");
-        Center = new Vec2(16f, 15f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(16f, 9f);
-        _barrelOffsetTL = new Vec2(28f, 16f);
+        Center = new Vector2(16f, 15f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(16f, 9f);
+        _barrelOffsetTL = new Vector2(28f, 16f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 1f;
         _barrelFlame = new SpriteMap("flameBurst", 20, 21);
-        _barrelFlame.Center = new Vec2(0f, 17f);
+        _barrelFlame.Center = new Vector2(0f, 17f);
         _barrelFlame.AddAnimation("idle", 0.4f, true, 0, 1, 2, 3);
         _barrelFlame.AddAnimation("puff", 0.4f, false, 4, 5, 6, 7);
         _barrelFlame.AddAnimation("flame", 0.4f, true, 8, 9, 10, 11);
         _barrelFlame.AddAnimation("puffOut", 0.4f, false, 12, 13, 14, 15);
         _barrelFlame.SetAnimation("idle");
         _can = new SpriteMap("flamethrowerCan", 8, 8);
-        _can.Center = new Vec2(4f, 4f);
-        _holdOffset = new Vec2(2f, 0f);
+        _can.Center = new Vector2(4f, 4f);
+        _holdOffset = new Vector2(2f, 0f);
         _barrelAngleOffset = 8f;
         _editorName = "Flame Thrower";
         editorTooltip = "Some Ducks just want to watch the world burn.";
@@ -82,8 +84,8 @@ public class FlameThrower : Gun
             _flameWait -= 0.25f;
             if (_flameWait <= 0f)
             {
-                Vec2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.5f, 0.5f));
-                Vec2 moveSpeed = new Vec2(travelDir.X * Rando.Float(2f, 3.5f), travelDir.Y * Rando.Float(2f, 3.5f));
+                Vector2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.5f, 0.5f));
+                Vector2 moveSpeed = new Vector2(travelDir.X * Rando.Float(2f, 3.5f), travelDir.Y * Rando.Float(2f, 3.5f));
                 ammo -= 2;
                 Level.Add(SmallFire.New(base.barrelPosition.X, base.barrelPosition.Y, moveSpeed.X, moveSpeed.Y, shortLife: false, null, canMultiply: true, this));
                 _flameWait = 1f;
@@ -103,10 +105,10 @@ public class FlameThrower : Gun
         if (_barrelFlame.speed > 0f)
         {
             _barrelFlame.Alpha = 0.9f;
-            Draw(_barrelFlame, new Vec2(11f, 1f));
+            Draw(_barrelFlame, new Vector2(11f, 1f));
         }
         _can.frame = (int)((1f - (float)ammo / (float)_maxAmmo) * 15f);
-        Draw(_can, new Vec2(base.barrelOffset.X - 11f, base.barrelOffset.Y + 4f));
+        Draw(_can, new Vector2(base.barrelOffset.X - 11f, base.barrelOffset.Y + 4f));
         Graphics.material = obj;
     }
 

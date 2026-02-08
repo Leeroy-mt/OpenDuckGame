@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -23,21 +24,21 @@ public class DemoCrate : Holdable, IPlatform
         base.collideSounds.Add("rockHitGround2");
         _sprite = new SpriteMap("demoCrate", 20, 20);
         graphic = _sprite;
-        Center = new Vec2(10f, 10f);
-        collisionOffset = new Vec2(-10f, -10f);
-        collisionSize = new Vec2(20f, 19f);
+        Center = new Vector2(10f, 10f);
+        collisionOffset = new Vector2(-10f, -10f);
+        collisionSize = new Vector2(20f, 19f);
         base.Depth = -0.5f;
         _editorName = "Demo Crate";
         thickness = 2f;
         weight = 10f;
         buoyancy = 1f;
-        _holdOffset = new Vec2(2f, 0f);
+        _holdOffset = new Vector2(2f, 0f);
         flammable = 0.3f;
         _placementCost += 15;
     }
 
     [NetworkAction]
-    private void BlowUp(Vec2 pPosition, float pFlyX)
+    private void BlowUp(Vector2 pPosition, float pFlyX)
     {
         Level.Add(new ExplosionPart(pPosition.X, pPosition.Y));
         int num = 6;
@@ -99,7 +100,7 @@ public class DemoCrate : Holdable, IPlatform
         }
         _hitPoints = 0f;
         Level.Remove(this);
-        Vec2 flyDir = Vec2.Zero;
+        Vector2 flyDir = Vector2.Zero;
         if (type is DTShot)
         {
             flyDir = (type as DTShot).bullet.travelDirNormalized;
@@ -129,7 +130,7 @@ public class DemoCrate : Holdable, IPlatform
         ATMissile.DestroyRadius(Position, baseExplosionRange, this);
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal && owner == null)
         {

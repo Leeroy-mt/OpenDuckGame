@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class FireManager
@@ -42,7 +44,7 @@ public class FireManager
                 dontBurn = f.stick.owner;
             }
             f.doFloat = false;
-            foreach (MaterialThing t in Level.CheckCircleAll<MaterialThing>(f.Position + new Vec2(0f, -4f), 6f))
+            foreach (MaterialThing t in Level.CheckCircleAll<MaterialThing>(f.Position + new Vector2(0f, -4f), 6f))
             {
                 if (t == dontBurn)
                 {
@@ -73,7 +75,7 @@ public class FireManager
                 }
                 else if (Rando.Float(1000f) < t.flammable * 1000f && (f.whoWait == null || d != f.whoWait))
                 {
-                    t.Burn(f.Position + new Vec2(0f, 4f), f);
+                    t.Burn(f.Position + new Vector2(0f, 4f), f);
                 }
             }
         }
@@ -85,13 +87,13 @@ public class FireManager
             }
             else if (f2.onFire && f2.fireID == (float)_curUpdateID && f2.Alpha > 0.5f)
             {
-                foreach (MaterialThing t2 in Level.CheckRectAll<MaterialThing>(f2.topLeft + new Vec2(0f, -4f), f2.topRight + new Vec2(0f, 2f)))
+                foreach (MaterialThing t2 in Level.CheckRectAll<MaterialThing>(f2.topLeft + new Vector2(0f, -4f), f2.topRight + new Vector2(0f, 2f)))
                 {
                     if (t2 != f2 && t2.isServerForObject)
                     {
                         if (!(t2 is Duck { slideBuildup: > 0f }) && Rando.Float(1000f) < t2.flammable * 1000f)
                         {
-                            t2.Burn(f2.Position + new Vec2(0f, 4f), f2);
+                            t2.Burn(f2.Position + new Vector2(0f, 4f), f2);
                         }
                         t2.DoHeatUp(0.05f, f2.Position);
                     }
@@ -120,14 +122,14 @@ public class FireManager
             {
                 continue;
             }
-            foreach (SmallFire t3 in Level.CheckCircleAll<SmallFire>(f3.Position + new Vec2(0f, -8f), 12f))
+            foreach (SmallFire t3 in Level.CheckCircleAll<SmallFire>(f3.Position + new Vector2(0f, -8f), 12f))
             {
                 if (f3.Scale.X > 1f)
                 {
                     t3.SuckLife(10f);
                 }
             }
-            foreach (MaterialThing t4 in Level.CheckCircleAll<MaterialThing>(f3.Position + new Vec2(0f, -8f), 4f))
+            foreach (MaterialThing t4 in Level.CheckCircleAll<MaterialThing>(f3.Position + new Vector2(0f, -8f), 4f))
             {
                 if (f3.Scale.X > 1f)
                 {

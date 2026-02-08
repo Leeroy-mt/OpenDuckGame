@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class BoardLighting : Thing
@@ -8,7 +10,7 @@ public class BoardLighting : Thing
         : base(xpos, ypos)
     {
         _lightRay = new Sprite("rockThrow/lightRays");
-        Center = new Vec2(305f, 0f);
+        Center = new Vector2(305f, 0f);
         graphic = _lightRay;
     }
 

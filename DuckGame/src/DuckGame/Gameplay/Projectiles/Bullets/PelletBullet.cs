@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class PelletBullet : Bullet
@@ -9,7 +11,7 @@ public class PelletBullet : Bullet
     {
     }
 
-    protected override void Rebound(Vec2 pos, float dir, float rng)
+    protected override void Rebound(Vector2 pos, float dir, float rng)
     {
         PelletBullet obj = ammo.GetBullet(pos.X, pos.Y, null, 0f - dir, base.firedFrom, rng, _tracer) as PelletBullet;
         obj._teleporter = _teleporter;

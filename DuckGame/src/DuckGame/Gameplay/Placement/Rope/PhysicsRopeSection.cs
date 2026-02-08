@@ -1,14 +1,16 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class PhysicsRopeSection : PhysicsObject
 {
-    public Vec2 tempPos;
+    public Vector2 tempPos;
 
-    public Vec2 calcPos;
+    public Vector2 calcPos;
 
-    public new Vec2 velocity;
+    public new Vector2 velocity;
 
-    public Vec2 accel;
+    public Vector2 accel;
 
     public PhysicsRope rope;
 
@@ -16,8 +18,8 @@ public class PhysicsRopeSection : PhysicsObject
         : base(xpos, ypos)
     {
         tempPos = Position;
-        collisionSize = new Vec2(4f, 4f);
-        collisionOffset = new Vec2(-2f, -2f);
+        collisionSize = new Vector2(4f, 4f);
+        collisionOffset = new Vector2(-2f, -2f);
         weight = 0.1f;
         updatePhysics = false;
         rope = r;

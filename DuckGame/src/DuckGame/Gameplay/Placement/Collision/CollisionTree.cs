@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -5,7 +6,7 @@ namespace DuckGame;
 
 public class CollisionTree
 {
-    private Vec2 _position;
+    private Vector2 _position;
 
     private float _width;
 
@@ -17,12 +18,12 @@ public class CollisionTree
 
     private int _depth;
 
-    public Vec2 position => _position;
+    public Vector2 position => _position;
 
     public CollisionTree(float xpos, float ypos, float wval, int divisions)
     {
         _depth = divisions;
-        _position = new Vec2(xpos, ypos);
+        _position = new Vector2(xpos, ypos);
         _width = wval;
         _font = Content.Load<SpriteFont>("font_SuperNew");
         if (_depth > 0)

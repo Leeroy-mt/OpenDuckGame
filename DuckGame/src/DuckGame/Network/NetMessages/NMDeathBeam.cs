@@ -1,18 +1,20 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMDeathBeam : NMEvent
 {
     public HugeLaser laser;
 
-    public Vec2 position;
+    public Vector2 position;
 
-    public Vec2 target;
+    public Vector2 target;
 
     public NMDeathBeam()
     {
     }
 
-    public NMDeathBeam(HugeLaser pLaser, Vec2 pPosition, Vec2 pTarget)
+    public NMDeathBeam(HugeLaser pLaser, Vector2 pPosition, Vector2 pTarget)
     {
         position = pPosition;
         target = pTarget;

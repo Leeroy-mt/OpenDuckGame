@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Details|Terrain")]
@@ -33,11 +35,11 @@ public class Icicles : MaterialThing
         (graphic as SpriteMap).frame = style.value;
         if ((int)style == 3)
         {
-            collisionSize = new Vec2(10f, 18f);
+            collisionSize = new Vector2(10f, 18f);
         }
         else
         {
-            collisionSize = new Vec2(10f, 8f);
+            collisionSize = new Vector2(10f, 8f);
         }
         if (background.value)
         {
@@ -56,9 +58,9 @@ public class Icicles : MaterialThing
         background = new EditorProperty<bool>(val: false, this);
         graphic = new SpriteMap("icicles", 16, 21);
         base.hugWalls = WallHug.Ceiling;
-        Center = new Vec2(8f, 5f);
-        collisionSize = new Vec2(10f, 8f);
-        collisionOffset = new Vec2(-5f, -3f);
+        Center = new Vector2(8f, 5f);
+        collisionSize = new Vector2(10f, 8f);
+        collisionOffset = new Vector2(-5f, -3f);
         thickness = 0.1f;
         physicsMaterial = PhysicsMaterial.Glass;
         base.layer = Layer.Blocks;
@@ -124,7 +126,7 @@ public class Icicles : MaterialThing
         return true;
     }
 
-    public override void HeatUp(Vec2 location)
+    public override void HeatUp(Vector2 location)
     {
         if (base.isServerForObject)
         {
@@ -141,7 +143,7 @@ public class Icicles : MaterialThing
         }
         for (int i = 0; i < 4; i++)
         {
-            GlassParticle glassParticle = new GlassParticle(base.X + (float)Rando.Int(-3, 3), base.Y + (float)Rando.Int(-3, 3), Vec2.Zero);
+            GlassParticle glassParticle = new GlassParticle(base.X + (float)Rando.Int(-3, 3), base.Y + (float)Rando.Int(-3, 3), Vector2.Zero);
             Level.Add(glassParticle);
             glassParticle.hSpeed = Rando.Float(-1f, 1f);
             glassParticle.vSpeed = Rando.Float(-1f, 1f);
@@ -169,7 +171,7 @@ public class Icicles : MaterialThing
         (graphic as SpriteMap).frame += 4;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         Break(bullet.isLocal);
         return base.Hit(bullet, hitPos);

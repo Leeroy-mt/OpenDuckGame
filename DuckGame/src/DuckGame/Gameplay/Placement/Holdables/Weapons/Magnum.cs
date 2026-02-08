@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Pistols")]
@@ -31,15 +33,15 @@ public class Magnum : Gun
         _ammoType = new ATMagnum();
         _type = "gun";
         graphic = new Sprite("magnum");
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -6f);
-        collisionSize = new Vec2(16f, 10f);
-        _barrelOffsetTL = new Vec2(25f, 12f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -6f);
+        collisionSize = new Vector2(16f, 10f);
+        _barrelOffsetTL = new Vector2(25f, 12f);
         _fireSound = "magnum";
         _kickForce = 3f;
         _fireRumble = RumbleIntensity.Light;
-        _holdOffset = new Vec2(1f, 2f);
-        handOffset = new Vec2(0f, 1f);
+        _holdOffset = new Vector2(1f, 2f);
+        handOffset = new Vector2(0f, 1f);
         _bio = "Standard issue .44 Magnum. Pretty great for killing things, really great for killing things that are trying to hide. Watch the kick, unless you're trying to shoot the ceiling.";
         _editorName = "Magnum";
         editorTooltip = "Heavy duty pistol that pierces many objects. Cool shades not included.";

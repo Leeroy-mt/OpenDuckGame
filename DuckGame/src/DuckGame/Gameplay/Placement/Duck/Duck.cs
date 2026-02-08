@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
             public bool _prevActive;
 
-            private Vec2 drawPos = Vec2.Zero;
+            private Vector2 drawPos = Vector2.Zero;
 
             public bool noWait
             {
@@ -159,14 +160,14 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                 }
             }
 
-            public void Draw(Vec2 pPos, Vec2 pOffset)
+            public void Draw(Vector2 pPos, Vector2 pOffset)
             {
                 if ((drawPos - pOffset).Length() > 16f)
                 {
                     drawPos = pOffset;
                 }
                 drawPos = Lerp.Vec2Smooth(drawPos, pOffset, 0.4f);
-                sprite.Scale = new Vec2(1f + bloop * 0.6f, 1f + bloop * 0.35f);
+                sprite.Scale = new Vector2(1f + bloop * 0.6f, 1f + bloop * 0.35f);
                 sprite.Depth = 0.9f;
                 Graphics.Draw(sprite, pPos.X + drawPos.X, pPos.Y + drawPos.Y);
             }
@@ -185,63 +186,63 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         {
             new Indicator(new SpriteMap("lagturtle", 16, 16, 3)
             {
-                Center = new Vec2(8f)
+                Center = new Vector2(8f)
             })
             {
                 problem = ConnectionTrouble.AFK
             },
             new Indicator(new SpriteMap("lagturtle", 16, 16, 4)
             {
-                Center = new Vec2(8f)
+                Center = new Vector2(8f)
             })
             {
                 problem = ConnectionTrouble.Chatting
             },
             new Indicator(new SpriteMap("lagturtle", 16, 16, 2)
             {
-                Center = new Vec2(8f)
+                Center = new Vector2(8f)
             })
             {
                 problem = ConnectionTrouble.Disconnection
             },
             new Indicator(new SpriteMap("lagturtle", 16, 16, 0)
             {
-                Center = new Vec2(8f)
+                Center = new Vector2(8f)
             })
             {
                 problem = ConnectionTrouble.Lag
             },
             new Indicator(new SpriteMap("lagturtle", 16, 16, 1)
             {
-                Center = new Vec2(8f)
+                Center = new Vector2(8f)
             })
             {
                 problem = ConnectionTrouble.Loss
             },
             new Indicator(new SpriteMap("lagturtle", 16, 16, 8)
             {
-                Center = new Vec2(8f)
+                Center = new Vector2(8f)
             })
             {
                 problem = ConnectionTrouble.Minimized
             },
             new Indicator(new SpriteMap("lagturtle", 16, 16, 7)
             {
-                Center = new Vec2(8f)
+                Center = new Vector2(8f)
             })
             {
                 problem = ConnectionTrouble.Spectator
             },
             new Indicator(new SpriteMap("lagturtle", 16, 16, 9)
             {
-                Center = new Vec2(8f)
+                Center = new Vector2(8f)
             })
             {
                 problem = ConnectionTrouble.Paused
             },
             new Indicator(new SpriteMap("lagturtle", 16, 16, 10)
             {
-                Center = new Vec2(8f)
+                Center = new Vector2(8f)
             })
             {
                 problem = ConnectionTrouble.DevConsole
@@ -289,13 +290,13 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
             }
             float degreesPerElement = 37f;
             float totalDegrees = (float)(numProblems - 1) * degreesPerElement;
-            Vec2 position = new Vec2(-1000f, -1000f);
-            position = duck.cameraPosition + new Vec2(0f, 6f);
+            Vector2 position = new Vector2(-1000f, -1000f);
+            position = duck.cameraPosition + new Vector2(0f, 6f);
             float rainbowSize = (float)numProblems / 5f;
             int index = 0;
             float floatDistance = -20f;
             bool hasPrevPos = false;
-            Vec2 prevPos = Vec2.Zero;
+            Vector2 prevPos = Vector2.Zero;
             foreach (Indicator t in _indicators)
             {
                 if (t.visible)
@@ -303,16 +304,16 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                     float deg = (0f - totalDegrees) / 2f + (float)index * degreesPerElement;
                     float xpos = 0f - (float)Math.Sin(Maths.DegToRad(deg)) * floatDistance;
                     float ypos = (float)Math.Cos(Maths.DegToRad(deg)) * floatDistance;
-                    Vec2 cur = new Vec2(xpos, ypos);
+                    Vector2 cur = new Vector2(xpos, ypos);
                     t.Draw(position, cur);
                     if (hasPrevPos)
                     {
                         cur = position + cur;
-                        Vec2 moveVector = (cur - prevPos).Normalized;
+                        Vector2 moveVector = Vector2.Normalize(cur - prevPos);
                         Graphics.DrawTexturedLine(_rainbowGradient.texture, prevPos - moveVector, cur + moveVector, Color.White * rainbowSize, 0.3f + 0.6f * rainbowSize, 0.85f);
                     }
                     hasPrevPos = true;
-                    prevPos = new Vec2(position.X + xpos, position.Y + ypos);
+                    prevPos = new Vector2(position.X + xpos, position.Y + ypos);
                     index++;
                 }
             }
@@ -393,7 +394,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     public byte disarmIndex = 9;
 
-    public Vec2 _tounge;
+    public Vector2 _tounge;
 
     private int _netProfileIndex = -1;
 
@@ -557,7 +558,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     private int _coolnessThisFrame;
 
-    public Vec2 respawnPos;
+    public Vector2 respawnPos;
 
     public float respawnTime;
 
@@ -703,7 +704,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     private bool vineRelease;
 
-    private Vec2 prevCamPosition;
+    private Vector2 prevCamPosition;
 
     private Thing _followPart;
 
@@ -721,7 +722,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     private static int _framesSinceInput = 0;
 
-    private Vec2 _lastGoodPosition;
+    private Vector2 _lastGoodPosition;
 
     private byte _prevDisarmIndex = 6;
 
@@ -767,11 +768,11 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     private Rectangle _iconRect = new Rectangle(0f, 0f, 96f, 96f);
 
-    public Vec2 tongueCheck = Vec2.Zero;
+    public Vector2 tongueCheck = Vector2.Zero;
 
-    private Vec2 _stickLerp;
+    private Vector2 _stickLerp;
 
-    private Vec2 _stickSlowLerp;
+    private Vector2 _stickSlowLerp;
 
     public bool localSpawnVisible = true;
 
@@ -916,7 +917,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         }
     }
 
-    public Vec2 tounge
+    public Vector2 tounge
     {
         get
         {
@@ -1169,24 +1170,24 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         }
     }
 
-    public Vec2 armPosition => Position + armOffset;
+    public Vector2 armPosition => Position + armOffset;
 
-    public Vec2 armOffset
+    public Vector2 armOffset
     {
         get
         {
-            Vec2 kickVector = Vec2.Zero;
+            Vector2 kickVector = Vector2.Zero;
             if (base.gun != null)
             {
                 kickVector = -base.gun.barrelVector * kick;
             }
-            return new Vec2(armOffX * base.ScaleX + kickVector.X, armOffY * base.ScaleY + kickVector.Y);
+            return new Vector2(armOffX * base.ScaleX + kickVector.X, armOffY * base.ScaleY + kickVector.Y);
         }
     }
 
-    public Vec2 armPositionNoKick => Position + armOffsetNoKick;
+    public Vector2 armPositionNoKick => Position + armOffsetNoKick;
 
-    public Vec2 armOffsetNoKick => new Vec2(armOffX * base.ScaleX, armOffY * base.ScaleY);
+    public Vector2 armOffsetNoKick => new Vector2(armOffX * base.ScaleX, armOffY * base.ScaleY);
 
     public float holdAngle
     {
@@ -1583,21 +1584,21 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         }
     }
 
-    public override Vec2 cameraPosition
+    public override Vector2 cameraPosition
     {
         get
         {
-            Vec2 pos = Vec2.Zero;
+            Vector2 pos = Vector2.Zero;
             pos = ((ragdoll != null) ? ragdoll.cameraPosition : ((_cooked != null) ? _cooked.cameraPosition : ((_trapped == null) ? base.cameraPosition : _trapped.cameraPosition)));
             if ((cameraPositionOverride - Position).Length() < 1000f)
             {
-                cameraPositionOverride = Vec2.Zero;
+                cameraPositionOverride = Vector2.Zero;
             }
-            if (cameraPositionOverride != Vec2.Zero)
+            if (cameraPositionOverride != Vector2.Zero)
             {
                 return cameraPositionOverride;
             }
-            if (pos.Y < -1000f || pos == Vec2.Zero || pos.X < -5000f)
+            if (pos.Y < -1000f || pos == Vector2.Zero || pos.X < -5000f)
             {
                 pos = prevCamPosition;
             }
@@ -1609,7 +1610,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         }
     }
 
-    public override Vec2 anchorPosition => cameraPosition;
+    public override Vector2 anchorPosition => cameraPosition;
 
     public Thing followPart
     {
@@ -1780,9 +1781,9 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         return null;
     }
 
-    public Vec2 HoldOffset(Vec2 pos)
+    public Vector2 HoldOffset(Vector2 pos)
     {
-        Vec2 offset = (pos + new Vec2(holdOffX, holdOffY)).Rotate(holdAngle, new Vec2(0f, 0f));
+        Vector2 offset = (pos + new Vector2(holdOffX, holdOffY)).Rotate(holdAngle, new Vector2(0f, 0f));
         offset += armOffset;
         return Position + offset;
     }
@@ -1907,7 +1908,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         _spriteControlled = profile.persona.controlledSprite.CloneMap();
         _swirl = new Sprite("swirl");
         _swirl.CenterOrigin();
-        _swirl.Scale = new Vec2(0.75f, 0.75f);
+        _swirl.Scale = new Vector2(0.75f, 0.75f);
         _bionicArm = new SpriteMap("bionicArm", 32, 32);
         _bionicArm.CenterOrigin();
         if (!didHat && (Network.isServer || RockScoreboard.initializingDucks))
@@ -1984,51 +1985,51 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         _collisionMode = mode;
         if (offDir > 0)
         {
-            _featherVolume.anchor.offset = new Vec2(0f, 0f);
+            _featherVolume.anchor.offset = new Vector2(0f, 0f);
         }
         else
         {
-            _featherVolume.anchor.offset = new Vec2(1f, 0f);
+            _featherVolume.anchor.offset = new Vector2(1f, 0f);
         }
         switch (mode)
         {
             case "normal":
-                collisionSize = new Vec2(8f * duckWidth, 22f * duckHeight);
-                collisionOffset = new Vec2(-4f * duckWidth, -7f * duckHeight);
-                _featherVolume.collisionSize = new Vec2(12f * duckWidth, 26f * duckHeight);
-                _featherVolume.collisionOffset = new Vec2(-6f * duckWidth, -9f * duckHeight);
+                collisionSize = new Vector2(8f * duckWidth, 22f * duckHeight);
+                collisionOffset = new Vector2(-4f * duckWidth, -7f * duckHeight);
+                _featherVolume.collisionSize = new Vector2(12f * duckWidth, 26f * duckHeight);
+                _featherVolume.collisionOffset = new Vector2(-6f * duckWidth, -9f * duckHeight);
                 break;
             case "slide":
-                collisionSize = new Vec2(8f * duckWidth, 11f * duckHeight);
-                collisionOffset = new Vec2(-4f * duckWidth, 4f * duckHeight);
+                collisionSize = new Vector2(8f * duckWidth, 11f * duckHeight);
+                collisionOffset = new Vector2(-4f * duckWidth, 4f * duckHeight);
                 if (offDir > 0)
                 {
-                    _featherVolume.collisionSize = new Vec2(25f * duckWidth, 13f * duckHeight);
-                    _featherVolume.collisionOffset = new Vec2(-13f * duckWidth, 3f * duckHeight);
+                    _featherVolume.collisionSize = new Vector2(25f * duckWidth, 13f * duckHeight);
+                    _featherVolume.collisionOffset = new Vector2(-13f * duckWidth, 3f * duckHeight);
                 }
                 else
                 {
-                    _featherVolume.collisionSize = new Vec2(25f * duckWidth, 13f * duckHeight);
-                    _featherVolume.collisionOffset = new Vec2(-12f * duckWidth, 3f * duckHeight);
+                    _featherVolume.collisionSize = new Vector2(25f * duckWidth, 13f * duckHeight);
+                    _featherVolume.collisionOffset = new Vector2(-12f * duckWidth, 3f * duckHeight);
                 }
                 break;
             case "crouch":
-                collisionSize = new Vec2(8f * duckWidth, 16f * duckHeight);
-                collisionOffset = new Vec2(-4f * duckWidth, -1f * duckHeight);
-                _featherVolume.collisionSize = new Vec2(12f * duckWidth, 20f * duckHeight);
-                _featherVolume.collisionOffset = new Vec2(-6f * duckWidth, -3f * duckHeight);
+                collisionSize = new Vector2(8f * duckWidth, 16f * duckHeight);
+                collisionOffset = new Vector2(-4f * duckWidth, -1f * duckHeight);
+                _featherVolume.collisionSize = new Vector2(12f * duckWidth, 20f * duckHeight);
+                _featherVolume.collisionOffset = new Vector2(-6f * duckWidth, -3f * duckHeight);
                 break;
             case "netted":
-                collisionSize = new Vec2(16f * duckWidth, 17f * duckHeight);
-                collisionOffset = new Vec2(-8f * duckWidth, -9f * duckHeight);
-                _featherVolume.collisionSize = new Vec2(18f * duckWidth, 19f * duckHeight);
-                _featherVolume.collisionOffset = new Vec2(-9f * duckWidth, -10f * duckHeight);
+                collisionSize = new Vector2(16f * duckWidth, 17f * duckHeight);
+                collisionOffset = new Vector2(-8f * duckWidth, -9f * duckHeight);
+                _featherVolume.collisionSize = new Vector2(18f * duckWidth, 19f * duckHeight);
+                _featherVolume.collisionOffset = new Vector2(-9f * duckWidth, -10f * duckHeight);
                 break;
         }
         if (ragdoll != null)
         {
-            _featherVolume.collisionSize = new Vec2(12f * duckWidth, 12f * duckHeight);
-            _featherVolume.collisionOffset = new Vec2(-6f * duckWidth, -6f * duckHeight);
+            _featherVolume.collisionSize = new Vector2(12f * duckWidth, 12f * duckHeight);
+            _featherVolume.collisionOffset = new Vector2(-6f * duckWidth, -6f * duckHeight);
         }
     }
 
@@ -2071,7 +2072,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     public override void ReturnItemToWorld(Thing t)
     {
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         if (sliding)
         {
             pos.Y += 10f;
@@ -2080,22 +2081,22 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         {
             pos.Y += 8f;
         }
-        Block rightWall = Level.CheckLine<Block>(pos, pos + new Vec2(16f, 0f));
+        Block rightWall = Level.CheckLine<Block>(pos, pos + new Vector2(16f, 0f));
         if (rightWall != null && rightWall.solid && t.right > rightWall.left)
         {
             t.right = rightWall.left;
         }
-        Block leftWall = Level.CheckLine<Block>(pos, pos - new Vec2(16f, 0f));
+        Block leftWall = Level.CheckLine<Block>(pos, pos - new Vector2(16f, 0f));
         if (leftWall != null && leftWall.solid && t.left < leftWall.right)
         {
             t.left = leftWall.right;
         }
-        Block topWall = Level.CheckLine<Block>(pos, pos + new Vec2(0f, -16f));
+        Block topWall = Level.CheckLine<Block>(pos, pos + new Vector2(0f, -16f));
         if (topWall != null && topWall.solid && t.top < topWall.bottom)
         {
             t.top = topWall.bottom;
         }
-        Block bottomWall = Level.CheckLine<Block>(pos, pos + new Vec2(0f, 16f));
+        Block bottomWall = Level.CheckLine<Block>(pos, pos + new Vector2(0f, 16f));
         if (bottomWall != null && bottomWall.solid && t.bottom > bottomWall.top)
         {
             t.bottom = bottomWall.top;
@@ -2220,7 +2221,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         return false;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (_trapped != null || (_trappedInstance != null && _trappedInstance.visible))
         {
@@ -2238,7 +2239,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         return base.Hit(bullet, hitPos);
     }
 
-    public bool HitArmor(Bullet bullet, Vec2 hitPos)
+    public bool HitArmor(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal)
         {
@@ -2301,8 +2302,8 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         int xpLogged = 10;
         if (type is DTFall)
         {
-            Vec2 pos = GetEdgePos();
-            Vec2 dir = (pos - GetPos()).Normalized;
+            Vector2 pos = GetEdgePos();
+            Vector2 dir = Vector2.Normalize(pos - GetPos());
             for (int i = 0; i < 8; i++)
             {
                 Feather feather = Feather.New(pos.X - dir.X * 16f, pos.Y - dir.Y * 16f, persona);
@@ -2666,7 +2667,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                                 _duck = killedBy.duck
                             };
                             plus.anchor = killedBy.duck;
-                            plus.anchor.offset = new Vec2(0f, -16f);
+                            plus.anchor.offset = new Vector2(0f, -16f);
                             if (killedBy.duck != null)
                             {
                                 killedBy.duck.currentPlusOne = plus;
@@ -2721,7 +2722,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
             }
             if (base.Y < -999f)
             {
-                Vec2 pos2 = Position;
+                Vector2 pos2 = Position;
                 Position = _lastGoodPosition;
                 GoRagdoll();
                 Position = pos2;
@@ -2950,14 +2951,14 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     public void Breath()
     {
-        Vec2 off = Offset(new Vec2(6f, 0f));
+        Vector2 off = Offset(new Vector2(6f, 0f));
         if (ragdoll != null && ragdoll.part1 != null)
         {
-            off = ragdoll.part1.Offset(new Vec2(6f, 0f));
+            off = ragdoll.part1.Offset(new Vector2(6f, 0f));
         }
         else if (_trapped != null)
         {
-            off = _trapped.Offset(new Vec2(8f, -2f));
+            off = _trapped.Offset(new Vector2(8f, -2f));
         }
         Level.Add(BreathSmoke.New(off.X, off.Y));
         Level.Add(BreathSmoke.New(off.X, off.Y));
@@ -3170,7 +3171,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     private void TryGrab()
     {
-        foreach (Holdable pickup in Level.CheckCircleAll<Holdable>(new Vec2(base.X, base.Y + 4f), 18f).OrderBy((Holdable h) => h, new CompareHoldablePriorities(this)))
+        foreach (Holdable pickup in Level.CheckCircleAll<Holdable>(new Vector2(base.X, base.Y + 4f), 18f).OrderBy((Holdable h) => h, new CompareHoldablePriorities(this)))
         {
             if (pickup.owner != null || !pickup.canPickUp || (pickup == _lastHoldItem && _timeSinceThrow < 30) || !pickup.active || !pickup.visible || Level.CheckLine<Block>(Position, pickup.Position) != null)
             {
@@ -3458,7 +3459,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         }
     }
 
-    public static void ResurrectEffect(Vec2 pPosition)
+    public static void ResurrectEffect(Vector2 pPosition)
     {
         for (int i = 0; i < 6; i++)
         {
@@ -3646,10 +3647,10 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
             if (with.isServerForObject)
             {
                 RumbleManager.AddRumbleEvent(d.profile, new RumbleEvent(RumbleIntensity.Light, RumbleDuration.Pulse, RumbleFalloff.None));
-                MakeStars(Position + new Vec2(0f, (crouch || ragdoll != null) ? (-2) : (-6)), base.velocity);
+                MakeStars(Position + new Vector2(0f, (crouch || ragdoll != null) ? (-2) : (-6)), base.velocity);
                 if (Network.isActive)
                 {
-                    Send.Message(new NMBonk(Position + new Vec2(0f, (crouch || ragdoll != null) ? (-2) : (-6)), base.velocity));
+                    Send.Message(new NMBonk(Position + new Vector2(0f, (crouch || ragdoll != null) ? (-2) : (-6)), base.velocity));
                 }
             }
             if (GetEquipment(typeof(Helmet)) is Helmet h)
@@ -3714,10 +3715,10 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
             with.vSpeed = (0f - with.vSpeed) * 0.5f;
             if (with.isServerForObject)
             {
-                MakeStars(Position + new Vec2(0f, (crouch || ragdoll != null) ? (-2) : (-6)), base.velocity);
+                MakeStars(Position + new Vector2(0f, (crouch || ragdoll != null) ? (-2) : (-6)), base.velocity);
                 if (Network.isActive)
                 {
-                    Send.Message(new NMBonk(Position + new Vec2(0f, (crouch || ragdoll != null) ? (-2) : (-6)), base.velocity));
+                    Send.Message(new NMBonk(Position + new Vector2(0f, (crouch || ragdoll != null) ? (-2) : (-6)), base.velocity));
                 }
             }
             if (h2 != null && ragdoll == null)
@@ -3893,7 +3894,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         {
             ragDegrees = -90f;
         }
-        Vec2 vel = new Vec2(_hSpeed, _vSpeed);
+        Vector2 vel = new Vector2(_hSpeed, _vSpeed);
         hSpeed = 0f;
         vSpeed = 0f;
         if (Network.isActive)
@@ -3946,7 +3947,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     public virtual void UpdateSkeleton()
     {
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         if (_trapped != null)
         {
             base.X = _trapped.X;
@@ -3956,19 +3957,19 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         {
             if (ragdoll.part1 != null && ragdoll.part3 != null)
             {
-                _skeleton.upperTorso.position = ragdoll.part1.Offset(new Vec2(0f, 7f));
+                _skeleton.upperTorso.position = ragdoll.part1.Offset(new Vector2(0f, 7f));
                 _skeleton.upperTorso.orientation = ((ragdoll.part1.offDir > 0) ? (0f - ragdoll.part1.Angle) : ragdoll.part1.Angle);
-                _skeleton.lowerTorso.position = ragdoll.part3.Offset(new Vec2(5f, 11f));
+                _skeleton.lowerTorso.position = ragdoll.part3.Offset(new Vector2(5f, 11f));
                 _skeleton.lowerTorso.orientation = ((ragdoll.part3.offDir > 0) ? (0f - ragdoll.part3.Angle) : ragdoll.part3.Angle) + Maths.DegToRad(180f);
-                _skeleton.head.position = ragdoll.part1.Offset(new Vec2(-2f, -6f));
+                _skeleton.head.position = ragdoll.part1.Offset(new Vector2(-2f, -6f));
                 _skeleton.head.orientation = ((ragdoll.part1.offDir > 0) ? (0f - ragdoll.part1.Angle) : ragdoll.part1.Angle);
             }
         }
         else if (_sprite != null)
         {
-            _skeleton.head.position = Offset(DuckRig.GetHatPoint(_sprite.imageIndex)) + new Vec2(0f, verticalOffset);
-            _skeleton.upperTorso.position = Offset(DuckRig.GetChestPoint(_sprite.imageIndex)) + new Vec2(0f, verticalOffset);
-            _skeleton.lowerTorso.position = Position + new Vec2(0f, verticalOffset);
+            _skeleton.head.position = Offset(DuckRig.GetHatPoint(_sprite.imageIndex)) + new Vector2(0f, verticalOffset);
+            _skeleton.upperTorso.position = Offset(DuckRig.GetChestPoint(_sprite.imageIndex)) + new Vector2(0f, verticalOffset);
+            _skeleton.lowerTorso.position = Position + new Vector2(0f, verticalOffset);
             if (sliding)
             {
                 _skeleton.head.orientation = Maths.DegToRad(90f);
@@ -3987,9 +3988,9 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                 _skeleton.head.orientation = 0f;
                 _skeleton.upperTorso.orientation = 0f;
                 _skeleton.lowerTorso.orientation = 0f;
-                _skeleton.head.position = Offset(new Vec2(-1f, -10f));
-                _skeleton.upperTorso.position = Offset(new Vec2(1f, 2f));
-                _skeleton.lowerTorso.position = Offset(new Vec2(0f, -8f));
+                _skeleton.head.position = Offset(new Vector2(-1f, -10f));
+                _skeleton.upperTorso.position = Offset(new Vector2(1f, 2f));
+                _skeleton.lowerTorso.position = Offset(new Vector2(0f, -8f));
             }
         }
         Position = pos;
@@ -4063,10 +4064,10 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         }
         if (tvJump)
         {
-            Level.Add(new ColorStar(base.X + hSpeed * 2f, base.Y + 4f, new Vec2(-1.5f, -2.5f) + new Vec2((hSpeed + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, Rando.Float(-0.5f, 0f)), new Color(237, 94, 238)));
-            Level.Add(new ColorStar(base.X + hSpeed * 2f, base.Y + 4f, new Vec2(-0.9f, -1.5f) + new Vec2((hSpeed + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, Rando.Float(-0.5f, 0f)), new Color(49, 162, 242)));
-            Level.Add(new ColorStar(base.X + hSpeed * 2f, base.Y + 4f, new Vec2(0.9f, -1.5f) + new Vec2((hSpeed + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, Rando.Float(-0.5f, 0f)), new Color(247, 224, 90)));
-            Level.Add(new ColorStar(base.X + hSpeed * 2f, base.Y + 4f, new Vec2(1.5f, -2.5f) + new Vec2((hSpeed + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, Rando.Float(-0.5f, 0f)), new Color(192, 32, 45)));
+            Level.Add(new ColorStar(base.X + hSpeed * 2f, base.Y + 4f, new Vector2(-1.5f, -2.5f) + new Vector2((hSpeed + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, Rando.Float(-0.5f, 0f)), new Color(237, 94, 238)));
+            Level.Add(new ColorStar(base.X + hSpeed * 2f, base.Y + 4f, new Vector2(-0.9f, -1.5f) + new Vector2((hSpeed + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, Rando.Float(-0.5f, 0f)), new Color(49, 162, 242)));
+            Level.Add(new ColorStar(base.X + hSpeed * 2f, base.Y + 4f, new Vector2(0.9f, -1.5f) + new Vector2((hSpeed + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, Rando.Float(-0.5f, 0f)), new Color(247, 224, 90)));
+            Level.Add(new ColorStar(base.X + hSpeed * 2f, base.Y + 4f, new Vector2(1.5f, -2.5f) + new Vector2((hSpeed + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, Rando.Float(-0.5f, 0f)), new Color(192, 32, 45)));
         }
         return tvJump;
     }
@@ -4179,7 +4180,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         }
         _heldLeft = false;
         _heldRight = false;
-        Block lockBlock = Level.CheckRect<Block>(new Vec2(base.X - 3f, base.Y - 9f), new Vec2(base.X + 3f, base.Y + 4f));
+        Block lockBlock = Level.CheckRect<Block>(new Vector2(base.X - 3f, base.Y - 9f), new Vector2(base.X + 3f, base.Y + 4f));
         _crouchLock = (crouch || sliding) && (lockBlock?.solid ?? false);
         float hAcc = 0.55f * holdWeightMultiplier * grappleMultiplier * accelerationMultiplier;
         maxrun = _runMax * holdWeightMultiplier;
@@ -4470,8 +4471,8 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                 int wallJumpGiveFrames = 6;
                 if (!base.grounded && _canWallJump)
                 {
-                    Block blockLeft = Level.CheckLine<Block>(base.topLeft + new Vec2(0f, 4f), base.bottomLeft + new Vec2(-3f, -4f));
-                    Block blockRight = Level.CheckLine<Block>(base.topRight + new Vec2(3f, 4f), base.bottomRight + new Vec2(0f, -4f));
+                    Block blockLeft = Level.CheckLine<Block>(base.topLeft + new Vector2(0f, 4f), base.bottomLeft + new Vector2(-3f, -4f));
+                    Block blockRight = Level.CheckLine<Block>(base.topRight + new Vector2(3f, 4f), base.bottomRight + new Vector2(0f, -4f));
                     if (inputProfile.Down("LEFT") && blockLeft != null && !blockLeft.clip.Contains(this))
                     {
                         atWall = true;
@@ -4583,7 +4584,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                 bool jumpDown = false;
                 if (canJump && Math.Abs(hSpeed) < 0.2f && inputProfile.Down("DOWN") && Math.Abs(hSpeed) < 0.2f && inputProfile.Down("DOWN"))
                 {
-                    foreach (IPlatform plat in Level.CheckLineAll<IPlatform>(base.bottomLeft + new Vec2(0.1f, 1f), base.bottomRight + new Vec2(-0.1f, 1f)))
+                    foreach (IPlatform plat in Level.CheckLineAll<IPlatform>(base.bottomLeft + new Vector2(0.1f, 1f), base.bottomRight + new Vector2(-0.1f, 1f)))
                     {
                         if (plat is Block)
                         {
@@ -4595,14 +4596,14 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                             continue;
                         }
                         base.clip.Add(t);
-                        foreach (IPlatform left in Level.CheckPointAll<IPlatform>(t.topLeft + new Vec2(-2f, 2f)))
+                        foreach (IPlatform left in Level.CheckPointAll<IPlatform>(t.topLeft + new Vector2(-2f, 2f)))
                         {
                             if (left != null && left is MaterialThing && !(left is Block))
                             {
                                 base.clip.Add(left as MaterialThing);
                             }
                         }
-                        foreach (IPlatform right in Level.CheckPointAll<IPlatform>(t.topRight + new Vec2(2f, 2f)))
+                        foreach (IPlatform right in Level.CheckPointAll<IPlatform>(t.topRight + new Vector2(2f, 2f)))
                         {
                             if (right != null && right is MaterialThing && !(right is Block))
                             {
@@ -4843,7 +4844,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                 if (base.isServerForObject && base.grounded && Math.Abs(vSpeed) + Math.Abs(hSpeed) < 0.5f && !_closingEyes && holdObject == null && inputProfile.Pressed("SHOOT"))
                 {
                     Ragdoll d2 = Level.Nearest<Ragdoll>(base.X, base.Y, this);
-                    if (d2 != null && d2.active && d2.visible && (d2.Position - Position).Length() < 100f && d2.captureDuck != null && d2.captureDuck.dead && !d2.captureDuck._eyesClosed && (d2.part1.Position - (Position + new Vec2(0f, 8f))).Length() < 4f)
+                    if (d2 != null && d2.active && d2.visible && (d2.Position - Position).Length() < 100f && d2.captureDuck != null && d2.captureDuck.dead && !d2.captureDuck._eyesClosed && (d2.part1.Position - (Position + new Vector2(0f, 8f))).Length() < 4f)
                     {
                         Level.Add(new EyeCloseWing((d2.part1.Angle < 0f) ? (base.X - 4f) : (base.X - 11f), base.Y + 7f, (d2.part1.Angle < 0f) ? 1 : (-1), _spriteArms, this, d2.captureDuck));
                         if (Network.isActive)
@@ -4901,20 +4902,20 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     public void MakeStars()
     {
-        Level.Add(new DizzyStar(base.X + (float)(offDir * -3), base.Y - 9f, new Vec2(Rando.Float(-0.8f, -1.5f), Rando.Float(0.5f, -1f))));
-        Level.Add(new DizzyStar(base.X + (float)(offDir * -3), base.Y - 9f, new Vec2(Rando.Float(-0.8f, -1.5f), Rando.Float(0.5f, -1f))));
-        Level.Add(new DizzyStar(base.X + (float)(offDir * -3), base.Y - 9f, new Vec2(Rando.Float(0.8f, 1.5f), Rando.Float(0.5f, -1f))));
-        Level.Add(new DizzyStar(base.X + (float)(offDir * -3), base.Y - 9f, new Vec2(Rando.Float(0.8f, 1.5f), Rando.Float(0.5f, -1f))));
-        Level.Add(new DizzyStar(base.X + (float)(offDir * -3), base.Y - 9f, new Vec2(Rando.Float(-1.5f, 1.5f), Rando.Float(-0.5f, -1.1f))));
+        Level.Add(new DizzyStar(base.X + (float)(offDir * -3), base.Y - 9f, new Vector2(Rando.Float(-0.8f, -1.5f), Rando.Float(0.5f, -1f))));
+        Level.Add(new DizzyStar(base.X + (float)(offDir * -3), base.Y - 9f, new Vector2(Rando.Float(-0.8f, -1.5f), Rando.Float(0.5f, -1f))));
+        Level.Add(new DizzyStar(base.X + (float)(offDir * -3), base.Y - 9f, new Vector2(Rando.Float(0.8f, 1.5f), Rando.Float(0.5f, -1f))));
+        Level.Add(new DizzyStar(base.X + (float)(offDir * -3), base.Y - 9f, new Vector2(Rando.Float(0.8f, 1.5f), Rando.Float(0.5f, -1f))));
+        Level.Add(new DizzyStar(base.X + (float)(offDir * -3), base.Y - 9f, new Vector2(Rando.Float(-1.5f, 1.5f), Rando.Float(-0.5f, -1.1f))));
     }
 
-    public static void MakeStars(Vec2 pPosition, Vec2 pVelocity)
+    public static void MakeStars(Vector2 pPosition, Vector2 pVelocity)
     {
-        Level.Add(new NewDizzyStar(pPosition.X + pVelocity.X * 2f, pPosition.Y, new Vec2(-1.7f, -1f) + new Vec2((pVelocity.X + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, -1f + Rando.Float(-0.5f, 0f)), new Color(247, 224, 89)));
-        Level.Add(new NewDizzyStar(pPosition.X + pVelocity.X * 2f, pPosition.Y, new Vec2(-0.7f, -0.5f) + new Vec2((pVelocity.X + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, -1f + Rando.Float(-0.5f, 0f)), new Color(247, 224, 89)));
-        Level.Add(new NewDizzyStar(pPosition.X + pVelocity.X * 2f, pPosition.Y, new Vec2(0.7f, -0.5f) + new Vec2((pVelocity.X + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, -1f + Rando.Float(-0.5f, 0f)), new Color(247, 224, 89)));
-        Level.Add(new NewDizzyStar(pPosition.X + pVelocity.X * 2f, pPosition.Y, new Vec2(1.7f, -1f) + new Vec2((pVelocity.X + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, -1f + Rando.Float(-0.5f, 0f)), new Color(247, 224, 89)));
-        Level.Add(new NewDizzyStar(pPosition.X + pVelocity.X * 2f, pPosition.Y, new Vec2(0f, -1.4f) + new Vec2((pVelocity.X + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, -1f + Rando.Float(-0.5f, 0f)), new Color(247, 224, 89)));
+        Level.Add(new NewDizzyStar(pPosition.X + pVelocity.X * 2f, pPosition.Y, new Vector2(-1.7f, -1f) + new Vector2((pVelocity.X + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, -1f + Rando.Float(-0.5f, 0f)), new Color(247, 224, 89)));
+        Level.Add(new NewDizzyStar(pPosition.X + pVelocity.X * 2f, pPosition.Y, new Vector2(-0.7f, -0.5f) + new Vector2((pVelocity.X + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, -1f + Rando.Float(-0.5f, 0f)), new Color(247, 224, 89)));
+        Level.Add(new NewDizzyStar(pPosition.X + pVelocity.X * 2f, pPosition.Y, new Vector2(0.7f, -0.5f) + new Vector2((pVelocity.X + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, -1f + Rando.Float(-0.5f, 0f)), new Color(247, 224, 89)));
+        Level.Add(new NewDizzyStar(pPosition.X + pVelocity.X * 2f, pPosition.Y, new Vector2(1.7f, -1f) + new Vector2((pVelocity.X + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, -1f + Rando.Float(-0.5f, 0f)), new Color(247, 224, 89)));
+        Level.Add(new NewDizzyStar(pPosition.X + pVelocity.X * 2f, pPosition.Y, new Vector2(0f, -1.4f) + new Vector2((pVelocity.X + Rando.Float(-0.5f, 0.5f)) * Rando.Float(0.6f, 0.9f) / 2f, -1f + Rando.Float(-0.5f, 0f)), new Color(247, 224, 89)));
     }
 
     public virtual void DuckUpdate()
@@ -4962,7 +4963,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         }
         if (_ragdollInstance == null)
         {
-            _ragdollInstance = new Ragdoll(base.X, base.Y - 9999f, this, slide: false, 0f, 0, Vec2.Zero);
+            _ragdollInstance = new Ragdoll(base.X, base.Y - 9999f, this, slide: false, 0f, 0, Vector2.Zero);
             _ragdollInstance.npi = netProfileIndex;
             _ragdollInstance.RunInit();
             _ragdollInstance.active = false;
@@ -4997,7 +4998,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         {
             swordInvincibility--;
         }
-        if ((ragdoll == null || ragdoll.tongueStuck == Vec2.Zero) && tongueCheck != Vec2.Zero && base.level.cold)
+        if ((ragdoll == null || ragdoll.tongueStuck == Vector2.Zero) && tongueCheck != Vector2.Zero && base.level.cold)
         {
             Block b = Level.CheckPoint<Block>(tongueCheck);
             if (b != null && b.physicsMaterial == PhysicsMaterial.Metal)
@@ -5430,16 +5431,16 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                         if (p.duck == this)
                         {
                             Thing.UnstoppableFondle(this, DuckNetwork.localConnection);
-                            Vec2 pos = p.Position + new Vec2(82f, 58f);
+                            Vector2 pos = p.Position + new Vector2(82f, 58f);
                             if (!p.rightRoom)
                             {
-                                pos = p.Position + new Vec2(58f, 58f);
+                                pos = p.Position + new Vector2(58f, 58f);
                             }
                             Position = pos;
                             if (_ragdollInstance != null)
                             {
                                 Thing.UnstoppableFondle(_ragdollInstance, DuckNetwork.localConnection);
-                                _ragdollInstance.Position = new Vec2(pos.X, pos.Y - 3f);
+                                _ragdollInstance.Position = new Vector2(pos.X, pos.Y - 3f);
                                 _ragdollInstance.Unragdoll();
                             }
                             RecoverServerControl();
@@ -5466,7 +5467,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                         {
                             ragdoll.Unragdoll();
                         }
-                        Position = s.Position + new Vec2(0f, -16f);
+                        Position = s.Position + new Vector2(0f, -16f);
                         SFX.PlaySynchronized("respawn", 0.65f);
                         Ressurect();
                     }
@@ -5521,9 +5522,9 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         {
             return;
         }
-        if (sliding && _iceWedging <= 0 && base.grounded && Level.CheckLine<Block>(Position + new Vec2(-10f, 0f), Position + new Vec2(10f, 0f)) != null)
+        if (sliding && _iceWedging <= 0 && base.grounded && Level.CheckLine<Block>(Position + new Vector2(-10f, 0f), Position + new Vector2(10f, 0f)) != null)
         {
-            foreach (IPlatform item in Level.CheckPointAll<IPlatform>(new Vec2(Position.X, base.bottom - 4f)))
+            foreach (IPlatform item in Level.CheckPointAll<IPlatform>(new Vector2(Position.X, base.bottom - 4f)))
             {
                 if (item is Holdable)
                 {
@@ -5624,7 +5625,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         _gripped = false;
     }
 
-    public override void HeatUp(Vec2 location)
+    public override void HeatUp(Vector2 location)
     {
         if (holdObject != null && holdObject.heat < -0.05f)
         {
@@ -5641,7 +5642,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         base.HeatUp(location);
     }
 
-    protected override bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected override bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         if (protectedFromFire)
         {
@@ -5717,7 +5718,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                 {
                     if (handSmokeWait <= 0)
                     {
-                        Vec2 handpos = new Vec2(armPosition.X + holdObject.handOffset.X * (float)offDir, armPosition.Y + holdObject.handOffset.Y);
+                        Vector2 handpos = new Vector2(armPosition.X + holdObject.handOffset.X * (float)offDir, armPosition.Y + holdObject.handOffset.Y);
                         Level.Add(SmallSmoke.New(handpos.X, handpos.Y, 0.8f, 1f));
                         handSmokeWait = 5;
                     }
@@ -5800,11 +5801,11 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         }
         if (holdObject is DrumSet)
         {
-            Position = holdObject.Position + new Vec2(0f, -12f);
+            Position = holdObject.Position + new Vector2(0f, -12f);
         }
         else
         {
-            holdObject.Position = armPositionNoKick + holdObject.holdOffset + new Vec2(holdOffX, holdOffY) + new Vec2(2 * offDir, 0f);
+            holdObject.Position = armPositionNoKick + holdObject.holdOffset + new Vector2(holdOffX, holdOffY) + new Vector2(2 * offDir, 0f);
         }
         holdObject.CheckIfHoldObstructed();
         if (HasEquipment(typeof(Holster)))
@@ -5922,7 +5923,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     public void DoFuneralStuff()
     {
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         if (ragdoll != null)
         {
             pos = ragdoll.Position;
@@ -5945,7 +5946,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     public void LayToRest(Profile whoDid)
     {
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         if (ragdoll != null)
         {
             pos = ragdoll.Position;
@@ -5986,7 +5987,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         {
             if (ragdoll != null)
             {
-                return ragdoll.tongueStuck != Vec2.Zero;
+                return ragdoll.tongueStuck != Vector2.Zero;
             }
             return false;
         }
@@ -6012,9 +6013,9 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         }
     }
 
-    public Vec2 GetPos()
+    public Vector2 GetPos()
     {
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         if (ragdoll != null && ragdoll.part1 != null)
         {
             pos = ragdoll.part1.Position;
@@ -6026,9 +6027,9 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         return pos;
     }
 
-    public Vec2 GetEdgePos()
+    public Vector2 GetEdgePos()
     {
-        Vec2 pos = cameraPosition;
+        Vector2 pos = cameraPosition;
         float boarder = 14f;
         if (pos.X < Level.current.camera.left + boarder)
         {
@@ -6051,7 +6052,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     public bool ShouldDrawIcon()
     {
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         if (ragdoll != null)
         {
             if (ragdoll.part1 == null)
@@ -6111,7 +6112,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         {
             _iconCamera = new Camera(0f, 0f, 48f, 48f);
         }
-        _iconCamera.center = Position + new Vec2(0f, 2f);
+        _iconCamera.center = Position + new Vector2(0f, 2f);
         if (crouch)
         {
             _iconCamera.centerY += 3f;
@@ -6127,11 +6128,11 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         }
         if (_trapped != null)
         {
-            _iconCamera.center = _trapped.Position + new Vec2(0f, -5f);
+            _iconCamera.center = _trapped.Position + new Vector2(0f, -5f);
         }
         if (_cooked != null)
         {
-            _iconCamera.center = _cooked.Position + new Vec2(0f, -5f);
+            _iconCamera.center = _cooked.Position + new Vector2(0f, -5f);
         }
         renderingIcon = true;
         _renderingDuck = true;
@@ -6186,7 +6187,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
     {
         if (!dead && _iconCamera != null && !_renderingDuck && ShouldDrawIcon())
         {
-            Vec2 pos = Position;
+            Vector2 pos = Position;
             if (ragdoll != null)
             {
                 pos = ragdoll.part1.Position;
@@ -6195,11 +6196,11 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
             {
                 pos = _trapped.Position;
             }
-            Vec2 origPos = pos;
+            Vector2 origPos = pos;
             float cameraSize = Level.current.camera.width / 320f * 0.5f;
             cameraSize = 0.75f;
             float boarder = 22f * cameraSize;
-            Vec2 dist = new Vec2(0f, 0f);
+            Vector2 dist = new Vector2(0f, 0f);
             if (pos.X < Level.current.camera.left + boarder)
             {
                 dist.X = Math.Abs(Level.current.camera.left - pos.X);
@@ -6221,7 +6222,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                 pos.Y = Level.current.camera.bottom - boarder;
             }
             cameraSize -= Math.Min((dist * 0.003f).Length(), 1f) * 0.4f;
-            Graphics.Draw(persona.iconMap, pos, _iconRect, Color.White, 0f, new Vec2(48f, 48f), new Vec2(0.5f, 0.5f) * cameraSize, SpriteEffects.None, 0.9f + base.Depth.span);
+            Graphics.Draw(persona.iconMap, pos, _iconRect, Color.White, 0f, new Vector2(48f, 48f), new Vector2(0.5f, 0.5f) * cameraSize, SpriteEffects.None, 0.9f + base.Depth.span);
             int f = _sprite.imageIndex;
             _sprite.imageIndex = 21;
             float angle = Maths.DegToRad(Maths.PointDirection(pos, origPos));
@@ -6229,7 +6230,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
             _sprite.Angle = 0f - angle;
             _sprite.flipH = false;
             _sprite.UpdateSpriteBox();
-            _sprite.Position = new Vec2(pos.X + (float)Math.Cos(angle) * 12f, pos.Y - (float)Math.Sin(angle) * 12f);
+            _sprite.Position = new Vector2(pos.X + (float)Math.Cos(angle) * 12f, pos.Y - (float)Math.Sin(angle) * 12f);
             _sprite.DrawWithoutUpdate();
             _sprite.Angle = 0f;
             _sprite.imageIndex = f;
@@ -6322,13 +6323,13 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
             num3 = (_spriteControlled.Angle = Angle);
             num5 = (spriteQuack3.Angle = num3);
             sprite2.Angle = num5;
-            if (ragdoll != null && ragdoll.tongueStuck != Vec2.Zero)
+            if (ragdoll != null && ragdoll.tongueStuck != Vector2.Zero)
             {
                 quack = 10;
             }
             if (IsQuacking())
             {
-                Vec2 rs = tounge;
+                Vector2 rs = tounge;
                 if (sliding)
                 {
                     if (rs.Y < 0f)
@@ -6379,9 +6380,9 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                 }
                 _stickLerp = Lerp.Vec2Smooth(_stickLerp, rs, 0.2f);
                 _stickSlowLerp = Lerp.Vec2Smooth(_stickSlowLerp, rs, 0.1f);
-                Vec2 stick = _stickLerp;
+                Vector2 stick = _stickLerp;
                 stick.Y *= -1f;
-                Vec2 stick2 = _stickSlowLerp;
+                Vector2 stick2 = _stickSlowLerp;
                 stick2.Y *= -1f;
                 int additionalFrame = 0;
                 float length = stick.Length();
@@ -6392,7 +6393,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                 Graphics.Draw((_mindControl != null && _derpMindControl) ? _spriteControlled : _spriteQuack, _sprite.imageIndex + additionalFrame, base.X, base.Y + verticalOffset, base.ScaleX, base.ScaleY);
                 if (length > 0.05f)
                 {
-                    Vec2 mouthPos = Position + new Vec2(0f, 1f);
+                    Vector2 mouthPos = Position + new Vector2(0f, 1f);
                     if (sliding)
                     {
                         mouthPos.Y += 9;
@@ -6406,16 +6407,16 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                     {
                         mouthPos.Y -= 2;
                     }
-                    List<Vec2> list = Curve.Bezier(8, mouthPos, mouthPos + stick2 * 6f, mouthPos + stick * 6f);
-                    Vec2 prev = Vec2.Zero;
+                    List<Vector2> list = Curve.Bezier(8, mouthPos, mouthPos + stick2 * 6f, mouthPos + stick * 6f);
+                    Vector2 prev = Vector2.Zero;
                     float lenMul = 1f;
-                    foreach (Vec2 p in list)
+                    foreach (Vector2 p in list)
                     {
-                        if (prev != Vec2.Zero)
+                        if (prev != Vector2.Zero)
                         {
-                            Vec2 dir = prev - p;
-                            Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.Normalized * 0.4f, p, new Color(223, 30, 30), 0.15f * lenMul, Depth + 1);
-                            Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.Normalized * 0.4f, p - dir.Normalized * 0.4f, Color.Black, 0.3f * lenMul, Depth - 1);
+                            Vector2 dir = prev - p;
+                            Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + Vector2.Normalize(dir) * 0.4f, p, new Color(223, 30, 30), 0.15f * lenMul, Depth + 1);
+                            Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + Vector2.Normalize(dir) * 0.4f, p - Vector2.Normalize(dir) * 0.4f, Color.Black, 0.3f * lenMul, Depth - 1);
                         }
                         lenMul -= 0.1f;
                         prev = p;
@@ -6436,14 +6437,14 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
                 }
                 else
                 {
-                    tongueCheck = Vec2.Zero;
+                    tongueCheck = Vector2.Zero;
                 }
             }
             else
             {
                 Graphics.DrawWithoutUpdate(_sprite, X, Y + verticalOffset, ScaleX, ScaleY);
-                _stickLerp = Vec2.Zero;
-                _stickSlowLerp = Vec2.Zero;
+                _stickLerp = Vector2.Zero;
+                _stickSlowLerp = Vector2.Zero;
             }
         }
         if (_renderingDuck)
@@ -6476,7 +6477,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
             _spriteArms.imageIndex = _sprite.imageIndex;
             if (!inNet && !_gripped && !listening)
             {
-                Vec2 kickVector = Vec2.Zero;
+                Vector2 kickVector = Vector2.Zero;
                 if (base.gun != null)
                 {
                     kickVector = -base.gun.barrelVector * kick;

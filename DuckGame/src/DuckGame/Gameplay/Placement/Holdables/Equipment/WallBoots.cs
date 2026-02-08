@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Equipment")]
@@ -10,9 +12,9 @@ public class WallBoots : Boots
         _pickupSprite = new Sprite("walljumpBootsPickup");
         _sprite = new SpriteMap("walljumpBoots", 32, 32);
         graphic = _pickupSprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-6f, -6f);
-        collisionSize = new Vec2(12f, 13f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-6f, -6f);
+        collisionSize = new Vector2(12f, 13f);
         _equippedDepth = 3;
         editorTooltip = "Allows you to jump from walls. Why would you want to do this? Who can say.";
     }

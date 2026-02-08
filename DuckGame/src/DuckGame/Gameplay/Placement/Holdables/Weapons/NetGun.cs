@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -22,10 +23,10 @@ public class NetGun : Gun
         _ammoType.penetration = -1f;
         _type = "gun";
         graphic = new Sprite("netGun");
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -4f);
-        collisionSize = new Vec2(16f, 9f);
-        _barrelOffsetTL = new Vec2(27f, 14f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -4f);
+        collisionSize = new Vector2(16f, 9f);
+        _barrelOffsetTL = new Vector2(27f, 14f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
@@ -33,7 +34,7 @@ public class NetGun : Gun
         _fireRumble = RumbleIntensity.Kick;
         _netGunGuage = new SpriteMap("netGunGuage", 8, 8);
         _barrelSteam = new SpriteMap("steamPuff", 16, 16);
-        _barrelSteam.Center = new Vec2(0f, 14f);
+        _barrelSteam.Center = new Vector2(0f, 14f);
         _barrelSteam.AddAnimation("puff", 0.4f, false, 0, 1, 2, 3, 4, 5, 6, 7);
         _barrelSteam.SetAnimation("puff");
         _barrelSteam.speed = 0f;
@@ -64,9 +65,9 @@ public class NetGun : Gun
         if (_barrelSteam.speed > 0f)
         {
             _barrelSteam.Alpha = 0.6f;
-            Draw(_barrelSteam, new Vec2(9f, 1f));
+            Draw(_barrelSteam, new Vector2(9f, 1f));
         }
-        Draw(_netGunGuage, new Vec2(-4f, -4f));
+        Draw(_netGunGuage, new Vector2(-4f, -4f));
     }
 
     public override void OnPressAction()
@@ -82,7 +83,7 @@ public class NetGun : Gun
             _barrelSteam.speed = 1f;
             _barrelSteam.frame = 0;
             ApplyKick();
-            Vec2 pos = Offset(base.barrelOffset);
+            Vector2 pos = Offset(base.barrelOffset);
             if (!receivingPress)
             {
                 Net n = new Net(pos.X, pos.Y - 2f, base.duck);

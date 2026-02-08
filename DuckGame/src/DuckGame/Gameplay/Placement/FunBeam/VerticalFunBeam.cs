@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -12,8 +13,8 @@ public class VerticalFunBeam : FunBeam
         editorTooltip = "Ever seen a fun beam? Now try tilting your head sideways.";
         base.hugWalls = WallHug.Ceiling;
         base.AngleDegrees = 90f;
-        collisionOffset = new Vec2(-5f, -2f);
-        collisionSize = new Vec2(10f, 4f);
+        collisionOffset = new Vector2(-5f, -2f);
+        collisionSize = new Vector2(10f, 4f);
         _placementCost += 2;
     }
 
@@ -27,19 +28,19 @@ public class VerticalFunBeam : FunBeam
         {
             if (_prev != Position)
             {
-                _endPoint = Vec2.Zero;
+                _endPoint = Vector2.Zero;
                 for (int i = 0; i < 32; i++)
                 {
-                    Thing t = Level.CheckLine<Block>(Position + new Vec2(0f, 4 + i * 16), Position + new Vec2(0f, (i + 1) * 16 - 6));
+                    Thing t = Level.CheckLine<Block>(Position + new Vector2(0f, 4 + i * 16), Position + new Vector2(0f, (i + 1) * 16 - 6));
                     if (t != null)
                     {
-                        _endPoint = new Vec2(base.X, t.top - 2f);
+                        _endPoint = new Vector2(base.X, t.top - 2f);
                         break;
                     }
                 }
                 _prev = Position;
             }
-            if (_endPoint != Vec2.Zero)
+            if (_endPoint != Vector2.Zero)
             {
                 graphic.flipH = true;
                 graphic.Depth = base.Depth;
@@ -62,13 +63,13 @@ public class VerticalFunBeam : FunBeam
                     _beam.AngleDegrees = 90f;
                     Graphics.Draw(_beam, base.X, base.Y + (float)(j * 16));
                 }
-                collisionOffset = new Vec2(-4f, -1f);
-                collisionSize = new Vec2(8f, dist);
+                collisionOffset = new Vector2(-4f, -1f);
+                collisionSize = new Vector2(8f, dist);
             }
             else
             {
-                collisionOffset = new Vec2(-5f, -1f);
-                collisionSize = new Vec2(10f, 4f);
+                collisionOffset = new Vector2(-5f, -1f);
+                collisionSize = new Vector2(10f, 4f);
             }
         }
         base.Draw();

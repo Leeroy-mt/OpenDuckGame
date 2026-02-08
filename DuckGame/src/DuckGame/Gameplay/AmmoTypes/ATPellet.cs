@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ATPellet : AmmoType
@@ -17,7 +19,7 @@ public class ATPellet : AmmoType
         bulletThickness = 1f;
         bulletColor = Color.White;
         sprite = new Sprite("pellet");
-        sprite.Center = new Vec2(1f, 1f);
+        sprite.Center = new Vector2(1f, 1f);
         bulletType = typeof(PelletBullet);
         flawlessPipeTravel = true;
     }

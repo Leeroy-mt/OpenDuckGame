@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -51,7 +52,7 @@ public class Equipper : Thing
         _placementCost += 4;
     }
 
-    public Thing GetContainedInstance(Vec2 pos = default)
+    public Thing GetContainedInstance(Vector2 pos = default)
     {
         if (Contains == null)
         {
@@ -149,7 +150,7 @@ public class Equipper : Thing
         {
             containString = Contains.Name;
         }
-        Graphics.DrawString(containString, Position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
+        Graphics.DrawString(containString, Position + new Vector2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
         if (radius.value != 0)
         {
             Graphics.DrawCircle(Position, radius.value, Color.Red, 1f, 0.9f);
@@ -162,7 +163,7 @@ public class Equipper : Thing
         if (_previewSprite != null)
         {
             _previewSprite.Depth = base.Depth + 1;
-            _previewSprite.Scale = new Vec2(0.5f, 0.5f);
+            _previewSprite.Scale = new Vector2(0.5f, 0.5f);
             _previewSprite.CenterOrigin();
             Graphics.Draw(_previewSprite, base.X, base.Y);
         }

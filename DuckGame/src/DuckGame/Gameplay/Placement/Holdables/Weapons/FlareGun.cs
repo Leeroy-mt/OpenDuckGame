@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Fire")]
@@ -12,10 +14,10 @@ public class FlareGun : Gun
         wideBarrel = true;
         _type = "gun";
         graphic = new Sprite("flareGun");
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -4f);
-        collisionSize = new Vec2(16f, 9f);
-        _barrelOffsetTL = new Vec2(18f, 6f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -4f);
+        collisionSize = new Vector2(16f, 9f);
+        _barrelOffsetTL = new Vector2(18f, 6f);
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 1f;
@@ -55,10 +57,10 @@ public class FlareGun : Gun
             ApplyKick();
             if (!receivingPress && base.isServerForObject)
             {
-                Vec2 pos = Offset(base.barrelOffset);
+                Vector2 pos = Offset(base.barrelOffset);
                 Flare d = new Flare(pos.X, pos.Y, this);
                 Fondle(d);
-                Vec2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.2f, 0.2f));
+                Vector2 travelDir = Maths.AngleToVec(base.barrelAngle + Rando.Float(-0.2f, 0.2f));
                 d.hSpeed = travelDir.X * 14f;
                 d.vSpeed = travelDir.Y * 14f;
                 Level.Add(d);

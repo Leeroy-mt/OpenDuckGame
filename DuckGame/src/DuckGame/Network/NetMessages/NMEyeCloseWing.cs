@@ -1,8 +1,10 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMEyeCloseWing : NMEvent
 {
-    public Vec2 position;
+    public Vector2 position;
 
     public Duck closer;
 
@@ -12,7 +14,7 @@ public class NMEyeCloseWing : NMEvent
     {
     }
 
-    public NMEyeCloseWing(Vec2 pPosition, Duck pCloser, Duck pClosee)
+    public NMEyeCloseWing(Vector2 pPosition, Duck pCloser, Duck pClosee)
     {
         position = pPosition;
         closer = pCloser;

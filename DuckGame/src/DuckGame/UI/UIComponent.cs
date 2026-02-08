@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +13,7 @@ public class UIComponent : Thing
 
     public MenuItemMode mode;
 
-    public Vec2 borderSize;
+    public Vector2 borderSize;
 
     public Func<bool> condition;
     public UIMenuAction _backFunction;
@@ -30,7 +31,7 @@ public class UIComponent : Thing
     protected bool _autoSizeVert;
     protected bool _autoSizeHor;
 
-    protected Vec2 _offset;
+    protected Vector2 _offset;
 
     protected UIComponent _parent;
 
@@ -46,7 +47,7 @@ public class UIComponent : Thing
     UIFit _fit;
     UIAlign _align;
 
-    Vec2 _startPosition;
+    Vector2 _startPosition;
     #endregion
 
     #region Public Properties
@@ -120,7 +121,7 @@ public class UIComponent : Thing
         }
     }
 
-    public Vec2 offset
+    public Vector2 offset
     {
         get => _offset;
         set => _offset = value;
@@ -136,7 +137,7 @@ public class UIComponent : Thing
     public UIComponent(float xpos, float ypos, float wide, float high)
         : base(xpos, ypos)
     {
-        _collisionSize = new Vec2(wide, high);
+        _collisionSize = new Vector2(wide, high);
         layer = Layer.HUD;
         Depth = 0;
         _autoSizeHor = wide < 0;

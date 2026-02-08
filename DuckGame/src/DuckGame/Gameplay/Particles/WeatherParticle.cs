@@ -1,12 +1,14 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public abstract class WeatherParticle
 {
-    public Vec2 position;
+    public Vector2 position;
 
     public float z;
 
-    public Vec2 velocity;
+    public Vector2 velocity;
 
     public float zSpeed;
 
@@ -14,7 +16,7 @@ public abstract class WeatherParticle
 
     public bool die;
 
-    public WeatherParticle(Vec2 pos)
+    public WeatherParticle(Vector2 pos)
     {
         position = pos;
     }

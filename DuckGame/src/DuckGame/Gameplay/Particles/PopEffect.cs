@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -19,7 +20,7 @@ public class PopEffect : Thing
         : base(xpos, ypos)
     {
         _sprite = new SpriteMap("popLine", 16, 16);
-        Center = new Vec2(_sprite.w / 2, _sprite.h / 2);
+        Center = new Vector2(_sprite.w / 2, _sprite.h / 2);
         graphic = _sprite;
         int num = 8;
         for (int i = 0; i < num; i++)
@@ -31,7 +32,7 @@ public class PopEffect : Thing
                 rot = Maths.DegToRad(rot + Rando.Float(-10f, 10f))
             });
         }
-        base.Scale = new Vec2(1.5f, 1.5f);
+        base.Scale = new Vector2(1.5f, 1.5f);
         base.Depth = 0.85f;
     }
 
@@ -53,7 +54,7 @@ public class PopEffect : Thing
             SpriteMap sprite = _sprite;
             float num = (_sprite.ScaleY = base.ScaleX * part.scale);
             sprite.ScaleX = num;
-            _sprite.Center = new Vec2(_sprite.w / 2, _sprite.h / 2);
+            _sprite.Center = new Vector2(_sprite.w / 2, _sprite.h / 2);
             _sprite.Alpha = 0.8f;
             Graphics.Draw(_sprite, base.X, base.Y);
         }

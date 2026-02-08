@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -7,9 +8,9 @@ public class FunBeam : MaterialThing
 {
     protected SpriteMap _beam;
 
-    protected Vec2 _prev = Vec2.Zero;
+    protected Vector2 _prev = Vector2.Zero;
 
-    protected Vec2 _endPoint = Vec2.Zero;
+    protected Vector2 _endPoint = Vector2.Zero;
 
     public bool enabled = true;
 
@@ -22,11 +23,11 @@ public class FunBeam : MaterialThing
         _beam.SetAnimation("idle");
         _beam.speed = 0.2f;
         _beam.Alpha = 0.3f;
-        _beam.Center = new Vec2(0f, 8f);
+        _beam.Center = new Vector2(0f, 8f);
         graphic = new Sprite("funBeamer");
-        Center = new Vec2(9f, 8f);
-        collisionOffset = new Vec2(-2f, -5f);
-        collisionSize = new Vec2(4f, 10f);
+        Center = new Vector2(9f, 8f);
+        collisionOffset = new Vector2(-2f, -5f);
+        collisionSize = new Vector2(4f, 10f);
         base.Depth = -0.5f;
         _editorName = "Fun Beam";
         editorTooltip = "Place 2 generators near each other to create a beam that triggers weapons passing through.";
@@ -51,19 +52,19 @@ public class FunBeam : MaterialThing
         {
             if (_prev != Position)
             {
-                _endPoint = Vec2.Zero;
+                _endPoint = Vector2.Zero;
                 for (int i = 0; i < 32; i++)
                 {
-                    Thing t = Level.CheckLine<Block>(Position + new Vec2(4 + i * 16, 0f), Position + new Vec2((i + 1) * 16 - 6, 0f));
+                    Thing t = Level.CheckLine<Block>(Position + new Vector2(4 + i * 16, 0f), Position + new Vector2((i + 1) * 16 - 6, 0f));
                     if (t != null)
                     {
-                        _endPoint = new Vec2(t.left - 2f, base.Y);
+                        _endPoint = new Vector2(t.left - 2f, base.Y);
                         break;
                     }
                 }
                 _prev = Position;
             }
-            if (_endPoint != Vec2.Zero)
+            if (_endPoint != Vector2.Zero)
             {
                 graphic.flipH = true;
                 graphic.Depth = base.Depth;
@@ -84,13 +85,13 @@ public class FunBeam : MaterialThing
                     }
                     Graphics.Draw(_beam, base.X + (float)(j * 16), base.Y);
                 }
-                collisionOffset = new Vec2(-1f, -4f);
-                collisionSize = new Vec2(dist, 8f);
+                collisionOffset = new Vector2(-1f, -4f);
+                collisionSize = new Vector2(dist, 8f);
             }
             else
             {
-                collisionOffset = new Vec2(-1f, -5f);
-                collisionSize = new Vec2(4f, 10f);
+                collisionOffset = new Vector2(-1f, -5f);
+                collisionSize = new Vector2(4f, 10f);
             }
         }
         base.Draw();

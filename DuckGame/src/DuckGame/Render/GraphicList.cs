@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -76,14 +77,14 @@ public class GraphicList : Sprite
     {
         foreach (Sprite g in _objects)
         {
-            Vec2 pos = new Vec2(g.Position);
+            Vector2 pos = g.Position;
             g.Position -= Center;
             g.X *= ScaleX;
             g.Y *= ScaleY;
             g.Position += Position;
             float alph = g.Alpha;
             g.Alpha *= Alpha;
-            Vec2 scl = new Vec2(g.Scale);
+            Vector2 scl = g.Scale;
             g.ScaleX *= ScaleX;
             g.ScaleY *= ScaleY;
             float ang = g.Angle;

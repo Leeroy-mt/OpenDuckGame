@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -65,7 +66,7 @@ public class Arcade : Level
     public override void Initialize()
     {
         _background = new SpriteThing(313f, -40f, new Sprite("arcade/arcadeOuya"));
-        _background.Center = new Vec2(0f, 0f);
+        _background.Center = new Vector2(0f, 0f);
         _background.layer = Layer.Background;
         _duck = new Duck(730f, 100f, Profiles.active[0]);
         Level.Add(_background);
@@ -94,15 +95,15 @@ public class Arcade : Level
         Level.Add(new Block(251f, 83f, 268f, 10f));
         Level.Add(new Block(259f, 75f, 252f, 10f));
         Level.Add(new Block(254f, 0f, 64f, 300f));
-        List<Vec2> obj = new List<Vec2>
+        List<Vector2> obj = new List<Vector2>
         {
-            new Vec2(380f, 186f),
-            new Vec2(520f, 170f),
-            new Vec2(565f, 74f),
-            new Vec2(375f, 58f),
-            new Vec2(455f, 58f)
+            new Vector2(380f, 186f),
+            new Vector2(520f, 170f),
+            new Vector2(565f, 74f),
+            new Vector2(375f, 58f),
+            new Vector2(455f, 58f)
         };
-        Vec2 pos = obj[_challenges.Count];
+        Vector2 pos = obj[_challenges.Count];
         ChallengeGroup group = null;
         ArcadeMachine machine = null;
         pos = obj[_challenges.Count];

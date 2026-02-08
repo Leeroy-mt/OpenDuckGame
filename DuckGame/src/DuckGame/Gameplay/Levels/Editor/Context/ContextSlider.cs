@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -410,19 +411,19 @@ public class ContextSlider : ContextMenu
             if (drawFlipped)
             {
                 leftPos = 0f - valStringWidth - 12f;
-                Graphics.DrawString(val, Position + new Vec2(0f - valStringWidth - 8f, 5f), c, 0.82f + depthAdd);
+                Graphics.DrawString(val, Position + new Vector2(0f - valStringWidth - 8f, 5f), c, 0.82f + depthAdd);
             }
             else
             {
-                Graphics.DrawString(val, Position + new Vec2(itemSize.X + 8f, 5f), c, 0.82f + depthAdd);
+                Graphics.DrawString(val, Position + new Vector2(itemSize.X + 8f, 5f), c, 0.82f + depthAdd);
                 rightPos += valStringWidth + 10f;
             }
-            Graphics.DrawRect(Position + new Vec2(offset - 2f, 3f), Position + new Vec2(offset + 2f, itemSize.Y - 3f), new Color(250, 250, 250), 0.85f + depthAdd);
-            Graphics.DrawRect(Position + new Vec2(leftPos, 0f), Position + new Vec2(rightPos, itemSize.Y), new Color(70, 70, 70), 0.75f + depthAdd);
-            Graphics.DrawRect(Position + new Vec2(4f, itemSize.Y / 2f - 2f), Position + new Vec2(itemSize.X - 4f, itemSize.Y / 2f + 2f), new Color(150, 150, 150), 0.82f + depthAdd);
+            Graphics.DrawRect(Position + new Vector2(offset - 2f, 3f), Position + new Vector2(offset + 2f, itemSize.Y - 3f), new Color(250, 250, 250), 0.85f + depthAdd);
+            Graphics.DrawRect(Position + new Vector2(leftPos, 0f), Position + new Vector2(rightPos, itemSize.Y), new Color(70, 70, 70), 0.75f + depthAdd);
+            Graphics.DrawRect(Position + new Vector2(4f, itemSize.Y / 2f - 2f), Position + new Vector2(itemSize.X - 4f, itemSize.Y / 2f + 2f), new Color(150, 150, 150), 0.82f + depthAdd);
             if (Editor.inputMode == EditorInput.Gamepad)
             {
-                Vec2 handPos = Position + new Vec2(offset, 0f);
+                Vector2 handPos = Position + new Vector2(offset, 0f);
                 _adjusterHand.Depth = 0.9f;
                 Graphics.Draw(_adjusterHand, handPos.X - 6f, handPos.Y - 6f);
             }
@@ -438,8 +439,8 @@ public class ContextSlider : ContextMenu
             {
                 c2 = ((fVal == 0f) ? Color.DarkGray : ((fVal < 0.3f) ? Colors.DGRed : ((!(fVal < 0.7f)) ? Color.Green : Color.Orange)));
             }
-            Graphics.DrawString(_text, Position + new Vec2(2f, 5f), c2, 0.82f);
-            Graphics.DrawString(val, Position + new Vec2(itemSize.X - 4f - Graphics.GetStringWidth(val), 5f), Color.White, 0.82f);
+            Graphics.DrawString(_text, Position + new Vector2(2f, 5f), c2, 0.82f);
+            Graphics.DrawString(val, Position + new Vector2(itemSize.X - 4f - Graphics.GetStringWidth(val), 5f), Color.White, 0.82f);
         }
     }
 }

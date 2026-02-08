@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -48,11 +49,11 @@ public class Banana : Gun
         _type = "gun";
         _sprite = new SpriteMap("banana", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 13f);
-        collisionOffset = new Vec2(-6f, -3f);
-        collisionSize = new Vec2(12f, 5f);
+        Center = new Vector2(8f, 13f);
+        collisionOffset = new Vector2(-6f, -3f);
+        collisionSize = new Vector2(12f, 5f);
         _fireRumble = RumbleIntensity.Kick;
-        _holdOffset = new Vec2(-1f, 2f);
+        _holdOffset = new Vector2(-1f, 2f);
         base.bouncy = 0.4f;
         friction = 0.05f;
         physicsMaterial = PhysicsMaterial.Rubber;
@@ -108,7 +109,7 @@ public class Banana : Gun
             }
             base.AngleDegrees = 0f;
             canPickUp = false;
-            foreach (Duck o in Level.CheckLineAll<Duck>(new Vec2(base.X - 5f, base.Y + 2f), new Vec2(base.X + 5f, base.Y + 2f)))
+            foreach (Duck o in Level.CheckLineAll<Duck>(new Vector2(base.X - 5f, base.Y + 2f), new Vector2(base.X + 5f, base.Y + 2f)))
             {
                 if (!o.grounded || o.crouch || o.sliding || o.bottom > base.bottom + 2f || !o.isServerForObject || !(Math.Abs(o.hSpeed) > 2.5f))
                 {
@@ -181,26 +182,26 @@ public class Banana : Gun
                 if (offDir > 0)
                 {
                     handAngle = -1.0995574f;
-                    handOffset = new Vec2(8f, -1f);
-                    _holdOffset = new Vec2(-1f, 10f);
+                    handOffset = new Vector2(8f, -1f);
+                    _holdOffset = new Vector2(-1f, 10f);
                 }
                 else
                 {
                     handAngle = 1.0995574f;
-                    handOffset = new Vec2(8f, -1f);
-                    _holdOffset = new Vec2(-1f, 10f);
+                    handOffset = new Vector2(8f, -1f);
+                    _holdOffset = new Vector2(-1f, 10f);
                 }
             }
         }
         else
         {
             handAngle = 0f;
-            handOffset = new Vec2(0f, 0f);
-            _holdOffset = new Vec2(-1f, 2f);
+            handOffset = new Vector2(0f, 0f);
+            _holdOffset = new Vector2(-1f, 2f);
         }
     }
 
-    public override void HeatUp(Vec2 location)
+    public override void HeatUp(Vector2 location)
     {
     }
 
@@ -208,9 +209,9 @@ public class Banana : Gun
     {
         _sprite.frame = 1;
         _pin = false;
-        _holdOffset = new Vec2(-2f, 3f);
-        collisionOffset = new Vec2(-4f, -2f);
-        collisionSize = new Vec2(8f, 4f);
+        _holdOffset = new Vector2(-2f, 3f);
+        collisionOffset = new Vector2(-4f, -2f);
+        collisionSize = new Vector2(8f, 4f);
         weight = 0.01f;
         if (base.duck != null)
         {

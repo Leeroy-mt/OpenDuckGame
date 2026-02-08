@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -96,7 +97,7 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
         }
     }
 
-    public override void SetTranslation(Vec2 translation)
+    public override void SetTranslation(Vector2 translation)
     {
         if (_bLeftNub != null)
         {
@@ -118,7 +119,7 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
         _neighborsInitialized = true;
         if (_leftBlock == null)
         {
-            _leftBlock = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(base.left - 2f, Position.Y), checkFilter);
+            _leftBlock = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(base.left - 2f, Position.Y), checkFilter);
             if (_leftBlock != null)
             {
                 _leftBlock.InitializeNeighbors();
@@ -126,7 +127,7 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
         }
         if (_rightBlock == null)
         {
-            _rightBlock = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(base.right + 2f, Position.Y), checkFilter);
+            _rightBlock = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(base.right + 2f, Position.Y), checkFilter);
             if (_rightBlock != null)
             {
                 _rightBlock.InitializeNeighbors();
@@ -134,7 +135,7 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
         }
         if (_upBlock == null)
         {
-            _upBlock = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(Position.X, base.top - 2f), checkFilter);
+            _upBlock = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(Position.X, base.top - 2f), checkFilter);
             if (_upBlock != null)
             {
                 _upBlock.InitializeNeighbors();
@@ -142,7 +143,7 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
         }
         if (_downBlock == null)
         {
-            _downBlock = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(Position.X, base.bottom + 2f), checkFilter);
+            _downBlock = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(Position.X, base.bottom + 2f), checkFilter);
             if (_downBlock != null)
             {
                 _downBlock.InitializeNeighbors();
@@ -317,11 +318,11 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
         }
         _tileset = tileset;
         graphic = _sprite;
-        collisionSize = new Vec2(16f, 16f);
+        collisionSize = new Vector2(16f, 16f);
         thickness = 10f;
         base.CenterX = 8f;
         base.CenterY = 8f;
-        collisionOffset = new Vec2(-8f, -8f);
+        collisionOffset = new Vector2(-8f, -8f);
         base.Depth = 0.4f;
         flammable = 0.8f;
         _isStatic = true;
@@ -333,17 +334,17 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
         _placementCost = 1;
     }
 
-    public void RegisterHit(Vec2 hitPos, bool neighbors = false)
+    public void RegisterHit(Vector2 hitPos, bool neighbors = false)
     {
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         RegisterHit(hitPos, neighbors: true);
         return base.Hit(bullet, hitPos);
     }
 
-    protected override bool OnBurn(Vec2 position, Thing litBy)
+    protected override bool OnBurn(Vector2 position, Thing litBy)
     {
         return false;
     }
@@ -365,7 +366,7 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
             {
                 FluidData newFluid = f.data;
                 newFluid.amount = div;
-                Level.Add(new Fluid(f.left + 8f + (float)(i * 8), f.top - 4f + (float)Math.Sin((float)i * 0.7f) * 2f, new Vec2(0f, 1f), newFluid)
+                Level.Add(new Fluid(f.left + 8f + (float)(i * 8), f.top - 4f + (float)Math.Sin((float)i * 0.7f) * 2f, new Vector2(0f, 1f), newFluid)
                 {
                     vSpeed = -2f
                 });
@@ -432,17 +433,17 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
             }
             if (up == null)
             {
-                FluidPuddle f = Level.CheckPoint<FluidPuddle>(new Vec2(base.X, base.Y - 9f));
+                FluidPuddle f = Level.CheckPoint<FluidPuddle>(new Vector2(base.X, base.Y - 9f));
                 DestroyPuddle(f);
             }
             if (bLeft == null)
             {
-                FluidPuddle f2 = Level.CheckPoint<FluidPuddle>(new Vec2(base.X - 9f, base.Y));
+                FluidPuddle f2 = Level.CheckPoint<FluidPuddle>(new Vector2(base.X - 9f, base.Y));
                 DestroyPuddle(f2);
             }
             if (bRight == null)
             {
-                FluidPuddle f3 = Level.CheckPoint<FluidPuddle>(new Vec2(base.X + 9f, base.Y));
+                FluidPuddle f3 = Level.CheckPoint<FluidPuddle>(new Vector2(base.X + 9f, base.Y));
                 DestroyPuddle(f3);
             }
             return true;
@@ -729,19 +730,19 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
         {
             if (base.leftBlock != null)
             {
-                Graphics.DrawLine(Position, Position + new Vec2(-8f, 0f), Color.Red * 0.5f, 1f, 1f);
+                Graphics.DrawLine(Position, Position + new Vector2(-8f, 0f), Color.Red * 0.5f, 1f, 1f);
             }
             if (base.rightBlock != null)
             {
-                Graphics.DrawLine(Position, Position + new Vec2(8f, 0f), Color.Red * 0.5f, 1f, 1f);
+                Graphics.DrawLine(Position, Position + new Vector2(8f, 0f), Color.Red * 0.5f, 1f, 1f);
             }
             if (base.upBlock != null)
             {
-                Graphics.DrawLine(Position, Position + new Vec2(0f, -8f), Color.Red * 0.5f, 1f, 1f);
+                Graphics.DrawLine(Position, Position + new Vector2(0f, -8f), Color.Red * 0.5f, 1f, 1f);
             }
             if (base.downBlock != null)
             {
-                Graphics.DrawLine(Position, Position + new Vec2(0f, 8f), Color.Red * 0.5f, 1f, 1f);
+                Graphics.DrawLine(Position, Position + new Vector2(0f, 8f), Color.Red * 0.5f, 1f, 1f);
             }
         }
         if (hasBroke)
@@ -791,28 +792,28 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
             case 44:
             case 49:
             case 50:
-                collisionSize = new Vec2(verticalWidth, 16f);
-                collisionOffset = new Vec2((0f - verticalWidth) / 2f, -8f);
+                collisionSize = new Vector2(verticalWidth, 16f);
+                collisionOffset = new Vector2((0f - verticalWidth) / 2f, -8f);
                 break;
             case 37:
             case 43:
             case 45:
             case 52:
             case 60:
-                collisionSize = new Vec2(8f + verticalWidth / 2f, 16f);
-                collisionOffset = new Vec2(-8f, -8f);
+                collisionSize = new Vector2(8f + verticalWidth / 2f, 16f);
+                collisionOffset = new Vector2(-8f, -8f);
                 break;
             case 32:
             case 41:
             case 51:
             case 53:
             case 58:
-                collisionSize = new Vec2(8f + verticalWidth / 2f, 16f);
-                collisionOffset = new Vec2((0f - verticalWidth) / 2f, -8f);
+                collisionSize = new Vector2(8f + verticalWidth / 2f, 16f);
+                collisionOffset = new Vector2((0f - verticalWidth) / 2f, -8f);
                 break;
             default:
-                collisionSize = new Vec2(16f, 16f);
-                collisionOffset = new Vec2(-8f, -8f);
+                collisionSize = new Vector2(16f, 16f);
+                collisionOffset = new Vector2(-8f, -8f);
                 break;
         }
         switch (_sprite.frame)
@@ -876,14 +877,14 @@ public abstract class AutoBlock : Block, IAutoTile, IDontMove, IPathNodeBlocker
 
     public void FindFrame()
     {
-        up = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(base.X, base.Y - 16f), checkFilter);
-        down = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(base.X, base.Y + 16f), checkFilter);
-        bLeft = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(base.X - 16f, base.Y), checkFilter);
-        bRight = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(base.X + 16f, base.Y), checkFilter);
-        topbLeft = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(base.X - 16f, base.Y - 16f), checkFilter);
-        topbRight = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(base.X + 16f, base.Y - 16f), checkFilter);
-        bottombLeft = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(base.X - 16f, base.Y + 16f), checkFilter);
-        bottombRight = Level.current.QuadTreePointFilter<AutoBlock>(new Vec2(base.X + 16f, base.Y + 16f), checkFilter);
+        up = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(base.X, base.Y - 16f), checkFilter);
+        down = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(base.X, base.Y + 16f), checkFilter);
+        bLeft = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(base.X - 16f, base.Y), checkFilter);
+        bRight = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(base.X + 16f, base.Y), checkFilter);
+        topbLeft = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(base.X - 16f, base.Y - 16f), checkFilter);
+        topbRight = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(base.X + 16f, base.Y - 16f), checkFilter);
+        bottombLeft = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(base.X - 16f, base.Y + 16f), checkFilter);
+        bottombRight = Level.current.QuadTreePointFilter<AutoBlock>(new Vector2(base.X + 16f, base.Y + 16f), checkFilter);
         if (up != null)
         {
             if (bRight != null)

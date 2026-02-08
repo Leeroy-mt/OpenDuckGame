@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -6,9 +7,9 @@ public class GinormoScreen : Thing
 {
     private BitmapFont _font;
 
-    public static Vec2 GetSize(bool pSmall)
+    public static Vector2 GetSize(bool pSmall)
     {
-        return new Vec2(185f, 103f);
+        return new Vector2(185f, 103f);
     }
 
     public GinormoScreen(float xpos, float ypos, BoardMode mode)
@@ -17,7 +18,7 @@ public class GinormoScreen : Thing
         base.layer = Layer.Foreground;
         base.Depth = 0f;
         _font = new BitmapFont("biosFont", 8);
-        _collisionSize = new Vec2(184f, 102f);
+        _collisionSize = new Vector2(184f, 102f);
         List<Team> teams = new List<Team>();
         int index = 0;
         foreach (Team t in Teams.all)
@@ -36,7 +37,7 @@ public class GinormoScreen : Thing
             {
                 ySlot += 10f;
             }
-            GinormoCard c = new GinormoCard((float)index * 1f, new Vec2(300f, ySlot), new Vec2(base.X + (float)((mode == BoardMode.Points) ? 2 : 2), ySlot), t2, mode, index, smallMode);
+            GinormoCard c = new GinormoCard((float)index * 1f, new Vector2(300f, ySlot), new Vector2(base.X + (float)((mode == BoardMode.Points) ? 2 : 2), ySlot), t2, mode, index, smallMode);
             Level.current.AddThing(c);
             index++;
         }

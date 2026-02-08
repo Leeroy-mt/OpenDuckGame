@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,12 +79,12 @@ public class UnlockableHats : Unlockable
                 _persona[idx].sprite.color = Color.White;
                 Graphics.Draw(_persona[idx].sprite, 0, x - xOff + (float)(idx * 18), ypos);
                 _persona[idx].armSprite.frame = _persona[idx].sprite.imageIndex;
-                _persona[idx].armSprite.Scale = new Vec2(1f, 1f);
+                _persona[idx].armSprite.Scale = new Vector2(1f, 1f);
                 _persona[idx].armSprite.Depth = depth + 4;
                 Graphics.Draw(_persona[idx].armSprite, x - xOff + (float)(idx * 18) - 3f, ypos + 6f);
-                Vec2 offset = DuckRig.GetHatPoint(_persona[idx].sprite.imageIndex);
+                Vector2 offset = DuckRig.GetHatPoint(_persona[idx].sprite.imageIndex);
                 t.hat.Depth = depth + 2;
-                t.hat.Center = new Vec2(16f, 16f) + t.hatOffset;
+                t.hat.Center = new Vector2(16f, 16f) + t.hatOffset;
                 Graphics.Draw(t.hat, t.hat.frame, x - xOff + (float)(idx * 18) + offset.X, ypos + offset.Y);
             }
             idx++;

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -26,7 +27,7 @@ public class DCBulletHell : DeathCrateSetting
             {
                 float dir2 = (float)j * 22.5f;
                 Rando.Float(8f, 14f);
-                Level.Add(new QuadLaserBullet(c.X, c.Y, new Vec2((float)Math.Cos(Maths.DegToRad(dir2)), (float)(0.0 - Math.Sin(Maths.DegToRad(dir2))))));
+                Level.Add(new QuadLaserBullet(c.X, c.Y, new Vector2((float)Math.Cos(Maths.DegToRad(dir2)), (float)(0.0 - Math.Sin(Maths.DegToRad(dir2))))));
             }
             Level.Remove(c);
         }

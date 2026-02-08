@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -14,7 +15,7 @@ public class Warpgun : Gun
 
         public float glow = 1f;
 
-        public Vec2 pos;
+        public Vector2 pos;
     }
 
     public StateBinding _gravMultTimeBinding = new StateBinding(nameof(gravMultTime));
@@ -37,7 +38,7 @@ public class Warpgun : Gun
 
     public List<WarpLine> warpLines = new List<WarpLine>();
 
-    private Vec2 warpPos;
+    private Vector2 warpPos;
 
     private bool onUpdate;
 
@@ -49,7 +50,7 @@ public class Warpgun : Gun
 
     private float lerpShut;
 
-    private Vec2 _warpPoint;
+    private Vector2 _warpPoint;
 
     private float gravMultTime;
 
@@ -57,7 +58,7 @@ public class Warpgun : Gun
 
     private Duck lastDuck;
 
-    public new Vec2 laserOffset => Offset(new Vec2(16f, 9f) - Center + new Vec2(-15f, 1f));
+    public new Vector2 laserOffset => Offset(new Vector2(16f, 9f) - Center + new Vector2(-15f, 1f));
 
     public Warpgun(float xval, float yval)
         : base(xval, yval)
@@ -70,14 +71,14 @@ public class Warpgun : Gun
         _sprite = new SpriteMap("warpgun", 19, 17);
         _sprite.speed = 0f;
         graphic = _sprite;
-        Center = new Vec2(11f, 8f);
-        collisionOffset = new Vec2(-6f, -7f);
-        collisionSize = new Vec2(12f, 14f);
-        _barrelOffsetTL = new Vec2(14f, 4f);
+        Center = new Vector2(11f, 8f);
+        collisionOffset = new Vector2(-6f, -7f);
+        collisionSize = new Vector2(12f, 14f);
+        _barrelOffsetTL = new Vector2(14f, 4f);
         _fireSound = "warpgun";
         _kickForce = 0.3f;
         _fireRumble = RumbleIntensity.Kick;
-        _holdOffset = new Vec2(-1f, -2f);
+        _holdOffset = new Vector2(-1f, -2f);
         _editorName = "WAGNUS";
         editorTooltip = "Science can be horrifying *and* FUN!";
         physicsMaterial = PhysicsMaterial.Metal;
@@ -98,12 +99,12 @@ public class Warpgun : Gun
         {
             if (duckOwner is TargetDuck)
             {
-                Block hit = Level.CheckLine<Block>(Position + new Vec2((offDir > 0) ? (-16) : 16, 0f), duckOwner.Position + new Vec2((offDir > 0) ? (-16) : 16, 8f));
+                Block hit = Level.CheckLine<Block>(Position + new Vector2((offDir > 0) ? (-16) : 16, 0f), duckOwner.Position + new Vector2((offDir > 0) ? (-16) : 16, 8f));
                 duckOwner.holdObstructed = hit != null;
             }
             else
             {
-                Block hit2 = Level.CheckLine<Block>(duckOwner.Position + new Vec2((offDir > 0) ? (-10) : 10, 0f), duckOwner.Position + new Vec2((offDir > 0) ? (-10) : 10, 10f));
+                Block hit2 = Level.CheckLine<Block>(duckOwner.Position + new Vector2((offDir > 0) ? (-10) : 10, 0f), duckOwner.Position + new Vector2((offDir > 0) ? (-10) : 10, 10f));
                 duckOwner.holdObstructed = hit2 != null;
             }
         }
@@ -161,7 +162,7 @@ public class Warpgun : Gun
             for (int i = 0; i < 8; i++)
             {
                 float dir = (float)i * 45f - 5f + Rando.Float(20f);
-                Vec2 vec = new Vec2((float)Math.Cos(Maths.DegToRad(dir)), (float)Math.Sin(Maths.DegToRad(dir)));
+                Vector2 vec = new Vector2((float)Math.Cos(Maths.DegToRad(dir)), (float)Math.Sin(Maths.DegToRad(dir)));
                 if (Level.CheckLine<IPlatform>(Position, Position + vec * 32f, out var hitPos) != null)
                 {
                     blockGlows.Add(new BlockGlow
@@ -284,7 +285,7 @@ public class Warpgun : Gun
         {
             return;
         }
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         bool slide = false;
         if (base.duck != null)
         {
@@ -314,10 +315,10 @@ public class Warpgun : Gun
         {
             ang += (float)Math.PI;
         }
-        Vec2 final = Vec2.Zero;
+        Vector2 final = Vector2.Zero;
         float finalLen = 999999f;
         float middleLen = 999999f;
-        Vec2 centralDestNorm = Vec2.Zero;
+        Vector2 centralDestNorm = Vector2.Zero;
         Thing bottomCollide = null;
         float size = 7f;
         if (slide)
@@ -341,30 +342,30 @@ public class Warpgun : Gun
         }
         for (int i = 0; i < 3; i++)
         {
-            Vec2 destAim = new Vec2((float)Math.Cos(ang) * 134f, (float)(0.0 - Math.Sin(ang)) * 134f);
+            Vector2 destAim = new Vector2((float)Math.Cos(ang) * 134f, (float)(0.0 - Math.Sin(ang)) * 134f);
             if (Math.Abs(destAim.X) < 16f)
             {
                 size = 2f;
                 normSub = 8;
             }
             float off = 0f - size + (float)i * size;
-            Vec2 testPos = pos + new Vec2((float)Math.Cos((double)ang + Math.PI / 2.0) * off, (float)(0.0 - Math.Sin((double)ang + Math.PI / 2.0)) * off);
-            Vec2 dest = testPos - destAim;
-            Vec2 destNorm = -(testPos - dest).Normalized;
-            Vec2 hit = Vec2.Zero;
-            Thing b = Level.CheckRay<Desk>(testPos + destNorm * 8f, dest + new Vec2(0.2f, 0.2f), out hit);
+            Vector2 testPos = pos + new Vector2((float)Math.Cos((double)ang + Math.PI / 2.0) * off, (float)(0.0 - Math.Sin((double)ang + Math.PI / 2.0)) * off);
+            Vector2 dest = testPos - destAim;
+            Vector2 destNorm = -Vector2.Normalize(testPos - dest);
+            Vector2 hit = Vector2.Zero;
+            Thing b = Level.CheckRay<Desk>(testPos + destNorm * 8f, dest + new Vector2(0.2f, 0.2f), out hit);
             if (b != null && (b as Desk).flipped == 0)
             {
                 b = null;
             }
             if (b == null)
             {
-                b = Level.CheckRay<Block>(testPos, dest + new Vec2(0.2f, 0.2f), out hit);
+                b = Level.CheckRay<Block>(testPos, dest + new Vector2(0.2f, 0.2f), out hit);
             }
             if (b != null)
             {
-                Vec2 dif = testPos - (hit + destNorm * -normSub);
-                Vec2 set = (final = hit + destNorm * -normSub);
+                Vector2 dif = testPos - (hit + destNorm * -normSub);
+                Vector2 set = (final = hit + destNorm * -normSub);
                 if (i == 1)
                 {
                     middleLen = dif.Length();
@@ -407,7 +408,7 @@ public class Warpgun : Gun
         if (base.isServerForObject)
         {
             _ammoType.range = finalLen - 8f;
-            _barrelOffsetTL = new Vec2(8f, 3f);
+            _barrelOffsetTL = new Vector2(8f, 3f);
             Fire();
             if (Network.isActive)
             {
@@ -415,7 +416,7 @@ public class Warpgun : Gun
                 firedBullets.Clear();
             }
             _wait = 0f;
-            _barrelOffsetTL = new Vec2(8f, 15f);
+            _barrelOffsetTL = new Vector2(8f, 15f);
             Fire();
             if (Network.isActive)
             {
@@ -423,7 +424,7 @@ public class Warpgun : Gun
                 firedBullets.Clear();
             }
             _wait = 0f;
-            _barrelOffsetTL = new Vec2(8f, 9f);
+            _barrelOffsetTL = new Vector2(8f, 9f);
             Fire();
             if (Network.isActive)
             {
@@ -431,7 +432,7 @@ public class Warpgun : Gun
                 firedBullets.Clear();
             }
             _wait = 0f;
-            _barrelOffsetTL = new Vec2(8f, 4f);
+            _barrelOffsetTL = new Vector2(8f, 4f);
             if (base.duck != null)
             {
                 if (final.Y < base.duck.Y - 16f && Math.Abs(final.X - base.duck.X) < 16f)
@@ -446,12 +447,12 @@ public class Warpgun : Gun
                 base.duck.blendColor = Color.Purple;
                 warped = true;
                 gravMultTime = 1f;
-                Block b2 = Level.CheckLine<Block>(new Vec2(base.duck.Position.X, base.duck.bottom - 5f), new Vec2(base.duck.Position.X, base.duck.bottom - 2f));
+                Block b2 = Level.CheckLine<Block>(new Vector2(base.duck.Position.X, base.duck.bottom - 5f), new Vector2(base.duck.Position.X, base.duck.bottom - 2f));
                 if (b2 != null)
                 {
                     base.duck.bottom = b2.top;
                 }
-                IPlatform plat = Level.CheckLine<IPlatform>(new Vec2(base.duck.Position.X, base.duck.bottom - 2f), new Vec2(base.duck.Position.X, base.duck.bottom + 1f), bottomCollide);
+                IPlatform plat = Level.CheckLine<IPlatform>(new Vector2(base.duck.Position.X, base.duck.bottom - 2f), new Vector2(base.duck.Position.X, base.duck.bottom + 1f), bottomCollide);
                 if (plat != null && (plat as Thing).solid && (bottomCollide == null || bottomCollide.top < (plat as Thing).top - 0.5f))
                 {
                     base.duck.bottom = (plat as Thing).top;
@@ -513,16 +514,16 @@ public class Warpgun : Gun
     {
         foreach (BlockGlow b in blockGlows)
         {
-            Graphics.DrawTexturedLine(_warpLine.texture, b.pos, b.pos + new Vec2(0f, -4f), Color.Purple * b.glow, 0.25f, 0.9f);
-            Graphics.DrawTexturedLine(_warpLine.texture, b.pos, b.pos + new Vec2(0f, 4f), Color.Purple * b.glow, 0.25f, 0.9f);
+            Graphics.DrawTexturedLine(_warpLine.texture, b.pos, b.pos + new Vector2(0f, -4f), Color.Purple * b.glow, 0.25f, 0.9f);
+            Graphics.DrawTexturedLine(_warpLine.texture, b.pos, b.pos + new Vector2(0f, 4f), Color.Purple * b.glow, 0.25f, 0.9f);
             b.glow -= 0.05f;
         }
         blockGlows.RemoveAll((BlockGlow x) => x.glow < 0.01f);
         Color c = Color.Purple;
         foreach (WarpLine l in warpLines)
         {
-            Vec2 vec = l.start - l.end;
-            Vec2 vec2 = l.end - l.start;
+            Vector2 vec = l.start - l.end;
+            Vector2 vec2 = l.end - l.start;
             Graphics.DrawTexturedLine(_warpLine.texture, l.end + vec * (1f - l.lerp), l.end, c * 0.8f, l.wide / 32f, 0.9f);
             Graphics.DrawTexturedLine(_warpLine.texture, l.start + vec2 * l.lerp, l.start, c * 0.8f, l.wide / 32f, 0.9f);
             l.lerp += 0.1f;
@@ -532,8 +533,8 @@ public class Warpgun : Gun
         {
             if (gravMultTime > 0f)
             {
-                Graphics.DrawTexturedLine(_warpLine.texture, new Vec2(base.duck.X, base.duck.Y), new Vec2(base.duck.X, base.duck.top - 8f), c * (gravMultTime + 0.2f), 0.7f, 0.9f);
-                Graphics.DrawTexturedLine(_warpLine.texture, new Vec2(base.duck.X, base.duck.Y), new Vec2(base.duck.X, base.duck.bottom + 8f), c * (gravMultTime + 0.2f), 0.7f, 0.9f);
+                Graphics.DrawTexturedLine(_warpLine.texture, new Vector2(base.duck.X, base.duck.Y), new Vector2(base.duck.X, base.duck.top - 8f), c * (gravMultTime + 0.2f), 0.7f, 0.9f);
+                Graphics.DrawTexturedLine(_warpLine.texture, new Vector2(base.duck.X, base.duck.Y), new Vector2(base.duck.X, base.duck.bottom + 8f), c * (gravMultTime + 0.2f), 0.7f, 0.9f);
             }
             if (shotsSinceGrounded < maxUngroundedShots || (bool)infinite)
             {
@@ -542,18 +543,18 @@ public class Warpgun : Gun
                 {
                     ang += (float)Math.PI;
                 }
-                Vec2 pos = laserOffset;
-                Vec2 dest = pos - new Vec2((float)Math.Cos(ang) * 122f, (float)(0.0 - Math.Sin(ang)) * 122f);
-                Vec2 destNorm = -(pos - dest).Normalized;
-                Vec2 hit = Vec2.Zero;
-                if (Level.CheckRay<Block>(pos, dest + new Vec2(0.2f, 0.2f), out hit) != null)
+                Vector2 pos = laserOffset;
+                Vector2 dest = pos - new Vector2((float)Math.Cos(ang) * 122f, (float)(0.0 - Math.Sin(ang)) * 122f);
+                Vector2 destNorm = -Vector2.Normalize(pos - dest);
+                Vector2 hit = Vector2.Zero;
+                if (Level.CheckRay<Block>(pos, dest + new Vector2(0.2f, 0.2f), out hit) != null)
                 {
                     _warpPoint = hit + destNorm * -9f;
                     dest = hit;
                 }
                 else
                 {
-                    _warpPoint = dest + new Vec2(-5f, 0f);
+                    _warpPoint = dest + new Vector2(-5f, 0f);
                 }
                 Graphics.DrawTexturedLine(_laserTex, pos, dest, Color.Red, 0.5f, base.Depth - 1);
                 if (_sightHit != null)

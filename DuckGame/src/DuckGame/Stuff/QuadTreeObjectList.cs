@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ public class QuadTreeObjectList : IEnumerable<Thing>, IEnumerable
 
     private MultiMap<Type, Thing, HashSet<Thing>> _allObjectsByType = new MultiMap<Type, Thing, HashSet<Thing>>();
 
-    private QuadTree _quadTree = new QuadTree(4, new Vec2(-2304f, -2304f), 4608f, 64);
+    private QuadTree _quadTree = new QuadTree(4, new Vector2(-2304f, -2304f), 4608f, 64);
 
     private List<CollisionIsland> _islands = new List<CollisionIsland>();
 
@@ -71,12 +72,12 @@ public class QuadTreeObjectList : IEnumerable<Thing>, IEnumerable
         _bigList = new HashSet<Thing>(_bigList.OrderBy((Thing x) => Rando.Int(999999)).ToList());
     }
 
-    public List<CollisionIsland> GetIslands(Vec2 point)
+    public List<CollisionIsland> GetIslands(Vector2 point)
     {
         List<CollisionIsland> isle = new List<CollisionIsland>();
         foreach (CollisionIsland i in _islands)
         {
-            if (!i.willDie && (point - i.owner.Position).lengthSq < i.radiusSquared)
+            if (!i.willDie && (point - i.owner.Position).LengthSquared() < i.radiusSquared)
             {
                 isle.Add(i);
             }
@@ -84,12 +85,12 @@ public class QuadTreeObjectList : IEnumerable<Thing>, IEnumerable
         return isle;
     }
 
-    public List<CollisionIsland> GetIslandsForCollisionCheck(Vec2 point)
+    public List<CollisionIsland> GetIslandsForCollisionCheck(Vector2 point)
     {
         List<CollisionIsland> isle = new List<CollisionIsland>();
         foreach (CollisionIsland i in _islands)
         {
-            if (!i.willDie && (point - i.owner.Position).lengthSq < i.radiusCheckSquared)
+            if (!i.willDie && (point - i.owner.Position).LengthSquared() < i.radiusCheckSquared)
             {
                 isle.Add(i);
             }
@@ -97,11 +98,11 @@ public class QuadTreeObjectList : IEnumerable<Thing>, IEnumerable
         return isle;
     }
 
-    public CollisionIsland GetIsland(Vec2 point, CollisionIsland ignore = null)
+    public CollisionIsland GetIsland(Vector2 point, CollisionIsland ignore = null)
     {
         foreach (CollisionIsland i in _islands)
         {
-            if (!i.willDie && i != ignore && (point - i.owner.Position).lengthSq < i.radiusSquared)
+            if (!i.willDie && i != ignore && (point - i.owner.Position).LengthSquared() < i.radiusSquared)
             {
                 return i;
             }
@@ -194,12 +195,12 @@ public class QuadTreeObjectList : IEnumerable<Thing>, IEnumerable
         return _emptyList;
     }
 
-    private IEnumerable<Thing> GetIslandObjects(Type t, Vec2 pos, float radiusSq)
+    private IEnumerable<Thing> GetIslandObjects(Type t, Vector2 pos, float radiusSq)
     {
         IEnumerable<Thing> things = new List<Thing>();
         foreach (CollisionIsland i in _islands)
         {
-            if ((i.owner.Position - pos).lengthSq - radiusSq < i.radiusCheckSquared)
+            if ((i.owner.Position - pos).LengthSquared() - radiusSq < i.radiusCheckSquared)
             {
                 things = things.Concat(i.things);
             }

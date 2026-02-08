@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Special|Arcade", EditorItemType.Arcade)]
@@ -52,9 +54,9 @@ public class PrizeTable : Thing
         _outline = new Sprite("arcade/prizeCounterOutline");
         _outline.Depth = base.Depth + 1;
         _outline.CenterOrigin();
-        Center = new Vec2(_sprite.width / 2, _sprite.h / 2);
-        _collisionSize = new Vec2(16f, 15f);
-        _collisionOffset = new Vec2(-8f, 0f);
+        Center = new Vector2(_sprite.width / 2, _sprite.h / 2);
+        _collisionSize = new Vector2(16f, 15f);
+        _collisionOffset = new Vector2(-8f, 0f);
         _light = new SpriteMap("arcade/prizeLights", 107, 55);
         _fixture = new Sprite("arcade/bigFixture");
         _prizes = new Sprite("arcade/prizes");
@@ -97,7 +99,7 @@ public class PrizeTable : Thing
         }
         if (_hasEligibleChallenges)
         {
-            Vec2 hoverOffset = new Vec2(40f, 0f);
+            Vector2 hoverOffset = new Vector2(40f, 0f);
             d = Level.Nearest<Duck>(base.X + hoverOffset.X, base.Y + hoverOffset.Y);
             if (d != null)
             {
@@ -131,11 +133,11 @@ public class PrizeTable : Thing
         Graphics.Draw(_light, base.X - 53f, base.Y - 40f);
         if (Chancy.atCounter && !(Level.current is Editor))
         {
-            Vec2 offset = new Vec2(32f, -15f);
+            Vector2 offset = new Vector2(32f, -15f);
             Chancy.body.flipH = true;
             if (_hasEligibleChallenges)
             {
-                offset = new Vec2(42f, -10f);
+                offset = new Vector2(42f, -10f);
                 Chancy.body.flipH = false;
             }
             Chancy.body.Depth = base.Depth - 6;

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Lasers")]
@@ -22,18 +24,18 @@ public class PewPewLaser : Gun
         _ammoType = new ATPewPew();
         _type = "gun";
         graphic = new Sprite("pewpewLaser");
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(16f, 7f);
-        _barrelOffsetTL = new Vec2(31f, 15f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(16f, 7f);
+        _barrelOffsetTL = new Vector2(31f, 15f);
         _fireSound = "laserRifle";
         _fullAuto = true;
         _fireWait = 2f;
         _kickForce = 1f;
         _fireRumble = RumbleIntensity.Kick;
-        _holdOffset = new Vec2(0f, 0f);
+        _holdOffset = new Vector2(0f, 0f);
         _flare = new SpriteMap("laserFlare", 16, 16);
-        _flare.Center = new Vec2(0f, 8f);
+        _flare.Center = new Vector2(0f, 8f);
         editorTooltip = "Quick-fire laser beam of ULTIMATE DESTRUCTION... with an adorable wittle name.";
     }
 

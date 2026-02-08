@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Linq;
 
 namespace DuckGame;
@@ -14,13 +15,13 @@ public class SnowGenerator : Thing
     {
         _editorName = "Snow Machine";
         graphic = new Sprite("snowGenerator");
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         base.Depth = 0.55f;
         _visibleInGame = false;
         snowWait = Rando.Float(4f);
         editorTooltip = "Let it snow!";
         solid = false;
-        _collisionSize = new Vec2(0f, 0f);
+        _collisionSize = new Vector2(0f, 0f);
         maxPlaceable = 32;
     }
 
@@ -52,7 +53,7 @@ public class SnowGenerator : Thing
         if (snowWait <= 0f)
         {
             snowWait = Rando.Float(2f, 4f);
-            Level.Add(new SnowFallParticle(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-8f, 8f), new Vec2(0f, 0f)));
+            Level.Add(new SnowFallParticle(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-8f, 8f), new Vector2(0f, 0f)));
         }
         base.Update();
     }

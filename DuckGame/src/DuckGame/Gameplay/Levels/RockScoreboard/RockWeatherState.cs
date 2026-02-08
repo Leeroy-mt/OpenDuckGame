@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class RockWeatherState
@@ -8,7 +10,7 @@ public class RockWeatherState
 
     public Vec3 sky;
 
-    public Vec2 sunPos;
+    public Vector2 sunPos;
 
     public float lightOpacity;
 

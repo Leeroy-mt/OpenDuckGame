@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -16,7 +17,7 @@ public class Touch
 
     public bool canBeDrag = true;
 
-    public Vec2 originalPosition;
+    public Vector2 originalPosition;
 
     public bool drag
     {
@@ -34,25 +35,25 @@ public class Touch
         }
     }
 
-    public Vec2 positionCamera
+    public Vector2 positionCamera
     {
         get
         {
             if (data == null)
             {
-                return Vec2.Zero;
+                return Vector2.Zero;
             }
             return Transform(Level.current.camera);
         }
     }
 
-    public Vec2 positionHUD
+    public Vector2 positionHUD
     {
         get
         {
             if (data == null)
             {
-                return Vec2.Zero;
+                return Vector2.Zero;
             }
             return Transform(Layer.HUD.camera);
         }
@@ -67,20 +68,20 @@ public class Touch
         data = pData;
     }
 
-    public Vec2 Transform(Camera pCamera)
+    public Vector2 Transform(Camera pCamera)
     {
         if (data != null)
         {
             return pCamera.transformScreenVector(data.touchXY);
         }
-        return Vec2.Zero;
+        return Vector2.Zero;
     }
 
-    public Vec2 TransformGrid(Camera pCamera, float pCellSize)
+    public Vector2 TransformGrid(Camera pCamera, float pCellSize)
     {
-        Vec2 viewCoords = new Vec2(-1f, -1f);
+        Vector2 viewCoords = new Vector2(-1f, -1f);
         viewCoords = Transform(pCamera);
-        if (viewCoords != new Vec2(-1f, -1f))
+        if (viewCoords != new Vector2(-1f, -1f))
         {
             viewCoords.X = (float)Math.Round(viewCoords.X / pCellSize) * pCellSize;
             viewCoords.Y = (float)Math.Round(viewCoords.Y / pCellSize) * pCellSize;

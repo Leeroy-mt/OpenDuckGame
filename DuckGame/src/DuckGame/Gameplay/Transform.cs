@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 /// <summary>
@@ -8,7 +10,7 @@ public abstract class Transform
     #region Public Fields
     public float AngleValue;
 
-    public Vec2 CenterValue;
+    public Vector2 CenterValue;
     #endregion
 
     #region Public Properties
@@ -66,14 +68,14 @@ public abstract class Transform
 
     public Depth Depth { get; set; } = new(0);
 
-    public Vec2 Position { get; set; }
+    public Vector2 Position { get; set; }
 
-    public virtual Vec2 Center
+    public virtual Vector2 Center
     {
         get => CenterValue;
         set => CenterValue = value;
     }
 
-    public Vec2 Scale { get; set; } = new(1);
+    public Vector2 Scale { get; set; } = new(1);
     #endregion
 }

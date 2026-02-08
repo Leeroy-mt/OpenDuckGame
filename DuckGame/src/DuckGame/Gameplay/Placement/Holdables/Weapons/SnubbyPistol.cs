@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Pistols")]
@@ -42,14 +44,14 @@ public class SnubbyPistol : Gun
         _type = "gun";
         _sprite = new SpriteMap("snubby", 14, 10);
         graphic = _sprite;
-        Center = new Vec2(7f, 4f);
-        collisionOffset = new Vec2(-7f, -4f);
-        collisionSize = new Vec2(14f, 9f);
-        _barrelOffsetTL = new Vec2(13f, 3f);
+        Center = new Vector2(7f, 4f);
+        collisionOffset = new Vector2(-7f, -4f);
+        collisionSize = new Vector2(14f, 9f);
+        _barrelOffsetTL = new Vector2(13f, 3f);
         _fireSound = "snubbyFire";
         _kickForce = 0f;
         _fireRumble = RumbleIntensity.Kick;
-        _holdOffset = new Vec2(-1f, -1f);
+        _holdOffset = new Vector2(-1f, -1f);
         _loaded = true;
         editorTooltip = "The world's most adorable gun.";
     }

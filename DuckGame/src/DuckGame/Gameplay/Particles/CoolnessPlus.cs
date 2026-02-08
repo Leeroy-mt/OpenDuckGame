@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class CoolnessPlus : Thing
@@ -41,7 +43,7 @@ public class CoolnessPlus : Thing
         _font = new BitmapFont("biosFont", 8);
         change = c;
         base.anchor = d;
-        base.anchor.offset = new Vec2(-0f, -24f);
+        base.anchor.offset = new Vector2(-0f, -24f);
         _profile = d.profile;
     }
 

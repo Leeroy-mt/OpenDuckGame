@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,11 @@ public class ContextMenu : Thing, IContextListener
 
     protected List<ContextMenu> _items = new List<ContextMenu>();
 
-    public Vec2 menuSize;
+    public Vector2 menuSize;
 
     protected Sprite _contextArrow;
 
-    public Vec2 itemSize;
+    public Vector2 itemSize;
 
     public bool isModRoot;
 
@@ -71,7 +72,7 @@ public class ContextMenu : Thing, IContextListener
 
     protected new IContextListener _owner;
 
-    public Vec2 offset;
+    public Vector2 offset;
 
     protected Sprite _image;
 
@@ -85,7 +86,7 @@ public class ContextMenu : Thing, IContextListener
 
     private bool _hasToproot;
 
-    public Vec2 _toprootPosition;
+    public Vector2 _toprootPosition;
 
     private bool _hoverBackArrow;
 
@@ -101,7 +102,7 @@ public class ContextMenu : Thing, IContextListener
 
     public bool closeOnRight;
 
-    protected Vec2 _lastDrawPos;
+    protected Vector2 _lastDrawPos;
 
     public int _autoSelectItem = -1;
 
@@ -197,11 +198,11 @@ public class ContextMenu : Thing, IContextListener
         {
             if (!_opened && value)
             {
-                _lastDrawPos = Vec2.Zero;
+                _lastDrawPos = Vector2.Zero;
                 pinOpened = false;
                 foreach (ContextMenu item in _items)
                 {
-                    item._lastDrawPos = Vec2.Zero;
+                    item._lastDrawPos = Vector2.Zero;
                     item.opened = false;
                     item._hover = false;
                     if (item.pinned && !Editor.ignorePinning)
@@ -338,7 +339,7 @@ public class ContextMenu : Thing, IContextListener
     {
     }
 
-    public ContextMenu(IContextListener owner, SpriteMap img = null, bool hasToproot = false, Vec2 topRoot = default(Vec2))
+    public ContextMenu(IContextListener owner, SpriteMap img = null, bool hasToproot = false, Vector2 topRoot = default(Vector2))
     {
         _owner = owner;
         if (Level.current is Editor)
@@ -424,11 +425,11 @@ public class ContextMenu : Thing, IContextListener
         {
             return;
         }
-        Vec2 pos = new Vec2(base.X, base.Y);
-        Vec2 offset = new Vec2(0f, 0f);
+        Vector2 pos = new Vector2(base.X, base.Y);
+        Vector2 offset = new Vector2(0f, 0f);
         if (!_root && !dontPush)
         {
-            offset = new Vec2(itemSize.X + 4f, -2f);
+            offset = new Vector2(itemSize.X + 4f, -2f);
         }
         pos += offset;
         bool adjusted = false;
@@ -568,7 +569,7 @@ public class ContextMenu : Thing, IContextListener
             {
                 return;
             }
-            Vec2 realPos = _lastDrawPos;
+            Vector2 realPos = _lastDrawPos;
             if (opened)
             {
                 if (Editor.inputMode == EditorInput.Touch && TouchScreen.GetTap().Check(new Rectangle(_lastDrawPos.X, _lastDrawPos.Y, _lastDrawPos.X + menuSize.X, _lastDrawPos.Y + menuSize.Y), base.layer.camera) && !pinOpened)
@@ -577,9 +578,9 @@ public class ContextMenu : Thing, IContextListener
                 }
                 if (!pinOpened)
                 {
-                    Vec2 pinTL = new Vec2(realPos.X + menuSize.X - 5f, realPos.Y - 4f);
+                    Vector2 pinTL = new Vector2(realPos.X + menuSize.X - 5f, realPos.Y - 4f);
                     _hoverPin = false;
-                    Vec2 selectPos = Vec2.Zero;
+                    Vector2 selectPos = Vector2.Zero;
                     bool press = false;
                     if (Editor.inputMode == EditorInput.Mouse)
                     {
@@ -680,13 +681,13 @@ public class ContextMenu : Thing, IContextListener
                             }
                         }
                     }
-                    Vec2 backButtonSize = new Vec2(12f, 12f);
+                    Vector2 backButtonSize = new Vector2(12f, 12f);
                     if (Editor.inputMode == EditorInput.Touch)
                     {
-                        backButtonSize = new Vec2(24f, 24f);
+                        backButtonSize = new Vector2(24f, 24f);
                     }
-                    Vec2 backButtonTL = realPos + new Vec2(0f - (backButtonSize.X + 2f), 0f);
-                    Vec2 backButtonBR = realPos + new Vec2(-2f, backButtonSize.Y);
+                    Vector2 backButtonTL = realPos + new Vector2(0f - (backButtonSize.X + 2f), 0f);
+                    Vector2 backButtonBR = realPos + new Vector2(-2f, backButtonSize.Y);
                     _hoverBackArrow = false;
                     if (selectPos.X > backButtonTL.X && selectPos.X < backButtonBR.X && selectPos.Y > backButtonTL.Y && selectPos.Y < backButtonBR.Y)
                     {
@@ -1056,23 +1057,23 @@ public class ContextMenu : Thing, IContextListener
                     _image.Y = base.Y;
                     _image.color = Color.White * cMult;
                     _image.Draw();
-                    Graphics.DrawString(_text, Position + new Vec2(20f, 4f), Color.White * cMult, base.Depth + 1);
+                    Graphics.DrawString(_text, Position + new Vector2(20f, 4f), Color.White * cMult, base.Depth + 1);
                 }
                 else if (_text == "custom")
                 {
-                    Graphics.DrawString(_text, Position + new Vec2(2f, 4f), Colors.DGBlue * cMult, base.Depth + 1);
+                    Graphics.DrawString(_text, Position + new Vector2(2f, 4f), Colors.DGBlue * cMult, base.Depth + 1);
                 }
                 else if (fancy)
                 {
                     float xOff = 0f;
                     if (customIcon != null)
                     {
-                        Vec2 pos = Position + new Vec2(2f, 4f);
+                        Vector2 pos = Position + new Vector2(2f, 4f);
                         Graphics.Draw(customIcon.texture, pos.X, pos.Y, 1f, 1f, base.Depth + 1);
                         xOff += 8f;
                     }
-                    Graphics.DrawFancyString(_text, Position + new Vec2(2f + xOff, 4f), Color.White * cMult, base.Depth + 1);
-                    Vec2 previewPos = Position + new Vec2(itemSize.X - 24f, 0f);
+                    Graphics.DrawFancyString(_text, Position + new Vector2(2f + xOff, 4f), Color.White * cMult, base.Depth + 1);
+                    Vector2 previewPos = Position + new Vector2(itemSize.X - 24f, 0f);
                     int numDraw = 0;
                     for (int i = 0; i < 3; i++)
                     {
@@ -1105,7 +1106,7 @@ public class ContextMenu : Thing, IContextListener
                                         s.Depth = base.Depth + 3;
                                         s.X = previewPos.X + 1f;
                                         s.Y = previewPos.Y;
-                                        s.Scale = new Vec2(0.5f);
+                                        s.Scale = new Vector2(0.5f);
                                         s.Draw();
                                         previewPos.X += 8f;
                                         numDraw++;
@@ -1130,7 +1131,7 @@ public class ContextMenu : Thing, IContextListener
                 }
                 else
                 {
-                    Graphics.DrawString(_text, Position + new Vec2(2f, 4f), Color.White * cMult, base.Depth + 1);
+                    Graphics.DrawString(_text, Position + new Vector2(2f, 4f), Color.White * cMult, base.Depth + 1);
                 }
                 if (_items.Count > 0)
                 {
@@ -1147,15 +1148,15 @@ public class ContextMenu : Thing, IContextListener
                 UpdatePositioning();
                 float menuWidth = menuSize.X;
                 float menuHeight = menuSize.Y;
-                Vec2 pos2 = new Vec2(base.X + _openedOffsetX, base.Y + _openedOffset) + new Vec2(-2f, -2f);
+                Vector2 pos2 = new Vector2(base.X + _openedOffsetX, base.Y + _openedOffset) + new Vector2(-2f, -2f);
                 if (!_root && !dontPush)
                 {
                     pos2.X += itemSize.X + 6f;
                 }
                 if (_showBackground)
                 {
-                    Graphics.DrawRect(pos2, pos2 + new Vec2(menuWidth, menuHeight), new Color(70, 70, 70) * base.Alpha, base.Depth);
-                    Graphics.DrawRect(pos2 + new Vec2(1f, 1f), pos2 + new Vec2(menuWidth - 1f, menuHeight - 1f), new Color(30, 30, 30) * base.Alpha, base.Depth + 1);
+                    Graphics.DrawRect(pos2, pos2 + new Vector2(menuWidth, menuHeight), new Color(70, 70, 70) * base.Alpha, base.Depth);
+                    Graphics.DrawRect(pos2 + new Vector2(1f, 1f), pos2 + new Vector2(menuWidth - 1f, menuHeight - 1f), new Color(30, 30, 30) * base.Alpha, base.Depth + 1);
                     _lastDrawPos = pos2;
                     if (_items.Count > 0 && isPinnable && (!_root || pinned))
                     {
@@ -1173,27 +1174,27 @@ public class ContextMenu : Thing, IContextListener
                         {
                             pin.Alpha = 0.5f;
                         }
-                        Vec2 pinTL = new Vec2(pos2.X + menuWidth - 5f, pos2.Y - 4f);
+                        Vector2 pinTL = new Vector2(pos2.X + menuWidth - 5f, pos2.Y - 4f);
                         Graphics.Draw(pin, pinTL.X, pinTL.Y);
-                        Vec2 pinBackTL = pinTL + new Vec2(-6f, -6f);
-                        Vec2 pinBackBR = pinBackTL + new Vec2(11f, 11f);
+                        Vector2 pinBackTL = pinTL + new Vector2(-6f, -6f);
+                        Vector2 pinBackBR = pinBackTL + new Vector2(11f, 11f);
                         if (Editor.inputMode == EditorInput.Gamepad && _takingInput)
                         {
                             pinBackTL.X -= 10f;
                         }
                         Graphics.DrawRect(pinBackTL, pinBackBR, new Color(70, 70, 70) * base.Alpha, base.Depth);
-                        Graphics.DrawRect(pinBackTL + new Vec2(1f, 1f), pinBackBR + new Vec2(-1f, 0f), new Color(30, 30, 30) * base.Alpha, base.Depth + 1);
+                        Graphics.DrawRect(pinBackTL + new Vector2(1f, 1f), pinBackBR + new Vector2(-1f, 0f), new Color(30, 30, 30) * base.Alpha, base.Depth + 1);
                         if (_owner != null && _owner is ContextMenu && (_owner as ContextMenu).pinOpened)
                         {
-                            Vec2 backButtonSize = new Vec2(12f, 12f);
+                            Vector2 backButtonSize = new Vector2(12f, 12f);
                             if (Editor.bigInterfaceMode)
                             {
-                                backButtonSize = new Vec2(24f, 24f);
+                                backButtonSize = new Vector2(24f, 24f);
                             }
-                            Vec2 backButtonTL = pos2 + new Vec2(0f - (backButtonSize.X + 2f), 0f);
-                            Vec2 backButtonBR = pos2 + new Vec2(-2f, backButtonSize.Y);
+                            Vector2 backButtonTL = pos2 + new Vector2(0f - (backButtonSize.X + 2f), 0f);
+                            Vector2 backButtonBR = pos2 + new Vector2(-2f, backButtonSize.Y);
                             Graphics.DrawRect(backButtonTL, backButtonBR, new Color(70, 70, 70) * base.Alpha, base.Depth);
-                            Graphics.DrawRect(backButtonTL + new Vec2(1f, 1f), backButtonBR + new Vec2(-1f, -1f), new Color(30, 30, 30) * base.Alpha, base.Depth + 1);
+                            Graphics.DrawRect(backButtonTL + new Vector2(1f, 1f), backButtonBR + new Vector2(-1f, -1f), new Color(30, 30, 30) * base.Alpha, base.Depth + 1);
                             _contextArrow.flipH = true;
                             _contextArrow.Depth = base.Depth + 2;
                             if (_hoverBackArrow)
@@ -1246,18 +1247,18 @@ public class ContextMenu : Thing, IContextListener
                     {
                         inputText += "  @LEFT@BACK";
                     }
-                    Graphics.DrawRect(pos2 + new Vec2(0f, menuHeight), pos2 + new Vec2(menuWidth, menuHeight + 15f), Color.Black * base.Alpha, base.Depth);
-                    Graphics.DrawString(inputText, pos2 + new Vec2(0f, menuHeight + 4f), Color.White * base.Alpha, base.Depth + 1);
+                    Graphics.DrawRect(pos2 + new Vector2(0f, menuHeight), pos2 + new Vector2(menuWidth, menuHeight + 15f), Color.Black * base.Alpha, base.Depth);
+                    Graphics.DrawString(inputText, pos2 + new Vector2(0f, menuHeight + 4f), Color.White * base.Alpha, base.Depth + 1);
                     if (isPinnable && (!_root || pinned))
                     {
-                        Graphics._biosFont.spriteScale = new Vec2(0.75f);
-                        Graphics.DrawString("@MENU1@", pos2 + new Vec2(menuSize.X - 20f, -7f), Color.White * base.Alpha, base.Depth + 4, null, 0.5f);
-                        Graphics._biosFont.spriteScale = new Vec2(1f);
+                        Graphics._biosFont.spriteScale = new Vector2(0.75f);
+                        Graphics.DrawString("@MENU1@", pos2 + new Vector2(menuSize.X - 20f, -7f), Color.White * base.Alpha, base.Depth + 4, null, 0.5f);
+                        Graphics._biosFont.spriteScale = new Vector2(1f);
                     }
                 }
                 if (_hasToproot && !dontPush)
                 {
-                    Graphics.DrawRect(_toprootPosition, _toprootPosition + new Vec2(16f, 32f), new Color(70, 70, 70) * base.Alpha, base.Depth - 4);
+                    Graphics.DrawRect(_toprootPosition, _toprootPosition + new Vector2(16f, 32f), new Color(70, 70, 70) * base.Alpha, base.Depth - 4);
                 }
             }
             int index = 0;

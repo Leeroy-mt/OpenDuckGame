@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -6,14 +7,14 @@ public class RainParticle : WeatherParticle
 {
     public static SpriteMap splash;
 
-    private Vec2 _prevPos;
+    private Vector2 _prevPos;
 
     private float _frame;
 
-    public RainParticle(Vec2 pos)
+    public RainParticle(Vector2 pos)
         : base(pos)
     {
-        velocity = new Vec2(Rando.Float(-1.2f, -1.4f), Rando.Float(3.3f, 4f));
+        velocity = new Vector2(Rando.Float(-1.2f, -1.4f), Rando.Float(3.3f, 4f));
         zSpeed = Rando.Float(-0.1f, 0.1f);
     }
 
@@ -32,10 +33,10 @@ public class RainParticle : WeatherParticle
             {
                 alpha = 0f;
             }
-            Vec2 pos = position;
+            Vector2 pos = position;
             Vec3 newPos = new Vec3(pos.X, z, pos.Y);
             newPos = new Viewport(0, 0, (int)Layer.HUD.width, (int)Layer.HUD.height).Project(newPos, Layer.Game.projection, Layer.Game.view, Matrix.Identity);
-            position = new Vec2(newPos.x, newPos.y);
+            position = new Vector2(newPos.x, newPos.y);
             float znorm = z / 200f;
             splash.Depth = -0.02f + znorm * 0.1f;
             splash.color = Color.White * 0.8f;
@@ -44,10 +45,10 @@ public class RainParticle : WeatherParticle
         }
         else
         {
-            Vec2 pos2 = position;
+            Vector2 pos2 = position;
             Vec3 newPos2 = new Vec3(pos2.X, z, pos2.Y);
             newPos2 = new Viewport(0, 0, (int)Layer.HUD.width, (int)Layer.HUD.height).Project(newPos2, Layer.Game.projection, Layer.Game.view, Matrix.Identity);
-            position = new Vec2(newPos2.x, newPos2.y);
+            position = new Vector2(newPos2.x, newPos2.y);
             float znorm2 = z / 200f;
             Graphics.DrawLine(position, _prevPos, Color.White * 0.8f, 1f, -0.02f + znorm2 * 0.1f);
             _prevPos = position;

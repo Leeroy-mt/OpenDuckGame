@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -141,7 +142,7 @@ public class UILevelBox : UIMenu
 
     UILevelBoxState _state;
 
-    Vec2 littleManPos;
+    Vector2 littleManPos;
 
     MenuBoolean _menuBool = new();
     ConstantSound _sound = new("chainsawIdle", 0, 0, "chainsawIdleMulti");
@@ -239,7 +240,7 @@ public class UILevelBox : UIMenu
         _frames.Add(new Sprite("levWindow_lev6"));
         _frames[^1].CenterOrigin();
         _barFront = new Sprite("online/barFront");
-        _barFront.Center = new Vec2(_barFront.w, 0);
+        _barFront.Center = new Vector2(_barFront.w, 0);
         _addXPBar = new Sprite("online/xpAddBar");
         _addXPBar.CenterOrigin();
         _bigFont = new BitmapFont("intermissionFont", 24, 23);
@@ -969,8 +970,8 @@ public class UILevelBox : UIMenu
                         {
                             _hearts.Add(new LittleHeart
                             {
-                                position = littleManPos + new Vec2(8 + Rando.Float(-4, 4), 8 + Rando.Float(-6, 6)),
-                                velocity = new Vec2(0, Rando.Float(-0.2f, -0.4f))
+                                position = littleManPos + new Vector2(8 + Rando.Float(-4, 4), 8 + Rando.Float(-6, 6)),
+                                velocity = new Vector2(0, Rando.Float(-0.2f, -0.4f))
                             });
                         }
                         _burp = true;
@@ -1037,7 +1038,7 @@ public class UILevelBox : UIMenu
             return;
         }
         _showCard = false;
-        Vec2 target = new(X - 80, Y - 10);
+        Vector2 target = new(X - 80, Y - 10);
         if (!open)
             return;
 
@@ -1410,9 +1411,9 @@ public class UILevelBox : UIMenu
                         {
                             _particles.Add(new XPPlus
                             {
-                                position = new Vec2(X - 72, Y - 58),
-                                velocity = new Vec2(-Rando.Float(3, 6), -Rando.Float(1, 4)),
-                                target = target + new Vec2(0, fullYOffset),
+                                position = new Vector2(X - 72, Y - 58),
+                                velocity = new Vector2(-Rando.Float(3, 6), -Rando.Float(1, 4)),
+                                target = target + new Vector2(0, fullYOffset),
                                 color = Colors.DGGreen
                             });
                         }
@@ -1420,9 +1421,9 @@ public class UILevelBox : UIMenu
                         {
                             _particles.Add(new XPPlus
                             {
-                                position = new Vec2(X - 72, Y - 58),
-                                velocity = new Vec2(-Rando.Float(3, 6), -Rando.Float(1, 4)),
-                                target = target + new Vec2(0, 10 + fullYOffset),
+                                position = new Vector2(X - 72, Y - 58),
+                                velocity = new Vector2(-Rando.Float(3, 6), -Rando.Float(1, 4)),
+                                target = target + new Vector2(0, 10 + fullYOffset),
                                 color = Colors.DGRed
                             });
                         }
@@ -1430,9 +1431,9 @@ public class UILevelBox : UIMenu
                         {
                             _particles.Add(new XPPlus
                             {
-                                position = new Vec2(X - 72, Y - 58),
-                                velocity = new Vec2(-Rando.Float(3, 6), -Rando.Float(1, 4)),
-                                target = target + new Vec2(0, 20 + fullYOffset),
+                                position = new Vector2(X - 72, Y - 58),
+                                velocity = new Vector2(-Rando.Float(3, 6), -Rando.Float(1, 4)),
+                                target = target + new Vector2(0, 20 + fullYOffset),
                                 color = Colors.DGBlue
                             });
                         }
@@ -1489,7 +1490,7 @@ public class UILevelBox : UIMenu
             }
         }
         int c = _particles.Count;
-        _particles.RemoveAll(part => (part.position - part.target).lengthSq < 64);
+        _particles.RemoveAll(part => (part.position - part.target).LengthSquared() < 64);
         if (_particles.Count != c)
             _firstParticleIn = true;
         if (_xpValue >= DuckNetwork.GetLevel(_desiredLevel + 1).xpRequired && _currentLevel != 20)
@@ -1534,7 +1535,7 @@ public class UILevelBox : UIMenu
             offsetLevbar = 63;
         if (_currentLevel >= 7)
             offsetLevbar = 75;
-        Vec2 addBarPos = new(X, Y - offsetLevbar * _slideXPBar);
+        Vector2 addBarPos = new(X, Y - offsetLevbar * _slideXPBar);
         int curLevMax = _currentLevel;
         if (curLevMax > 8)
             curLevMax = 8;
@@ -1553,31 +1554,31 @@ public class UILevelBox : UIMenu
         string text = $"@LWING@{Profiles.experienceProfile.name}@RWING@";
         float hOffset = 0;
         float vOffset = 0;
-        Vec2 fontscale = Vec2.One;
+        Vector2 fontscale = Vector2.One;
         if (Profiles.experienceProfile.name.Length > 9)
         {
-            fontscale = new Vec2(0.75f);
+            fontscale = new Vector2(0.75f);
             vOffset = 1;
             hOffset = 1;
         }
         if (Profiles.experienceProfile.name.Length > 12)
         {
-            fontscale = new Vec2(0.5f);
+            fontscale = new Vector2(0.5f);
             vOffset = 2;
             hOffset = 1;
         }
         _font.Scale = fontscale;
-        Vec2 fontPos = new(-_font.GetWidth(text) / 2, fullYOffset - 50);
-        _font.DrawOutline(text, Position + fontPos + new Vec2(hOffset, vOffset), Color.White, Color.Black, Depth + 2);
-        _font.Scale = Vec2.One;
+        Vector2 fontPos = new(-_font.GetWidth(text) / 2, fullYOffset - 50);
+        _font.DrawOutline(text, Position + fontPos + new Vector2(hOffset, vOffset), Color.White, Color.Black, Depth + 2);
+        _font.Scale = Vector2.One;
         _lev.Depth = Depth + 2;
         _lev.frame = _currentLevel - 1;
         Graphics.Draw(_lev, X - 90, Y - 34 + fullYOffset);
-        _font.DrawOutline(_currentLevel.ToString()[0].ToString() ?? "", Position + new Vec2(-84, fullYOffset - 30), Color.White, Color.Black, Depth + 2);
+        _font.DrawOutline(_currentLevel.ToString()[0].ToString() ?? "", Position + new Vector2(-84, fullYOffset - 30), Color.White, Color.Black, Depth + 2);
         if (_currentLevel > 9)
         {
-            _thickBiosNum.Scale = new Vec2(0.5f);
-            _thickBiosNum.Draw(_currentLevel.ToString()[1].ToString() ?? "", Position + new Vec2(-78, fullYOffset - 32), Color.White, Depth + 20);
+            _thickBiosNum.Scale = new Vector2(0.5f);
+            _thickBiosNum.Draw(_currentLevel.ToString()[1].ToString() ?? "", Position + new Vector2(-78, fullYOffset - 32), Color.White, Depth + 20);
         }
         float wide = 85;
         if (_currentLevel == 1)
@@ -1616,13 +1617,13 @@ public class UILevelBox : UIMenu
             levelTextXOffset = 10;
         if (_currentLevel >= 7)
             levelTextXOffset = -1;
-        _fancyFont.DrawOutline(amountText, Position + new Vec2(levelTextXOffset - 8, fullYOffset - 31) - new Vec2(_fancyFont.GetWidth(amountText), 0), Colors.DGYellow, Color.Black, Depth + 2);
+        _fancyFont.DrawOutline(amountText, Position + new Vector2(levelTextXOffset - 8, fullYOffset - 31) - new Vector2(_fancyFont.GetWidth(amountText), 0), Colors.DGYellow, Color.Black, Depth + 2);
         if (fill < 0.0235f)
             fill = 0.0235f;
         float barX = wide * fill;
         _xpBar.Depth = Depth + 2;
         _xpBar.ScaleX = 1;
-        Vec2 barPos = new(X - 87, Y - 18);
+        Vector2 barPos = new(X - 87, Y - 18);
         Graphics.Draw(_xpBar, barPos.X, barPos.Y + fullYOffset, new Rectangle(0, 0, 3, 6));
         _xpBar.ScaleX = barX - 4;
         Graphics.Draw(_xpBar, barPos.X + 3, barPos.Y + fullYOffset, new Rectangle(2, 0, 1, 6));
@@ -1652,7 +1653,7 @@ public class UILevelBox : UIMenu
                 barX2 = 2;
             _gachaBar.Depth = Depth + 2;
             _gachaBar.ScaleX = 1;
-            Vec2 barPos2 = new(X - 87, Y - 5);
+            Vector2 barPos2 = new(X - 87, Y - 5);
             Graphics.Draw(_gachaBar, barPos2.X, barPos2.Y + fullYOffset, new Rectangle(0, 0, 3, 3));
             _gachaBar.ScaleX = barX2 - 5;
             Graphics.Draw(_gachaBar, barPos2.X + 3, barPos2.Y + fullYOffset, new Rectangle(2, 0, 1, 3));
@@ -1673,7 +1674,7 @@ public class UILevelBox : UIMenu
                 barX3 = 2;
             _sandwichBar.Depth = Depth + 2;
             _sandwichBar.ScaleX = 1;
-            Vec2 barPos3 = new(X - 87, Y + 5);
+            Vector2 barPos3 = new(X - 87, Y + 5);
             Graphics.Draw(_sandwichBar, barPos3.X, barPos3.Y + fullYOffset, new Rectangle(0, 0, 3, 3));
             _sandwichBar.ScaleX = barX3 - 5f;
             Graphics.Draw(_sandwichBar, barPos3.X + 3, barPos3.Y + fullYOffset, new Rectangle(2, 0, 1, 3));
@@ -1702,11 +1703,11 @@ public class UILevelBox : UIMenu
             _addXPBar.ScaleX = 1;
             Graphics.Draw(_addXPBar, addBarPos.X, addBarPos.Y);
             string t = (_currentStat.Value.num == 0) ? _currentStat.Key : $"{_currentStat.Value.num} {_currentStat.Key}";
-            _fancyFont.DrawOutline(t, addBarPos + new Vec2(-(_addXPBar.width / 2) + 4, -2), Color.White, Color.Black, Depth - 10);
-            Vec2 vec = addBarPos + new Vec2(-(_addXPBar.width / 2) + 2, -7.5f);
-            Graphics.DrawLine(vec, vec + new Vec2((_addXPBar.width - 5) * _drain, 0), Color.Lime, 1, _addXPBar.Depth + 2);
+            _fancyFont.DrawOutline(t, addBarPos + new Vector2(-(_addXPBar.width / 2) + 4, -2), Color.White, Color.Black, Depth - 10);
+            Vector2 vec = addBarPos + new Vector2(-(_addXPBar.width / 2) + 2, -7.5f);
+            Graphics.DrawLine(vec, vec + new Vector2((_addXPBar.width - 5) * _drain, 0), Color.Lime, 1, _addXPBar.Depth + 2);
             string xpVal = $"{(int)(_currentStat.Value.xp * _drain)}|DGBLUE|XP";
-            _fancyFont.DrawOutline(xpVal, addBarPos + new Vec2((_addXPBar.width / 2) - _fancyFont.GetWidth(xpVal) - 4, -2), Colors.DGGreen, Color.Black, Depth - 10);
+            _fancyFont.DrawOutline(xpVal, addBarPos + new Vector2((_addXPBar.width / 2) - _fancyFont.GetWidth(xpVal) - 4, -2), Colors.DGGreen, Color.Black, Depth - 10);
         }
         foreach (XPPlus p in _particles)
         {
@@ -1714,8 +1715,8 @@ public class UILevelBox : UIMenu
             if (p.splash)
                 add = 40;
             float len = Math.Min((p.position - p.target).Length(), 30) / 30;
-            _xpPoint.Scale = new Vec2(len);
-            _xpPointOutline.Scale = new Vec2(len);
+            _xpPoint.Scale = new Vector2(len);
+            _xpPointOutline.Scale = new Vector2(len);
             _xpPoint.color = p.color;
             _xpPoint.Alpha = p.alpha * len;
             _xpPoint.Depth = Depth + add;
@@ -1728,7 +1729,7 @@ public class UILevelBox : UIMenu
         {
             _heart.Alpha = p2.alpha;
             _heart.Depth = 0.98f;
-            _heart.Scale = new Vec2(0.5f);
+            _heart.Scale = new Vector2(0.5f);
             Graphics.Draw(_heart, p2.position.X, p2.position.Y);
         }
         int curlev = _currentLevel;
@@ -1751,10 +1752,10 @@ public class UILevelBox : UIMenu
                     _egg.Depth = 0.85f;
                     _egg.ScaleY = 1;
                     int mouthHeight = 8;
-                    Vec2 littleEggPos = new(X + levelTextXOffset, Y - 29 + fullYOffset + mouthHeight + yOffSize);
+                    Vector2 littleEggPos = new(X + levelTextXOffset, Y - 29 + fullYOffset + mouthHeight + yOffSize);
                     Graphics.Draw(_egg, littleEggPos.X, littleEggPos.Y, new Rectangle(0, mouthHeight + yOffSize, 16, 16 - mouthHeight - yOffSize));
                     Graphics.Draw(_egg, X + levelTextXOffset, Y - 29 + fullYOffset - mouthOpenAmount, new Rectangle(0, 0, 16, mouthHeight + yOffSize));
-                    Vec2 center = _egg.Center;
+                    Vector2 center = _egg.Center;
                     _egg.ScaleY = mouthOpenAmount;
                     _egg.Center = center;
                 }
@@ -1764,12 +1765,12 @@ public class UILevelBox : UIMenu
                 _littleMan.frame = LittleManFrame(Profiles.experienceProfile.numLittleMen, curlev, 0);
                 _littleMan.Depth = 0.85f;
                 _littleMan.ScaleY = 1;
-                littleManPos = new Vec2(X + levelTextXOffset, Y + fullYOffset + yOffSize - 25);
+                littleManPos = new Vector2(X + levelTextXOffset, Y + fullYOffset + yOffSize - 25);
                 if (!_inTaxi)
                 {
                     Graphics.Draw(_littleMan, littleManPos.X, littleManPos.Y, new Rectangle(0, 4 + yOffSize, 16, 12 - yOffSize));
                     Graphics.Draw(_littleMan, X + levelTextXOffset, Y + fullYOffset - mouthOpenAmount - 29, new Rectangle(0, 0, 16, 4 + yOffSize));
-                    Vec2 center2 = _littleMan.Center;
+                    Vector2 center2 = _littleMan.Center;
                     _littleMan.ScaleY = mouthOpenAmount;
                     Graphics.Draw(_littleMan, X + levelTextXOffset, Y + (fullYOffset - mouthOpenAmount) + yOffSize - 25, new Rectangle(0, 4 + yOffSize, 16, 1));
                     _littleMan.Center = center2;
@@ -1779,7 +1780,7 @@ public class UILevelBox : UIMenu
             string talk = _talkLine;
             if (_talkLine.Length > 0)
             {
-                Vec2 talkPos = new(X + levelTextXOffset + 16, Y + fullYOffset - 28);
+                Vector2 talkPos = new(X + levelTextXOffset + 16, Y + fullYOffset - 28);
                 _talkBubble.ScaleX = 1;
                 Graphics.Draw(_talkBubble, talkPos.X, talkPos.Y, new Rectangle(0, 0, 8, 8));
                 float talkWidth = Graphics.GetStringWidth(talk) - 5;
@@ -1791,16 +1792,16 @@ public class UILevelBox : UIMenu
                 Graphics.Draw(_talkBubble, talkPos.X, talkPos.Y + (talkHeight - 2), new Rectangle(0, 8, 8, 4));
                 Graphics.Draw(_talkBubble, talkPos.X + talkWidth + 8, talkPos.Y + (talkHeight - 2), new Rectangle(8, 8, 4, 4));
                 Graphics.Draw(_talkBubble, talkPos.X + talkWidth + 8, talkPos.Y, new Rectangle(8, 0, 4, 4));
-                Graphics.DrawRect(talkPos + new Vec2(5, 2), talkPos + new Vec2(talkWidth + 11, talkHeight), Color.White, 0.9f);
-                Graphics.DrawLine(talkPos + new Vec2(4.5f, 5), talkPos + new Vec2(4.5f, talkHeight - 1), Color.Black, 1, 0.9f);
-                Graphics.DrawLine(talkPos + new Vec2(11.5f + talkWidth, 4), talkPos + new Vec2(11.5f + talkWidth, talkHeight - 1), Color.Black, 1, 0.9f);
-                Graphics.DrawString(talk, talkPos + new Vec2(6, 2), Color.Black, 0.95f);
+                Graphics.DrawRect(talkPos + new Vector2(5, 2), talkPos + new Vector2(talkWidth + 11, talkHeight), Color.White, 0.9f);
+                Graphics.DrawLine(talkPos + new Vector2(4.5f, 5), talkPos + new Vector2(4.5f, talkHeight - 1), Color.Black, 1, 0.9f);
+                Graphics.DrawLine(talkPos + new Vector2(11.5f + talkWidth, 4), talkPos + new Vector2(11.5f + talkWidth, talkHeight - 1), Color.Black, 1, 0.9f);
+                Graphics.DrawString(talk, talkPos + new Vector2(6, 2), Color.Black, 0.95f);
             }
         }
         if (_stampCardLerp > 0.01f)
         {
             float yOffStamp = -(1 - _stampCardLerp) * 200 + (float)Math.Sin(_stampWobbleSin) * _stampWobble * 4;
-            Graphics.DrawRect(new Vec2(-1000), new Vec2(1000), Color.Black * 0.5f * _stampCardLerp, 0.96f);
+            Graphics.DrawRect(new Vector2(-1000), new Vector2(1000), Color.Black * 0.5f * _stampCardLerp, 0.96f);
             Graphics.Draw(_sandwichCard, X, Y + yOffStamp, 0.97f);
             Random gen = Rando.generator = new Random(365023);
             int numSan = Profiles.experienceProfile.numSandwiches % 6;
@@ -1828,7 +1829,7 @@ public class UILevelBox : UIMenu
             _milk.Depth = 0.7f;
             _milk.frame = (int)(_milkValue / (float)milkNeed * 15);
             Graphics.Draw(_milk, X + 26, Y - 33);
-            Vec2 littleEggsPos = Position + new Vec2(-88, 44);
+            Vector2 littleEggsPos = Position + new Vector2(-88, 44);
             int eggIdx = 0;
             foreach (Sprite littleEgg in littleEggs)
             {
@@ -1844,28 +1845,28 @@ public class UILevelBox : UIMenu
         float calYOffset = 0;
         if (_currentLevel >= 7)
             calYOffset = -12;
-        Vec2 clockPos = Position + new Vec2(75.5f, 33 + calYOffset);
-        Vec2 clockPos2 = clockPos + new Vec2(0, -7);
+        Vector2 clockPos = Position + new Vector2(75.5f, 33 + calYOffset);
+        Vector2 clockPos2 = clockPos + new Vector2(0, -7);
         if (_currentLevel >= 4)
         {
             int munny = Profiles.experienceProfile.littleManBucks;
             string munnyString = "|DGGREEN|$";
             munnyString = munny <= 9999 ? $"{munnyString}{munny}" : $"{munnyString}{munny / 1000}K";
-            Graphics.DrawRect(clockPos + new Vec2(-16, 9), clockPos + new Vec2(15, 18), Color.Black, 0.89f);
-            _fancyFont.Draw(munnyString, clockPos + new Vec2(-16, 9) + new Vec2(30 - _fancyFont.GetWidth(munnyString), 0), Color.White, 0.9f);
+            Graphics.DrawRect(clockPos + new Vector2(-16, 9), clockPos + new Vector2(15, 18), Color.Black, 0.89f);
+            _fancyFont.Draw(munnyString, clockPos + new Vector2(-16, 9) + new Vector2(30 - _fancyFont.GetWidth(munnyString), 0), Color.White, 0.9f);
             if (_giveMoney > 0 && _giveMoneyRise < 0.95f)
             {
                 string addString = $"+{_giveMoney}";
                 Color c = Colors.DGGreen;
                 Color c2 = Color.Black;
-                _fancyFont.DrawOutline(addString, clockPos + new Vec2(-16, 9) + new Vec2(30 - _fancyFont.GetWidth(addString), 0 - (10 + _giveMoneyRise * 10)), c, c2, 0.97f);
+                _fancyFont.DrawOutline(addString, clockPos + new Vector2(-16, 9) + new Vector2(30 - _fancyFont.GetWidth(addString), 0 - (10 + _giveMoneyRise * 10)), c, c2, 0.97f);
             }
-            Vec2 minuteHand = new()
+            Vector2 minuteHand = new()
             {
                 X = -float.Sin(time * 12 * (float.Pi * 2) - float.Pi) * 8,
                 Y = float.Cos(time * 12 * (float.Pi * 2) - float.Pi) * 8
             };
-            Vec2 hourHand = new()
+            Vector2 hourHand = new()
             {
                 X = (-float.Sin(time * (float.Pi * 2) - float.Pi)) * 5,
                 Y = float.Cos(time * (float.Pi * 2) - float.Pi) * 5
@@ -1922,16 +1923,16 @@ public class UILevelBox : UIMenu
             Rando.generator = oldRand;
         }
         if (_confirmMenu != null && _confirmMenu.open)
-            Graphics.DrawRect(new Vec2(-1000), new Vec2(1000), Color.Black * 0.5f, 0.974f);
+            Graphics.DrawRect(new Vector2(-1000), new Vector2(1000), Color.Black * 0.5f, 0.974f);
         if (FurniShopScreen.open)
         {
-            Graphics.DrawRect(new Vec2(-1000), new Vec2(1000), Color.Black * 0.5f, 0.95f);
+            Graphics.DrawRect(new Vector2(-1000), new Vector2(1000), Color.Black * 0.5f, 0.95f);
             FurniShopScreen.open = true;
             Vincent.Draw();
         }
         if (_taxiDrive > 0)
         {
-            Vec2 taxiPos = new(Position.X - 200 + _taxiDrive * 210, Position.Y - 33);
+            Vector2 taxiPos = new(Position.X - 200 + _taxiDrive * 210, Position.Y - 33);
             _taxi.Depth = 0.97f;
             Graphics.Draw(_taxi, taxiPos.X, taxiPos.Y);
             if (_inTaxi)
@@ -1944,10 +1945,10 @@ public class UILevelBox : UIMenu
         {
             float xpos2 = -320 + _intermissionSlide * 320;
             float ypos2 = 60;
-            Graphics.DrawRect(new Vec2(xpos2, ypos2), new Vec2(xpos2 + 320, ypos2 + 30), Color.Black, 0.98f);
+            Graphics.DrawRect(new Vector2(xpos2, ypos2), new Vector2(xpos2 + 320, ypos2 + 30), Color.Black, 0.98f);
             xpos2 = 320 - _intermissionSlide * 320;
             ypos2 = 60;
-            Graphics.DrawRect(new Vec2(xpos2, ypos2 + 30), new Vec2(xpos2 + 320, ypos2 + 60), Color.Black, 0.98f);
+            Graphics.DrawRect(new Vector2(xpos2, ypos2 + 30), new Vector2(xpos2 + 320, ypos2 + 60), Color.Black, 0.98f);
             string slideText = "ADVANCE DAY";
             switch (GetDay(Profiles.experienceProfile.currentDay))
             {
@@ -1987,7 +1988,7 @@ public class UILevelBox : UIMenu
             }
             if (_overrideSlide != null)
                 slideText = _overrideSlide;
-            _bigFont.Draw(slideText, new Vec2(-320 + _intermissionSlide * (320 + Layer.HUD.width / 2 - _bigFont.GetWidth(slideText) / 2), ypos2 + 18), Color.White, 0.99f);
+            _bigFont.Draw(slideText, new Vector2(-320 + _intermissionSlide * (320 + Layer.HUD.width / 2 - _bigFont.GetWidth(slideText) / 2), ypos2 + 18), Color.White, 0.99f);
         }
         _lastFill = fill;
         _confirmMenu?.DoDraw();

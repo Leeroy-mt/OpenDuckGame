@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -43,7 +44,7 @@ public static class RumbleManager
     /// Add a Rumble that will affect all Profiles whose duck is near the rumble's position (with distance attenuation)
     /// Positional rumbles are always type Gameplay.
     /// </summary>
-    public static void AddRumbleEvent(Vec2 positionToSet, RumbleEvent rumbleEvent)
+    public static void AddRumbleEvent(Vector2 positionToSet, RumbleEvent rumbleEvent)
     {
         rumbleEvent.position = positionToSet;
         rumbleEvent.type = RumbleType.Gameplay;
@@ -110,7 +111,7 @@ public static class RumbleManager
                     {
                         if (profileToCheck == null || !profileToCheck.localPlayer || profileToCheck.duck == null || (rumbleEvent.profile != null && rumbleEvent.profile != profileToCheck))
                             continue;
-                        float distance = Vec2.Distance(rumbleEvent.position.Value, profileToCheck.duck.cameraPosition);
+                        float distance = Vector2.Distance(rumbleEvent.position.Value, profileToCheck.duck.cameraPosition);
                         float intensityMultiplier = 1;
                         if (distance > 32)
                         {

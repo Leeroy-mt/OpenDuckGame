@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -19,9 +20,9 @@ public class PyramidBLight : Thing
         _sprite.AddAnimation("go", 0.2f, true, 0, 1, 2, 3, 4);
         _sprite.SetAnimation("go");
         graphic = _sprite;
-        Center = new Vec2(7f, 8f);
-        _collisionSize = new Vec2(8f, 8f);
-        _collisionOffset = new Vec2(-4f, -4f);
+        Center = new Vector2(7f, 8f);
+        _collisionSize = new Vector2(8f, 8f);
+        _collisionOffset = new Vector2(-4f, -4f);
         base.Depth = -0.9f;
         base.Alpha = 0.7f;
         base.layer = Layer.Game;

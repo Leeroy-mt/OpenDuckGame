@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class LaserLine : Thing
@@ -8,13 +10,13 @@ public class LaserLine : Thing
 
     private Color _color;
 
-    private Vec2 _move;
+    private Vector2 _move;
 
-    private Vec2 _target;
+    private Vector2 _target;
 
     private float fade = 0.06f;
 
-    public LaserLine(Vec2 pos, Vec2 target, Vec2 moveVector, float moveSpeed, Color color, float thickness, float f = 0.06f)
+    public LaserLine(Vector2 pos, Vector2 target, Vector2 moveVector, float moveSpeed, Color color, float thickness, float f = 0.06f)
         : base(pos.X, pos.Y)
     {
         _moveSpeed = moveSpeed;

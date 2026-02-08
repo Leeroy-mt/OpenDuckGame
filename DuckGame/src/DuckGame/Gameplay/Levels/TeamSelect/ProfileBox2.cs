@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -67,7 +68,7 @@ public class ProfileBox2 : Thing
 
     private float _consoleFade;
 
-    private Vec2 _consolePos = Vec2.Zero;
+    private Vector2 _consolePos = Vector2.Zero;
 
     private TeamProjector _projector;
 
@@ -95,7 +96,7 @@ public class ProfileBox2 : Thing
 
     private Window _window;
 
-    private Vec2 _gunSpawnPoint = Vec2.Zero;
+    private Vector2 _gunSpawnPoint = Vector2.Zero;
 
     private bool findDuck;
 
@@ -211,9 +212,9 @@ public class ProfileBox2 : Thing
         _font = new BitmapFont("biosFont", 8);
         _fontSmall = new BitmapFont("smallBiosFont", 7, 6);
         base.layer = Layer.Game;
-        _collisionSize = new Vec2(150f, 87f);
+        _collisionSize = new Vector2(150f, 87f);
         _plaque = new Sprite("plaque");
-        _plaque.Center = new Vec2(16f, 16f);
+        _plaque.Center = new Vector2(16f, 16f);
         _inputProfile = pProfile;
         _playerProfile = pDefaultProfile;
         _teamSelection = ControllerNumber();
@@ -277,11 +278,11 @@ public class ProfileBox2 : Thing
         }
         if (rightRoom)
         {
-            _gunSpawnPoint = new Vec2(base.X + 142f - 118f, base.Y + 50f);
+            _gunSpawnPoint = new Vector2(base.X + 142f - 118f, base.Y + 50f);
         }
         else
         {
-            _gunSpawnPoint = new Vec2(base.X + 113f, base.Y + 50f);
+            _gunSpawnPoint = new Vector2(base.X + 113f, base.Y + 50f);
         }
         _readySign.Depth = 0.2f;
         _roomLeftBackground.Depth = -0.85f;
@@ -796,7 +797,7 @@ public class ProfileBox2 : Thing
                     {
                         if (RoomEditor.GetFurniture(p.id).name == "PERIMETER DEFENCE")
                         {
-                            Vec2 pos = new Vec2(p.x - 2, p.y + 2);
+                            Vector2 pos = new Vector2(p.x - 2, p.y + 2);
                             if (rightRoom)
                             {
                                 pos.X = (float)RoomEditor.roomSize - pos.X;
@@ -866,11 +867,11 @@ public class ProfileBox2 : Thing
         _projector.visible = true;
         if (_tooManyPulse > 0.01f)
         {
-            Graphics.DrawStringOutline("ROOM FULL", Position + new Vec2(0f, 36f), Color.Red * _tooManyPulse, Color.Black * _tooManyPulse, 0.95f, 2f);
+            Graphics.DrawStringOutline("ROOM FULL", Position + new Vector2(0f, 36f), Color.Red * _tooManyPulse, Color.Black * _tooManyPulse, 0.95f, 2f);
         }
         if (_noMorePulse > 0.01f)
         {
-            Graphics.DrawStringOutline(" NO MORE ", Position + new Vec2(0f, 36f), Color.Red * _noMorePulse, Color.Black * _noMorePulse, 0.95f, 2f);
+            Graphics.DrawStringOutline(" NO MORE ", Position + new Vector2(0f, 36f), Color.Red * _noMorePulse, Color.Black * _noMorePulse, 0.95f, 2f);
         }
         _tooManyPulse = Lerp.Float(_tooManyPulse, 0f, 0.05f);
         _noMorePulse = Lerp.Float(_noMorePulse, 0f, 0.05f);
@@ -911,8 +912,8 @@ public class ProfileBox2 : Thing
                         _doorIcon.Depth = leftDoor.Depth + 10;
                         _doorIcon.frame = 10;
                         Graphics.Draw(_doorIcon, (int)base.X + 57, base.Y + 31f);
-                        _fontSmall.DrawOutline("PRESS", new Vec2(base.X + 19f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
-                        _fontSmall.DrawOutline("START", new Vec2(base.X + 85f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
+                        _fontSmall.DrawOutline("PRESS", new Vector2(base.X + 19f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
+                        _fontSmall.DrawOutline("START", new Vector2(base.X + 85f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
                     }
                     else if (full)
                     {
@@ -930,16 +931,16 @@ public class ProfileBox2 : Thing
                         _doorIcon.Depth = leftDoor.Depth + 10;
                         _doorIcon.frame = 11;
                         Graphics.Draw(_doorIcon, (int)base.X + 57, base.Y + 31f);
-                        _fontSmall.DrawOutline("PALS", new Vec2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
-                        _fontSmall.DrawOutline("ONLY", new Vec2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
+                        _fontSmall.DrawOutline("PALS", new Vector2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
+                        _fontSmall.DrawOutline("ONLY", new Vector2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
                     }
                     else if (invite)
                     {
                         _doorIcon.Depth = leftDoor.Depth + 10;
                         _doorIcon.frame = 12;
                         Graphics.Draw(_doorIcon, (int)base.X + 57, base.Y + 31f);
-                        _fontSmall.DrawOutline("VIPS", new Vec2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
-                        _fontSmall.DrawOutline("ONLY", new Vec2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
+                        _fontSmall.DrawOutline("VIPS", new Vector2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
+                        _fontSmall.DrawOutline("ONLY", new Vector2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
                     }
                     else if (reserved && profile.reservedUser != null)
                     {
@@ -948,31 +949,31 @@ public class ProfileBox2 : Thing
                         Graphics.Draw(_doorIcon, (int)base.X + 58, base.Y + 31f);
                         float wide = 120f;
                         float xpos = base.X + 10f;
-                        Graphics.DrawRect(new Vec2(xpos, base.Y + 35f), new Vec2(xpos + wide, base.Y + 52f), Color.Black, leftDoor.Depth + 20);
+                        Graphics.DrawRect(new Vector2(xpos, base.Y + 35f), new Vector2(xpos + wide, base.Y + 52f), Color.Black, leftDoor.Depth + 20);
                         string t = "WAITING FOR";
-                        _fontSmall.Draw(t, new Vec2(xpos + wide / 2f - _fontSmall.GetWidth(t) / 2f, base.Y + 36f), Color.White, leftDoor.Depth + 30);
+                        _fontSmall.Draw(t, new Vector2(xpos + wide / 2f - _fontSmall.GetWidth(t) / 2f, base.Y + 36f), Color.White, leftDoor.Depth + 30);
                         t = profile.nameUI;
                         if (t.Length > 16)
                         {
                             t = t.Substring(0, 16);
                         }
-                        _fontSmall.Draw(t, new Vec2(xpos + wide / 2f - _fontSmall.GetWidth(t) / 2f, base.Y + 44f), Color.White, leftDoor.Depth + 30);
+                        _fontSmall.Draw(t, new Vector2(xpos + wide / 2f - _fontSmall.GetWidth(t) / 2f, base.Y + 44f), Color.White, leftDoor.Depth + 30);
                     }
                     else if (local)
                     {
                         _doorIcon.Depth = leftDoor.Depth + 10;
                         _doorIcon.frame = 13;
                         Graphics.Draw(_doorIcon, (int)base.X + 57, base.Y + 31f);
-                        _fontSmall.DrawOutline("HOST", new Vec2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
-                        _fontSmall.DrawOutline("SLOT", new Vec2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
+                        _fontSmall.DrawOutline("HOST", new Vector2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
+                        _fontSmall.DrawOutline("SLOT", new Vector2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
                     }
                     else
                     {
                         _doorIcon.Depth = leftDoor.Depth + 10;
                         _doorIcon.frame = 9;
                         Graphics.Draw(_doorIcon, (int)base.X + 57, base.Y + 31f);
-                        _fontSmall.DrawOutline("OPEN", new Vec2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
-                        _fontSmall.DrawOutline("SLOT", new Vec2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
+                        _fontSmall.DrawOutline("OPEN", new Vector2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
+                        _fontSmall.DrawOutline("SLOT", new Vector2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
                     }
                 }
             }
@@ -988,8 +989,8 @@ public class ProfileBox2 : Thing
                         _doorIcon.Depth = leftDoor.Depth + 10;
                         _doorIcon.frame = 10;
                         Graphics.Draw(_doorIcon, (int)base.X + 58, base.Y + 31f);
-                        _fontSmall.DrawOutline("PRESS", new Vec2(base.X + 20f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
-                        _fontSmall.DrawOutline("START", new Vec2(base.X + 86f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
+                        _fontSmall.DrawOutline("PRESS", new Vector2(base.X + 20f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
+                        _fontSmall.DrawOutline("START", new Vector2(base.X + 86f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
                     }
                     else if (full)
                     {
@@ -1007,16 +1008,16 @@ public class ProfileBox2 : Thing
                         _doorIcon.Depth = leftDoor.Depth + 10;
                         _doorIcon.frame = 11;
                         Graphics.Draw(_doorIcon, (int)base.X + 58, base.Y + 31f);
-                        _fontSmall.DrawOutline("PALS", new Vec2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
-                        _fontSmall.DrawOutline("ONLY", new Vec2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
+                        _fontSmall.DrawOutline("PALS", new Vector2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
+                        _fontSmall.DrawOutline("ONLY", new Vector2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
                     }
                     else if (invite)
                     {
                         _doorIcon.Depth = leftDoor.Depth + 10;
                         _doorIcon.frame = 12;
                         Graphics.Draw(_doorIcon, (int)base.X + 58, base.Y + 31f);
-                        _fontSmall.DrawOutline("VIPS", new Vec2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
-                        _fontSmall.DrawOutline("ONLY", new Vec2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
+                        _fontSmall.DrawOutline("VIPS", new Vector2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
+                        _fontSmall.DrawOutline("ONLY", new Vector2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
                     }
                     else if (reserved && profile.reservedUser != null)
                     {
@@ -1025,31 +1026,31 @@ public class ProfileBox2 : Thing
                         Graphics.Draw(_doorIcon, (int)base.X + 58, base.Y + 31f);
                         float wide2 = 120f;
                         float xpos2 = base.X + 10f;
-                        Graphics.DrawRect(new Vec2(xpos2, base.Y + 35f), new Vec2(xpos2 + wide2, base.Y + 52f), Color.Black, leftDoor.Depth + 20);
+                        Graphics.DrawRect(new Vector2(xpos2, base.Y + 35f), new Vector2(xpos2 + wide2, base.Y + 52f), Color.Black, leftDoor.Depth + 20);
                         string t2 = "WAITING FOR";
-                        _fontSmall.Draw(t2, new Vec2(xpos2 + wide2 / 2f - _fontSmall.GetWidth(t2) / 2f, base.Y + 36f), Color.White, leftDoor.Depth + 30);
+                        _fontSmall.Draw(t2, new Vector2(xpos2 + wide2 / 2f - _fontSmall.GetWidth(t2) / 2f, base.Y + 36f), Color.White, leftDoor.Depth + 30);
                         t2 = profile.nameUI;
                         if (t2.Length > 16)
                         {
                             t2 = t2.Substring(0, 16);
                         }
-                        _fontSmall.Draw(t2, new Vec2(xpos2 + wide2 / 2f - _fontSmall.GetWidth(t2) / 2f, base.Y + 44f), Color.White, leftDoor.Depth + 30);
+                        _fontSmall.Draw(t2, new Vector2(xpos2 + wide2 / 2f - _fontSmall.GetWidth(t2) / 2f, base.Y + 44f), Color.White, leftDoor.Depth + 30);
                     }
                     else if (local)
                     {
                         _doorIcon.Depth = leftDoor.Depth + 10;
                         _doorIcon.frame = 13;
                         Graphics.Draw(_doorIcon, (int)base.X + 58, base.Y + 31f);
-                        _fontSmall.DrawOutline("HOST", new Vec2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
-                        _fontSmall.DrawOutline("SLOT", new Vec2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
+                        _fontSmall.DrawOutline("HOST", new Vector2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
+                        _fontSmall.DrawOutline("SLOT", new Vector2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
                     }
                     else
                     {
                         _doorIcon.Depth = leftDoor.Depth + 10;
                         _doorIcon.frame = 9;
                         Graphics.Draw(_doorIcon, (int)base.X + 58, base.Y + 31f);
-                        _fontSmall.DrawOutline("OPEN", new Vec2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
-                        _fontSmall.DrawOutline("SLOT", new Vec2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
+                        _fontSmall.DrawOutline("OPEN", new Vector2(base.X + 22f, base.Y + 40f), Color.White, Colors.BlueGray, leftDoor.Depth + 10);
+                        _fontSmall.DrawOutline("SLOT", new Vector2(base.X + 90f, base.Y + 40f), Color.White, Colors.BlueGray, rightDoor.Depth + 10);
                     }
                 }
             }
@@ -1100,7 +1101,7 @@ public class ProfileBox2 : Thing
                     {
                         f.sprite.Depth = -0.56f + (float)f.deep * 0.001f;
                         f.sprite.frame = p.variation;
-                        Vec2 pos = new Vec2((int)p.x, (int)p.y);
+                        Vector2 pos = new Vector2((int)p.x, (int)p.y);
                         f.sprite.flipH = p.flip;
                         if (rightRoom)
                         {
@@ -1130,7 +1131,7 @@ public class ProfileBox2 : Thing
                         Furniture fOpposite = opposite.furniMapping;
                         f2.sprite.Depth = -0.56f + (float)fOpposite.deep * 0.001f;
                         f2.sprite.frame = p2.variation;
-                        Vec2 pos2 = new Vec2((int)opposite.x, (int)opposite.y);
+                        Vector2 pos2 = new Vector2((int)opposite.x, (int)opposite.y);
                         f2.sprite.flipH = p2.flip;
                         if (rightRoom)
                         {
@@ -1161,7 +1162,7 @@ public class ProfileBox2 : Thing
                         Furniture fOpposite2 = opposite2.furniMapping;
                         f3.sprite.Depth = -0.56f + (float)fOpposite2.deep * 0.001f;
                         f3.sprite.frame = opposite2.variation;
-                        Vec2 pos3 = new Vec2((int)p3.x, (int)p3.y);
+                        Vector2 pos3 = new Vector2((int)p3.x, (int)p3.y);
                         f3.sprite.flipH = p3.flip;
                         if (rightRoom)
                         {
@@ -1208,8 +1209,8 @@ public class ProfileBox2 : Thing
                 furniture.sprite.flipH = true;
                 furniture.sprite.Depth = _roomLeftForeground.Depth;
                 furniture.background.Depth = _roomLeftBackground.Depth;
-                furniture.sprite.Scale = new Vec2(1f);
-                furniture.background.Scale = new Vec2(1f);
+                furniture.sprite.Scale = new Vector2(1f);
+                furniture.background.Scale = new Vector2(1f);
                 Graphics.Draw(furniture.sprite, base.X + 70f, base.Y + 44f, new Rectangle(0f, 0f, 4f, 87f));
                 Graphics.Draw(furniture.sprite, base.X + 70f, base.Y + 44f + 68f, new Rectangle(0f, 68f, 141f, 19f));
                 Graphics.Draw(furniture.sprite, base.X + 70f, base.Y + 44f, new Rectangle(0f, 0f, 141f, 16f));
@@ -1260,8 +1261,8 @@ public class ProfileBox2 : Thing
                 Furniture furniture2 = theme;
                 furniture2.sprite.Depth = _roomLeftForeground.Depth;
                 furniture2.background.Depth = _roomLeftBackground.Depth;
-                furniture2.sprite.Scale = new Vec2(1f);
-                furniture2.background.Scale = new Vec2(1f);
+                furniture2.sprite.Scale = new Vector2(1f);
+                furniture2.background.Scale = new Vector2(1f);
                 Graphics.Draw(furniture2.sprite, base.X + 70f, base.Y + 44f, new Rectangle(0f, 0f, 4f, 87f));
                 Graphics.Draw(furniture2.sprite, base.X + 70f, base.Y + 44f + 68f, new Rectangle(0f, 68f, 141f, 19f));
                 Graphics.Draw(furniture2.sprite, base.X + 70f, base.Y + 44f, new Rectangle(0f, 0f, 141f, 16f));
@@ -1303,8 +1304,8 @@ public class ProfileBox2 : Thing
         float tvOffset = 8f;
         if (rightRoom)
         {
-            _consolePos = new Vec2(base.X + 116f, base.Y + 30f);
-            _consoleFlash.Scale = new Vec2(0.75f, 0.75f);
+            _consolePos = new Vector2(base.X + 116f, base.Y + 30f);
+            _consoleFlash.Scale = new Vector2(0.75f, 0.75f);
             if (_selectConsole.imageIndex == 0)
             {
                 _consoleFlash.Alpha = 0.3f;
@@ -1339,33 +1340,33 @@ public class ProfileBox2 : Thing
                 {
                     if (_tutorialMessages.frame == 0)
                     {
-                        _font.Draw("@DPAD@MOVE", new Vec2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                        _font.Draw("@JUMP@JUMP", new Vec2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("@DPAD@MOVE", new Vector2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("@JUMP@JUMP", new Vector2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                     }
                     else if (_tutorialMessages.frame == 1)
                     {
-                        _font.Draw("@GRAB@", new Vec2(base.X + 45f + tvOffset, base.Y + 17f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                        _font.Draw("PICKUP", new Vec2(base.X + 29f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("@GRAB@", new Vector2(base.X + 45f + tvOffset, base.Y + 17f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("PICKUP", new Vector2(base.X + 29f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                     }
                     else if (_tutorialMessages.frame == 2)
                     {
-                        _font.Draw("@GRAB@TOSS", new Vec2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                        _font.Draw("@SHOOT@FIRE", new Vec2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("@GRAB@TOSS", new Vector2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("@SHOOT@FIRE", new Vector2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                     }
                     else if (_tutorialMessages.frame == 3)
                     {
-                        _font.Draw("@CANCEL@", new Vec2(base.X + 45f + tvOffset, base.Y + 17f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                        _font.Draw("CANCEL", new Vec2(base.X + 29f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("@CANCEL@", new Vector2(base.X + 45f + tvOffset, base.Y + 17f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("CANCEL", new Vector2(base.X + 29f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                     }
                     else if (_tutorialMessages.frame == 4)
                     {
-                        _font.Draw("@DPAD@MOVE", new Vec2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                        _font.Draw("@SHOOT@TEAM", new Vec2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("@DPAD@MOVE", new Vector2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("@SHOOT@TEAM", new Vector2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                     }
                     else if (_tutorialMessages.frame == 5)
                     {
-                        _font.Draw("@GRAB@TOSS", new Vec2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                        _font.Draw("@SHOOT@TEAM", new Vec2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("@GRAB@TOSS", new Vector2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                        _font.Draw("@SHOOT@TEAM", new Vector2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                     }
                 }
                 else
@@ -1376,16 +1377,16 @@ public class ProfileBox2 : Thing
             _font.Depth = 0.6f;
             float vOffset = 0f;
             float hOffset = 0f;
-            Vec2 fontscale = new Vec2(1f, 1f);
+            Vector2 fontscale = new Vector2(1f, 1f);
             if (teamName.Length > 9)
             {
-                fontscale = new Vec2(0.75f, 0.75f);
+                fontscale = new Vector2(0.75f, 0.75f);
                 vOffset = 1f;
                 hOffset = 1f;
             }
             if (teamName.Length > 12)
             {
-                fontscale = new Vec2(0.5f, 0.5f);
+                fontscale = new Vector2(0.5f, 0.5f);
                 vOffset = 2f;
                 hOffset = 1f;
             }
@@ -1400,27 +1401,27 @@ public class ProfileBox2 : Thing
                 Furniture f4 = _hatSelector._roomEditor.CurFurni();
                 if (f4.type == FurnitureType.Font)
                 {
-                    f4.font.Scale = new Vec2(0.5f, 0.5f);
-                    f4.font.spriteScale = new Vec2(0.5f, 0.5f);
+                    f4.font.Scale = new Vector2(0.5f, 0.5f);
+                    f4.font.spriteScale = new Vector2(0.5f, 0.5f);
                     f4.font.Draw("@SELECT@ACCEPT @CANCEL@CANCEL", base.X + 24f - f4.font.GetWidth(tn) / 2f - hOffset, base.Y + 75f + vOffset, Color.White, 0.7f, profile.inputProfile);
-                    f4.font.Scale = new Vec2(1f, 1f);
+                    f4.font.Scale = new Vector2(1f, 1f);
                 }
                 else if (f4.type == FurnitureType.Theme)
                 {
-                    profile.font.Scale = new Vec2(0.5f, 0.5f);
-                    profile.font.spriteScale = new Vec2(0.5f, 0.5f);
+                    profile.font.Scale = new Vector2(0.5f, 0.5f);
+                    profile.font.spriteScale = new Vector2(0.5f, 0.5f);
                     profile.font.Draw("@SELECT@ACCEPT @CANCEL@CANCEL", base.X + 24f - profile.font.GetWidth(tn) / 2f - hOffset, base.Y + 75f + vOffset, Color.White, 0.7f, profile.inputProfile);
                 }
                 else if (f4.name == "CLEAR ROOM")
                 {
-                    profile.font.Scale = new Vec2(0.5f, 0.5f);
-                    profile.font.spriteScale = new Vec2(0.5f, 0.5f);
+                    profile.font.Scale = new Vector2(0.5f, 0.5f);
+                    profile.font.spriteScale = new Vector2(0.5f, 0.5f);
                     profile.font.Draw("@MENU2@CLEAR @CANCEL@BACK", base.X + 24f - profile.font.GetWidth(tn) / 2f - hOffset, base.Y + 75f + vOffset, Color.White, 0.7f, profile.inputProfile);
                 }
                 else
                 {
-                    profile.font.Scale = new Vec2(0.5f, 0.5f);
-                    profile.font.spriteScale = new Vec2(0.5f, 0.5f);
+                    profile.font.Scale = new Vector2(0.5f, 0.5f);
+                    profile.font.spriteScale = new Vector2(0.5f, 0.5f);
                     if (_hatSelector._roomEditor._hover != null)
                     {
                         profile.font.Draw("@SELECT@DEL @MENU2@GRAB @CANCEL@DONE", base.X + 24f - profile.font.GetWidth(tn) / 2f - hOffset, base.Y + 75f + vOffset, Color.White, 0.7f, profile.inputProfile);
@@ -1429,30 +1430,30 @@ public class ProfileBox2 : Thing
                     {
                         profile.font.Draw("@SELECT@ADD @MENU2@MOD @CANCEL@DONE", base.X + 24f - profile.font.GetWidth(tn) / 2f - hOffset, base.Y + 75f + vOffset, Color.White, 0.7f, profile.inputProfile);
                     }
-                    profile.font.Scale = new Vec2(0.25f, 0.25f);
+                    profile.font.Scale = new Vector2(0.25f, 0.25f);
                     int numAvail = Profiles.experienceProfile.GetNumFurnitures(f4.index) - profile.GetNumFurnituresPlaced(f4.index);
                     profile.font.Draw(f4.name + ((numAvail > 0) ? " |DGGREEN|" : " |DGRED|") + "x" + numAvail, base.X + 17f - profile.font.GetWidth(tn) / 2f - hOffset, base.Y + 75f + 6.5f + vOffset, Color.White, 0.7f);
                     int totalFurnis = profile.GetTotalFurnituresPlaced();
                     float fill = (float)totalFurnis / (float)RoomEditor.maxFurnitures;
                     profile.font.Draw(totalFurnis + "/" + RoomEditor.maxFurnitures, base.X + 68f - profile.font.GetWidth(tn) / 2f - hOffset, base.Y + 75f + 6.5f + vOffset, Color.Black, 0.7f);
-                    Vec2 vec = new Vec2(base.X + 56f - profile.font.GetWidth(tn) / 2f - hOffset, base.Y + 75f + 6f + vOffset);
-                    Graphics.DrawRect(vec, vec + new Vec2(37f, 3f), Colors.BlueGray, 0.66f, filled: true, 0.5f);
-                    Graphics.DrawRect(vec, vec + new Vec2(37f * fill, 3f), (fill < 0.4f) ? Colors.DGGreen : ((fill < 0.8f) ? Colors.DGYellow : Colors.DGRed), 0.68f, filled: true, 0.5f);
+                    Vector2 vec = new Vector2(base.X + 56f - profile.font.GetWidth(tn) / 2f - hOffset, base.Y + 75f + 6f + vOffset);
+                    Graphics.DrawRect(vec, vec + new Vector2(37f, 3f), Colors.BlueGray, 0.66f, filled: true, 0.5f);
+                    Graphics.DrawRect(vec, vec + new Vector2(37f * fill, 3f), (fill < 0.4f) ? Colors.DGGreen : ((fill < 0.8f) ? Colors.DGYellow : Colors.DGRed), 0.68f, filled: true, 0.5f);
                 }
-                profile.font.spriteScale = new Vec2(1f, 1f);
-                profile.font.Scale = new Vec2(1f, 1f);
+                profile.font.spriteScale = new Vector2(1f, 1f);
+                profile.font.Scale = new Vector2(1f, 1f);
                 base.X -= extraXOff;
             }
             else
             {
                 _playerProfile.font.Scale = fontscale;
                 _playerProfile.font.Draw(teamName, base.X + 94f - _playerProfile.font.GetWidth(teamName) / 2f - hOffset, base.Y + 75f + vOffset, Color.White, 0.7f);
-                _font.Scale = new Vec2(1f, 1f);
+                _font.Scale = new Vector2(1f, 1f);
             }
             return;
         }
-        _consolePos = new Vec2(base.X + 4f, base.Y + 30f);
-        _consoleFlash.Scale = new Vec2(0.75f, 0.75f);
+        _consolePos = new Vector2(base.X + 4f, base.Y + 30f);
+        _consoleFlash.Scale = new Vector2(0.75f, 0.75f);
         if (_selectConsole.imageIndex == 0)
         {
             _consoleFlash.Alpha = 0.3f;
@@ -1486,33 +1487,33 @@ public class ProfileBox2 : Thing
             {
                 if (_tutorialMessages.frame == 0)
                 {
-                    _font.Draw("@WASD@MOVE", new Vec2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                    _font.Draw("@JUMP@JUMP", new Vec2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("@WASD@MOVE", new Vector2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("@JUMP@JUMP", new Vector2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                 }
                 else if (_tutorialMessages.frame == 1)
                 {
-                    _font.Draw("@GRAB@", new Vec2(base.X + 45f + tvOffset, base.Y + 17f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                    _font.Draw("PICKUP", new Vec2(base.X + 29f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("@GRAB@", new Vector2(base.X + 45f + tvOffset, base.Y + 17f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("PICKUP", new Vector2(base.X + 29f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                 }
                 else if (_tutorialMessages.frame == 2)
                 {
-                    _font.Draw("@GRAB@TOSS", new Vec2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                    _font.Draw("@SHOOT@FIRE", new Vec2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("@GRAB@TOSS", new Vector2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("@SHOOT@FIRE", new Vector2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                 }
                 else if (_tutorialMessages.frame == 3)
                 {
-                    _font.Draw("@CANCEL@", new Vec2(base.X + 45f + tvOffset, base.Y + 17f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                    _font.Draw("CANCEL", new Vec2(base.X + 29f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("@CANCEL@", new Vector2(base.X + 45f + tvOffset, base.Y + 17f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("CANCEL", new Vector2(base.X + 29f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                 }
                 else if (_tutorialMessages.frame == 4)
                 {
-                    _font.Draw("@WASD@MOVE", new Vec2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                    _font.Draw("@SHOOT@TEAM", new Vec2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("@WASD@MOVE", new Vector2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("@SHOOT@TEAM", new Vector2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                 }
                 else if (_tutorialMessages.frame == 5)
                 {
-                    _font.Draw("@GRAB@TOSS", new Vec2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
-                    _font.Draw("@SHOOT@TEAM", new Vec2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("@GRAB@TOSS", new Vector2(base.X + 28f + tvOffset, base.Y + 16f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
+                    _font.Draw("@SHOOT@TEAM", new Vector2(base.X + 28f + tvOffset, base.Y + 30f), Color.White * _screenFade, _tutorialTV.Depth + 20, _inputProfile);
                 }
             }
             else
@@ -1521,19 +1522,19 @@ public class ProfileBox2 : Thing
             }
         }
         _font.Depth = 0.6f;
-        _aButton.Position = new Vec2(base.X + 39f, base.Y + 71f);
+        _aButton.Position = new Vector2(base.X + 39f, base.Y + 71f);
         float vOffset2 = 0f;
         float hOffset2 = 0f;
-        Vec2 fontscale2 = new Vec2(1f, 1f);
+        Vector2 fontscale2 = new Vector2(1f, 1f);
         if (teamName.Length > 9)
         {
-            fontscale2 = new Vec2(0.75f, 0.75f);
+            fontscale2 = new Vector2(0.75f, 0.75f);
             vOffset2 = 1f;
             hOffset2 = 1f;
         }
         if (teamName.Length > 12)
         {
-            fontscale2 = new Vec2(0.5f, 0.5f);
+            fontscale2 = new Vector2(0.5f, 0.5f);
             vOffset2 = 2f;
             hOffset2 = 1f;
         }
@@ -1545,27 +1546,27 @@ public class ProfileBox2 : Thing
             Furniture f5 = _hatSelector._roomEditor.CurFurni();
             if (f5.type == FurnitureType.Font)
             {
-                f5.font.Scale = new Vec2(0.5f, 0.5f);
-                f5.font.spriteScale = new Vec2(0.5f, 0.5f);
+                f5.font.Scale = new Vector2(0.5f, 0.5f);
+                f5.font.spriteScale = new Vector2(0.5f, 0.5f);
                 f5.font.Draw("@SELECT@ACCEPT @CANCEL@CANCEL", base.X + 24f - f5.font.GetWidth(tn2) / 2f - hOffset2, base.Y + 75f + vOffset2, Color.White, 0.7f, profile.inputProfile);
-                f5.font.Scale = new Vec2(1f, 1f);
+                f5.font.Scale = new Vector2(1f, 1f);
             }
             else if (f5.type == FurnitureType.Theme)
             {
-                profile.font.Scale = new Vec2(0.5f, 0.5f);
-                profile.font.spriteScale = new Vec2(0.5f, 0.5f);
+                profile.font.Scale = new Vector2(0.5f, 0.5f);
+                profile.font.spriteScale = new Vector2(0.5f, 0.5f);
                 profile.font.Draw("@SELECT@ACCEPT @CANCEL@CANCEL", base.X + 24f - profile.font.GetWidth(tn2) / 2f - hOffset2, base.Y + 75f + vOffset2, Color.White, 0.7f, profile.inputProfile);
             }
             else if (f5.name == "CLEAR ROOM")
             {
-                profile.font.Scale = new Vec2(0.5f, 0.5f);
-                profile.font.spriteScale = new Vec2(0.5f, 0.5f);
+                profile.font.Scale = new Vector2(0.5f, 0.5f);
+                profile.font.spriteScale = new Vector2(0.5f, 0.5f);
                 profile.font.Draw("@MENU2@CLEAR @CANCEL@BACK", base.X + 24f - profile.font.GetWidth(tn2) / 2f - hOffset2, base.Y + 75f + vOffset2, Color.White, 0.7f, profile.inputProfile);
             }
             else
             {
-                profile.font.Scale = new Vec2(0.5f, 0.5f);
-                profile.font.spriteScale = new Vec2(0.5f, 0.5f);
+                profile.font.Scale = new Vector2(0.5f, 0.5f);
+                profile.font.spriteScale = new Vector2(0.5f, 0.5f);
                 if (_hatSelector._roomEditor._hover != null)
                 {
                     profile.font.Draw("@SELECT@DEL @MENU2@GRAB @CANCEL@DONE", base.X + 24f - profile.font.GetWidth(tn2) / 2f - hOffset2, base.Y + 75f + vOffset2, Color.White, 0.7f, profile.inputProfile);
@@ -1574,24 +1575,24 @@ public class ProfileBox2 : Thing
                 {
                     profile.font.Draw("@SELECT@ADD @MENU2@MOD @CANCEL@DONE", base.X + 24f - profile.font.GetWidth(tn2) / 2f - hOffset2, base.Y + 75f + vOffset2, Color.White, 0.7f, profile.inputProfile);
                 }
-                profile.font.Scale = new Vec2(0.25f, 0.25f);
+                profile.font.Scale = new Vector2(0.25f, 0.25f);
                 int numAvail2 = Profiles.experienceProfile.GetNumFurnitures(f5.index) - profile.GetNumFurnituresPlaced(f5.index);
                 profile.font.Draw(f5.name + ((numAvail2 > 0) ? " |DGGREEN|" : " |DGRED|") + "x" + numAvail2, base.X + 17f - profile.font.GetWidth(tn2) / 2f - hOffset2, base.Y + 75f + 6.5f + vOffset2, Color.White, 0.7f);
                 int totalFurnis2 = profile.GetTotalFurnituresPlaced();
                 float fill2 = (float)totalFurnis2 / (float)RoomEditor.maxFurnitures;
                 profile.font.Draw(totalFurnis2 + "/" + RoomEditor.maxFurnitures, base.X + 68f - profile.font.GetWidth(tn2) / 2f - hOffset2, base.Y + 75f + 6.5f + vOffset2, Color.Black, 0.7f);
-                Vec2 vec2 = new Vec2(base.X + 56f - profile.font.GetWidth(tn2) / 2f - hOffset2, base.Y + 75f + 6f + vOffset2);
-                Graphics.DrawRect(vec2, vec2 + new Vec2(37f, 3f), Colors.BlueGray, 0.66f, filled: true, 0.5f);
-                Graphics.DrawRect(vec2, vec2 + new Vec2(37f * fill2, 3f), (fill2 < 0.4f) ? Colors.DGGreen : ((fill2 < 0.8f) ? Colors.DGYellow : Colors.DGRed), 0.68f, filled: true, 0.5f);
+                Vector2 vec2 = new Vector2(base.X + 56f - profile.font.GetWidth(tn2) / 2f - hOffset2, base.Y + 75f + 6f + vOffset2);
+                Graphics.DrawRect(vec2, vec2 + new Vector2(37f, 3f), Colors.BlueGray, 0.66f, filled: true, 0.5f);
+                Graphics.DrawRect(vec2, vec2 + new Vector2(37f * fill2, 3f), (fill2 < 0.4f) ? Colors.DGGreen : ((fill2 < 0.8f) ? Colors.DGYellow : Colors.DGRed), 0.68f, filled: true, 0.5f);
             }
-            profile.font.spriteScale = new Vec2(1f, 1f);
-            profile.font.Scale = new Vec2(1f, 1f);
+            profile.font.spriteScale = new Vector2(1f, 1f);
+            profile.font.Scale = new Vector2(1f, 1f);
         }
         else
         {
             _playerProfile.font.Scale = fontscale2;
             _playerProfile.font.Draw(teamName, base.X + 48f - _playerProfile.font.GetWidth(teamName) / 2f - hOffset2, base.Y + 75f + vOffset2, Color.White, 0.7f);
-            _font.Scale = new Vec2(1f, 1f);
+            _font.Scale = new Vector2(1f, 1f);
         }
     }
 }

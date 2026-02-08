@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -71,7 +72,7 @@ public class MagBullet : Bullet
         }
     }
 
-    protected override void Rebound(Vec2 pos, float dir, float rng)
+    protected override void Rebound(Vector2 pos, float dir, float rng)
     {
         MagBullet bullet = new MagBullet(pos.X, pos.Y, ammo, dir, null, rebound, rng);
         bullet._teleporter = _teleporter;

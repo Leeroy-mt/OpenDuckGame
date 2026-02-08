@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ContextSearch : ContextMenu
@@ -36,6 +38,6 @@ public class ContextSearch : ContextMenu
         {
             _text = "@searchicon@ |GRAY|search...";
         }
-        Graphics.DrawFancyString(_text, Position + new Vec2(0f, 4f), c, base.Depth + 2);
+        Graphics.DrawFancyString(_text, Position + new Vector2(0f, 4f), c, base.Depth + 2);
     }
 }

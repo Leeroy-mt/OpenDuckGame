@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Stuff|Spikes")]
@@ -17,16 +19,16 @@ public class Spikes : MaterialThing, IDontMove
         _sprite = new SpriteMap("spikes", 16, 19);
         _sprite.speed = 0.1f;
         graphic = _sprite;
-        Center = new Vec2(8f, 14f);
-        collisionOffset = new Vec2(-6f, -3f);
-        collisionSize = new Vec2(13f, 5f);
+        Center = new Vector2(8f, 14f);
+        collisionOffset = new Vector2(-6f, -3f);
+        collisionSize = new Vector2(13f, 5f);
         base.Depth = 0.28f;
         _editorName = "Spikes Up";
         editorTooltip = "Pointy and dangerous, unless you're wearing the right boots.";
         editorCycleType = typeof(SpikesRight);
         thickness = 3f;
         physicsMaterial = PhysicsMaterial.Metal;
-        base.editorOffset = new Vec2(0f, 6f);
+        base.editorOffset = new Vector2(0f, 6f);
         base.hugWalls = WallHug.Floor;
         _editorImageCenter = true;
         _killImpact = ImpactedFrom.Top;
@@ -62,14 +64,14 @@ public class Spikes : MaterialThing, IDontMove
             if (with is PhysicsObject)
             {
                 PhysicsObject p = with as PhysicsObject;
-                Vec2 lastBr = with.bottomRight;
-                Vec2 lastBl = with.bottomLeft;
-                Vec2 bottomMiddle;
-                Vec2 vec = (bottomMiddle = new Vec2(with.X, with.bottom));
-                Vec2 posDif = p.lastPosition - p.Position;
+                Vector2 lastBr = with.bottomRight;
+                Vector2 lastBl = with.bottomLeft;
+                Vector2 bottomMiddle;
+                Vector2 vec = (bottomMiddle = new Vector2(with.X, with.bottom));
+                Vector2 posDif = p.lastPosition - p.Position;
                 lastBr += posDif;
                 lastBl += posDif;
-                Vec2 p2 = vec + posDif;
+                Vector2 p2 = vec + posDif;
                 kill = false;
                 if (Collision.LineIntersect(p2, bottomMiddle, base.topLeft, base.topRight) || Collision.LineIntersect(lastBl, with.bottomLeft, base.topLeft, base.topRight) || Collision.LineIntersect(lastBr, with.bottomRight, base.topLeft, base.topRight))
                 {

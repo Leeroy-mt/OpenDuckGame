@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Rifles")]
@@ -14,14 +16,14 @@ public class Musket : TampingWeapon
         _ammoType.accuracy = 0.2f;
         _type = "gun";
         graphic = new Sprite("musket");
-        Center = new Vec2(19f, 5f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(16f, 7f);
-        _barrelOffsetTL = new Vec2(38f, 3f);
+        Center = new Vector2(19f, 5f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(16f, 7f);
+        _barrelOffsetTL = new Vector2(38f, 3f);
         _fireSound = "shotgun";
         _kickForce = 2f;
         _fireRumble = RumbleIntensity.Light;
-        _holdOffset = new Vec2(3f, 0f);
+        _holdOffset = new Vector2(3f, 0f);
         editorTooltip = "Old-timey rifle, takes approximately 150 years to reload.";
     }
 

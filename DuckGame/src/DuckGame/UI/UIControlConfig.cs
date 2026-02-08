@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -124,51 +125,51 @@ public class UIControlConfig : UIMenu
         _warningMenu = new UIMenu("WARNING!", Layer.HUD.camera.width / 2, Layer.HUD.camera.height / 2, 180, -1, "@SELECT@ I see...");
         _warningMenu.Add(new UIText("", Color.White, UIAlign.Center, -3)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.Add(new UIText("One or more profiles have", Color.White, UIAlign.Center, -4)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.Add(new UIText("|DGBLUE|custom controls|PREV| defined, which will", Color.White, UIAlign.Center, -4)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.Add(new UIText("|DGRED|override|PREV| any controls set here!", Color.White, UIAlign.Center, -4)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.Add(new UIText("", Color.White, UIAlign.Center, -3)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.Add(new UIText("If these controls are not working,", Color.White, UIAlign.Center, -4)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.Add(new UIText("enter the hat console in the lobby", Color.White, UIAlign.Center, -4)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.Add(new UIText("and press |DGORANGE|EDIT|PREV| on your profile name.", Color.White, UIAlign.Center, -4)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.Add(new UIText("Select |DGORANGE|CONTROLS|PREV|, select your desired", Color.White, UIAlign.Center, -4)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.Add(new UIText("input device, go to |DGORANGE|PAGE 2|PREV|", Color.White, UIAlign.Center, -4)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.Add(new UIText("and select |DGORANGE|RESET|PREV|.", Color.White, UIAlign.Center, -4)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.Add(new UIText("", Color.White, UIAlign.Center, -3)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         _warningMenu.SetAcceptFunction(new UIMenuActionOpenMenu(_warningMenu, this));
         _warningMenu.SetBackFunction(new UIMenuActionOpenMenu(_warningMenu, this));

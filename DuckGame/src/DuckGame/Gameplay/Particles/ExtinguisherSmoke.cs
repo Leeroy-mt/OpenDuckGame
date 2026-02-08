@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -41,7 +42,7 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
     public ExtinguisherSmoke(float xpos, float ypos, bool network = false)
         : base(xpos, ypos)
     {
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         hSpeed = Rando.Float(-0.2f, 0.2f);
         vSpeed = Rando.Float(-0.2f, 0.2f);
         _life += Rando.Float(0.2f);
@@ -52,8 +53,8 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
         _bounceEfficiency = 0.2f;
         base.ScaleX = (base.ScaleY = Rando.Float(0.4f, 0.5f));
         _smokeID = FireManager.GetFireID();
-        _collisionSize = new Vec2(4f, 4f);
-        _collisionOffset = new Vec2(-2f, -2f);
+        _collisionSize = new Vector2(4f, 4f);
+        _collisionOffset = new Vector2(-2f, -2f);
         needsSynchronization = true;
         _sprite = new SpriteMap("tinySmokeTestFront", 16, 16);
         int off = Rando.Int(3) * 4;
@@ -65,7 +66,7 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
         _orbiter.AddAnimation("puff", Rando.Float(0.15f, 0.25f), false, off, 1 + off, 2 + off, 3 + off);
         _sprite2 = new SpriteMap("tinySmokeTestBack", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         if (Network.isActive && !network)
         {
             GhostManager.context.particleManager.AddLocalParticle(this);
@@ -132,7 +133,7 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
         if (_grounded)
         {
             _groundedTime += 0.01f;
-            ExtinguisherSmoke e = Level.CheckCircle<ExtinguisherSmoke>(new Vec2(base.X, base.Y + 4f), 6f);
+            ExtinguisherSmoke e = Level.CheckCircle<ExtinguisherSmoke>(new Vector2(base.X, base.Y + 4f), 6f);
             if (e != null && _groundedTime < e._groundedTime - 0.1f)
             {
                 e.Y -= 0.1f;
@@ -156,7 +157,7 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
         float yOff = (float)Math.Cos(_orbitInc) * distPulse * s1;
         _sprite.imageIndex = _sprite.imageIndex;
         _sprite.Depth = base.Depth;
-        _sprite.Scale = new Vec2(s1);
+        _sprite.Scale = new Vector2(s1);
         _sprite.Center = Center;
         Graphics.Draw(_sprite, base.X + xOff, base.Y + yOff);
         _sprite2.imageIndex = _sprite.imageIndex;
@@ -171,7 +172,7 @@ public class ExtinguisherSmoke : PhysicsParticle, ITeleport
         _orbiter.imageIndex = _sprite.imageIndex;
         _orbiter.color = _sprite.color;
         _orbiter.Depth = base.Depth;
-        _orbiter.Scale = new Vec2(s2);
+        _orbiter.Scale = new Vector2(s2);
         _orbiter.Center = Center;
         Graphics.Draw(_orbiter, base.X - xOff, base.Y - yOff);
         _sprite2.imageIndex = _orbiter.imageIndex;

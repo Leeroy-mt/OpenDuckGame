@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -40,7 +41,7 @@ public class JetpackSmoke : Thing
         _orbiter.AddAnimation("puff", Rando.Float(0.15f, 0.25f), false, off, 1 + off, 2 + off, 3 + off);
         _sprite2 = new SpriteMap("tinySmokeTestBack", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         Init(xpos, ypos);
     }
 
@@ -99,7 +100,7 @@ public class JetpackSmoke : Thing
         float yOff = (float)Math.Cos(_orbitInc) * distPulse * s1;
         _sprite.imageIndex = _sprite.imageIndex;
         _sprite.Depth = base.Depth;
-        _sprite.Scale = new Vec2(s1);
+        _sprite.Scale = new Vector2(s1);
         _sprite.Center = Center;
         Graphics.Draw(_sprite, base.X + xOff, base.Y + yOff);
         _sprite2.imageIndex = _sprite.imageIndex;
@@ -114,7 +115,7 @@ public class JetpackSmoke : Thing
         _orbiter.imageIndex = _sprite.imageIndex;
         _orbiter.color = _sprite.color;
         _orbiter.Depth = base.Depth;
-        _orbiter.Scale = new Vec2(s2);
+        _orbiter.Scale = new Vector2(s2);
         _orbiter.Center = Center;
         Graphics.Draw(_orbiter, base.X - xOff, base.Y - yOff);
         _sprite2.imageIndex = _orbiter.imageIndex;

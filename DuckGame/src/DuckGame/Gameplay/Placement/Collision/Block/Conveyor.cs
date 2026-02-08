@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [BaggedProperty("isInDemo", true)]
@@ -17,14 +19,14 @@ public class Conveyor : Block
         _sprite.frame = Rando.Int(0, 7);
         _sprite.SetAnimation("convey");
         graphic = _sprite;
-        Center = new Vec2(7f, 5f);
-        collisionOffset = new Vec2(-7f, -4f);
-        collisionSize = new Vec2(14f, 8f);
+        Center = new Vector2(7f, 5f);
+        collisionOffset = new Vector2(-7f, -4f);
+        collisionSize = new Vector2(14f, 8f);
         base.Depth = 0.5f;
         _editorName = "Conveyor";
         thickness = 100f;
         physicsMaterial = PhysicsMaterial.Metal;
-        base.editorOffset = new Vec2(0f, 6f);
+        base.editorOffset = new Vector2(0f, 6f);
         base.hugWalls = WallHug.Floor;
         _editorImageCenter = true;
         _killImpact = ImpactedFrom.Top;

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Stuff|Springs")]
@@ -8,9 +10,9 @@ public class SpringDownLeft : SpringUpRight
         : base(xpos, ypos)
     {
         UpdateSprite();
-        Center = new Vec2(8f, 7f);
-        collisionOffset = new Vec2(-8f, 0f);
-        collisionSize = new Vec2(16f, 8f);
+        Center = new Vector2(8f, 7f);
+        collisionOffset = new Vector2(-8f, 0f);
+        collisionSize = new Vector2(16f, 8f);
         base.Depth = -0.5f;
         _editorName = "Spring DownLeft";
         editorTooltip = "Can't reach a low platform or want to get falling fast? That's why we built (down) springs.";

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -8,7 +9,7 @@ public class ChaingunBullet : Thing
 
     public Thing childThing;
 
-    public Vec2 chainOffset;
+    public Vector2 chainOffset;
 
     public float sway;
 
@@ -28,7 +29,7 @@ public class ChaingunBullet : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("chainBullet");
-        Center = new Vec2(4f, 3f);
+        Center = new Vector2(4f, 3f);
         base.Depth = 0.8f;
     }
 
@@ -38,12 +39,12 @@ public class ChaingunBullet : Thing
         if (dart)
         {
             graphic = new SpriteMap("dart", 16, 16);
-            Center = new Vec2(7f, 7f);
+            Center = new Vector2(7f, 7f);
         }
         else
         {
             graphic = new Sprite("chainBullet");
-            Center = new Vec2(4f, 3f);
+            Center = new Vector2(4f, 3f);
         }
         base.Depth = 0.8f;
     }
@@ -61,7 +62,7 @@ public class ChaingunBullet : Thing
     {
         if (parentThing != null)
         {
-            Position = parentThing.Position + chainOffset + new Vec2(0f, 2f);
+            Position = parentThing.Position + chainOffset + new Vector2(0f, 2f);
             graphic.flipH = parentThing.graphic.flipH;
             desiredSway = 0f;
             if (parentThing is Gun { owner: not null } g)

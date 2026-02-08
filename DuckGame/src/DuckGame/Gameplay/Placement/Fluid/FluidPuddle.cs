@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -91,7 +92,7 @@ public class FluidPuddle : MaterialThing
         }
     }
 
-    protected override bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected override bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         if (!_onFire && data.flammable > 0.5f)
         {
@@ -108,7 +109,7 @@ public class FluidPuddle : MaterialThing
         SpriteMap surfaceFire = new SpriteMap("surfaceFire", 16, 10);
         surfaceFire.AddAnimation("idle", 0.2f, true, 0, 1, 2, 3);
         surfaceFire.SetAnimation("idle");
-        surfaceFire.Center = new Vec2(8f, 10f);
+        surfaceFire.Center = new Vector2(8f, 10f);
         surfaceFire.frame = Rando.Int(3);
         _surfaceFire.Add(surfaceFire);
     }
@@ -136,11 +137,11 @@ public class FluidPuddle : MaterialThing
             _lava = new SpriteMap(dat.sprite, 16, 16);
             _lava.AddAnimation("idle", 0.1f, true, 0, 1, 2, 3);
             _lava.SetAnimation("idle");
-            _lava.Center = new Vec2(8f, 10f);
+            _lava.Center = new Vector2(8f, 10f);
             _lavaAlternate = new SpriteMap(dat.sprite, 16, 16);
             _lavaAlternate.AddAnimation("idle", 0.1f, true, 2, 3, 0, 1);
             _lavaAlternate.SetAnimation("idle");
-            _lavaAlternate.Center = new Vec2(8f, 10f);
+            _lavaAlternate.Center = new Vector2(8f, 10f);
         }
         if (_lightRect == null && Layer.lighting)
         {
@@ -226,7 +227,7 @@ public class FluidPuddle : MaterialThing
             base.X -= (base.right - _rightCorner.corner.X) / 2f;
             if (_rightStream == null)
             {
-                _rightStream = new FluidStream(_rightCorner.corner.X - 2f, base.Y, new Vec2(1f, 0f), 1f);
+                _rightStream = new FluidStream(_rightCorner.corner.X - 2f, base.Y, new Vector2(1f, 0f), 1f);
             }
             _rightStream.Y = base.Y - _collisionOffset.Y;
             _rightStream.X = _rightCorner.corner.X + 2f;
@@ -242,7 +243,7 @@ public class FluidPuddle : MaterialThing
             base.X += (_leftCorner.corner.X - base.left) / 2f;
             if (_leftStream == null)
             {
-                _leftStream = new FluidStream(_leftCorner.corner.X - 2f, base.Y, new Vec2(-1f, 0f), 1f);
+                _leftStream = new FluidStream(_leftCorner.corner.X - 2f, base.Y, new Vector2(-1f, 0f), 1f);
             }
             _leftStream.Y = base.Y - _collisionOffset.Y;
             _leftStream.X = _leftCorner.corner.X - 2f;
@@ -270,7 +271,7 @@ public class FluidPuddle : MaterialThing
         {
             return;
         }
-        foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(base.topLeft + new Vec2(0f, -8f), base.topRight + new Vec2(0f, -8f)))
+        foreach (PhysicsObject item in Level.CheckLineAll<PhysicsObject>(base.topLeft + new Vector2(0f, -8f), base.topRight + new Vector2(0f, -8f)))
         {
             item.Y = base.top;
             item.DoFloat();
@@ -306,7 +307,7 @@ public class FluidPuddle : MaterialThing
                 item.sleeping = false;
             }
         }
-        FluidPuddle puddle = Level.CheckLine<FluidPuddle>(new Vec2(base.left, base.Y), new Vec2(base.right, base.Y), this);
+        FluidPuddle puddle = Level.CheckLine<FluidPuddle>(new Vector2(base.left, base.Y), new Vector2(base.right, base.Y), this);
         if (puddle != null && puddle.data.amount < data.amount)
         {
             puddle.active = false;
@@ -409,12 +410,12 @@ public class FluidPuddle : MaterialThing
 
     public override void Draw()
     {
-        Graphics.DrawLine(Position + new Vec2(0f - _collisionOffset.X, collisionOffset.Y / 2f + 0.5f), Position + new Vec2(_collisionOffset.X, collisionOffset.Y / 2f + 0.5f), new Color(data.color) * data.transparent, _collisionSize.Y, 0.9f);
-        Graphics.DrawLine(Position + new Vec2(0f - _collisionOffset.X, collisionOffset.Y / 2f + 0.5f), Position + new Vec2(_collisionOffset.X, collisionOffset.Y / 2f + 0.5f), new Color(data.color), _collisionSize.Y, -0.99f);
+        Graphics.DrawLine(Position + new Vector2(0f - _collisionOffset.X, collisionOffset.Y / 2f + 0.5f), Position + new Vector2(_collisionOffset.X, collisionOffset.Y / 2f + 0.5f), new Color(data.color) * data.transparent, _collisionSize.Y, 0.9f);
+        Graphics.DrawLine(Position + new Vector2(0f - _collisionOffset.X, collisionOffset.Y / 2f + 0.5f), Position + new Vector2(_collisionOffset.X, collisionOffset.Y / 2f + 0.5f), new Color(data.color), _collisionSize.Y, -0.99f);
         if (_lightRect != null)
         {
             _lightRect.Position = base.topLeft;
-            _lightRect.size = new Vec2(base.width, base.height);
+            _lightRect.size = new Vector2(base.width, base.height);
         }
         int val = (int)Math.Ceiling(_collisionSize.X / 16f);
         float inc = _collisionSize.X / (float)val;

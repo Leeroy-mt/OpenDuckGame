@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -66,7 +67,7 @@ public class ChallengeCard : Thing
         _realSave = Profiles.active[0].GetSaveData(_challenge.levelID);
         _save = _realSave.Clone();
         _medalRibbon = new SpriteMap("arcade/medalRibbon", 18, 27);
-        _medalRibbon.Center = new Vec2(6f, 3f);
+        _medalRibbon.Center = new Vector2(6f, 3f);
         _fancyFont = new FancyBitmapFont("smallFont");
     }
 
@@ -77,7 +78,7 @@ public class ChallengeCard : Thing
             MemoryStream stream = new MemoryStream(Convert.FromBase64String(_challenge.preview));
             Texture2D tex = Texture2D.FromStream(Graphics.device, stream);
             _preview = new SpriteMap(tex, tex.Width, tex.Height);
-            _preview.Scale = new Vec2(0.25f);
+            _preview.Scale = new Vector2(0.25f);
         }
         _size = Lerp.Float(_size, contract ? 1 : (expand ? 130 : 42), 8f);
         _alphaMul = Lerp.Float(_alphaMul, contract ? 0f : 1f, 0.1f);
@@ -171,7 +172,7 @@ public class ChallengeCard : Thing
     {
         float mul = base.Alpha * (hover ? 1f : 0.6f) * _alphaMul;
         _font.Alpha = mul;
-        Graphics.DrawRect(Position, Position + new Vec2(258f, _size), Color.White * mul, 0.8f + mul * 0.04f, filled: false);
+        Graphics.DrawRect(Position, Position + new Vector2(258f, _size), Color.White * mul, 0.8f + mul * 0.04f, filled: false);
         if (_save.trophy != TrophyType.Baseline)
         {
             _medalRibbon.Depth = 0.81f + mul * 0.04f;
@@ -250,8 +251,8 @@ public class ChallengeCard : Thing
             return;
         }
         float dataAlpha = _dataAlpha * mul;
-        Graphics.DrawLine(Position + new Vec2(0f, 42f), Position + new Vec2(258f, 42f), Color.White * dataAlpha, 1f, 0.8f + mul * 0.04f);
-        Graphics.DrawLine(Position + new Vec2(0f, 64f), Position + new Vec2(258f, 64f), Color.White * dataAlpha, 1f, 0.8f + mul * 0.04f);
+        Graphics.DrawLine(Position + new Vector2(0f, 42f), Position + new Vector2(258f, 42f), Color.White * dataAlpha, 1f, 0.8f + mul * 0.04f);
+        Graphics.DrawLine(Position + new Vector2(0f, 64f), Position + new Vector2(258f, 64f), Color.White * dataAlpha, 1f, 0.8f + mul * 0.04f);
         _font.Alpha = dataAlpha;
         Color bestColor = new Color(245, 165, 36);
         bestColor = Colors.DGRed;

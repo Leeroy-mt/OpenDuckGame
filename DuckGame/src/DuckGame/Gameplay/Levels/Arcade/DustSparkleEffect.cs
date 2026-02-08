@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -44,7 +45,7 @@ public class DustSparkleEffect : Thing
 
     public override void Initialize()
     {
-        base.material = new MaterialDustSparkle(Position, new Vec2(_light.width, _light.height), _wide, _lit);
+        base.material = new MaterialDustSparkle(Position, new Vector2(_light.width, _light.height), _wide, _lit);
         base.Initialize();
     }
 
@@ -81,7 +82,7 @@ public class DustSparkleEffect : Thing
             {
                 mul = -1;
             }
-            _sparkles.Add(new DustSparkle(new Vec2(base.X + Rando.Float(_light.width), base.Y + Rando.Float(_light.height)), new Vec2(Rando.Float(0.15f, 0.25f) * (float)mul, Rando.Float(-0.05f, 0.05f))));
+            _sparkles.Add(new DustSparkle(new Vector2(base.X + Rando.Float(_light.width), base.Y + Rando.Float(_light.height)), new Vector2(Rando.Float(0.15f, 0.25f) * (float)mul, Rando.Float(-0.05f, 0.05f))));
         }
     }
 
@@ -93,7 +94,7 @@ public class DustSparkleEffect : Thing
         Graphics.Draw(_light, base.X, base.Y);
         foreach (DustSparkle d in _sparkles)
         {
-            Graphics.DrawRect(d.position + new Vec2(-0.5f, -0.5f), d.position + new Vec2(0.5f, 0.5f), Color.White * d.alpha, base.Depth + 10);
+            Graphics.DrawRect(d.position + new Vector2(-0.5f, -0.5f), d.position + new Vector2(0.5f, 0.5f), Color.White * d.alpha, base.Depth + 10);
         }
     }
 }

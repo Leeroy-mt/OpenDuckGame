@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -92,17 +93,17 @@ public class ContextRadio : ContextMenu
         }
         if (_image != null)
         {
-            Graphics.DrawString(_text, Position + new Vec2(20f, 5f), c, 0.85f);
+            Graphics.DrawString(_text, Position + new Vector2(20f, 5f), c, 0.85f);
             _image.Depth = base.Depth + 3;
             _image.X = base.X + 1f;
             _image.Y = base.Y;
             _image.color = c;
-            _image.Scale = new Vec2(1f);
+            _image.Scale = new Vector2(1f);
             _image.Draw();
         }
         else
         {
-            Graphics.DrawString(_text, Position + new Vec2(4f, 5f), c, 0.85f);
+            Graphics.DrawString(_text, Position + new Vector2(4f, 5f), c, 0.85f);
         }
         _radioButton.Depth = 0.9f;
         _radioButton.X = base.X + itemSize.X - 16f;

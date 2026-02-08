@@ -1,8 +1,10 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class DuckBone
 {
-    public Vec2 position;
+    public Vector2 position;
 
     public float orientation;
 }

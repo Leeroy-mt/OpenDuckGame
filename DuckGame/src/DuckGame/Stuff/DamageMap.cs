@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -67,7 +68,7 @@ public class DamageMap
         }
     }
 
-    public void Damage(Vec2 point, float radius)
+    public void Damage(Vector2 point, float radius)
     {
         point.X -= thing.left;
         point.Y -= thing.top;
@@ -75,7 +76,7 @@ public class DamageMap
         {
             for (int x = 0; x < 16; x++)
             {
-                if ((new Vec2(x, y) - point).Length() <= radius)
+                if ((new Vector2(x, y) - point).Length() <= radius)
                 {
                     SetPoint(x, y, val: false);
                 }

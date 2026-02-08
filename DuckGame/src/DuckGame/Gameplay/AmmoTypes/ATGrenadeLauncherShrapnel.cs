@@ -1,8 +1,10 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class ATGrenadeLauncherShrapnel : ATShrapnel
 {
-    public override void MakeNetEffect(Vec2 pos, bool fromNetwork = false)
+    public override void MakeNetEffect(Vector2 pos, bool fromNetwork = false)
     {
         for (int repeat = 0; repeat < 1; repeat++)
         {

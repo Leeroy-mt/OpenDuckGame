@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -23,7 +24,7 @@ public class NetDebugSlider : NetDebugElement
     {
     }
 
-    protected override bool Draw(Vec2 position, bool allowInput)
+    protected override bool Draw(Vector2 position, bool allowInput)
     {
         bool tookInput = !allowInput;
         position.X += indent;
@@ -42,7 +43,7 @@ public class NetDebugSlider : NetDebugElement
                 tookInput = true;
             }
         }
-        Vec2 barPos = rect.tl;
+        Vector2 barPos = rect.tl;
         for (int i = 0; i < points; i++)
         {
             Color c = Color.Gray;
@@ -54,7 +55,7 @@ public class NetDebugSlider : NetDebugElement
             {
                 c = new Color(200, 200, 200);
             }
-            Graphics.DrawRect(barPos, barPos + new Vec2(4f, 8f), c, depth + 5);
+            Graphics.DrawRect(barPos, barPos + new Vector2(4f, 8f), c, depth + 5);
             barPos.X += 5f;
         }
         barPos.X += 2f;

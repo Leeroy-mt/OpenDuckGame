@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Lasers")]
@@ -20,17 +22,17 @@ public class Phaser : Gun
         _ammoType = new ATPhaser();
         _type = "gun";
         graphic = new Sprite("phaser");
-        Center = new Vec2(7f, 4f);
-        collisionOffset = new Vec2(-7f, -4f);
-        collisionSize = new Vec2(15f, 9f);
-        _barrelOffsetTL = new Vec2(14f, 3f);
+        Center = new Vector2(7f, 4f);
+        collisionOffset = new Vector2(-7f, -4f);
+        collisionSize = new Vector2(15f, 9f);
+        _barrelOffsetTL = new Vector2(14f, 3f);
         _fireSound = "laserRifle";
         _fullAuto = false;
         _fireWait = 0f;
         _kickForce = 0.5f;
-        _holdOffset = new Vec2(0f, 0f);
+        _holdOffset = new Vector2(0f, 0f);
         _flare = new SpriteMap("laserFlare", 16, 16);
-        _flare.Center = new Vec2(0f, 8f);
+        _flare.Center = new Vector2(0f, 8f);
         _phaserCharge = new SpriteMap("phaserCharge", 8, 8);
         _phaserCharge.frame = 1;
         editorTooltip = "Like a laser, only...phasery? Hold the trigger to charge a more powerful shot.";
@@ -58,7 +60,7 @@ public class Phaser : Gun
         {
             float a = base.Alpha;
             base.Alpha = (_chargeFade * 0.6f + _chargeFade * _chargeWaver.normalized * 0.4f) * 0.8f;
-            Draw(_phaserCharge, new Vec2(3f + _chargeFade * (float)_chargeWaver * 0.5f, -4f), -1);
+            Draw(_phaserCharge, new Vector2(3f + _chargeFade * (float)_chargeWaver * 0.5f, -4f), -1);
             base.Alpha = a;
         }
     }

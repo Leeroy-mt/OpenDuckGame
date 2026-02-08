@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -11,16 +12,16 @@ public class RockWall : Block, IBigStupidWall
         : base(xpos, ypos)
     {
         graphic = new Sprite("laserSpawner");
-        Center = new Vec2(8f, 8f);
-        collisionSize = new Vec2(12f, 12f);
-        collisionOffset = new Vec2(-6f, -6f);
+        Center = new Vector2(8f, 8f);
+        collisionSize = new Vector2(12f, 12f);
+        collisionOffset = new Vector2(-6f, -6f);
         base.Depth = -0.6f;
         base.hugWalls = WallHug.None;
         base.layer = Layer.Foreground;
         physicsMaterial = PhysicsMaterial.Metal;
         _visibleInGame = true;
         _wall = new Sprite("rockWall");
-        _wall.Center = new Vec2(_wall.w - 4, _wall.h / 2);
+        _wall.Center = new Vector2(_wall.w - 4, _wall.h / 2);
         editorTooltip = "Adds an infinite vertical rock wall.";
     }
 
@@ -28,8 +29,8 @@ public class RockWall : Block, IBigStupidWall
     {
         if (!(Level.current is Editor))
         {
-            collisionSize = new Vec2(64f, 4096f);
-            collisionOffset = new Vec2(-61f, -700f);
+            collisionSize = new Vector2(64f, 4096f);
+            collisionOffset = new Vector2(-61f, -700f);
         }
         base.Initialize();
     }
@@ -51,7 +52,7 @@ public class RockWall : Block, IBigStupidWall
         }
         else
         {
-            Graphics.DrawLine(Position, Position + new Vec2(flipHorizontal ? 16 : (-16), 0f), Color.Red);
+            Graphics.DrawLine(Position, Position + new Vector2(flipHorizontal ? 16 : (-16), 0f), Color.Red);
             base.Draw();
         }
     }

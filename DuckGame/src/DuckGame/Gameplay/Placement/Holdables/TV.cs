@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -29,7 +30,7 @@ public class TV : Holdable, IPlatform
 
     public bool jumpReady;
 
-    private List<Vec2> trail = new List<Vec2>();
+    private List<Vector2> trail = new List<Vector2>();
 
     private SpriteMap _channels;
 
@@ -47,9 +48,9 @@ public class TV : Holdable, IPlatform
         _sprite = new SpriteMap("plasma2", 16, 16);
         _sprite.speed = 0.2f;
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -7f);
-        collisionSize = new Vec2(16f, 14f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -7f);
+        collisionSize = new Vector2(16f, 14f);
         base.Depth = -0.5f;
         _editorName = "TV";
         thickness = 2f;
@@ -60,7 +61,7 @@ public class TV : Holdable, IPlatform
         _frame.CenterOrigin();
         _damaged = new Sprite("tvBroken");
         _damaged.CenterOrigin();
-        _holdOffset = new Vec2(2f, 0f);
+        _holdOffset = new Vector2(2f, 0f);
         _breakForce = 4f;
         base.collideSounds.Add("landTV");
         physicsMaterial = PhysicsMaterial.Metal;
@@ -98,7 +99,7 @@ public class TV : Holdable, IPlatform
             SFX.Play("breakTV");
             for (int i = 0; i < 8; i++)
             {
-                Level.Add(new GlassParticle(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-8f, 8f), new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+                Level.Add(new GlassParticle(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-8f, 8f), new Vector2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
             }
             base.collideSounds.Clear();
             base.collideSounds.Add("deadTVLand");
@@ -107,7 +108,7 @@ public class TV : Holdable, IPlatform
         return false;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal && owner == null)
         {
@@ -146,7 +147,7 @@ public class TV : Holdable, IPlatform
                     Level.Add(new EscapingGhost(base.X, base.Y - 6f));
                     for (int i = 0; i < 8; i++)
                     {
-                        Level.Add(Spark.New(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-8f, 8f), new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+                        Level.Add(Spark.New(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-8f, 8f), new Vector2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
                     }
                 }
                 _madeGhost = true;
@@ -215,13 +216,13 @@ public class TV : Holdable, IPlatform
         _channels.Alpha = Lerp.Float(_channels.Alpha, (owner != null) ? 1f : 0f, 0.1f);
         _channels.Depth = base.Depth + 4;
         _channels.frame = (channel ? (jumpReady ? 1 : 2) : 0);
-        Vec2 channelPos = Offset(new Vec2(-4f, -4f));
+        Vector2 channelPos = Offset(new Vector2(-4f, -4f));
         Graphics.Draw(_channels, channelPos.X, channelPos.Y);
         if (owner != null)
         {
-            Vec2 prev = Vec2.Zero;
+            Vector2 prev = Vector2.Zero;
             bool hasPrev = false;
-            foreach (Vec2 v in trail)
+            foreach (Vector2 v in trail)
             {
                 if (!hasPrev)
                 {

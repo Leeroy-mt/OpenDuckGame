@@ -1,12 +1,14 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMPipeOut : NMEvent
 {
-    public Vec2 position;
+    public Vector2 position;
 
     public byte direction;
 
-    public NMPipeOut(Vec2 pPosition, byte pDirection)
+    public NMPipeOut(Vector2 pPosition, byte pDirection)
     {
         direction = pDirection;
         position = pPosition;
@@ -23,23 +25,23 @@ public class NMPipeOut : NMEvent
             SmallSmoke s = SmallSmoke.New(position.X + Rando.Float(-4f, 4f), position.Y + Rando.Float(-4f, 4f));
             if (direction == 0)
             {
-                s.velocity = new Vec2(Rando.Float(-0.5f, 0.5f), Rando.Float(0f, -0.5f));
+                s.velocity = new Vector2(Rando.Float(-0.5f, 0.5f), Rando.Float(0f, -0.5f));
                 Level.current.CollisionPoint<PipeTileset>(position)?.FlapPipe();
             }
             else if (direction == 1)
             {
-                s.velocity = new Vec2(Rando.Float(0.2f, 0.7f), Rando.Float(-0.5f, 0.5f));
-                Level.current.CollisionPoint<PipeTileset>(position + new Vec2(-10f, 0f))?.FlapPipe();
+                s.velocity = new Vector2(Rando.Float(0.2f, 0.7f), Rando.Float(-0.5f, 0.5f));
+                Level.current.CollisionPoint<PipeTileset>(position + new Vector2(-10f, 0f))?.FlapPipe();
             }
             else if (direction == 3)
             {
-                s.velocity = new Vec2(Rando.Float(-0.7f, -0.2f), Rando.Float(-0.5f, 0.5f));
-                Level.current.CollisionPoint<PipeTileset>(position + new Vec2(10f, 0f))?.FlapPipe();
+                s.velocity = new Vector2(Rando.Float(-0.7f, -0.2f), Rando.Float(-0.5f, 0.5f));
+                Level.current.CollisionPoint<PipeTileset>(position + new Vector2(10f, 0f))?.FlapPipe();
             }
             else if (direction == 2)
             {
-                s.velocity = new Vec2(Rando.Float(-0.5f, 0.5f), Rando.Float(0.2f, 0.7f));
-                Level.current.CollisionPoint<PipeTileset>(position + new Vec2(0f, -10f))?.FlapPipe();
+                s.velocity = new Vector2(Rando.Float(-0.5f, 0.5f), Rando.Float(0.2f, 0.7f));
+                Level.current.CollisionPoint<PipeTileset>(position + new Vector2(0f, -10f))?.FlapPipe();
             }
             Level.Add(s);
         }

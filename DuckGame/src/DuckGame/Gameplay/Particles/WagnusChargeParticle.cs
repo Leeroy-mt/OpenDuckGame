@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -51,8 +52,8 @@ public class WagnusChargeParticle : Thing
 
     public override void Update()
     {
-        Vec2 travel = Position - _target.Position;
-        float len = travel.lengthSq;
+        Vector2 travel = Position - _target.Position;
+        float len = travel.LengthSquared();
         if (len < 64f || len > 4096f)
         {
             base.Alpha -= 0.08f;
@@ -79,9 +80,9 @@ public class WagnusChargeParticle : Thing
 
     public override void Draw()
     {
-        Vec2 dir = base.velocity.Normalized;
+        Vector2 dir = Vector2.Normalize(velocity);
         float speed = base.velocity.Length() * 2f;
-        Vec2 end = Position + dir * speed;
+        Vector2 end = Position + dir * speed;
         Graphics.DrawLine(col: new Color(147, 64, 221) * base.Alpha, p1: Position, p2: end, width: 1f, depth: base.Depth);
     }
 }

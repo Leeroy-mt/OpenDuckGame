@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -96,8 +97,8 @@ public class TeamProjector : Thing
             p.persona.armSprite.color = darken * (0.7f + _projectorSin.normalized * 0.1f);
             p.persona.armSprite.color = new Color(p.persona.armSprite.color.r, p.persona.armSprite.color.g, p.persona.armSprite.color.b);
             p.persona.armSprite.flipH = false;
-            p.persona.sprite.Scale = new Vec2(1f, 1f);
-            p.persona.armSprite.Scale = new Vec2(1f, 1f);
+            p.persona.sprite.Scale = new Vector2(1f, 1f);
+            p.persona.armSprite.Scale = new Vector2(1f, 1f);
             float sizePerDuck = 12f;
             float xpos = base.X - (float)(num - 1) * sizePerDuck / 2f + (float)index * sizePerDuck;
             p.persona.sprite.Depth = deep + 0.01f + (float)index * 0.001f;
@@ -107,12 +108,12 @@ public class TeamProjector : Thing
             Team t = p.team;
             if (t != null)
             {
-                Vec2 offset = DuckRig.GetHatPoint(p.persona.sprite.imageIndex);
+                Vector2 offset = DuckRig.GetHatPoint(p.persona.sprite.imageIndex);
                 SpriteMap hat = p.team.GetHat(p.persona);
                 hat.Depth = p.persona.sprite.Depth + 1;
                 hat.Alpha = p.persona.sprite.Alpha;
                 hat.color = p.persona.sprite.color;
-                hat.Center = new Vec2(16f, 16f) + t.hatOffset;
+                hat.Center = new Vector2(16f, 16f) + t.hatOffset;
                 hat.flipH = false;
                 Graphics.Draw(hat, xpos + offset.X + 1f, base.Y - 17f + offset.Y);
                 hat.color = Color.White;

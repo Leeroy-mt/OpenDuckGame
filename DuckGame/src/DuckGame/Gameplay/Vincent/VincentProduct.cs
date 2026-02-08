@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class VincentProduct
@@ -90,7 +92,7 @@ public class VincentProduct
         }
     }
 
-    public void Draw(Vec2 pos, float alpha, float deep)
+    public void Draw(Vector2 pos, float alpha, float deep)
     {
         if (furnitureData != null)
         {
@@ -101,8 +103,8 @@ public class VincentProduct
             }
             if (furnitureData.font != null && furnitureData.sprite == null)
             {
-                furnitureData.font.Scale = new Vec2(1f, 1f);
-                furnitureData.font.Draw("F", pos + new Vec2(-3.5f, -3f), Color.Black, deep + 0.005f);
+                furnitureData.font.Scale = new Vector2(1f, 1f);
+                furnitureData.font.Draw("F", pos + new Vector2(-3.5f, -3f), Color.Black, deep + 0.005f);
             }
             spr.Depth = deep;
             spr.frame = 0;
@@ -116,7 +118,7 @@ public class VincentProduct
             hat.Depth = deep;
             hat.frame = 0;
             hat.Alpha = alpha;
-            hat.Center = new Vec2(16f, 16f) + teamData.hatOffset;
+            hat.Center = new Vector2(16f, 16f) + teamData.hatOffset;
             Graphics.Draw(hat, pos.X, pos.Y);
             hat.Alpha = 1f;
         }

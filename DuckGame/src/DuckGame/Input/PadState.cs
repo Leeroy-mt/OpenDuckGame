@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 /// <summary>
@@ -14,9 +16,9 @@ public struct PadState
 
     public struct StickStates
     {
-        public Vec2 left;
+        public Vector2 left;
 
-        public Vec2 right;
+        public Vector2 right;
     }
 
     public PadButton buttons;

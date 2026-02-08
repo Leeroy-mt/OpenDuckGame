@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ public class RandomLevelNode
     public static bool processing;
     public static bool firstGetRequiresMultiplePaths;
 
-    public static Vec2 topLeft = Vec2.Zero;
+    public static Vector2 topLeft = Vector2.Zero;
 
     public static HashSet<Thing> _allPreparedThings;
 
@@ -100,7 +101,7 @@ public class RandomLevelNode
             Rando.generator = new Random(seed);
         Level.InitChanceGroups();
         processing = true;
-        topLeft = new Vec2(-gridX * 192, -gridY * 144);
+        topLeft = new Vector2(-gridX * 192, -gridY * 144);
         _allPreparedThings = [];
         PreparePartsRecurse(x, y, level);
         processing = false;
@@ -170,7 +171,7 @@ public class RandomLevelNode
                         t = tiles[xpos, ypos];
                     if (t == null || t.data == null)
                     {
-                        Vec2 pyramidWallPos = new Vec2(xpos * 192 - 8, ypos * 144 - 8) + topLeft;
+                        Vector2 pyramidWallPos = new Vector2(xpos * 192 - 8, ypos * 144 - 8) + topLeft;
                         level.AddThing(new PyramidWall(pyramidWallPos.X, pyramidWallPos.Y));
                     }
                 }
@@ -186,14 +187,14 @@ public class RandomLevelNode
                     t2 = tiles[xpos2, ypos2];
                 if (t2 != null && t2.data != null)
                 {
-                    Vec2 vec = new Vec2(xpos2 * 192 + 96, ypos2 * 144 + 72) + topLeft;
-                    PyramidWall w = Level.CheckPoint<PyramidWall>(vec + new Vec2(-192, 0f));
+                    Vector2 vec = new Vector2(xpos2 * 192 + 96, ypos2 * 144 + 72) + topLeft;
+                    PyramidWall w = Level.CheckPoint<PyramidWall>(vec + new Vector2(-192, 0f));
                     w?.hasRight = true;
-                    w = Level.CheckPoint<PyramidWall>(vec + new Vec2(192, 0f));
+                    w = Level.CheckPoint<PyramidWall>(vec + new Vector2(192, 0f));
                     w?.hasLeft = true;
-                    w = Level.CheckPoint<PyramidWall>(vec + new Vec2(0, -144));
+                    w = Level.CheckPoint<PyramidWall>(vec + new Vector2(0, -144));
                     w?.hasDown = true;
-                    w = Level.CheckPoint<PyramidWall>(vec + new Vec2(0f, 144f));
+                    w = Level.CheckPoint<PyramidWall>(vec + new Vector2(0f, 144f));
                     w?.hasUp = true;
                 }
             }
@@ -202,8 +203,8 @@ public class RandomLevelNode
             item.AddExtraWalls();
         foreach (PyramidDoor d in level.things[typeof(PyramidDoor)])
         {
-            Block b = level.CollisionPoint<Block>(d.Position + new Vec2(-16, 0), d);
-            b ??= level.CollisionPoint<Block>(d.Position + new Vec2(16, 0), d);
+            Block b = level.CollisionPoint<Block>(d.Position + new Vector2(-16, 0), d);
+            b ??= level.CollisionPoint<Block>(d.Position + new Vector2(16, 0), d);
             if (b != null && !(b is PyramidDoor) && b is not Door)
             {
                 level.RemoveThing(d);
@@ -220,7 +221,7 @@ public class RandomLevelNode
         }
         foreach (Door d2 in level.things[typeof(Door)])
         {
-            Block b2 = level.CollisionLine<Block>(d2.Position + new Vec2(-16, 0), d2.Position + new Vec2(16, 0), d2);
+            Block b2 = level.CollisionLine<Block>(d2.Position + new Vector2(-16, 0), d2.Position + new Vector2(16, 0), d2);
             if (b2 != null && b2 is not PyramidDoor && b2 is not Door)
             {
                 level.RemoveThing(d2);

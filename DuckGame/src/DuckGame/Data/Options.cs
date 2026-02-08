@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -307,43 +308,43 @@ public static class Options
         UIMenu men = new UIMenu("Is that a PS4 Controller?", Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 220f, -1f, "@CANCEL@BACK @SELECT@SELECT");
         men.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         men.Add(new UIText("It seems you may have a |DGBLUE|PS4 Controller", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         men.Add(new UIText("plugged in! If so, and if you are running", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         men.Add(new UIText("|DGBLUE|DS4Windows|PREV| or a |DGBLUE|3rd party PS4 Controller Driver|PREV|,", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         men.Add(new UIText("you may need to |DGRED|disable|PREV| it.", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         men.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         men.Add(new UIText("If everything works okay, you can ignore", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         men.Add(new UIText("this message. If you're controlling 2 ducks", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         men.Add(new UIText("at once, then this message is for you!", Color.White, UIAlign.Center, -4f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         men.Add(new UIText("", Color.White, UIAlign.Center, -3f)
         {
-            Scale = new Vec2(0.5f)
+            Scale = new Vector2(0.5f)
         });
         men.Add(new UIMenuItem("|DGORANGE|OK THEN", new UIMenuActionCloseMenu(men), UIAlign.Center, Color.White));
         men.Add(new UIMenuItem("|DGRED|DON'T SHOW THIS AGAIN", new UIMenuActionCloseMenuCallFunction(men, QuitShowingControllerWarning), UIAlign.Center, Color.White));

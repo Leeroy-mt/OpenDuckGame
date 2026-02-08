@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -62,20 +63,20 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
         : base(xpos, ypos)
     {
         graphic = new Sprite("purpleBlock");
-        graphic.Center = new Vec2(8f, 8f);
+        graphic.Center = new Vector2(8f, 8f);
         _scanner = new Sprite("purpleScanner");
-        _scanner.Center = new Vec2(4f, 1f);
+        _scanner.Center = new Vector2(4f, 1f);
         _scanner.Alpha = 0.7f;
         _scanner.Depth = 0.9f;
         _projector = new Sprite("purpleProjector");
-        _projector.Center = new Vec2(8f, 16f);
+        _projector.Center = new Vector2(8f, 16f);
         _projector.Alpha = 0.7f;
         _projector.Depth = 0.9f;
         _none = new Sprite("none");
-        _none.Center = new Vec2(8f, 8f);
+        _none.Center = new Vector2(8f, 8f);
         _none.Alpha = 0.7f;
         _projectorGlitch = new Sprite("projectorGlitch");
-        _projectorGlitch.Center = new Vec2(8f, 8f);
+        _projectorGlitch.Center = new Vector2(8f, 8f);
         _projectorGlitch.Alpha = 0.7f;
         _projectorGlitch.Depth = 0.91f;
         base.impactThreshold = 0.2f;
@@ -197,7 +198,7 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
         }
         else
         {
-            _hoverItem.Position = Lerp.Vec2Smooth(_hoverItem.Position, Position + new Vec2(0f, -12f - _hoverItem.collisionSize.Y / 2f + (float)_projectionWave * 2f), 0.2f);
+            _hoverItem.Position = Lerp.Vec2Smooth(_hoverItem.Position, Position + new Vector2(0f, -12f - _hoverItem.collisionSize.Y / 2f + (float)_projectionWave * 2f), 0.2f);
             _hoverItem.vSpeed = 0f;
             _hoverItem.gravMultiplier = 0f;
         }

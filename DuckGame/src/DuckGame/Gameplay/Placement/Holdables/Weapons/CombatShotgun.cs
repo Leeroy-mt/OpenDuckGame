@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -28,21 +29,21 @@ public class CombatShotgun : Gun
         wideBarrel = true;
         _type = "gun";
         graphic = new Sprite("combatShotgun");
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-12f, -3f);
-        collisionSize = new Vec2(24f, 9f);
-        _barrelOffsetTL = new Vec2(29f, 15f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-12f, -3f);
+        collisionSize = new Vector2(24f, 9f);
+        _barrelOffsetTL = new Vector2(29f, 15f);
         _fireSound = "shotgunFire2";
         _kickForce = 5f;
         _fireRumble = RumbleIntensity.Kick;
         _numBulletsPerFire = 7;
         _manualLoad = true;
         _loaderSprite = new SpriteMap("combatShotgunLoader", 16, 16);
-        _loaderSprite.Center = new Vec2(8f, 8f);
+        _loaderSprite.Center = new Vector2(8f, 8f);
         _ammoSprite = new SpriteMap("combatShotgunAmmo", 16, 16);
-        _ammoSprite.Center = new Vec2(8f, 8f);
-        handOffset = new Vec2(0f, 1f);
-        _holdOffset = new Vec2(4f, 0f);
+        _ammoSprite.Center = new Vector2(8f, 8f);
+        handOffset = new Vector2(0f, 1f);
+        _holdOffset = new Vector2(4f, 0f);
         editorTooltip = "So many shells, what convenience!";
     }
 
@@ -94,9 +95,9 @@ public class CombatShotgun : Gun
     public override void Draw()
     {
         base.Draw();
-        Vec2 bOffset = new Vec2(13f, -1f);
+        Vector2 bOffset = new Vector2(13f, -1f);
         float offset = (float)Math.Sin(_loadProgress * 3.14f) * 3f;
-        Draw(_loaderSprite, new Vec2(bOffset.X - 12f - offset, bOffset.Y + 4f));
-        Draw(_ammoSprite, new Vec2(-3f, -2f), 2);
+        Draw(_loaderSprite, new Vector2(bOffset.X - 12f - offset, bOffset.Y + 4f));
+        Draw(_ammoSprite, new Vector2(-3f, -2f), 2);
     }
 }

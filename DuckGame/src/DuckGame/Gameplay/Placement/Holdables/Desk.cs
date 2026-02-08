@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -28,14 +29,14 @@ public class Desk : Holdable, IPlatform
         _hitPoints = 15f;
         _sprite = new SpriteMap("desk", 19, 12);
         graphic = _sprite;
-        Center = new Vec2(9f, 6f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(17f, 6f);
+        Center = new Vector2(9f, 6f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(17f, 6f);
         base.Depth = -0.5f;
         _editorName = "Desk";
         thickness = 8f;
         weight = 8f;
-        _holdOffset = new Vec2(2f, 2f);
+        _holdOffset = new Vector2(2f, 2f);
         base.collideSounds.Add("thud");
         physicsMaterial = PhysicsMaterial.Metal;
         editorTooltip = "This is where we get all the important work done.";
@@ -47,7 +48,7 @@ public class Desk : Holdable, IPlatform
         _hitPoints = 0f;
         SFX.Play("crateDestroy");
         Level.Remove(this);
-        Vec2 flyDir = Vec2.Zero;
+        Vector2 flyDir = Vector2.Zero;
         if (type is DTShot)
         {
             flyDir = (type as DTShot).bullet.travelDirNormalized;
@@ -69,7 +70,7 @@ public class Desk : Holdable, IPlatform
         return true;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (_flip < 0.05f && hitPos.Y > base.top + 4f)
         {
@@ -133,16 +134,16 @@ public class Desk : Holdable, IPlatform
         {
             flipped = 0;
         }
-        Vec2 prevCol = collisionSize;
-        Vec2 prevOff = collisionOffset;
+        Vector2 prevCol = collisionSize;
+        Vector2 prevOff = collisionOffset;
         if (_flip == 0f)
         {
             if (!landed)
             {
                 Land();
             }
-            collisionOffset = new Vec2(-8f, -6f);
-            collisionSize = new Vec2(17f, 11f);
+            collisionOffset = new Vector2(-8f, -6f);
+            collisionSize = new Vector2(17f, 11f);
         }
         else if (_flip == 1f)
         {
@@ -152,20 +153,20 @@ public class Desk : Holdable, IPlatform
             }
             if (flipped > 0)
             {
-                collisionOffset = new Vec2(0f, -12f);
-                collisionSize = new Vec2(8f, 17f);
+                collisionOffset = new Vector2(0f, -12f);
+                collisionSize = new Vector2(8f, 17f);
             }
             else
             {
-                collisionOffset = new Vec2(-10f, -13f);
-                collisionSize = new Vec2(8f, 17f);
+                collisionOffset = new Vector2(-10f, -13f);
+                collisionSize = new Vector2(8f, 17f);
             }
         }
         else
         {
             landed = false;
-            collisionOffset = new Vec2(-2f, 4f);
-            collisionSize = new Vec2(4f, 1f);
+            collisionOffset = new Vector2(-2f, 4f);
+            collisionSize = new Vector2(4f, 1f);
         }
         if (!firstFrame && (prevOff != collisionOffset || prevCol != collisionSize))
         {

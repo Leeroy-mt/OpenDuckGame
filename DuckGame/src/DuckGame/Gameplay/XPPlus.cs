@@ -1,10 +1,12 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class XPPlus
 {
-    public Vec2 position;
+    public Vector2 position;
 
-    public Vec2 velocity;
+    public Vector2 velocity;
 
     public float time;
 
@@ -12,7 +14,7 @@ public class XPPlus
 
     public float alpha = 1f;
 
-    public Vec2 target;
+    public Vector2 target;
 
     public Color color;
 }

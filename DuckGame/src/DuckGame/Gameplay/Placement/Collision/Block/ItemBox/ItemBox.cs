@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,9 +68,9 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
         _sprite = new SpriteMap("itemBox", 16, 16);
         graphic = _sprite;
         base.layer = Layer.Foreground;
-        Center = new Vec2(8f, 8f);
-        collisionSize = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        collisionSize = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -8f);
         base.Depth = 0.5f;
         _canFlip = false;
         _placementCost += 4;
@@ -104,7 +105,7 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
             netDisarmIndex++;
             return;
         }
-        _aboveList = Level.CheckRectAll<PhysicsObject>(base.topLeft + new Vec2(1f, -4f), base.bottomRight + new Vec2(-1f, -12f)).ToList();
+        _aboveList = Level.CheckRectAll<PhysicsObject>(base.topLeft + new Vector2(1f, -4f), base.bottomRight + new Vector2(-1f, -12f)).ToList();
         foreach (PhysicsObject p in _aboveList)
         {
             if (!p.grounded && !(p.vSpeed > 0f) && p.vSpeed != 0f)
@@ -209,7 +210,7 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
         if (netDisarmIndex != localNetDisarm)
         {
             localNetDisarm = netDisarmIndex;
-            _aboveList = Level.CheckRectAll<PhysicsObject>(base.topLeft + new Vec2(1f, -4f), base.bottomRight + new Vec2(-1f, -12f)).ToList();
+            _aboveList = Level.CheckRectAll<PhysicsObject>(base.topLeft + new Vector2(1f, -4f), base.bottomRight + new Vector2(-1f, -12f)).ToList();
             foreach (PhysicsObject p in _aboveList)
             {
                 if (base.isServerForObject && p.owner == null)
@@ -325,12 +326,12 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
                 g.AngleDegrees = 180f;
             }
         }
-        Block leftWall = Level.CheckPoint<Block>(Position + new Vec2(-16f, 0f));
+        Block leftWall = Level.CheckPoint<Block>(Position + new Vector2(-16f, 0f));
         if (leftWall != null)
         {
             newThing.clip.Add(leftWall);
         }
-        Block rightWall = Level.CheckPoint<Block>(Position + new Vec2(16f, 0f));
+        Block rightWall = Level.CheckPoint<Block>(Position + new Vector2(16f, 0f));
         if (rightWall != null)
         {
             newThing.clip.Add(rightWall);
@@ -430,6 +431,6 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
         {
             containString = contains.Name;
         }
-        Graphics.DrawString(containString, Position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
+        Graphics.DrawString(containString, Position + new Vector2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
     }
 }

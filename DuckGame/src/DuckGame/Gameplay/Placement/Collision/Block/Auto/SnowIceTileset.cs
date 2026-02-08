@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Blocks|Snow")]
@@ -51,7 +53,7 @@ public class SnowIceTileset : AutoBlock
         }
     }
 
-    public override void HeatUp(Vec2 location)
+    public override void HeatUp(Vector2 location)
     {
         if (!Network.isActive)
         {

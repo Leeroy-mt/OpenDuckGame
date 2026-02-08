@@ -47,7 +47,7 @@ public struct Vec4 : IEquatable<Vec4>
         this.w = w;
     }
 
-    public Vec4(Vec2 value, float z, float w)
+    public Vec4(Vector2 value, float z, float w)
     {
         x = value.X;
         y = value.Y;
@@ -370,13 +370,13 @@ public struct Vec4 : IEquatable<Vec4>
         result.z = value1.z - value2.z;
     }
 
-    public static Vec4 Transform(Vec2 position, Matrix matrix)
+    public static Vec4 Transform(Vector2 position, Matrix matrix)
     {
         Transform(ref position, ref matrix, out var result);
         return result;
     }
 
-    public static Vec4 Transform(Vec2 value, Quaternion rotation)
+    public static Vec4 Transform(Vector2 value, Quaternion rotation)
     {
         throw new NotImplementedException();
     }
@@ -391,7 +391,7 @@ public struct Vec4 : IEquatable<Vec4>
         throw new NotImplementedException();
     }
 
-    public static void Transform(ref Vec2 value, ref Quaternion rotation, out Vec4 result)
+    public static void Transform(ref Vector2 value, ref Quaternion rotation, out Vec4 result)
     {
         throw new NotImplementedException();
     }
@@ -438,7 +438,7 @@ public struct Vec4 : IEquatable<Vec4>
         return vector;
     }
 
-    public static void Transform(ref Vec2 position, ref Matrix matrix, out Vec4 result)
+    public static void Transform(ref Vector2 position, ref Matrix matrix, out Vec4 result)
     {
         result = new Vec4(position.X * matrix.M11 + position.Y * matrix.M21 + matrix.M41, position.X * matrix.M12 + position.Y * matrix.M22 + matrix.M42, position.X * matrix.M13 + position.Y * matrix.M23 + matrix.M43, position.X * matrix.M14 + position.Y * matrix.M24 + matrix.M44);
     }

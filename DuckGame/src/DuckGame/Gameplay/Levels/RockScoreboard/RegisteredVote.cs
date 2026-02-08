@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class RegisteredVote
@@ -16,7 +18,7 @@ public class RegisteredVote
 
     public float wobbleInc;
 
-    public Vec2 leftStick;
+    public Vector2 leftStick;
 
-    public Vec2 rightStick;
+    public Vector2 rightStick;
 }

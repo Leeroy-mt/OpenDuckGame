@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,12 +72,12 @@ public class TargetDuckNew : TargetDuck
         {
             range = g.ammoType.range;
         }
-        Vec2 at = holdObject.Offset(new Vec2(range * holdObject.angleMul, 0f));
+        Vector2 at = holdObject.Offset(new Vector2(range * holdObject.angleMul, 0f));
         if (_waitFire <= 0f)
         {
             foreach (Duck d in Level.current.things[typeof(Duck)].Where((Thing thing) => !(thing is TargetDuck)))
             {
-                if (!Collision.Line(holdObject.Position + new Vec2(0f, -5f), at + new Vec2(0f, -5f), d.rectangle) && !Collision.Line(holdObject.Position + new Vec2(0f, 5f), at + new Vec2(0f, 5f), d.rectangle))
+                if (!Collision.Line(holdObject.Position + new Vector2(0f, -5f), at + new Vector2(0f, -5f), d.rectangle) && !Collision.Line(holdObject.Position + new Vector2(0f, 5f), at + new Vector2(0f, 5f), d.rectangle))
                 {
                     continue;
                 }
@@ -115,13 +116,13 @@ public class TargetDuckNew : TargetDuck
         if (holdObject is Gun && (holdObject as Gun).ammoType != null && _waitFire < 1f && _waitFire > 0f)
         {
             float lerpval = _waitFire * _waitFire;
-            Vec2 barrelPosition = (holdObject as Gun).barrelPosition;
-            Vec2 topLine = barrelPosition + new Vec2(0f, (0f - lerpval) * 64f);
-            Vec2 vec = barrelPosition + new Vec2(0f, lerpval * 64f);
+            Vector2 barrelPosition = (holdObject as Gun).barrelPosition;
+            Vector2 topLine = barrelPosition + new Vector2(0f, (0f - lerpval) * 64f);
+            Vector2 vec = barrelPosition + new Vector2(0f, lerpval * 64f);
             float wideInc = 1f - Math.Min(_waitFire, 0.08f) / 0.08f;
             Color c = Lerp.ColorSmooth(Color.White, Color.Red, wideInc);
-            Graphics.DrawLine(topLine, topLine + new Vec2((holdObject as Gun).ammoType.range * (float)offDir, 0f), c * Math.Max(1f - _waitFire - 0.5f, 0f), 1f + wideInc, 0.99f);
-            Graphics.DrawLine(vec, vec + new Vec2((holdObject as Gun).ammoType.range * (float)offDir, 0f), c * Math.Max(1f - _waitFire - 0.5f, 0f), 1f + wideInc, 0.99f);
+            Graphics.DrawLine(topLine, topLine + new Vector2((holdObject as Gun).ammoType.range * (float)offDir, 0f), c * Math.Max(1f - _waitFire - 0.5f, 0f), 1f + wideInc, 0.99f);
+            Graphics.DrawLine(vec, vec + new Vector2((holdObject as Gun).ammoType.range * (float)offDir, 0f), c * Math.Max(1f - _waitFire - 0.5f, 0f), 1f + wideInc, 0.99f);
         }
         base.Draw();
     }

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class LevelInfo : Card
@@ -103,20 +105,20 @@ public class LevelInfo : Card
         _specialText = text;
     }
 
-    public override void Draw(Vec2 position, bool selected, float alpha)
+    public override void Draw(Vector2 position, bool selected, float alpha)
     {
-        Graphics.DrawRect(position, position + new Vec2(width, height), new Color(25, 38, 41) * alpha, 0.9f);
+        Graphics.DrawRect(position, position + new Vector2(width, height), new Color(25, 38, 41) * alpha, 0.9f);
         if (selected)
         {
-            Graphics.DrawRect(position + new Vec2(-1f, 0f), position + new Vec2(width + 1f, height), Color.White * alpha, 0.97f, filled: false);
+            Graphics.DrawRect(position + new Vector2(-1f, 0f), position + new Vector2(width + 1f, height), Color.White * alpha, 0.97f, filled: false);
         }
         if (_specialText != null)
         {
-            _font.Scale = new Vec2(0.5f, 0.5f);
+            _font.Scale = new Vector2(0.5f, 0.5f);
             _font.Draw(_specialText, position.X + width / 2f - _font.GetWidth(_specialText) / 2f, position.Y + height / 2f - 3f, Color.White * alpha, 0.95f);
             return;
         }
-        _font.Scale = new Vec2(0.5f, 0.5f);
+        _font.Scale = new Vector2(0.5f, 0.5f);
         _font.Draw(_name, position.X + 3f, position.Y + height - 6f, Color.White * alpha, 0.95f);
         Sprite sprite = _sprite;
         float xscale = (_sprite.ScaleY = width / (float)_sprite.width);

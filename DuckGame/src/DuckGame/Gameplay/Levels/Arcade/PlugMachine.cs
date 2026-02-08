@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Special|Arcade", EditorItemType.Arcade)]
@@ -22,7 +24,7 @@ public class PlugMachine : Thing
 
     private DustSparkleEffect _dust;
 
-    public override Vec2 cameraPosition => Position + new Vec2(-16f, 0f);
+    public override Vector2 cameraPosition => Position + new Vector2(-16f, 0f);
 
     public PlugMachine(float xpos, float ypos)
         : base(xpos, ypos)
@@ -35,9 +37,9 @@ public class PlugMachine : Thing
         _screen.SetAnimation("idle");
         graphic = _sprite;
         base.Depth = -0.5f;
-        Center = new Vec2(_sprite.width / 2, _sprite.h / 2);
-        _collisionSize = new Vec2(16f, 15f);
-        _collisionOffset = new Vec2(-8f, 2f);
+        Center = new Vector2(_sprite.width / 2, _sprite.h / 2);
+        _collisionSize = new Vector2(16f, 15f);
+        _collisionOffset = new Vector2(-8f, 2f);
         _hoverSprite = new Sprite("arcade/plug_hover");
         _duckSprite = new Sprite("arcade/plug_duck");
         _ledStrip = new SpriteMap("arcade/led_strip", 14, 1);
@@ -60,7 +62,7 @@ public class PlugMachine : Thing
 
     public override void Update()
     {
-        Vec2 testPos = Position + new Vec2(-20f, 0f);
+        Vector2 testPos = Position + new Vector2(-20f, 0f);
         Duck d = Level.Nearest<Duck>(testPos);
         if (d != null)
         {
@@ -86,7 +88,7 @@ public class PlugMachine : Thing
         graphic.color = Color.White;
         if (!(Level.current is Editor))
         {
-            Vec2 offset = new Vec2(-24f, -8f);
+            Vector2 offset = new Vector2(-24f, -8f);
             _duckSprite.Depth = base.Depth + 16;
             Graphics.Draw(_duckSprite, base.X + offset.X, base.Y + offset.Y);
             _ledStrip.Alpha = 1f;

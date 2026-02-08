@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class RCControlBolt : Thing
@@ -13,14 +15,14 @@ public class RCControlBolt : Thing
     {
         _control = c;
         graphic = new Sprite("rcBolt");
-        Center = new Vec2(8f, 8f);
-        base.Scale = new Vec2(0.3f, 0.3f);
+        Center = new Vector2(8f, 8f);
+        base.Scale = new Vector2(0.3f, 0.3f);
         base.Alpha = 1f;
     }
 
     public override void Update()
     {
-        Vec2 travel = _control.Position - Position;
+        Vector2 travel = _control.Position - Position;
         float length = travel.Length();
         travel.Normalize();
         base.AngleDegrees = 0f - Maths.PointDirection(Position, _control.Position) + 90f;

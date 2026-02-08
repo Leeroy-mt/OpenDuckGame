@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -18,9 +19,9 @@ public class Basketball : Holdable
     {
         _sprite = new SpriteMap("basketBall", 16, 16);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-8f, -8f);
-        collisionSize = new Vec2(15f, 15f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-8f, -8f);
+        collisionSize = new Vector2(15f, 15f);
         base.Depth = -0.5f;
         thickness = 1f;
         weight = 3f;
@@ -30,8 +31,8 @@ public class Basketball : Holdable
         _bouncy = 0.8f;
         friction = 0.03f;
         _impactThreshold = 0.1f;
-        _holdOffset = new Vec2(6f, 0f);
-        handOffset = new Vec2(0f, -0f);
+        _holdOffset = new Vector2(6f, 0f);
+        handOffset = new Vector2(0f, -0f);
         editorTooltip = "Perfect for playing the world's greatest sport! Also basketball.";
     }
 

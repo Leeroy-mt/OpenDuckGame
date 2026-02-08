@@ -1,8 +1,10 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMRessurect : NMEvent
 {
-    public Vec2 position;
+    public Vector2 position;
 
     public Duck duck;
 
@@ -12,7 +14,7 @@ public class NMRessurect : NMEvent
     {
     }
 
-    public NMRessurect(Vec2 pPosition, Duck pDuck, byte pLifeChangeIndex)
+    public NMRessurect(Vector2 pPosition, Duck pDuck, byte pLifeChangeIndex)
     {
         position = pPosition;
         duck = pDuck;

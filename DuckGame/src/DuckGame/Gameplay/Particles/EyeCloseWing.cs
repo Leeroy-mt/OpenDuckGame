@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class EyeCloseWing : Thing
@@ -15,7 +17,7 @@ public class EyeCloseWing : Thing
     {
         _sprite = s.CloneMap();
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         _dir = dir;
         base.Depth = 0.9f;
         if (_dir < 0)

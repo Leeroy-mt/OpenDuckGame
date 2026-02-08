@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class EnemySpawn : Thing
@@ -11,16 +13,16 @@ public class EnemySpawn : Thing
         list.Add(new SpriteMap("duck", 32, 32)
         {
             Depth = 0.9f,
-            Position = new Vec2(-8f, -18f)
+            Position = new Vector2(-8f, -18f)
         });
         _spawnSprite = new SpriteMap("spawnSheet", 16, 16);
         _spawnSprite.Depth = 0.95f;
         list.Add(_spawnSprite);
         graphic = list;
         _editorName = "enemy spawn";
-        Center = new Vec2(8f, 8f);
-        collisionSize = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        collisionSize = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -8f);
     }
 
     public override void Draw()

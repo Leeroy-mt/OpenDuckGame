@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -14,7 +15,7 @@ public class SnowFallParticle : PhysicsParticle
 
     private float _size;
 
-    public SnowFallParticle(float xpos, float ypos, Vec2 startVel, bool big = false)
+    public SnowFallParticle(float xpos, float ypos, Vector2 startVel, bool big = false)
         : base(xpos, ypos)
     {
         _gravMult = 0.5f;
@@ -51,6 +52,6 @@ public class SnowFallParticle : PhysicsParticle
     {
         _ = base.Z / 200f;
         float size = _size;
-        Graphics.DrawRect(Position + new Vec2(0f - size, 0f - size), Position + new Vec2(size, size), Color.White * base.Alpha, 0.1f);
+        Graphics.DrawRect(Position + new Vector2(0f - size, 0f - size), Position + new Vector2(size, size), Color.White * base.Alpha, 0.1f);
     }
 }

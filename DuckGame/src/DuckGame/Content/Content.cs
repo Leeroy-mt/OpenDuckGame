@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -50,7 +51,7 @@ public class Content
 
     public static int customPreviewHeight = 0;
 
-    public static Vec2 customPreviewCenter = Vec2.Zero;
+    public static Vector2 customPreviewCenter = Vector2.Zero;
 
     private static LevelData _previewLevelData;
 
@@ -108,7 +109,7 @@ public class Content
 
     private static string _path = "";
 
-    private static Dictionary<string, Vec2> _spriteSizeDirectory = new Dictionary<string, Vec2>();
+    private static Dictionary<string, Vector2> _spriteSizeDirectory = new Dictionary<string, Vector2>();
 
     public static object _loadLock = new object();
 
@@ -244,16 +245,16 @@ public class Content
             {
                 _previewCamera = new Camera(0f, 0f, 1280f, 1280f * Graphics.aspect);
             }
-            Vec2 topLeft = previewLevel.topLeft;
-            Vec2 br = previewLevel.bottomRight;
-            Vec2 center = (topLeft + br) / 2f;
+            Vector2 topLeft = previewLevel.topLeft;
+            Vector2 br = previewLevel.bottomRight;
+            Vector2 center = (topLeft + br) / 2f;
             if (cancelPreview)
             {
                 return;
             }
             _previewCamera.width /= 2f;
             _previewCamera.height /= 2f;
-            if (customPreviewCenter != Vec2.Zero)
+            if (customPreviewCenter != Vector2.Zero)
             {
                 _previewCamera.center = customPreviewCenter;
             }
@@ -895,14 +896,14 @@ public class Content
         MonoMain.currentActionQueue.Enqueue(steamLoad);
     }
 
-    public static Vec2 GetTextureSize(string pName)
+    public static Vector2 GetTextureSize(string pName)
     {
-        Vec2 size = Vec2.Zero;
+        Vector2 size = Vector2.Zero;
         if (_spriteSizeDirectory.TryGetValue(pName, out size))
         {
             return size;
         }
-        return Vec2.Zero;
+        return Vector2.Zero;
     }
 
     public static void InitializeTextureSizeDictionary()
@@ -915,7 +916,7 @@ public class Content
                 for (int i = 0; i < array.Length; i++)
                 {
                     string[] subParts = array[i].Split(',');
-                    _spriteSizeDirectory[subParts[0].Trim().Replace('\\', '/')] = new Vec2(Convert.ToSingle(subParts[1]), Convert.ToSingle(subParts[2]));
+                    _spriteSizeDirectory[subParts[0].Trim().Replace('\\', '/')] = new Vector2(Convert.ToSingle(subParts[1]), Convert.ToSingle(subParts[2]));
                 }
             }
         }
@@ -1038,7 +1039,7 @@ public class Content
                             zone.sprite = new Sprite(p[4].Trim());
                             if (p.Length > 6)
                             {
-                                zone.sprite.Position = new Vec2(Convert.ToSingle(p[5].Trim()), Convert.ToSingle(p[6].Trim()));
+                                zone.sprite.Position = new Vector2(Convert.ToSingle(p[5].Trim()), Convert.ToSingle(p[6].Trim()));
                             }
                             if (p.Length > 7)
                             {
@@ -1082,8 +1083,8 @@ public class Content
                     {
                         lock (_loadLock)
                         {
-                            Vec2 originalSize = GetTextureSize(name);
-                            Tex2D t = ((!(originalSize != Vec2.Zero) || ((float)tex.Width == originalSize.X && (float)tex.Height == originalSize.Y)) ? new Tex2D(tex, name, _currentTextureIndex) : new BigBoyTex2D(tex, name, _currentTextureIndex)
+                            Vector2 originalSize = GetTextureSize(name);
+                            Tex2D t = ((!(originalSize != Vector2.Zero) || ((float)tex.Width == originalSize.X && (float)tex.Height == originalSize.Y)) ? new Tex2D(tex, name, _currentTextureIndex) : new BigBoyTex2D(tex, name, _currentTextureIndex)
                             {
                                 scaleFactor = originalSize.X / (float)tex.Width
                             });

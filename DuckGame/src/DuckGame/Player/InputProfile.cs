@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -45,7 +46,7 @@ public class InputProfile
 
     public static bool ignoreKeyboard = false;
 
-    private Vec2 _mouseAnchor = Vec2.Zero;
+    private Vector2 _mouseAnchor = Vector2.Zero;
 
     private ushort _state;
 
@@ -313,7 +314,7 @@ public class InputProfile
         }
     }
 
-    public Vec2 leftStick
+    public Vector2 leftStick
     {
         get
         {
@@ -323,7 +324,7 @@ public class InputProfile
             }
             if (Input.ignoreInput)
             {
-                return Vec2.Zero;
+                return Vector2.Zero;
             }
             foreach (KeyValuePair<InputDevice, MultiMap<string, int>> map in _mappings)
             {
@@ -352,11 +353,11 @@ public class InputProfile
                     }
                 }
             }
-            return new Vec2(0f, 0f);
+            return new Vector2(0f, 0f);
         }
     }
 
-    public Vec2 rightStick
+    public Vector2 rightStick
     {
         get
         {
@@ -366,9 +367,9 @@ public class InputProfile
             }
             if (Input.ignoreInput)
             {
-                return Vec2.Zero;
+                return Vector2.Zero;
             }
-            if (Mouse.left == InputState.Pressed || _mouseAnchor == Vec2.Zero)
+            if (Mouse.left == InputState.Pressed || _mouseAnchor == Vector2.Zero)
             {
                 _mouseAnchor = Mouse.position;
             }
@@ -376,18 +377,18 @@ public class InputProfile
             {
                 if (Mouse.left == InputState.Down)
                 {
-                    Vec2 dif = (Mouse.position - _mouseAnchor) / 16f;
+                    Vector2 dif = (Mouse.position - _mouseAnchor) / 16f;
                     dif.Y *= -1f;
                     float len = dif.Length();
                     if (len > 1f)
                     {
                         len = 1f;
                     }
-                    return dif.Normalized * len;
+                    return Vector2.Normalize(dif) * len;
                 }
                 if (Mouse.left == InputState.None)
                 {
-                    _mouseAnchor = Vec2.Zero;
+                    _mouseAnchor = Vector2.Zero;
                 }
             }
             foreach (KeyValuePair<InputDevice, MultiMap<string, int>> map in _mappings)
@@ -417,7 +418,7 @@ public class InputProfile
                     }
                 }
             }
-            return new Vec2(0f, 0f);
+            return new Vector2(0f, 0f);
         }
     }
 

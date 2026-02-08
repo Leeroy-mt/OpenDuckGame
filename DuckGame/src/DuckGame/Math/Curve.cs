@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -51,9 +52,9 @@ public class Curve
         return Ni(n, i) * ti * tni;
     }
 
-    public static Vec2 Calculate(Vec2 start, Vec2 end, float lerp, float arcSizeMult = 1f)
+    public static Vector2 Calculate(Vector2 start, Vector2 end, float lerp, float arcSizeMult = 1f)
     {
-        Vec2 centerPos = (start + end) / 2f;
+        Vector2 centerPos = (start + end) / 2f;
         if (end.X == start.X)
         {
             if (end.Y > start.Y)
@@ -74,7 +75,7 @@ public class Curve
         {
             centerPos.Y = end.Y - 16f * arcSizeMult;
         }
-        List<Vec2> curve = Bezier(8, start, centerPos, end);
+        List<Vector2> curve = Bezier(8, start, centerPos, end);
         float curveLength = 0f;
         for (int i = 1; i < curve.Count; i++)
         {
@@ -86,22 +87,22 @@ public class Curve
         {
             return end;
         }
-        Vec2 prev = curve[curveIndex - 1];
-        Vec2 next = curve[curveIndex];
+        Vector2 prev = curve[curveIndex - 1];
+        Vector2 next = curve[curveIndex];
         float partLerp = lerp % (1f / (float)curve.Count) * (float)curve.Count;
         end = prev + (next - prev) * partLerp;
         return end;
     }
 
-    public static List<Vec2> Bezier(int cpts, params Vec2[] points)
+    public static List<Vector2> Bezier(int cpts, params Vector2[] points)
     {
         int npts = points.Length;
         double t = 0.0;
         double step = 1.0 / (double)(cpts - 1);
-        List<Vec2> output = new List<Vec2>();
+        List<Vector2> output = new List<Vector2>();
         for (int i1 = 0; i1 != cpts; i1++)
         {
-            Vec2 p = default(Vec2);
+            Vector2 p = default(Vector2);
             if (1.0 - t < 5E-06)
             {
                 t = 1.0;

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Fire")]
@@ -11,10 +13,10 @@ public class Matchbox : Gun
         ammo = 20;
         _type = "gun";
         graphic = new Sprite("matchbox");
-        Center = new Vec2(8f, 14f);
-        collisionOffset = new Vec2(-6f, -3f);
-        collisionSize = new Vec2(12f, 5f);
-        _barrelOffsetTL = new Vec2(15f, 6f);
+        Center = new Vector2(8f, 14f);
+        collisionOffset = new Vector2(-6f, -3f);
+        collisionSize = new Vector2(12f, 5f);
+        _barrelOffsetTL = new Vector2(15f, 6f);
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 1f;
@@ -32,7 +34,7 @@ public class Matchbox : Gun
         base.Update();
     }
 
-    protected override bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected override bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         if (base.isServerForObject && ammo > 0)
         {

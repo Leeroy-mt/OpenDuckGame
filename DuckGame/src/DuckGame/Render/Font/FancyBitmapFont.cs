@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -403,13 +404,13 @@ public class FancyBitmapFont : Transform
                 {
                     if (chatFont)
                     {
-                        Vec2 sprScale = spr.Scale;
+                        Vector2 sprScale = spr.Scale;
                         spr.Scale *= base.Scale.X / 2f;
                         if (this is RasterFont)
                         {
                             float scaleFac = (this as RasterFont).data.fontSize * RasterFont.fontScaleFactor / 10f;
                             spr.Scale *= scaleFac;
-                            spr.Scale = new Vec2((float)Math.Round(spr.Scale.X * 2f) / 2f);
+                            spr.Scale = new Vector2((float)Math.Round(spr.Scale.X * 2f) / 2f);
                         }
                         wide += (float)spr.width * spr.Scale.X + 1f;
                         spr.Scale = sprScale;
@@ -629,7 +630,7 @@ public class FancyBitmapFont : Transform
         return _letterIndex;
     }
 
-    public Vec2 GetCharacterPosition(string text, int index, bool thinButtons = false)
+    public Vector2 GetCharacterPosition(string text, int index, bool thinButtons = false)
     {
         float wide = 0f;
         float high = 0f;
@@ -638,7 +639,7 @@ public class FancyBitmapFont : Transform
         {
             if (_letterIndex >= index)
             {
-                return new Vec2(wide, high);
+                return new Vector2(wide, high);
             }
             bool processedSpecialCharacter = false;
             if (text[_letterIndex] == '@' || (chatFont && text[_letterIndex] == ':'))
@@ -735,25 +736,25 @@ public class FancyBitmapFont : Transform
                 }
             }
         }
-        return new Vec2(wide, high);
+        return new Vector2(wide, high);
     }
 
-    public void DrawOutline(string text, Vec2 pos, Color c, Color outline, Depth deep = default(Depth), float outlineThickness = 1f)
+    public void DrawOutline(string text, Vector2 pos, Color c, Color outline, Depth deep = default(Depth), float outlineThickness = 1f)
     {
         _drawingOutline = true;
-        Draw(text, pos + new Vec2(0f - outlineThickness, 0f), outline, deep + 2, colorSymbols: true);
-        Draw(text, pos + new Vec2(outlineThickness, 0f), outline, deep + 2, colorSymbols: true);
-        Draw(text, pos + new Vec2(0f, 0f - outlineThickness), outline, deep + 2, colorSymbols: true);
-        Draw(text, pos + new Vec2(0f, outlineThickness), outline, deep + 2, colorSymbols: true);
-        Draw(text, pos + new Vec2(0f - outlineThickness, 0f - outlineThickness), outline, deep + 2, colorSymbols: true);
-        Draw(text, pos + new Vec2(outlineThickness, 0f - outlineThickness), outline, deep + 2, colorSymbols: true);
-        Draw(text, pos + new Vec2(0f - outlineThickness, outlineThickness), outline, deep + 2, colorSymbols: true);
-        Draw(text, pos + new Vec2(outlineThickness, outlineThickness), outline, deep + 2, colorSymbols: true);
+        Draw(text, pos + new Vector2(0f - outlineThickness, 0f), outline, deep + 2, colorSymbols: true);
+        Draw(text, pos + new Vector2(outlineThickness, 0f), outline, deep + 2, colorSymbols: true);
+        Draw(text, pos + new Vector2(0f, 0f - outlineThickness), outline, deep + 2, colorSymbols: true);
+        Draw(text, pos + new Vector2(0f, outlineThickness), outline, deep + 2, colorSymbols: true);
+        Draw(text, pos + new Vector2(0f - outlineThickness, 0f - outlineThickness), outline, deep + 2, colorSymbols: true);
+        Draw(text, pos + new Vector2(outlineThickness, 0f - outlineThickness), outline, deep + 2, colorSymbols: true);
+        Draw(text, pos + new Vector2(0f - outlineThickness, outlineThickness), outline, deep + 2, colorSymbols: true);
+        Draw(text, pos + new Vector2(outlineThickness, outlineThickness), outline, deep + 2, colorSymbols: true);
         _drawingOutline = false;
         Draw(text, pos, c, deep + 5);
     }
 
-    public void Draw(string text, Vec2 pos, Color c, Depth deep = default(Depth), bool colorSymbols = false)
+    public void Draw(string text, Vector2 pos, Color c, Depth deep = default(Depth), bool colorSymbols = false)
     {
         Draw(text, pos.X, pos.Y, c, deep, colorSymbols);
     }
@@ -790,13 +791,13 @@ public class FancyBitmapFont : Transform
                         }
                         if (chatFont)
                         {
-                            Vec2 sprScale = spr.Scale;
+                            Vector2 sprScale = spr.Scale;
                             spr.Scale *= base.Scale.X / 2f;
                             if (this is RasterFont)
                             {
                                 float scaleFac = (this as RasterFont).data.fontSize * RasterFont.fontScaleFactor / 10f;
                                 spr.Scale *= scaleFac;
-                                spr.Scale = new Vec2((float)Math.Round(spr.Scale.X * 2f) / 2f);
+                                spr.Scale = new Vector2((float)Math.Round(spr.Scale.X * 2f) / 2f);
                             }
                             yCenter = (float)characterHeight * base.Scale.Y / 2f - (float)spr.height * spr.Scale.Y / 2f;
                             Graphics.Draw(spr, xpos + xOff, ypos + yOff + yCenter, deep + 10 + (int)((ypos + yOff) / 10f));
@@ -805,7 +806,7 @@ public class FancyBitmapFont : Transform
                         }
                         else if (_rasterData != null)
                         {
-                            Vec2 sprScale2 = spr.Scale;
+                            Vector2 sprScale2 = spr.Scale;
                             float sizeDif = _rasterData.fontHeight / 24f;
                             spr.Scale *= sizeDif;
                             Graphics.Draw(spr, xpos + xOff, ypos + yOff + 1f * sizeDif, deep);
@@ -935,7 +936,7 @@ public class FancyBitmapFont : Transform
                             _texture.Scale = base.Scale;
                             if (_highlightStart != -1 && _highlightStart != _highlightEnd && ((_highlightStart < _highlightEnd && _letterIndex >= _highlightStart && _letterIndex < _highlightEnd) || (_letterIndex < _highlightStart && _letterIndex >= _highlightEnd)))
                             {
-                                Graphics.DrawRect(new Vec2(xpos + xOff, ypos + yOff), new Vec2(xpos + xOff, ypos + yOff) + new Vec2(dat.width * base.Scale.X, (float)_charHeight * base.Scale.Y), c, deep - 5);
+                                Graphics.DrawRect(new Vector2(xpos + xOff, ypos + yOff), new Vector2(xpos + xOff, ypos + yOff) + new Vector2(dat.width * base.Scale.X, (float)_charHeight * base.Scale.Y), c, deep - 5);
                                 _texture.color = highlight;
                             }
                             else

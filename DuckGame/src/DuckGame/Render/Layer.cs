@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ public class Layer : DrawList
 
     private int _depth;
 
-    private Vec2 _depthSpan;
+    private Vector2 _depthSpan;
 
     private Effect _effect;
 
@@ -210,7 +211,7 @@ public class Layer : DrawList
         }
     }
 
-    public Vec2 depthSpan
+    public Vector2 depthSpan
     {
         get
         {
@@ -565,7 +566,7 @@ public class Layer : DrawList
         }
     }
 
-    public Layer(string nameval, int depthval = 0, Camera cam = null, bool targetLayer = false, Vec2 targetSize = default(Vec2))
+    public Layer(string nameval, int depthval = 0, Camera cam = null, bool targetLayer = false, Vector2 targetSize = default(Vector2))
     {
         _name = nameval;
         _depth = depthval;
@@ -577,7 +578,7 @@ public class Layer : DrawList
         _dropShadow.Alpha = 0.5f;
         if (targetLayer)
         {
-            if (targetSize == default(Vec2))
+            if (targetSize == default(Vector2))
             {
                 _target = new RenderTarget2D(Graphics.width, Graphics.height);
             }
@@ -713,14 +714,14 @@ public class Layer : DrawList
         }
         if (target != null && isTargetDraw)
         {
-            Vec2 pos = c.position;
+            Vector2 pos = c.position;
             pos.X = (float)Math.Floor(pos.X);
             pos.Y = (float)Math.Floor(pos.Y);
-            Vec2 size = c.size;
+            Vector2 size = c.size;
             size.X = (float)Math.Floor(size.X);
             size.Y = (float)Math.Floor(size.Y);
-            Vec2 realPos = c.position;
-            Vec2 realSize = c.size;
+            Vector2 realPos = c.position;
+            Vector2 realSize = c.size;
             _batch.Begin(SpriteSortMode.BackToFront, blendState, SamplerState.PointClamp, _targetDepthStencil, _state, effect, c.getMatrix());
             c.position = realPos;
             c.size = realSize;
@@ -781,13 +782,13 @@ public class Layer : DrawList
         Begin(transparent, isTargetDraw);
         if (target != null && !isTargetDraw)
         {
-            Vec2 pos = Level.activeLevel.camera.position - new Vec2(1f, 1f);
+            Vector2 pos = Level.activeLevel.camera.position - new Vector2(1f, 1f);
             pos.X = (float)Math.Round(pos.X);
             pos.Y = (float)Math.Round(pos.Y);
             Color c = new Color(1f * _targetFade, 1f * _targetFade, 1f * _targetFade, 1f);
-            Vec2 sizo = new Vec2(Math.Max(camera.width, Graphics.width), Math.Max(camera.height, Graphics.height));
+            Vector2 sizo = new Vector2(Math.Max(camera.width, Graphics.width), Math.Max(camera.height, Graphics.height));
             Graphics.skipReplayRender = true;
-            Graphics.Draw(target, pos, null, c, 0f, Vec2.Zero, new Vec2(sizo.X / (float)target.width, sizo.Y / (float)target.height), SpriteEffects.None, 1f);
+            Graphics.Draw(target, pos, null, c, 0f, Vector2.Zero, new Vector2(sizo.X / (float)target.width, sizo.Y / (float)target.height), SpriteEffects.None, 1f);
             if (name == "LIGHTING")
             {
                 if (VirtualTransition.core._scanStage == 1)
@@ -828,11 +829,11 @@ public class Layer : DrawList
                             }
                             if (_perspective)
                             {
-                                Vec2 pos2 = drawable.Position;
+                                Vector2 pos2 = drawable.Position;
                                 Vec3 newPos = new Vec3(pos2.X, drawable.Z, drawable.bottom);
                                 Viewport v = new Viewport(0, 0, 320, 180);
                                 newPos = v.Project(newPos, projection, view, Matrix.Identity);
-                                drawable.Position = new Vec2(newPos.x, newPos.y - drawable.CenterY);
+                                drawable.Position = new Vector2(newPos.x, newPos.y - drawable.CenterY);
                                 drawable.DoDraw();
                                 Graphics.material = null;
                                 drawable.Position = pos2;
@@ -840,7 +841,7 @@ public class Layer : DrawList
                                 {
                                     float dist = Maths.NormalizeSection(0f - drawable.Y, 8f, 64f);
                                     _dropShadow.Alpha = 0.5f - 0.5f * dist;
-                                    _dropShadow.Scale = new Vec2(1f - dist, 1f - dist);
+                                    _dropShadow.Scale = new Vector2(1f - dist, 1f - dist);
                                     _dropShadow.Depth = drawable.Depth - 10;
                                     newPos = new Vec3(pos2.X, drawable.Z, 0f);
                                     newPos = v.Project(newPos, projection, view, Matrix.Identity);
@@ -875,11 +876,11 @@ public class Layer : DrawList
                             }
                             if (_perspective)
                             {
-                                Vec2 pos3 = drawable3.Position;
+                                Vector2 pos3 = drawable3.Position;
                                 Vec3 newPos2 = new Vec3(pos3.X, drawable3.Z, drawable3.bottom);
                                 Viewport v2 = new Viewport(0, 0, 320, 180);
                                 newPos2 = v2.Project(newPos2, projection, view, Matrix.Identity);
-                                drawable3.Position = new Vec2(newPos2.x, newPos2.y - drawable3.CenterY);
+                                drawable3.Position = new Vector2(newPos2.x, newPos2.y - drawable3.CenterY);
                                 drawable3.DoDraw();
                                 Graphics.material = null;
                                 drawable3.Position = pos3;
@@ -887,7 +888,7 @@ public class Layer : DrawList
                                 {
                                     float dist2 = Maths.NormalizeSection(0f - drawable3.Y, 8f, 64f);
                                     _dropShadow.Alpha = 0.5f - 0.5f * dist2;
-                                    _dropShadow.Scale = new Vec2(1f - dist2, 1f - dist2);
+                                    _dropShadow.Scale = new Vector2(1f - dist2, 1f - dist2);
                                     _dropShadow.Depth = drawable3.Depth - 10;
                                     newPos2 = new Vec3(pos3.X, drawable3.Z, 0f);
                                     newPos2 = v2.Project(newPos2, projection, view, Matrix.Identity);

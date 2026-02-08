@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -13,9 +14,9 @@ public class CampingBall : PhysicsObject
     {
         _sprite = new SpriteMap("camping_ball", 8, 9);
         graphic = _sprite;
-        Center = new Vec2(4f, 4f);
-        collisionOffset = new Vec2(-4f, -4f);
-        collisionSize = new Vec2(8f, 8f);
+        Center = new Vector2(4f, 4f);
+        collisionOffset = new Vector2(-4f, -4f);
+        collisionSize = new Vector2(8f, 8f);
         base.Depth = -0.5f;
         thickness = 2f;
         weight = 1f;
@@ -28,7 +29,7 @@ public class CampingBall : PhysicsObject
     {
         if (Math.Abs(hSpeed) + Math.Abs(vSpeed) > 0.1f)
         {
-            base.AngleDegrees = 0f - Maths.PointDirection(Vec2.Zero, new Vec2(hSpeed, vSpeed));
+            base.AngleDegrees = 0f - Maths.PointDirection(Vector2.Zero, new Vector2(hSpeed, vSpeed));
         }
         if (base.isServerForObject)
         {
@@ -40,7 +41,7 @@ public class CampingBall : PhysicsObject
             {
                 Level.Remove(this);
             }
-            if (!base.onFire && Level.CheckRect<SmallFire>(Position + new Vec2(-6f, -6f), Position + new Vec2(6f, 6f), this) != null)
+            if (!base.onFire && Level.CheckRect<SmallFire>(Position + new Vector2(-6f, -6f), Position + new Vector2(6f, 6f), this) != null)
             {
                 LightOnFire();
             }

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -14,9 +15,9 @@ public class MusicNote : Thing
 
     private SpriteMap _sprite;
 
-    private Vec2 _dir;
+    private Vector2 _dir;
 
-    public MusicNote(float xpos, float ypos, Vec2 dir)
+    public MusicNote(float xpos, float ypos, Vector2 dir)
         : base(xpos, ypos)
     {
         _sprite = new SpriteMap("notes", 8, 8);
@@ -49,14 +50,14 @@ public class MusicNote : Thing
         _size = 3f + Rando.Float(6f);
         _speed = 0.8f + Rando.Float(1.4f);
         base.Depth = 0.95f;
-        base.Scale = new Vec2(0.1f, 0.1f);
+        base.Scale = new Vector2(0.1f, 0.1f);
     }
 
     public override void Update()
     {
         _sin.Update();
         base.X += _dir.X;
-        Vec2 s = base.Scale;
+        Vector2 s = base.Scale;
         s.X = (s.Y = Lerp.Float(s.X, 1f, 0.05f));
         base.Scale = s;
         if (base.Scale.X > 0.9f)
@@ -71,7 +72,7 @@ public class MusicNote : Thing
 
     public override void Draw()
     {
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         pos.Y += _sin.value * _size;
         _sprite.Alpha = base.Alpha;
         _sprite.Scale = base.Scale;

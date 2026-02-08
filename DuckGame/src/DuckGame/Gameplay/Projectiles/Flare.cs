@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class Flare : PhysicsObject, IPlatform
@@ -16,9 +18,9 @@ public class Flare : PhysicsObject, IPlatform
         _sprite.SetAnimation("burn");
         _sprite.imageIndex = Rando.Int(4);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-4f, -2f);
-        collisionSize = new Vec2(8f, 4f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-4f, -2f);
+        collisionSize = new Vector2(8f, 4f);
         base.Depth = -0.5f;
         thickness = 1f;
         weight = 1f;

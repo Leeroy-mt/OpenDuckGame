@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Stuff|Props|Barrels")]
@@ -8,7 +10,7 @@ public class LavaBarrel : YellowBarrel
         : base(xpos, ypos)
     {
         graphic = new Sprite("lavaBarrel");
-        Center = new Vec2(7f, 8f);
+        Center = new Vector2(7f, 8f);
         _melting = new Sprite("blueBarrelMelting");
         _editorName = "Barrel (Lava)";
         editorTooltip = "Your standard lava barrel - for carrying delicious, refreshing lava. Choose lava!";
@@ -16,6 +18,6 @@ public class LavaBarrel : YellowBarrel
         _fluid = Fluid.Lava;
         _toreUp = new SpriteMap("blueBarrelToreUp", 14, 17);
         _toreUp.frame = 1;
-        _toreUp.Center = new Vec2(0f, -6f);
+        _toreUp.Center = new Vector2(0f, -6f);
     }
 }

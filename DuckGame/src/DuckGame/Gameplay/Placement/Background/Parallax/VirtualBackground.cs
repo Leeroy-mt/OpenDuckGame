@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -46,9 +47,9 @@ public class VirtualBackground : BackgroundUpdater
         {
             frame = 2
         };
-        Center = new Vec2(8f, 8f);
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(-8f, -8f);
         base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
@@ -288,15 +289,15 @@ public class VirtualBackground : BackgroundUpdater
             Position = _parallax.Position;
             float scannerX = stick * 300f;
             float scannerFrontX = 360f - stick * 400f;
-            Vec2 scannerPos = new Vec2(base.X + scannerX, base.Y + 72f);
+            Vector2 scannerPos = new Vector2(base.X + scannerX, base.Y + 72f);
             Graphics.Draw(_scanner, scannerPos.X, scannerPos.Y);
             float scanMiddle = Math.Abs(stick - 0.5f);
             float a = 0.5f - scanMiddle;
-            Graphics.DrawLine(scannerPos + new Vec2(18f, 20f), new Vec2(scannerFrontX, scannerPos.Y - 100f + scanMiddle * 250f), Color.Red * a, 2f, 0.9f);
-            Graphics.DrawLine(scannerPos + new Vec2(18f, 34f), new Vec2(scannerFrontX, scannerPos.Y - 10f + 80f * scanMiddle), Color.Red * a, 2f, 0.9f);
-            Vec2 scannerPosBottom = scannerPos + new Vec2(0f, _scanner.height);
-            Graphics.DrawLine(scannerPosBottom + new Vec2(18f, -20f), new Vec2(scannerFrontX, scannerPosBottom.Y + 100f - scanMiddle * 250f), Color.Red * a, 2f, 0.9f);
-            Graphics.DrawLine(scannerPosBottom + new Vec2(18f, -34f), new Vec2(scannerFrontX, scannerPosBottom.Y + 10f - 80f * scanMiddle), Color.Red * a, 2f, 0.9f);
+            Graphics.DrawLine(scannerPos + new Vector2(18f, 20f), new Vector2(scannerFrontX, scannerPos.Y - 100f + scanMiddle * 250f), Color.Red * a, 2f, 0.9f);
+            Graphics.DrawLine(scannerPos + new Vector2(18f, 34f), new Vector2(scannerFrontX, scannerPos.Y - 10f + 80f * scanMiddle), Color.Red * a, 2f, 0.9f);
+            Vector2 scannerPosBottom = scannerPos + new Vector2(0f, _scanner.height);
+            Graphics.DrawLine(scannerPosBottom + new Vector2(18f, -20f), new Vector2(scannerFrontX, scannerPosBottom.Y + 100f - scanMiddle * 250f), Color.Red * a, 2f, 0.9f);
+            Graphics.DrawLine(scannerPosBottom + new Vector2(18f, -34f), new Vector2(scannerFrontX, scannerPosBottom.Y + 10f - 80f * scanMiddle), Color.Red * a, 2f, 0.9f);
         }
     }
 }

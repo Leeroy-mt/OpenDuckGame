@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Equipment")]
@@ -21,14 +23,14 @@ public class ChokeCollar : Equipment
         _pickupSprite = new Sprite("chokeCollar");
         _sprite = new SpriteMap("chokeCollar", 8, 8);
         graphic = _pickupSprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-4f, -2f);
-        collisionSize = new Vec2(8f, 4f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-4f, -2f);
+        collisionSize = new Vector2(8f, 4f);
         _sprite.CenterOrigin();
         thickness = 0.1f;
         base.impactThreshold = 0.01f;
         _equippedDepth = 5;
-        _wearOffset = new Vec2(6f, 15f);
+        _wearOffset = new Vector2(6f, 15f);
         editorTooltip = "A heavy ball & chain that can be swung with great force. For fun!";
     }
 
@@ -48,9 +50,9 @@ public class ChokeCollar : Equipment
         _ball.clip = base.clip;
         if (_equippedDuck != null && !destroyed)
         {
-            collisionOffset = new Vec2(-6f, -6f);
-            collisionSize = new Vec2(12f, 12f);
-            Center = new Vec2(8f, 8f);
+            collisionOffset = new Vector2(-6f, -6f);
+            collisionSize = new Vector2(12f, 12f);
+            Center = new Vector2(8f, 8f);
             solid = false;
             _sprite.flipH = _equippedDuck._sprite.flipH;
             graphic = _sprite;
@@ -58,9 +60,9 @@ public class ChokeCollar : Equipment
         }
         else
         {
-            collisionOffset = new Vec2(-4f, -2f);
-            collisionSize = new Vec2(8f, 4f);
-            Center = new Vec2(_pickupSprite.w / 2, _pickupSprite.h / 2);
+            collisionOffset = new Vector2(-4f, -2f);
+            collisionSize = new Vector2(8f, 4f);
+            Center = new Vector2(_pickupSprite.w / 2, _pickupSprite.h / 2);
             solid = true;
             _sprite.frame = 0;
             _sprite.flipH = false;

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ public class AIStateFindGun : AIState
                         return new AIStateWait(Rando.Float(0.8f, 1f));
                     }
                     _target = nearestBox;
-                    ai.SetTarget(nearestBox.Position + new Vec2(0f, 32f));
+                    ai.SetTarget(nearestBox.Position + new Vector2(0f, 32f));
                 }
             }
             else if (_target is ItemBox)

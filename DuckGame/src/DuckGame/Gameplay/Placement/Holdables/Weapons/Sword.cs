@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -68,7 +69,7 @@ public class Sword : Gun
 
     protected float _stickWait;
 
-    protected Vec2 additionalHoldOffset = Vec2.Zero;
+    protected Vector2 additionalHoldOffset = Vector2.Zero;
 
     private int _unslam;
 
@@ -76,15 +77,15 @@ public class Sword : Gun
 
     private float _afterSwingCounter;
 
-    private Vec2 _tapeOffset = Vec2.Zero;
+    private Vector2 _tapeOffset = Vector2.Zero;
 
     private byte blocked;
 
     public bool _volatile;
 
-    protected Vec2 centerHeld = new Vec2(4f, 21f);
+    protected Vector2 centerHeld = new Vector2(4f, 21f);
 
-    protected Vec2 centerUnheld = new Vec2(4f, 11f);
+    protected Vector2 centerUnheld = new Vector2(4f, 11f);
 
     protected bool _stayVolatile;
 
@@ -92,13 +93,13 @@ public class Sword : Gun
 
     private float _prevAngle;
 
-    private Vec2 _prevPos;
+    private Vector2 _prevPos;
 
     private int _prevOffdir = -1;
 
     protected float[] _lastAngles = new float[8];
 
-    protected Vec2[] _lastPositions = new Vec2[8];
+    protected Vector2[] _lastPositions = new Vector2[8];
 
     protected int _lastIndex;
 
@@ -106,7 +107,7 @@ public class Sword : Gun
 
     private Thing _prevHistoryOwner;
 
-    private Vec2 _lastHistoryPos = Vec2.Zero;
+    private Vector2 _lastHistoryPos = Vector2.Zero;
 
     private float _lastHistoryAngle;
 
@@ -134,31 +135,31 @@ public class Sword : Gun
 
     public bool crouchStance => _crouchStance;
 
-    public virtual Vec2 barrelStartPos
+    public virtual Vector2 barrelStartPos
     {
         get
         {
             if (owner == null)
             {
-                return Position - (Offset(base.barrelOffset) - Position).Normalized * 6f;
+                return Position - Vector2.Normalize(Offset(base.barrelOffset) - Position) * 6f;
             }
             if (_slamStance)
             {
-                return Position + (Offset(base.barrelOffset) - Position).Normalized * 12f;
+                return Position + Vector2.Normalize(Offset(base.barrelOffset) - Position) * 12f;
             }
-            return Position + (Offset(base.barrelOffset) - Position).Normalized * 2f;
+            return Position + Vector2.Normalize(Offset(base.barrelOffset) - Position) * 2f;
         }
     }
 
-    public override Vec2 tapedOffset
+    public override Vector2 tapedOffset
     {
         get
         {
             if (base.tapedCompatriot is Gun)
             {
-                return (base.tapedCompatriot as Gun).barrelOffset + new Vec2(-14f, 2f);
+                return (base.tapedCompatriot as Gun).barrelOffset + new Vector2(-14f, 2f);
             }
-            return new Vec2(-6f, -3f);
+            return new Vector2(-6f, -3f);
         }
     }
 
@@ -185,22 +186,22 @@ public class Sword : Gun
         _ammoType.accuracy = 0.8f;
         _type = "gun";
         graphic = new Sprite("sword");
-        Center = new Vec2(4f, 21f);
-        collisionOffset = new Vec2(-2f, -16f);
-        collisionSize = new Vec2(4f, 18f);
-        _barrelOffsetTL = new Vec2(4f, 1f);
+        Center = new Vector2(4f, 21f);
+        collisionOffset = new Vector2(-2f, -16f);
+        collisionSize = new Vector2(4f, 18f);
+        _barrelOffsetTL = new Vector2(4f, 1f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 3f;
-        _holdOffset = new Vec2(-4f, 4f);
+        _holdOffset = new Vector2(-4f, 4f);
         weight = 0.9f;
         physicsMaterial = PhysicsMaterial.Metal;
         _swordSwing = new SpriteMap("swordSwipe", 32, 32);
         _swordSwing.AddAnimation("swing", 0.6f, false, 0, 1, 1, 2);
         _swordSwing.currentAnimation = "swing";
         _swordSwing.speed = 0f;
-        _swordSwing.Center = new Vec2(9f, 25f);
+        _swordSwing.Center = new Vector2(9f, 25f);
         holsterAngle = 180f;
         tapedIndexPreference = 0;
         _bouncy = 0.5f;
@@ -225,8 +226,8 @@ public class Sword : Gun
             tape._holdOffset = (base.tapedCompatriot as Gun)._holdOffset;
             tape.handOffset = (base.tapedCompatriot as Gun).handOffset;
         }
-        collisionOffset = new Vec2(-4f, 0f);
-        collisionSize = new Vec2(4f, 4f);
+        collisionOffset = new Vector2(-4f, 0f);
+        collisionSize = new Vector2(4f, 4f);
         Center = centerHeld;
         thickness = 0f;
     }
@@ -282,11 +283,11 @@ public class Sword : Gun
             _playedShing = true;
             SFX.Play("swordClash", Rando.Float(0.6f, 0.7f), Rando.Float(-0.1f, 0.1f), Rando.Float(-0.1f, 0.1f));
         }
-        Vec2 vec = (Position - base.barrelPosition).Normalized;
-        Vec2 start = base.barrelPosition;
+        Vector2 vec = Vector2.Normalize(Position - base.barrelPosition);
+        Vector2 start = base.barrelPosition;
         for (int i = 0; i < 6; i++)
         {
-            Spark s = Spark.New(start.X, start.Y, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f)));
+            Spark s = Spark.New(start.X, start.Y, new Vector2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f)));
             if (this is OldEnergyScimi)
             {
                 s._color = (this as OldEnergyScimi).swordColor;
@@ -303,7 +304,7 @@ public class Sword : Gun
         _swordSwing.speed = 0f;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (base.duck != null)
         {
@@ -346,23 +347,23 @@ public class Sword : Gun
     {
         if (pHeld)
         {
-            collisionOffset = new Vec2(-4f, 0f);
-            collisionSize = new Vec2(4f, 4f);
+            collisionOffset = new Vector2(-4f, 0f);
+            collisionSize = new Vector2(4f, 4f);
             if (_crouchStance && !_jabStance)
             {
-                collisionOffset = new Vec2(-2f, -19f);
-                collisionSize = new Vec2(4f, 16f);
+                collisionOffset = new Vector2(-2f, -19f);
+                collisionSize = new Vector2(4f, 16f);
                 thickness = 3f;
             }
         }
         else
         {
-            collisionOffset = new Vec2(-2f, -16f);
-            collisionSize = new Vec2(4f, 18f);
+            collisionOffset = new Vector2(-2f, -16f);
+            collisionSize = new Vector2(4f, 18f);
             if (_wasLifted)
             {
-                collisionOffset = new Vec2(-4f, -2f);
-                collisionSize = new Vec2(8f, 4f);
+                collisionOffset = new Vector2(-4f, -2f);
+                collisionSize = new Vector2(8f, 4f);
             }
         }
     }
@@ -388,14 +389,14 @@ public class Sword : Gun
         if (!_crouchStance)
         {
             _hold = -0.4f;
-            handOffset = new Vec2(_addOffsetX, _addOffsetY);
-            _holdOffset = new Vec2(-4f + _addOffsetX, 4f + _addOffsetY) + additionalHoldOffset;
+            handOffset = new Vector2(_addOffsetX, _addOffsetY);
+            _holdOffset = new Vector2(-4f + _addOffsetX, 4f + _addOffsetY) + additionalHoldOffset;
         }
         else
         {
             _hold = 0f;
-            _holdOffset = new Vec2(0f + _addOffsetX, 4f + _addOffsetY) + additionalHoldOffset;
-            handOffset = new Vec2(3f + _addOffsetX, _addOffsetY);
+            _holdOffset = new Vector2(0f + _addOffsetX, 4f + _addOffsetY) + additionalHoldOffset;
+            handOffset = new Vector2(3f + _addOffsetX, _addOffsetY);
         }
     }
 
@@ -452,7 +453,7 @@ public class Sword : Gun
             }
             if (base.isServerForObject && bayonetLethal)
             {
-                foreach (IAmADuck d in Level.CheckLineAll<IAmADuck>(Offset(new Vec2(4f, 10f) - Center + _extraOffset), base.barrelPosition))
+                foreach (IAmADuck d in Level.CheckLineAll<IAmADuck>(Offset(new Vector2(4f, 10f) - Center + _extraOffset), base.barrelPosition))
                 {
                     if (d == base.duck || !(d is MaterialThing realThing))
                     {
@@ -483,7 +484,7 @@ public class Sword : Gun
             _prevAngle = base.AngleDegrees;
             return;
         }
-        _tapeOffset = Vec2.Zero;
+        _tapeOffset = Vector2.Zero;
         base.Update();
         _timeSinceSwing += Maths.IncFrameTimer();
         if (_swordSwing.finished)
@@ -547,7 +548,7 @@ public class Sword : Gun
             bool againstWall = false;
             if (Math.Abs(hSpeed) + Math.Abs(vSpeed) > 2f || !base.grounded)
             {
-                if (!base.grounded && Level.CheckRect<Block>(Position + new Vec2(-6f, -6f), Position + new Vec2(6f, -2f)) != null)
+                if (!base.grounded && Level.CheckRect<Block>(Position + new Vector2(-6f, -6f), Position + new Vector2(6f, -2f)) != null)
                 {
                     againstWall = true;
                     if (vSpeed > 4f && !(this is OldEnergyScimi))
@@ -555,7 +556,7 @@ public class Sword : Gun
                         _volatile = true;
                     }
                 }
-                if (!againstWall && !_grounded && (Level.CheckPoint<IPlatform>(Position + new Vec2(0f, 8f)) == null || vSpeed < 0f))
+                if (!againstWall && !_grounded && (Level.CheckPoint<IPlatform>(Position + new Vector2(0f, 8f)) == null || vSpeed < 0f))
                 {
                     PerformAirSpin();
                     spinning = true;
@@ -892,9 +893,9 @@ public class Sword : Gun
                 {
                     ignore = base.duck.GetEquipment(typeof(Helmet));
                 }
-                Vec2 barrel = base.barrelPosition + base.barrelVector * 3f;
-                Vec2 p = new Vec2((Position.X < barrel.X) ? Position.X : barrel.X, (Position.Y < barrel.Y) ? Position.Y : barrel.Y);
-                Vec2 p2 = new Vec2((Position.X > barrel.X) ? Position.X : barrel.X, (Position.Y > barrel.Y) ? Position.Y : barrel.Y);
+                Vector2 barrel = base.barrelPosition + base.barrelVector * 3f;
+                Vector2 p = new Vector2((Position.X < barrel.X) ? Position.X : barrel.X, (Position.Y < barrel.Y) ? Position.Y : barrel.Y);
+                Vector2 p2 = new Vector2((Position.X > barrel.X) ? Position.X : barrel.X, (Position.Y > barrel.Y) ? Position.Y : barrel.Y);
                 QuadLaserBullet laserHit = Level.CheckRect<QuadLaserBullet>(p, p2);
                 if (laserHit != null)
                 {
@@ -904,7 +905,7 @@ public class Sword : Gun
                     laserHit.safeDuck = base.duck;
                     float mag = laserHit.travel.Length();
                     float mul = 1.5f;
-                    Vec2 travel = ((offDir <= 0) ? new Vec2((0f - mag) * mul, 0f) : new Vec2(mag * mul, 0f));
+                    Vector2 travel = ((offDir <= 0) ? new Vector2((0f - mag) * mul, 0f) : new Vector2(mag * mul, 0f));
                     laserHit.travel = travel;
                     QuadLaserHit(laserHit);
                 }
@@ -963,13 +964,13 @@ public class Sword : Gun
                         base.duck.vSpeed -= 4f;
                         if (base.isServerForObject)
                         {
-                            EnergyScimitarBlast b = new EnergyScimitarBlast((s3.owner.Position + owner.Position) / 2f + new Vec2(0f, -16f), new Vec2(0f, -2000f));
+                            EnergyScimitarBlast b = new EnergyScimitarBlast((s3.owner.Position + owner.Position) / 2f + new Vector2(0f, -16f), new Vector2(0f, -2000f));
                             Level.Add(b);
                             if (Network.isActive)
                             {
                                 Send.Message(new NMEnergyScimitarBlast(b.Position, b._target));
                             }
-                            b = new EnergyScimitarBlast((s3.owner.Position + owner.Position) / 2f + new Vec2(0f, 16f), new Vec2(0f, 2000f));
+                            b = new EnergyScimitarBlast((s3.owner.Position + owner.Position) / 2f + new Vector2(0f, 16f), new Vector2(0f, 2000f));
                             Level.Add(b);
                             if (Network.isActive)
                             {
@@ -1060,10 +1061,10 @@ public class Sword : Gun
     protected virtual void ResetTrailHistory()
     {
         _lastAngles = new float[8];
-        _lastPositions = new Vec2[8];
+        _lastPositions = new Vector2[8];
         _lastIndex = 0;
         _lastSize = 0;
-        _lastHistoryPos = Vec2.Zero;
+        _lastHistoryPos = Vector2.Zero;
     }
 
     protected int historyIndex(int idx)
@@ -1076,9 +1077,9 @@ public class Sword : Gun
         return ret;
     }
 
-    protected void addHistory(float angle, Vec2 position)
+    protected void addHistory(float angle, Vector2 position)
     {
-        if (_lastHistoryPos != Vec2.Zero)
+        if (_lastHistoryPos != Vector2.Zero)
         {
             _lastAngles[_lastIndex] = (angle + _lastHistoryAngle) / 2f;
             _lastPositions[_lastIndex] = (position + _lastHistoryPos) / 2f;
@@ -1116,7 +1117,7 @@ public class Sword : Gun
             _swordSwing.Depth = base.Depth + 1;
             _swordSwing.Draw();
         }
-        Vec2 pos = Position;
+        Vector2 pos = Position;
         Depth d = base.Depth;
         graphic.color = Color.White;
         if ((owner == null && base.velocity.Length() > 1f) || _swing != 0f || (tape != null && bayonetLethal))

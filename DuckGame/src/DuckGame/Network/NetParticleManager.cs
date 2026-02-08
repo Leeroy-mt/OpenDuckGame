@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -94,15 +95,15 @@ public class NetParticleManager
                 {
                     if (t == typeof(SmallFire))
                     {
-                        particle2 = SmallFire.New(Vec2.NetMin.X, Vec2.NetMin.Y, 0f, 0f, shortLife: false, null, canMultiply: false, null, network: true);
+                        particle2 = SmallFire.New(Vector2.NetMin.X, Vector2.NetMin.Y, 0f, 0f, shortLife: false, null, canMultiply: false, null, network: true);
                     }
                     else if (t == typeof(ExtinguisherSmoke))
                     {
-                        particle2 = new ExtinguisherSmoke(Vec2.NetMin.X, Vec2.NetMin.Y, network: true);
+                        particle2 = new ExtinguisherSmoke(Vector2.NetMin.X, Vector2.NetMin.Y, network: true);
                     }
                     else if (t == typeof(Firecracker))
                     {
-                        particle2 = new Firecracker(Vec2.NetMin.X, Vec2.NetMin.Y, network: true);
+                        particle2 = new Firecracker(Vector2.NetMin.X, Vector2.NetMin.Y, network: true);
                     }
                     if (!oldPacket)
                     {

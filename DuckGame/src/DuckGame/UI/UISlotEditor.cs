@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class UISlotEditor(UIMenu closeMenu, float xpos, float ypos, float wide = -1, float high = -1)
@@ -34,7 +36,7 @@ public class UISlotEditor(UIMenu closeMenu, float xpos, float ypos, float wide =
 
     bool _showedWarning;
 
-    Vec2 _rectPosition;
+    Vector2 _rectPosition;
 
     UIMenu _closeMenu = closeMenu;
 

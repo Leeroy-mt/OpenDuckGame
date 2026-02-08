@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Stuff|Pyramid", EditorItemType.Pyramid)]
@@ -8,9 +10,9 @@ public class PyramidDoor : VerticalDoor, IPlatform
     {
         _sprite = new SpriteMap("pyramidDoor", 16, 32);
         graphic = _sprite;
-        Center = new Vec2(8f, 24f);
-        collisionSize = new Vec2(10f, 32f);
-        collisionOffset = new Vec2(-5f, -24f);
+        Center = new Vector2(8f, 24f);
+        collisionSize = new Vector2(10f, 32f);
+        collisionOffset = new Vector2(-5f, -24f);
         base.Depth = -0.5f;
         _editorName = "Pyramid Door";
         thickness = 3f;
@@ -31,11 +33,11 @@ public class PyramidDoor : VerticalDoor, IPlatform
             _bottomRight = base.bottomRight;
             _cornerInit = true;
         }
-        if (Level.CheckRect<Duck>(_topLeft - new Vec2(18f, 0f), _bottomRight + new Vec2(18f, 0f)) != null)
+        if (Level.CheckRect<Duck>(_topLeft - new Vector2(18f, 0f), _bottomRight + new Vector2(18f, 0f)) != null)
         {
             _desiredOpen = 1f;
         }
-        else if (Level.CheckRectFilter(new Vec2(base.X - 4f, base.Y - 24f), new Vec2(base.X + 4f, base.Y + 8f), (PhysicsObject d) => !(d is TeamHat)) == null)
+        else if (Level.CheckRectFilter(new Vector2(base.X - 4f, base.Y - 24f), new Vector2(base.X + 4f, base.Y + 8f), (PhysicsObject d) => !(d is TeamHat)) == null)
         {
             _desiredOpen = 0f;
         }

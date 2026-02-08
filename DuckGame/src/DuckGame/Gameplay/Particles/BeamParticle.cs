@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -47,8 +48,8 @@ public class BeamParticle : Thing
 
     public override void Draw()
     {
-        Vec2 pos = Position + new Vec2(16f * _sinVal * (_inverse ? (-1f) : 1f), 0f);
-        Graphics.DrawRect(pos - new Vec2(_size, _size), pos + new Vec2(_size, _size), _color * 0.4f, base.Depth);
+        Vector2 pos = Position + new Vector2(16f * _sinVal * (_inverse ? (-1f) : 1f), 0f);
+        Graphics.DrawRect(pos - new Vector2(_size, _size), pos + new Vector2(_size, _size), _color * 0.4f, base.Depth);
         base.Draw();
     }
 }

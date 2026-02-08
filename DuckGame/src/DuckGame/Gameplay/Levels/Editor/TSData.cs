@@ -1,10 +1,12 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class TSData
 {
     public int fingerId;
 
-    public Vec2 touchXY;
+    public Vector2 touchXY;
 
     public int diameterX;
 

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMFireBullet : NMEvent
@@ -21,7 +23,7 @@ public class NMFireBullet : NMEvent
         angle = varAngle;
     }
 
-    public void DoActivate(Vec2 position, Profile owner)
+    public void DoActivate(Vector2 position, Profile owner)
     {
         typeInstance.rangeVariation = 0f;
         typeInstance.accuracy = 1f;

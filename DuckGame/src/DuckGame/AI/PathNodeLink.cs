@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class PathNodeLink
@@ -12,5 +14,5 @@ public class PathNodeLink
 
     public bool gap;
 
-    public Vec2 position => owner.Position;
+    public Vector2 position => owner.Position;
 }

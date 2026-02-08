@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public abstract class Goody : MaterialThing, ISequenceItem
@@ -10,9 +12,9 @@ public abstract class Goody : MaterialThing, ISequenceItem
         : base(xpos, ypos)
     {
         graphic = sprite;
-        Center = new Vec2(sprite.w / 2, sprite.h / 2);
-        _collisionSize = new Vec2(10f, 10f);
-        collisionOffset = new Vec2(-5f, -5f);
+        Center = new Vector2(sprite.w / 2, sprite.h / 2);
+        _collisionSize = new Vector2(10f, 10f);
+        collisionOffset = new Vector2(-5f, -5f);
         base.sequence = new SequenceItem(this);
         base.sequence.type = SequenceItemType.Goody;
         enablePhysics = false;

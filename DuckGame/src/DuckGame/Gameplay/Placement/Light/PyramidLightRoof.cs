@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -20,9 +21,9 @@ public class PyramidLightRoof : Thing
         : base(xpos, ypos)
     {
         graphic = new Sprite("pyramidRoofLight");
-        Center = new Vec2(7f, 5f);
-        _collisionSize = new Vec2(14f, 6f);
-        _collisionOffset = new Vec2(-7f, -3f);
+        Center = new Vector2(7f, 5f);
+        _collisionSize = new Vector2(14f, 6f);
+        _collisionOffset = new Vector2(-7f, -3f);
         base.Depth = 0.9f;
         base.hugWalls = WallHug.Ceiling;
         base.layer = Layer.Game;
@@ -32,9 +33,9 @@ public class PyramidLightRoof : Thing
     {
         if (!(Level.current is Editor))
         {
-            _occluders.Add(new LightOccluder(Position + new Vec2(-15f, -3f), Position + new Vec2(-15f, 4f), new Color(1f, 0.9f, 0.8f)));
-            _occluders.Add(new LightOccluder(Position + new Vec2(15f, -3f), Position + new Vec2(15f, 4f), new Color(1f, 0.9f, 0.8f)));
-            _occluders.Add(new LightOccluder(Position + new Vec2(-15f, -2f), Position + new Vec2(15f, -2f), new Color(1f, 0.9f, 0.8f)));
+            _occluders.Add(new LightOccluder(Position + new Vector2(-15f, -3f), Position + new Vector2(-15f, 4f), new Color(1f, 0.9f, 0.8f)));
+            _occluders.Add(new LightOccluder(Position + new Vector2(15f, -3f), Position + new Vector2(15f, 4f), new Color(1f, 0.9f, 0.8f)));
+            _occluders.Add(new LightOccluder(Position + new Vector2(-15f, -2f), Position + new Vector2(15f, -2f), new Color(1f, 0.9f, 0.8f)));
             light = new PointLight(base.X, base.Y - 1f, PyramidWallLight.lightColor, 110f, _occluders, strangeFalloff: true);
             Level.Add(light);
             _shade = new SpriteThing(base.X, base.Y, new Sprite("pyramidRoofLightShade"));
@@ -48,7 +49,7 @@ public class PyramidLightRoof : Thing
     {
         if (!did)
         {
-            myBlock = Level.CheckPoint<Block>(new Vec2(base.X, base.Y - 8f));
+            myBlock = Level.CheckPoint<Block>(new Vector2(base.X, base.Y - 8f));
             did = true;
         }
         if (myBlock != null && myBlock.removeFromLevel)

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -91,7 +92,7 @@ public class SwitchJoyConDual : JoyConBase
         get;
     }
 
-    public override Vec2 rightStick => ReadRightStick();
+    public override Vector2 rightStick => ReadRightStick();
 
     public SwitchJoyConDual(int idx)
         : base(idx, "Dual Joy-Con", "Joy-Con", _dualJoyImages)

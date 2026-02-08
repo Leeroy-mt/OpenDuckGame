@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -178,12 +179,12 @@ public class Tournament : Level
         base.Update();
     }
 
-    public void DrawGroup(List<TourneyGroup> gr, Vec2 drawPos)
+    public void DrawGroup(List<TourneyGroup> gr, Vector2 drawPos)
     {
-        Vec2 curDrawOffset = new Vec2(0f, 0f);
+        Vector2 curDrawOffset = new Vector2(0f, 0f);
         List<TourneyGroup> curDrawGroup = gr;
         List<TourneyGroup> nextDrawGroup = new List<TourneyGroup>();
-        _ = Vec2.Zero;
+        _ = Vector2.Zero;
         float lastSpacing = 8f;
         float lastOffsetVal = 0f;
         while (curDrawGroup.Count > 0)
@@ -195,18 +196,18 @@ public class Tournament : Level
                 {
                     nextDrawGroup.Add(g.next);
                 }
-                Graphics.DrawLine(drawPos + curDrawOffset + new Vec2(96f, 4f), drawPos + curDrawOffset + new Vec2(96f, (float)(g.players.Count - 1) * (lastSpacing + 8f) + 4f), Color.White);
+                Graphics.DrawLine(drawPos + curDrawOffset + new Vector2(96f, 4f), drawPos + curDrawOffset + new Vector2(96f, (float)(g.players.Count - 1) * (lastSpacing + 8f) + 4f), Color.White);
                 foreach (Team t in g.players)
                 {
                     string name = (g.assigned[g.players.IndexOf(t)] ? t.name : "???");
                     if (g.depth > 0)
                     {
-                        Graphics.DrawLine(drawPos + curDrawOffset + new Vec2(0f, 4f), drawPos + curDrawOffset + new Vec2((9 - (name.Length - 1)) * 8, 4f), Color.White);
-                        Graphics.DrawLine(drawPos + curDrawOffset + new Vec2(0f, 4f), t.prevTreeDraw, Color.White);
+                        Graphics.DrawLine(drawPos + curDrawOffset + new Vector2(0f, 4f), drawPos + curDrawOffset + new Vector2((9 - (name.Length - 1)) * 8, 4f), Color.White);
+                        Graphics.DrawLine(drawPos + curDrawOffset + new Vector2(0f, 4f), t.prevTreeDraw, Color.White);
                     }
-                    t.prevTreeDraw = drawPos + curDrawOffset + new Vec2(96f, 4f);
-                    Graphics.DrawLine(drawPos + curDrawOffset + new Vec2(90f, 4f), drawPos + curDrawOffset + new Vec2(96f, 4f), Color.White);
-                    Graphics.DrawString(name, drawPos + curDrawOffset + new Vec2(88 - name.Length * 8, 0f), Color.White, 1f);
+                    t.prevTreeDraw = drawPos + curDrawOffset + new Vector2(96f, 4f);
+                    Graphics.DrawLine(drawPos + curDrawOffset + new Vector2(90f, 4f), drawPos + curDrawOffset + new Vector2(96f, 4f), Color.White);
+                    Graphics.DrawString(name, drawPos + curDrawOffset + new Vector2(88 - name.Length * 8, 0f), Color.White, 1f);
                     curDrawOffset.Y += lastSpacing + 8f;
                     curNumPlayers++;
                 }
@@ -230,8 +231,8 @@ public class Tournament : Level
     {
         if (layer == Layer.HUD)
         {
-            DrawGroup(_groups, new Vec2(10f, 10f));
-            DrawGroup(_loserGroups, new Vec2(550f, 10f));
+            DrawGroup(_groups, new Vector2(10f, 10f));
+            DrawGroup(_loserGroups, new Vector2(550f, 10f));
         }
         base.PostDrawLayer(layer);
     }

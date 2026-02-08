@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -340,7 +341,7 @@ public class LSItem : Thing
             {
                 _steamIcon = new Sprite("steamIcon");
             }
-            _steamIcon.Scale = new Vec2(0.25f, 0.25f);
+            _steamIcon.Scale = new Vector2(0.25f, 0.25f);
             Graphics.Draw(_steamIcon, xDraw, base.Y);
             xDraw += 10f;
             text = "Workshop";

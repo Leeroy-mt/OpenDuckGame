@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,7 +21,7 @@ public class Portal : Thing
         _gun = Gun;
     }
 
-    public IEnumerable<MaterialThing> CheckRectAll(Vec2 TopLeft, Vec2 BottomRight)
+    public IEnumerable<MaterialThing> CheckRectAll(Vector2 TopLeft, Vector2 BottomRight)
     {
         List<MaterialThing> things = new List<MaterialThing>();
         foreach (PortalDoor p in _doors)
@@ -75,10 +76,10 @@ public class Portal : Thing
         {
             return;
         }
-        AutoBlock lower = Level.CheckLine<AutoBlock>(door.point2 + new Vec2(-8f, 0f), door.point2 + new Vec2(8f, 0f));
+        AutoBlock lower = Level.CheckLine<AutoBlock>(door.point2 + new Vector2(-8f, 0f), door.point2 + new Vector2(8f, 0f));
         if (lower != null)
         {
-            Vec2 newTopLeft = lower.topLeft;
+            Vector2 newTopLeft = lower.topLeft;
             if (newTopLeft.Y < door.bottom)
             {
                 newTopLeft.Y = door.bottom;
@@ -90,10 +91,10 @@ public class Portal : Thing
             }
             door.collision.Add(new Block(newTopLeft.X, newTopLeft.Y, lower.width, high));
         }
-        AutoBlock upper = Level.CheckLine<AutoBlock>(door.point1 + new Vec2(-8f, 0f), door.point1 + new Vec2(8f, 0f));
+        AutoBlock upper = Level.CheckLine<AutoBlock>(door.point1 + new Vector2(-8f, 0f), door.point1 + new Vector2(8f, 0f));
         if (upper != null)
         {
-            Vec2 newBottomLeft = lower.bottomLeft;
+            Vector2 newBottomLeft = lower.bottomLeft;
             if (newBottomLeft.Y > door.top)
             {
                 newBottomLeft.Y = door.top;
@@ -111,7 +112,7 @@ public class Portal : Thing
             door.layer.scissor = Graphics.viewport.Bounds;
             Layer.Add(door.layer);
         }
-        if (Level.CheckPoint<AutoBlock>(door.center + new Vec2(-8f, 0f)) != null)
+        if (Level.CheckPoint<AutoBlock>(door.center + new Vector2(-8f, 0f)) != null)
         {
             door.isLeft = true;
         }
@@ -144,7 +145,7 @@ public class Portal : Thing
         foreach (PortalDoor d in _doors)
         {
             IEnumerable<ITeleport> moreThings = null;
-            moreThings = (d.horizontal ? Level.CheckRectAll<ITeleport>(d.point1 + new Vec2(0f, -8f), d.point2 + new Vec2(0f, 8f)) : Level.CheckRectAll<ITeleport>(d.point1 + new Vec2(-8f, 0f), d.point2 + new Vec2(8f, 0f)));
+            moreThings = (d.horizontal ? Level.CheckRectAll<ITeleport>(d.point1 + new Vector2(0f, -8f), d.point2 + new Vector2(0f, 8f)) : Level.CheckRectAll<ITeleport>(d.point1 + new Vector2(-8f, 0f), d.point2 + new Vector2(8f, 0f)));
             things = ((things != null) ? things.Concat(moreThings) : moreThings);
         }
         List<PortalDrawTransformer> removeList = new List<PortalDrawTransformer>();

@@ -1,21 +1,23 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class DeathBeam : Thing
 {
     public float _blast = 1f;
 
-    private Vec2 _target;
+    private Vector2 _target;
 
     private Thing _blastOwner;
 
-    public DeathBeam(Vec2 pos, Vec2 target, Thing blastOwner)
+    public DeathBeam(Vector2 pos, Vector2 target, Thing blastOwner)
         : base(pos.X, pos.Y)
     {
         _target = target;
         _blastOwner = blastOwner;
     }
 
-    public DeathBeam(Vec2 pos, Vec2 target)
+    public DeathBeam(Vector2 pos, Vector2 target)
         : base(pos.X, pos.Y)
     {
         _target = target;
@@ -23,8 +25,8 @@ public class DeathBeam : Thing
 
     public override void Initialize()
     {
-        Vec2 upVec = _target.Rotate(Maths.DegToRad(-90f), Vec2.Zero).Normalized;
-        Vec2 downVec = _target.Rotate(Maths.DegToRad(90f), Vec2.Zero).Normalized;
+        Vector2 upVec = Vector2.Normalize(_target.Rotate(Maths.DegToRad(-90f), Vector2.Zero));
+        Vector2 downVec = Vector2.Normalize(_target.Rotate(Maths.DegToRad(90f), Vector2.Zero));
         Level.Add(new LaserLine(Position, _target, upVec, 4f, Color.White, 1f));
         Level.Add(new LaserLine(Position, _target, downVec, 4f, Color.White, 1f));
         Level.Add(new LaserLine(Position, _target, upVec, 2.5f, Color.White, 2f));
@@ -32,10 +34,10 @@ public class DeathBeam : Thing
         if (isLocal)
         {
             int ducks = 0;
-            Vec2 checkStart = Position + upVec * 16f;
+            Vector2 checkStart = Position + upVec * 16f;
             for (int i = 0; i < 5; i++)
             {
-                Vec2 vec = checkStart + downVec * 8f * i;
+                Vector2 vec = checkStart + downVec * 8f * i;
                 foreach (MaterialThing thing in Level.CheckLineAll<MaterialThing>(vec, vec + _target))
                 {
                     if (_blastOwner == thing || Duck.GetAssociatedDuck(thing) == _blastOwner)
@@ -88,12 +90,12 @@ public class DeathBeam : Thing
         Maths.NormalizeSection(_blast, 0.6f, 1f);
         _ = _blast;
         _ = 0f;
-        Vec2 upVec = _target.Rotate(Maths.DegToRad(-90f), Vec2.Zero).Normalized;
-        Vec2 downVec = _target.Rotate(Maths.DegToRad(90f), Vec2.Zero).Normalized;
-        Vec2 checkStart = Position + upVec * 16f;
+        Vector2 upVec = Vector2.Normalize(_target.Rotate(Maths.DegToRad(-90f), Vector2.Zero));
+        Vector2 downVec = Vector2.Normalize(_target.Rotate(Maths.DegToRad(90f), Vector2.Zero));
+        Vector2 checkStart = Position + upVec * 16f;
         for (int i = 0; i < 5; i++)
         {
-            Vec2 vec = checkStart + downVec * 8f * i;
+            Vector2 vec = checkStart + downVec * 8f * i;
             Graphics.DrawLine(vec, vec + _target, Color.Red * (_blast * 0.5f), 2f, 0.9f);
         }
     }

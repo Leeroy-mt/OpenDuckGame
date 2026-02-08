@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -27,9 +28,9 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
 
     private int framesInvisible;
 
-    private Vec2 _stickLerp;
+    private Vector2 _stickLerp;
 
-    private Vec2 _stickSlowLerp;
+    private Vector2 _stickSlowLerp;
 
     public Duck captureDuck => _duckOwner;
 
@@ -53,9 +54,9 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
     public TrappedDuck(float xpos, float ypos, Duck duckowner)
         : base(xpos, ypos)
     {
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -8f);
-        collisionSize = new Vec2(16f, 16f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -8f);
+        collisionSize = new Vector2(16f, 16f);
         base.Depth = -0.5f;
         thickness = 0.5f;
         weight = 5f;
@@ -71,7 +72,7 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
         _trapTime = 1f;
     }
 
-    protected override bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected override bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         if (_duckOwner != null)
         {
@@ -169,7 +170,7 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
         return true;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal && (_duckOwner == null || !_duckOwner.HitArmor(bullet, hitPos)))
         {
@@ -178,7 +179,7 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
         return base.Hit(bullet, hitPos);
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 exitPos)
+    public override void ExitHit(Bullet bullet, Vector2 exitPos)
     {
     }
 
@@ -311,7 +312,7 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
         }
         if (_duckOwner.quack > 0)
         {
-            Vec2 rs = _duckOwner.tounge;
+            Vector2 rs = _duckOwner.tounge;
             if (!_duckOwner._spriteQuack.flipH && rs.X < 0f)
             {
                 rs.X = 0f;
@@ -330,9 +331,9 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
             }
             _stickLerp = Lerp.Vec2Smooth(_stickLerp, rs, 0.2f);
             _stickSlowLerp = Lerp.Vec2Smooth(_stickSlowLerp, rs, 0.1f);
-            Vec2 stick = _stickLerp;
+            Vector2 stick = _stickLerp;
             stick.Y *= -1f;
-            Vec2 stick2 = _stickSlowLerp;
+            Vector2 stick2 = _stickSlowLerp;
             stick2.Y *= -1f;
             int additionalFrame = 0;
             float length = stick.Length();
@@ -343,17 +344,17 @@ public class TrappedDuck : Holdable, IPlatform, IAmADuck
             Graphics.Draw(_duckOwner._spriteQuack, _duckOwner._sprite.imageIndex + additionalFrame, base.X + shakeOffset, base.Y - 8f);
             if (length > 0.05f)
             {
-                Vec2 mouthPos = Position + new Vec2(shakeOffset + (float)((!_duckOwner._spriteQuack.flipH) ? 1 : (-1)), -2f);
-                List<Vec2> list = Curve.Bezier(8, mouthPos, mouthPos + stick2 * 6f, mouthPos + stick * 6f);
-                Vec2 prev = Vec2.Zero;
+                Vector2 mouthPos = Position + new Vector2(shakeOffset + (float)((!_duckOwner._spriteQuack.flipH) ? 1 : (-1)), -2f);
+                List<Vector2> list = Curve.Bezier(8, mouthPos, mouthPos + stick2 * 6f, mouthPos + stick * 6f);
+                Vector2 prev = Vector2.Zero;
                 float lenMul = 1f;
-                foreach (Vec2 p in list)
+                foreach (Vector2 p in list)
                 {
-                    if (prev != Vec2.Zero)
+                    if (prev != Vector2.Zero)
                     {
-                        Vec2 dir = prev - p;
-                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.Normalized * 0.4f, p, new Color(223, 30, 30), 0.15f * lenMul, base.Depth + 1);
-                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + dir.Normalized * 0.4f, p - dir.Normalized * 0.4f, Color.Black, 0.3f * lenMul, base.Depth - 1);
+                        Vector2 dir = prev - p;
+                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + Vector2.Normalize(dir) * 0.4f, p, new Color(223, 30, 30), 0.15f * lenMul, base.Depth + 1);
+                        Graphics.DrawTexturedLine(Graphics.tounge.texture, prev + Vector2.Normalize(dir) * 0.4f, p - Vector2.Normalize(dir) * 0.4f, Color.Black, 0.3f * lenMul, base.Depth - 1);
                     }
                     lenMul -= 0.1f;
                     prev = p;

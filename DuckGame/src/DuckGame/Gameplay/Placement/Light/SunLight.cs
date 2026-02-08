@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -17,7 +18,7 @@ public class SunLight : Thing, ILight
 
         private List<VerticalDoor> _verticalDoorList = new List<VerticalDoor>();
 
-        public Vec2 start;
+        public Vector2 start;
 
         public GeometryItem geo;
 
@@ -63,14 +64,14 @@ public class SunLight : Thing, ILight
             affectors.Clear();
             geo = MTSpriteBatch.CreateGeometryItem();
             lightColor.a = 0;
-            Vec2 tl = start;
+            Vector2 tl = start;
             float dis = 0.25f;
-            Vec2 rayOffset = new Vec2(3000f, 5000f);
+            Vector2 rayOffset = new Vector2(3000f, 5000f);
             for (int i = 0; i < 8; i++)
             {
-                Vec2 castPos = tl + new Vec2(32f * dis, 0f);
-                tl += new Vec2(8f, 0f);
-                Vec2 rayPos = Vec2.Zero;
+                Vector2 castPos = tl + new Vector2(32f * dis, 0f);
+                tl += new Vector2(8f, 0f);
+                Vector2 rayPos = Vector2.Zero;
                 Block hit = Level.CheckRay<Block>(castPos, castPos + rayOffset, out rayPos);
                 if (hit is Window)
                 {
@@ -78,19 +79,19 @@ public class SunLight : Thing, ILight
                 }
                 if (hit == null)
                 {
-                    geo.AddTriangle(castPos, castPos + new Vec2(9f, 0f), castPos + rayOffset, lightColor, lightColor, lightColor);
-                    geo.AddTriangle(castPos, castPos + rayOffset, castPos + new Vec2(9f, 0f) + rayOffset, lightColor, lightColor, lightColor);
+                    geo.AddTriangle(castPos, castPos + new Vector2(9f, 0f), castPos + rayOffset, lightColor, lightColor, lightColor);
+                    geo.AddTriangle(castPos, castPos + rayOffset, castPos + new Vector2(9f, 0f) + rayOffset, lightColor, lightColor, lightColor);
                     continue;
                 }
-                if (Level.CheckPoint<Block>(rayPos + new Vec2(0f, -9f) + new Vec2(1f, 0f)) != null)
+                if (Level.CheckPoint<Block>(rayPos + new Vector2(0f, -9f) + new Vector2(1f, 0f)) != null)
                 {
-                    geo.AddTriangle(castPos, castPos + new Vec2(8f, 0f), rayPos + new Vec2(0f, -18f), lightColor, lightColor, lightColor);
-                    geo.AddTriangle(castPos, rayPos, rayPos + new Vec2(0f, -18f), lightColor, lightColor, lightColor);
+                    geo.AddTriangle(castPos, castPos + new Vector2(8f, 0f), rayPos + new Vector2(0f, -18f), lightColor, lightColor, lightColor);
+                    geo.AddTriangle(castPos, rayPos, rayPos + new Vector2(0f, -18f), lightColor, lightColor, lightColor);
                 }
                 else
                 {
-                    geo.AddTriangle(castPos, castPos + new Vec2(12f, 0f), rayPos + new Vec2(8f, 0f), lightColor, lightColor, lightColor);
-                    geo.AddTriangle(castPos, rayPos, rayPos + new Vec2(12f, 0f), lightColor, lightColor, lightColor);
+                    geo.AddTriangle(castPos, castPos + new Vector2(12f, 0f), rayPos + new Vector2(8f, 0f), lightColor, lightColor, lightColor);
+                    geo.AddTriangle(castPos, rayPos, rayPos + new Vector2(12f, 0f), lightColor, lightColor, lightColor);
                 }
                 affectors.Add(hit);
                 if (hit is Door)
@@ -188,7 +189,7 @@ public class SunLight : Thing, ILight
 
     private void DrawLight()
     {
-        Vec2 tl = Maths.Snap(Level.current.topLeft, 16f, 16f) + new Vec2(-1024f, -256f);
+        Vector2 tl = Maths.Snap(Level.current.topLeft, 16f, 16f) + new Vector2(-1024f, -256f);
         for (int i = 0; i < 42; i++)
         {
             Section s = new Section

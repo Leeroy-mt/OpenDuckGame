@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class CTFPresent : Present
@@ -10,9 +12,9 @@ public class CTFPresent : Present
         _sprite = new SpriteMap("ctf/present", 18, 17);
         _sprite.frame = ((!team) ? 1 : 0);
         graphic = _sprite;
-        Center = new Vec2(9f, 8f);
-        collisionOffset = new Vec2(-9f, -6f);
-        collisionSize = new Vec2(18f, 14f);
+        Center = new Vector2(9f, 8f);
+        collisionOffset = new Vector2(-9f, -6f);
+        collisionSize = new Vector2(18f, 14f);
         weight = 7f;
         flammable = 0.8f;
     }

@@ -1,20 +1,21 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
 
 public class FluidStream : Thing
 {
-    private Vec2 _sprayAngle;
+    private Vector2 _sprayAngle;
 
-    private Vec2 _startSprayAngle;
+    private Vector2 _startSprayAngle;
 
     private float _holeThickness = 1f;
 
     private float _sprayVelocity;
 
-    private Vec2 _endPoint;
+    private Vector2 _endPoint;
 
-    private Vec2 _offset;
+    private Vector2 _offset;
 
     private bool _onFire;
 
@@ -32,7 +33,7 @@ public class FluidStream : Thing
 
     public float streamSpeedMultiplier = 1f;
 
-    public Vec2 sprayAngle
+    public Vector2 sprayAngle
     {
         get
         {
@@ -44,7 +45,7 @@ public class FluidStream : Thing
         }
     }
 
-    public Vec2 startSprayAngle => _startSprayAngle;
+    public Vector2 startSprayAngle => _startSprayAngle;
 
     public float holeThickness
     {
@@ -58,7 +59,7 @@ public class FluidStream : Thing
         }
     }
 
-    public Vec2 offset
+    public Vector2 offset
     {
         get
         {
@@ -82,10 +83,10 @@ public class FluidStream : Thing
         }
     }
 
-    public FluidStream(float xpos, float ypos, Vec2 sprayAngleVal, float sprayVelocity, Vec2 off = default(Vec2))
+    public FluidStream(float xpos, float ypos, Vector2 sprayAngleVal, float sprayVelocity, Vector2 off = default(Vector2))
         : base(xpos, ypos)
     {
-        _endPoint = new Vec2(xpos, ypos);
+        _endPoint = new Vector2(xpos, ypos);
         _sprayAngle = sprayAngleVal;
         _startSprayAngle = sprayAngleVal;
         _sprayVelocity = sprayVelocity;
@@ -99,7 +100,7 @@ public class FluidStream : Thing
         {
             _maxSpeedMul = Lerp.Float(_maxSpeedMul, val, 0.1f);
         }
-        _lastFluid = new Fluid(base.X, base.Y, (_sprayAngle * ((2f + (float)Math.Sin(_fluctuate) * 0.5f) * _speedMul) + new Vec2(hSpeed * 0f, vSpeed * 0f)) * streamSpeedMultiplier, dat, _lastFluid);
+        _lastFluid = new Fluid(base.X, base.Y, (_sprayAngle * ((2f + (float)Math.Sin(_fluctuate) * 0.5f) * _speedMul) + new Vector2(hSpeed * 0f, vSpeed * 0f)) * streamSpeedMultiplier, dat, _lastFluid);
         Level.Add(_lastFluid);
         _framesSinceFluid = 0;
         if (dat.flammable > 0.5f && onFire && _framesSinceFire > 12 && Rando.Float(1f) < 0.12f * dat.flammable)

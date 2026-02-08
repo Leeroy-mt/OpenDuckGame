@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Details|Terrain")]
@@ -31,9 +33,9 @@ public class SnowDrift : MaterialThing
             (graphic as SpriteMap).frame = Rando.Int(3);
         }
         base.hugWalls = WallHug.Floor;
-        Center = new Vec2(8f, 14f);
-        collisionSize = new Vec2(14f, 4f);
-        collisionOffset = new Vec2(-7f, -2f);
+        Center = new Vector2(8f, 14f);
+        collisionSize = new Vector2(14f, 4f);
+        collisionOffset = new Vector2(-7f, -2f);
         base.layer = Layer.Blocks;
         base.Depth = 0.5f;
         editorTooltip = "The safest drift of all!";
@@ -83,14 +85,14 @@ public class SnowDrift : MaterialThing
                 {
                     mul = 0.7f;
                 }
-                Level.Add(new SnowFallParticle(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-6f, 0f), new Vec2(hPower * mul * 0.1f + Rando.Float(-0.2f * (vPower * mul), 0.2f * (vPower * mul)), (0f - Rando.Float(0.8f, 1.5f)) * (vPower * mul * 0.15f)), i < 6));
+                Level.Add(new SnowFallParticle(base.X + Rando.Float(-8f, 8f), base.Y + Rando.Float(-6f, 0f), new Vector2(hPower * mul * 0.1f + Rando.Float(-0.2f * (vPower * mul), 0.2f * (vPower * mul)), (0f - Rando.Float(0.8f, 1.5f)) * (vPower * mul * 0.15f)), i < 6));
             }
             kill = true;
         }
         base.OnSoftImpact(with, from);
     }
 
-    public override void HeatUp(Vec2 location)
+    public override void HeatUp(Vector2 location)
     {
         melt = true;
         base.HeatUp(location);

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ public class ProfileSelector : Thing
             {
                 name = "{",
                 trigger = "LEFT",
-                position = new Vec2(0f, 0f),
+                position = new Vector2(0f, 0f),
                 column = 0,
                 condition = (InputDevice x) => x.allowDirectionalMapping
             },
@@ -32,7 +33,7 @@ public class ProfileSelector : Thing
             {
                 name = "/",
                 trigger = "RIGHT",
-                position = new Vec2(35f, 0f),
+                position = new Vector2(35f, 0f),
                 column = 0,
                 condition = (InputDevice x) => x.allowDirectionalMapping
             },
@@ -40,7 +41,7 @@ public class ProfileSelector : Thing
             {
                 name = "}",
                 trigger = "UP",
-                position = new Vec2(70f, 0f),
+                position = new Vector2(70f, 0f),
                 column = 1,
                 condition = (InputDevice x) => x.allowDirectionalMapping
             },
@@ -48,7 +49,7 @@ public class ProfileSelector : Thing
             {
                 name = "~",
                 trigger = "DOWN",
-                position = new Vec2(105f, 0f),
+                position = new Vector2(105f, 0f),
                 column = 1,
                 condition = (InputDevice x) => x.allowDirectionalMapping
             },
@@ -56,49 +57,49 @@ public class ProfileSelector : Thing
             {
                 name = "JUMP  ",
                 trigger = "JUMP",
-                position = new Vec2(0f, 12f),
+                position = new Vector2(0f, 12f),
                 column = 0
             },
             new ControlSetting
             {
                 name = "GRAB  ",
                 trigger = "GRAB",
-                position = new Vec2(0f, 24f),
+                position = new Vector2(0f, 24f),
                 column = 0
             },
             new ControlSetting
             {
                 name = "STRAFE",
                 trigger = "STRAFE",
-                position = new Vec2(0f, 36f),
+                position = new Vector2(0f, 36f),
                 column = 0
             },
             new ControlSetting
             {
                 name = "USE   ",
                 trigger = "SHOOT",
-                position = new Vec2(70f, 12f),
+                position = new Vector2(70f, 12f),
                 column = 1
             },
             new ControlSetting
             {
                 name = "QUACK ",
                 trigger = "QUACK",
-                position = new Vec2(70f, 24f),
+                position = new Vector2(70f, 24f),
                 column = 1
             },
             new ControlSetting
             {
                 name = "FALL  ",
                 trigger = "RAGDOLL",
-                position = new Vec2(70f, 36f),
+                position = new Vector2(70f, 36f),
                 column = 1
             },
             new ControlSetting
             {
                 name = "START ",
                 trigger = "START",
-                position = new Vec2(0f, 48f),
+                position = new Vector2(0f, 48f),
                 column = 0,
                 condition = (InputDevice x) => x.allowStartRemap
             },
@@ -106,7 +107,7 @@ public class ProfileSelector : Thing
             {
                 name = "PAGE 2>",
                 trigger = "ANY",
-                position = new Vec2(70f, 48f),
+                position = new Vector2(70f, 48f),
                 column = 1,
                 condition = (InputDevice x) => !(x is Keyboard),
                 action = delegate(ProfileSelector x)
@@ -120,7 +121,7 @@ public class ProfileSelector : Thing
             {
                 name = "PAGE 2>",
                 trigger = "ANY",
-                position = new Vec2(70f, 48f),
+                position = new Vector2(70f, 48f),
                 column = 1,
                 condition = (InputDevice x) => x is Keyboard,
                 action = delegate(ProfileSelector x)
@@ -137,7 +138,7 @@ public class ProfileSelector : Thing
             {
                 name = "MOVE  ",
                 trigger = "LSTICK",
-                position = new Vec2(0f, 12f),
+                position = new Vector2(0f, 12f),
                 column = 0,
                 condition = (InputDevice x) => x.numSticks > 1
             },
@@ -145,7 +146,7 @@ public class ProfileSelector : Thing
             {
                 name = "PITCH ",
                 trigger = "LTRIGGER",
-                position = new Vec2(0f, 24f),
+                position = new Vector2(0f, 24f),
                 column = 0,
                 condition = (InputDevice x) => x.numTriggers > 1
             },
@@ -153,7 +154,7 @@ public class ProfileSelector : Thing
             {
                 name = "LICK  ",
                 trigger = "RSTICK",
-                position = new Vec2(70f, 12f),
+                position = new Vector2(70f, 12f),
                 column = 1,
                 condition = (InputDevice x) => x.numSticks > 1
             },
@@ -161,7 +162,7 @@ public class ProfileSelector : Thing
             {
                 name = "ZOOM  ",
                 trigger = "RTRIGGER",
-                position = new Vec2(70f, 24f),
+                position = new Vector2(70f, 24f),
                 column = 1,
                 condition = (InputDevice x) => x.numTriggers > 1
             },
@@ -169,7 +170,7 @@ public class ProfileSelector : Thing
             {
                 name = "<PAGE 1",
                 trigger = "ANY",
-                position = new Vec2(0f, 60f),
+                position = new Vector2(0f, 60f),
                 column = 0,
                 action = delegate(ProfileSelector x)
                 {
@@ -182,7 +183,7 @@ public class ProfileSelector : Thing
             {
                 name = "PAGE 3>",
                 trigger = "ANY",
-                position = new Vec2(70f, 60f),
+                position = new Vector2(70f, 60f),
                 column = 1,
                 action = delegate(ProfileSelector x)
                 {
@@ -198,7 +199,7 @@ public class ProfileSelector : Thing
             {
                 name = "UI CONTROLS...",
                 trigger = "ANY",
-                position = new Vec2(0f, 0f),
+                position = new Vector2(0f, 0f),
                 column = 0,
                 caption = true
             },
@@ -206,7 +207,7 @@ public class ProfileSelector : Thing
             {
                 name = "{",
                 trigger = "MENULEFT",
-                position = new Vec2(0f, 12f),
+                position = new Vector2(0f, 12f),
                 column = 0,
                 condition = (InputDevice x) => x.allowDirectionalMapping
             },
@@ -214,7 +215,7 @@ public class ProfileSelector : Thing
             {
                 name = "/",
                 trigger = "MENURIGHT",
-                position = new Vec2(35f, 12f),
+                position = new Vector2(35f, 12f),
                 column = 0,
                 condition = (InputDevice x) => x.allowDirectionalMapping
             },
@@ -222,7 +223,7 @@ public class ProfileSelector : Thing
             {
                 name = "}",
                 trigger = "MENUUP",
-                position = new Vec2(70f, 12f),
+                position = new Vector2(70f, 12f),
                 column = 1,
                 condition = (InputDevice x) => x.allowDirectionalMapping
             },
@@ -230,7 +231,7 @@ public class ProfileSelector : Thing
             {
                 name = "~",
                 trigger = "MENUDOWN",
-                position = new Vec2(105f, 12f),
+                position = new Vector2(105f, 12f),
                 column = 1,
                 condition = (InputDevice x) => x.allowDirectionalMapping
             },
@@ -238,35 +239,35 @@ public class ProfileSelector : Thing
             {
                 name = "SELECT",
                 trigger = "SELECT",
-                position = new Vec2(0f, 24f),
+                position = new Vector2(0f, 24f),
                 column = 0
             },
             new ControlSetting
             {
                 name = "MENU 1",
                 trigger = "MENU1",
-                position = new Vec2(0f, 36f),
+                position = new Vector2(0f, 36f),
                 column = 0
             },
             new ControlSetting
             {
                 name = "CANCEL",
                 trigger = "CANCEL",
-                position = new Vec2(70f, 24f),
+                position = new Vector2(70f, 24f),
                 column = 1
             },
             new ControlSetting
             {
                 name = "MENU 2",
                 trigger = "MENU2",
-                position = new Vec2(70f, 36f),
+                position = new Vector2(70f, 36f),
                 column = 1
             },
             new ControlSetting
             {
                 name = "<PAGE 2",
                 trigger = "ANY",
-                position = new Vec2(0f, 48f),
+                position = new Vector2(0f, 48f),
                 column = 0,
                 condition = (InputDevice x) => !(x is Keyboard),
                 action = delegate(ProfileSelector x)
@@ -280,7 +281,7 @@ public class ProfileSelector : Thing
             {
                 name = "<PAGE 1",
                 trigger = "ANY",
-                position = new Vec2(0f, 48f),
+                position = new Vector2(0f, 48f),
                 column = 0,
                 condition = (InputDevice x) => x is Keyboard,
                 action = delegate(ProfileSelector x)
@@ -294,7 +295,7 @@ public class ProfileSelector : Thing
             {
                 name = "RESET ",
                 trigger = "ANY",
-                position = new Vec2(70f, 48f),
+                position = new Vector2(70f, 48f),
                 column = 1,
                 action = delegate(ProfileSelector x)
                 {
@@ -411,8 +412,8 @@ public class ProfileSelector : Thing
         : base(xpos, ypos)
     {
         _font = new BitmapFont("biosFontUI", 8, 7);
-        _font.Scale = new Vec2(0.5f, 0.5f);
-        _collisionSize = new Vec2(141f, 89f);
+        _font.Scale = new Vector2(0.5f, 0.5f);
+        _collisionSize = new Vector2(141f, 89f);
         _spinnerArrows = new SpriteMap("spinnerArrows", 8, 4);
         _box = box;
         _selector = sel;
@@ -421,9 +422,9 @@ public class ProfileSelector : Thing
         _angryIcons = new SpriteMap("angryFace", 16, 16);
         _angryIcons.CenterOrigin();
         _smallFont = new BitmapFont("smallBiosFont", 7, 6);
-        _smallFont.Scale = new Vec2(0.5f, 0.5f);
+        _smallFont.Scale = new Vector2(0.5f, 0.5f);
         _controlsFont = new BitmapFont("biosFontUIArrows", 8, 7);
-        _controlsFont.Scale = new Vec2(1f);
+        _controlsFont.Scale = new Vector2(1f);
     }
 
     public override void Initialize()
@@ -775,24 +776,24 @@ public class ProfileSelector : Thing
                 {
                     _selectedSetting = _controlSettingPages[_controlPage].Find((ControlSetting x) => (x.condition == null || x.condition(d)) && !x.caption);
                 }
-                Vec2 move = Vec2.Zero;
+                Vector2 move = Vector2.Zero;
                 if (_inputProfile.Pressed("MENUUP"))
                 {
-                    move += new Vec2(0f, -8f);
+                    move += new Vector2(0f, -8f);
                 }
                 else if (_inputProfile.Pressed("MENUDOWN"))
                 {
-                    move += new Vec2(0f, 8f);
+                    move += new Vector2(0f, 8f);
                 }
                 else if (_inputProfile.Pressed("MENULEFT"))
                 {
-                    move += new Vec2(-30f, 0f);
+                    move += new Vector2(-30f, 0f);
                 }
                 else if (_inputProfile.Pressed("MENURIGHT"))
                 {
-                    move += new Vec2(30f, 0f);
+                    move += new Vector2(30f, 0f);
                 }
-                if (move != Vec2.Zero)
+                if (move != Vector2.Zero)
                 {
                     ControlSetting nearest = null;
                     foreach (ControlSetting s in _controlSettingPages[_controlPage])
@@ -1147,17 +1148,17 @@ public class ProfileSelector : Thing
         }
         _font.Alpha = _fade;
         _font.Depth = 0.96f;
-        _font.Scale = new Vec2(1f, 1f);
+        _font.Scale = new Vector2(1f, 1f);
         if (_mode == PSMode.EditControlsConfirm)
         {
-            Vec2 realPos = Position;
-            Position = Vec2.Zero;
+            Vector2 realPos = Position;
+            Position = Vector2.Zero;
             _selector.screen.BeginDraw();
             string caption = "SAVE CHANGES?";
-            _smallFont.Draw(caption, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _smallFont.GetWidth(caption) / 2f, base.Y + 22f)), Colors.MenuOption * ((_controlPosition == 0) ? 1f : 0.6f), 0.95f);
-            _ = new Vec2(base.X + base.width / 2f - 66f, base.Y + 18f) + new Vec2(0.5f, 0f);
-            _smallFont.Draw("YES", Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _smallFont.GetWidth("YES") / 2f, base.Y + 34f)), Colors.MenuOption * ((_editControlSelection == 0) ? 1f : 0.6f), 0.95f);
-            _smallFont.Draw("NO", Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _smallFont.GetWidth("NO") / 2f, base.Y + 34f + 8f)), Colors.MenuOption * ((_editControlSelection == 1) ? 1f : 0.6f), 0.95f);
+            _smallFont.Draw(caption, Maths.RoundToPixel(new Vector2(base.X + base.width / 2f - _smallFont.GetWidth(caption) / 2f, base.Y + 22f)), Colors.MenuOption * ((_controlPosition == 0) ? 1f : 0.6f), 0.95f);
+            _ = new Vector2(base.X + base.width / 2f - 66f, base.Y + 18f) + new Vector2(0.5f, 0f);
+            _smallFont.Draw("YES", Maths.RoundToPixel(new Vector2(base.X + base.width / 2f - _smallFont.GetWidth("YES") / 2f, base.Y + 34f)), Colors.MenuOption * ((_editControlSelection == 0) ? 1f : 0.6f), 0.95f);
+            _smallFont.Draw("NO", Maths.RoundToPixel(new Vector2(base.X + base.width / 2f - _smallFont.GetWidth("NO") / 2f, base.Y + 34f + 8f)), Colors.MenuOption * ((_editControlSelection == 1) ? 1f : 0.6f), 0.95f);
             string buttons = "@SELECT@";
             _font.Draw(buttons, 4f, 79f, new Color(180, 180, 180), 0.95f, _inputProfile);
             buttons = "@CANCEL@";
@@ -1167,11 +1168,11 @@ public class ProfileSelector : Thing
         }
         else if (_mode == PSMode.EditControls)
         {
-            Vec2 realPos2 = Position;
-            Position = Vec2.Zero;
+            Vector2 realPos2 = Position;
+            Position = Vector2.Zero;
             _selector.screen.BeginDraw();
             InputProfile pro = _inputProfile;
-            _smallFont.Scale = new Vec2(1f, 1f);
+            _smallFont.Scale = new Vector2(1f, 1f);
             float yOff = 6f;
             string currentDevice = pro.lastActiveDevice.productName;
             if (currentDevice == null)
@@ -1192,8 +1193,8 @@ public class ProfileSelector : Thing
             {
                 currentDevice = "< " + currentDevice + " >";
             }
-            _smallFont.Draw(currentDevice, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _smallFont.GetWidth(currentDevice) / 2f, base.Y + yOff)), Colors.MenuOption * ((_controlPosition == 0) ? 1f : 0.6f), 0.95f);
-            Vec2 controlsDrawOffset = new Vec2(base.X + base.width / 2f - 66f, base.Y + yOff + 9f) + new Vec2(0.5f, 0f);
+            _smallFont.Draw(currentDevice, Maths.RoundToPixel(new Vector2(base.X + base.width / 2f - _smallFont.GetWidth(currentDevice) / 2f, base.Y + yOff)), Colors.MenuOption * ((_controlPosition == 0) ? 1f : 0.6f), 0.95f);
+            Vector2 controlsDrawOffset = new Vector2(base.X + base.width / 2f - 66f, base.Y + yOff + 9f) + new Vector2(0.5f, 0f);
             bool drewFirstLine = false;
             foreach (ControlSetting s2 in _controlSettingPages[_controlPage])
             {
@@ -1207,7 +1208,7 @@ public class ProfileSelector : Thing
                     continue;
                 }
                 string controlLine = s2.name;
-                Vec2 pos = s2.position;
+                Vector2 pos = s2.position;
                 if (pos.Y == 0f)
                 {
                     drewFirstLine = true;
@@ -1228,7 +1229,7 @@ public class ProfileSelector : Thing
                         controlLine += "_";
                     }
                 }
-                _smallFont.Draw(controlLine, Maths.RoundToPixel(new Vec2(pos.X, pos.Y) + controlsDrawOffset), Colors.MenuOption * ((s2 == _selectedSetting) ? 1f : 0.6f), 0.95f);
+                _smallFont.Draw(controlLine, Maths.RoundToPixel(new Vector2(pos.X, pos.Y) + controlsDrawOffset), Colors.MenuOption * ((s2 == _selectedSetting) ? 1f : 0.6f), 0.95f);
             }
             if (!_editControl)
             {
@@ -1248,11 +1249,11 @@ public class ProfileSelector : Thing
         else if (_mode == PSMode.SelectProfile)
         {
             _pendingMaps.Clear();
-            Vec2 realPos3 = Position;
-            Position = Vec2.Zero;
+            Vector2 realPos3 = Position;
+            Position = Vector2.Zero;
             _selector.screen.BeginDraw();
             string pickTeam = "@LWING@PICK PROFILE@RWING@";
-            _font.Draw(pickTeam, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(pickTeam) / 2f, base.Y + 8f)), Color.White, 0.95f);
+            _font.Draw(pickTeam, Maths.RoundToPixel(new Vector2(base.X + base.width / 2f - _font.GetWidth(pickTeam) / 2f, base.Y + 8f)), Color.White, 0.95f);
             float yOff2 = 8f;
             for (int i = 0; i < 7; i++)
             {
@@ -1303,14 +1304,14 @@ public class ProfileSelector : Thing
                 {
                     name = name.Replace("|DGBLUE|", "");
                 }
-                _font.Draw(name, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(name) / 2f, ypos)), (taken2 ? Color.Red : (n ? Color.Lime : (def ? Colors.DGYellow : Colors.MenuOption))) * colorMult, 0.95f);
+                _font.Draw(name, Maths.RoundToPixel(new Vector2(base.X + base.width / 2f - _font.GetWidth(name) / 2f, ypos)), (taken2 ? Color.Red : (n ? Color.Lime : (def ? Colors.DGYellow : Colors.MenuOption))) * colorMult, 0.95f);
                 if (selectorString != null)
                 {
-                    _font.Draw(selectorString, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(selectorString) / 2f, ypos)), Color.White, 0.92f);
+                    _font.Draw(selectorString, Maths.RoundToPixel(new Vector2(base.X + base.width / 2f - _font.GetWidth(selectorString) / 2f, ypos)), Color.White, 0.92f);
                 }
             }
             float barY = yOff2 + 32f;
-            Graphics.DrawRect(Position + new Vec2(2f, barY), Position + new Vec2(138f, barY + 9f), new Color(30, 30, 30) * _fade, 0.8f);
+            Graphics.DrawRect(Position + new Vector2(2f, barY), Position + new Vector2(138f, barY + 9f), new Color(30, 30, 30) * _fade, 0.8f);
             string buttons4 = "@SELECT@";
             _font.Draw(buttons4, 4f, 79f, new Color(180, 180, 180), 0.95f, _inputProfile);
             buttons4 = (HoveredProfileIsCustom() ? "@MENU2@" : "@CANCEL@");
@@ -1324,8 +1325,8 @@ public class ProfileSelector : Thing
             {
                 return;
             }
-            Vec2 realPos4 = Position;
-            Position = Vec2.Zero;
+            Vector2 realPos4 = Position;
+            Position = Vector2.Zero;
             _selector.screen.BeginDraw();
             string profileName = "NONAME";
             if (_name != "")
@@ -1336,7 +1337,7 @@ public class ProfileSelector : Thing
                 }
                 profileName = _name;
             }
-            Vec2 namePos = new Vec2(base.X + 36f, base.Y + 8f);
+            Vector2 namePos = new Vector2(base.X + 36f, base.Y + 8f);
             if (!isEditing)
             {
                 if (_changeName)
@@ -1344,40 +1345,40 @@ public class ProfileSelector : Thing
                     namePos.X -= 2f;
                     for (int i2 = 0; i2 < 9; i2++)
                     {
-                        Graphics.DrawRect(namePos + new Vec2(i2 * 8, 0f), namePos + new Vec2(i2 * 8 + 7, 7f), new Color(60, 60, 60), 0.8f);
+                        Graphics.DrawRect(namePos + new Vector2(i2 * 8, 0f), namePos + new Vector2(i2 * 8 + 7, 7f), new Color(60, 60, 60), 0.8f);
                         if (i2 == _currentLetter)
                         {
                             _spinnerArrows.frame = 0;
-                            Vec2 tlArrow = namePos + new Vec2(i2 * 8, -6f);
+                            Vector2 tlArrow = namePos + new Vector2(i2 * 8, -6f);
                             Graphics.Draw(_spinnerArrows, tlArrow.X, tlArrow.Y, 0.95f);
                             _spinnerArrows.frame = 1;
-                            Vec2 brArrow = namePos + new Vec2(i2 * 8, 9f);
+                            Vector2 brArrow = namePos + new Vector2(i2 * 8, 9f);
                             Graphics.Draw(_spinnerArrows, brArrow.X, brArrow.Y, 0.95f);
-                            Graphics.DrawRect(namePos + new Vec2(i2 * 8 - 2, -2f), namePos + new Vec2(i2 * 8 + 9, 9f), Color.White * 0.8f, 0.97f, filled: false);
+                            Graphics.DrawRect(namePos + new Vector2(i2 * 8 - 2, -2f), namePos + new Vector2(i2 * 8 + 9, 9f), Color.White * 0.8f, 0.97f, filled: false);
                         }
                     }
                     _font.Draw(profileName, Maths.RoundToPixel(namePos), Color.Lime * ((_createSelection == PSCreateSelection.ChangeName) ? 1f : 0.6f), 0.95f);
                     namePos.X += 2f;
                     string arrows = ">              <";
-                    _font.Draw(arrows, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(arrows) / 2f, namePos.Y)), Color.White * ((_createSelection == PSCreateSelection.ChangeName) ? 1f : 0.6f), 0.95f);
+                    _font.Draw(arrows, Maths.RoundToPixel(new Vector2(base.X + base.width / 2f - _font.GetWidth(arrows) / 2f, namePos.Y)), Color.White * ((_createSelection == PSCreateSelection.ChangeName) ? 1f : 0.6f), 0.95f);
                     if (_takenFlash > 0.05f)
                     {
                         string nameTaken = "Name Taken";
-                        _font.Draw(nameTaken, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(nameTaken) / 2f, namePos.Y)), Color.Red * _takenFlash, 0.97f);
-                        Graphics.DrawRect(new Vec2(base.X + 20f, namePos.Y), new Vec2(base.X + base.width - 20f, namePos.Y + 8f), Color.Black, 0.96f);
+                        _font.Draw(nameTaken, Maths.RoundToPixel(new Vector2(base.X + base.width / 2f - _font.GetWidth(nameTaken) / 2f, namePos.Y)), Color.Red * _takenFlash, 0.97f);
+                        Graphics.DrawRect(new Vector2(base.X + 20f, namePos.Y), new Vector2(base.X + base.width - 20f, namePos.Y + 8f), Color.Black, 0.96f);
                     }
                 }
                 else
                 {
                     profileName = profileName.Replace(" ", "");
                     profileName = ((_createSelection != PSCreateSelection.ChangeName) ? ("@LWING@" + profileName.Reduced(12) + "@RWING@") : ("> " + profileName.Reduced(12) + " <"));
-                    _font.Draw(profileName, Maths.RoundToPixel(new Vec2(base.X + 2f + base.width / 2f - _font.GetWidth(profileName) / 2f, namePos.Y)), Color.White * ((_createSelection == PSCreateSelection.ChangeName) ? 1f : 0.6f), 0.95f);
+                    _font.Draw(profileName, Maths.RoundToPixel(new Vector2(base.X + 2f + base.width / 2f - _font.GetWidth(profileName) / 2f, namePos.Y)), Color.White * ((_createSelection == PSCreateSelection.ChangeName) ? 1f : 0.6f), 0.95f);
                 }
             }
             else
             {
                 string createProfile = "@LWING@" + profileName.Reduced(12) + "@RWING@";
-                _font.Draw(createProfile, Maths.RoundToPixel(new Vec2(base.X + base.width / 2f - _font.GetWidth(createProfile) / 2f, base.Y + 8f)), Color.White * (1f - Math.Min(1f, _takenFlash * 2f)), 0.95f);
+                _font.Draw(createProfile, Maths.RoundToPixel(new Vector2(base.X + base.width / 2f - _font.GetWidth(createProfile) / 2f, base.Y + 8f)), Color.White * (1f - Math.Min(1f, _takenFlash * 2f)), 0.95f);
             }
             namePos.Y += 14f;
             string setMood = "            ";
@@ -1386,10 +1387,10 @@ public class ProfileSelector : Thing
                 setMood = "< " + setMood + " >";
             }
             _font.Draw(setMood, base.X + base.width / 2f - _font.GetWidth(setMood) / 2f, namePos.Y, Color.White * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 0.95f);
-            Graphics.DrawLine(new Vec2(base.X + base.width / 4f + 4f, namePos.Y + 5f), new Vec2(base.X + base.width / 4f * 3f, namePos.Y + 5f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 2f, 0.95f);
+            Graphics.DrawLine(new Vector2(base.X + base.width / 4f + 4f, namePos.Y + 5f), new Vector2(base.X + base.width / 4f * 3f, namePos.Y + 5f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 2f, 0.95f);
             float barW = 60f;
-            Graphics.DrawLine(new Vec2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 1f), new Vec2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 4f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 3f, 0.95f);
-            Graphics.DrawLine(new Vec2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 6f), new Vec2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 9f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 3f, 0.95f);
+            Graphics.DrawLine(new Vector2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 1f), new Vector2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 4f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 3f, 0.95f);
+            Graphics.DrawLine(new Vector2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 6f), new Vector2(base.X + base.width / 2f - barW / 2f + barW * _moodVal + 2f, namePos.Y + 9f), Colors.MenuOption * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f), 3f, 0.95f);
             _happyIcons.color = Color.White * ((_createSelection == PSCreateSelection.Mood) ? 1f : 0.6f);
             _happyIcons.Alpha = _fade;
             _happyIcons.frame = (int)Math.Round(_moodVal * 4f);
@@ -1408,13 +1409,13 @@ public class ProfileSelector : Thing
             }
             if (_preferredColor >= 0)
             {
-                Graphics.DrawRect(new Vec2(base.X + 20f, namePos.Y - 2f), new Vec2(base.X + (base.width - 20f), namePos.Y + 9f), Persona.all.ElementAt(_preferredColor).colorDark.ToColor() * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.93f, filled: false);
-                _font.Draw(col, Maths.RoundToPixel(new Vec2(base.X + 2f + base.width / 2f - _font.GetWidth(col) / 2f, namePos.Y)), Persona.all.ElementAt(_preferredColor).color.ToColor() * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.95f);
+                Graphics.DrawRect(new Vector2(base.X + 20f, namePos.Y - 2f), new Vector2(base.X + (base.width - 20f), namePos.Y + 9f), Persona.all.ElementAt(_preferredColor).colorDark.ToColor() * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.93f, filled: false);
+                _font.Draw(col, Maths.RoundToPixel(new Vector2(base.X + 2f + base.width / 2f - _font.GetWidth(col) / 2f, namePos.Y)), Persona.all.ElementAt(_preferredColor).color.ToColor() * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.95f);
             }
             else
             {
-                Graphics.DrawRect(new Vec2(base.X + 20f, namePos.Y - 2f), new Vec2(base.X + (base.width - 20f), namePos.Y + 9f), Colors.BlueGray * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.93f, filled: false);
-                _font.Draw(col, Maths.RoundToPixel(new Vec2(base.X + 2f + base.width / 2f - _font.GetWidth(col) / 2f, namePos.Y)), Colors.BlueGray * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.95f);
+                Graphics.DrawRect(new Vector2(base.X + 20f, namePos.Y - 2f), new Vector2(base.X + (base.width - 20f), namePos.Y + 9f), Colors.BlueGray * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.93f, filled: false);
+                _font.Draw(col, Maths.RoundToPixel(new Vector2(base.X + 2f + base.width / 2f - _font.GetWidth(col) / 2f, namePos.Y)), Colors.BlueGray * ((_createSelection == PSCreateSelection.Color) ? 1f : 0.6f), 0.95f);
             }
             namePos.Y += 12f;
             string controls = "CONTROLS";
@@ -1422,14 +1423,14 @@ public class ProfileSelector : Thing
             {
                 controls = "> " + controls + " <";
             }
-            _font.Draw(controls, Maths.RoundToPixel(new Vec2(base.X + 2f + base.width / 2f - _font.GetWidth(controls) / 2f, namePos.Y)), Colors.MenuOption * ((_createSelection == PSCreateSelection.Controls) ? 1f : 0.6f), 0.95f);
+            _font.Draw(controls, Maths.RoundToPixel(new Vector2(base.X + 2f + base.width / 2f - _font.GetWidth(controls) / 2f, namePos.Y)), Colors.MenuOption * ((_createSelection == PSCreateSelection.Controls) ? 1f : 0.6f), 0.95f);
             string ok = "OK";
             if (_createSelection == PSCreateSelection.Accept)
             {
                 ok = "> " + ok + " <";
             }
             namePos.Y += 12f;
-            _font.Draw(ok, Maths.RoundToPixel(new Vec2(base.X + 2f + base.width / 2f - _font.GetWidth(ok) / 2f, namePos.Y)), Colors.MenuOption * ((_createSelection == PSCreateSelection.Accept) ? 1f : 0.6f), 0.95f);
+            _font.Draw(ok, Maths.RoundToPixel(new Vector2(base.X + 2f + base.width / 2f - _font.GetWidth(ok) / 2f, namePos.Y)), Colors.MenuOption * ((_createSelection == PSCreateSelection.Accept) ? 1f : 0.6f), 0.95f);
             if (_changeName)
             {
                 string buttons5 = "@DPAD@";

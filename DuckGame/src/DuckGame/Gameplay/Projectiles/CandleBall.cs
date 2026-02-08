@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Linq;
 
 namespace DuckGame;
@@ -18,9 +19,9 @@ public class CandleBall : PhysicsObject, IPlatform
         _sprite.SetAnimation("burn");
         _sprite.imageIndex = Rando.Int(4);
         graphic = _sprite;
-        Center = new Vec2(8f, 8f);
-        collisionOffset = new Vec2(-4f, -2f);
-        collisionSize = new Vec2(9f, 4f);
+        Center = new Vector2(8f, 8f);
+        collisionOffset = new Vector2(-4f, -2f);
+        collisionSize = new Vector2(9f, 4f);
         base.Depth = 0.9f;
         thickness = 1f;
         weight = 1f;

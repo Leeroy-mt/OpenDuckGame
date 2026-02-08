@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -133,7 +134,7 @@ public class Chainsaw : Gun
 
     private bool _skipSmoke;
 
-    private Vec2 _idleOffset = Vec2.Zero;
+    private Vector2 _idleOffset = Vector2.Zero;
 
     public override float Angle
     {
@@ -147,17 +148,17 @@ public class Chainsaw : Gun
         }
     }
 
-    public Vec2 barrelStartPos => Position + (Offset(base.barrelOffset) - Position).Normalized * 2f;
+    public Vector2 barrelStartPos => Position + Vector2.Normalize(Offset(base.barrelOffset) - Position) * 2f;
 
-    public override Vec2 tapedOffset
+    public override Vector2 tapedOffset
     {
         get
         {
             if (!base.tapedIsGun1)
             {
-                return Vec2.Zero;
+                return Vector2.Zero;
             }
-            return new Vec2(6f, 0f);
+            return new Vector2(6f, 0f);
         }
     }
 
@@ -173,23 +174,23 @@ public class Chainsaw : Gun
         _type = "gun";
         _sprite = new SpriteMap("chainsaw", 29, 13);
         graphic = _sprite;
-        Center = new Vec2(8f, 7f);
-        collisionOffset = new Vec2(-8f, -6f);
-        collisionSize = new Vec2(20f, 11f);
-        _barrelOffsetTL = new Vec2(27f, 8f);
+        Center = new Vector2(8f, 7f);
+        collisionOffset = new Vector2(-8f, -6f);
+        collisionSize = new Vector2(20f, 11f);
+        _barrelOffsetTL = new Vector2(27f, 8f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
         _kickForce = 3f;
         _fireRumble = RumbleIntensity.Kick;
-        _holdOffset = new Vec2(-4f, 4f);
+        _holdOffset = new Vector2(-4f, 4f);
         weight = 5f;
         physicsMaterial = PhysicsMaterial.Metal;
         _swordSwing = new SpriteMap("swordSwipe", 32, 32);
         _swordSwing.AddAnimation("swing", 0.6f, false, 0, 1, 1, 2);
         _swordSwing.currentAnimation = "swing";
         _swordSwing.speed = 0f;
-        _swordSwing.Center = new Vec2(9f, 25f);
+        _swordSwing.Center = new Vector2(9f, 25f);
         throwSpeedMultiplier = 0.5f;
         _bouncy = 0.5f;
         _impactThreshold = 0.3f;
@@ -229,11 +230,11 @@ public class Chainsaw : Gun
             _playedShing = true;
             SFX.Play("chainsawClash", Rando.Float(0.4f, 0.55f), Rando.Float(-0.2f, 0.2f), Rando.Float(-0.1f, 0.1f));
         }
-        Vec2 vec = (Position - base.barrelPosition).Normalized;
-        Vec2 start = base.barrelPosition;
+        Vector2 vec = Vector2.Normalize(Position - base.barrelPosition);
+        Vector2 start = base.barrelPosition;
         for (int i = 0; i < 6; i++)
         {
-            Level.Add(Spark.New(start.X, start.Y, new Vec2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
+            Level.Add(Spark.New(start.X, start.Y, new Vector2(Rando.Float(-1f, 1f), Rando.Float(-1f, 1f))));
             start += vec * 4f;
         }
         _swordSwing.speed = 0f;
@@ -267,7 +268,7 @@ public class Chainsaw : Gun
         d.vSpeed -= 2f;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         SFX.Play("ting");
         return base.Hit(bullet, hitPos);
@@ -348,13 +349,13 @@ public class Chainsaw : Gun
         {
             if (pTaped.duck != null && pTaped.duck.crouch)
             {
-                pTaped._holdOffset = new Vec2(0f, -3f);
-                pTaped.handOffset = new Vec2(0f, -3f);
+                pTaped._holdOffset = new Vector2(0f, -3f);
+                pTaped.handOffset = new Vector2(0f, -3f);
             }
             else
             {
-                pTaped._holdOffset = Vec2.Zero;
-                pTaped.handOffset = new Vec2(0f, 0f);
+                pTaped._holdOffset = Vector2.Zero;
+                pTaped.handOffset = new Vector2(0f, 0f);
             }
         }
     }
@@ -433,8 +434,8 @@ public class Chainsaw : Gun
                 {
                     wave = _spinWave;
                 }
-                handOffset = Lerp.Vec2Smooth(handOffset, new Vec2(0f, 2f + wave * extraShake), 0.23f);
-                _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vec2(1f, 2f + wave * extraShake), 0.23f);
+                handOffset = Lerp.Vec2Smooth(handOffset, new Vector2(0f, 2f + wave * extraShake), 0.23f);
+                _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vector2(1f, 2f + wave * extraShake), 0.23f);
                 float extraShake2 = Maths.NormalizeSection(_engineSpin, 1f, 2f) * 3f;
                 _rotSway = _idleWave.normalized * extraShake2 * 0.03f;
             }
@@ -504,18 +505,18 @@ public class Chainsaw : Gun
         _bladeSoundLow.pitch = pitch;
         if (owner == null)
         {
-            collisionOffset = new Vec2(-8f, -6f);
-            collisionSize = new Vec2(13f, 11f);
+            collisionOffset = new Vector2(-8f, -6f);
+            collisionSize = new Vector2(13f, 11f);
         }
         else if (base.duck != null && (base.duck.sliding || base.duck.crouch))
         {
-            collisionOffset = new Vec2(-8f, -6f);
-            collisionSize = new Vec2(6f, 11f);
+            collisionOffset = new Vector2(-8f, -6f);
+            collisionSize = new Vector2(6f, 11f);
         }
         else
         {
-            collisionOffset = new Vec2(-8f, -6f);
-            collisionSize = new Vec2(10f, 11f);
+            collisionOffset = new Vector2(-8f, -6f);
+            collisionSize = new Vector2(10f, 11f);
         }
         if (owner != null)
         {
@@ -524,16 +525,16 @@ public class Chainsaw : Gun
             {
                 if (!_started)
                 {
-                    handOffset = Lerp.Vec2Smooth(handOffset, new Vec2(0f, 2f), 0.25f);
-                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vec2(1f, 2f), 0.23f);
+                    handOffset = Lerp.Vec2Smooth(handOffset, new Vector2(0f, 2f), 0.25f);
+                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vector2(1f, 2f), 0.23f);
                 }
                 _upWait = 0f;
             }
             else if (_pullState == 0)
             {
                 _animRot = Lerp.FloatSmooth(_animRot, -0.4f, 0.15f);
-                handOffset = Lerp.Vec2Smooth(handOffset, new Vec2(-2f, -2f), 0.25f);
-                _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vec2(-4f, 4f), 0.23f);
+                handOffset = Lerp.Vec2Smooth(handOffset, new Vector2(-2f, -2f), 0.25f);
+                _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vector2(-4f, 4f), 0.23f);
                 if (_animRot <= -0.35f)
                 {
                     _animRot = -0.4f;
@@ -545,8 +546,8 @@ public class Chainsaw : Gun
             else if (_pullState == 1)
             {
                 _releasePull = false;
-                _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vec2(2f, 3f), 0.23f);
-                handOffset = Lerp.Vec2Smooth(handOffset, new Vec2(-4f, -2f), 0.23f);
+                _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vector2(2f, 3f), 0.23f);
+                handOffset = Lerp.Vec2Smooth(handOffset, new Vector2(-4f, -2f), 0.23f);
                 _animRot = Lerp.FloatSmooth(_animRot, -0.5f, 0.07f);
                 if (_animRot < -0.45f)
                 {
@@ -562,8 +563,8 @@ public class Chainsaw : Gun
                     _releasePull = true;
                     if (_started)
                     {
-                        handOffset = Lerp.Vec2Smooth(handOffset, new Vec2(0f, 2f + _idleWave.normalized), 0.23f);
-                        _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vec2(1f, 2f + _idleWave.normalized), 0.23f);
+                        handOffset = Lerp.Vec2Smooth(handOffset, new Vector2(0f, 2f + _idleWave.normalized), 0.23f);
+                        _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vector2(1f, 2f + _idleWave.normalized), 0.23f);
                         _animRot = Lerp.FloatSmooth(_animRot, 0f, 0.1f);
                         if (_animRot > -0.07f)
                         {
@@ -573,16 +574,16 @@ public class Chainsaw : Gun
                     }
                     else
                     {
-                        _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vec2(-4f, 4f), 0.24f);
-                        handOffset = Lerp.Vec2Smooth(handOffset, new Vec2(-2f, -2f), 0.24f);
+                        _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vector2(-4f, 4f), 0.24f);
+                        handOffset = Lerp.Vec2Smooth(handOffset, new Vector2(-2f, -2f), 0.24f);
                         _animRot = Lerp.FloatSmooth(_animRot, -0.4f, 0.12f);
                         if (_animRot > -0.44f)
                         {
                             _releasePull = false;
                             _animRot = -0.4f;
                             _pullState = 3;
-                            _holdOffset = new Vec2(-4f, 4f);
-                            handOffset = new Vec2(-2f, -2f);
+                            _holdOffset = new Vector2(-4f, 4f);
+                            handOffset = new Vector2(-2f, -2f);
                         }
                     }
                 }
@@ -611,7 +612,7 @@ public class Chainsaw : Gun
             _engineSpin = Lerp.FloatSmooth(_engineSpin, 0f, 0.1f);
             _engineResistance = Lerp.FloatSmooth(_engineResistance, 1f, 0.01f);
             _hold = -0.4f;
-            Center = new Vec2(8f, 7f);
+            Center = new Vector2(8f, 7f);
             _framesSinceThrown = 0;
         }
         else
@@ -625,16 +626,16 @@ public class Chainsaw : Gun
             }
             _hold = 0f;
             base.AngleDegrees = _throwSpin;
-            Center = new Vec2(8f, 7f);
+            Center = new Vector2(8f, 7f);
             bool spinning = false;
             bool againstWall = false;
             if ((Math.Abs(hSpeed) + Math.Abs(vSpeed) > 2f || !base.grounded) && gravMultiplier > 0f)
             {
-                if (!base.grounded && Level.CheckRect<Block>(Position + new Vec2(-8f, -6f), Position + new Vec2(8f, -2f)) != null)
+                if (!base.grounded && Level.CheckRect<Block>(Position + new Vector2(-8f, -6f), Position + new Vector2(8f, -2f)) != null)
                 {
                     againstWall = true;
                 }
-                if (!againstWall && !_grounded && Level.CheckPoint<IPlatform>(Position + new Vec2(0f, 8f)) == null)
+                if (!againstWall && !_grounded && Level.CheckPoint<IPlatform>(Position + new Vector2(0f, 8f)) == null)
                 {
                     if (offDir > 0)
                     {
@@ -704,7 +705,7 @@ public class Chainsaw : Gun
                 {
                     _gas = 0f;
                 }
-                Level.Add(new Fluid(base.X, base.Y, Vec2.Zero, dat));
+                Level.Add(new Fluid(base.X, base.Y, Vector2.Zero, dat));
                 _gasDripFrames = 0;
             }
             if (_gas <= 0f && base.isServerForObject)
@@ -733,13 +734,13 @@ public class Chainsaw : Gun
             }
             if (base.duck.sliding && _throttle && !base.tapedIsGun2 && _skipSpark == 0)
             {
-                if (Level.CheckLine<Block>(barrelStartPos + new Vec2(0f, 8f), base.barrelPosition + new Vec2(0f, 8f)) != null)
+                if (Level.CheckLine<Block>(barrelStartPos + new Vector2(0f, 8f), base.barrelPosition + new Vector2(0f, 8f)) != null)
                 {
                     _skipSpark = 1;
-                    Vec2 pos = Position + base.barrelVector * 5f;
+                    Vector2 pos = Position + base.barrelVector * 5f;
                     for (int i = 0; i < 2; i++)
                     {
-                        Level.Add(Spark.New(pos.X, pos.Y, new Vec2((float)offDir * Rando.Float(0f, 2f), Rando.Float(0.5f, 1.5f))));
+                        Level.Add(Spark.New(pos.X, pos.Y, new Vector2((float)offDir * Rando.Float(0f, 2f), Rando.Float(0.5f, 1.5f))));
                         pos += base.barrelVector * 2f;
                         _fireTrailWait -= 0.5f;
                         if ((bool)souped && _fireTrailWait <= 0f)
@@ -774,14 +775,14 @@ public class Chainsaw : Gun
                 if (!_throttle)
                 {
                     _animRot = MathHelper.Lerp(_animRot, 0.3f, 0.2f);
-                    handOffset = Lerp.Vec2Smooth(handOffset, new Vec2(-2f, 2f), 0.25f);
-                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vec2(-3f, 4f), 0.23f);
+                    handOffset = Lerp.Vec2Smooth(handOffset, new Vector2(-2f, 2f), 0.25f);
+                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vector2(-3f, 4f), 0.23f);
                 }
                 else if (_shing)
                 {
                     _animRot = MathHelper.Lerp(_animRot, -1.8f, 0.4f);
-                    handOffset = Lerp.Vec2Smooth(handOffset, new Vec2(1f, 0f), 0.25f);
-                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vec2(1f, 2f), 0.23f);
+                    handOffset = Lerp.Vec2Smooth(handOffset, new Vector2(1f, 0f), 0.25f);
+                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vector2(1f, 2f), 0.23f);
                     if (_animRot < -1.5f)
                     {
                         _shing = false;
@@ -804,8 +805,8 @@ public class Chainsaw : Gun
                     {
                         _animRot = MathHelper.Lerp(_animRot, 0.4f, 0.2f);
                     }
-                    handOffset = Lerp.Vec2Smooth(handOffset, new Vec2(1f, 0f), 0.25f);
-                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vec2(1f, 2f), 0.23f);
+                    handOffset = Lerp.Vec2Smooth(handOffset, new Vector2(1f, 0f), 0.25f);
+                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vector2(1f, 2f), 0.23f);
                 }
                 else if (base.duck.inputProfile.Down("UP"))
                 {
@@ -824,14 +825,14 @@ public class Chainsaw : Gun
                     {
                         _animRot = MathHelper.Lerp(_animRot, -0.9f, 0.2f);
                     }
-                    handOffset = Lerp.Vec2Smooth(handOffset, new Vec2(1f, 0f), 0.25f);
-                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vec2(1f, 2f), 0.23f);
+                    handOffset = Lerp.Vec2Smooth(handOffset, new Vector2(1f, 0f), 0.25f);
+                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vector2(1f, 2f), 0.23f);
                 }
                 else
                 {
                     _animRot = MathHelper.Lerp(_animRot, 0f, 0.2f);
-                    handOffset = Lerp.Vec2Smooth(handOffset, new Vec2(1f, 0f), 0.25f);
-                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vec2(1f, 2f), 0.23f);
+                    handOffset = Lerp.Vec2Smooth(handOffset, new Vector2(1f, 0f), 0.25f);
+                    _holdOffset = Lerp.Vec2Smooth(_holdOffset, new Vector2(1f, 2f), 0.23f);
                 }
             }
         }
@@ -881,11 +882,11 @@ public class Chainsaw : Gun
                         continue;
                     }
                     _skipDebris = 1;
-                    Vec2 point = Collision.LinePoint(barrelStartPos, base.barrelPosition, t2.rectangle);
-                    if (point != Vec2.Zero)
+                    Vector2 point = Collision.LinePoint(barrelStartPos, base.barrelPosition, t2.rectangle);
+                    if (point != Vector2.Zero)
                     {
                         point += base.barrelVector * Rando.Float(0f, 3f);
-                        Vec2 dir = -base.barrelVector.Rotate(Rando.Float(-0.2f, 0.2f), Vec2.Zero);
+                        Vector2 dir = -base.barrelVector.Rotate(Rando.Float(-0.2f, 0.2f), Vector2.Zero);
                         if (t2.physicsMaterial == PhysicsMaterial.Wood)
                         {
                             WoodDebris woodDebris = WoodDebris.New(point.X, point.Y);
@@ -895,14 +896,14 @@ public class Chainsaw : Gun
                         }
                         else if (t2.physicsMaterial == PhysicsMaterial.Metal)
                         {
-                            Spark spark = Spark.New(point.X, point.Y, Vec2.Zero);
+                            Spark spark = Spark.New(point.X, point.Y, Vector2.Zero);
                             spark.hSpeed = dir.X * 3f;
                             spark.vSpeed = dir.Y * 3f;
                             Level.Add(spark);
                         }
                         else if (t2.physicsMaterial == PhysicsMaterial.Glass)
                         {
-                            Level.Add(new GlassParticle(point.X, point.Y, Vec2.Zero)
+                            Level.Add(new GlassParticle(point.X, point.Y, Vector2.Zero)
                             {
                                 hSpeed = dir.X * 3f,
                                 vSpeed = dir.Y * 3f
@@ -951,7 +952,7 @@ public class Chainsaw : Gun
                     if (laserHit != null)
                     {
                         Shing(laserHit);
-                        Vec2 travel = laserHit.travel;
+                        Vector2 travel = laserHit.travel;
                         float mag = travel.Length();
                         float mul = 1f;
                         if (offDir > 0 && travel.X < 0f)
@@ -962,7 +963,7 @@ public class Chainsaw : Gun
                         {
                             mul = 1.5f;
                         }
-                        travel = ((offDir <= 0) ? new Vec2((0f - mag) * mul, 0f) : new Vec2(mag * mul, 0f));
+                        travel = ((offDir <= 0) ? new Vector2((0f - mag) * mul, 0f) : new Vector2(mag * mul, 0f));
                         laserHit.travel = travel;
                     }
                     else
@@ -1048,7 +1049,7 @@ public class Chainsaw : Gun
                     }
                     if (d is MaterialThing realThing)
                     {
-                        realThing.velocity += new Vec2((float)offDir * 0.8f, -0.8f);
+                        realThing.velocity += new Vector2((float)offDir * 0.8f, -0.8f);
                         realThing.Destroy(new DTImpale(this));
                         if (base.duck != null)
                         {
@@ -1065,13 +1066,13 @@ public class Chainsaw : Gun
 
     public override void HolsterUpdate(Holster pHolster)
     {
-        holsterOffset = Vec2.Zero;
+        holsterOffset = Vector2.Zero;
         if (pHolster is PowerHolster)
         {
             if (base.duck != null && base.duck.sliding)
             {
                 holsterAngle = 90f;
-                holsterOffset = new Vec2(6f, 0f);
+                holsterOffset = new Vector2(6f, 0f);
             }
             else
             {
@@ -1101,15 +1102,15 @@ public class Chainsaw : Gun
         }
         if (base.duck != null && (_pullState == 1 || _pullState == 2))
         {
-            Graphics.DrawLine(Offset(new Vec2(-2f, -2f)), base.duck.armPosition + new Vec2(handOffset.X * (float)offDir, handOffset.Y), Color.White, 1f, base.duck.Depth + 11 - 1);
+            Graphics.DrawLine(Offset(new Vector2(-2f, -2f)), base.duck.armPosition + new Vector2(handOffset.X * (float)offDir, handOffset.Y), Color.White, 1f, base.duck.Depth + 11 - 1);
         }
         if ((base.duck == null || tape != null) && _started)
         {
-            _idleOffset = Lerp.Vec2Smooth(handOffset, new Vec2(0f, 2f + _idleWave.normalized), 0.23f);
+            _idleOffset = Lerp.Vec2Smooth(handOffset, new Vector2(0f, 2f + _idleWave.normalized), 0.23f);
         }
         else
         {
-            _idleOffset = Vec2.Zero;
+            _idleOffset = Vector2.Zero;
         }
         Position += _idleOffset;
         base.Draw();

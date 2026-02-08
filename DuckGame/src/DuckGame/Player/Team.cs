@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -94,9 +95,9 @@ public class Team
     {
         public bool set;
 
-        public Vec2 randomizerX;
+        public Vector2 randomizerX;
 
-        public Vec2 randomizerY;
+        public Vector2 randomizerY;
 
         public abstract void Parse(Color pColor);
     }
@@ -137,8 +138,8 @@ public class Team
 
             public override void Parse(Color pColor)
             {
-                randomizerX = Vec2.Zero;
-                randomizerY = Vec2.Zero;
+                randomizerX = Vector2.Zero;
+                randomizerY = Vector2.Zero;
                 set = true;
                 OnParse(pColor);
                 if (postParseScript != null)
@@ -150,30 +151,30 @@ public class Team
             public abstract void OnParse(Color pColor);
         }
 
-        public class MDVec2 : V<Vec2>
+        public class MDVec2 : V<Vector2>
         {
             public bool allowNegative = true;
 
             public float range = 16f;
 
-            public override Vec2 value
+            public override Vector2 value
             {
                 get
                 {
-                    Vec2 modified = _value;
-                    if (_value == Vec2.MaxValue && base._defaultCopy != null)
+                    Vector2 modified = _value;
+                    if (_value == Vector2.MaxValue && base._defaultCopy != null)
                     {
                         modified = base._defaultCopy.value;
                     }
-                    if (randomizerX != Vec2.Zero)
+                    if (randomizerX != Vector2.Zero)
                     {
                         modified.X = Rando.Float(_value.X * randomizerX.X, _value.X * randomizerX.Y);
                     }
-                    if (randomizerY == Vec2.MaxValue)
+                    if (randomizerY == Vector2.MaxValue)
                     {
                         modified.Y = modified.X;
                     }
-                    else if (randomizerY != Vec2.Zero)
+                    else if (randomizerY != Vector2.Zero)
                     {
                         modified.Y = Rando.Float(_value.Y * randomizerY.X, _value.Y * randomizerY.Y);
                     }
@@ -199,7 +200,7 @@ public class Team
             {
                 float xOffset = Maths.Clamp(pColor.g - 128, 0f - range, range);
                 float yOffset = Maths.Clamp(pColor.b - 128, 0f - range, range);
-                _value = new Vec2(xOffset, yOffset);
+                _value = new Vector2(xOffset, yOffset);
             }
         }
 
@@ -223,7 +224,7 @@ public class Team
                 }
                 else
                 {
-                    _value = new Vec2((float)(int)pColor.g / 255f, (float)(int)pColor.b / 255f);
+                    _value = new Vector2((float)(int)pColor.g / 255f, (float)(int)pColor.b / 255f);
                 }
                 _value *= range;
             }
@@ -250,7 +251,7 @@ public class Team
                     }
                     if (randomizeBoth)
                     {
-                        CustomMetadata.kPreviousParameter.randomizerY = Vec2.MaxValue;
+                        CustomMetadata.kPreviousParameter.randomizerY = Vector2.MaxValue;
                     }
                 }
             }
@@ -279,7 +280,7 @@ public class Team
                     {
                         modified = base._defaultCopy.value;
                     }
-                    if (randomizerX != Vec2.Zero)
+                    if (randomizerX != Vector2.Zero)
                     {
                         modified = Rando.Float(_value * randomizerX.X, _value * randomizerX.Y);
                     }
@@ -324,7 +325,7 @@ public class Team
                     {
                         modified = base._defaultCopy.value;
                     }
-                    if (randomizerX != Vec2.Zero)
+                    if (randomizerX != Vector2.Zero)
                     {
                         modified = Rando.Float((float)_value * randomizerX.X, (float)_value * randomizerX.Y);
                     }
@@ -350,7 +351,7 @@ public class Team
             }
         }
 
-        public class MDIntPair : V<Vec2>
+        public class MDIntPair : V<Vector2>
         {
             public int rangeX = 255;
 
@@ -358,24 +359,24 @@ public class Team
 
             public bool allowNegative;
 
-            public override Vec2 value
+            public override Vector2 value
             {
                 get
                 {
-                    Vec2 modified = _value;
-                    if (_value == Vec2.MaxValue && base._defaultCopy != null)
+                    Vector2 modified = _value;
+                    if (_value == Vector2.MaxValue && base._defaultCopy != null)
                     {
                         modified = base._defaultCopy.value;
                     }
-                    if (randomizerX != Vec2.Zero)
+                    if (randomizerX != Vector2.Zero)
                     {
                         modified.X = (float)Math.Round(Rando.Float(_value.X * randomizerX.X, _value.X * randomizerX.Y));
                     }
-                    if (randomizerY == Vec2.MaxValue)
+                    if (randomizerY == Vector2.MaxValue)
                     {
                         modified.Y = modified.X;
                     }
-                    else if (randomizerY != Vec2.Zero)
+                    else if (randomizerY != Vector2.Zero)
                     {
                         modified.Y = (float)Math.Round(Rando.Float(_value.Y * randomizerY.X, _value.Y * randomizerY.Y));
                     }
@@ -430,14 +431,14 @@ public class Team
         [Metapixel(12, "Cape Sway Modifier", "Affects cape length, and left to right sway.")]
         public MDVec2Normalized CapeSwayModifier = new MDVec2Normalized
         {
-            value = new Vec2(0.3f, 1f),
+            value = new Vector2(0.3f, 1f),
             allowNegative = true
         };
 
         [Metapixel(13, "Cape Wiggle Modifier", "Affects how much the cape wiggles in the wind.")]
         public MDVec2Normalized CapeWiggleModifier = new MDVec2Normalized
         {
-            value = new Vec2(1f, 1f),
+            value = new Vector2(1f, 1f),
             allowNegative = true
         };
 
@@ -492,7 +493,7 @@ public class Team
         public MDVec2 ParticleEmitShapeSize = new MDVec2
         {
             range = 32f,
-            value = new Vec2(24f, 24f)
+            value = new Vector2(24f, 24f)
         };
 
         [Metapixel(34, "Particle Count", "The number of particles to emit.")]
@@ -521,7 +522,7 @@ public class Team
         {
             range = 2f,
             allowNegative = true,
-            value = new Vec2(0f, PhysicsObject.gravity)
+            value = new Vector2(0f, PhysicsObject.gravity)
         };
 
         [Metapixel(38, "Particle Friction", "Friction applied to the particle (The value it's velocity is multiplied by every frame).")]
@@ -529,7 +530,7 @@ public class Team
         {
             range = 1f,
             allowNegative = false,
-            value = new Vec2(1f, 1f)
+            value = new Vector2(1f, 1f)
         };
 
         [Metapixel(39, "Particle Alpha", "G = Start alpha, B = End alpha")]
@@ -537,7 +538,7 @@ public class Team
         {
             range = 1f,
             allowNegative = false,
-            value = new Vec2(1f, 1f)
+            value = new Vector2(1f, 1f)
         };
 
         [Metapixel(40, "Particle Scale", "G = Start scale, B = End scale")]
@@ -545,14 +546,14 @@ public class Team
         {
             range = 2f,
             allowNegative = false,
-            value = new Vec2(1f, 0f)
+            value = new Vector2(1f, 0f)
         };
 
         [Metapixel(41, "Particle Rotation", "G = Start rotation, B = End rotation")]
         public MDVec2Normalized ParticleRotation = new MDVec2Normalized
         {
             range = 36f,
-            value = new Vec2(0f, 0f)
+            value = new Vector2(0f, 0f)
         };
 
         [Metapixel(42, "Particle Offset", "Additional X Y offset of particle.")]
@@ -643,54 +644,54 @@ public class Team
             int value = kCurrentMetadata.ParticleDefaultBehavior.value;
             if (value == 1)
             {
-                kCurrentMetadata.ParticleEmitShape.value = new Vec2(0f, 0f);
-                kCurrentMetadata.ParticleOffset.value = new Vec2(2f, 2f);
-                kCurrentMetadata.ParticleOffset.randomizerX = new Vec2(-1f, 1f);
-                kCurrentMetadata.ParticleOffset.randomizerY = new Vec2(-1f, 1f);
-                kCurrentMetadata.ParticleVelocity.value = new Vec2(3f, 1.5f);
-                kCurrentMetadata.ParticleVelocity.randomizerX = new Vec2(0.3f, 1f);
-                kCurrentMetadata.ParticleVelocity.randomizerY = new Vec2(-1f, 0.3f);
-                kCurrentMetadata.ParticleScale.value = new Vec2(1f, 1f);
-                kCurrentMetadata.ParticleScale.randomizerX = new Vec2(0.7f, 1f);
-                kCurrentMetadata.ParticleScale.randomizerY = Vec2.MaxValue;
+                kCurrentMetadata.ParticleEmitShape.value = new Vector2(0f, 0f);
+                kCurrentMetadata.ParticleOffset.value = new Vector2(2f, 2f);
+                kCurrentMetadata.ParticleOffset.randomizerX = new Vector2(-1f, 1f);
+                kCurrentMetadata.ParticleOffset.randomizerY = new Vector2(-1f, 1f);
+                kCurrentMetadata.ParticleVelocity.value = new Vector2(3f, 1.5f);
+                kCurrentMetadata.ParticleVelocity.randomizerX = new Vector2(0.3f, 1f);
+                kCurrentMetadata.ParticleVelocity.randomizerY = new Vector2(-1f, 0.3f);
+                kCurrentMetadata.ParticleScale.value = new Vector2(1f, 1f);
+                kCurrentMetadata.ParticleScale.randomizerX = new Vector2(0.7f, 1f);
+                kCurrentMetadata.ParticleScale.randomizerY = Vector2.MaxValue;
                 kCurrentMetadata.ParticleCount.value = 5;
-                kCurrentMetadata.ParticleCount.randomizerX = new Vec2(0.3f, 1f);
+                kCurrentMetadata.ParticleCount.randomizerX = new Vector2(0.3f, 1f);
                 kCurrentMetadata.ParticleBackground.value = false;
             }
             if (value == 2)
             {
-                kCurrentMetadata.ParticleEmitShape.value = new Vec2(0f, 0f);
-                kCurrentMetadata.ParticleOffset.value = new Vec2(2f, 2f);
-                kCurrentMetadata.ParticleOffset.randomizerX = new Vec2(-1f, 1f);
-                kCurrentMetadata.ParticleOffset.randomizerY = new Vec2(-1f, 1f);
-                kCurrentMetadata.ParticleVelocity.value = new Vec2(1.5f, 2.5f);
-                kCurrentMetadata.ParticleVelocity.randomizerX = new Vec2(-1f, 1f);
-                kCurrentMetadata.ParticleVelocity.randomizerY = new Vec2(-1f, 1f);
-                kCurrentMetadata.ParticleScale.value = new Vec2(1f, 0f);
-                kCurrentMetadata.ParticleScale.randomizerX = new Vec2(0.7f, 1f);
+                kCurrentMetadata.ParticleEmitShape.value = new Vector2(0f, 0f);
+                kCurrentMetadata.ParticleOffset.value = new Vector2(2f, 2f);
+                kCurrentMetadata.ParticleOffset.randomizerX = new Vector2(-1f, 1f);
+                kCurrentMetadata.ParticleOffset.randomizerY = new Vector2(-1f, 1f);
+                kCurrentMetadata.ParticleVelocity.value = new Vector2(1.5f, 2.5f);
+                kCurrentMetadata.ParticleVelocity.randomizerX = new Vector2(-1f, 1f);
+                kCurrentMetadata.ParticleVelocity.randomizerY = new Vector2(-1f, 1f);
+                kCurrentMetadata.ParticleScale.value = new Vector2(1f, 0f);
+                kCurrentMetadata.ParticleScale.randomizerX = new Vector2(0.7f, 1f);
                 kCurrentMetadata.ParticleCount.value = 8;
-                kCurrentMetadata.ParticleCount.randomizerX = new Vec2(0.5f, 1f);
+                kCurrentMetadata.ParticleCount.randomizerX = new Vector2(0.5f, 1f);
                 kCurrentMetadata.ParticleBackground.value = false;
             }
             if (value == 3)
             {
-                kCurrentMetadata.ParticleEmitShape.value = new Vec2(1f, 2f);
-                kCurrentMetadata.ParticleAlpha.value = new Vec2(1f, 0f);
+                kCurrentMetadata.ParticleEmitShape.value = new Vector2(1f, 2f);
+                kCurrentMetadata.ParticleAlpha.value = new Vector2(1f, 0f);
                 kCurrentMetadata.ParticleCount.value = 8;
                 kCurrentMetadata.ParticleBackground.value = true;
-                kCurrentMetadata.ParticleGravity.value = new Vec2(0f, 0f);
+                kCurrentMetadata.ParticleGravity.value = new Vector2(0f, 0f);
                 kCurrentMetadata.ParticleAnchor.value = true;
             }
             if (value == 4)
             {
-                kCurrentMetadata.ParticleEmitShape.value = new Vec2(0f, 0f);
-                kCurrentMetadata.ParticleScale.value = new Vec2(0.3f, 1.5f);
+                kCurrentMetadata.ParticleEmitShape.value = new Vector2(0f, 0f);
+                kCurrentMetadata.ParticleScale.value = new Vector2(0.3f, 1.5f);
                 kCurrentMetadata.ParticleCount.value = 1;
                 kCurrentMetadata.ParticleBackground.value = false;
-                kCurrentMetadata.ParticleGravity.value = new Vec2(0f, 0f);
+                kCurrentMetadata.ParticleGravity.value = new Vector2(0f, 0f);
                 kCurrentMetadata.ParticleAnchor.value = true;
-                kCurrentMetadata.ParticleVelocity.value = new Vec2(1.4f, -1.2f);
-                kCurrentMetadata.ParticleFriction.value = new Vec2(0.92f, 0.9f);
+                kCurrentMetadata.ParticleVelocity.value = new Vector2(1.4f, -1.2f);
+                kCurrentMetadata.ParticleFriction.value = new Vector2(0.92f, 0.9f);
                 kCurrentMetadata.ParticleLifespan.value = 0.8f;
             }
         }
@@ -767,7 +768,7 @@ public class Team
 
     private int _prevScoreboardScore;
 
-    private Vec2 _hatOffset;
+    private Vector2 _hatOffset;
 
     public bool inDemo;
 
@@ -781,7 +782,7 @@ public class Team
 
     private byte[] _customData;
 
-    public Vec2 prevTreeDraw = Vec2.Zero;
+    public Vector2 prevTreeDraw = Vector2.Zero;
 
     private bool _locked;
 
@@ -954,13 +955,13 @@ public class Team
         }
     }
 
-    public Vec2 hatOffset
+    public Vector2 hatOffset
     {
         get
         {
             if (filter)
             {
-                return Vec2.Zero;
+                return Vector2.Zero;
             }
             return GetFacadeTeam()._hatOffset;
         }
@@ -1380,7 +1381,7 @@ public class Team
         _score = 0;
     }
 
-    public Team(string varName, string hatTexture, bool demo = false, bool lockd = false, Vec2 hatOff = default(Vec2), string desc = "", Texture2D capeTex = null)
+    public Team(string varName, string hatTexture, bool demo = false, bool lockd = false, Vector2 hatOff = default(Vector2), string desc = "", Texture2D capeTex = null)
     {
         _name = varName;
         _hat = new SpriteMap(hatTexture, 32, 32);
@@ -1391,7 +1392,7 @@ public class Team
         _capeTexture = capeTex;
     }
 
-    public Team(bool varHair, string varName, string hatTexture, bool demo = false, bool lockd = false, Vec2 hatOff = default(Vec2), string desc = "", Texture2D capeTex = null)
+    public Team(bool varHair, string varName, string hatTexture, bool demo = false, bool lockd = false, Vector2 hatOff = default(Vector2), string desc = "", Texture2D capeTex = null)
         : this(varName, hatTexture, demo, lockd, hatOff, desc, capeTex)
     {
         _name = varName;
@@ -1404,7 +1405,7 @@ public class Team
         isHair = varHair;
     }
 
-    public Team(string varName, string hatTexture, bool demo, bool lockd, Vec2 hatOff)
+    public Team(string varName, string hatTexture, bool demo, bool lockd, Vector2 hatOff)
     {
         _name = varName;
         _hat = new SpriteMap(hatTexture, 32, 32);
@@ -1413,12 +1414,12 @@ public class Team
         _locked = lockd;
     }
 
-    public Team(string varName, Texture2D hatTexture, bool demo = false, bool lockd = false, Vec2 hatOff = default(Vec2), string desc = "")
+    public Team(string varName, Texture2D hatTexture, bool demo = false, bool lockd = false, Vector2 hatOff = default(Vector2), string desc = "")
     {
         Construct(varName, hatTexture, demo, lockd, hatOff, desc);
     }
 
-    public Team(string varName, Texture2D hatTexture, bool demo, bool lockd, Vec2 hatOff)
+    public Team(string varName, Texture2D hatTexture, bool demo, bool lockd, Vector2 hatOff)
     {
         _name = varName;
         _hat = new SpriteMap(hatTexture, 32, 32);
@@ -1427,7 +1428,7 @@ public class Team
         _locked = lockd;
     }
 
-    public void Construct(string varName, Texture2D hatTexture, bool demo = false, bool lockd = false, Vec2 hatOff = default(Vec2), string desc = "")
+    public void Construct(string varName, Texture2D hatTexture, bool demo = false, bool lockd = false, Vector2 hatOff = default(Vector2), string desc = "")
     {
         _name = varName;
         _hat = new SpriteMap(hatTexture, 32, 32);

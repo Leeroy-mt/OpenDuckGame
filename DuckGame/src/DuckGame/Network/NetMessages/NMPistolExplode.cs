@@ -1,14 +1,16 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMPistolExplode : NMEvent
 {
-    public Vec2 position;
+    public Vector2 position;
 
     public NMPistolExplode()
     {
     }
 
-    public NMPistolExplode(Vec2 pPosition)
+    public NMPistolExplode(Vector2 pPosition)
     {
         position = pPosition;
     }

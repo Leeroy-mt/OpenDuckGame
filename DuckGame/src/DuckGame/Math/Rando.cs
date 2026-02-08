@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -45,14 +46,14 @@ public static class Rando
         return _randomGenerator.NextSingle() * max;
     }
 
-    public static Vec2 Vec2(float minX, float maxX, float minY, float maxY)
+    public static Vector2 Vector2(float minX, float maxX, float minY, float maxY)
     {
-        return new Vec2(Float(minX, maxX), Float(minY, maxY));
+        return new Vector2(Float(minX, maxX), Float(minY, maxY));
     }
 
-    public static Vec2 Vec2(Vec2 spanX, Vec2 spanY)
+    public static Vector2 Vector2(Vector2 spanX, Vector2 spanY)
     {
-        return new Vec2(Float(spanX.X, spanX.Y), Float(spanY.X, spanY.Y));
+        return new Vector2(Float(spanX.X, spanX.Y), Float(spanY.X, spanY.Y));
     }
 
     public static float Float(float min, float max)

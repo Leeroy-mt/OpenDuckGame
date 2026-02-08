@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [BaggedProperty("canSpawn", false)]
@@ -17,19 +19,19 @@ public class WaterRifle : Gun
         _ammoType = new AT9mm();
         _type = "gun";
         graphic = new Sprite("waterGun");
-        Center = new Vec2(11f, 7f);
-        collisionOffset = new Vec2(-11f, -6f);
-        collisionSize = new Vec2(23f, 13f);
-        _barrelOffsetTL = new Vec2(24f, 6f);
+        Center = new Vector2(11f, 7f);
+        collisionOffset = new Vector2(-11f, -6f);
+        collisionSize = new Vector2(23f, 13f);
+        _barrelOffsetTL = new Vector2(24f, 6f);
         _fireSound = "pistolFire";
         _kickForce = 3f;
-        _holdOffset = new Vec2(-1f, 0f);
+        _holdOffset = new Vector2(-1f, 0f);
         loseAccuracy = 0.1f;
         maxAccuracyLost = 0.6f;
         _bio = "";
         _editorName = "Water Blaster";
         physicsMaterial = PhysicsMaterial.Metal;
-        _stream = new FluidStream(base.X, base.Y, new Vec2(1f, 0f), 2f);
+        _stream = new FluidStream(base.X, base.Y, new Vector2(1f, 0f), 2f);
         isFatal = false;
     }
 

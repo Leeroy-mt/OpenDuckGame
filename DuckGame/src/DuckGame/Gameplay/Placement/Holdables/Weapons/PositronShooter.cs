@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -50,20 +51,20 @@ public class PositronShooter : Gun
         _ammoType.affectedByGravity = true;
         _type = "gun";
         graphic = new Sprite("positronShooter");
-        Center = new Vec2(10f, 4f);
-        collisionOffset = new Vec2(-8f, -3f);
-        collisionSize = new Vec2(16f, 7f);
+        Center = new Vector2(10f, 4f);
+        collisionOffset = new Vector2(-8f, -3f);
+        collisionSize = new Vector2(16f, 7f);
         _positronWinder = new Sprite("positronWinder");
-        _positronWinder.Center = new Vec2(1.5f, 6.5f);
-        _barrelOffsetTL = new Vec2(27f, 4f);
+        _positronWinder.Center = new Vector2(1.5f, 6.5f);
+        _barrelOffsetTL = new Vector2(27f, 4f);
         _fireSound = "laserRifle";
         _fullAuto = true;
         _fireWait = 0f;
         _kickForce = 1f;
         _fireRumble = RumbleIntensity.Kick;
-        _holdOffset = new Vec2(-4f, -2f);
+        _holdOffset = new Vector2(-4f, -2f);
         _flare = new SpriteMap("laserFlareOrange", 16, 16);
-        _flare.Center = new Vec2(0f, 8f);
+        _flare.Center = new Vector2(0f, 8f);
         editorTooltip = "A futuristic weapon from the WORLD OF TOMORROW!";
     }
 
@@ -158,7 +159,7 @@ public class PositronShooter : Gun
 
     public override void Draw()
     {
-        Vec2 pos = Offset(new Vec2(0.5f, 0.5f));
+        Vector2 pos = Offset(new Vector2(0.5f, 0.5f));
         _positronWinder.Angle = _wind * (float)offDir;
         Graphics.Draw(_positronWinder, pos.X, pos.Y, base.Depth + 10);
         base.Draw();

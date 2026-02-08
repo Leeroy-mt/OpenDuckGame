@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Spawns")]
@@ -17,14 +19,14 @@ public class TeamSpawn : SpawnPoint
             SpriteMap duck = new SpriteMap("duck", 32, 32);
             duck.CenterOrigin();
             duck.Depth = 0.9f + 0.01f * (float)i;
-            duck.Position = new Vec2(-16f + (float)i * 9.411764f + 16f, -2f);
+            duck.Position = new Vector2(-16f + (float)i * 9.411764f + 16f, -2f);
             list.Add(duck);
         }
         graphic = list;
         _editorName = "Team Spawn";
-        Center = new Vec2(8f, 5f);
-        collisionSize = new Vec2(32f, 16f);
-        collisionOffset = new Vec2(-16f, -8f);
+        Center = new Vector2(8f, 5f);
+        collisionSize = new Vector2(32f, 16f);
+        collisionOffset = new Vector2(-16f, -8f);
         _visibleInGame = false;
         editorTooltip = "Spawn point for a whole team of Ducks.";
     }

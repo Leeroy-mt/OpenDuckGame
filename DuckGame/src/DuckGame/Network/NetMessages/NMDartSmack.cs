@@ -1,12 +1,14 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMDartSmack : NMEvent
 {
-    public Vec2 vector;
+    public Vector2 vector;
 
     public PhysicsObject hit;
 
-    public NMDartSmack(Vec2 pVector, PhysicsObject pSmack)
+    public NMDartSmack(Vector2 pVector, PhysicsObject pSmack)
     {
         vector = pVector;
         hit = pSmack;

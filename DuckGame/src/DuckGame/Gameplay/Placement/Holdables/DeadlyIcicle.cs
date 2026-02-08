@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class DeadlyIcicle : Holdable, IPlatform
@@ -9,9 +11,9 @@ public class DeadlyIcicle : Holdable, IPlatform
     {
         _sprite = new SpriteMap("icicleBig", 10, 18);
         graphic = _sprite;
-        Center = new Vec2(5f, 5f);
-        collisionOffset = new Vec2(-3f, -4f);
-        collisionSize = new Vec2(6f, 12f);
+        Center = new Vector2(5f, 5f);
+        collisionOffset = new Vector2(-3f, -4f);
+        collisionSize = new Vector2(6f, 12f);
         base.Depth = -0.5f;
         thickness = 4f;
         weight = 5f;
@@ -26,7 +28,7 @@ public class DeadlyIcicle : Holdable, IPlatform
         heat = -1f;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         if (bullet.isLocal && owner == null)
         {

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Details|Signs")]
@@ -10,9 +12,9 @@ public class FishinSign : Thing
     {
         _sprite = new SpriteMap("goneFishin", 32, 32);
         graphic = _sprite;
-        Center = new Vec2(16f, 16f);
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(-8f, -9f);
+        Center = new Vector2(16f, 16f);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(-8f, -9f);
         base.Depth = -0.5f;
         _editorName = "Fishin Sign";
         editorTooltip = "It really explains itself, doesn't it?";

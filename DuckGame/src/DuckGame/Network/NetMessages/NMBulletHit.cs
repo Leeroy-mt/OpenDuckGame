@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMBulletHit : NMEvent
@@ -10,7 +12,7 @@ public class NMBulletHit : NMEvent
     {
     }
 
-    public NMBulletHit(Vec2 pos)
+    public NMBulletHit(Vector2 pos)
     {
         x = pos.X;
         y = pos.Y;

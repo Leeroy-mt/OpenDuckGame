@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -185,7 +186,7 @@ public class HatSelector : Thing, ITakeInput
         }
     }
 
-    public new virtual Vec2 netPosition
+    public new virtual Vector2 netPosition
     {
         get
         {
@@ -349,8 +350,8 @@ public class HatSelector : Thing, ITakeInput
     public void Construct()
     {
         _font = new BitmapFont("biosFontUI", 8, 7);
-        _font.Scale = new Vec2(0.5f, 0.5f);
-        _collisionSize = new Vec2(141f, 89f);
+        _font.Scale = new Vector2(0.5f, 0.5f);
+        _collisionSize = new Vector2(141f, 89f);
         _oButton = new Sprite("oButton");
         _demoBox = new SpriteMap("demoCrate", 20, 20);
         _demoBox.CenterOrigin();
@@ -957,15 +958,15 @@ public class HatSelector : Thing, ITakeInput
                     _screen.DoFlashTransition();
                 }
             }
-            Vec2 realPos = Position;
-            Position = Vec2.Zero;
+            Vector2 realPos = Position;
+            Position = Vector2.Zero;
             _screen.BeginDraw();
             float selectorYOffset = -18f;
             _profile.persona.sprite.Alpha = _fade;
             _profile.persona.sprite.color = Color.White;
             _profile.persona.sprite.color = new Color(_profile.persona.sprite.color.r, _profile.persona.sprite.color.g, _profile.persona.sprite.color.b);
             _profile.persona.sprite.Depth = 0.9f;
-            _profile.persona.sprite.Scale = new Vec2(1f, 1f);
+            _profile.persona.sprite.Scale = new Vector2(1f, 1f);
             Graphics.Draw(_profile.persona.sprite, base.X + 70f, base.Y + 60f + selectorYOffset, 0.9f);
             short realTeam = 0;
             bool hasRealTeam = false;
@@ -1042,10 +1043,10 @@ public class HatSelector : Thing, ITakeInput
                     _profile.persona.sprite.color = Color.White;
                     _profile.persona.sprite.color = new Color(_profile.persona.sprite.color.r, _profile.persona.sprite.color.g, _profile.persona.sprite.color.b);
                     _profile.persona.sprite.Depth = 0.9f;
-                    _profile.persona.sprite.Scale = new Vec2(1f, 1f);
+                    _profile.persona.sprite.Scale = new Vector2(1f, 1f);
                     DuckRig.GetHatPoint(_profile.persona.sprite.imageIndex);
                     SpriteMap hat = t3.GetHat(_profile.persona);
-                    Vec2 hatOffset = t3.hatOffset;
+                    Vector2 hatOffset = t3.hatOffset;
                     bool locked = t3.locked;
                     int tIdx = -1;
                     if (Network.isActive && !base.isServerForObject && _profile.networkHatUnlockStatuses != null)
@@ -1063,7 +1064,7 @@ public class HatSelector : Thing, ITakeInput
                         {
                             hat = _goldLock;
                         }
-                        hatOffset = new Vec2(-10f, -10f);
+                        hatOffset = new Vector2(-10f, -10f);
                     }
                     bool demoHat = Main.isDemo && !t3.inDemo;
                     if (demoHat)
@@ -1073,15 +1074,15 @@ public class HatSelector : Thing, ITakeInput
                     hat.Depth = 0.95f;
                     hat.Alpha = _profile.persona.sprite.Alpha;
                     hat.color = Color.White * colorMult;
-                    hat.Scale = new Vec2(1f, 1f);
+                    hat.Scale = new Vector2(1f, 1f);
                     if (!demoHat)
                     {
-                        hat.Center = new Vec2(16f, 16f) + hatOffset;
+                        hat.Center = new Vector2(16f, 16f) + hatOffset;
                     }
                     if (idx > DG.MaxPlayers - 1 && _fade > 0.01f)
                     {
-                        Vec2 drawPos = Vec2.Zero;
-                        drawPos = ((!demoHat) ? new Vec2(xpos, ypos + selectorYOffset + (float)(j * 20) - 20f) : new Vec2(xpos + 2f, ypos + selectorYOffset + (float)(j * 20) - 20f + 1f));
+                        Vector2 drawPos = Vector2.Zero;
+                        drawPos = ((!demoHat) ? new Vector2(xpos, ypos + selectorYOffset + (float)(j * 20) - 20f) : new Vector2(xpos + 2f, ypos + selectorYOffset + (float)(j * 20) - 20f + 1f));
                         drawPos = Maths.RoundToPixel(drawPos);
                         if (tIdx != -1 && !locked && t3.locked)
                         {
@@ -1105,8 +1106,8 @@ public class HatSelector : Thing, ITakeInput
                     }
                     _profile.persona.sprite.color = Color.White;
                     hat.color = Color.White;
-                    _profile.persona.sprite.Scale = new Vec2(1f, 1f);
-                    hat.Scale = new Vec2(1f, 1f);
+                    _profile.persona.sprite.Scale = new Vector2(1f, 1f);
+                    hat.Scale = new Vector2(1f, 1f);
                 }
             }
             _font.Alpha = _fade;
@@ -1123,7 +1124,7 @@ public class HatSelector : Thing, ITakeInput
             if (_selection == HSSelection.ChooseTeam)
             {
                 string arrows = "<              >";
-                Vec2 arrowPos = new Vec2(base.X + base.width / 2f - _font.GetWidth(arrows) / 2f, base.Y + 60f + selectorYOffset);
+                Vector2 arrowPos = new Vector2(base.X + base.width / 2f - _font.GetWidth(arrows) / 2f, base.Y + 60f + selectorYOffset);
                 arrowPos = Maths.RoundToPixel(arrowPos);
                 _font.Draw(arrows, arrowPos.X, arrowPos.Y, Color.White, 0.95f);
             }
@@ -1148,12 +1149,12 @@ public class HatSelector : Thing, ITakeInput
             {
                 teamName = "UNKNOWN";
             }
-            _font.Scale = new Vec2(1f, 1f);
+            _font.Scale = new Vector2(1f, 1f);
             float wide = _font.GetWidth(teamName);
-            Vec2 teamNamePos = new Vec2(base.X + base.width / 2f - wide / 2f, base.Y + 25f + selectorYOffset);
+            Vector2 teamNamePos = new Vector2(base.X + base.width / 2f - wide / 2f, base.Y + 25f + selectorYOffset);
             teamNamePos = Maths.RoundToPixel(teamNamePos);
             _font.Draw(teamName, teamNamePos.X, teamNamePos.Y, Color.LimeGreen * ((_selection == HSSelection.ChooseTeam) ? 1f : 0.6f), 0.95f);
-            Graphics.DrawLine(teamNamePos + new Vec2(-10f, 4f), teamNamePos + new Vec2(wide + 10f, 4f), Color.White * 0.1f, 2f, 0.93f);
+            Graphics.DrawLine(teamNamePos + new Vector2(-10f, 4f), teamNamePos + new Vector2(wide + 10f, 4f), Color.White * 0.1f, 2f, 0.93f);
             string buttons = "@SELECT@";
             _font.Draw(buttons, base.X + 4f, base.Y + 79f, new Color(180, 180, 180), 0.95f, profileInput);
             buttons = "@RAGDOLL@";
@@ -1263,12 +1264,12 @@ public class HatSelector : Thing, ITakeInput
                 _selection = HSSelection.Main;
             }
             _screen.BeginDraw();
-            _font.Scale = new Vec2(1f, 1f);
+            _font.Scale = new Vector2(1f, 1f);
             string text = "@LWING@CUSTOM DUCK@RWING@";
-            _font.Draw(text, Maths.RoundToPixel(new Vec2(base.width / 2f - _font.GetWidth(text) / 2f, 10f)), Color.White, 0.95f);
+            _font.Draw(text, Maths.RoundToPixel(new Vector2(base.width / 2f - _font.GetWidth(text) / 2f, 10f)), Color.White, 0.95f);
             text = ((!Profiles.IsDefault(_profile)) ? _profile.name : "PICK PROFILE");
             float itemSize = _font.GetWidth(text);
-            Vec2 itemPos = Maths.RoundToPixel(new Vec2(base.width / 2f - itemSize / 2f, 39f));
+            Vector2 itemPos = Maths.RoundToPixel(new Vector2(base.width / 2f - itemSize / 2f, 39f));
             _font.Draw(text, itemPos, Colors.MenuOption * ((_mainSelection == 1) ? 1f : 0.6f), 0.95f);
             if (_mainSelection == 1)
             {
@@ -1278,7 +1279,7 @@ public class HatSelector : Thing, ITakeInput
             {
                 text = "@RAINBOWICON@EDIT ROOM";
                 itemSize = _font.GetWidth(text);
-                itemPos = Maths.RoundToPixel(new Vec2(base.width / 2f - itemSize / 2f, 48f));
+                itemPos = Maths.RoundToPixel(new Vector2(base.width / 2f - itemSize / 2f, 48f));
                 _font.Draw(text, itemPos, _editRoomDisabled ? Colors.SuperDarkBlueGray : (Colors.MenuOption * ((_mainSelection == 2) ? 1f : 0.6f)), 0.95f, null, colorSymbols: true);
                 if (_mainSelection == 2)
                 {
@@ -1287,7 +1288,7 @@ public class HatSelector : Thing, ITakeInput
             }
             text = (_profile.team.hasHat ? ("|LIME|" + _profile.team.GetNameForDisplay() + "|MENUORANGE| HAT") : "|MENUORANGE|CHOOSE HAT");
             itemSize = _font.GetWidth(text);
-            itemPos = Maths.RoundToPixel(new Vec2(base.width / 2f - itemSize / 2f, 30f));
+            itemPos = Maths.RoundToPixel(new Vector2(base.width / 2f - itemSize / 2f, 30f));
             _font.Draw(text, itemPos, Color.White * ((_mainSelection == 0) ? 1f : 0.6f), 0.95f);
             if (_mainSelection == 0)
             {
@@ -1295,7 +1296,7 @@ public class HatSelector : Thing, ITakeInput
             }
             text = "EXIT";
             itemSize = _font.GetWidth(text);
-            itemPos = Maths.RoundToPixel(new Vec2(base.width / 2f - itemSize / 2f, 50 + (canEditRoom ? 12 : 9)));
+            itemPos = Maths.RoundToPixel(new Vector2(base.width / 2f - itemSize / 2f, 50 + (canEditRoom ? 12 : 9)));
             _font.Draw(text, itemPos, Colors.MenuOption * ((_mainSelection == (canEditRoom ? 3 : 2)) ? 1f : 0.6f), 0.95f);
             if (_mainSelection == (canEditRoom ? 3 : 2))
             {
@@ -1374,7 +1375,7 @@ public class HatSelector : Thing, ITakeInput
         {
             return;
         }
-        Graphics.Draw(_screen.target, Position + new Vec2(3f, 3f), null, new Color(_screen.darken, _screen.darken, _screen.darken) * fadeVal, 0f, Vec2.Zero, new Vec2(0.25f, 0.25f), SpriteEffects.None, 0.82f);
+        Graphics.Draw(_screen.target, Position + new Vector2(3f, 3f), null, new Color(_screen.darken, _screen.darken, _screen.darken) * fadeVal, 0f, Vector2.Zero, new Vector2(0.25f, 0.25f), SpriteEffects.None, 0.82f);
         _selectBorder.Alpha = fadeVal;
         _selectBorder.Depth = 0.85f;
         Graphics.Draw(_selectBorder, base.X - 1f, base.Y, new Rectangle(0f, 0f, 4f, _selectBorder.height));
@@ -1382,10 +1383,10 @@ public class HatSelector : Thing, ITakeInput
         Graphics.Draw(_selectBorder, base.X - 1f + 4f, base.Y, new Rectangle(4f, 0f, _selectBorder.width - 8, 4f));
         Graphics.Draw(_selectBorder, base.X - 1f + 4f, base.Y + (float)(_selectBorder.height - 25), new Rectangle(4f, _selectBorder.height - 25, _selectBorder.width - 8, 25f));
         string buttons = _firstWord;
-        _font.Scale = new Vec2(1f, 1f);
+        _font.Scale = new Vector2(1f, 1f);
         _font.Draw(buttons, base.X + 25f, base.Y + 79f, new Color(163, 206, 39) * fadeVal * _lcdFlash, 0.9f);
         buttons = _secondWord;
-        _font.Scale = new Vec2(1f, 1f);
+        _font.Scale = new Vector2(1f, 1f);
         _font.Draw(buttons, base.X + 116f - _font.GetWidth(buttons), base.Y + 79f, new Color(163, 206, 39) * fadeVal * _lcdFlash, 0.9f);
         if (_selection == HSSelection.ChooseTeam)
         {

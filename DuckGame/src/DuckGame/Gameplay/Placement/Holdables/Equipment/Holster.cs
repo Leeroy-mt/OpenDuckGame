@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
 
@@ -37,7 +38,7 @@ public class Holster : Equipment
 
     private Sprite _lock;
 
-    private Vec2 _prevPos = Vec2.Zero;
+    private Vector2 _prevPos = Vector2.Zero;
 
     private float afterDrawAngle = -999999f;
 
@@ -123,7 +124,7 @@ public class Holster : Equipment
         }
     }
 
-    public Thing GetContainedInstance(Vec2 pos = default(Vec2))
+    public Thing GetContainedInstance(Vector2 pos = default(Vector2))
     {
         if (contains == null)
         {
@@ -176,7 +177,7 @@ public class Holster : Equipment
         }
     }
 
-    public virtual void EjectItem(Vec2 pSpeed)
+    public virtual void EjectItem(Vector2 pSpeed)
     {
         if (containedObject != null)
         {
@@ -249,28 +250,28 @@ public class Holster : Equipment
         {
             containString = contains.Name;
         }
-        Graphics.DrawString(containString, Position + new Vec2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
+        Graphics.DrawString(containString, Position + new Vector2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
     }
 
     public Holster(float xpos, float ypos)
         : base(xpos, ypos)
     {
         _chain = new Sprite("holsterChain");
-        _chain.Center = new Vec2(3f, 3f);
+        _chain.Center = new Vector2(3f, 3f);
         _lock = new Sprite("holsterLock");
-        _lock.Center = new Vec2(3f, 2f);
+        _lock.Center = new Vector2(3f, 2f);
         _sprite = new SpriteMap("holster", 12, 12);
         _overPart = new SpriteMap("holster_over", 10, 3);
-        _overPart.Center = new Vec2(6f, -1f);
+        _overPart.Center = new Vector2(6f, -1f);
         _underPart = new SpriteMap("holster_under", 8, 9);
-        _underPart.Center = new Vec2(10f, 8f);
+        _underPart.Center = new Vector2(10f, 8f);
         graphic = _sprite;
-        collisionOffset = new Vec2(-5f, -5f);
-        collisionSize = new Vec2(10f, 10f);
-        Center = new Vec2(6f, 6f);
+        collisionOffset = new Vector2(-5f, -5f);
+        collisionSize = new Vector2(10f, 10f);
+        Center = new Vector2(6f, 6f);
         physicsMaterial = PhysicsMaterial.Wood;
         _equippedDepth = 4;
-        _wearOffset = new Vec2(1f, 1f);
+        _wearOffset = new Vector2(1f, 1f);
         editorTooltip = "Lets you carry around an additional item!";
     }
 
@@ -361,7 +362,7 @@ public class Holster : Equipment
                     SetContainedObject(null);
                 }
             }
-            if (containedObject is Gun && Level.CheckRect<FunBeam>(containedObject.Position + new Vec2(-4f, -4f), containedObject.Position + new Vec2(4f, 4f)) != null)
+            if (containedObject is Gun && Level.CheckRect<FunBeam>(containedObject.Position + new Vector2(-4f, -4f), containedObject.Position + new Vector2(4f, 4f)) != null)
             {
                 (containedObject as Gun).triggerAction = true;
             }
@@ -375,13 +376,13 @@ public class Holster : Equipment
                 {
                     (containedObject as RagdollPart).doll.part1.X = (containedObject as RagdollPart).doll.part3.X + 4f;
                 }
-                Vec2 topTarget = (containedObject as RagdollPart).doll.part3.Position + new Vec2(0f, -11f);
-                Vec2 middleTarget = (containedObject as RagdollPart).doll.part3.Position + new Vec2(0f, -5f);
+                Vector2 topTarget = (containedObject as RagdollPart).doll.part3.Position + new Vector2(0f, -11f);
+                Vector2 middleTarget = (containedObject as RagdollPart).doll.part3.Position + new Vector2(0f, -5f);
                 (containedObject as RagdollPart).doll.part1.X = Lerp.FloatSmooth((containedObject as RagdollPart).doll.part1.X, topTarget.X, 0.5f);
                 (containedObject as RagdollPart).doll.part1.Y = Lerp.FloatSmooth((containedObject as RagdollPart).doll.part1.Y, topTarget.Y, 0.5f);
                 (containedObject as RagdollPart).doll.part2.X = Lerp.FloatSmooth((containedObject as RagdollPart).doll.part1.X, middleTarget.X, 0.5f);
                 (containedObject as RagdollPart).doll.part2.Y = Lerp.FloatSmooth((containedObject as RagdollPart).doll.part1.Y, middleTarget.Y, 0.5f);
-                topTarget = (topTarget - (containedObject as RagdollPart).doll.part3.Position).Normalized;
+                topTarget = Vector2.Normalize(topTarget - (containedObject as RagdollPart).doll.part3.Position);
                 (containedObject as RagdollPart).doll.part1.vSpeed = topTarget.Y;
                 (containedObject as RagdollPart).doll.part2.vSpeed = topTarget.Y;
                 (containedObject as RagdollPart).doll.part1.hSpeed = topTarget.X;
@@ -434,13 +435,13 @@ public class Holster : Equipment
     {
         if (_equippedDuck != null)
         {
-            _containedObject.Position = Offset(new Vec2(backOffset, -4f) + containedObject.holsterOffset);
+            _containedObject.Position = Offset(new Vector2(backOffset, -4f) + containedObject.holsterOffset);
             _containedObject.Depth = owner.Depth + -14;
             _containedObject.AngleDegrees = ((owner.offDir > 0) ? containedObject.holsterAngle : (0f - containedObject.holsterAngle)) + base.AngleDegrees;
             _containedObject.offDir = (sbyte)((owner.offDir > 0) ? 1 : (-1));
             if (containedObject is RagdollPart)
             {
-                _containedObject.Position = Offset(new Vec2(backOffset, 0f));
+                _containedObject.Position = Offset(new Vector2(backOffset, 0f));
                 _containedObject.AngleDegrees += ((owner.offDir > 0) ? 90 : (-90));
                 if (base.duck != null && base.duck.ragdoll == null)
                 {
@@ -459,7 +460,7 @@ public class Holster : Equipment
         }
         else
         {
-            _containedObject.Position = Offset(new Vec2(backOffset + 6f, -2f) + containedObject.holsterOffset);
+            _containedObject.Position = Offset(new Vector2(backOffset + 6f, -2f) + containedObject.holsterOffset);
             _containedObject.Depth = base.Depth + -14;
             _containedObject.AngleDegrees = ((offDir > 0) ? containedObject.holsterAngle : (0f - containedObject.holsterAngle)) + base.AngleDegrees;
             _containedObject.offDir = (sbyte)((offDir > 0) ? 1 : (-1));
@@ -471,8 +472,8 @@ public class Holster : Equipment
         if (Level.current is Editor && _previewSprite != null)
         {
             _previewSprite.Depth = base.Depth + 1;
-            _previewSprite.Scale = new Vec2(0.5f, 0.5f);
-            _previewSprite.Center = new Vec2(16f, 16f);
+            _previewSprite.Scale = new Vector2(0.5f, 0.5f);
+            _previewSprite.Center = new Vector2(16f, 16f);
             Graphics.Draw(_previewSprite, base.X, base.Y);
         }
         if (_equippedDuck != null)
@@ -499,7 +500,7 @@ public class Holster : Equipment
                 _chain.CenterOrigin();
                 _chain.Depth = _underPart.Depth + 1;
                 _chain.AngleDegrees = base.AngleDegrees - (float)(45 * offDir);
-                Vec2 chainOff = Offset(new Vec2(-11f + xOffChange, -3f));
+                Vector2 chainOff = Offset(new Vector2(-11f + xOffChange, -3f));
                 Graphics.Draw(_chain, chainOff.X, chainOff.Y);
                 _lock.AngleDegrees = _chainSway;
                 float desiredDegrees = ((owner != null) ? owner.hSpeed : hSpeed) * 10f;
@@ -507,7 +508,7 @@ public class Holster : Equipment
                 _chainSwayVel *= 0.95f;
                 _chainSway += _chainSwayVel;
                 _lock.Depth = _underPart.Depth + 2;
-                Offset(new Vec2(-9f + xOffChange, -5f));
+                Offset(new Vector2(-9f + xOffChange, -5f));
                 Graphics.Draw(_lock, chainOff.X, chainOff.Y);
             }
             if (!(containedObject is RagdollPart) || !Network.isActive)
@@ -522,14 +523,14 @@ public class Holster : Equipment
         else if (chained.value)
         {
             _chain.Depth = base.Depth + 1;
-            Vec2 chainOff2 = Offset(new Vec2(-3f, -2f));
+            Vector2 chainOff2 = Offset(new Vector2(-3f, -2f));
             if (base.equippedDuck != null)
             {
-                chainOff2 = Offset(new Vec2(-9f, -2f));
+                chainOff2 = Offset(new Vector2(-9f, -2f));
             }
-            _chain.Center = new Vec2(3f, 3f);
+            _chain.Center = new Vector2(3f, 3f);
             Graphics.Draw(_chain, chainOff2.X, chainOff2.Y);
-            Offset(new Vec2(0f, -8f));
+            Offset(new Vector2(0f, -8f));
             _chain.AngleDegrees = 90f + _chainSway;
             float desiredDegrees2 = 90f + ((owner != null) ? owner.hSpeed : hSpeed) * 10f;
             _chainSwayVel -= (_chain.AngleDegrees - desiredDegrees2) * 0.1f;

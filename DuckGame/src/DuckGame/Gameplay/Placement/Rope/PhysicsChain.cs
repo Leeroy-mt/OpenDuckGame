@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Stuff|Ropes")]
@@ -11,11 +13,11 @@ public class PhysicsChain : PhysicsRope
         chain = true;
         _vine = new SpriteMap("chain", 16, 16);
         graphic = _vine;
-        Center = new Vec2(8f, 8f);
+        Center = new Vector2(8f, 8f);
         _vineEnd = new Sprite("chainStretchEnd");
-        _vineEnd.Center = new Vec2(8f, 0f);
-        collisionOffset = new Vec2(-5f, -4f);
-        collisionSize = new Vec2(11f, 7f);
+        _vineEnd.Center = new Vector2(8f, 0f);
+        collisionOffset = new Vector2(-5f, -4f);
+        collisionSize = new Vector2(11f, 7f);
         graphic = _vine;
         _beam = new Sprite("chainStretch");
         _editorName = "Chain";

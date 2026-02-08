@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Text.RegularExpressions;
 
@@ -158,9 +159,9 @@ public class UIStringEntryMenu : UIMenu
     public override void Draw()
     {
         if (_directional)
-            Graphics.DrawPassword(password, new Vec2(X - (password.Length * 8 / 2), Y - 6), Color.White, Depth + 10);
+            Graphics.DrawPassword(password, new Vector2(X - (password.Length * 8 / 2), Y - 6), Color.White, Depth + 10);
         else
-            Graphics.DrawString(password + ((blink % 1f > 0.5f) ? "_" : ""), new Vec2(X - (password.Length * 8 / 2), Y - 6), Color.White, Depth + 10);
+            Graphics.DrawString(password + ((blink % 1f > 0.5f) ? "_" : ""), new Vector2(X - (password.Length * 8 / 2), Y - 6), Color.White, Depth + 10);
         base.Draw();
     }
 

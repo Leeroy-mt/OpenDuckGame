@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 internal class CrashLogRoom : Level
@@ -20,7 +22,7 @@ internal class CrashLogRoom : Level
 
     public override void Draw()
     {
-        _font.Scale = new Vec2(0.5f, 0.5f);
-        _font.Draw(_error, new Vec2(30f, 30f), Color.White);
+        _font.Scale = new Vector2(0.5f, 0.5f);
+        _font.Draw(_error, new Vector2(30f, 30f), Color.White);
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -8,7 +9,7 @@ public class Rope : Thing
 
     private Thing _attach2;
 
-    public Vec2 offsetDir = Vec2.Zero;
+    public Vector2 offsetDir = Vector2.Zero;
 
     public float linkDirectionOnSplit;
 
@@ -18,9 +19,9 @@ public class Rope : Thing
 
     private BlockCorner _corner;
 
-    private Vec2 _pos1;
+    private Vector2 _pos1;
 
-    private Vec2 _pos2;
+    private Vector2 _pos2;
 
     private bool _terminated;
 
@@ -32,17 +33,17 @@ public class Rope : Thing
 
     public Thing _belongsTo;
 
-    private Vec2 dirLine;
+    private Vector2 dirLine;
 
-    private Vec2 tpos = Vec2.Zero;
+    private Vector2 tpos = Vector2.Zero;
 
     private bool pulled;
 
-    public Vec2 linkVector;
+    public Vector2 linkVector;
 
-    public Vec2 cornerVector;
+    public Vector2 cornerVector;
 
-    public Vec2 breakVector;
+    public Vector2 breakVector;
 
     public float startLength;
 
@@ -104,14 +105,14 @@ public class Rope : Thing
         {
             if (attach2 is Rope r)
             {
-                Vec2 dir = (attach2Point - attach1Point).Rotate(Maths.DegToRad(r.offsetDegrees), Vec2.Zero);
-                return Maths.PointDirection(new Vec2(0f, 0f), dir);
+                Vector2 dir = (attach2Point - attach1Point).Rotate(Maths.DegToRad(r.offsetDegrees), Vector2.Zero);
+                return Maths.PointDirection(new Vector2(0f, 0f), dir);
             }
             return 0f;
         }
     }
 
-    public float linkDirectionNormalized => Maths.PointDirection(new Vec2(0f, 0f), attach2Point - attach1Point);
+    public float linkDirectionNormalized => Maths.PointDirection(new Vector2(0f, 0f), attach2Point - attach1Point);
 
     public float properLength
     {
@@ -125,13 +126,13 @@ public class Rope : Thing
         }
     }
 
-    public Vec2 attach1Point
+    public Vector2 attach1Point
     {
         get
         {
             if (_attach1 is Rope { _corner: not null } r)
             {
-                Vec2 move = r._corner.corner - r._corner.block.Position;
+                Vector2 move = r._corner.corner - r._corner.block.Position;
                 move.Normalize();
                 return _attach1.Position + move * 4f;
             }
@@ -139,13 +140,13 @@ public class Rope : Thing
         }
     }
 
-    public Vec2 attach2Point
+    public Vector2 attach2Point
     {
         get
         {
             if (_attach2 is Rope { _corner: not null } r)
             {
-                Vec2 move = r._corner.corner - r._corner.block.Position;
+                Vector2 move = r._corner.corner - r._corner.block.Position;
                 move.Normalize();
                 return _attach2.Position + move * 4f;
             }
@@ -185,7 +186,7 @@ public class Rope : Thing
         if (vine)
         {
             _vine = new Sprite("vine");
-            _vine.Center = new Vec2(8f, 0f);
+            _vine.Center = new Vector2(8f, 0f);
         }
         if (tex != null)
         {
@@ -236,7 +237,7 @@ public class Rope : Thing
 
     public void CheckLinks()
     {
-        if (!(_attach2.GetType() == typeof(Rope)) || !(cornerVector != Vec2.Zero))
+        if (!(_attach2.GetType() == typeof(Rope)) || !(cornerVector != Vector2.Zero))
         {
             return;
         }
@@ -251,13 +252,13 @@ public class Rope : Thing
             float angleDir = 0f;
             angleDir = ((!(cornerVector.X > 0f)) ? (at2.linkDirectionNormalized + 90f) : (at2.linkDirectionNormalized - 90f));
             breakVector = Maths.AngleToVec(Maths.DegToRad(angleDir));
-            if (Math.Acos(Vec2.Dot(breakVector, cornerVector)) > Math.PI / 2.0)
+            if (Math.Acos(Vector2.Dot(breakVector, cornerVector)) > Math.PI / 2.0)
             {
                 angleDir += 180f;
                 breakVector = Maths.AngleToVec(Maths.DegToRad(angleDir));
             }
-            dirLine = (attach1.Position - attach2.Position).Normalized;
-            if (Math.Acos(Vec2.Dot(breakVector, dirLine)) < 1.5207963260498385)
+            dirLine = Vector2.Normalize(attach1.Position - attach2.Position);
+            if (Math.Acos(Vector2.Dot(breakVector, dirLine)) < 1.5207963260498385)
             {
                 regroup = true;
             }
@@ -280,7 +281,7 @@ public class Rope : Thing
         }
         else if (_attach2 is Harpoon harpoon)
         {
-            Vec2 dir = Position - harpoon.Position;
+            Vector2 dir = Position - harpoon.Position;
             dir.Normalize();
             harpoon.Position -= dir * length;
         }
@@ -325,9 +326,9 @@ public class Rope : Thing
         if (changed || pulled)
         {
             pulled = false;
-            Vec2 start = attach1Point;
-            Vec2 end = attach2Point;
-            Vec2 add = end - start;
+            Vector2 start = attach1Point;
+            Vector2 end = attach2Point;
+            Vector2 add = end - start;
             add.Normalize();
             int tries = 0;
             for (; Level.CheckPoint<Block>(end) != null; end -= add)
@@ -367,7 +368,7 @@ public class Rope : Thing
             }
             if (len > 8f)
             {
-                Vec2 point;
+                Vector2 point;
                 AutoBlock b = Level.CheckLine<AutoBlock>(start, start + add * len, out point);
                 if (b != null)
                 {
@@ -375,15 +376,15 @@ public class Rope : Thing
                     if (near != null)
                     {
                         BlockCorner c = near.Copy();
-                        Vec2 move = c.corner - c.block.Position;
+                        Vector2 move = c.corner - c.block.Position;
                         move.Normalize();
                         c.corner += move * 1f;
                         if ((c.corner - attach2.Position).Length() > 4f)
                         {
-                            linkVector = (attach2Point - attach1Point).Normalized;
+                            linkVector = Vector2.Normalize(attach2Point - attach1Point);
                             Rope newRope = new Rope(c.corner.X, c.corner.Y, null, _attach2, null, _isVine, _vine);
                             newRope.cornerVector = cornerVector;
-                            cornerVector = new Vec2((move.X > 0f) ? 1f : (-1f), (move.Y > 0f) ? 1f : (-1f)).Normalized;
+                            cornerVector = Vector2.Normalize(new Vector2((move.X > 0f) ? 1f : (-1f), (move.Y > 0f) ? 1f : (-1f)));
                             newRope._corner = c;
                             newRope._belongsTo = _belongsTo;
                             _attach2 = newRope;
@@ -413,7 +414,7 @@ public class Rope : Thing
 
     public override void Draw()
     {
-        if (DevConsole.showCollision && cornerVector != Vec2.Zero)
+        if (DevConsole.showCollision && cornerVector != Vector2.Zero)
         {
             Graphics.DrawLine(_attach2.Position, _attach2.Position + cornerVector * 32f, Color.Red);
             Graphics.DrawLine(_attach2.Position, _attach2.Position + breakVector * 16f, Color.Blue);
@@ -426,21 +427,21 @@ public class Rope : Thing
         }
         if (_vine != null)
         {
-            Vec2 travel = attach2Point - attach1Point;
-            Vec2 travelNorm = travel.Normalized;
-            Vec2 travelOffset = travelNorm;
-            travelOffset = travelOffset.Rotate(Maths.DegToRad(90f), Vec2.Zero);
+            Vector2 travel = attach2Point - attach1Point;
+            Vector2 travelNorm = Vector2.Normalize(travel);
+            Vector2 travelOffset = travelNorm;
+            travelOffset = travelOffset.Rotate(Maths.DegToRad(90f), Vector2.Zero);
             float num = travel.Length();
             float stepSize = 16f;
-            Vec2 drawStart = attach1Point + travelNorm * stepSize;
-            Vec2 drawPrev = attach1Point;
+            Vector2 drawStart = attach1Point + travelNorm * stepSize;
+            Vector2 drawPrev = attach1Point;
             Depth d = base.Depth;
             int num2 = (int)Math.Ceiling(num / stepSize);
             for (int i = 0; i < num2; i++)
             {
                 float sinVal = (float)Math.PI * 2f / (float)num2 * (float)i;
                 float sinMult = (1f - amount) * 16f;
-                Vec2 toPos = drawStart + travelOffset * (float)(Math.Sin(sinVal) * (double)sinMult);
+                Vector2 toPos = drawStart + travelOffset * (float)(Math.Sin(sinVal) * (double)sinMult);
                 if (i == num2 - 1)
                 {
                     toPos = attach2Point;
@@ -466,11 +467,11 @@ public class Rope : Thing
         }
         else if (amount < 0.95f && amount > 0f)
         {
-            Vec2 travel2 = attach2Point - attach1Point;
-            Vec2 travelOffset2 = travel2.Normalized.Rotate(Maths.DegToRad(90f), Vec2.Zero);
+            Vector2 travel2 = attach2Point - attach1Point;
+            Vector2 travelOffset2 = Vector2.Normalize(travel2).Rotate(Maths.DegToRad(90f), Vector2.Zero);
             float sinVal2 = (float)Math.PI / 4f;
-            Vec2 drawStart2 = attach1Point + travel2 / 8f;
-            Vec2 drawPrev2 = attach1Point;
+            Vector2 drawStart2 = attach1Point + travel2 / 8f;
+            Vector2 drawPrev2 = attach1Point;
             for (int j = 0; j < 8; j++)
             {
                 float sinMult2 = (1f - amount) * 8f;

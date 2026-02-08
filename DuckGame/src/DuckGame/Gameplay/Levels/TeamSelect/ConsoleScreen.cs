@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -90,7 +91,7 @@ public class ConsoleScreen : Thing
                 Graphics.viewport = new Viewport(0, 0, _bloomTarget.width, _bloomTarget.height);
                 Graphics.screen = _batch;
                 _batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.DepthRead, RasterizerState.CullNone, _blurMaterial, c.getMatrix());
-                Graphics.Draw(_screenTarget, Vec2.Zero, null, Color.White, 0f, Vec2.Zero, new Vec2(1f, 1f), SpriteEffects.None, 1f);
+                Graphics.Draw(_screenTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 1f);
                 _batch.End();
                 Graphics.SetRenderTarget(_finalTarget);
                 Graphics.viewport = new Viewport(0, 0, _finalTarget.width, _finalTarget.height);
@@ -98,7 +99,7 @@ public class ConsoleScreen : Thing
                 _batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullNone, _lcdMaterial, c.getMatrix());
                 Graphics.device.Textures[1] = (Texture2D)_bloomTarget;
                 Graphics.device.SamplerStates[1] = SamplerState.LinearClamp;
-                Graphics.Draw(_screenTarget, Vec2.Zero, null, Color.White, 0f, Vec2.Zero, new Vec2(1f, 1f), SpriteEffects.None, 0.82f);
+                Graphics.Draw(_screenTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0.82f);
                 Graphics.material = null;
                 _batch.End();
             }

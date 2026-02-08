@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ public class Chancy
 
     public static bool atCounter = true;
 
-    public static Vec2 standingPosition = Vec2.Zero;
+    public static Vector2 standingPosition = Vector2.Zero;
 
     public static bool lookingAtList = false;
 
@@ -184,23 +185,23 @@ public class Chancy
         }
     }
 
-    public static void AddProposition(ChallengeData challenge, Vec2 duckPos)
+    public static void AddProposition(ChallengeData challenge, Vector2 duckPos)
     {
         if (challenge.preview != null)
         {
             MemoryStream stream = new MemoryStream(Convert.FromBase64String(challenge.preview));
             Texture2D tex = Texture2D.FromStream(Graphics.device, stream);
             _previewPhoto = new SpriteMap(tex, tex.Width, tex.Height);
-            _previewPhoto.Scale = new Vec2(0.25f);
+            _previewPhoto.Scale = new Vector2(0.25f);
         }
         _challengeData = challenge;
         _realSave = Profiles.active[0].GetSaveData(_challengeData.levelID);
         _save = _realSave.Clone();
         UpdateRandoms();
         atCounter = false;
-        Vec2 realPos = duckPos;
+        Vector2 realPos = duckPos;
         bool found = false;
-        if (Level.CheckLine<Block>(duckPos, duckPos + new Vec2(36f, 0f), out var hit) != null)
+        if (Level.CheckLine<Block>(duckPos, duckPos + new Vector2(36f, 0f), out var hit) != null)
         {
             hit.X -= 8f;
             if ((hit - duckPos).Length() > 16f)
@@ -211,24 +212,24 @@ public class Chancy
         }
         else
         {
-            realPos = duckPos + new Vec2(36f, 0f);
+            realPos = duckPos + new Vector2(36f, 0f);
             found = true;
         }
         if (found)
         {
-            if (Level.CheckLine<Block>(realPos, realPos + new Vec2(0f, 20f), out hit) == null)
+            if (Level.CheckLine<Block>(realPos, realPos + new Vector2(0f, 20f), out hit) == null)
             {
                 found = false;
             }
             else
             {
-                standingPosition = hit - new Vec2(0f, 25f);
+                standingPosition = hit - new Vector2(0f, 25f);
                 body.flipH = true;
             }
         }
         if (!found)
         {
-            if (Level.CheckLine<Block>(duckPos, duckPos + new Vec2(-36f, 0f), out hit) != null)
+            if (Level.CheckLine<Block>(duckPos, duckPos + new Vector2(-36f, 0f), out hit) != null)
             {
                 hit.X += 8f;
                 realPos = hit;
@@ -236,11 +237,11 @@ public class Chancy
             }
             else
             {
-                realPos = duckPos + new Vec2(-36f, 0f);
+                realPos = duckPos + new Vector2(-36f, 0f);
                 found = true;
             }
-            Level.CheckLine<Block>(realPos, realPos + new Vec2(0f, 20f), out hit);
-            standingPosition = hit - new Vec2(0f, 25f);
+            Level.CheckLine<Block>(realPos, realPos + new Vector2(0f, 20f), out hit);
+            standingPosition = hit - new Vector2(0f, 25f);
             body.flipH = false;
         }
     }
@@ -265,7 +266,7 @@ public class Chancy
             _completeStamp = new Sprite("arcade/completeStamp");
             _completeStamp.CenterOrigin();
             _pencil = new Sprite("arcade/pencil");
-            _pencil.Center = new Vec2(127f, 4f);
+            _pencil.Center = new Vector2(127f, 4f);
             _tape = new Sprite("arcade/tape");
             _tape.CenterOrigin();
             _tapePaper = new Sprite("arcade/tapePaper");
@@ -486,7 +487,7 @@ public class Chancy
             Graphics.Clear(Color.Transparent);
             Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullNone, null, Matrix.Identity);
             string text = GetChallengeBestString(_save, activeChallenge);
-            _font.Draw(text, new Vec2((int)Math.Round((float)_bestTextTarget.width / 2f - _font.GetWidth(text) / 2f), 0f), Color.Black * 0.7f);
+            _font.Draw(text, new Vector2((int)Math.Round((float)_bestTextTarget.width / 2f - _font.GetWidth(text) / 2f), 0f), Color.Black * 0.7f);
             Graphics.screen.End();
             Graphics.SetRenderTarget(null);
         }
@@ -739,26 +740,26 @@ public class Chancy
 
     public static void Draw()
     {
-        Vec2 paperPos = new Vec2(-200f + _listLerp * 270f, 20f);
+        Vector2 paperPos = new Vector2(-200f + _listLerp * 270f, 20f);
         if (lookingAtList || _listLerp > 0.01f)
         {
             listPaper.Depth = 0.8f;
             Graphics.Draw(listPaper, paperPos.X, paperPos.Y);
             _font.Depth = 0.85f;
-            _font.Scale = new Vec2(1f);
-            _font.Draw("Chancy Challenges", paperPos + new Vec2(11f, 6f), Colors.BlueGray, 0.85f);
+            _font.Scale = new Vector2(1f);
+            _font.Draw("Chancy Challenges", paperPos + new Vector2(11f, 6f), Colors.BlueGray, 0.85f);
             float yOff = 9f;
             List<ChallengeData> chancyChallenges = _chancyChallenges;
             int idx = 0;
             foreach (ChallengeData c in chancyChallenges)
             {
-                _font.Draw(c.name, paperPos + new Vec2(19f, 12f + yOff), Colors.DGRed, 0.85f);
-                Vec2 pencilPos = paperPos + new Vec2(12f, 12f + yOff + 4f);
+                _font.Draw(c.name, paperPos + new Vector2(19f, 12f + yOff), Colors.DGRed, 0.85f);
+                Vector2 pencilPos = paperPos + new Vector2(12f, 12f + yOff + 4f);
                 if (idx == _challengeSelection)
                 {
                     _pencil.Depth = 0.9f;
                     Graphics.Draw(_pencil, pencilPos.X, pencilPos.Y);
-                    Graphics.DrawLine(paperPos + new Vec2(19f, 12f + yOff + 8.5f), paperPos + new Vec2(19f + _font.GetWidth(c.name), 12f + yOff + 8.5f), Colors.SuperDarkBlueGray, 1f, 0.9f);
+                    Graphics.DrawLine(paperPos + new Vector2(19f, 12f + yOff + 8.5f), paperPos + new Vector2(19f + _font.GetWidth(c.name), 12f + yOff + 8.5f), Colors.SuperDarkBlueGray, 1f, 0.9f);
                 }
                 ChallengeSaveData savedat = Profiles.active[0].GetSaveData(_chancyChallenges[idx].levelID);
                 if (savedat != null && savedat.trophy > TrophyType.Baseline)
@@ -775,10 +776,10 @@ public class Chancy
         {
             return;
         }
-        Vec2 dealerOffset = new Vec2(100f * (1f - _chancyLerp), 100f * (1f - _chancyLerp));
-        Vec2 descSize = new Vec2(280f, 20f);
-        Vec2 descPos = new Vec2(20f, 132f) + dealerOffset;
-        Graphics.DrawRect(descPos + new Vec2(-2f, 0f), descPos + descSize + new Vec2(2f, 0f), Color.Black);
+        Vector2 dealerOffset = new Vector2(100f * (1f - _chancyLerp), 100f * (1f - _chancyLerp));
+        Vector2 descSize = new Vector2(280f, 20f);
+        Vector2 descPos = new Vector2(20f, 132f) + dealerOffset;
+        Graphics.DrawRect(descPos + new Vector2(-2f, 0f), descPos + descSize + new Vector2(2f, 0f), Color.Black);
         int index = 0;
         for (int i = _lineProgress.Count - 1; i >= 0; i--)
         {
@@ -787,15 +788,15 @@ public class Chancy
             float xpos = descPos.X + descSize.X / 2f - wide / 2f;
             for (int j = _lineProgress[i].segments.Count - 1; j >= 0; j--)
             {
-                Graphics.DrawString(_lineProgress[i].segments[j].text, new Vec2(xpos, ypos), _lineProgress[i].segments[j].color, 0.85f);
+                Graphics.DrawString(_lineProgress[i].segments[j].text, new Vector2(xpos, ypos), _lineProgress[i].segments[j].color, 0.85f);
                 xpos += (float)(_lineProgress[i].segments[j].text.Length * 8);
             }
             index++;
         }
         if (_challengeLerp > 0.01f && _challengeData != null)
         {
-            paperPos = new Vec2(40f, 28f);
-            paperPos = new Vec2(-200f + _challengeLerp * 240f, 28f);
+            paperPos = new Vector2(40f, 28f);
+            paperPos = new Vector2(-200f + _challengeLerp * 240f, 28f);
             challengePaper.Depth = 0.8f;
             Graphics.Draw(challengePaper, paperPos.X, paperPos.Y);
             _paperclip.Depth = 0.92f;
@@ -831,38 +832,38 @@ public class Chancy
                     Graphics.Draw(_tape, paperPos.X + 64f, paperPos.Y + 22f);
                     if (_bestTextTarget != null)
                     {
-                        Graphics.Draw((Texture2D)_bestTextTarget, new Vec2(paperPos.X + 64f, paperPos.Y + 22f), null, Color.White, Maths.DegToRad(_paperAngle), new Vec2(_bestTextTarget.width / 2, _bestTextTarget.height / 2), new Vec2(1f, 1f), SpriteEffects.None, 0.92f);
+                        Graphics.Draw((Texture2D)_bestTextTarget, new Vector2(paperPos.X + 64f, paperPos.Y + 22f), null, Color.White, Maths.DegToRad(_paperAngle), new Vector2(_bestTextTarget.width / 2, _bestTextTarget.height / 2), new Vector2(1f, 1f), SpriteEffects.None, 0.92f);
                     }
                 }
             }
             _font.Depth = 0.85f;
-            _font.Scale = new Vec2(1f);
-            _font.Draw(_challengeData.name, paperPos + new Vec2(9f, 7f), Colors.DGRed, 0.85f);
-            _font.Scale = new Vec2(1f);
+            _font.Scale = new Vector2(1f);
+            _font.Draw(_challengeData.name, paperPos + new Vector2(9f, 7f), Colors.DGRed, 0.85f);
+            _font.Scale = new Vector2(1f);
             _font.maxWidth = 120;
-            _font.Draw(_challengeData.description, paperPos + new Vec2(5f, 30f), Colors.BlueGray, 0.85f);
-            _font.Scale = new Vec2(1f);
+            _font.Draw(_challengeData.description, paperPos + new Vector2(5f, 30f), Colors.BlueGray, 0.85f);
+            _font.Scale = new Vector2(1f);
             _font.maxWidth = 300;
             Unlockable u = Unlockables.GetUnlock(_challengeData.reward);
             if (u != null)
             {
                 if (u is UnlockableHat)
                 {
-                    _font.Draw("|MENUORANGE|Reward - " + u.name + " hat", paperPos + new Vec2(5f, 84f), Colors.BlueGray, 0.85f);
+                    _font.Draw("|MENUORANGE|Reward - " + u.name + " hat", paperPos + new Vector2(5f, 84f), Colors.BlueGray, 0.85f);
                 }
             }
             else
             {
-                _font.Draw("|MENUORANGE|Reward - TICKETS", paperPos + new Vec2(5f, 84f), Colors.BlueGray, 0.85f);
+                _font.Draw("|MENUORANGE|Reward - TICKETS", paperPos + new Vector2(5f, 84f), Colors.BlueGray, 0.85f);
             }
             ChallengeTrophy t = _challengeData.trophies[1];
             if (t.targets != -1)
             {
-                _font.Draw("|DGBLUE|break at least " + t.targets + " targets", paperPos + new Vec2(5f, 75f), Colors.BlueGray, 0.85f);
+                _font.Draw("|DGBLUE|break at least " + t.targets + " targets", paperPos + new Vector2(5f, 75f), Colors.BlueGray, 0.85f);
             }
             else if (t.timeRequirement > 0)
             {
-                _font.Draw("|DGBLUE|beat it in " + t.timeRequirement + " seconds", paperPos + new Vec2(5f, 75f), Colors.BlueGray, 0.85f);
+                _font.Draw("|DGBLUE|beat it in " + t.timeRequirement + " seconds", paperPos + new Vector2(5f, 75f), Colors.BlueGray, 0.85f);
             }
         }
         _tail.flipV = true;

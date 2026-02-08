@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Misc")]
@@ -22,14 +24,14 @@ public class DartGun : Gun
         _ammoType.range = 170f;
         _ammoType.accuracy = 0.8f;
         wideBarrel = true;
-        barrelInsertOffset = new Vec2(-3f, -1f);
+        barrelInsertOffset = new Vector2(-3f, -1f);
         _type = "gun";
         _sprite = new SpriteMap("dartgun", 32, 32);
         graphic = _sprite;
-        Center = new Vec2(16f, 16f);
-        collisionOffset = new Vec2(-8f, -4f);
-        collisionSize = new Vec2(16f, 9f);
-        _barrelOffsetTL = new Vec2(29f, 14f);
+        Center = new Vector2(16f, 16f);
+        collisionOffset = new Vector2(-8f, -4f);
+        collisionSize = new Vector2(16f, 9f);
+        _barrelOffsetTL = new Vector2(29f, 14f);
         _fireSound = "smg";
         _fullAuto = true;
         _fireWait = 1f;
@@ -49,7 +51,7 @@ public class DartGun : Gun
 
     public override void UpdateFirePosition(SmallFire f)
     {
-        f.Position = Offset(new Vec2(10f, 0f));
+        f.Position = Offset(new Vector2(10f, 0f));
     }
 
     public override void UpdateOnFire()
@@ -74,7 +76,7 @@ public class DartGun : Gun
         if (!burntOut && burnt >= 1f)
         {
             _sprite.frame = 1;
-            Vec2 smokePos = Offset(new Vec2(10f, 0f));
+            Vector2 smokePos = Offset(new Vector2(10f, 0f));
             Level.Add(SmallSmoke.New(smokePos.X, smokePos.Y));
             _onFire = false;
             flammable = 0f;
@@ -83,7 +85,7 @@ public class DartGun : Gun
         base.Update();
     }
 
-    protected override bool OnBurn(Vec2 firePosition, Thing litBy)
+    protected override bool OnBurn(Vector2 firePosition, Thing litBy)
     {
         base.onFire = true;
         return true;
@@ -108,7 +110,7 @@ public class DartGun : Gun
             kick = 1f;
             if (!receivingPress && base.isServerForObject)
             {
-                Vec2 pos = Offset(base.barrelOffset + new Vec2(-8f, 0f));
+                Vector2 pos = Offset(base.barrelOffset + new Vector2(-8f, 0f));
                 float fireAngle = base.barrelAngle + Rando.Float(-0.05f, 0.05f);
                 Dart d = new Dart(pos.X, pos.Y, owner as Duck, 0f - fireAngle);
                 Fondle(d);
@@ -119,7 +121,7 @@ public class DartGun : Gun
                     d.onFire = true;
                 }
                 _barrelHeat += 0.015f;
-                Vec2 travelDir = Maths.AngleToVec(fireAngle);
+                Vector2 travelDir = Maths.AngleToVec(fireAngle);
                 d.hSpeed = travelDir.X * 10f;
                 d.vSpeed = travelDir.Y * 10f;
                 Level.Add(d);

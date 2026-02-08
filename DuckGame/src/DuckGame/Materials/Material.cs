@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -27,7 +28,7 @@ public class Material
         _effect.effect.Parameters[name]?.SetValue(value);
     }
 
-    public virtual void SetValue(string name, Vec2 value)
+    public virtual void SetValue(string name, Vector2 value)
     {
         _effect.effect.Parameters[name]?.SetValue(value);
     }

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class Nubber : MaterialThing, IPlatform, IDontMove
@@ -101,15 +103,15 @@ public class Nubber : MaterialThing, IPlatform, IDontMove
         tileset = tset;
         UpdateCustomTileset();
         graphic = _sprite;
-        collisionSize = new Vec2(8f, 5f);
+        collisionSize = new Vector2(8f, 5f);
         _sprite.frame = (left ? 62 : 63);
         if (left)
         {
-            collisionOffset = new Vec2(13f, 0f);
+            collisionOffset = new Vector2(13f, 0f);
         }
         else
         {
-            collisionOffset = new Vec2(-5f, 0f);
+            collisionOffset = new Vector2(-5f, 0f);
         }
         _editorCanModify = false;
         UpdateCustomTileset();

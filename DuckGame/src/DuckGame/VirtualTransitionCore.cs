@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -29,7 +30,7 @@ public class VirtualTransitionCore
     Color _backgroundColor;
     Rectangle _scissor;
     Color _curBackgroundColor;
-    Vec2 _position;
+    Vector2 _position;
 
     Sprite _scanner;
     BackgroundUpdater _realBackground;
@@ -307,15 +308,15 @@ public class VirtualTransitionCore
             _position = _parallax.Position;
             float scannerX = _stick * 300;
             float scannerFrontX = 360 - _stick * 400;
-            Vec2 scannerPos = new(_position.X + scannerX, _position.Y + 72);
+            Vector2 scannerPos = new(_position.X + scannerX, _position.Y + 72);
             Graphics.Draw(_scanner, scannerPos.X, scannerPos.Y);
             float scanMiddle = Math.Abs(_stick - .5f);
             float a = .5f - scanMiddle;
-            Graphics.DrawLine(scannerPos + new Vec2(18, 20), new Vec2(scannerFrontX, scannerPos.Y - 100 + scanMiddle * 250), Color.Red * a, 2, .9f);
-            Graphics.DrawLine(scannerPos + new Vec2(18, 34), new Vec2(scannerFrontX, scannerPos.Y - 10 + 80 * scanMiddle), Color.Red * a, 2, .9f);
-            Vec2 scannerPosBottom = scannerPos + new Vec2(0, _scanner.height);
-            Graphics.DrawLine(scannerPosBottom + new Vec2(18, -20), new Vec2(scannerFrontX, scannerPosBottom.Y + 100 - scanMiddle * 250), Color.Red * a, 2, .9f);
-            Graphics.DrawLine(scannerPosBottom + new Vec2(18, -34), new Vec2(scannerFrontX, scannerPosBottom.Y + 10 - 80 * scanMiddle), Color.Red * a, 2, .9f);
+            Graphics.DrawLine(scannerPos + new Vector2(18, 20), new Vector2(scannerFrontX, scannerPos.Y - 100 + scanMiddle * 250), Color.Red * a, 2, .9f);
+            Graphics.DrawLine(scannerPos + new Vector2(18, 34), new Vector2(scannerFrontX, scannerPos.Y - 10 + 80 * scanMiddle), Color.Red * a, 2, .9f);
+            Vector2 scannerPosBottom = scannerPos + new Vector2(0, _scanner.height);
+            Graphics.DrawLine(scannerPosBottom + new Vector2(18, -20), new Vector2(scannerFrontX, scannerPosBottom.Y + 100 - scanMiddle * 250), Color.Red * a, 2, .9f);
+            Graphics.DrawLine(scannerPosBottom + new Vector2(18, -34), new Vector2(scannerFrontX, scannerPosBottom.Y + 10 - 80 * scanMiddle), Color.Red * a, 2, .9f);
             _parallax.Update();
             _parallax.Draw();
             Graphics.PopMarker();

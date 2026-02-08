@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Guns|Rifles")]
@@ -24,15 +26,15 @@ public class Sniper : Gun
         _ammoType = new ATSniper();
         _type = "gun";
         graphic = new Sprite("sniper");
-        Center = new Vec2(16f, 4f);
-        collisionOffset = new Vec2(-8f, -4f);
-        collisionSize = new Vec2(16f, 8f);
-        _barrelOffsetTL = new Vec2(30f, 3f);
+        Center = new Vector2(16f, 4f);
+        collisionOffset = new Vector2(-8f, -4f);
+        collisionSize = new Vector2(16f, 8f);
+        _barrelOffsetTL = new Vector2(30f, 3f);
         _fireSound = "sniper";
         _kickForce = 2f;
         _fireRumble = RumbleIntensity.Light;
         laserSight = true;
-        _laserOffsetTL = new Vec2(32f, 3.5f);
+        _laserOffsetTL = new Vector2(32f, 3.5f);
         _manualLoad = true;
         editorTooltip = "Long range rifle - equipped with a laser sight so you look real cool.";
     }
@@ -50,7 +52,7 @@ public class Sniper : Gun
                 }
                 _loadState = -1;
                 _angleOffset = 0f;
-                handOffset = Vec2.Zero;
+                handOffset = Vector2.Zero;
             }
             if (_loadState == 0)
             {

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -25,13 +26,13 @@ public class HighlightLevel : Level
 
     private float _done = 1f;
 
-    private Vec2 _tl;
+    private Vector2 _tl;
 
-    private Vec2 _size;
+    private Vector2 _size;
 
     private float _waitZoom = 1f;
 
-    private Vec2 _imageDraw = Vec2.Zero;
+    private Vector2 _imageDraw = Vector2.Zero;
 
     private float _tvFade = 1f;
 
@@ -39,7 +40,7 @@ public class HighlightLevel : Level
 
     private TVState _desiredState;
 
-    private Vec2 _cameraOffset = new Vec2(0f, 0f);
+    private Vector2 _cameraOffset = new Vector2(0f, 0f);
 
     private Teleprompter _talker;
 
@@ -145,8 +146,8 @@ public class HighlightLevel : Level
         _blurLayer.effect = Content.Load<MTEffect>("Shaders/blur");
         _transition = new DuckChannelLogo();
         Level.Add(_transition);
-        _tl = new Vec2(30f, 32f);
-        _size = new Vec2(207f, 141f);
+        _tl = new Vector2(30f, 32f);
+        _size = new Vector2(207f, 141f);
         _rockImage2 = new Sprite(RockScoreboard.finalImage);
         _talker = new Teleprompter(0f, 0f, _duck);
         Teleprompter talker = _talker;
@@ -260,7 +261,7 @@ public class HighlightLevel : Level
                 try
                 {
                     _tie = new SpriteMap(ContentPack.LoadTexture2D("tieTest.png"), 64, 64);
-                    _tie.Center = new Vec2(26f, 27f);
+                    _tie.Center = new Vector2(26f, 27f);
                 }
                 catch (Exception)
                 {
@@ -357,7 +358,7 @@ public class HighlightLevel : Level
                     float sizeNeg = 0f;
                     float size = (Layer.HUD.camera.width - sizeNeg) / (float)_rockImage2.texture.width;
                     _rockImage2.color = new Color(_tvFade, _tvFade, _tvFade);
-                    _rockImage2.Scale = new Vec2(size, size);
+                    _rockImage2.Scale = new Vector2(size, size);
                     Graphics.Draw(_rockImage2, -10f + drawOffX, drawOffY, 0.8f);
                 }
             }
@@ -370,7 +371,7 @@ public class HighlightLevel : Level
                 Graphics.Draw(_background, 0f + _cameraOffset.X, 3f + _cameraOffset.Y, 0.5f);
                 Graphics.Draw(_newsTable, 0f + _cameraOffset.X, 116f + _cameraOffset.Y, 0.6f);
                 _duck.Depth = 0.8f;
-                Vec2 mallardPos = new Vec2(63f + _cameraOffset.X, 35f + _cameraOffset.Y);
+                Vector2 mallardPos = new Vector2(63f + _cameraOffset.X, 35f + _cameraOffset.Y);
                 Graphics.Draw(_duck, mallardPos.X, mallardPos.Y);
                 if (_duck.frame == 6)
                 {
@@ -421,7 +422,7 @@ public class HighlightLevel : Level
             }
             else if (_state == TVState.ShowInterview)
             {
-                _image.Scale = new Vec2(2f);
+                _image.Scale = new Vector2(2f);
                 Graphics.Draw(_image, 40f, 30f);
             }
             Graphics.Draw(_tv, 0f, -10f, 0.9f);

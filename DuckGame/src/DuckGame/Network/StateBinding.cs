@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -210,9 +211,9 @@ public class StateBinding
         {
             return Math.Abs((float)o1 - (float)o2) < 0.001f;
         }
-        if (o1 is Vec2)
+        if (o1 is Vector2)
         {
-            Vec2 v = (Vec2)o1 - (Vec2)o2;
+            Vector2 v = (Vector2)o1 - (Vector2)o2;
             if (Math.Abs(v.X) < 0.005f)
             {
                 return Math.Abs(v.Y) < 0.005f;

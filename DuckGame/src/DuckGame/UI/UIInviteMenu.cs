@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
@@ -201,54 +202,54 @@ public class UIInviteMenu : UIMenu
                 spr = _noAvatar;
             }
             spr.Depth = base.Depth + 4;
-            spr.Scale = new Vec2(0.25f);
+            spr.Scale = new Vector2(0.25f);
             spr.Alpha = ((_selection == i) ? 1f : 0.3f);
             Graphics.Draw(spr, xPos + 8f, yPos + 8f, new Rectangle(6f, 6f, 52f, 52f));
-            _littleFont.Draw(user.name, new Vec2(xPos + 15f, yPos), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
+            _littleFont.Draw(user.name, new Vector2(xPos + 15f, yPos), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             if (user.triedInvite)
             {
-                _littleFont.Draw("|LIME|@CHECK@INVITED", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
+                _littleFont.Draw("|LIME|@CHECK@INVITED", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.inGame)
             {
                 if (user.inDuckGame)
                 {
-                    _littleFont.Draw("@ITEMBOX@|DGBLUE|IN DUCK GAME!", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
+                    _littleFont.Draw("@ITEMBOX@|DGBLUE|IN DUCK GAME!", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
                 }
                 else
                 {
-                    _littleFont.Draw("@USERONLINE@|YELLOW|IN SOME GAME", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
+                    _littleFont.Draw("@USERONLINE@|YELLOW|IN SOME GAME", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
                 }
             }
             else if (user.state == SteamUserState.Online)
             {
-                _littleFont.Draw("@USERONLINE@|DGGREEN|ONLINE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
+                _littleFont.Draw("@USERONLINE@|DGGREEN|ONLINE", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.Away)
             {
-                _littleFont.Draw("@USERAWAY@|YELLOW|AWAY", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
+                _littleFont.Draw("@USERAWAY@|YELLOW|AWAY", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.Busy)
             {
-                _littleFont.Draw("@USERBUSY@|YELLOW|BUSY", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
+                _littleFont.Draw("@USERBUSY@|YELLOW|BUSY", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.Snooze)
             {
-                _littleFont.Draw("@USERBUSY@|YELLOW|SNOOZE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
+                _littleFont.Draw("@USERBUSY@|YELLOW|SNOOZE", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.Offline)
             {
-                _littleFont.Draw("@USEROFFLINE@|LIGHTGRAY|OFFLINE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
+                _littleFont.Draw("@USEROFFLINE@|LIGHTGRAY|OFFLINE", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.LookingToPlay)
             {
-                _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO PLAY", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
+                _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO PLAY", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
             else if (user.state == SteamUserState.LookingToTrade)
             {
-                _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO TRADE", new Vec2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
+                _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO TRADE", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             }
-            Graphics.DrawRect(new Vec2(xPos, yPos), new Vec2(xPos + 135f, yPos + 13f), (second ? Colors.BlueGray : (Colors.BlueGray * 0.6f)) * ((_selection == i) ? 1f : 0.3f), base.Depth + 2);
+            Graphics.DrawRect(new Vector2(xPos, yPos), new Vector2(xPos + 135f, yPos + 13f), (second ? Colors.BlueGray : (Colors.BlueGray * 0.6f)) * ((_selection == i) ? 1f : 0.3f), base.Depth + 2);
             yOff += 14f;
             second = !second;
         }

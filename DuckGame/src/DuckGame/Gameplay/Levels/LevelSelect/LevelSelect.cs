@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -590,7 +591,7 @@ public class LevelSelect : Level
     {
         if (drawBack)
         {
-            Graphics.DrawRect(new Vec2(0f, 0f), new Vec2(Layer.HUD.camera.width, Layer.HUD.camera.height), Color.Black, -0.8f);
+            Graphics.DrawRect(new Vector2(0f, 0f), new Vector2(Layer.HUD.camera.width, Layer.HUD.camera.height), Color.Black, -0.8f);
         }
         foreach (LSItem item in _items)
         {
@@ -602,14 +603,14 @@ public class LevelSelect : Level
         Depth deep = _font.Depth;
         if (_previewSprite != null)
         {
-            _previewSprite.Scale = new Vec2(0.5f, 0.5f);
+            _previewSprite.Scale = new Vector2(0.5f, 0.5f);
             _previewSprite.Depth = 0.9f;
             Graphics.Draw(_previewSprite, 150f, 45f);
         }
         else if (_selectedLevel.mapPack != null && _selectedLevel.mapPack.preview != null)
         {
             Tex2D tex = _selectedLevel.mapPack.preview;
-            Vec2 scale = new Vec2(320f / (float)tex.width, 180f / (float)tex.height) * 0.5f;
+            Vector2 scale = new Vector2(320f / (float)tex.width, 180f / (float)tex.height) * 0.5f;
             Graphics.Draw(tex, 150f, 45f, scale.X, scale.Y);
         }
         _font.Depth = deep;

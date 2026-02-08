@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -91,7 +92,7 @@ public class SwitchProController : JoyConBase
         get;
     }
 
-    public override Vec2 rightStick => ReadRightStick();
+    public override Vector2 rightStick => ReadRightStick();
 
     public SwitchProController(int idx)
         : base(idx, "Pro Controller", "Pro Controller", _proControllerImages)

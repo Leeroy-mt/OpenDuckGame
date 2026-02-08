@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 [EditorGroup("Background|Parallax")]
@@ -11,9 +13,9 @@ public class SnowBackground : BackgroundUpdater
         {
             frame = 7
         };
-        Center = new Vec2(8f, 8f);
-        _collisionSize = new Vec2(16f, 16f);
-        _collisionOffset = new Vec2(-8f, -8f);
+        Center = new Vector2(8f, 8f);
+        _collisionSize = new Vector2(16f, 16f);
+        _collisionOffset = new Vector2(-8f, -8f);
         base.Depth = 0.9f;
         base.layer = Layer.Foreground;
         _visibleInGame = false;
@@ -45,48 +47,48 @@ public class SnowBackground : BackgroundUpdater
             _parallax.AddZone(14, 0.4f, speed);
             _parallax.AddZone(15, 0.3f, speed);
             Sprite s = null;
-            Vec2 offzet = new Vec2(0f, -12f);
+            Vector2 offzet = new Vector2(0f, -12f);
             s = new Sprite("background/bigBerg1_reflection");
             s.Depth = -0.9f;
-            s.Position = new Vec2(-30f, 113f) + offzet;
+            s.Position = new Vector2(-30f, 113f) + offzet;
             _parallax.AddZoneSprite(s, 12, 0f, 0f, moving: true);
             s = new Sprite("background/bigBerg1");
             s.Depth = -0.8f;
-            s.Position = new Vec2(-31f, 50f) + offzet;
+            s.Position = new Vector2(-31f, 50f) + offzet;
             _parallax.AddZoneSprite(s, 12, 0f, 0f, moving: true);
             s = new Sprite("background/bigBerg2_reflection");
             s.Depth = -0.9f;
-            s.Position = new Vec2(210f, 108f) + offzet;
+            s.Position = new Vector2(210f, 108f) + offzet;
             _parallax.AddZoneSprite(s, 12, 0f, 0f, moving: true);
             s = new Sprite("background/bigBerg2");
             s.Depth = -0.8f;
-            s.Position = new Vec2(211f, 52f) + offzet;
+            s.Position = new Vector2(211f, 52f) + offzet;
             _parallax.AddZoneSprite(s, 12, 0f, 0f, moving: true);
             s = new Sprite("background/berg1_reflection");
             s.Depth = -0.9f;
-            s.Position = new Vec2(119f, 131f) + offzet;
+            s.Position = new Vector2(119f, 131f) + offzet;
             _parallax.AddZoneSprite(s, 13, 0f, 0f, moving: true);
             s = new Sprite("background/berg1");
             s.Depth = -0.8f;
-            s.Position = new Vec2(121f, 114f) + offzet;
+            s.Position = new Vector2(121f, 114f) + offzet;
             _parallax.AddZoneSprite(s, 13, 0f, 0f, moving: true);
-            offzet = new Vec2(-30f, -20f);
+            offzet = new Vector2(-30f, -20f);
             s = new Sprite("background/berg2_reflection");
             s.Depth = -0.9f;
-            s.Position = new Vec2(69f, 153f) + offzet;
+            s.Position = new Vector2(69f, 153f) + offzet;
             _parallax.AddZoneSprite(s, 14, 0f, 0f, moving: true);
             s = new Sprite("background/berg2");
             s.Depth = -0.8f;
-            s.Position = new Vec2(71f, 154f) + offzet;
+            s.Position = new Vector2(71f, 154f) + offzet;
             _parallax.AddZoneSprite(s, 14, 0f, 0f, moving: true);
-            offzet = new Vec2(200f, 2f);
+            offzet = new Vector2(200f, 2f);
             s = new Sprite("background/berg3_reflection");
             s.Depth = -0.9f;
-            s.Position = new Vec2(70f, 153f) + offzet;
+            s.Position = new Vector2(70f, 153f) + offzet;
             _parallax.AddZoneSprite(s, 15, 0f, 0f, moving: true);
             s = new Sprite("background/berg3");
             s.Depth = -0.8f;
-            s.Position = new Vec2(71f, 154f) + offzet;
+            s.Position = new Vector2(71f, 154f) + offzet;
             _parallax.AddZoneSprite(s, 15, 0f, 0f, moving: true);
             Level.Add(_parallax);
             if (base.level != null)

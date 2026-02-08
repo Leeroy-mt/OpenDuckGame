@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -918,7 +919,7 @@ public class ArcadeLevel : XMLLevel
                     List<ChallengeData> c = Challenges.GetEligibleIncompleteChancyChallenges(Profiles.active[0]);
                     if (c.Count > 0)
                     {
-                        Vec2 pos = _duck.Position;
+                        Vector2 pos = _duck.Position;
                         ArcadeMachine near = Level.Nearest<ArcadeMachine>(_duck.X, _duck.Y);
                         if (near != null)
                         {

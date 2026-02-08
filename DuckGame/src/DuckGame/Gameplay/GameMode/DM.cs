@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -129,7 +130,7 @@ public class DM : GameMode
                         {
                             PlusOne plusOne = new PlusOne(0f, 0f, apply, temp: false, _editorTestMode);
                             plusOne.anchor = p2.duck;
-                            plusOne.anchor.offset = new Vec2(0f, -16f);
+                            plusOne.anchor.offset = new Vector2(0f, -16f);
                             Level.Add(plusOne);
                         }
                     }

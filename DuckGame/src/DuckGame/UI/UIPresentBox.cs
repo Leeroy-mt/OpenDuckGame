@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class UIPresentBox : UIMenu
@@ -135,19 +137,19 @@ public class UIPresentBox : UIMenu
             string text = "@LWING@MEMENTO@RWING@";
             if (_furni.name == "VOODOO VINCENT")
                 text = "@LWING@XP SKIP@RWING@";
-            Vec2 fontPos = new(-_font.GetWidth(text) / 2, -42);
+            Vector2 fontPos = new(-_font.GetWidth(text) / 2, -42);
             _font.DrawOutline(text, Position + fontPos, Color.White, Color.Black, Depth + 2);
             string unlockText = $"}} {_furni.name} }}";
             if (_furni.name.Length >= 15)
                 unlockText = _furni.name;
-            _fancyFont.Scale = Vec2.One;
-            Vec2 unlockFontPos = new(-_fancyFont.GetWidth(unlockText) / 2, -25);
+            _fancyFont.Scale = Vector2.One;
+            Vector2 unlockFontPos = new(-_fancyFont.GetWidth(unlockText) / 2, -25);
             _fancyFont.DrawOutline(unlockText, Position + unlockFontPos, Colors.DGYellow, Color.Black, Depth + 2);
-            _fancyFont.Scale = new Vec2(0.5f);
+            _fancyFont.Scale = new Vector2(0.5f);
             string descriptionText = _furni.description;
-            Vec2 descFontPos = new(-_fancyFont.GetWidth(descriptionText) / 2, 38);
+            Vector2 descFontPos = new(-_fancyFont.GetWidth(descriptionText) / 2, 38);
             _fancyFont.DrawOutline(descriptionText, Position + descFontPos, Colors.DGGreen, Color.Black, Depth + 2, 0.5f);
-            _furni.Draw(Position + new Vec2(0, 10), Depth + 4, _furni.name == "PHOTO" ? 1 : (_furni.name == "EASEL" ? 6 : 0));
+            _furni.Draw(Position + new Vector2(0, 10), Depth + 4, _furni.name == "PHOTO" ? 1 : (_furni.name == "EASEL" ? 6 : 0));
         }
         Y -= yOffset;
     }

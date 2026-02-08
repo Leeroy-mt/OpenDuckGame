@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 /// <summary>
@@ -19,7 +21,7 @@ public class RumbleEvent
 
     public RumbleType type;
 
-    public Vec2? position;
+    public Vector2? position;
 
     public Profile profile;
 

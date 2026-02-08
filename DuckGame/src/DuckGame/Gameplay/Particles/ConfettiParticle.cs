@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
@@ -26,7 +27,7 @@ public class ConfettiParticle : PhysicsParticle
 
     private float sinMult;
 
-    public static ConfettiParticle New(float xpos, float ypos, Vec2 hitAngle, float killSpeed = 0.02f, bool lineType = false)
+    public static ConfettiParticle New(float xpos, float ypos, Vector2 hitAngle, float killSpeed = 0.02f, bool lineType = false)
     {
         ConfettiParticle spark = null;
         if (_sparks[_lastActiveSpark] == null)
@@ -51,7 +52,7 @@ public class ConfettiParticle : PhysicsParticle
     {
     }
 
-    public void Init(float xpos, float ypos, Vec2 hitAngle, float killSpeed = 0.02f)
+    public void Init(float xpos, float ypos, Vector2 hitAngle, float killSpeed = 0.02f)
     {
         X = xpos;
         Y = ypos;
@@ -97,16 +98,16 @@ public class ConfettiParticle : PhysicsParticle
     {
         if (_stringConfetti)
         {
-            Vec2 dir = base.velocity.Normalized;
+            Vector2 dir = Vector2.Normalize(velocity);
             float speed = base.velocity.Length() * (3f + sinMult * 3f);
-            Vec2 end = Position + dir * speed;
-            Vec2 intersect;
+            Vector2 end = Position + dir * speed;
+            Vector2 intersect;
             Block touch = Level.CheckLine<Block>(Position, end, out intersect);
             Graphics.DrawLine(Position, (touch != null) ? intersect : end, _color * base.Alpha, _width, base.Depth);
         }
         else
         {
-            Graphics.DrawRect(Position + new Vec2(-1f, -1f), Position + new Vec2(1f, 1f), _color * base.Alpha, base.Depth);
+            Graphics.DrawRect(Position + new Vector2(-1f, -1f), Position + new Vector2(1f, 1f), _color * base.Alpha, base.Depth);
         }
     }
 }

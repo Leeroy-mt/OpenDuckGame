@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class UIWillBox : UIMenu
@@ -142,17 +144,17 @@ public class UIWillBox : UIMenu
             _frame.Depth = Depth;
             Graphics.Draw(_frame, X, Y);
             string text = "LAST WISH";
-            Vec2 fontPos = new(0 - _font.GetWidth(text) / 2, -42);
+            Vector2 fontPos = new(0 - _font.GetWidth(text) / 2, -42);
             _font.DrawOutline(text, Position + fontPos, Color.White, Color.Black, Depth + 2);
             string unlockText = $"}} {_furni.name} }}";
-            _fancyFont.Scale = Vec2.One;
-            Vec2 unlockFontPos = new(0 - _fancyFont.GetWidth(unlockText) / 2, -25);
+            _fancyFont.Scale = Vector2.One;
+            Vector2 unlockFontPos = new(0 - _fancyFont.GetWidth(unlockText) / 2, -25);
             _fancyFont.DrawOutline(unlockText, Position + unlockFontPos, Colors.DGYellow, Color.Black, Depth + 2);
-            _fancyFont.Scale = new Vec2(0.5f);
+            _fancyFont.Scale = new Vector2(0.5f);
             string descriptionText = "Your little man wanted you to have this.";
-            Vec2 descFontPos = new(0 - _fancyFont.GetWidth(descriptionText) / 2, 38);
+            Vector2 descFontPos = new(0 - _fancyFont.GetWidth(descriptionText) / 2, 38);
             _fancyFont.DrawOutline(descriptionText, Position + descFontPos, Colors.DGGreen, Color.Black, Depth + 2, 0.5f);
-            _furni.Draw(Position + new Vec2(0, 10), Depth + 4, (_furni.name == "PHOTO") ? 1 : ((_furni.name == "EASEL") ? 6 : 0));
+            _furni.Draw(Position + new Vector2(0, 10), Depth + 4, (_furni.name == "PHOTO") ? 1 : ((_furni.name == "EASEL") ? 6 : 0));
         }
         Y -= yOffset;
     }

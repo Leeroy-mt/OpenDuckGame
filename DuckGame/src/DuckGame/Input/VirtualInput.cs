@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace DuckGame;
@@ -24,9 +25,9 @@ public class VirtualInput : InputDevice
 
     private List<string> _availableTriggers = new List<string>();
 
-    public Vec2 leftStick;
+    public Vector2 leftStick;
 
-    public Vec2 rightStick;
+    public Vector2 rightStick;
 
     public float leftTrigger;
 
@@ -93,8 +94,8 @@ public class VirtualInput : InputDevice
         }
         _state = val;
         setThisFrame = true;
-        leftStick = Vec2.Zero;
-        rightStick = Vec2.Zero;
+        leftStick = Vector2.Zero;
+        rightStick = Vector2.Zero;
     }
 
     public override bool MapPressed(int mapping, bool any = false)

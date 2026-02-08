@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -202,7 +203,7 @@ public class DoorRoom : Level
     {
         if (layer == Layer.Background)
         {
-            Vec2 pos = new Vec2(0f, 0f);
+            Vector2 pos = new Vector2(0f, 0f);
             float xOff = -260f;
             float itemWidth = 140f;
             for (int i = 0; i < 7; i++)
@@ -233,22 +234,22 @@ public class DoorRoom : Level
                 float mul = (colorMult + 1f) * 0.5f;
                 float vOffset = 0f;
                 float hOffset = 0f;
-                Vec2 fontscale = new Vec2(1f, 1f);
+                Vector2 fontscale = new Vector2(1f, 1f);
                 if (text.Length > 9)
                 {
-                    fontscale = new Vec2(0.75f, 0.75f);
+                    fontscale = new Vector2(0.75f, 0.75f);
                     vOffset = 1f;
                     hOffset = 1f;
                 }
                 if (text.Length > 12)
                 {
-                    fontscale = new Vec2(0.5f, 0.5f);
+                    fontscale = new Vector2(0.5f, 0.5f);
                     vOffset = 2f;
                     hOffset = 1f;
                 }
-                Graphics.DrawString(text, new Vec2(xpos - Graphics.GetStringWidth(text, thinButtons: false, fontscale.X) / 2f + hOffset, 35f + vOffset), new Color((byte)Math.Round(165f * mul), (byte)Math.Round(100f * mul), (byte)Math.Round(34f * mul)) * _fade, 0.9f, null, fontscale.X);
+                Graphics.DrawString(text, new Vector2(xpos - Graphics.GetStringWidth(text, thinButtons: false, fontscale.X) / 2f + hOffset, 35f + vOffset), new Color((byte)Math.Round(165f * mul), (byte)Math.Round(100f * mul), (byte)Math.Round(34f * mul)) * _fade, 0.9f, null, fontscale.X);
             }
-            _door.Scale = new Vec2(1f, 1f);
+            _door.Scale = new Vector2(1f, 1f);
             _door.Depth = 0.4f;
         }
         base.PostDrawLayer(layer);

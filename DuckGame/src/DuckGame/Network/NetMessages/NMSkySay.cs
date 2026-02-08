@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System.Linq;
 
 namespace DuckGame;
@@ -6,11 +7,11 @@ public class NMSkySay : NMEvent
 {
     public string _text;
 
-    public Vec2 _spawn;
+    public Vector2 _spawn;
 
     public bool _flyLeft;
 
-    public NMSkySay(string pText, Vec2 pSpawn, bool pFlyLeft)
+    public NMSkySay(string pText, Vector2 pSpawn, bool pFlyLeft)
     {
         _text = pText;
         _spawn = pSpawn;

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class FeatherVolume : MaterialThing
@@ -16,7 +18,7 @@ public class FeatherVolume : MaterialThing
         visible = false;
     }
 
-    public override bool Hit(Bullet bullet, Vec2 hitPos)
+    public override bool Hit(Bullet bullet, Vector2 hitPos)
     {
         Gun gunOwner = bullet.owner as Gun;
         if (bullet.owner != null && (bullet.owner == _duckOwner || (gunOwner != null && gunOwner.owner == _duckOwner)))
@@ -28,7 +30,7 @@ public class FeatherVolume : MaterialThing
         feather.vSpeed = 0f - Rando.Float(2f);
         feather.Position = hitPos;
         Level.Add(feather);
-        Vec2 move = hitPos + bullet.travelDirNormalized * 3f;
+        Vector2 move = hitPos + bullet.travelDirNormalized * 3f;
         if (bullet.isLocal && _duckOwner.sliding && _duckOwner.ragdoll == null && move.X > base.left + 2f && move.X < base.right - 2f && move.Y > base.top + 2f && move.Y < base.bottom - 2f)
         {
             foreach (Equipment q in Level.CheckPointAll<Equipment>(move))
@@ -43,7 +45,7 @@ public class FeatherVolume : MaterialThing
         return false;
     }
 
-    public override void ExitHit(Bullet bullet, Vec2 exitPos)
+    public override void ExitHit(Bullet bullet, Vector2 exitPos)
     {
         Gun gunOwner = bullet.owner as Gun;
         if (bullet.owner == null || (bullet.owner != _duckOwner && (gunOwner == null || gunOwner.owner != _duckOwner)))

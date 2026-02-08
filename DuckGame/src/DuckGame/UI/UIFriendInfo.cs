@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
@@ -46,7 +47,7 @@ public class UIFriendInfo : UIMenuItem
         if (_avatar != null)
         {
             _avatar.Depth = Depth + 2;
-            _avatar.Scale = new Vec2(0.25f);
+            _avatar.Scale = new Vector2(0.25f);
             Graphics.Draw(_avatar, leftSection.left + _avatar.width * _avatar.Scale.X / 2f + 6f, Y + 3f);
         }
         base.Draw();
