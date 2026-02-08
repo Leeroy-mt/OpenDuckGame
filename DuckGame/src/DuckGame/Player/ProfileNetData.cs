@@ -1,3 +1,4 @@
+using DuckGame.Compatibility;
 using System;
 using System.Collections.Generic;
 
@@ -130,7 +131,7 @@ public class ProfileNetData
     /// <returns></returns>
     public T Get<T>(string pKey, T pDefault)
     {
-        int hash = pKey.GetHashCode();
+        int hash = NetFramework.GetHashCode(pKey);
         NetDataPair o = null;
         if (_elements.TryGetValue(hash, out o) && o.data is T)
         {
@@ -148,7 +149,7 @@ public class ProfileNetData
     /// <param name="pValue">The value!</param>
     public void Set<T>(string pKey, T pValue)
     {
-        int hash = pKey.GetHashCode();
+        int hash = NetFramework.GetHashCode(pKey);
         NetDataPair o = null;
         if (!_elements.TryGetValue(hash, out o))
         {
@@ -243,7 +244,7 @@ public class ProfileNetData
         NetIndex16 syncIndex = pBuffer.ReadNetIndex16();
         while (pBuffer.positionInBits != pBuffer.lengthInBits)
         {
-            int hash = pBuffer.ReadInt();
+            int hash = pBuffer.ReadInt();  
             Type dataType = null;
             object data = pBuffer.ReadObject(out dataType);
             if (!pMakingDirty)

@@ -1,3 +1,4 @@
+using DuckGame.Compatibility;
 using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
@@ -127,7 +128,7 @@ public static class SFX
 
     public static int RegisterSound(string pSound, SoundEffect pEffect)
     {
-        int hash = pSound.GetHashCode();
+        int hash = NetFramework.GetHashCode(pSound);
         lock (_sounds)
         {
             _soundHashmap[pSound] = hash;
