@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
@@ -403,9 +402,9 @@ public class MonoFileDialog : ContextMenu
     {
         if (pOriginalTex.width != 48 || pOriginalTex.height != 48)
         {
-            Image image = Image.FromFile(_currentDirectory + "/" + Path.GetFileName(pTex));
+            var image = System.Drawing.Image.FromFile(_currentDirectory + "/" + Path.GetFileName(pTex));
             System.Drawing.Rectangle destRect = new System.Drawing.Rectangle(0, 0, 48, 48);
-            Bitmap destImage = new Bitmap(48, 48);
+            var destImage = new System.Drawing.Bitmap(48, 48);
             destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
             using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(destImage))
             {
@@ -416,7 +415,7 @@ public class MonoFileDialog : ContextMenu
                 graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 using ImageAttributes wrapMode = new ImageAttributes();
                 wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, System.Drawing.GraphicsUnit.Pixel, wrapMode);
             }
             MemoryStream stream = new MemoryStream();
             destImage.Save(stream, ImageFormat.Png);

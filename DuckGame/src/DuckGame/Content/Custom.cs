@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -255,7 +256,7 @@ public class Custom
                             int pix = 0;
                             pix = ((i != 1) ? (startX + xpixel + (startY + ypixel) * tex.Width) : (startY + ypixel + (startX + xpixel) * tex.Width));
                             bool check = false;
-                            if ((i != 3 && i != 4) ? (data[pix].r == 0 && data[pix].g == byte.MaxValue && data[pix].b == 0 && data[pix].a == byte.MaxValue) : (data[pix].a != 0))
+                            if ((i != 3 && i != 4) ? (data[pix].R == 0 && data[pix].G == byte.MaxValue && data[pix].B == 0 && data[pix].A == byte.MaxValue) : (data[pix].A != 0))
                             {
                                 if (leftPos == -1)
                                 {

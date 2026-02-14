@@ -589,10 +589,10 @@ public class BitBuffer
     {
         return new Color
         {
-            r = ReadByte(),
-            g = ReadByte(),
-            b = ReadByte(),
-            a = ReadByte()
+            R = ReadByte(),
+            G = ReadByte(),
+            B = ReadByte(),
+            A = ReadByte()
         };
     }
 
@@ -600,10 +600,10 @@ public class BitBuffer
     {
         return new Color
         {
-            r = ReadByte(),
-            g = ReadByte(),
-            b = ReadByte(),
-            a = byte.MaxValue
+            R = ReadByte(),
+            G = ReadByte(),
+            B = ReadByte(),
+            A = byte.MaxValue
         };
     }
 
@@ -1155,17 +1155,17 @@ public class BitBuffer
 
     public void Write(Color val)
     {
-        Write(val.r);
-        Write(val.g);
-        Write(val.b);
-        Write(val.a);
+        Write(val.R);
+        Write(val.G);
+        Write(val.B);
+        Write(val.A);
     }
 
     public void WriteRGBColor(Color val)
     {
-        Write(val.r);
-        Write(val.g);
-        Write(val.b);
+        Write(val.R);
+        Write(val.G);
+        Write(val.B);
     }
 
     public void Write(double val)

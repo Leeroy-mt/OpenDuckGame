@@ -1004,14 +1004,14 @@ public class Level
             item.OnDrawLayer(Layer.PreDrawLayer);
         }
         Layer.DrawTargetLayers();
-        Vec3 col = backgroundColor.ToVector3();
+        Vector3 col = backgroundColor.ToVector3();
         col *= Graphics.fade;
-        col.x += Graphics.flashAddRenderValue;
-        col.y += Graphics.flashAddRenderValue;
-        col.z += Graphics.flashAddRenderValue;
-        col = new Vec3(col.x + Graphics.fadeAddRenderValue, col.y + Graphics.fadeAddRenderValue, col.z + Graphics.fadeAddRenderValue);
+        col.X += Graphics.flashAddRenderValue;
+        col.Y += Graphics.flashAddRenderValue;
+        col.Z += Graphics.flashAddRenderValue;
+        col = new Vector3(col.X + Graphics.fadeAddRenderValue, col.Y + Graphics.fadeAddRenderValue, col.Z + Graphics.fadeAddRenderValue);
         Color c = new Color(col);
-        c.a = backgroundColor.a;
+        c.A = backgroundColor.A;
         if (clearScreen)
         {
             if (!Options.Data.fillBackground)

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,35 +9,35 @@ public static class Persona
 {
     private static List<DuckPersona> _personasOriginalOrder = new List<DuckPersona>
     {
-        new DuckPersona(new Vec3(255f, 255f, 255f))
+        new DuckPersona(new Vector3(255f, 255f, 255f))
         {
             index = 0
         },
-        new DuckPersona(new Vec3(125f, 125f, 125f))
+        new DuckPersona(new Vector3(125f, 125f, 125f))
         {
             index = 1
         },
-        new DuckPersona(new Vec3(247f, 224f, 90f))
+        new DuckPersona(new Vector3(247f, 224f, 90f))
         {
             index = 2
         },
-        new DuckPersona(new Vec3(205f, 107f, 29f))
+        new DuckPersona(new Vector3(205f, 107f, 29f))
         {
             index = 3
         },
-        new DuckPersona(new Vec3(0f, 133f, 74f), new Vec3(0f, 102f, 57f), new Vec3(0f, 173f, 97f))
+        new DuckPersona(new Vector3(0f, 133f, 74f), new Vector3(0f, 102f, 57f), new Vector3(0f, 173f, 97f))
         {
             index = 4
         },
-        new DuckPersona(new Vec3(255f, 105f, 117f), new Vec3(207f, 84f, 94f), new Vec3(255f, 158f, 166f))
+        new DuckPersona(new Vector3(255f, 105f, 117f), new Vector3(207f, 84f, 94f), new Vector3(255f, 158f, 166f))
         {
             index = 5
         },
-        new DuckPersona(new Vec3(49f, 162f, 242f), new Vec3(13f, 123f, 181f), new Vec3(148f, 207f, 245f))
+        new DuckPersona(new Vector3(49f, 162f, 242f), new Vector3(13f, 123f, 181f), new Vector3(148f, 207f, 245f))
         {
             index = 6
         },
-        new DuckPersona(new Vec3(175f, 85f, 221f), new Vec3(141f, 36f, 194f), new Vec3(213f, 165f, 238f))
+        new DuckPersona(new Vector3(175f, 85f, 221f), new Vector3(141f, 36f, 194f), new Vector3(213f, 165f, 238f))
         {
             index = 7
         }

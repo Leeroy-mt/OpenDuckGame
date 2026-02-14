@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -66,7 +67,7 @@ public class WallLayer : Layer
         : base(nameval, depthval)
     {
         _fx = Content.Load<MTEffect>("Shaders/fieldFadeAdd");
-        _view = Matrix.CreateLookAt(new Vec3(0f, 0f, -5f), new Vec3(0f, 0f, 0f), Vec3.Up);
+        _view = Matrix.CreateLookAt(new Vector3(0f, 0f, -5f), new Vector3(0f, 0f, 0f), Vector3.Up);
         _proj = Matrix.CreatePerspectiveFieldOfView((float)Math.PI / 4f, 1.7777778f, 0.01f, 100000f);
     }
 
@@ -75,14 +76,14 @@ public class WallLayer : Layer
         float elevate = 53f + fieldHeight + rise;
         float pitch = -0.1f;
         float xpos = scroll;
-        _view = Matrix.CreateLookAt(new Vec3(xpos, 300f, 0f - elevate + pitch), new Vec3(xpos, 100f, 0f - elevate), Vec3.Down);
+        _view = Matrix.CreateLookAt(new Vector3(xpos, 300f, 0f - elevate + pitch), new Vector3(xpos, 100f, 0f - elevate), Vector3.Down);
     }
 
     public override void Begin(bool transparent, bool isTargetDraw = false)
     {
-        Vec3 fade = new Vec3(Graphics.fade * _fade * (1f - _darken)) * base.colorMul;
-        Vec3 fadeAdd = _colorAdd + new Vec3(_fadeAdd) + new Vec3(Graphics.flashAddRenderValue) + new Vec3(Graphics.fadeAddRenderValue) - new Vec3(base.darken);
-        fadeAdd = new Vec3(Maths.Clamp(fadeAdd.x, -1f, 1f), Maths.Clamp(fadeAdd.y, -1f, 1f), Maths.Clamp(fadeAdd.z, -1f, 1f));
+        Vector3 fade = new Vector3(Graphics.fade * _fade * (1f - _darken)) * base.colorMul;
+        Vector3 fadeAdd = _colorAdd + new Vector3(_fadeAdd) + new Vector3(Graphics.flashAddRenderValue) + new Vector3(Graphics.fadeAddRenderValue) - new Vector3(base.darken);
+        fadeAdd = new Vector3(Maths.Clamp(fadeAdd.X, -1f, 1f), Maths.Clamp(fadeAdd.Y, -1f, 1f), Maths.Clamp(fadeAdd.Z, -1f, 1f));
         if (_darken > 0f)
         {
             _darken -= 0.15f;
@@ -107,7 +108,7 @@ public class WallLayer : Layer
     public override void Draw(bool transparent, bool isTargetDraw = false)
     {
         Graphics.currentLayer = this;
-        _fx.Parameters["WVP"].SetValue(Matrix.CreateRotationY(-(float)Math.PI / 2f) * Matrix.CreateTranslation(new Vec3(625f, 20f, 0.1f)) * _view * _proj);
+        _fx.Parameters["WVP"].SetValue(Matrix.CreateRotationY(-(float)Math.PI / 2f) * Matrix.CreateTranslation(new Vector3(625f, 20f, 0.1f)) * _view * _proj);
         Begin(transparent);
         foreach (Sprite s in _wallSprites)
         {
@@ -116,7 +117,7 @@ public class WallLayer : Layer
             s.X = xpos;
         }
         _batch.End();
-        _fx.Parameters["WVP"].SetValue(Matrix.CreateRotationY(-(float)Math.PI / 2f) * Matrix.CreateRotationZ(-(float)Math.PI / 2f) * Matrix.CreateTranslation(new Vec3(625.5f, 160f, 0.1f)) * _view * _proj);
+        _fx.Parameters["WVP"].SetValue(Matrix.CreateRotationY(-(float)Math.PI / 2f) * Matrix.CreateRotationZ(-(float)Math.PI / 2f) * Matrix.CreateTranslation(new Vector3(625.5f, 160f, 0.1f)) * _view * _proj);
         Begin(transparent);
         foreach (Sprite s2 in _wallSprites)
         {

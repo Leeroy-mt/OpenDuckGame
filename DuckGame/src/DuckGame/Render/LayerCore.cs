@@ -322,8 +322,8 @@ public class LayerCore
             l.camera = null;
             l.perspective = false;
             l.fadeAdd = 0f;
-            l.colorAdd = Vec3.Zero;
-            l.colorMul = Vec3.One;
+            l.colorAdd = Vector3.Zero;
+            l.colorMul = Vector3.One;
             if (l != _glow && l != _lighting)
             {
                 l.blend = BlendState.AlphaBlend;

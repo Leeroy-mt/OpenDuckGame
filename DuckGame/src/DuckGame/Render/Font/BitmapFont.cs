@@ -174,7 +174,7 @@ public class BitmapFont : Transform
         }
         if (read == "PREV")
         {
-            return new Color(_previousColor.r, _previousColor.g, _previousColor.b);
+            return new Color(_previousColor.R, _previousColor.G, _previousColor.B);
         }
         return Colors.ParseColor(read);
     }
@@ -315,7 +315,7 @@ public class BitmapFont : Transform
                     if (spr.texture != null)
                     {
                         float al = spr.Alpha;
-                        spr.Alpha = base.Alpha * c.ToVector4().w;
+                        spr.Alpha = base.Alpha * c.ToVector4().W;
                         if (spr != null)
                         {
                             Vector2 sc = spr.Scale;
@@ -363,7 +363,7 @@ public class BitmapFont : Transform
                 if (col != Colors.Transparent)
                 {
                     _previousColor = c;
-                    float al2 = c.ToVector4().w;
+                    float al2 = c.ToVector4().W;
                     c = col;
                     c *= al2;
                     processedSpecialCharacter = true;

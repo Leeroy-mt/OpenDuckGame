@@ -33,7 +33,7 @@ public class Material
         _effect.effect.Parameters[name]?.SetValue(value);
     }
 
-    public virtual void SetValue(string name, Vec3 value)
+    public virtual void SetValue(string name, Vector3 value)
     {
         _effect.effect.Parameters[name]?.SetValue(value);
     }

@@ -1878,64 +1878,64 @@ public class Profile
                 {
                     extraMul = 0.9f;
                 }
-                if (c2.r == 0)
+                if (c2.R == 0)
                 {
                     cols[xVal + yVal * targ.width] = new Color(0, 0, 0, 0);
                 }
-                else if (c2.r < 110)
+                else if (c2.R < 110)
                 {
                     if (dontSymbolMesh)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)symbolColor.r * 0.6f), (byte)((float)(int)symbolColor.g * 0.6f), (byte)((float)(int)symbolColor.b * 0.6f));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)symbolColor.R * 0.6f), (byte)((float)(int)symbolColor.G * 0.6f), (byte)((float)(int)symbolColor.B * 0.6f));
                         continue;
                     }
                     float rlExtra = extraMul;
                     rlExtra = ((rlExtra != 1f) ? 1f : 0.9f);
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.r * 0.6f * rlExtra), (byte)((float)(int)eggColor.g * 0.6f * rlExtra), (byte)((float)(int)eggColor.b * 0.6f * rlExtra));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * 0.6f * rlExtra), (byte)((float)(int)eggColor.G * 0.6f * rlExtra), (byte)((float)(int)eggColor.B * 0.6f * rlExtra));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.r * 0.6f * rlExtra), (byte)((float)(int)blobColor.g * 0.6f * rlExtra), (byte)((float)(int)blobColor.b * 0.6f * rlExtra));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * 0.6f * rlExtra), (byte)((float)(int)blobColor.G * 0.6f * rlExtra), (byte)((float)(int)blobColor.B * 0.6f * rlExtra));
                     }
                 }
-                else if (c2.r < 120)
+                else if (c2.R < 120)
                 {
                     if (dontSymbolMesh)
                     {
-                        cols[xVal + yVal * targ.width] = new Color(symbolColor.r, symbolColor.g, symbolColor.b);
+                        cols[xVal + yVal * targ.width] = new Color(symbolColor.R, symbolColor.G, symbolColor.B);
                         continue;
                     }
                     float rlExtra2 = extraMul;
                     rlExtra2 = ((rlExtra2 != 1f) ? 1f : 0.9f);
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.r * rlExtra2), (byte)((float)(int)eggColor.g * rlExtra2), (byte)((float)(int)eggColor.b * rlExtra2));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * rlExtra2), (byte)((float)(int)eggColor.G * rlExtra2), (byte)((float)(int)eggColor.B * rlExtra2));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.r * rlExtra2), (byte)((float)(int)blobColor.g * rlExtra2), (byte)((float)(int)blobColor.b * rlExtra2));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * rlExtra2), (byte)((float)(int)blobColor.G * rlExtra2), (byte)((float)(int)blobColor.B * rlExtra2));
                     }
                 }
-                else if (c2.r < byte.MaxValue)
+                else if (c2.R < byte.MaxValue)
                 {
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.r * 0.6f * extraMul), (byte)((float)(int)blobColor.g * 0.6f * extraMul), (byte)((float)(int)blobColor.b * 0.6f * extraMul));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * 0.6f * extraMul), (byte)((float)(int)blobColor.G * 0.6f * extraMul), (byte)((float)(int)blobColor.B * 0.6f * extraMul));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.r * 0.6f * extraMul), (byte)((float)(int)eggColor.g * 0.6f * extraMul), (byte)((float)(int)eggColor.b * 0.6f * extraMul));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * 0.6f * extraMul), (byte)((float)(int)eggColor.G * 0.6f * extraMul), (byte)((float)(int)eggColor.B * 0.6f * extraMul));
                     }
                 }
                 else if (val1 > 0f)
                 {
-                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.r * extraMul), (byte)((float)(int)blobColor.g * extraMul), (byte)((float)(int)blobColor.b * extraMul));
+                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * extraMul), (byte)((float)(int)blobColor.G * extraMul), (byte)((float)(int)blobColor.B * extraMul));
                 }
                 else
                 {
-                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.r * extraMul), (byte)((float)(int)eggColor.g * extraMul), (byte)((float)(int)eggColor.b * extraMul));
+                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * extraMul), (byte)((float)(int)eggColor.G * extraMul), (byte)((float)(int)eggColor.B * extraMul));
                 }
             }
         }
@@ -2063,64 +2063,64 @@ public class Profile
                 {
                     extraMul = 0.9f;
                 }
-                if (c.r == 0)
+                if (c.R == 0)
                 {
                     cols[xVal + yVal * targ.width] = new Color(0, 0, 0, 0);
                 }
-                else if (c.r < 110)
+                else if (c.R < 110)
                 {
                     if (dontSymbolMesh)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)symbolColor.r * 0.6f), (byte)((float)(int)symbolColor.g * 0.6f), (byte)((float)(int)symbolColor.b * 0.6f));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)symbolColor.R * 0.6f), (byte)((float)(int)symbolColor.G * 0.6f), (byte)((float)(int)symbolColor.B * 0.6f));
                         continue;
                     }
                     float rlExtra = extraMul;
                     rlExtra = ((rlExtra != 1f) ? 1f : 0.9f);
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.r * 0.6f * rlExtra), (byte)((float)(int)eggColor.g * 0.6f * rlExtra), (byte)((float)(int)eggColor.b * 0.6f * rlExtra));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * 0.6f * rlExtra), (byte)((float)(int)eggColor.G * 0.6f * rlExtra), (byte)((float)(int)eggColor.B * 0.6f * rlExtra));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.r * 0.6f * rlExtra), (byte)((float)(int)blobColor.g * 0.6f * rlExtra), (byte)((float)(int)blobColor.b * 0.6f * rlExtra));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * 0.6f * rlExtra), (byte)((float)(int)blobColor.G * 0.6f * rlExtra), (byte)((float)(int)blobColor.B * 0.6f * rlExtra));
                     }
                 }
-                else if (c.r < 120)
+                else if (c.R < 120)
                 {
                     if (dontSymbolMesh)
                     {
-                        cols[xVal + yVal * targ.width] = new Color(symbolColor.r, symbolColor.g, symbolColor.b);
+                        cols[xVal + yVal * targ.width] = new Color(symbolColor.R, symbolColor.G, symbolColor.B);
                         continue;
                     }
                     float rlExtra2 = extraMul;
                     rlExtra2 = ((rlExtra2 != 1f) ? 1f : 0.9f);
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.r * rlExtra2), (byte)((float)(int)eggColor.g * rlExtra2), (byte)((float)(int)eggColor.b * rlExtra2));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * rlExtra2), (byte)((float)(int)eggColor.G * rlExtra2), (byte)((float)(int)eggColor.B * rlExtra2));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.r * rlExtra2), (byte)((float)(int)blobColor.g * rlExtra2), (byte)((float)(int)blobColor.b * rlExtra2));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * rlExtra2), (byte)((float)(int)blobColor.G * rlExtra2), (byte)((float)(int)blobColor.B * rlExtra2));
                     }
                 }
-                else if (c.r < byte.MaxValue)
+                else if (c.R < byte.MaxValue)
                 {
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.r * 0.6f * extraMul), (byte)((float)(int)blobColor.g * 0.6f * extraMul), (byte)((float)(int)blobColor.b * 0.6f * extraMul));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * 0.6f * extraMul), (byte)((float)(int)blobColor.G * 0.6f * extraMul), (byte)((float)(int)blobColor.B * 0.6f * extraMul));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.r * 0.6f * extraMul), (byte)((float)(int)eggColor.g * 0.6f * extraMul), (byte)((float)(int)eggColor.b * 0.6f * extraMul));
+                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * 0.6f * extraMul), (byte)((float)(int)eggColor.G * 0.6f * extraMul), (byte)((float)(int)eggColor.B * 0.6f * extraMul));
                     }
                 }
                 else if (val1 > 0f)
                 {
-                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.r * extraMul), (byte)((float)(int)blobColor.g * extraMul), (byte)((float)(int)blobColor.b * extraMul));
+                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * extraMul), (byte)((float)(int)blobColor.G * extraMul), (byte)((float)(int)blobColor.B * extraMul));
                 }
                 else
                 {
-                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.r * extraMul), (byte)((float)(int)eggColor.g * extraMul), (byte)((float)(int)eggColor.b * extraMul));
+                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * extraMul), (byte)((float)(int)eggColor.G * extraMul), (byte)((float)(int)eggColor.B * extraMul));
                 }
             }
         }

@@ -1,10 +1,12 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public struct FluidData
 {
     public float amount;
 
-    public Vec4 color;
+    public Vector4 color;
 
     public float flammable;
 
@@ -16,7 +18,7 @@ public struct FluidData
 
     public float douseFire;
 
-    public FluidData(float am, Vec4 col, float flam, string spr = "", float h = 0f, float trans = 0.7f)
+    public FluidData(float am, Vector4 col, float flam, string spr = "", float h = 0f, float trans = 0.7f)
     {
         amount = am;
         color = col;

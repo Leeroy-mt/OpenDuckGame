@@ -34,7 +34,7 @@ public class NetDebugInterface
                 string text = current.name;
                 if (current.profile != null)
                 {
-                    text = "|" + current.profile.persona.colorUsable.r + "," + current.profile.persona.colorUsable.g + "," + current.profile.persona.colorUsable.b + "|" + text;
+                    text = "|" + current.profile.persona.colorUsable.R + "," + current.profile.persona.colorUsable.G + "," + current.profile.persona.colorUsable.B + "|" + text;
                     text = text + " |WHITE|(" + current.profile.networkIndex + ")";
                 }
                 list.Add(new NetDebugDropdown.Element

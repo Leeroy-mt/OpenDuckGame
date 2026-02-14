@@ -374,7 +374,7 @@ public class MTSpriteBatch : SpriteBatch
             w = sourceRectangle.Value.width * scale.X;
             h = sourceRectangle.Value.height * scale.Y;
         }
-        DoDrawInternal(texture, new Vec4(position.X, position.Y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, null);
+        DoDrawInternal(texture, new Vector4(position.X, position.Y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, null);
     }
 
     public void DrawWithMaterial(Tex2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effect, float depth, Material fx)
@@ -387,7 +387,7 @@ public class MTSpriteBatch : SpriteBatch
             w = sourceRectangle.Value.width * scale.X;
             h = sourceRectangle.Value.height * scale.Y;
         }
-        DoDrawInternal(texture, new Vec4(position.X, position.Y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, fx);
+        DoDrawInternal(texture, new Vector4(position.X, position.Y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, fx);
     }
 
     public void Draw(Tex2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effect, float depth)
@@ -400,13 +400,13 @@ public class MTSpriteBatch : SpriteBatch
             w = sourceRectangle.Value.width * scale;
             h = sourceRectangle.Value.height * scale;
         }
-        DoDrawInternal(texture, new Vec4(position.X, position.Y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, null);
+        DoDrawInternal(texture, new Vector4(position.X, position.Y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, autoFlush: true, null);
     }
 
     public void Draw(Tex2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth)
     {
         CheckValid(texture);
-        DoDrawInternal(texture, new Vec4(destinationRectangle.x, destinationRectangle.y, destinationRectangle.width, destinationRectangle.height), sourceRectangle, color, rotation, new Vector2(origin.X * (destinationRectangle.width / ((sourceRectangle.HasValue && sourceRectangle.Value.width != 0f) ? sourceRectangle.Value.width : ((float)texture.width))), origin.Y * destinationRectangle.height / ((sourceRectangle.HasValue && sourceRectangle.Value.height != 0f) ? sourceRectangle.Value.height : ((float)texture.height))), effect, depth, autoFlush: true, null);
+        DoDrawInternal(texture, new Vector4(destinationRectangle.x, destinationRectangle.y, destinationRectangle.width, destinationRectangle.height), sourceRectangle, color, rotation, new Vector2(origin.X * (destinationRectangle.width / ((sourceRectangle.HasValue && sourceRectangle.Value.width != 0f) ? sourceRectangle.Value.width : ((float)texture.width))), origin.Y * destinationRectangle.height / ((sourceRectangle.HasValue && sourceRectangle.Value.height != 0f) ? sourceRectangle.Value.height : ((float)texture.height))), effect, depth, autoFlush: true, null);
     }
 
     public void DrawQuad(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 t1, Vector2 t2, Vector2 t3, Vector2 t4, float depth, Tex2D tex, Color c)
@@ -419,7 +419,7 @@ public class MTSpriteBatch : SpriteBatch
         mTSpriteBatchItem.Set(p1, p2, p3, p4, t1, t2, t3, t4, c);
     }
 
-    internal void DoDrawInternal(Tex2D texture, Vec4 destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, Material fx)
+    internal void DoDrawInternal(Tex2D texture, Vector4 destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, Material fx)
     {
         Graphics.currentDrawIndex++;
         MTSpriteBatchItem item = _batcher.CreateBatchItem();
@@ -453,7 +453,7 @@ public class MTSpriteBatch : SpriteBatch
             _texCoordBR.X = _texCoordTL.X;
             _texCoordTL.X = temp2;
         }
-        item.Set(destinationRectangle.x, destinationRectangle.y, 0f - origin.X, 0f - origin.Y, destinationRectangle.z, destinationRectangle.w, (float)Math.Sin(rotation), (float)Math.Cos(rotation), color, _texCoordTL, _texCoordBR);
+        item.Set(destinationRectangle.X, destinationRectangle.Y, 0f - origin.X, 0f - origin.Y, destinationRectangle.Z, destinationRectangle.W, (float)Math.Sin(rotation), (float)Math.Cos(rotation), color, _texCoordTL, _texCoordBR);
         if (Graphics.recordMetadata)
         {
             item.MetaData = new MTSpriteBatchItemMetaData();
@@ -607,7 +607,7 @@ public class MTSpriteBatch : SpriteBatch
     /// <param name="depth"></param>
     /// <param name="autoFlush"></param>
     /// <param name="fx"></param>
-    internal void DoDrawInternalTex2D(Tex2D texture, Vec4 destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, Material fx)
+    internal void DoDrawInternalTex2D(Tex2D texture, Vector4 destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, Material fx)
     {
         DoDrawInternal(texture, destinationRectangle, sourceRectangle, color, rotation, origin, effect, depth, autoFlush, fx);
     }

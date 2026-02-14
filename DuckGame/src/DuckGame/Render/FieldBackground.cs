@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ public class FieldBackground : Layer
         : base(nameval, depthval)
     {
         _fx = Content.Load<MTEffect>("Shaders/fieldFadeAdd");
-        _view = Matrix.CreateLookAt(new Vec3(0f, 0f, -5f), new Vec3(0f, 0f, 0f), Vec3.Up);
+        _view = Matrix.CreateLookAt(new Vector3(0f, 0f, -5f), new Vector3(0f, 0f, 0f), Vector3.Up);
         _proj = Matrix.CreatePerspectiveFieldOfView((float)Math.PI / 4f, 1.7777778f, 0.01f, 100000f);
     }
 
@@ -68,17 +69,17 @@ public class FieldBackground : Layer
         float elevate = 53f + fieldHeight + rise;
         float pitch = -0.1f;
         float xpos = scroll;
-        _view = Matrix.CreateLookAt(new Vec3(xpos, 300f, 0f - elevate + pitch), new Vec3(xpos, 100f, 0f - elevate), Vec3.Down);
+        _view = Matrix.CreateLookAt(new Vector3(xpos, 300f, 0f - elevate + pitch), new Vector3(xpos, 100f, 0f - elevate), Vector3.Down);
     }
 
     public override void Begin(bool transparent, bool isTargetDraw = false)
     {
-        Vec3 fade = new Vec3(Graphics.fade * _fade * (1f - _darken)) * base.colorMul;
-        Vec3 fadeAdd = _colorAdd + new Vec3(_fadeAdd) + new Vec3(Graphics.flashAddRenderValue) + new Vec3(Graphics.fadeAddRenderValue) - new Vec3(base.darken);
-        fadeAdd = new Vec3(Maths.Clamp(fadeAdd.x, -1f, 1f), Maths.Clamp(fadeAdd.y, -1f, 1f), Maths.Clamp(fadeAdd.z, -1f, 1f));
+        Vector3 fade = new Vector3(Graphics.fade * _fade * (1f - _darken)) * base.colorMul;
+        Vector3 fadeAdd = _colorAdd + new Vector3(_fadeAdd) + new Vector3(Graphics.flashAddRenderValue) + new Vector3(Graphics.fadeAddRenderValue) - new Vector3(base.darken);
+        fadeAdd = new Vector3(Maths.Clamp(fadeAdd.X, -1f, 1f), Maths.Clamp(fadeAdd.Y, -1f, 1f), Maths.Clamp(fadeAdd.Z, -1f, 1f));
         if (!Options.Data.flashing)
         {
-            fadeAdd = new Vec3(0f, 0f, 0f);
+            fadeAdd = new Vector3(0f, 0f, 0f);
         }
         if (_darken > 0f)
         {

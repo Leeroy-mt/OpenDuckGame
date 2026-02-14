@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -52,7 +51,7 @@ public class Team
         public virtual bool Deserialize(Color pColor)
         {
             HatMetadataElement el = null;
-            if (_fieldMap.TryGetValue(pColor.r, out el))
+            if (_fieldMap.TryGetValue(pColor.R, out el))
             {
                 if (!(el is CustomHatMetadata.MDRandomizer))
                 {
@@ -198,8 +197,8 @@ public class Team
 
             public override void OnParse(Color pColor)
             {
-                float xOffset = Maths.Clamp(pColor.g - 128, 0f - range, range);
-                float yOffset = Maths.Clamp(pColor.b - 128, 0f - range, range);
+                float xOffset = Maths.Clamp(pColor.G - 128, 0f - range, range);
+                float yOffset = Maths.Clamp(pColor.B - 128, 0f - range, range);
                 _value = new Vector2(xOffset, yOffset);
             }
         }
@@ -224,7 +223,7 @@ public class Team
                 }
                 else
                 {
-                    _value = new Vector2((float)(int)pColor.g / 255f, (float)(int)pColor.b / 255f);
+                    _value = new Vector2((float)(int)pColor.G / 255f, (float)(int)pColor.B / 255f);
                 }
                 _value *= range;
             }
@@ -300,11 +299,11 @@ public class Team
             {
                 if (allowNegative)
                 {
-                    _value = (float)(pColor.g - 128) / 128f;
+                    _value = (float)(pColor.G - 128) / 128f;
                 }
                 else
                 {
-                    _value = (float)(int)pColor.g / 255f;
+                    _value = (float)(int)pColor.G / 255f;
                 }
                 _value *= range;
             }
@@ -341,11 +340,11 @@ public class Team
             {
                 if (allowNegative)
                 {
-                    _value = pColor.g - 128;
+                    _value = pColor.G - 128;
                 }
                 else
                 {
-                    _value = pColor.g;
+                    _value = pColor.G;
                 }
                 _value = Maths.Clamp(value, -range, range);
             }
@@ -392,13 +391,13 @@ public class Team
             {
                 if (allowNegative)
                 {
-                    _value.X = pColor.g - 128;
-                    _value.Y = pColor.b - 128;
+                    _value.X = pColor.G - 128;
+                    _value.Y = pColor.B - 128;
                 }
                 else
                 {
-                    _value.X = (int)pColor.g;
-                    _value.Y = (int)pColor.b;
+                    _value.X = (int)pColor.G;
+                    _value.Y = (int)pColor.B;
                 }
                 _value.X = Maths.Clamp(value.X, -rangeX, rangeX);
                 _value.Y = Maths.Clamp(value.Y, -rangeY, rangeY);
@@ -712,7 +711,7 @@ public class Team
         {
             if (!base.Deserialize(pColor))
             {
-                DevConsole.Log(DCSection.General, "Metapixel with invalid ID value (" + pColor.r + ") found in custom hat.");
+                DevConsole.Log(DCSection.General, "Metapixel with invalid ID value (" + pColor.R + ") found in custom hat.");
                 return false;
             }
             return true;
@@ -1131,7 +1130,7 @@ public class Team
     {
         try
         {
-            Texture2D tex = TextureConverter.LoadPNGWithPinkAwesomeness(Graphics.device, new Bitmap(new MemoryStream(pData)), process: true);
+            Texture2D tex = TextureConverter.LoadPNGWithPinkAwesomeness(Graphics.device, new System.Drawing.Bitmap(new MemoryStream(pData)), process: true);
             _ = (float)tex.Width / 32f % 1f;
             Team newTeam = deserializeInto;
             if (newTeam == null)
@@ -1235,7 +1234,7 @@ public class Team
         int numValid = 0;
         for (int i = 0; i < pColors.Length; i++)
         {
-            if ((pColors[i].r != byte.MaxValue || pColors[i].g != 0 || pColors[i].b != byte.MaxValue) && !(pColors[i] == Colors.Transparent))
+            if ((pColors[i].R != byte.MaxValue || pColors[i].G != 0 || pColors[i].B != byte.MaxValue) && !(pColors[i] == Colors.Transparent))
             {
                 numValid++;
             }
@@ -1256,7 +1255,7 @@ public class Team
         for (int i = 0; i < meta.Length; i++)
         {
             Color c = meta[i];
-            if ((c.r != byte.MaxValue || c.g != 0 || c.b != byte.MaxValue) && !(c == Colors.Transparent))
+            if ((c.R != byte.MaxValue || c.G != 0 || c.B != byte.MaxValue) && !(c == Colors.Transparent))
             {
                 pTeam.metadata.Deserialize(c);
             }

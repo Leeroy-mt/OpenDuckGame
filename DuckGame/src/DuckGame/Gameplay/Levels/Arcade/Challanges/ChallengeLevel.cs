@@ -388,9 +388,9 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
                                     projMatrix.M41 += -0.5f * projMatrix.M11;
                                     projMatrix.M42 += -0.5f * projMatrix.M22;
                                     Matrix mat = Level.current.camera.getMatrix();
-                                    Vec3 pos = Graphics.viewport.Project(new Vec3(_duck.cameraPosition.X, _duck.cameraPosition.Y, 0f), projMatrix, mat, Matrix.Identity);
+                                    Vector3 pos = Graphics.viewport.Project(new Vector3(_duck.cameraPosition.X, _duck.cameraPosition.Y, 0f), projMatrix, mat, Matrix.Identity);
                                     Graphics.SetRenderTarget(_captureTarget);
-                                    cam.center = new Vector2(pos.x, pos.y);
+                                    cam.center = new Vector2(pos.X, pos.Y);
                                     if (cam.bottom > (float)MonoMain.screenCapture.height)
                                     {
                                         cam.centerY = (float)MonoMain.screenCapture.height - cam.height / 2f;
@@ -644,10 +644,10 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
                 Duck spawn = _pendingSpawns[0];
                 AddThing(spawn);
                 _pendingSpawns.RemoveAt(0);
-                Vec3 col = spawn.profile.persona.color;
-                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 0f, new Color((int)col.x, (int)col.z, (int)col.z), 32f));
-                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, -4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
-                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
+                Vector3 col = spawn.profile.persona.color;
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 0f, new Color((int)col.X, (int)col.Z, (int)col.Z), 32f));
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, -4f, new Color((int)col.X, (int)col.Y, (int)col.Z), 4f));
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 4f, new Color((int)col.X, (int)col.Y, (int)col.Z), 4f));
                 SFX.Play("pullPin", 0.7f);
                 _duck = spawn;
                 _challenge = base.things[typeof(ChallengeMode)].First() as ChallengeMode;

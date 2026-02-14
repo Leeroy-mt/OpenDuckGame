@@ -3844,9 +3844,9 @@ public class DuckNetwork
                 boxColor2 = message.who.persona.colorUsable;
                 if (message.who.persona == Persona.Duck2)
                 {
-                    boxColor2.r += 30;
-                    boxColor2.g += 30;
-                    boxColor2.b += 30;
+                    boxColor2.R += 30;
+                    boxColor2.G += 30;
+                    boxColor2.B += 30;
                 }
                 if (message.who.slotType == SlotType.Spectator)
                 {
@@ -3897,7 +3897,7 @@ public class DuckNetwork
                 torso.Scale = new Vector2(duckfontScale, duckfontScale) * (Options.Data.chatHeadScale + 1);
                 Graphics.Draw(torso, hatDraw.X + 2f * torso.Scale.X, hatDraw.Y + 5f * torso.Scale.Y);
                 boxColor2 *= 0.85f;
-                boxColor2.a = byte.MaxValue;
+                boxColor2.A = byte.MaxValue;
             }
             Graphics.DrawRect(messagePos2, messageBR, boxColor2 * 0.85f * message.alpha * opacity, hatDepth - 0.002f);
             _core._chatFont.symbolYOffset = 4f;

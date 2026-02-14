@@ -51,9 +51,9 @@ public class Layer : DrawList
 
     protected float _fadeAdd;
 
-    protected Vec3 _colorAdd = Vec3.Zero;
+    protected Vector3 _colorAdd = Vector3.Zero;
 
-    protected Vec3 _colorMul = Vec3.One;
+    protected Vector3 _colorMul = Vector3.One;
 
     protected float _darken;
 
@@ -85,9 +85,9 @@ public class Layer : DrawList
 
     private Camera _targetCamera = new Camera();
 
-    public static Vec3 kGameLayerFade;
+    public static Vector3 kGameLayerFade;
 
-    public static Vec3 kGameLayerAdd;
+    public static Vector3 kGameLayerAdd;
 
     public static bool blurry = false;
 
@@ -391,7 +391,7 @@ public class Layer : DrawList
         }
     }
 
-    public Vec3 colorAdd
+    public Vector3 colorAdd
     {
         get
         {
@@ -403,7 +403,7 @@ public class Layer : DrawList
         }
     }
 
-    public Vec3 colorMul
+    public Vector3 colorMul
     {
         get
         {
@@ -624,7 +624,7 @@ public class Layer : DrawList
                 Graphics.SetRenderTarget(_target);
                 if (flashAddClearInfluence > 0f)
                 {
-                    Graphics.Clear(new Color((byte)Math.Min((float)(int)_targetClearColor.r + flashAddClearInfluence * Graphics.flashAddRenderValue * 255f, 255f), (byte)Math.Min((float)(int)_targetClearColor.g + flashAddClearInfluence * Graphics.flashAddRenderValue * 255f, 255f), (byte)Math.Min((float)(int)_targetClearColor.b + flashAddClearInfluence * Graphics.flashAddRenderValue * 255f, 255f), _targetClearColor.a));
+                    Graphics.Clear(new Color((byte)Math.Min((float)(int)_targetClearColor.R + flashAddClearInfluence * Graphics.flashAddRenderValue * 255f, 255f), (byte)Math.Min((float)(int)_targetClearColor.G + flashAddClearInfluence * Graphics.flashAddRenderValue * 255f, 255f), (byte)Math.Min((float)(int)_targetClearColor.B + flashAddClearInfluence * Graphics.flashAddRenderValue * 255f, 255f), _targetClearColor.A));
                 }
                 else
                 {
@@ -642,9 +642,9 @@ public class Layer : DrawList
         }
         Graphics.ResetSpanAdjust();
         Effect effect = _core._basicEffect;
-        Vec3 fade = new Vec3(Graphics.fade * _fade * (1f - _darken)) * colorMul;
-        Vec3 fadeAdd = _colorAdd + new Vec3(_fadeAdd) + new Vec3(Graphics.flashAddRenderValue) * flashAddInfluence + new Vec3(Graphics.fadeAddRenderValue) - new Vec3(darken);
-        fadeAdd = new Vec3(Maths.Clamp(fadeAdd.x, -1f, 1f), Maths.Clamp(fadeAdd.y, -1f, 1f), Maths.Clamp(fadeAdd.z, -1f, 1f));
+        Vector3 fade = new Vector3(Graphics.fade * _fade * (1f - _darken)) * colorMul;
+        Vector3 fadeAdd = _colorAdd + new Vector3(_fadeAdd) + new Vector3(Graphics.flashAddRenderValue) * flashAddInfluence + new Vector3(Graphics.fadeAddRenderValue) - new Vector3(darken);
+        fadeAdd = new Vector3(Maths.Clamp(fadeAdd.X, -1f, 1f), Maths.Clamp(fadeAdd.Y, -1f, 1f), Maths.Clamp(fadeAdd.Z, -1f, 1f));
         fadeAdd *= fade;
         if (this == Game)
         {
@@ -672,13 +672,13 @@ public class Layer : DrawList
         else
         {
             float fadeLen = fadeAdd.LengthSquared();
-            if (fade != Vec3.One && fadeLen > 0.001f)
+            if (fade != Vector3.One && fadeLen > 0.001f)
             {
                 effect = _core._basicEffectFadeAdd;
                 effect.Parameters["fade"].SetValue(fade);
                 effect.Parameters["add"].SetValue(fadeAdd);
             }
-            else if (fade != Vec3.One)
+            else if (fade != Vector3.One)
             {
                 effect = _core._basicEffectFade;
                 effect.Parameters["fade"].SetValue(fade);
@@ -830,10 +830,10 @@ public class Layer : DrawList
                             if (_perspective)
                             {
                                 Vector2 pos2 = drawable.Position;
-                                Vec3 newPos = new Vec3(pos2.X, drawable.Z, drawable.bottom);
+                                Vector3 newPos = new Vector3(pos2.X, drawable.Z, drawable.bottom);
                                 Viewport v = new Viewport(0, 0, 320, 180);
                                 newPos = v.Project(newPos, projection, view, Matrix.Identity);
-                                drawable.Position = new Vector2(newPos.x, newPos.y - drawable.CenterY);
+                                drawable.Position = new Vector2(newPos.X, newPos.Y - drawable.CenterY);
                                 drawable.DoDraw();
                                 Graphics.material = null;
                                 drawable.Position = pos2;
@@ -843,9 +843,9 @@ public class Layer : DrawList
                                     _dropShadow.Alpha = 0.5f - 0.5f * dist;
                                     _dropShadow.Scale = new Vector2(1f - dist, 1f - dist);
                                     _dropShadow.Depth = drawable.Depth - 10;
-                                    newPos = new Vec3(pos2.X, drawable.Z, 0f);
+                                    newPos = new Vector3(pos2.X, drawable.Z, 0f);
                                     newPos = v.Project(newPos, projection, view, Matrix.Identity);
-                                    Graphics.Draw(_dropShadow, newPos.x - 1f, newPos.y - 1f);
+                                    Graphics.Draw(_dropShadow, newPos.X - 1f, newPos.Y - 1f);
                                 }
                             }
                             else
@@ -877,10 +877,10 @@ public class Layer : DrawList
                             if (_perspective)
                             {
                                 Vector2 pos3 = drawable3.Position;
-                                Vec3 newPos2 = new Vec3(pos3.X, drawable3.Z, drawable3.bottom);
+                                Vector3 newPos2 = new Vector3(pos3.X, drawable3.Z, drawable3.bottom);
                                 Viewport v2 = new Viewport(0, 0, 320, 180);
                                 newPos2 = v2.Project(newPos2, projection, view, Matrix.Identity);
-                                drawable3.Position = new Vector2(newPos2.x, newPos2.y - drawable3.CenterY);
+                                drawable3.Position = new Vector2(newPos2.X, newPos2.Y - drawable3.CenterY);
                                 drawable3.DoDraw();
                                 Graphics.material = null;
                                 drawable3.Position = pos3;
@@ -890,9 +890,9 @@ public class Layer : DrawList
                                     _dropShadow.Alpha = 0.5f - 0.5f * dist2;
                                     _dropShadow.Scale = new Vector2(1f - dist2, 1f - dist2);
                                     _dropShadow.Depth = drawable3.Depth - 10;
-                                    newPos2 = new Vec3(pos3.X, drawable3.Z, 0f);
+                                    newPos2 = new Vector3(pos3.X, drawable3.Z, 0f);
                                     newPos2 = v2.Project(newPos2, projection, view, Matrix.Identity);
-                                    Graphics.Draw(_dropShadow, newPos2.x - 1f, newPos2.y - 1f);
+                                    Graphics.Draw(_dropShadow, newPos2.X - 1f, newPos2.Y - 1f);
                                 }
                             }
                             else

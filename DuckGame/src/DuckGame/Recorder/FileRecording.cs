@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -281,10 +282,10 @@ public class FileRecording : Recording
         {
             return;
         }
-        _writer.Write(_frames[_frame].backgroundColor.r);
-        _writer.Write(_frames[_frame].backgroundColor.g);
-        _writer.Write(_frames[_frame].backgroundColor.b);
-        _writer.Write(_frames[_frame].backgroundColor.a);
+        _writer.Write(_frames[_frame].backgroundColor.R);
+        _writer.Write(_frames[_frame].backgroundColor.G);
+        _writer.Write(_frames[_frame].backgroundColor.B);
+        _writer.Write(_frames[_frame].backgroundColor.A);
         _writer.Write(_frames[_frame].sounds.Count);
         for (int i = 0; i < _frames[_frame].sounds.Count; i++)
         {
@@ -335,10 +336,10 @@ public class FileRecording : Recording
             _writer.Write(_frames[_frame].objects[j].bottomRight.X);
             _writer.Write(_frames[_frame].objects[j].bottomRight.Y);
             _writer.Write(_frames[_frame].objects[j].rotation);
-            _writer.Write(_frames[_frame].objects[j].color.r);
-            _writer.Write(_frames[_frame].objects[j].color.g);
-            _writer.Write(_frames[_frame].objects[j].color.b);
-            _writer.Write(_frames[_frame].objects[j].color.a);
+            _writer.Write(_frames[_frame].objects[j].color.R);
+            _writer.Write(_frames[_frame].objects[j].color.G);
+            _writer.Write(_frames[_frame].objects[j].color.B);
+            _writer.Write(_frames[_frame].objects[j].color.A);
             _writer.Write(_frames[_frame].objects[j].texX);
             _writer.Write(_frames[_frame].objects[j].texY);
             _writer.Write(_frames[_frame].objects[j].texW);

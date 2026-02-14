@@ -563,11 +563,11 @@ public class GameMode
                 spawn.respawnPos = spawn.Position;
                 spawn.localSpawnVisible = true;
                 _pendingSpawns.RemoveAt(0);
-                Vec3 col = spawn.profile.persona.color;
-                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 0f, new Color((int)col.x, (int)col.y, (int)col.z), 32f));
-                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, -4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
-                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
-                Level.Add(new SpawnAimer(spawn.X, spawn.Y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), spawn.persona, 4f)
+                Vector3 col = spawn.profile.persona.color;
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 0f, new Color((int)col.X, (int)col.Y, (int)col.Z), 32f));
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, -4f, new Color((int)col.X, (int)col.Y, (int)col.Z), 4f));
+                Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 4f, new Color((int)col.X, (int)col.Y, (int)col.Z), 4f));
+                Level.Add(new SpawnAimer(spawn.X, spawn.Y, 0, 4f, new Color((int)col.X, (int)col.Y, (int)col.Z), spawn.persona, 4f)
                 {
                     dugg = spawn
                 });

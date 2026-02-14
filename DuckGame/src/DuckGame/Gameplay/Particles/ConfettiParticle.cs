@@ -63,7 +63,7 @@ public class ConfettiParticle : PhysicsParticle
         _bounceEfficiency = 0.1f;
         Depth = 0.9f;
         _killSpeed = killSpeed;
-        _color = Color.RainbowColors[_confettiNumber % Color.RainbowColors.Count];
+        _color = Color.RainbowColors[_confettiNumber % Color.RainbowColors.Length];
         _confettiNumber++;
         _width = 1f;
         life = Rando.Float(0.8f, 1);

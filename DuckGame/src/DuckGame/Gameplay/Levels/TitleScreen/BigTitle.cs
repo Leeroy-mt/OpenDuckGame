@@ -105,7 +105,7 @@ public class BigTitle : Thing
             _lerpNum = (int)(num * _lerpColors.Count - 0.01f);
             _ = _maxCount / _lerpColors.Count;
             _currentColor = Color.Lerp(_currentColor, _lerpColors[_lerpNum], 0.1f);
-            _currentColor.a = (byte)(_alpha * 255);
+            _currentColor.A = (byte)(_alpha * 255);
             _alpha -= 0.02f;
             if (_alpha < 0)
                 _alpha = 0;

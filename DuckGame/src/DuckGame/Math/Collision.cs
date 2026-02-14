@@ -234,11 +234,11 @@ public static class Collision
         return false;
     }
 
-    public static bool Rect(Rectangle r1, Vec4 r2)
+    public static bool Rect(Rectangle r1, Vector4 r2)
     {
-        if (!(r1.y + r1.height < r2.y) && !(r1.y > r2.y + r2.w) && !(r1.x > r2.x + r2.z))
+        if (!(r1.y + r1.height < r2.Y) && !(r1.y > r2.Y + r2.W) && !(r1.x > r2.X + r2.Z))
         {
-            return !(r1.x + r1.width < r2.x);
+            return !(r1.x + r1.width < r2.X);
         }
         return false;
     }

@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -1821,7 +1820,6 @@ public class DevConsole
             new CMD.Font("font", () => Options.Data.chatFontSize)
         }, delegate (CMD cmd)
         {
-            var families = FontFamily.Families;
             string chatFont = cmd.Arg<string>("font");
             Options.Data.chatFont = chatFont;
             Options.Save();

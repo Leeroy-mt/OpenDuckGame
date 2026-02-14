@@ -964,7 +964,7 @@ public class HatSelector : Thing, ITakeInput
             float selectorYOffset = -18f;
             _profile.persona.sprite.Alpha = _fade;
             _profile.persona.sprite.color = Color.White;
-            _profile.persona.sprite.color = new Color(_profile.persona.sprite.color.r, _profile.persona.sprite.color.g, _profile.persona.sprite.color.b);
+            _profile.persona.sprite.color = new Color(_profile.persona.sprite.color.R, _profile.persona.sprite.color.G, _profile.persona.sprite.color.B);
             _profile.persona.sprite.Depth = 0.9f;
             _profile.persona.sprite.Scale = new Vector2(1f, 1f);
             Graphics.Draw(_profile.persona.sprite, base.X + 70f, base.Y + 60f + selectorYOffset, 0.9f);
@@ -1041,7 +1041,7 @@ public class HatSelector : Thing, ITakeInput
                     }
                     _profile.persona.sprite.Alpha = _fade;
                     _profile.persona.sprite.color = Color.White;
-                    _profile.persona.sprite.color = new Color(_profile.persona.sprite.color.r, _profile.persona.sprite.color.g, _profile.persona.sprite.color.b);
+                    _profile.persona.sprite.color = new Color(_profile.persona.sprite.color.R, _profile.persona.sprite.color.G, _profile.persona.sprite.color.B);
                     _profile.persona.sprite.Depth = 0.9f;
                     _profile.persona.sprite.Scale = new Vector2(1f, 1f);
                     DuckRig.GetHatPoint(_profile.persona.sprite.imageIndex);

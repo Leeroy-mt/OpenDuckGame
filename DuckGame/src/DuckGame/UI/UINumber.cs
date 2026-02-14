@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class UINumber(float wide, float high, FieldBinding field, string append = "", FieldBinding filterField = null, MatchSetting setting = null)

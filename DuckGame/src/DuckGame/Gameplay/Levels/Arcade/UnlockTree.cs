@@ -250,7 +250,7 @@ public class UnlockTree : Thing
                 lineColor = new Color(40, 40, 40);
                 fade = ((unlock == _selected) ? 0.8f : 0.2f);
             }
-            lineColor = new Color((byte)((float)(int)lineColor.r * fade), (byte)((float)(int)lineColor.g * fade), (byte)((float)(int)lineColor.b * fade));
+            lineColor = new Color((byte)((float)(int)lineColor.R * fade), (byte)((float)(int)lineColor.G * fade), (byte)((float)(int)lineColor.B * fade));
             float centerAdd = 0f;
             centerAdd = ((unlocks.Count == 1) ? (treeSize.X / 2f) : ((unlocks.Count != 2) ? ((float)i * (treeSize.X / (float)(unlocks.Count - 1))) : (treeSize.X / 2f - treeSize.X / 4f + (float)i * (treeSize.X / 2f))));
             Vector2 boxPos = new Vector2(treePos.X + centerAdd, treePos.Y + (float)(unlockLayer * 60));
@@ -308,7 +308,7 @@ public class UnlockTree : Thing
                 {
                     lineColor = new Color(90, 90, 90);
                 }
-                lineColor = new Color((byte)((float)(int)lineColor.r * fade), (byte)((float)(int)lineColor.g * fade), (byte)((float)(int)lineColor.b * fade));
+                lineColor = new Color((byte)((float)(int)lineColor.R * fade), (byte)((float)(int)lineColor.G * fade), (byte)((float)(int)lineColor.B * fade));
                 centerAdd = ((unlocks.Count == 1) ? (treeSize.X / 2f) : ((unlocks.Count != 2) ? ((float)j * (treeSize.X / (float)(unlocks.Count - 1))) : (treeSize.X / 2f - treeSize.X / 4f + (float)j * (treeSize.X / 2f))));
                 boxPos = new Vector2(treePos.X + centerAdd, treePos.Y + (float)(unlockLayer * 60));
                 Graphics.DrawLine(boxPos, boxPos + new Vector2(0f, 30f), lineColor * base.Alpha, 6f, -0.2f);
@@ -323,7 +323,7 @@ public class UnlockTree : Thing
                 {
                     afterUnlockColor = Color.Green;
                 }
-                afterUnlockColor = new Color((byte)((float)(int)afterUnlockColor.r * fade), (byte)((float)(int)afterUnlockColor.g * fade), (byte)((float)(int)afterUnlockColor.b * fade));
+                afterUnlockColor = new Color((byte)((float)(int)afterUnlockColor.R * fade), (byte)((float)(int)afterUnlockColor.G * fade), (byte)((float)(int)afterUnlockColor.B * fade));
                 for (int iChild = 0; iChild < nextLayer.Count; iChild++)
                 {
                     UnlockData child = nextLayer[iChild];

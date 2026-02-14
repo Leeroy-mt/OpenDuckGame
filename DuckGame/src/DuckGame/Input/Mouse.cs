@@ -137,10 +137,10 @@ public class Mouse : InputDevice
         _prevScrollValue = scroll;
         _mouseStatePrev = _mouseState;
         _mouseState = Microsoft.Xna.Framework.Input.Mouse.GetState();
-        Vec3 mousePos = new Vec3(_mouseState.X, _mouseState.Y, 0f);
+        Vector3 mousePos = new Vector3(_mouseState.X, _mouseState.Y, 0f);
         if (Graphics._screenViewport.HasValue)
         {
-            _mouseScreenPos = new Vector2(mousePos.x / Resolution.size.X * Layer.HUD.camera.width, mousePos.y / Resolution.size.Y * Layer.HUD.camera.height);
+            _mouseScreenPos = new Vector2(mousePos.X / Resolution.size.X * Layer.HUD.camera.width, mousePos.Y / Resolution.size.Y * Layer.HUD.camera.height);
         }
         _mouseScreenPos.X = (int)_mouseScreenPos.X;
         _mouseScreenPos.Y = (int)_mouseScreenPos.Y;

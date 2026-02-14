@@ -175,11 +175,11 @@ public class DeathmatchLevel : XMLLevel, IHaveAVirtualTransition
             {
                 Send.Message(new NMSpawnDuck(spawn.netProfileIndex));
             }
-            Vec3 col = spawn.profile.persona.color;
-            Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 0f, new Color((int)col.x, (int)col.y, (int)col.z), 32f));
-            Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, -4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
-            Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
-            Level.Add(new SpawnAimer(spawn.X, spawn.Y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), spawn.persona, 4f));
+            Vector3 col = spawn.profile.persona.color;
+            Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 0f, new Color((int)col.X, (int)col.Y, (int)col.Z), 32f));
+            Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, -4f, new Color((int)col.X, (int)col.Y, (int)col.Z), 4f));
+            Level.Add(new SpawnLine(spawn.X, spawn.Y, 0, 4f, new Color((int)col.X, (int)col.Y, (int)col.Z), 4f));
+            Level.Add(new SpawnAimer(spawn.X, spawn.Y, 0, 4f, new Color((int)col.X, (int)col.Y, (int)col.Z), spawn.persona, 4f));
             SFX.Play("pullPin", 0.7f);
             if (Party.HasPerk(spawn.profile, PartyPerks.Present) || (TeamSelect2.Enabled("WINPRES") && Deathmatch.lastWinners.Contains(spawn.profile)))
             {

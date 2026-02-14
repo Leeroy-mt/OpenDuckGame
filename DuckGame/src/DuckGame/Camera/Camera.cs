@@ -259,32 +259,32 @@ public class Camera
 
     public virtual Vector2 transformScreenVector(Vector2 vector)
     {
-        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Matrix.Invert(getMatrix()));
-        return new Vector2(newvec3.x, newvec3.y);
+        Vector3 newvec3 = Vector3.Transform(new Vector3(vector.X, vector.Y, 0f), Matrix.Invert(getMatrix()));
+        return new Vector2(newvec3.X, newvec3.Y);
     }
 
     public virtual Vector2 transformTime(Vector2 vector)
     {
-        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Resolution.getTransformationMatrix() * getMatrix());
-        return new Vector2(newvec3.x, newvec3.y);
+        Vector3 newvec3 = Vector3.Transform(new Vector3(vector.X, vector.Y, 0f), Resolution.getTransformationMatrix() * getMatrix());
+        return new Vector2(newvec3.X, newvec3.Y);
     }
 
     public virtual Vector2 transformWorldVector(Vector2 vector)
     {
-        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Matrix.Invert(Resolution.getTransformationMatrix()) * getMatrix());
-        return new Vector2(newvec3.x, newvec3.y);
+        Vector3 newvec3 = Vector3.Transform(new Vector3(vector.X, vector.Y, 0f), Matrix.Invert(Resolution.getTransformationMatrix()) * getMatrix());
+        return new Vector2(newvec3.X, newvec3.Y);
     }
 
     public virtual Vector2 transform(Vector2 vector)
     {
-        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), getMatrix());
-        return new Vector2(newvec3.x, newvec3.y);
+        Vector3 newvec3 = Vector3.Transform(new Vector3(vector.X, vector.Y, 0f), getMatrix());
+        return new Vector2(newvec3.X, newvec3.Y);
     }
 
     public virtual Vector2 transformInverse(Vector2 vector)
     {
-        Vec3 newvec3 = Vec3.Transform(new Vec3(vector.X, vector.Y, 0f), Matrix.Invert(getMatrix()));
-        return new Vector2(newvec3.x, newvec3.y);
+        Vector3 newvec3 = Vector3.Transform(new Vector3(vector.X, vector.Y, 0f), Matrix.Invert(getMatrix()));
+        return new Vector2(newvec3.X, newvec3.Y);
     }
 
     public virtual Matrix getMatrix()
@@ -296,7 +296,7 @@ public class Camera
             Vector2 pos = position;
             float wid = width;
             float hig = height;
-            _matrix = Matrix.CreateTranslation(new Vec3(0f - pos.X, 0f - pos.Y, 0f)) * Matrix.CreateScale(_viewSize.X / wid, _viewSize.Y / hig, 1f);
+            _matrix = Matrix.CreateTranslation(new Vector3(0f - pos.X, 0f - pos.Y, 0f)) * Matrix.CreateScale(_viewSize.X / wid, _viewSize.Y / hig, 1f);
             _dirty = false;
         }
         return _matrix;

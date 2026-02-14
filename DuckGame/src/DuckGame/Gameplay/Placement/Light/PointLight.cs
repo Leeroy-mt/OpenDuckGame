@@ -200,9 +200,9 @@ public class PointLight : Thing, ILight
             {
                 if (Collision.LineIntersect(occluder.p1, occluder.p2, Position, rayPos) && (!hasPrev || Collision.LineIntersect(occluder.p1, occluder.p2, Position, prevPos)))
                 {
-                    Vec3 nc = (nearColor * 0.5f).ToVector3();
+                    Color nc = nearColor * 0.5f;
                     darkOccluder = occluder.color;
-                    nearColor = new Color(nc * occluder.color.ToVector3());
+                    nearColor = nc * occluder.color;
                     dark = true;
                     break;
                 }
@@ -210,11 +210,11 @@ public class PointLight : Thing, ILight
             farColor = _lightColor * fade;
             if (dark)
             {
-                Vec3 nc2 = (farColor * 0.5f).ToVector3();
-                farColor = new Color(nc2 * darkOccluder.ToVector3());
+                Color nc2 = farColor * 0.5f;
+                farColor = nc2 * darkOccluder;
             }
-            farColor.a = 0;
-            nearColor.a = 0;
+            farColor.A = 0;
+            nearColor.A = 0;
             if (hasPrev)
             {
                 if (!Layer.lightingTwoPointOh)

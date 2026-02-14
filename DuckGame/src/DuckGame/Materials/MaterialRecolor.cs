@@ -1,10 +1,12 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class MaterialRecolor : Material
 {
-    public Vec3 color;
+    public Vector3 color;
 
-    public MaterialRecolor(Vec3 col)
+    public MaterialRecolor(Vector3 col)
     {
         color = col;
         _effect = Content.Load<MTEffect>("Shaders/recolor");

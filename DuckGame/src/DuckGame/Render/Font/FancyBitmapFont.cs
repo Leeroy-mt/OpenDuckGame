@@ -175,7 +175,7 @@ public class FancyBitmapFont : Transform
             {
                 for (int xpixel = 0; xpixel < _texture.width; xpixel++)
                 {
-                    if (data[xpixel + ypixel * _texture.width].r == 0 && data[xpixel + ypixel * _texture.width].g == 0 && data[xpixel + ypixel * _texture.width].b == 0 && data[xpixel + ypixel * _texture.width].a == 0)
+                    if (data[xpixel + ypixel * _texture.width].R == 0 && data[xpixel + ypixel * _texture.width].G == 0 && data[xpixel + ypixel * _texture.width].B == 0 && data[xpixel + ypixel * _texture.width].A == 0)
                     {
                         if (leftPixel == -1)
                         {
@@ -194,7 +194,7 @@ public class FancyBitmapFont : Transform
                             xpixel--;
                             for (int yheight = ypixel + 1; yheight < _texture.height; yheight++)
                             {
-                                if (data[xpixel + yheight * _texture.width].r != 0 || data[xpixel + yheight * _texture.width].g != 0 || data[xpixel + yheight * _texture.width].b != 0 || data[xpixel + yheight * _texture.width].a != 0)
+                                if (data[xpixel + yheight * _texture.width].R != 0 || data[xpixel + yheight * _texture.width].G != 0 || data[xpixel + yheight * _texture.width].B != 0 || data[xpixel + yheight * _texture.width].A != 0)
                                 {
                                     _charHeight = yheight - ypixel;
                                     break;
@@ -296,7 +296,7 @@ public class FancyBitmapFont : Transform
         }
         if (read == "PREV")
         {
-            return new Color(_previousColor.r, _previousColor.g, _previousColor.b);
+            return new Color(_previousColor.R, _previousColor.G, _previousColor.B);
         }
         return Colors.ParseColor(read);
     }
@@ -766,7 +766,7 @@ public class FancyBitmapFont : Transform
         {
             return;
         }
-        Color highlight = new Color(255 - c.r, 255 - c.g, 255 - c.b);
+        Color highlight = new Color(255 - c.R, 255 - c.G, 255 - c.B);
         float yOff = 0f;
         float xOff = 0f;
         int curRow = 0;
@@ -780,7 +780,7 @@ public class FancyBitmapFont : Transform
                 if (spr != null)
                 {
                     float al = spr.Alpha;
-                    spr.Alpha = base.Alpha * c.ToVector4().w;
+                    spr.Alpha = base.Alpha * c.ToVector4().W;
                     if (spr != null)
                     {
                         float yCenter = characterHeight / 2 - spr.height / 2;
@@ -837,7 +837,7 @@ public class FancyBitmapFont : Transform
                     _previousColor = c;
                     if (!_drawingOutline)
                     {
-                        float al2 = c.ToVector4().w;
+                        float al2 = c.ToVector4().W;
                         c = col;
                         c *= al2;
                     }
@@ -988,7 +988,7 @@ public class FancyBitmapFont : Transform
                     }
                     box.AppendText(curString);
                     curString = "";
-                    box.SelectionColor = System.Drawing.Color.FromArgb(col.r, col.g, col.b);
+                    box.SelectionColor = System.Drawing.Color.FromArgb(col.R, col.G, col.B);
                     processedSpecialCharacter = true;
                 }
                 else

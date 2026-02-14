@@ -410,7 +410,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
         if (_hasGlass)
         {
             Color c = windowColors[tint.value];
-            c.a = 51;
+            c.A = 51;
             _sprite.color = c;
             base.Alpha = 0.7f;
             if (floor)
@@ -429,7 +429,7 @@ public class Window : Block, IPlatform, ISequenceItem, IDontMove
                 {
                     return;
                 }
-                Graphics.DrawLine(col: new Color((byte)((float)(int)c.r * 0.5f), (byte)((float)(int)c.g * 0.5f), (byte)((float)(int)c.b * 0.8f), (byte)178), p1: _hits[i] + waver, p2: _hits[i + 1] + waver);
+                Graphics.DrawLine(col: new Color((byte)((float)(int)c.R * 0.5f), (byte)((float)(int)c.G * 0.5f), (byte)((float)(int)c.B * 0.8f), (byte)178), p1: _hits[i] + waver, p2: _hits[i + 1] + waver);
             }
         }
         Position -= waver;

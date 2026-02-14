@@ -288,7 +288,7 @@ public class ArcadeMachine : Thing
             Color[] data = target.GetData();
             for (int i = 0; i < newTex.Width * newTex.Height; i++)
             {
-                if (data[i].r == 250 && data[i].g == 0 && data[i].b == byte.MaxValue)
+                if (data[i].R == 250 && data[i].G == 0 && data[i].B == byte.MaxValue)
                 {
                     data[i] = new Color(0, 0, 0, 0);
                 }

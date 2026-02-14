@@ -98,104 +98,104 @@ public static class Lerp
         return current;
     }
 
-    public static Vec3 Vec3(Vec3 current, Vec3 to, float amount)
+    public static Vector3 Vector3(Vector3 current, Vector3 to, float amount)
     {
-        Vec3 c = current;
-        Vec3 c2 = to;
-        Vec3 c3norm = c2 - c;
+        Vector3 c = current;
+        Vector3 c2 = to;
+        Vector3 c3norm = c2 - c;
         if (c3norm.Length() < 0.0001f)
         {
             return current;
         }
         c3norm.Normalize();
-        Vec3 ret = c + c3norm * amount;
-        if (c2.x > c.x && ret.x > c2.x)
+        Vector3 ret = c + c3norm * amount;
+        if (c2.X > c.X && ret.X > c2.X)
         {
-            ret.x = c2.x;
+            ret.X = c2.X;
         }
-        if (c2.x < c.x && ret.x < c2.x)
+        if (c2.X < c.X && ret.X < c2.X)
         {
-            ret.x = c2.x;
+            ret.X = c2.X;
         }
-        if (c2.y > c.y && ret.y > c2.y)
+        if (c2.Y > c.Y && ret.Y > c2.Y)
         {
-            ret.y = c2.y;
+            ret.Y = c2.Y;
         }
-        if (c2.y < c.y && ret.y < c2.y)
+        if (c2.Y < c.Y && ret.Y < c2.Y)
         {
-            ret.y = c2.y;
+            ret.Y = c2.Y;
         }
-        if (c2.z > c.z && ret.z > c2.z)
+        if (c2.Z > c.Z && ret.Z > c2.Z)
         {
-            ret.z = c2.z;
+            ret.Z = c2.Z;
         }
-        if (c2.z < c.z && ret.z < c2.z)
+        if (c2.Z < c.Z && ret.Z < c2.Z)
         {
-            ret.z = c2.z;
+            ret.Z = c2.Z;
         }
         return ret;
     }
 
     public static Color Color(Color current, Color to, float amount)
     {
-        Vec4 c = current.ToVector4();
-        Vec4 c2 = to.ToVector4();
-        Vec4 c3norm = c2 - c;
+        Vector4 c = current.ToVector4();
+        Vector4 c2 = to.ToVector4();
+        Vector4 c3norm = c2 - c;
         if (c3norm.Length() < 0.0001f)
         {
             return current;
         }
         c3norm.Normalize();
-        Vec4 ret = c + c3norm * amount;
-        if (c2.x > c.x && ret.x > c2.x)
+        Vector4 ret = c + c3norm * amount;
+        if (c2.X > c.X && ret.X > c2.X)
         {
-            ret.x = c2.x;
+            ret.X = c2.X;
         }
-        if (c2.x < c.x && ret.x < c2.x)
+        if (c2.X < c.X && ret.X < c2.X)
         {
-            ret.x = c2.x;
+            ret.X = c2.X;
         }
-        if (c2.y > c.y && ret.y > c2.y)
+        if (c2.Y > c.Y && ret.Y > c2.Y)
         {
-            ret.y = c2.y;
+            ret.Y = c2.Y;
         }
-        if (c2.y < c.y && ret.y < c2.y)
+        if (c2.Y < c.Y && ret.Y < c2.Y)
         {
-            ret.y = c2.y;
+            ret.Y = c2.Y;
         }
-        if (c2.z > c.z && ret.z > c2.z)
+        if (c2.Z > c.Z && ret.Z > c2.Z)
         {
-            ret.z = c2.z;
+            ret.Z = c2.Z;
         }
-        if (c2.z < c.z && ret.z < c2.z)
+        if (c2.Z < c.Z && ret.Z < c2.Z)
         {
-            ret.z = c2.z;
+            ret.Z = c2.Z;
         }
-        if (c2.w > c.w && ret.w > c2.w)
+        if (c2.W > c.W && ret.W > c2.W)
         {
-            ret.w = c2.w;
+            ret.W = c2.W;
         }
-        if (c2.w < c.w && ret.w < c2.w)
+        if (c2.W < c.W && ret.W < c2.W)
         {
-            ret.w = c2.w;
+            ret.W = c2.W;
         }
-        return new Color(ret.x, ret.y, ret.z, ret.w);
+        return new Color(ret.X, ret.Y, ret.Z, ret.W);
     }
 
     public static Color ColorSmooth(Color current, Color to, float amount)
     {
-        Vec4 c = current.ToVector4();
-        Vec4 c2 = to.ToVector4();
-        Vec4 ret = c + (c2 - c) * amount;
-        return new Color(ret.x, ret.y, ret.z, ret.w);
+        Vector4 c = current.ToVector4();
+        Vector4 c2 = to.ToVector4();
+        Vector4 ret = c + (c2 - c) * amount;
+        return new Color(ret.X, ret.Y, ret.Z, ret.W);
     }
 
     public static Color ColorSmoothNoAlpha(Color current, Color to, float amount)
     {
-        Vec4 c = current.ToVector4();
-        Vec4 c2 = to.ToVector4();
-        Vec4 ret = c + (c2 - c) * amount;
-        ret.w = 1f;
-        return new Color(ret.x, ret.y, ret.z, ret.w);
+        Vector4 c = current.ToVector4();
+        Vector4 c2 = to.ToVector4();
+        Vector4 ret = c + (c2 - c) * amount;
+        ret.W = 1f;
+        return new Color(ret.X, ret.Y, ret.Z, ret.W);
     }
 }

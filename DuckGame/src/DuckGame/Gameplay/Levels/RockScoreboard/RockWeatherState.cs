@@ -4,11 +4,11 @@ namespace DuckGame;
 
 public class RockWeatherState
 {
-    public Vec3 add;
+    public Vector3 add;
 
-    public Vec3 multiply;
+    public Vector3 multiply;
 
-    public Vec3 sky;
+    public Vector3 sky;
 
     public Vector2 sunPos;
 

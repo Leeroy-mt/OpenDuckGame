@@ -87,7 +87,7 @@ public class PlusOne : Thing
             _font.Draw(text, xposit + 1f, base.Y - 1f, Color.Black, 0.8f);
             _font.Draw(text, xposit - 1f, base.Y + 1f, Color.Black, 0.8f);
             _font.Draw(text, xposit + 1f, base.Y + 1f, Color.Black, 0.8f);
-            Color c = new Color((byte)_profile.persona.color.x, (byte)_profile.persona.color.y, (byte)_profile.persona.color.z);
+            Color c = new Color((byte)_profile.persona.color.X, (byte)_profile.persona.color.Y, (byte)_profile.persona.color.Z);
             _font.Draw(text, xposit, base.Y, c, 0.9f);
         }
     }

@@ -201,7 +201,7 @@ public class RockScoreboard : Level
 
     public ScoreBoardMode mode => _mode;
 
-    public Vec3 fieldAddColor
+    public Vector3 fieldAddColor
     {
         set
         {
@@ -215,7 +215,7 @@ public class RockScoreboard : Level
         }
     }
 
-    public Vec3 fieldMulColor
+    public Vector3 fieldMulColor
     {
         set
         {
@@ -970,17 +970,17 @@ public class RockScoreboard : Level
         _fieldForeground.fade = 0f;
         _wall.fade = 0f;
         _fieldForeground2.fade = 0f;
-        Vec3 gameColorMul = Layer.Game.colorMul;
-        Vec3 backColorMul = Layer.Background.colorMul;
-        Layer.Game.colorMul = Vec3.One;
-        Layer.Background.colorMul = Vec3.One;
+        Vector3 gameColorMul = Layer.Game.colorMul;
+        Vector3 backColorMul = Layer.Background.colorMul;
+        Layer.Game.colorMul = Vector3.One;
+        Layer.Background.colorMul = Vector3.One;
         Layer.HUD.fade = 0f;
         Layer.Console.fade = 0f;
-        fieldMulColor = Vec3.One;
-        Vec3 colorAdd = Layer.Game.colorAdd;
-        Layer.Game.colorAdd = Vec3.Zero;
-        Layer.Background.colorAdd = Vec3.Zero;
-        fieldAddColor = Vec3.Zero;
+        fieldMulColor = Vector3.One;
+        Vector3 colorAdd = Layer.Game.colorAdd;
+        Layer.Game.colorAdd = Vector3.Zero;
+        Layer.Background.colorAdd = Vector3.Zero;
+        fieldAddColor = Vector3.Zero;
         Layer.blurry = true;
         sunThing.Alpha = RockWeather.sunOpacity;
         ((SpriteThing)rainbowThing2).Alpha = 0f;
@@ -992,13 +992,13 @@ public class RockScoreboard : Level
             _sunshineMaterialBare = new MaterialSunshineBare();
         }
         Vector2 pos = sunPos;
-        Vec3 newPos = new Vec3(pos.X, -9999f, pos.Y);
+        Vector3 newPos = new Vector3(pos.X, -9999f, pos.Y);
         Viewport v = new Viewport(0, 0, (int)Layer.HUD.width, (int)Layer.HUD.height);
         newPos = v.Project(newPos, sunLayer.projection, sunLayer.view, Matrix.Identity);
-        newPos.y -= 256f;
-        newPos.x /= v.Width;
-        newPos.y /= v.Height;
-        _sunshineMaterialBare.effect.effect.Parameters["lightPos"].SetValue(new Vector2(newPos.x, newPos.y));
+        newPos.Y -= 256f;
+        newPos.X /= v.Width;
+        newPos.Y /= v.Height;
+        _sunshineMaterialBare.effect.effect.Parameters["lightPos"].SetValue(new Vector2(newPos.X, newPos.Y));
         _sunshineMaterialBare.effect.effect.Parameters["weight"].SetValue(1f);
         _sunshineMaterialBare.effect.effect.Parameters["density"].SetValue(0.4f);
         _sunshineMaterialBare.effect.effect.Parameters["decay"].SetValue(0.68f + RockWeather.sunGlow);

@@ -10,11 +10,11 @@ public class DuckPersona
 {
     private int _index = -1;
 
-    private Vec3 _color;
+    private Vector3 _color;
 
-    private Vec3 _colorDark;
+    private Vector3 _colorDark;
 
-    private Vec3 _colorLight;
+    private Vector3 _colorLight;
 
     private SpriteMap _skipSprite;
 
@@ -42,7 +42,7 @@ public class DuckPersona
 
     public MaterialPersona material;
 
-    public bool mallard => _colorDark != Vec3.Zero;
+    public bool mallard => _colorDark != Vector3.Zero;
 
     public int index
     {
@@ -75,7 +75,7 @@ public class DuckPersona
         }
     }
 
-    public Vec3 color
+    public Vector3 color
     {
         get
         {
@@ -87,11 +87,11 @@ public class DuckPersona
         }
     }
 
-    public Vec3 colorDark
+    public Vector3 colorDark
     {
         get
         {
-            if (_colorDark == Vec3.Zero)
+            if (_colorDark == Vector3.Zero)
             {
                 return _color * 0.7f;
             }
@@ -99,9 +99,9 @@ public class DuckPersona
         }
     }
 
-    public Vec3 colorLight => _colorLight;
+    public Vector3 colorLight => _colorLight;
 
-    public Color colorUsable => new Color((byte)_color.x, (byte)_color.y, (byte)_color.z);
+    public Color colorUsable => new Color((byte)_color.X, (byte)_color.Y, (byte)_color.Z);
 
     public SpriteMap skipSprite
     {
@@ -240,12 +240,12 @@ public class DuckPersona
         return Graphics.RecolorOld(pTex, _color);
     }
 
-    public DuckPersona(Vec3 varCol)
-        : this(varCol, Vec3.Zero, Vec3.Zero)
+    public DuckPersona(Vector3 varCol)
+        : this(varCol, Vector3.Zero, Vector3.Zero)
     {
     }
 
-    public DuckPersona(Vec3 varCol, Vec3 varCol2, Vec3 varCol3)
+    public DuckPersona(Vector3 varCol, Vector3 varCol2, Vector3 varCol3)
     {
         _color = varCol;
         _colorDark = varCol2;
@@ -253,11 +253,11 @@ public class DuckPersona
         material = new MaterialPersona(this);
         try
         {
-            if (varCol2 != Vec3.Zero)
+            if (varCol2 != Vector3.Zero)
             {
-                Color c1 = new Color(varCol.x / 255f, varCol.y / 255f, varCol.z / 255f);
-                Color c2 = new Color(varCol2.x / 255f, varCol2.y / 255f, varCol2.z / 255f);
-                Color c3 = new Color(varCol3.x / 255f, varCol3.y / 255f, varCol3.z / 255f);
+                Color c1 = new Color(varCol.X / 255f, varCol.Y / 255f, varCol.Z / 255f);
+                Color c2 = new Color(varCol2.X / 255f, varCol2.Y / 255f, varCol2.Z / 255f);
+                Color c3 = new Color(varCol3.X / 255f, varCol3.Y / 255f, varCol3.Z / 255f);
                 _skipSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("skipSign_m"), c1, c2, c3), 52, 18);
                 _skipSprite.Center = new Vector2(_skipSprite.width - 3, 15f);
                 _arrowSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("startArrow_m"), c1, c2, c3), 24, 16);

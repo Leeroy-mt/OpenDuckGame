@@ -63,7 +63,7 @@ public class SunLight : Thing, ILight
         {
             affectors.Clear();
             geo = MTSpriteBatch.CreateGeometryItem();
-            lightColor.a = 0;
+            lightColor.A = 0;
             Vector2 tl = start;
             float dis = 0.25f;
             Vector2 rayOffset = new Vector2(3000f, 5000f);

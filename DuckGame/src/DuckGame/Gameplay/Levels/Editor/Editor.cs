@@ -2141,8 +2141,8 @@ public class Editor : Level
                     camera.width = 64f;
                 camera.height = camera.width / Resolution.current.aspect;
                 Vector2 camPos = camera.position;
-                (Matrix.CreateTranslation(new Vec3(camPos.X, camPos.Y, 0)) * Matrix.CreateTranslation(new Vec3(0 - mouse.X, 0 - mouse.Y, 0)) * Matrix.CreateScale(camera.width / prevSize.X, camera.height / prevSize.Y, 1) * Matrix.CreateTranslation(new Vec3(mouse.X, mouse.Y, 0))).Decompose(out var _, out var _, out var translation);
-                camera.position = new Vector2(translation.x, translation.y);
+                (Matrix.CreateTranslation(new Vector3(camPos.X, camPos.Y, 0)) * Matrix.CreateTranslation(new Vector3(0 - mouse.X, 0 - mouse.Y, 0)) * Matrix.CreateScale(camera.width / prevSize.X, camera.height / prevSize.Y, 1) * Matrix.CreateTranslation(new Vector3(mouse.X, mouse.Y, 0))).Decompose(out var _, out var _, out var translation);
+                camera.position = new Vector2(translation.X, translation.Y);
             }
             didUIScroll = false;
             if (inputMode == EditorInput.Mouse)

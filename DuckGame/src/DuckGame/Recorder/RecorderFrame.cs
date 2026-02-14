@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,8 +106,8 @@ public struct RecorderFrame
                 MTEffect e = Content.GetMTEffectFromIndex(state.effectIndex);
                 if (Layer.IsBasicLayerEffect(e))
                 {
-                    e.effect.Parameters["fade"].SetValue(new Vec3(Graphics.fade));
-                    e.effect.Parameters["add"].SetValue(new Vec3(Graphics.fadeAddRenderValue));
+                    e.effect.Parameters["fade"].SetValue(new Vector3(Graphics.fade));
+                    e.effect.Parameters["add"].SetValue(new Vector3(Graphics.fadeAddRenderValue));
                 }
                 Graphics.screen.Begin(state.sortMode, state.blendState, state.samplerState, state.depthStencilState, state.rasterizerState, Content.GetMTEffectFromIndex(state.effectIndex), state.camera);
                 Graphics.SetScissorRectangle(state.scissor);

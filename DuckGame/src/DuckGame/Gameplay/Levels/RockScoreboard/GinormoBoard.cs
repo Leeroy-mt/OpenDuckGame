@@ -115,7 +115,7 @@ public class GinormoBoard : Thing
         overlayLayer.view = Layer.Game.view;
         overlayLayer.camera = Layer.Game.camera;
         float val = 1f - RockWeather.lightOpacity;
-        boardLightingLayer.colorAdd = new Vec3(val);
+        boardLightingLayer.colorAdd = new Vector3(val);
         if (RockWeather.lightOpacity > 0.01f)
         {
             _lighting.frame = 1;

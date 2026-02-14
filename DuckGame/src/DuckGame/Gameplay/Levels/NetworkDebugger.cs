@@ -1098,15 +1098,15 @@ public class NetworkDebugger : Level
                 DCLine line = lines.ElementAt(listIndex + lineDrawIndex);
                 DevConsole.DrawLine(linePos, line, logTimes, logSections);
                 Color col = DCLine.ColorForSection(line.section);
-                col.r = (byte)((float)(int)col.r * 0.1f);
-                col.g = (byte)((float)(int)col.g * 0.1f);
-                col.b = (byte)((float)(int)col.b * 0.1f);
+                col.R = (byte)((float)(int)col.R * 0.1f);
+                col.G = (byte)((float)(int)col.G * 0.1f);
+                col.B = (byte)((float)(int)col.B * 0.1f);
                 if (line.line.Contains("@error"))
                 {
                     col = Color.Red;
-                    col.r = (byte)((float)(int)col.r * 0.3f);
-                    col.g = (byte)((float)(int)col.g * 0.3f);
-                    col.b = (byte)((float)(int)col.b * 0.3f);
+                    col.R = (byte)((float)(int)col.R * 0.3f);
+                    col.G = (byte)((float)(int)col.G * 0.3f);
+                    col.B = (byte)((float)(int)col.B * 0.3f);
                 }
                 Graphics.DrawRect(linePos + new Vector2(-4f, -1f), new Vector2(logsBR.X - 14f, linePos.Y + 9f), col, 0.85f);
                 if (line.frames + frames > 0)

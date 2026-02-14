@@ -202,7 +202,7 @@ public class ConnectionStatusUI
                 {
                     name = name.Substring(0, 14) + "..";
                 }
-                string colorString = "|" + bar.profile.persona.colorUsable.r + "," + bar.profile.persona.colorUsable.g + "," + bar.profile.persona.colorUsable.b + "|";
+                string colorString = "|" + bar.profile.persona.colorUsable.R + "," + bar.profile.persona.colorUsable.G + "," + bar.profile.persona.colorUsable.B + "|";
                 if (bar.profile.connection != null && bar.profile.connection.isHost)
                 {
                     name = "@HOSTCROWN@" + name;

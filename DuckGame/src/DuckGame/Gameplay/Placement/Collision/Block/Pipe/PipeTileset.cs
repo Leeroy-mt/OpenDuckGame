@@ -958,7 +958,7 @@ public class PipeTileset : Block, IDontMove, IDrawToDifferentLayers
         {
             base.Depth = pipeDepth - 1.8f;
             graphic.color = c * 0.5f;
-            graphic.color = new Color(graphic.color.r, graphic.color.g, graphic.color.b, byte.MaxValue);
+            graphic.color = new Color(graphic.color.R, graphic.color.G, graphic.color.B, byte.MaxValue);
         }
         else
         {

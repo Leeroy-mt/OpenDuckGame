@@ -273,7 +273,7 @@ public class UIConnectionInfo : UIMenuItem
     void UpdateName()
     {
         Profile p = _profile;
-        string colorString = "|" + p.persona.colorUsable.r + "," + p.persona.colorUsable.g + "," + p.persona.colorUsable.b + "|";
+        string colorString = "|" + p.persona.colorUsable.R + "," + p.persona.colorUsable.G + "," + p.persona.colorUsable.B + "|";
         if (p.slotType == SlotType.Spectator)
             colorString = "|DGPURPLE|";
         string name = p.nameUI;

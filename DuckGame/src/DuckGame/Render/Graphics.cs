@@ -79,7 +79,7 @@ public static class Graphics
     static RenderTarget2D _defaultRenderTarget;
 
     static readonly List<Action>[] _renderTasks = [[], []];
-    static Dictionary<Tex2D, Dictionary<Vec3, Tex2D>> _recolorMap = [];
+    static Dictionary<Tex2D, Dictionary<Vector3, Tex2D>> _recolorMap = [];
     static Stack<Rectangle> _scissorStack = new();
 
     #endregion
@@ -717,21 +717,21 @@ public static class Graphics
         DrawDottedLine(new Vector2(p2.X - wideDiv, p2.Y - borderWidth), new Vector2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, dotLength, depth);
     }
 
-    public static Tex2D Recolor(string sprite, Vec3 color)
+    public static Tex2D Recolor(string sprite, Vector3 color)
     {
         return RecolorOld(Content.Load<Tex2D>(sprite), color);
     }
 
-    public static Tex2D Recolor(Tex2D sprite, Vec3 color)
+    public static Tex2D Recolor(Tex2D sprite, Vector3 color)
     {
-        if (_recolorMap.TryGetValue(sprite, out Dictionary<Vec3, Tex2D> innerMap))
+        if (_recolorMap.TryGetValue(sprite, out Dictionary<Vector3, Tex2D> innerMap))
         {
             if (innerMap.TryGetValue(color, out Tex2D ret))
                 return ret;
         }
         else
             _recolorMap[sprite] = [];
-        MaterialRecolor mat = new(new Vec3(color.x / 255, color.y / 255, color.z / 255));
+        MaterialRecolor mat = new(new Vector3(color.X / 255, color.Y / 255, color.Z / 255));
         RenderTarget2D target = new(sprite.w, sprite.h);
         SetRenderTarget(target);
         Clear(new Color(0, 0, 0, 0));
@@ -748,9 +748,9 @@ public static class Graphics
         return tex;
     }
 
-    public static Tex2D RecolorOld(Tex2D sprite, Vec3 color)
+    public static Tex2D RecolorOld(Tex2D sprite, Vector3 color)
     {
-        MaterialRecolor mat = new(new Vec3(color.x / 255, color.y / 255, color.z / 255));
+        MaterialRecolor mat = new(new Vector3(color.X / 255, color.Y / 255, color.Z / 255));
         RenderTarget2D target = new(sprite.w, sprite.h);
         SetRenderTarget(target);
         Clear(new Color(0, 0, 0, 0));

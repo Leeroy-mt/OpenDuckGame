@@ -34,9 +34,9 @@ public class RainParticle : WeatherParticle
                 alpha = 0f;
             }
             Vector2 pos = position;
-            Vec3 newPos = new Vec3(pos.X, z, pos.Y);
+            Vector3 newPos = new Vector3(pos.X, z, pos.Y);
             newPos = new Viewport(0, 0, (int)Layer.HUD.width, (int)Layer.HUD.height).Project(newPos, Layer.Game.projection, Layer.Game.view, Matrix.Identity);
-            position = new Vector2(newPos.x, newPos.y);
+            position = new Vector2(newPos.X, newPos.Y);
             float znorm = z / 200f;
             splash.Depth = -0.02f + znorm * 0.1f;
             splash.color = Color.White * 0.8f;
@@ -46,9 +46,9 @@ public class RainParticle : WeatherParticle
         else
         {
             Vector2 pos2 = position;
-            Vec3 newPos2 = new Vec3(pos2.X, z, pos2.Y);
+            Vector3 newPos2 = new Vector3(pos2.X, z, pos2.Y);
             newPos2 = new Viewport(0, 0, (int)Layer.HUD.width, (int)Layer.HUD.height).Project(newPos2, Layer.Game.projection, Layer.Game.view, Matrix.Identity);
-            position = new Vector2(newPos2.x, newPos2.y);
+            position = new Vector2(newPos2.X, newPos2.Y);
             float znorm2 = z / 200f;
             Graphics.DrawLine(position, _prevPos, Color.White * 0.8f, 1f, -0.02f + znorm2 * 0.1f);
             _prevPos = position;

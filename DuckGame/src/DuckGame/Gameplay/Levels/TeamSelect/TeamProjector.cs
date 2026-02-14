@@ -91,11 +91,11 @@ public class TeamProjector : Thing
             Color darken = new Color(0.35f, 0.5f, 0.6f);
             p.persona.sprite.Alpha = Maths.Clamp(_swapFade, 0f, 1f);
             p.persona.sprite.color = darken * (0.7f + _projectorSin.normalized * 0.1f);
-            p.persona.sprite.color = new Color(p.persona.sprite.color.r, p.persona.sprite.color.g, p.persona.sprite.color.b);
+            p.persona.sprite.color = new Color(p.persona.sprite.color.R, p.persona.sprite.color.G, p.persona.sprite.color.B);
             p.persona.sprite.flipH = false;
             p.persona.armSprite.Alpha = Maths.Clamp(_swapFade, 0f, 1f);
             p.persona.armSprite.color = darken * (0.7f + _projectorSin.normalized * 0.1f);
-            p.persona.armSprite.color = new Color(p.persona.armSprite.color.r, p.persona.armSprite.color.g, p.persona.armSprite.color.b);
+            p.persona.armSprite.color = new Color(p.persona.armSprite.color.R, p.persona.armSprite.color.G, p.persona.armSprite.color.B);
             p.persona.armSprite.flipH = false;
             p.persona.sprite.Scale = new Vector2(1f, 1f);
             p.persona.armSprite.Scale = new Vector2(1f, 1f);

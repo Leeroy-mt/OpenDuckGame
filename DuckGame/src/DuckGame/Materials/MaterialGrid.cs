@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -39,9 +40,9 @@ public class MaterialGrid : Material
     public override void Apply()
     {
         Matrix fullMatrix = Layer.Game.fullMatrix;
-        Vec3 trans = Vec3.Transform(new Vec3(_thing.X - 28f, _thing.Y, 0f), fullMatrix);
-        Vec3 trans2 = Vec3.Transform(new Vec3(_thing.X + 28f, _thing.Y, 0f), fullMatrix);
-        SetValue("scan", trans.x + ((float)Math.Sin(transWave) + 1f) / 2f * (trans2.x - trans.x));
+        Vector3 trans = Vector3.Transform(new Vector3(_thing.X - 28f, _thing.Y, 0f), fullMatrix);
+        Vector3 trans2 = Vector3.Transform(new Vector3(_thing.X + 28f, _thing.Y, 0f), fullMatrix);
+        SetValue("scan", trans.X + ((float)Math.Sin(transWave) + 1f) / 2f * (trans2.X - trans.X));
         SetValue("secondScan", secondScan ? 1f : 0f);
         foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
         {

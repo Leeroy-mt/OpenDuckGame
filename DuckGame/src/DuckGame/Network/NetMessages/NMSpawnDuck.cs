@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace DuckGame;
 
 public class NMSpawnDuck : NMEvent
@@ -31,10 +33,10 @@ public class NMSpawnDuck : NMEvent
                 p.duck.connection = p.connection;
             }
             p.duck.visible = true;
-            Vec3 col = p.persona.color;
-            Level.Add(new SpawnLine(p.duck.X, p.duck.Y, 0, 0f, new Color((int)col.x, (int)col.y, (int)col.z), 32f));
-            Level.Add(new SpawnLine(p.duck.X, p.duck.Y, 0, -4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
-            Level.Add(new SpawnLine(p.duck.X, p.duck.Y, 0, 4f, new Color((int)col.x, (int)col.y, (int)col.z), 4f));
+            Vector3 col = p.persona.color;
+            Level.Add(new SpawnLine(p.duck.X, p.duck.Y, 0, 0f, new Color((int)col.X, (int)col.Y, (int)col.Z), 32f));
+            Level.Add(new SpawnLine(p.duck.X, p.duck.Y, 0, -4f, new Color((int)col.X, (int)col.Y, (int)col.Z), 4f));
+            Level.Add(new SpawnLine(p.duck.X, p.duck.Y, 0, 4f, new Color((int)col.X, (int)col.Y, (int)col.Z), 4f));
             SFX.Play("pullPin", 0.7f);
         }
     }

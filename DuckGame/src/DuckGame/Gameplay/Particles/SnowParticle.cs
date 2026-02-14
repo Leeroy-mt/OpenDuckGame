@@ -15,9 +15,9 @@ public class SnowParticle : WeatherParticle
     public override void Draw()
     {
         Vector2 pos = position;
-        Vec3 newPos = new Vec3(pos.X, z, pos.Y);
+        Vector3 newPos = new Vector3(pos.X, z, pos.Y);
         newPos = new Viewport(0, 0, (int)Layer.HUD.width, (int)Layer.HUD.height).Project(newPos, Layer.Game.projection, Layer.Game.view, Matrix.Identity);
-        position = new Vector2(newPos.x, newPos.y);
+        position = new Vector2(newPos.X, newPos.Y);
         float znorm = z / 200f;
         float size = 0.3f + znorm * 0.3f;
         Graphics.DrawRect(position + new Vector2(0f - size, 0f - size), position + new Vector2(size, size), Color.White * alpha, -0.02f + znorm * 0.1f);
