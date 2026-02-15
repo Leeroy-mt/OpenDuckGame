@@ -325,8 +325,8 @@ internal class WindowsPlatformStartup
         string mods = "";
         string assembly = pAssemblyName ?? "DuckGame";
         string exception = pException?.GetType().ToString() ?? "Unknown";
-        string b64log = CrashWindow.CrashWindow.Base64Encode((pLogMessage == "") ? "none" : pLogMessage);
-        return $" -pVersion {version} -pMods {CrashWindow.CrashWindow.Base64Encode((mods == "") ? "none" : mods)} -pAssembly {CrashWindow.CrashWindow.Base64Encode(assembly)} -pException {CrashWindow.CrashWindow.Base64Encode(exception)} -pLogMessage {b64log}";
+        string b64log = Utils.Base64Encode((pLogMessage == "") ? "none" : pLogMessage);
+        return $" -pVersion {version} -pMods {Utils.Base64Encode((mods == "") ? "none" : mods)} -pAssembly {Utils.Base64Encode(assembly)} -pException {Utils.Base64Encode(exception)} -pLogMessage {b64log}";
     }
 
     public static List<string> BadFormatExceptionAssembly()

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace DuckGame;
 
@@ -15,5 +17,17 @@ internal class Utils
             shuffled[i] = temp;
         }
         return shuffled;
+    }
+
+    public static string Base64Decode(string base64EncodedData)
+    {
+        byte[] base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+        return Encoding.UTF8.GetString(base64EncodedBytes);
+    }
+
+    public static string Base64Encode(string plainText)
+    {
+        byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+        return Convert.ToBase64String(plainTextBytes);
     }
 }
