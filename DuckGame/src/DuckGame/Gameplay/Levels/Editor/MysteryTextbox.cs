@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
+using SDL3;
 using System.IO;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace DuckGame;
 
@@ -147,10 +147,8 @@ public class MysteryTextbox
     public void ReadClipboardText()
     {
         _clipboardText = "";
-        if (Clipboard.ContainsText())
-        {
-            _clipboardText = Clipboard.GetText();
-        }
+        if (SDL.SDL_HasClipboardText())
+            _clipboardText = SDL.SDL_GetClipboardText();
     }
 
     public void Update(int page = 0, int rowsPerPage = -1, int firstPageRows = 0)
@@ -206,13 +204,7 @@ public class MysteryTextbox
                 }
                 if (copyText != "")
                 {
-                    Thread thread2 = new Thread((ThreadStart)delegate
-                    {
-                        Clipboard.SetText(copyText);
-                    });
-                    thread2.SetApartmentState(ApartmentState.STA);
-                    thread2.Start();
-                    thread2.Join();
+                    SDL.SDL_SetClipboardText(copyText);
                 }
                 if (Keyboard.Pressed(Keys.X))
                 {

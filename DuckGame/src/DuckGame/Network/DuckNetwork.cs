@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
+using SDL3;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace DuckGame;
 
@@ -1189,13 +1189,7 @@ public class DuckNetwork
     {
         if (Steam.user != null && Steam.lobby != null)
         {
-            Thread thread = new Thread((ThreadStart)delegate
-            {
-                Clipboard.SetText("steam://joinlobby/312530/" + Steam.lobby.id + "/" + Steam.user.id);
-            });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            thread.Join();
+            SDL.SDL_SetClipboardText("steam://joinlobby/312530/" + Steam.lobby.id + "/" + Steam.user.id);
             HUD.AddPlayerChangeDisplay("@CLIPCOPY@Invite Link Copied!");
         }
     }

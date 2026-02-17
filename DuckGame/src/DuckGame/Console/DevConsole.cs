@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SDL3;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -2158,13 +2159,7 @@ public class DevConsole
             {
                 currentPart += core.lines.ElementAt(i).ToShortString();
             }
-            Thread thread = new Thread((ThreadStart)delegate
-            {
-                Clipboard.SetText(currentPart);
-            });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            thread.Join();
+            SDL.SDL_SetClipboardText(currentPart);
             _core.lines.Enqueue(new DCLine
             {
                 line = "Log was copied to clipboard!",
@@ -2381,26 +2376,14 @@ public class DevConsole
                 {
                     if (!string.IsNullOrWhiteSpace(_core.typing))
                     {
-                        Thread thread = new Thread((ThreadStart)delegate
-                        {
-                            Clipboard.SetText(_core.typing);
-                        });
-                        thread.SetApartmentState(ApartmentState.STA);
-                        thread.Start();
-                        thread.Join();
+                        SDL.SDL_SetClipboardText(_core.typing);
                         HUD.AddPlayerChangeDisplay("@CLIPCOPY@Copied!");
                     }
                 }
                 else if (Keyboard.Pressed(Keys.V))
                 {
                     string paste = "";
-                    Thread thread2 = new Thread((ThreadStart)delegate
-                    {
-                        paste = Clipboard.GetText();
-                    });
-                    thread2.SetApartmentState(ApartmentState.STA);
-                    thread2.Start();
-                    thread2.Join();
+                    paste = SDL.SDL_GetClipboardText();
                     string[] array = paste.Replace('\r', '\n').Split('\n');
                     List<string> commands = new List<string>();
                     string[] array2 = array;

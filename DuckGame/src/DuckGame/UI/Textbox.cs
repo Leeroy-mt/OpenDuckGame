@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SDL3;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -112,10 +113,8 @@ public class Textbox
     public void ReadClipboardText()
     {
         _clipboardText = "";
-        if (Clipboard.ContainsText())
-        {
-            _clipboardText = Clipboard.GetText();
-        }
+        if (SDL.SDL_HasClipboardText())
+            _clipboardText = SDL.SDL_GetClipboardText();
     }
 
     public void LoseFocus()
@@ -190,13 +189,7 @@ public class Textbox
                     }
                     if (copyText != "")
                     {
-                        Thread thread2 = new Thread((ThreadStart)delegate
-                        {
-                            Clipboard.SetText(copyText);
-                        });
-                        thread2.SetApartmentState(ApartmentState.STA);
-                        thread2.Start();
-                        thread2.Join();
+                        SDL.SDL_SetClipboardText(copyText);
                     }
                     if (Keyboard.Pressed(Keys.X))
                     {
