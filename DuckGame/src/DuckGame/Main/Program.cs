@@ -1,5 +1,6 @@
 using DbMon.NET;
 using DGWindows;
+using SDL3;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +10,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace DuckGame;
 
@@ -701,7 +701,7 @@ public static class Program
             {
                 if (args[j] == "-nolaunch")
                 {
-                    MessageBox.Show("-nolaunch Command Line Option activated! Cancelling launch!");
+                    SDL.SDL_ShowSimpleMessageBox(0, "", "-nolaunch Command Line Option activated! Cancelling launch!", 0);
                     return;
                 }
                 if (args[j] == "-alternateSaveLocation")

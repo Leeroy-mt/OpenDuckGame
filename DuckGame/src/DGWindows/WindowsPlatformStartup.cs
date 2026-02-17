@@ -6,8 +6,6 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows.Forms;
-
 namespace DGWindows;
 
 internal class WindowsPlatformStartup
@@ -98,8 +96,6 @@ internal class WindowsPlatformStartup
         public int dmPositionX;
 
         public int dmPositionY;
-
-        public ScreenOrientation dmDisplayOrientation;
 
         public int dmDisplayFixedOutput;
 

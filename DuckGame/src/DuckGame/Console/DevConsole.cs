@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace DuckGame;
 
@@ -1517,20 +1516,18 @@ public class DevConsole
         }
         if (pName == null)
         {
-            pName = DateTime.Now.ToShortDateString().Replace('/', '_') + "_" + DateTime.Now.ToLongTimeString().Replace(':', '_') + "_" + Steam.user.name + "_netlog.rtf";
+            pName = DateTime.Now.ToShortDateString().Replace('/', '_') + "_" + DateTime.Now.ToLongTimeString().Replace(':', '_') + "_" + Steam.user.name + "_netlog.txt";
         }
-        else if (!pName.EndsWith(".rtf"))
+        else if (!pName.EndsWith(".txt"))
         {
-            pName += ".rtf";
+            pName += ".txt";
         }
         string output = DuckFile.FixInvalidPath(DuckFile.logDirectory + pName);
         if (File.Exists(output))
         {
             File.Delete(output);
         }
-        RichTextBox richTextBox = new FancyBitmapFont().MakeRTF(currentPart);
-        DuckFile.CreatePath(output);
-        richTextBox.SaveFile(output);
+        File.WriteAllText(output, currentPart);
     }
 
     public static void LogTransferComplete(NetworkConnection pConnection)
@@ -1539,9 +1536,8 @@ public class DevConsole
         if (data != null)
         {
             string output = DuckFile.FixInvalidPath(DuckFile.logDirectory + DateTime.Now.ToShortDateString().Replace('/', '_') + "_" + DateTime.Now.ToLongTimeString().Replace(':', '_') + "_" + pConnection.name + "_netlog.rtf");
-            RichTextBox richTextBox = new FancyBitmapFont().MakeRTF(data);
             DuckFile.CreatePath(output);
-            richTextBox.SaveFile(output);
+            File.WriteAllText(output, data);
         }
         core.requestingLogs.Remove(pConnection);
         core.receivingLogs.Remove(pConnection);
@@ -2256,17 +2252,6 @@ public class DevConsole
                 Program.crashed = true;
                 Process.Start(Environment.ProcessPath, Program.commandLine + " -recoversave");
                 MonoMain.instance.Exit();
-            }
-        })
-        {
-            hidden = true,
-            cheat = true
-        });
-        AddCommand(new CMD("savetool", (Action)delegate
-        {
-            if (File.Exists("SaveTool.dll"))
-            {
-                MonoMain.showingSaveTool = true;
             }
         })
         {

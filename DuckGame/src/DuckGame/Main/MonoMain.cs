@@ -13,7 +13,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace DuckGame;
 
@@ -76,7 +75,6 @@ public class MonoMain : Game
     public static bool exit;
     public static bool specialSync;
     public static bool NoStart;
-    public static bool showingSaveTool;
     public static bool autoPauseFade = true;
 
     public static volatile bool pause;
@@ -109,7 +107,6 @@ public class MonoMain : Game
     public static Thread mainThread;
     public static MonoMain instance;
     public static RenderTarget2D _screenCapture;
-    public static Form saveTool;
 
     public static string[] startupAssemblies;
     public static Queue<LoadingAction> currentActionQueue;
@@ -1072,20 +1069,12 @@ public class MonoMain : Game
     }
     protected override void Update(GameTime gameTime)
     {
-        if (showingSaveTool && saveTool == null && File.Exists("SaveTool.dll"))
-        {
-            saveTool = Activator.CreateInstance(Assembly.Load(File.ReadAllBytes(Directory.GetCurrentDirectory() + "\\SaveTool.dll")).GetType("SaveRecovery.SaveTool")) as Form;
-            Graphics.mouseVisible = true;
-            saveTool.ShowDialog();
-            Program.crashed = true;
-            MonoMain.instance.Exit();
-        }
         if (Program.isLinux)
         {
             if (IsActive)
             {
                 framesBackInFocus++;
-                Graphics.mouseVisible = showingSaveTool;
+                Graphics.mouseVisible = false;
             }
             else
             {
@@ -1096,7 +1085,7 @@ public class MonoMain : Game
         else if (IsActive && IsFocused)
         {
             framesBackInFocus++;
-            Graphics.mouseVisible = showingSaveTool;
+            Graphics.mouseVisible = false;
         }
         else
         {

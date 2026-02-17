@@ -2,8 +2,6 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
-
 namespace DuckGame;
 
 public class FancyBitmapFont : Transform
@@ -964,51 +962,5 @@ public class FancyBitmapFont : Transform
                 }
             }
         }
-    }
-    public RichTextBox MakeRTF(string text)
-    {
-        RichTextBox box = new RichTextBox();
-        Color currentColor = Color.Black;
-        string curString = "";
-        box.SelectionColor = System.Drawing.Color.Black;
-        for (_letterIndex = 0; _letterIndex < text.Length; _letterIndex++)
-        {
-            bool processedSpecialCharacter = false;
-            if (text[_letterIndex] == '|')
-            {
-                int iPos = _letterIndex;
-                Color col = ParseColor(text);
-                if (col != Colors.Transparent)
-                {
-                    _previousColor = currentColor;
-                    currentColor = col;
-                    if (col == Color.White)
-                    {
-                        col = Color.Black;
-                    }
-                    box.AppendText(curString);
-                    curString = "";
-                    box.SelectionColor = System.Drawing.Color.FromArgb(col.R, col.G, col.B);
-                    processedSpecialCharacter = true;
-                }
-                else
-                {
-                    _letterIndex = iPos;
-                }
-            }
-            if (text[_letterIndex] == '\n')
-            {
-                box.AppendText(curString);
-                curString = "";
-                box.SelectionColor = System.Drawing.Color.Black;
-            }
-            if (!processedSpecialCharacter)
-            {
-                curString += text[_letterIndex];
-            }
-        }
-        box.AppendText(curString);
-        curString = "";
-        return box;
     }
 }

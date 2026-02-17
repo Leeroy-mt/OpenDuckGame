@@ -1,8 +1,6 @@
 using Microsoft.Xna.Framework;
 using SDL3;
 using System.Threading;
-using System.Windows.Forms;
-
 namespace DuckGame;
 
 public class Textbox

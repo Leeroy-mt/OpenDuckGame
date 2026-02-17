@@ -9,7 +9,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace DuckGame;
 
@@ -250,8 +249,6 @@ public class Editor : Level
     ContextMenu _placementMenu;
     ContextMenu _objectMenu;
     BinaryClassChunk _eyeDropperSerialized;
-    SaveFileDialog _saveForm = new();
-    OpenFileDialog _loadForm = new();
     NotifyDialogue _notify;
     SpriteMap _editorButtons;
     Thing _placementType;
@@ -4714,18 +4711,6 @@ public class Editor : Level
         }
         _gridW = (int)(fullRestriction.X / _cellSize);
         _gridH = (int)(fullRestriction.Y / _cellSize);
-    }
-
-    void onLoad(object sender, CancelEventArgs e)
-    {
-        if (e.Cancel)
-            return;
-        IEnumerable<DXMLNode> objectsNode = DuckXML.Load(_saveName = _loadForm.FileName).Element("Level").Elements("Objects");
-        if (objectsNode == null)
-            return;
-        ClearEverything();
-        foreach (DXMLNode elly in objectsNode.Elements("Object"))
-            AddObject(Thing.LegacyLoadThing(elly));
     }
 
     void CenterView()
