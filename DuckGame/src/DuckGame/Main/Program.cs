@@ -83,7 +83,6 @@ public static class Program
         {
             AppDomain.CurrentDomain.AssemblyLoad += WindowsPlatformStartup.AssemblyLoad;
         }
-        Application.ThreadException += UnhandledThreadExceptionTrapper;
         Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
         AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
 
@@ -288,11 +287,11 @@ public static class Program
                 {
                     if (config != null)
                     {
-                        Process.Start("CrashWindow.exe", "-modResponsible " + (modRelated ? "1" : "0") + " -modDisabled " + ((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0")) + " -modName " + modName + " -source " + ex7.Source + " -commandLine \"" + commandLine + "\" -executable \"" + Application.ExecutablePath + "\" " + DG.GetCrashWindowString(pException, config, error));
+                        Process.Start("CrashWindow.exe", "-modResponsible " + (modRelated ? "1" : "0") + " -modDisabled " + ((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0")) + " -modName " + modName + " -source " + ex7.Source + " -commandLine \"" + commandLine + "\" -executable \"" + Environment.ProcessPath + "\" " + DG.GetCrashWindowString(pException, config, error));
                     }
                     else
                     {
-                        Process.Start("CrashWindow.exe", "-modResponsible " + (modRelated ? "1" : "0") + " -modDisabled " + ((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0")) + " -modName " + modName + " -source " + ex7.Source + " -commandLine \"" + commandLine + "\" -executable \"" + Application.ExecutablePath + "\" " + DG.GetCrashWindowString(pException, modAssembly, error));
+                        Process.Start("CrashWindow.exe", "-modResponsible " + (modRelated ? "1" : "0") + " -modDisabled " + ((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0")) + " -modName " + modName + " -source " + ex7.Source + " -commandLine \"" + commandLine + "\" -executable \"" + Environment.ProcessPath + "\" " + DG.GetCrashWindowString(pException, modAssembly, error));
                     }
                 }
                 catch (Exception ex11)
@@ -498,7 +497,7 @@ public static class Program
                 StreamWriter streamWriter = new("ducklog.txt", append: true);
                 streamWriter.WriteLine(errorLine);
                 streamWriter.Close();
-                Process.Start("CrashWindow.exe", "-modResponsible 0 -modDisabled 0 -exceptionString \"" + errorLine.Replace("\n", "|NEWLINE|").Replace("\r", "|NEWLINE2|") + "\" -source Duck Game -commandLine \"\" -executable \"" + Application.ExecutablePath + "\"");
+                Process.Start("CrashWindow.exe", "-modResponsible 0 -modDisabled 0 -exceptionString \"" + errorLine.Replace("\n", "|NEWLINE|").Replace("\r", "|NEWLINE2|") + "\" -source Duck Game -commandLine \"\" -executable \"" + Environment.ProcessPath + "\"");
             }
         }
         return null;

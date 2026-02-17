@@ -170,8 +170,8 @@ public static class ModLoader
 
     public static void RestartGame()
     {
-        Process.Start(Application.ExecutablePath, Program.commandLine);
-        Application.Exit();
+        Process.Start(Environment.ProcessPath, Program.commandLine);
+        MonoMain.instance.Exit();
     }
 
     internal static void AddMod(Mod mod)

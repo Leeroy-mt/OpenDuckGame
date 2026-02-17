@@ -1078,7 +1078,7 @@ public class MonoMain : Game
             Graphics.mouseVisible = true;
             saveTool.ShowDialog();
             Program.crashed = true;
-            Application.Exit();
+            MonoMain.instance.Exit();
         }
         if (Program.isLinux)
         {

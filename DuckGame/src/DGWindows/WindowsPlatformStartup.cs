@@ -279,7 +279,7 @@ internal class WindowsPlatformStartup
                 StreamWriter streamWriter = new("ducklog.txt", append: true);
                 streamWriter.WriteLine(errorLine);
                 streamWriter.Close();
-                Process.Start("CrashWindow.exe", "-modResponsible 0 -modDisabled 0 -modName none -source " + (e.ExceptionObject as Exception).Source + " -commandLine \"none\" -executable \"" + Application.ExecutablePath + "\" " + GetCrashWindowString(pException, null, errorLine));
+                Process.Start("CrashWindow.exe", "-modResponsible 0 -modDisabled 0 -modName none -source " + (e.ExceptionObject as Exception).Source + " -commandLine \"none\" -executable \"" + Environment.ProcessPath + "\" " + GetCrashWindowString(pException, null, errorLine));
             }
         }
     }

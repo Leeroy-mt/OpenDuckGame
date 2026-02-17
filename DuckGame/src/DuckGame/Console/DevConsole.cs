@@ -2259,8 +2259,8 @@ public class DevConsole
                     Cloud.Update();
                 }
                 Program.crashed = true;
-                Process.Start(Application.ExecutablePath, Program.commandLine + " -recoversave");
-                Application.Exit();
+                Process.Start(Environment.ProcessPath, Program.commandLine + " -recoversave");
+                MonoMain.instance.Exit();
             }
         })
         {
