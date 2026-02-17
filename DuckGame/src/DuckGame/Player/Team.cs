@@ -1130,7 +1130,8 @@ public class Team
     {
         try
         {
-            Texture2D tex = TextureConverter.LoadPNGWithPinkAwesomeness(Graphics.device, new System.Drawing.Bitmap(new MemoryStream(pData)), process: true);
+            using MemoryStream memory = new(pData);
+            Texture2D tex = TextureConverter.TextureFromStream(Graphics.device, memory, true);
             _ = (float)tex.Width / 32f % 1f;
             Team newTeam = deserializeInto;
             if (newTeam == null)

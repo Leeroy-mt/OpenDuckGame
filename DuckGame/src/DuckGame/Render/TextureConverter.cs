@@ -1,141 +1,137 @@
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace DuckGame;
 
 internal static class TextureConverter
 {
-    private const int _fromColor = -65281;
+    const int Replace = -65281;
 
-    private const int _toColor = 0;
+    const int Destination = 0;
 
-    public static bool lastLoadResultedInResize = false;
+    public static bool LastLoadResultedInResize { get; private set; }
 
-    private static Vector2 _maxDimensions = Vector2.Zero;
+    #region Public Methods
 
-    internal unsafe static PNGData LoadPNGDataWithPinkAwesomeness(Bitmap bitmap, bool process)
+    public static Stream TextureResize(
+        Texture2D texture,
+        float xBound,
+        float yBound
+        )
     {
-        lastLoadResultedInResize = false;
-        if (_maxDimensions != Vector2.Zero)
+        LastLoadResultedInResize = false;
+
+        float scale = Math.Min(xBound / texture.Width, yBound / texture.Height);
+        MemoryStream memory = new();
+
+        if (xBound < texture.Width || yBound < texture.Height)
         {
-            float width = _maxDimensions.X;
-            float height = _maxDimensions.Y;
-            float scale = Math.Min(width / (float)bitmap.Width, height / (float)bitmap.Height);
-            if (width < (float)bitmap.Width || height < (float)bitmap.Height)
-            {
-                lastLoadResultedInResize = true;
-                if ((float)bitmap.Width * scale < width)
-                {
-                    width = (float)bitmap.Width * scale;
-                }
-                if ((float)bitmap.Height * scale < height)
-                {
-                    height = (float)bitmap.Height * scale;
-                }
-                Bitmap bitmap2 = new Bitmap((int)width, (int)height);
-                System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(bitmap2);
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                ImageAttributes attributes = new ImageAttributes();
-                attributes.SetWrapMode(WrapMode.TileFlipXY);
-                _ = bitmap.Width;
-                _ = bitmap.Height;
-                System.Drawing.Rectangle destination = new System.Drawing.Rectangle(0, 0, (int)width, (int)height);
-                graphics.DrawImage(bitmap, destination, 0, 0, bitmap.Width, bitmap.Height, GraphicsUnit.Pixel, attributes);
-                bitmap.Dispose();
-                graphics.Dispose();
-                bitmap = bitmap2;
-            }
+            LastLoadResultedInResize = true;
+
+            if (texture.Width * scale < xBound)
+                xBound = texture.Width * scale;
+            if (texture.Height * scale < yBound)
+                yBound = texture.Height * scale;
+
+            texture.SaveAsPng(memory, (int)xBound, (int)yBound);
+            texture.Dispose();
+
+            return memory;
         }
-        BitmapData locked = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-        int pt = locked.Width * locked.Height;
-        int px = 0;
-        int* pixels = (int*)(void*)locked.Scan0;
-        while (px < pt)
+
+        texture.SaveAsPng(memory, texture.Width, texture.Height);
+        texture.Dispose();
+
+        return memory;
+    }
+
+    public static PNGData PNGDataFromStream(
+        Stream stream,
+        bool replace
+        )
+    {
+        Texture2D.TextureDataFromStreamEXT(stream, out var width, out var height, out var data, -1, -1, false);
+        var intData = new int[data.Length / 4];
+        for (int i = 0; i < intData.Length; i++)
         {
-            if (process && *pixels == -65281)
-            {
-                *pixels = 0;
-            }
-            else
-            {
-                byte* rgba = (byte*)pixels;
-                byte r = *rgba;
-                *rgba = rgba[2];
-                rgba[2] = r;
-                float a = (float)(int)rgba[3] / 255f;
-                for (int i = 0; i < 3; i++)
-                {
-                    rgba[i] = (byte)((float)(int)rgba[i] * a);
-                }
-            }
-            px++;
-            pixels++;
+            var c = BitConverter.ToInt32(data, i * 4);
+            intData[i] = replace && c == Replace ? Destination : c;
         }
-        int[] copy = new int[locked.Width * locked.Height];
-        Marshal.Copy(locked.Scan0, copy, 0, copy.Length);
-        PNGData result = new PNGData
+        return new()
         {
-            data = copy,
-            width = locked.Width,
-            height = locked.Height
+            width = width,
+            height = height,
+            data = intData
         };
-        bitmap.UnlockBits(locked);
-        return result;
     }
 
-    internal static Texture2D LoadPNGWithPinkAwesomeness(GraphicsDevice device, Bitmap bitmap, bool process)
+    public static PNGData PNGDataFromTexture(
+        Texture2D texture,
+        float xBound,
+        float yBound,
+        bool replace
+        )
     {
-        PNGData dat = LoadPNGDataWithPinkAwesomeness(bitmap, process);
-        Texture2D texture2D = new Texture2D(device, dat.width, dat.height);
-        texture2D.SetData(dat.data);
-        return texture2D;
+        var bounded = TextureResize(texture, xBound, yBound);
+        var replaced = PNGDataFromStream(bounded, replace);
+        return replaced;
     }
 
-    internal static Texture2D LoadPNGWithPinkAwesomenessAndMaxDimensions(GraphicsDevice device, Bitmap bitmap, bool process, Vector2 pMaxDimensions)
+    public static Texture2D TextureFromPNGData(
+        GraphicsDevice device,
+        PNGData data
+        )
     {
-        _maxDimensions = pMaxDimensions;
-        PNGData dat = LoadPNGDataWithPinkAwesomeness(bitmap, process);
-        _maxDimensions = Vector2.Zero;
-        Texture2D texture2D = new Texture2D(device, dat.width, dat.height);
-        texture2D.SetData(dat.data);
-        return texture2D;
+        Texture2D texture = new(device, data.width, data.height);
+        texture.SetData(data.data);
+        return texture;
     }
 
-    internal static Texture2D LoadPNGWithPinkAwesomeness(GraphicsDevice device, Stream stream, bool process)
+    public static Texture2D TextureFromStream(
+        GraphicsDevice device,
+        Stream stream,
+        bool replace
+        )
     {
-        using Bitmap bmp = new Bitmap(stream);
-        return LoadPNGWithPinkAwesomeness(device, bmp, process);
+        var data = PNGDataFromStream(stream, replace);
+        var texture = TextureFromPNGData(device, data);
+        return texture;
     }
 
-    internal static PNGData LoadPNGDataWithPinkAwesomeness(Stream stream, bool process)
+    public static Texture2D TextureFromFileName(
+        GraphicsDevice device,
+        string fileName,
+        int wBound,
+        int hBound,
+        bool replace
+        )
     {
-        using Bitmap bmp = new Bitmap(stream);
-        return LoadPNGDataWithPinkAwesomeness(bmp, process);
+        using FileStream fileStream = new(fileName, FileMode.Open);
+
+        using var tex = Texture2D.FromStream(device, fileStream);
+        var data = PNGDataFromTexture(tex, wBound, hBound, replace);
+
+        Texture2D texture = new(device, data.width, data.height);
+        texture.SetData(data.data);
+        return texture;
     }
 
-    internal static Texture2D LoadPNGWithPinkAwesomeness(GraphicsDevice device, string fileName, bool process)
+    public static Texture2D TextureFromFileName(
+        GraphicsDevice device,
+        string fileName,
+        bool replace
+        )
     {
-        using Bitmap bmp = new Bitmap(fileName);
-        return LoadPNGWithPinkAwesomeness(device, bmp, process);
+        using FileStream fileStream = new(fileName, FileMode.Open);
+
+        var data = PNGDataFromStream(fileStream, replace);
+        Texture2D texture = new(device, data.width, data.height);
+        texture.SetData(data.data);
+
+        return texture;
     }
 
-    internal static Texture2D LoadPNGWithPinkAwesomenessAndMaxDimensions(GraphicsDevice device, string fileName, bool process, Vector2 maxDimensions)
-    {
-        using Bitmap bmp = new Bitmap(fileName);
-        return LoadPNGWithPinkAwesomenessAndMaxDimensions(device, bmp, process, maxDimensions);
-    }
-
-    internal static PNGData LoadPNGDataWithPinkAwesomeness(GraphicsDevice device, string fileName, bool process)
-    {
-        using Bitmap bmp = new Bitmap(fileName);
-        return LoadPNGDataWithPinkAwesomeness(bmp, process);
-    }
+    #endregion
 }
+

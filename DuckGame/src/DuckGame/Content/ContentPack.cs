@@ -38,7 +38,8 @@ public class ContentPack
             string assetName = path.Substring(0, path.Length - 4);
             if (path.EndsWith(".png"))
             {
-                Texture2D tex = TextureConverter.LoadPNGWithPinkAwesomeness(Graphics.device, new Bitmap(new MemoryStream(data)), process: true);
+                using MemoryStream memory = new(data);
+                Texture2D tex = TextureConverter.TextureFromStream(Graphics.device, memory, true);
                 _textures[assetName] = tex;
                 Content.textures[assetName] = tex;
             }
@@ -115,7 +116,7 @@ public class ContentPack
         Texture2D t = null;
         try
         {
-            return TextureConverter.LoadPNGWithPinkAwesomeness(Graphics.device, file, processPink);
+            return TextureConverter.TextureFromFileName(Graphics.device, file, processPink);
         }
         catch (Exception ex)
         {
@@ -128,7 +129,7 @@ public class ContentPack
         Texture2D t = null;
         try
         {
-            return TextureConverter.LoadPNGWithPinkAwesomeness(Graphics.device, data, processPink);
+            return TextureConverter.TextureFromStream(Graphics.device, data, processPink);
         }
         catch (Exception ex)
         {
@@ -141,7 +142,7 @@ public class ContentPack
         PNGData t = null;
         try
         {
-            return TextureConverter.LoadPNGDataWithPinkAwesomeness(data, processPink);
+            return TextureConverter.PNGDataFromStream(data, processPink);
         }
         catch (Exception ex)
         {

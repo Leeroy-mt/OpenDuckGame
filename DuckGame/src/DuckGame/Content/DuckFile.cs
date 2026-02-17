@@ -444,14 +444,14 @@ public class DuckFile
                 }
                 if (File.Exists(fileName))
                 {
-                    Texture2D t = TextureConverter.LoadPNGWithPinkAwesomenessAndMaxDimensions(Graphics.device, fileName, process: true, new Vector2(28f, 28f));
+                    Texture2D t = TextureConverter.TextureFromFileName(Graphics.device, fileName, 28, 28, true);
                     if (t != null)
                     {
                         if (t.Width <= 28 && t.Height <= 28)
                         {
                             Sprite spr = new Sprite(t);
                             RegisterMoji(moji, spr);
-                            if (TextureConverter.lastLoadResultedInResize)
+                            if (TextureConverter.LastLoadResultedInResize)
                             {
                                 try
                                 {
@@ -583,7 +583,7 @@ public class DuckFile
         {
             try
             {
-                Texture2D t = TextureConverter.LoadPNGWithPinkAwesomenessAndMaxDimensions(Graphics.device, s, process: true, new Vector2(28f, 28f));
+                Texture2D t = TextureConverter.TextureFromFileName(Graphics.device, s, 28, 28, true);
                 if (t == null)
                 {
                     continue;
@@ -592,7 +592,7 @@ public class DuckFile
                 {
                     Sprite spr = new Sprite(t);
                     RegisterMoji(Path.GetFileNameWithoutExtension(s), spr);
-                    if (!TextureConverter.lastLoadResultedInResize)
+                    if (!TextureConverter.LastLoadResultedInResize)
                     {
                         continue;
                     }
