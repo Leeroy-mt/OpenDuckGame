@@ -112,10 +112,7 @@ public class Challenges
     {
         foreach (string challenge in Content.GetLevels("challenge", LevelLocation.Content, pRecursive: true, pOnline: false, pEightPlayer: false))
         {
-            MonoMain.currentActionQueue.Enqueue(new LoadingAction(delegate
-            {
-                LoadChallengeData(challenge);
-            }));
+            LoadChallengeData(challenge);
         }
     }
 

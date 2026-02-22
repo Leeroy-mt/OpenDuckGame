@@ -1565,7 +1565,6 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
                         Main.ResetMatchStuff();
                     }
                     Music.Stop();
-                    MonoMain.FinishLazyLoad();
                     if (!_singlePlayer)
                     {
                         if (!Network.isServer)

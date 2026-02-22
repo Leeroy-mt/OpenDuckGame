@@ -374,13 +374,10 @@ public static class SFX
         int start = path.IndexOf("Content/Audio/", 0);
         string fileName = path.Substring(start + 8);
         fileName = fileName.Substring(0, fileName.Length - 4);
-        MonoMain.lazyLoadActions.Enqueue(delegate
+        SoundEffect soundEffect = Content.Load<SoundEffect>(fileName);
+        if (soundEffect != null)
         {
-            SoundEffect soundEffect = Content.Load<SoundEffect>(fileName);
-            if (soundEffect != null)
-            {
-                RegisterSound(fileName.Substring(fileName.IndexOf("/SFX/") + 5), soundEffect);
-            }
-        });
+            RegisterSound(fileName.Substring(fileName.IndexOf("/SFX/") + 5), soundEffect);
+        }
     }
 }

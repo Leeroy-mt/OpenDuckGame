@@ -68,14 +68,11 @@ public static class ManagedContent
         {
             ModLoader.LoadMods(DuckFile.modsDirectory);
         }
-        MonoMain.currentActionQueue.Enqueue(new LoadingAction(delegate
-        {
-            ModLoader.InitializeAssemblyArray();
-            InitializeContentSet(Things);
-            InitializeContentSet(AmmoTypes);
-            InitializeContentSet(DeathCrateSettings);
-            InitializeContentSet(DestroyTypes);
-            ContentProperties.InitializeBags(Things.Types);
-        }));
+        ModLoader.InitializeAssemblyArray();
+        InitializeContentSet(Things);
+        InitializeContentSet(AmmoTypes);
+        InitializeContentSet(DeathCrateSettings);
+        InitializeContentSet(DestroyTypes);
+        ContentProperties.InitializeBags(Things.Types);
     }
 }

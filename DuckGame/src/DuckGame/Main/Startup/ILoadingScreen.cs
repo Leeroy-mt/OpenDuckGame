@@ -6,8 +6,6 @@ public interface ILoadingScreen
 {
     bool LoadingStarted { get; }
 
-    bool IsLoaded { get; }
-
     void Start();
 
     void Update(GameTime gameTime);

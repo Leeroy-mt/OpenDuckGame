@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace DuckGame;
 
@@ -10,13 +9,11 @@ public class DuckRunningScreen : ILoadingScreen
 {
     public bool LoadingStarted { get; private set; }
 
-    public bool IsLoaded { get; private set; }
-
     int Frames;
 
     float Progress;
 
-    float Indent = 0;
+    float Indent;
 
     SpriteMap DuckRun, DuckArm;
 
@@ -33,36 +30,38 @@ public class DuckRunningScreen : ILoadingScreen
         DuckRun.SetAnimation("run");
         DuckArm = new("duckArms", 16, 16);
 
-        Startup.Log += LoadMessages.Add;
+        Startup.Output += s =>
+        {
+            Console.WriteLine(s);
+
+            LoadMessages.Add($"|DGBLUE|{s}");
+        };
     }
 
     public void Start()
     {
-        Startup.RunMainTasks();
-        Startup.RunAsyncTasks();
+        Startup.Start();
 
         LoadingStarted = true;
     }
 
     public void Update(GameTime gameTime)
     {
+        if (LoadMessages.Count > 100)
+            LoadMessages.RemoveAt(0);
     }
 
     public void Draw(GameTime gameTime)
     {
         Frames++;
         Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Matrix.Identity);
-        //var velocity = (50 - Indent) * 0.25f;
-        //Indent += velocity;
-        //if (velocity < .1f)
-        //    Indent = 50;
         Indent = Easing.OutExpo((float)double.Min(gameTime.TotalGameTime.TotalSeconds * 2 - 1, 1)) * 50;
         Vector2 loadBarSize = new(Graphics.width - Indent * 2, 20);
         Vector2 loadBarPos = new(Indent, Graphics.height - Indent - loadBarSize.Y);
         Vector2 loadBarSize2 = new(4);
         Graphics.DrawRect(loadBarPos, loadBarPos + loadBarSize, Color.White, 0.5f, false);
 
-        var actualProgress = Startup?.CalculateProgress() ?? 0;
+        var actualProgress = LoadMessages.Count / 30f;
         Progress += (actualProgress - Progress) * 0.1f;
         Graphics.DrawRect(loadBarPos + loadBarSize2, loadBarPos + new Vector2(loadBarSize.X * Progress, loadBarSize.Y) - loadBarSize2, Color.White, 0.6f);
 

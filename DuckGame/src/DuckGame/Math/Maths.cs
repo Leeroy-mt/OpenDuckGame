@@ -9,6 +9,16 @@ public class Maths
 
     public static uint MaxFloatToInt = 16777216u;
 
+    public static float Spikes(float n)
+    {
+        var mod = n % 2;
+        var sign = float.Sign(-mod + 1);
+
+        if (sign < 0)
+            return 2 - mod;
+        return mod;
+    }
+
     public static float FramesToTravel(float distance, float acceleration, float startSpeed)
     {
         return ((float)Math.Sqrt(Math.Pow(2f * startSpeed + acceleration, 2.0) + (double)(8f * acceleration * distance)) - 2f * startSpeed - acceleration) / (2f * acceleration);

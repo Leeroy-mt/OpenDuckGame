@@ -1197,26 +1197,22 @@ public class Team
         foreach (string f in files)
         {
             totalLoadHats++;
-            MonoMain.currentActionQueue.Enqueue(new LoadingAction(delegate
+            currentLoadHat++;
+            Team team = null;
+            if (pExtension == "png")
             {
-                //MonoMain.loadMessage = "Loading Custom Hats (" + currentLoadHat + "/" + totalLoadHats + ")";
-                currentLoadHat++;
-                Team team = null;
-                if (pExtension == "png")
-                {
-                    byte[] pData = File.ReadAllBytes(f);
-                    string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(f);
-                    team = DeserializeFromPNG(pData, fileNameWithoutExtension, f);
-                }
-                else
-                {
-                    team = Deserialize(f);
-                }
-                if (team != null)
-                {
-                    deserializedTeams.Add(team);
-                }
-            }));
+                byte[] pData = File.ReadAllBytes(f);
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(f);
+                team = DeserializeFromPNG(pData, fileNameWithoutExtension, f);
+            }
+            else
+            {
+                team = Deserialize(f);
+            }
+            if (team != null)
+            {
+                deserializedTeams.Add(team);
+            }
         }
     }
 

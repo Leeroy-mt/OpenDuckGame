@@ -87,28 +87,22 @@ public class ContentPack
         }
         foreach (string s2 in Content.GetFiles<SoundEffect>(_modConfig.contentDirectory))
         {
-            MonoMain.currentActionQueue.Enqueue(new LoadingAction(delegate
-            {
-                currentPreloadPack = this;
-                SoundEffect soundEffect = LoadSoundInternal(s2);
-                string text = s2.Substring(0, s2.Length - 4);
-                _sounds[text] = soundEffect;
-                SFX.RegisterSound(text, soundEffect);
-            }));
+            currentPreloadPack = this;
+            SoundEffect soundEffect = LoadSoundInternal(s2);
+            string text = s2.Substring(0, s2.Length - 4);
+            _sounds[text] = soundEffect;
+            SFX.RegisterSound(text, soundEffect);
         }
         string levDir = _modConfig.contentDirectory + "/Levels";
         if (DuckFile.DirectoryExists(levDir))
         {
             levels = Content.GetFiles<Level>(levDir);
         }
-        MonoMain.currentActionQueue.Enqueue(new LoadingAction(delegate
+        currentPreloadPack = null;
+        if (kilobytesPreAllocated / 1000 > 20)
         {
-            currentPreloadPack = null;
-            if (kilobytesPreAllocated / 1000 > 20)
-            {
-                MonoMain.CalculateModMemoryOffendersList();
-            }
-        }));
+            MonoMain.CalculateModMemoryOffendersList();
+        }
     }
 
     private static Texture2D LoadTexture2DInternal(string file, bool processPink = true)

@@ -109,8 +109,6 @@ public class MonoMain : Game
     public static RenderTarget2D _screenCapture;
 
     public static string[] startupAssemblies;
-    public static Queue<LoadingAction> currentActionQueue;
-    public static Queue<Action> lazyLoadActions = new();
     public static List<ModConfiguration> loadedModsWithAssemblies = [];
 
     public static volatile List<string> LoadMessages = [];
@@ -163,7 +161,6 @@ public class MonoMain : Game
     bool takingShot;
     bool _doStart;
     bool _loggedConnectionCheckFailure;
-    bool _threadedLoadingStarted;
     bool _didFirstDraw;
 
     int _numShots;
@@ -177,9 +174,7 @@ public class MonoMain : Game
     Thread _infiniteLoopDetector;
     Timer _waitToStartLoadingTimer = new();
     Timer _timeSinceLastLoadFrame = new();
-    DuckRunningScreen LoadingScreen;
-
-    Queue<LoadingAction> _thingsToLoad = new();
+    TVSpinScreen LoadingScreen;
     #endregion
 
     #region Public Properties
@@ -314,11 +309,6 @@ public class MonoMain : Game
         core.engineUpdatables.Add(pUpdatable);
     public static void ResetInfiniteLoopTimer() =>
         _loopTimer.Reset();
-    public static void FinishLazyLoad()
-    {
-        while (lazyLoadActions.Count > 0)
-            lazyLoadActions.Dequeue()();
-    }
     public static void StartRecording(string name)
     {
         _recordingStarted = true;
@@ -831,7 +821,6 @@ public class MonoMain : Game
         if (_canStartLoading && !LoadingScreen.LoadingStarted && _didFirstDraw)
         {
             PostCloudLogic();
-            StartThreadedLoading();
             LoadingScreen.Start();
         }
         if (!NoStart && _doStart && !_started)
@@ -968,48 +957,16 @@ public class MonoMain : Game
     {
         if (!Steam.IsInitialized())
             return;
-        LoadingAction steamLoad = new LoadingAction();
-        steamLoad.action = delegate
+        WorkshopQueryUser workshopQueryUser = Steam.CreateQueryUser(Steam.user.id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
+        workshopQueryUser.requiredTags.Add("Mod");
+        workshopQueryUser.onlyQueryIDs = true;
+        workshopQueryUser.ResultFetched += ResultFetched;
+        workshopQueryUser.Request();
+        Steam.Update();
+        foreach (WorkshopItem u in availableModsToDownload)
         {
-            WorkshopQueryUser workshopQueryUser = Steam.CreateQueryUser(Steam.user.id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
-            workshopQueryUser.requiredTags.Add("Mod");
-            workshopQueryUser.onlyQueryIDs = true;
-            workshopQueryUser.QueryFinished += s => steamLoad.flag = true;
-            workshopQueryUser.ResultFetched += ResultFetched;
-            workshopQueryUser.Request();
-            Steam.Update();
-        };
-        steamLoad.waitAction = delegate
-        {
-            Steam.Update();
-            return steamLoad.flag;
-        };
-        _thingsToLoad.Enqueue(steamLoad);
-        steamLoad = new LoadingAction();
-        steamLoad.action = delegate
-        {
-            foreach (WorkshopItem u in availableModsToDownload)
-            {
-                LoadingAction itemDownload = new();
-                itemDownload.action = delegate
-                {
-                    if (Steam.DownloadWorkshopItem(u))
-                        itemDownload.context = u;
-                };
-                itemDownload.waitAction = delegate
-                {
-                    Steam.Update();
-                    return u == null || u.finishedProcessing;
-                };
-                steamLoad.actions.Enqueue(itemDownload);
-            }
-        };
-        steamLoad.waitAction = delegate
-        {
-            Steam.Update();
-            return steamLoad.flag;
-        };
-        _thingsToLoad.Enqueue(steamLoad);
+            Steam.DownloadWorkshopItem(u);
+        }
     }
     internal void SetStarted()
     {
@@ -1346,11 +1303,6 @@ public class MonoMain : Game
     }
     void OnDeviceCreated() =>
         Graphics.device = graphicsService.GraphicsDevice;
-    void StartThreadedLoading()
-    {
-        _threadedLoadingStarted = true;
-        currentActionQueue = _thingsToLoad;
-    }
     void Start()
     {
         ModLoader.PostLoadMods();

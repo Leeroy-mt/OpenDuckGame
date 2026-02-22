@@ -25,6 +25,20 @@ public static class DGColor
             return $"|{color.R},{color.G},{color.B}|";
         }
 
+        public static Color Gradient(float t, params Color[] colors)
+        {
+            if (colors.Length is 0) return default;
+            if (colors.Length is 1 || t <= 0) return colors[0];
+            if (t >= 1) return colors[^1];
+
+            var T = t * (colors.Length - 1);
+            return Color.Lerp(
+                colors[(int)float.Floor(T)],
+                colors[(int)float.Ceiling(T)],
+                T % 1
+                );
+        }
+
         public static Color FromHexString(string pString)
         {
             try

@@ -765,21 +765,18 @@ public class Content
 
     public static void ProcessLevel(string path, LevelLocation location)
     {
-        MonoMain.currentActionQueue.Enqueue(new LoadingAction(delegate
+        try
         {
-            try
+            Main.SpecialCode = (("Loading Level " + path != null) ? path : "null");
+            if (path.EndsWith(".lev"))
             {
-                Main.SpecialCode = (("Loading Level " + path != null) ? path : "null");
-                if (path.EndsWith(".lev"))
-                {
-                    LoadLevelData(path, location);
-                }
+                LoadLevelData(path, location);
             }
-            catch (Exception ex)
-            {
-                LogLevelFailure(ex.ToString());
-            }
-        }));
+        }
+        catch (Exception ex)
+        {
+            LogLevelFailure(ex.ToString());
+        }
     }
 
     private static LevelData LoadLevelData(string pPath, LevelLocation pLocation)
@@ -822,11 +819,7 @@ public class Content
                 path = path.Substring(8);
             }
             path = path.Substring(0, path.Length - 4);
-            //MonoMain.loadMessage = "Loading Textures (" + path + ")";
-            MonoMain.currentActionQueue.Enqueue(new(() =>
-            {
-                Load<Tex2D>(path);
-            }));
+            Load<Tex2D>(path);
         }
     }
 
@@ -867,33 +860,19 @@ public class Content
         {
             return;
         }
-        LoadingAction steamLoad = new LoadingAction();
-        steamLoad.action = delegate
+        WorkshopQueryUser workshopQueryUser = Steam.CreateQueryUser(Steam.user.id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
+        workshopQueryUser.requiredTags.Add("Map");
+        workshopQueryUser.onlyQueryIDs = true;
+        workshopQueryUser.ResultFetched += delegate (object sender, WorkshopQueryResult result)
         {
-            WorkshopQueryUser workshopQueryUser = Steam.CreateQueryUser(Steam.user.id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
-            workshopQueryUser.requiredTags.Add("Map");
-            workshopQueryUser.onlyQueryIDs = true;
-            workshopQueryUser.QueryFinished += delegate
+            WorkshopItem publishedFile = result.details.publishedFile;
+            if ((publishedFile.stateFlags & WorkshopItemState.Installed) != WorkshopItemState.None)
             {
-                steamLoad.flag = true;
-            };
-            workshopQueryUser.ResultFetched += delegate (object sender, WorkshopQueryResult result)
-            {
-                WorkshopItem publishedFile = result.details.publishedFile;
-                if ((publishedFile.stateFlags & WorkshopItemState.Installed) != WorkshopItemState.None)
-                {
-                    SearchDirLevels(publishedFile.path, LevelLocation.Workshop);
-                }
-            };
-            workshopQueryUser.Request();
-            Steam.Update();
+                SearchDirLevels(publishedFile.path, LevelLocation.Workshop);
+            }
         };
-        steamLoad.waitAction = delegate
-        {
-            Steam.Update();
-            return steamLoad.flag;
-        };
-        MonoMain.currentActionQueue.Enqueue(steamLoad);
+        workshopQueryUser.Request();
+        Steam.Update();
     }
 
     public static Vector2 GetTextureSize(string pName)

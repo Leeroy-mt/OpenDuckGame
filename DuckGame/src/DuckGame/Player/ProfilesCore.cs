@@ -162,7 +162,7 @@ public class ProfilesCore
         get
         {
             List<Profile> profiles = new List<Profile>();
-            foreach (Profile p in Profiles.all)
+            foreach (Profile p in Profiles.all ?? profiles)
             {
                 if (p.team != null)
                 {

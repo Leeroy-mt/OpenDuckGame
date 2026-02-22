@@ -128,7 +128,6 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
 
     public override void Initialize()
     {
-        MonoMain.FinishLazyLoad();
         targetsShot = 0;
         goodiesGot = 0;
         allTargetsShot = true;
