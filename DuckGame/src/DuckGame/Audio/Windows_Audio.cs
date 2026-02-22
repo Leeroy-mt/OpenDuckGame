@@ -87,19 +87,6 @@ public class Windows_Audio
 
     public void Platform_Initialize()
     {
-        try
-        {
-            if (WaveOut.DeviceCount == 0)
-            {
-                initialized = false;
-                return;
-            }
-        }
-        catch (Exception)
-        {
-            initialized = false;
-            return;
-        }
         ResetDevice();
     }
 
@@ -169,7 +156,6 @@ public class Windows_Audio
             }
             else if (_mode == AudioMode.Wave || _recreateAlternateAudio)
             {
-                _ = WaveOut.DeviceCount;
                 _output = new WaveOutEvent
                 {
                     DesiredLatency = 50,

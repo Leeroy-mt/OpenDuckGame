@@ -15,8 +15,6 @@ public class Resolution
 
     private static IntPtr _window;
 
-    private static float _screenDPI;
-
     private static int _takeFocus;
 
     private static GraphicsDeviceManager _device;
@@ -77,14 +75,6 @@ public class Resolution
         {
             dimensions.Y = value;
         }
-    }
-
-    private static float GetScreenDPI()
-    {
-        System.Drawing.Graphics graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
-        float dpiX = graphics.DpiX;
-        graphics.Dispose();
-        return dpiX;
     }
 
     public static void Set(Resolution pResolution)
@@ -285,14 +275,6 @@ public class Resolution
         FindNearest(ScreenMode.Windowed, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, 1.7777f, pRecommended: true).isDefault = true;
         FindNearest(ScreenMode.Borderless, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height).isDefault = true;
         RestoreDefaults();
-        try
-        {
-            _screenDPI = GetScreenDPI();
-        }
-        catch (Exception)
-        {
-            _screenDPI = 120f;
-        }
     }
 
     public static void RestoreDefaults()

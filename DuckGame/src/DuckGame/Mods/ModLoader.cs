@@ -61,10 +61,6 @@ public static class ModLoader
         1356415641uL
     };
 
-    private static CSharpCodeProvider _provider = null;
-
-    private static CompilerParameters _parameters = null;
-
     private static string _buildErrorText = null;
 
     private static string _buildErrorFile = null;
@@ -418,82 +414,10 @@ public static class ModLoader
         return s;
     }
 
+    // TODO: реализовать компиляцию модов
     private static bool AttemptCompile(ModConfiguration config)
     {
-        _buildErrorText = null;
-        _buildErrorFile = null;
-        if (config.noCompilation)
-        {
-            return false;
-        }
-        List<string> csFiles = DuckFile.GetFilesNoCloud(config.directory, "*.cs", SearchOption.AllDirectories);
-        if (csFiles.Count == 0)
-        {
-            return false;
-        }
-        config.isDynamic = true;
-        CRC32 newCrcProcessor = new CRC32();
-        byte[] buffer = new byte[2048];
-        foreach (string item in csFiles)
-        {
-            using FileStream fileStream = File.Open(item, FileMode.Open);
-            while (fileStream.Position != fileStream.Length)
-            {
-                int len = fileStream.Read(buffer, 0, buffer.Length);
-                newCrcProcessor.ProcessBlock(buffer, len);
-            }
-        }
-        uint newCrc = newCrcProcessor.Finalize();
-        if (!forceRecompilation && File.Exists(config.hashPath) && File.Exists(config.tempAssemblyPath))
-        {
-            try
-            {
-                if (BitConverter.ToUInt32(File.ReadAllBytes(config.hashPath), 0) == newCrc)
-                {
-                    return true;
-                }
-            }
-            catch
-            {
-            }
-        }
-        File.WriteAllBytes(config.hashPath, BitConverter.GetBytes(newCrc));
-        if (_provider == null)
-        {
-            _provider = new CSharpCodeProvider();
-            _parameters = new CompilerParameters((from assembly in AppDomain.CurrentDomain.GetAssemblies()
-                                                  select assembly.Location).ToArray());
-            CompilerParameters parameters = _parameters;
-            bool generateExecutable = (_parameters.GenerateInMemory = false);
-            parameters.GenerateExecutable = generateExecutable;
-        }
-        if (File.Exists(config.buildLogPath))
-        {
-            File.SetAttributes(config.buildLogPath, FileAttributes.Normal);
-            File.Delete(config.buildLogPath);
-        }
-        _parameters.OutputAssembly = config.tempAssemblyPath;
-        CompilerResults results = _provider.CompileAssemblyFromFile(_parameters, csFiles.ToArray());
-        if (results.Errors.Count != 0)
-        {
-            bool foundNonWarningError = false;
-            foreach (CompilerError e in results.Errors)
-            {
-                if (!e.IsWarning)
-                {
-                    foundNonWarningError = true;
-                    _buildErrorFile = DuckFile.PreparePath(e.FileName);
-                    _buildErrorText = e.ErrorText;
-                    break;
-                }
-            }
-            File.WriteAllLines(config.buildLogPath, results.Output.OfType<string>());
-            if (foundNonWarningError)
-            {
-                return false;
-            }
-        }
-        return true;
+        return false;
     }
 
     private static ModConfiguration AttemptModLoad(string folder)

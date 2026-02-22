@@ -402,23 +402,8 @@ public class MonoFileDialog : ContextMenu
     {
         if (pOriginalTex.width != 48 || pOriginalTex.height != 48)
         {
-            var image = System.Drawing.Image.FromFile(_currentDirectory + "/" + Path.GetFileName(pTex));
-            System.Drawing.Rectangle destRect = new System.Drawing.Rectangle(0, 0, 48, 48);
-            var destImage = new System.Drawing.Bitmap(48, 48);
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-            using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(destImage))
-            {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                using ImageAttributes wrapMode = new ImageAttributes();
-                wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, System.Drawing.GraphicsUnit.Pixel, wrapMode);
-            }
-            MemoryStream stream = new MemoryStream();
-            destImage.Save(stream, ImageFormat.Png);
+            using MemoryStream stream = new();
+            ((Texture2D)pOriginalTex).SaveAsPng(stream, 48, 48);
             return Texture2D.FromStream(Graphics.device, stream);
         }
         return pOriginalTex;
