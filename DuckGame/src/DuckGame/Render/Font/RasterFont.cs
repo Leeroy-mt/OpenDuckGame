@@ -79,14 +79,14 @@ public class RasterFont : FancyBitmapFont
 
     public static string GetName(string pFont)
     {
-        return FontGDIContext.GetName(pFont);
+        return FontContext.GetName(pFont);
     }
 
     public void Rebuild(string pFont, float pSize)
     {
         if (pFont != null && pFont != "NULLDUCKFONTDATA")
         {
-            data = FontGDIContext.CreateRasterFontData(pFont, pSize);
+            data = FontContext.CreateFontData(pFont, pSize);
             _texture = null;
             _widths = new List<Rectangle>();
             foreach (BitmapFont_CharacterInfo inf in data.characters)
@@ -125,7 +125,7 @@ public class RasterFont : FancyBitmapFont
             {
                 string name = parts[0];
                 int size = Math.Min(Convert.ToInt32(parts[1]), 120);
-                if (FontGDIContext.GetName(name) != null)
+                if (FontContext.GetName(name) != null)
                 {
                     return new RasterFont(name, size);
                 }

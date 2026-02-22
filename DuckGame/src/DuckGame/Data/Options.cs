@@ -914,7 +914,7 @@ public static class Options
             _resolutionChanged = true;
             return;
         }
-        FontGDIContext._fontDatas.Clear();
+        FontContext._fontDatas.Clear();
         DuckNetwork.UpdateFont();
         DevConsole.RefreshConsoleFont();
     }
