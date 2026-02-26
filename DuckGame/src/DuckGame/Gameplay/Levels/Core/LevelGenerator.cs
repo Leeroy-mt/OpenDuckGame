@@ -230,12 +230,12 @@ public class LevelGenerator
 
     public static RandomLevelNode MakeLevel(RandomLevelData tile = null, bool allowSymmetry = true, int seed = 0, LevGenType type = LevGenType.Any, int varwide = 0, int varhigh = 0, int genX = 1, int genY = 1)
     {
-        Random oldGen = Rando.generator;
+        Random oldGen = Rando.Generator;
         if (seed == 0)
         {
             seed = Rando.Int(2147483646);
         }
-        Rando.generator = new Random(seed);
+        Rando.Generator = new Random(seed);
         varwide = 0;
         varhigh = 0;
         openAirMode = Rando.Float(1f) > 0.75f;
@@ -362,7 +362,7 @@ public class LevelGenerator
                 }
             }
         }
-        Rando.generator = oldGen;
+        Rando.Generator = oldGen;
         tiles[genX, genY].seed = seed;
         tiles[genX, genY].tiles = tiles;
         return tiles[genX, genY];

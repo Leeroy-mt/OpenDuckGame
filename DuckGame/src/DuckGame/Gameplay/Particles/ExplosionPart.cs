@@ -18,7 +18,7 @@ public class ExplosionPart : Thing
         : base(xpos, ypos)
     {
         _sprite = new SpriteMap("explosion", 64, 64);
-        switch (Rando.ChooseInt(0, 1, 2))
+        switch (Rando.Choose(0, 1, 2))
         {
             case 0:
                 _sprite.AddAnimation("explode", 1f, false, 0, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10);

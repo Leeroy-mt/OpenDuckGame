@@ -504,8 +504,8 @@ public class UIGachaBoxNew : UIMenu
             return;
         }
         base.Y += yOffset;
-        Random r = Rando.generator;
-        Rando.generator = new Random(seed);
+        Random r = Rando.Generator;
+        Rando.Generator = new Random(seed);
         _gachaMachine.Depth = -0.8f;
         Graphics.Draw(_gachaMachine, base.X - 14f, base.Y);
         _coinSlot.Depth = -0.795f;
@@ -602,7 +602,7 @@ public class UIGachaBoxNew : UIMenu
         _rainbow.Depth = -0.95f;
         Graphics.Draw(_rainbow, 0f, 0f);
         Graphics.material = obj;
-        Rando.generator = r;
+        Rando.Generator = r;
         _frame.Depth = -0.9f;
         if (_swapped)
         {

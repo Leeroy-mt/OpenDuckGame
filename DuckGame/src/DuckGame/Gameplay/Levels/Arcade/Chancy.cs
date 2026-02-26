@@ -174,14 +174,14 @@ public class Chancy
         if (_challengeData != null && _paperclip != null)
         {
             _random = new Random(_challengeData.name.GetHashCode());
-            Random generator = Rando.generator;
-            Rando.generator = _random;
+            Random generator = Rando.Generator;
+            Rando.Generator = _random;
             _paperclip.frame = Rando.Int(5);
             _stampAngle = Rando.Float(14f) - 7f;
-            Rando.generator = new Random(GetChallengeBestString(_save, _challengeData).GetHashCode());
+            Rando.Generator = new Random(GetChallengeBestString(_save, _challengeData).GetHashCode());
             _paperAngle = Rando.Float(4f) - 2f;
             _tapeAngle = _paperAngle + Rando.Float(-1f, 1f);
-            Rando.generator = generator;
+            Rando.Generator = generator;
         }
     }
 

@@ -76,7 +76,7 @@ public class Tournament : Level
         if (InputProfile.DefaultPlayer1.Pressed("CANCEL"))
         {
             _groups.Clear();
-            Rando.generator = new Random(30502);
+            Rando.Generator = new Random(30502);
             int numPlayers = 2 + (int)(InputProfile.DefaultPlayer1.leftTrigger * 30f);
             int numPerMatch = 2 + (int)(InputProfile.DefaultPlayer1.rightTrigger * 2f);
             TourneyGroup curGroup = new TourneyGroup();

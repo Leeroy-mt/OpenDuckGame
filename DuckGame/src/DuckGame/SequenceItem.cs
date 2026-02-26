@@ -116,7 +116,7 @@ public class SequenceItem
         }
         if (orders.Count == 0)
             orders.Add(order);
-        int pick = Rando.ChooseInt([.. orders]);
+        int pick = Rando.Choose([.. orders]);
         foreach (ISequenceItem item2 in Level.current.things[typeof(ISequenceItem)])
         {
             SequenceItem t2 = (item2 as Thing).sequence;

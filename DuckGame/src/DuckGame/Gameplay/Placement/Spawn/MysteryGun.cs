@@ -41,8 +41,8 @@ public class MysteryGun : Thing, IContainPossibleThings
     {
         ItemBox.GetPhysicsObjects(Editor.Placeables);
         Random generator = new Random((int)(Level.GetChanceGroup2(chanceGroup) * 2.1474836E+09f - 1f));
-        Random cur = Rando.generator;
-        Rando.generator = generator;
+        Random cur = Rando.Generator;
+        Rando.Generator = generator;
         List<TypeProbPair> list = Utils.Shuffle(contains);
         Type highest = null;
         float bestProb = 0f;
@@ -59,7 +59,7 @@ public class MysteryGun : Thing, IContainPossibleThings
                 highest = p.type;
             }
         }
-        Rando.generator = cur;
+        Rando.Generator = cur;
         return highest;
     }
 

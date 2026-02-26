@@ -387,10 +387,10 @@ public class Level
         if (!_initialized)
         {
             GhostManager.context.TransferPendingGhosts();
-            Random generator = Rando.generator;
-            Rando.generator = new Random(seed + 2500);
+            Random generator = Rando.Generator;
+            Rando.Generator = new Random(seed + 2500);
             InitChanceGroups();
-            Rando.generator = generator;
+            Rando.Generator = generator;
             Initialize();
             if (!Network.isActive || Network.InLobby())
             {
@@ -591,7 +591,7 @@ public class Level
             {
                 if (NetworkDebugger.enabled && NetworkDebugger.Recorder.active != null)
                 {
-                    Rando.generator = new Random(NetworkDebugger.Recorder.active.seed);
+                    Rando.Generator = new Random(NetworkDebugger.Recorder.active.seed);
                 }
                 DamageManager.ClearHits();
                 Layer.ResetLayers();

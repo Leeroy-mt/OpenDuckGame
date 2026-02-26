@@ -1743,8 +1743,8 @@ public class Profile
             _eggOuter = new SpriteMap("online/eggOuter", 16, 16);
             _eggSymbols = new SpriteMap("online/eggSymbols", 16, 16);
         }
-        Random realGen = Rando.generator;
-        Rando.generator = GetLongGenerator(seed);
+        Random realGen = Rando.Generator;
+        Rando.Generator = GetLongGenerator(seed);
         for (int i = 0; i < index; i++)
         {
             Rando.Int(100);
@@ -1946,7 +1946,7 @@ public class Profile
         _batch.Draw(_eggBorder.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
         _batch.End();
         Graphics.SetRenderTarget(null);
-        Rando.generator = realGen;
+        Rando.Generator = realGen;
         Tex2D tex2D = new Tex2D(targ.width, targ.height);
         tex2D.SetData(targ.GetData());
         targ.Dispose();
@@ -1979,8 +1979,8 @@ public class Profile
             _eggOuter = new SpriteMap("online/eggOuter", 16, 16);
             _easelSymbols = new SpriteMap("online/easelPic", 19, 12);
         }
-        Random realGen = Rando.generator;
-        Rando.generator = GetLongGenerator(seed);
+        Random realGen = Rando.Generator;
+        Rando.Generator = GetLongGenerator(seed);
         for (int i = 0; i < index; i++)
         {
             Rando.Int(100);
@@ -2125,7 +2125,7 @@ public class Profile
             }
         }
         targ.SetData(cols);
-        Rando.generator = realGen;
+        Rando.Generator = realGen;
         spr.texture = targ;
         Tex2D tex = new Tex2D(targ.width, targ.height);
         tex.SetData(targ.GetData());

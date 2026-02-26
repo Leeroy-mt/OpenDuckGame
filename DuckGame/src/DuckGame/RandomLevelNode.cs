@@ -96,9 +96,9 @@ public class RandomLevelNode
 
     public bool LoadParts(float x, float y, Level level, int seed = 0)
     {
-        Random generator = Rando.generator;
+        Random generator = Rando.Generator;
         if (seed != 0)
-            Rando.generator = new Random(seed);
+            Rando.Generator = new Random(seed);
         Level.InitChanceGroups();
         processing = true;
         topLeft = new Vector2(-gridX * 192, -gridY * 144);
@@ -159,7 +159,7 @@ public class RandomLevelNode
         }
         LoadPartsRecurse(x, y, level);
         ClearFlags();
-        Rando.generator = generator;
+        Rando.Generator = generator;
         if (!LevelGenerator.openAirMode)
         {
             for (int xpos = -1; xpos < tilesWide + 1; xpos++)

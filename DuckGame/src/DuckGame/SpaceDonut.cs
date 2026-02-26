@@ -26,8 +26,8 @@ public class SpaceDonut : Thing
         _donuroid = new SpriteMap("background/donuroids", 32, 32);
         _donuroid.CenterOrigin();
         Random generator = new(4562280);
-        Random old = Rando.generator;
-        Rando.generator = generator;
+        Random old = Rando.Generator;
+        Rando.Generator = generator;
         Vector2 launch = new(-22, -14);
         Vector2 start = new(130, 120);
         for (int i = 0; i < 20; i++)
@@ -40,7 +40,7 @@ public class SpaceDonut : Thing
             start += launch;
             launch.Y += 1.4f;
         }
-        Rando.generator = old;
+        Rando.Generator = old;
     }
 
     public override void Draw()

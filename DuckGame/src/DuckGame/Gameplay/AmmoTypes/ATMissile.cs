@@ -41,8 +41,8 @@ public class ATMissile : AmmoType
             Random rand = null;
             if (Network.isActive && b.isLocal)
             {
-                rand = Rando.generator;
-                Rando.generator = new Random(NetRand.currentSeed);
+                rand = Rando.Generator;
+                Rando.Generator = new Random(NetRand.currentSeed);
             }
             List<Bullet> firedBullets = new List<Bullet>();
             for (int i = 0; i < 12; i++)
@@ -65,7 +65,7 @@ public class ATMissile : AmmoType
             }
             if (Network.isActive && b.isLocal)
             {
-                Rando.generator = rand;
+                Rando.Generator = rand;
             }
             DestroyRadius(b.Position, 50f, b);
         }

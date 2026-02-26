@@ -148,8 +148,8 @@ public class Music
         {
             return "";
         }
-        Random oldRando = Rando.generator;
-        Rando.generator = _musicPickGen;
+        Random oldRando = Rando.Generator;
+        Rando.Generator = _musicPickGen;
         List<string> songs = new List<string>();
         string[] array = songList;
         foreach (string song in array)
@@ -220,7 +220,7 @@ public class Music
             }
         }
         recentSongs.Enqueue(curSong);
-        Rando.generator = oldRando;
+        Rando.Generator = oldRando;
         return curSong;
     }
 

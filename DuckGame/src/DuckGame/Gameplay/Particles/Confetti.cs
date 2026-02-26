@@ -15,7 +15,7 @@ public class Confetti : Thing
     public Confetti(float xpos, float ypos)
         : base(xpos, ypos)
     {
-        int num = Rando.ChooseInt(0, 1, 2, 3);
+        int num = Rando.Choose(0, 1, 2, 3);
         if (num == 0)
         {
             _color = Color.Violet;

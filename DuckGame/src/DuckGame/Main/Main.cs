@@ -187,7 +187,7 @@ public class Main : MonoMain
             FireManager.Update();
         DamageManager.Update();
         if (!Network.isActive)
-            NetRand.generator = Rando.generator;
+            NetRand.generator = Rando.Generator;
 
     }
 

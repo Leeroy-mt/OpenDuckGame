@@ -41,7 +41,7 @@ public class Present : Holdable, IPlatform
             Holdable h = SpawnPresent(null);
             if (h != null)
             {
-                h.velocity = Rando.Vector2(-1f, 1f, -2f, 0f);
+                h.velocity = new(Rando.Float(-1, 1), Rando.Float(-2, 0));
             }
             Level.Remove(this);
         }

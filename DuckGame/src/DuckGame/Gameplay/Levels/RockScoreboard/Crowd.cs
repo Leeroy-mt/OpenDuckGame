@@ -424,8 +424,8 @@ public class Crowd : Thing
 
     private static void InitSigns()
     {
-        Random r = Rando.generator;
-        Rando.generator = new Random(crowdSeed);
+        Random r = Rando.Generator;
+        Rando.Generator = new Random(crowdSeed);
         for (int i = 0; i < 4; i++)
         {
             string text = "DUCK GAME";
@@ -469,7 +469,7 @@ public class Crowd : Thing
                 curLetter++;
             }
         }
-        Rando.generator = r;
+        Rando.Generator = r;
     }
 
     public override void Initialize()

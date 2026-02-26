@@ -92,10 +92,10 @@ public static class Persona
         {
             seed = pSeed;
         }
-        Random generator = Rando.generator;
-        Rando.generator = new Random(seed);
+        Random generator = Rando.Generator;
+        Rando.Generator = new Random(seed);
         _personasShuffled = _personasOriginalOrder.ToList();
-        Rando.generator = generator;
+        Rando.Generator = generator;
     }
 
     public static int Number(DuckPersona p)

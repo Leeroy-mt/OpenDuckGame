@@ -17,7 +17,7 @@ public class ChallengeConfetti : Thing
         graphic = spr;
         _fallSpeed = Rando.Float(0.5f, 1.2f);
         base.layer = Layer.HUD;
-        int num = Rando.ChooseInt(0, 1, 2, 3);
+        int num = Rando.Choose(0, 1, 2, 3);
         if (num == 0)
         {
             spr.color = Color.Violet;

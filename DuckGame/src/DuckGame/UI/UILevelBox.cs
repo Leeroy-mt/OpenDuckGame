@@ -343,8 +343,8 @@ public class UILevelBox : UIMenu
         int rlLev = curLev - 3;
         if (curLev < 0)
             rlLev = 2 + new Random((int)((long)seed + idx)).Next(0, 2);
-        Random oldGen = Rando.generator;
-        Rando.generator = Profile.GetLongGenerator(seed);
+        Random oldGen = Rando.Generator;
+        Rando.Generator = Profile.GetLongGenerator(seed);
         for (int i = 0; i < idx * 4; i++)
             Rando.Int(100);
         int baseNum = Rando.Int(5) * 20;
@@ -369,7 +369,7 @@ public class UILevelBox : UIMenu
         baseNum += baseInc * 5;
         if (bottomBar && idx < Profiles.experienceProfile.numLittleMen - 6)
             baseNum += (1 + Rando.Int(2)) * 5;
-        Rando.generator = oldGen;
+        Rando.Generator = oldGen;
         return baseNum;
     }
 
@@ -1803,7 +1803,7 @@ public class UILevelBox : UIMenu
             float yOffStamp = -(1 - _stampCardLerp) * 200 + (float)Math.Sin(_stampWobbleSin) * _stampWobble * 4;
             Graphics.DrawRect(new Vector2(-1000), new Vector2(1000), Color.Black * 0.5f * _stampCardLerp, 0.96f);
             Graphics.Draw(_sandwichCard, X, Y + yOffStamp, 0.97f);
-            Random gen = Rando.generator = new Random(365023);
+            Random gen = Rando.Generator = new Random(365023);
             int numSan = Profiles.experienceProfile.numSandwiches % 6;
             if (Profiles.experienceProfile.numSandwiches > 0 && Profiles.experienceProfile.numSandwiches % 6 == 0 && _finishingNewStamp)
                 numSan = 6;
@@ -1822,7 +1822,7 @@ public class UILevelBox : UIMenu
                     Graphics.Draw(_duckCoin, X + 30 + xpos, Y - 15 + ypos + yOffStamp - _coinLerp2 * 18);
                 }
             }
-            Rando.generator = gen;
+            Rando.Generator = gen;
         }
         if (_currentLevel >= 7)
         {
@@ -1874,8 +1874,8 @@ public class UILevelBox : UIMenu
             Graphics.DrawLine(clockPos2, clockPos2 + minuteHand, Color.Black, 1, 0.9f);
             Graphics.DrawLine(clockPos2, clockPos2 + hourHand, Color.Black, 1.5f, 0.9f);
             Random generator = new(0);
-            Random oldRand = Rando.generator;
-            Rando.generator = generator;
+            Random oldRand = Rando.Generator;
+            Rando.Generator = generator;
             for (int j = 0; j < Profiles.experienceProfile.currentDay; j++)
                 Rando.Float(1);
             Math.Floor(Profiles.experienceProfile.currentDay / 5f);
@@ -1920,7 +1920,7 @@ public class UILevelBox : UIMenu
                     Graphics.Draw(_days, Position.X + (k * 28) + xOff - 71, Position.Y + calYOffset + yOff + 33);
                 }
             }
-            Rando.generator = oldRand;
+            Rando.Generator = oldRand;
         }
         if (_confirmMenu != null && _confirmMenu.open)
             Graphics.DrawRect(new Vector2(-1000), new Vector2(1000), Color.Black * 0.5f, 0.974f);
@@ -2054,11 +2054,11 @@ public class UILevelBox : UIMenu
                         return DayType.Sandwich;
                     if (day % 20 == 2 && _currentLevel >= 3)
                         return DayType.Allowance;
-                    Random generator = Rando.generator;
-                    Rando.generator = new Random(day);
+                    Random generator = Rando.Generator;
+                    Rando.Generator = new Random(day);
                     int rand = Rando.Int(32);
                     float rand2 = Rando.Float(1);
-                    Rando.generator = generator;
+                    Rando.Generator = generator;
                     switch (rand)
                     {
                         case 0:

@@ -23,7 +23,7 @@ public class MusicNote : Thing
         _sprite = new SpriteMap("notes", 8, 8);
         _sprite.frame = Rando.Int(1);
         _sprite.CenterOrigin();
-        int num = Rando.ChooseInt(0, 1, 2, 3);
+        int num = Rando.Choose(0, 1, 2, 3);
         if (num == 0)
         {
             _color = Color.Violet;

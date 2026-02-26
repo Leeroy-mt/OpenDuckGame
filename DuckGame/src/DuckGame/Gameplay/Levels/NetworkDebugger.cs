@@ -1236,8 +1236,8 @@ public class NetworkDebugger : Level
         UIMatchmakingBox.core = instance.matchmakingCore;
         oldAUCore = AutoUpdatables.core;
         AutoUpdatables.core = instance.auCore;
-        oldRando = Rando.generator;
-        Rando.generator = instance.rando;
+        oldRando = Rando.Generator;
+        Rando.Generator = instance.rando;
         foreach (NetworkInstance.Core extraCore in instance.extraCores)
         {
             extraCore.Lock();
@@ -1262,7 +1262,7 @@ public class NetworkDebugger : Level
         HUD.core = oldHUDCore;
         UIMatchmakingBox.core = oldMatchmakingCore;
         AutoUpdatables.core = oldAUCore;
-        Rando.generator = oldRando;
+        Rando.Generator = oldRando;
         foreach (NetworkInstance.Core extraCore in instance.extraCores)
         {
             extraCore.Unlock();

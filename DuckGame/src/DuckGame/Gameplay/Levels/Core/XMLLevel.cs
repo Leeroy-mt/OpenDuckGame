@@ -380,8 +380,8 @@ public class XMLLevel : Level
         {
             preview = Editor.LoadPreview(_data.previewData.preview);
         }
-        Random oldGen = Rando.generator;
-        Rando.generator = new Random(seed);
+        Random oldGen = Rando.Generator;
+        Rando.Generator = new Random(seed);
         if (!bareInitialize && !isPreview)
         {
             GhostManager.context.ResetGhostIndex(networkIndex);
@@ -431,7 +431,7 @@ public class XMLLevel : Level
             }
             idx++;
         }
-        Rando.generator = oldGen;
+        Rando.Generator = oldGen;
         if (willBeOnline)
         {
             onlineEnabled = true;

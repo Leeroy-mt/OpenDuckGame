@@ -1,90 +1,33 @@
-using Microsoft.Xna.Framework;
 using System;
 
 namespace DuckGame;
 
 public static class Rando
 {
-    private static Random _randomGenerator;
+    public static Random Generator { get; set; }
 
-    public static Random generator
-    {
-        get
-        {
-            return _randomGenerator;
-        }
-        set
-        {
-            _randomGenerator = value;
-        }
-    }
+    #region Public Methods
 
     public static void DoInitialize()
     {
-        _randomGenerator = new Random();
+        Generator = new Random();
         ChallengeRando.DoInitialize();
     }
 
-    public static long Long(long min = long.MinValue, long max = long.MaxValue)
+    public static int Int(int max)
     {
-        if (_randomGenerator == null)
-        {
-            DoInitialize();
-        }
-        byte[] buf = new byte[8];
-        _randomGenerator.NextBytes(buf);
-        return Math.Abs(BitConverter.ToInt64(buf, 0) % (max - min)) + min;
-    }
-
-    public static double Double()
-    {
-        return _randomGenerator.NextDouble();
-    }
-
-    public static float Float(float max)
-    {
-        return _randomGenerator.NextSingle() * max;
-    }
-
-    public static Vector2 Vector2(float minX, float maxX, float minY, float maxY)
-    {
-        return new Vector2(Float(minX, maxX), Float(minY, maxY));
-    }
-
-    public static Vector2 Vector2(Vector2 spanX, Vector2 spanY)
-    {
-        return new Vector2(Float(spanX.X, spanX.Y), Float(spanY.X, spanY.Y));
-    }
-
-    public static float Float(float min, float max)
-    {
-        return min + _randomGenerator.NextSingle() * (max - min);
-    }
-
-    public static int Int(int _max)
-    {
-        return _randomGenerator.Next(0, _max + 1);
+        return Generator.Next(0, max + 1);
     }
 
     public static int Int(int min, int max)
     {
-        return _randomGenerator.Next(min, max + 1);
-    }
-
-    public static int ChooseInt(params int[] _ints)
-    {
-        return _ints[Int(_ints.Length - 1)];
-    }
-
-    public static float ChooseFloat(params float[] _ints)
-    {
-        return _ints[Int(_ints.Length)];
+        return Generator.Next(min, max + 1);
     }
 
     public static uint UInt()
     {
         byte[] bytes = new byte[4];
-        _randomGenerator.NextBytes(bytes);
+        Generator.NextBytes(bytes);
         uint ret = BitConverter.ToUInt32(bytes, 0);
         if (ret == 0)
         {
@@ -92,4 +35,42 @@ public static class Rando
         }
         return ret;
     }
+
+    public static float Float()
+    {
+        return Generator.NextSingle();
+    }
+
+    public static float Float(float max)
+    {
+        return Generator.NextSingle() * max;
+    }
+
+    public static float Float(float min, float max)
+    {
+        return min + Generator.NextSingle() * (max - min);
+    }
+
+    public static long Long(long min = long.MinValue, long max = long.MaxValue)
+    {
+        if (Generator == null)
+        {
+            DoInitialize();
+        }
+        byte[] buf = new byte[8];
+        Generator.NextBytes(buf);
+        return Math.Abs(BitConverter.ToInt64(buf, 0) % (max - min)) + min;
+    }
+
+    public static double Double()
+    {
+        return Generator.NextDouble();
+    }
+
+    public static T Choose<T>(params T[] items)
+    {
+        return items[Int(items.Length)];
+    }
+
+    #endregion
 }
