@@ -36,7 +36,7 @@ internal class Startup(MonoMain main)
             new(Input.InitializeGraphics, true),
             new(Music.Initialize, true),
             //new(DevConsole.InitializeFont, true),
-            //new(DevConsole.InitializeCommands, true),
+            new(DevConsole.InitializeCommands, true),
             new(Editor.InitializePlaceableGroup, true),
             //new(Challenges.Initialize, true),
             //new(Collision.Initialize, true),

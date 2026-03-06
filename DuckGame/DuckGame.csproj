@@ -36,8 +36,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="Call $(ProjectDir)Content\Shaders\Compile-FXC.bat $(OutDir)Content\Shaders\" />
-  </Target>
+	
 </Project>

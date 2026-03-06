@@ -1,3 +1,2 @@
 @echo off
-forfiles /P %~dp0Source /M *.fx /C "cmd /C %~dp0fxc.exe /nologo /Gec /T fx_2_0 /Fo %1\@fname.xnb @file"
-EXIT /B 0
+for /r "%~dp0Source" %%i in (*.fx) do cmd /c "fxc.exe /nologo /Gec /T fx_2_0 /Fo Compiled\%%~ni.xnb %%i"
