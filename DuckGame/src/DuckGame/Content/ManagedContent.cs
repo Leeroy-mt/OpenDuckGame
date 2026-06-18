@@ -36,25 +36,11 @@ public static class ManagedContent
         }
     }
 
-    public static Assembly ResolveModAssembly(object sender, ResolveEventArgs args)
-    {
-        if (ModLoader._modAssemblyNames.TryGetValue(args.Name, out var mod))
-        {
-            return mod.configuration.assembly;
-        }
-        if (args.Name.StartsWith("Steam,"))
-        {
-            return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault((Assembly x) => x.FullName.StartsWith("Steam,") || x.FullName.StartsWith("Steam.Debug,"));
-        }
-        return null;
-    }
-
     public static void PreInitializeMods()
     {
         if (MonoMain.moddingEnabled)
         {
             ModLoader.AddMod(CoreMod.coreMod = new CoreMod());
-            AppDomain.CurrentDomain.AssemblyResolve += ResolveModAssembly;
             DuckFile.CreatePath(DuckFile.modsDirectory);
             DuckFile.CreatePath(DuckFile.globalModsDirectory);
             ModLoader.PreLoadMods(DuckFile.modsDirectory);

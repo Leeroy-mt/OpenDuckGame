@@ -6,10 +6,13 @@
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <StartupObject>DGWindows.WindowsPlatformStartup</StartupObject>
-	  <OutDir>$(SolutionDir)bin</OutDir>
-	  <PlatformTarget>AnyCPU</PlatformTarget>
-	  <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <StartupObject>DuckGame.Program</StartupObject>
+	<OutDir>$(SolutionDir)bin</OutDir>
+	<PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);MODERN_BATCH</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,18 +20,12 @@
     <PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
     <PackageReference Include="NVorbis" Version="0.10.5" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.7" />
-    <PackageReference Include="System.Speech" Version="9.0.10" />
+    <PackageReference Include="System.Speech" Version="10.0.5" />
   </ItemGroup>
-
+	
   <ItemGroup>
     <ProjectReference Include="..\FNA\FNA.Core.csproj" />
     <ProjectReference Include="..\Steam\Steam.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Content\*.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>

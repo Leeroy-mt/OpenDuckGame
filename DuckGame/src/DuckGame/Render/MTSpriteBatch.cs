@@ -7,72 +7,69 @@ namespace DuckGame;
 
 public class MTSpriteBatch : SpriteBatch
 {
-    private int _globalIndex = Thing.GetGlobalIndex();
-
-    private readonly MTSpriteBatcher _batcher;
-
-    private SpriteSortMode _sortMode;
-
-    private BlendState _blendState;
-
-    private SamplerState _samplerState;
-
-    private DepthStencilState _depthStencilState;
-
-    private RasterizerState _rasterizerState;
-
-    private Effect _effect;
-
-    private bool _beginCalled;
-
-    private MTEffect _spriteEffect;
-
-    private MTEffect _simpleEffect;
-
-    private readonly EffectParameter _matrixTransformSprite;
-
-    private readonly EffectParameter _matrixTransformSimple;
-
-    private Matrix _matrix;
-
-    private Rectangle _tempRect = new Rectangle(0f, 0f, 0f, 0f);
-
-    private Vector2 _texCoordTL = new Vector2(0f, 0f);
-
-    private Vector2 _texCoordBR = new Vector2(0f, 0f);
-
-    private Matrix _projMatrix;
-
-    public Matrix fullMatrix;
+    #region Public Fields
 
     public static float edgeBias = 1E-05f;
 
-    private RasterizerState _prevRast;
+    public Matrix fullMatrix;
 
-    public bool transitionEffect
-    {
-        get
-        {
-            if (Layer.basicWireframeEffect != null)
-            {
-                return _effect == Layer.basicWireframeEffect.effect;
-            }
-            return false;
-        }
-    }
+    #endregion
 
-    public MTEffect SpriteEffect => _spriteEffect;
+    #region Private Fields
 
-    public MTEffect SimpleEffect => _simpleEffect;
+    bool _beginCalled;
+
+    int _globalIndex = Thing.GetGlobalIndex();
+
+    SpriteSortMode _sortMode;
+
+    Vector2 _texCoordTL = new(0, 0);
+
+    Vector2 _texCoordBR = new(0, 0);
+
+    Rectangle _tempRect = new(0, 0, 0, 0);
+
+    Matrix _matrix;
+
+    Matrix _projMatrix;
+
+    BlendState _blendState;
+
+    SamplerState _samplerState;
+
+    DepthStencilState _depthStencilState;
+
+    RasterizerState _rasterizerState;
+
+    RasterizerState _prevRast;
+
+    Effect _effect;
+
+    MTEffect _spriteEffect;
+
+    MTEffect _simpleEffect;
+
+    readonly MTSpriteBatcher _batcher;
+
+    readonly EffectParameter _matrixTransformSprite;
+
+    readonly EffectParameter _matrixTransformSimple;
+
+    #endregion
+
+    #region Public Properties
+
+    public bool transitionEffect => Layer.basicWireframeEffect != null && (_effect == Layer.basicWireframeEffect.effect);
 
     public Matrix viewMatrix => _matrix;
 
     public Matrix projMatrix => _projMatrix;
 
-    public MTSpriteBatchItem StealLastSpriteBatchItem()
-    {
-        return _batcher.StealLastBatchItem();
-    }
+    public MTEffect SpriteEffect => _spriteEffect;
+
+    public MTEffect SimpleEffect => _simpleEffect;
+
+    #endregion
 
     public MTSpriteBatch(GraphicsDevice graphicsDevice)
         : base(graphicsDevice)
@@ -89,6 +86,11 @@ public class MTSpriteBatch : SpriteBatch
         _beginCalled = false;
     }
 
+    public MTSpriteBatchItem StealLastSpriteBatchItem()
+    {
+        return _batcher.StealLastBatchItem();
+    }
+
     public new void Begin()
     {
         Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Matrix.Identity);
@@ -97,17 +99,23 @@ public class MTSpriteBatch : SpriteBatch
     public void Begin(SpriteSortMode sortMode, BlendState blendState, SamplerState samplerState, DepthStencilState depthStencilState, RasterizerState rasterizerState, MTEffect effect, Matrix transformMatrix)
     {
         _ = Graphics.device;
-        _ = base.GraphicsDevice;
+
         Graphics.currentStateIndex = _globalIndex;
         if (_beginCalled)
-        {
             throw new InvalidOperationException("Begin cannot be called again until End has been successfully called.");
-        }
         base.Begin();
-        if (Recorder.currentRecording != null)
-        {
-            Recorder.currentRecording.StateChange(sortMode, blendState, samplerState, depthStencilState, rasterizerState, Layer.IsBasicLayerEffect(effect) ? Layer.basicLayerEffect : effect, transformMatrix, base.GraphicsDevice.ScissorRectangle);
-        }
+        Recorder.currentRecording?.StateChange(
+            sortMode,
+            blendState,
+            samplerState,
+            depthStencilState,
+            rasterizerState,
+            Layer.IsBasicLayerEffect(effect)
+            ? Layer.basicLayerEffect
+            : effect,
+            transformMatrix,
+            GraphicsDevice.ScissorRectangle
+            );
         _sortMode = sortMode;
         _blendState = blendState ?? BlendState.AlphaBlend;
         _samplerState = samplerState ?? SamplerState.LinearClamp;
@@ -116,9 +124,7 @@ public class MTSpriteBatch : SpriteBatch
         _effect = effect;
         _matrix = transformMatrix;
         if (sortMode == SpriteSortMode.Immediate)
-        {
             Setup();
-        }
         _beginCalled = true;
     }
 
@@ -195,6 +201,11 @@ public class MTSpriteBatch : SpriteBatch
 
     public void Setup(bool simple = false)
     {
+        if (simple)
+        {
+
+        }
+
         GraphicsDevice graphicsDevice = base.GraphicsDevice;
         graphicsDevice.BlendState = _blendState;
         graphicsDevice.DepthStencilState = _depthStencilState;
@@ -236,46 +247,25 @@ public class MTSpriteBatch : SpriteBatch
 
     private void CheckValid(Tex2D texture)
     {
-        if (texture == null)
-        {
-            throw new ArgumentNullException("texture");
-        }
+        ArgumentNullException.ThrowIfNull(texture);
         if (!_beginCalled)
-        {
             throw new InvalidOperationException("Draw was called, but Begin has not yet been called. Begin must be called successfully before you can call Draw.");
-        }
     }
 
     private void CheckValid(SpriteFont spriteFont, string text)
     {
-        if (spriteFont == null)
-        {
-            throw new ArgumentNullException("spriteFont");
-        }
-        if (text == null)
-        {
-            throw new ArgumentNullException("text");
-        }
+        ArgumentNullException.ThrowIfNull(spriteFont);
+        ArgumentNullException.ThrowIfNull(text);
         if (!_beginCalled)
-        {
             throw new InvalidOperationException("DrawString was called, but Begin has not yet been called. Begin must be called successfully before you can call DrawString.");
-        }
     }
 
     private void CheckValid(SpriteFont spriteFont, StringBuilder text)
     {
-        if (spriteFont == null)
-        {
-            throw new ArgumentNullException("spriteFont");
-        }
-        if (text == null)
-        {
-            throw new ArgumentNullException("text");
-        }
+        ArgumentNullException.ThrowIfNull(spriteFont);
+        ArgumentNullException.ThrowIfNull(text);
         if (!_beginCalled)
-        {
             throw new InvalidOperationException("DrawString was called, but Begin has not yet been called. Begin must be called successfully before you can call DrawString.");
-        }
     }
 
     public GeometryItem GetGeometryItem()

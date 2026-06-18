@@ -92,7 +92,10 @@ public class Steam : IDisposable
     }
     public static bool InitializeCore()
     {
-        _initialized = SteamAPI.Init();
+        var result = SteamAPI.InitEx(out var error);
+        if (!string.IsNullOrWhiteSpace(error))
+            Console.WriteLine($"Steam error: {error}");
+        _initialized = result is ESteamAPIInitResult.k_ESteamAPIInitResult_OK;
         return _initialized;
     }
     public static unsafe bool IsLoggedIn()

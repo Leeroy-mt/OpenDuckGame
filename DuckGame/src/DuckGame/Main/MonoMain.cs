@@ -59,16 +59,11 @@ public class MonoMain : Game
     public static bool preloadModContent = true;
     public static bool breakSteam;
     public static bool modDebugging;
-    public static bool launchedFromSteam;
     public static bool steamConnectionCheckFail;
     public static bool editSave;
-    public static bool downloadWorkshopMods;
-    public static bool disableDirectInput;
-    public static bool dinputNoTimeout;
     public static bool doPauseFade = true;
     public static bool _didReceiptCheck;
     public static bool _recordingStarted;
-    public static bool _recordData;
     public static bool closedCorruptSaveDialog;
     public static bool closedNoSpaceDialog;
     public static bool shouldPauseGameplay;
@@ -87,7 +82,6 @@ public class MonoMain : Game
     public static int timeInMatches;
     public static int timeInArcade;
     public static int timeInEditor;
-    public static int forceFullscreenMode;
     public static int framesSinceFocusChange;
     public static int loseDevice;
     public static int MaximumGamepadCount = 4;
@@ -131,13 +125,9 @@ public class MonoMain : Game
 
     static double LowestSleepThreshold;
 
-    static string kCleanupString = "C:\\gamedev\\duckgame_try2\\duckgame\\DuckGame\\src\\";
-
     static MonoMainCore _core = new();
     static Stopwatch _loopTimer = new();
     static Thread _initializeThread;
-    static Thread _lazyLoadThread;
-    static Task _initializeTask;
     static MaterialPause _pauseMaterial;
     static Recording _tempRecordingReference;
 
@@ -232,9 +222,7 @@ public class MonoMain : Game
         }
     }
     public static RenderTarget2D screenCapture => _screenCapture;
-    public static Thread lazyLoadThread => _lazyLoadThread;
     public static Thread initializeThread => _initializeThread;
-    public static Task initializeTask => _initializeTask;
     public static MaterialPause pauseMaterial => _pauseMaterial;
 
     public static List<UIComponent> closeMenuUpdate => _core.closeMenuUpdate;
@@ -309,19 +297,6 @@ public class MonoMain : Game
         core.engineUpdatables.Add(pUpdatable);
     public static void ResetInfiniteLoopTimer() =>
         _loopTimer.Reset();
-    public static void StartRecording(string name)
-    {
-        _recordingStarted = true;
-        _recordData = true;
-        _ = _recordData;
-    }
-    public static void StartPlayback()
-    {
-        _recordingStarted = true;
-        _recordData = false;
-    }
-    public static void StopRecording() =>
-        _recordingStarted = false;
     public static void UpdatePauseMenu(bool hasFocus = true)
     {
         shouldPauseGameplay = true;
@@ -362,7 +337,7 @@ public class MonoMain : Game
         _didPauseCapture = false;
     public static void CalculateModMemoryOffendersList()
     {
-        List<ModConfiguration> list = loadedModsWithAssemblies.OrderByDescending((ModConfiguration x) => (x.content == null) ? (-1) : x.content.kilobytesPreAllocated).ToList();
+        List<ModConfiguration> list = [.. loadedModsWithAssemblies.OrderByDescending(x => (x.content == null) ? -1 : x.content.kilobytesPreAllocated)];
         bool found = false;
         modMemoryOffendersString = "Mods taking up the most memory:\n";
         foreach (ModConfiguration m in list)
@@ -370,7 +345,7 @@ public class MonoMain : Game
             long allocated = m.content.kilobytesPreAllocated;
             if (allocated / 1000 > 20)
             {
-                modMemoryOffendersString = modMemoryOffendersString + m.displayName + " (" + allocated / 1000 + "MB)(ID:" + m.workshopID + ")\n";
+                modMemoryOffendersString = $"{modMemoryOffendersString}{m.displayName} ({allocated / 1000}MB)(ID:{m.workshopID})\n";
                 found = true;
             }
         }
@@ -464,7 +439,6 @@ public class MonoMain : Game
     public static string GetExceptionString(object e)
     {
         string error = Program.ProcessExceptionString(e as Exception) + "\r\n";
-        error = error.Replace(kCleanupString, "");
         try
         {
             DevConsole.FlushPendingLines();
@@ -484,9 +458,7 @@ public class MonoMain : Game
                             {
                                 if (er[l] == '|')
                                 {
-                                    for (l++; l < er.Length && er[l] != '|'; l++)
-                                    {
-                                    }
+                                    for (l++; l < er.Length && er[l] != '|'; l++) ;
                                     l++;
                                 }
                                 if (l < er.Length)
@@ -656,9 +628,9 @@ public class MonoMain : Game
     }
     public static byte[] StringToByteArray(string hex)
     {
-        return [.. (from x in Enumerable.Range(0, hex.Length)
-                    where x % 2 == 0
-                    select Convert.ToByte(hex.Substring(x, 2), 16))];
+        return [.. from x in Enumerable.Range(0, hex.Length)
+                   where x % 2 == 0
+                   select Convert.ToByte(hex.Substring(x, 2), 16)];
     }
 
     public void SaveShot()
@@ -674,7 +646,7 @@ public class MonoMain : Game
     public void SaveShotThread()
     {
         RenderTarget2D shotToSave = saveShot;
-        string d = DateTime.Now.ToShortDateString() + "-" + DateTime.Now.ToShortTimeString() + " " + _numShots;
+        string d = $"{DateTime.Now:d}-{DateTime.Now:t} {_numShots}";
         _numShots++;
         d = d.Replace("/", "_");
         d = d.Replace(":", "-");
@@ -748,16 +720,6 @@ public class MonoMain : Game
         {
             Music.Terminate();
             cancelLazyLoad = true;
-        }
-        catch
-        {
-        }
-        try
-        {
-            if (_lazyLoadThread != null && _lazyLoadThread.IsAlive)
-                _lazyLoadThread.Abort();
-            if (_initializeThread != null && _initializeThread.IsAlive)
-                _initializeThread.Abort();
         }
         catch
         {
@@ -916,7 +878,7 @@ public class MonoMain : Game
         {
             if (_pauseMenu == null)
                 _didPauseCapture = false;
-            if (!_recordingStarted || _recordData)
+            if (!_recordingStarted)
             {
                 if (DevConsole.rhythmMode && Level.current is GameLevel)
                 {
@@ -1216,7 +1178,6 @@ public class MonoMain : Game
                     _pauseMaterial.dim = Lerp.FloatSmooth(_pauseMaterial.dim, doPauseFade ? 0.6f : 1f, 0.1f, 1.1f);
                 }
                 Graphics.SetFullViewport();
-                new Vector2(Layer.HUD.camera.width / _screenCapture.width, Layer.HUD.camera.height / _screenCapture.height);
                 Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullNone, null, Matrix.Identity);
                 Graphics.material = _pauseMaterial;
                 Graphics.Draw(_screenCapture, Vector2.Zero, null, new Color(120, 120, 120), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, -0.9f);

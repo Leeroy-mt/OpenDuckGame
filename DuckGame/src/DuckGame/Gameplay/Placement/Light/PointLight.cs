@@ -15,7 +15,11 @@ public class PointLight : Thing, ILight
 
     private float _range;
 
+#if !MODERN_BATCH
     private GeometryItem _geo;
+#else
+    ExternalTriangleBatch externalBuffer;
+#endif
 
     private bool _strangeFalloff;
 
@@ -119,7 +123,11 @@ public class PointLight : Thing, ILight
             }
             fullRefreshCountdown--;
         }
+#if !MODERN_BATCH
         else if (refresh || _geo == null)
+#else
+        else if (refresh || externalBuffer == null)
+#endif
         {
             DrawLightNew();
         }
@@ -131,7 +139,12 @@ public class PointLight : Thing, ILight
         {
             return;
         }
+#if !MODERN_BATCH
         _geo = MTSpriteBatch.CreateGeometryItem();
+#else
+        externalBuffer ??= new(256);
+        externalBuffer.Clear();
+#endif
         Vector2 prevPos = Vector2.Zero;
         Color farColPrev = Color.White;
         bool hasPrev = false;
@@ -143,8 +156,8 @@ public class PointLight : Thing, ILight
         for (int i = 0; i <= loops; i++)
         {
             Color farColor = Color.Black;
-            float a = (float)i / (float)loops * 360f;
-            Vector2 dir = new Vector2((float)Math.Cos(Maths.DegToRad(a)), 0f - (float)Math.Sin(Maths.DegToRad(a)));
+            float a = i / (float)loops * 360f;
+            Vector2 dir = new Vector2((float)Math.Cos((double)Maths.DegToRad(a)), -(float)Math.Sin((double)Maths.DegToRad(a)));
             Vector2 rayPos = Vector2.Zero;
             Vector2 castTo = Position + dir * _range;
             if (_strangeFalloff)
@@ -157,18 +170,17 @@ public class PointLight : Thing, ILight
                 float nearestRay = 9999999f;
                 for (int iBlock = 0; iBlock < _objectsInRange.Count; iBlock++)
                 {
-                    if (_objectsInRange[iBlock] is Window || !_objectsInRange[iBlock].solid || !Collision.Line(Position, castTo, _objectsInRange[iBlock]))
+                    if (!(_objectsInRange[iBlock] is Window) && _objectsInRange[iBlock].solid && Collision.Line(Position, castTo, _objectsInRange[iBlock]))
                     {
-                        continue;
-                    }
-                    Vector2 point = Collision.LinePoint(Position, castTo, _objectsInRange[iBlock]);
-                    if (point != Vector2.Zero)
-                    {
-                        float len = (point - Position).LengthSquared();
-                        if (len < nearestRay)
+                        Vector2 point = Collision.LinePoint(Position, castTo, _objectsInRange[iBlock]);
+                        if (point != Vector2.Zero)
                         {
-                            rayPos = point;
-                            nearestRay = len;
+                            float len = (point - Position).LengthSquared();
+                            if (len < nearestRay)
+                            {
+                                rayPos = point;
+                                nearestRay = len;
+                            }
                         }
                     }
                 }
@@ -200,9 +212,9 @@ public class PointLight : Thing, ILight
             {
                 if (Collision.LineIntersect(occluder.p1, occluder.p2, Position, rayPos) && (!hasPrev || Collision.LineIntersect(occluder.p1, occluder.p2, Position, prevPos)))
                 {
-                    Color nc = nearColor * 0.5f;
+                    Vector3 nc = (nearColor * 0.5f).ToVector3();
                     darkOccluder = occluder.color;
-                    nearColor = nc * occluder.color;
+                    nearColor = new Color(nc * occluder.color.ToVector3());
                     dark = true;
                     break;
                 }
@@ -210,8 +222,8 @@ public class PointLight : Thing, ILight
             farColor = _lightColor * fade;
             if (dark)
             {
-                Color nc2 = farColor * 0.5f;
-                farColor = nc2 * darkOccluder;
+                Vector3 nc2 = (farColor * 0.5f).ToVector3();
+                farColor = new Color(nc2 * darkOccluder.ToVector3());
             }
             farColor.A = 0;
             nearColor.A = 0;
@@ -222,7 +234,11 @@ public class PointLight : Thing, ILight
                     rayPos.X = (float)Math.Round(rayPos.X);
                     rayPos.Y = (float)Math.Round(rayPos.Y);
                 }
+#if !MODERN_BATCH
                 _geo.AddTriangle(Position, rayPos, prevPos, nearColor, farColor, farColPrev);
+#else
+                externalBuffer.SetTriangle(Position, rayPos, prevPos, nearColor, farColor, farColPrev, 0);
+#endif
             }
             hasPrev = true;
             prevPos = rayPos;
@@ -232,10 +248,13 @@ public class PointLight : Thing, ILight
 
     public override void Draw()
     {
+#if !MODERN_BATCH
         if (_geo != null)
-        {
             Graphics.screen.SubmitGeometry(_geo);
-        }
+#else
+        if (externalBuffer != null)
+            Graphics.screen.SubmitExternalBatch(externalBuffer);
+#endif
     }
 
     public void Refresh()

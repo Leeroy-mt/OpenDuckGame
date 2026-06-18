@@ -69,7 +69,7 @@ public static class Rando
 
     public static T Choose<T>(params T[] items)
     {
-        return items[Int(items.Length)];
+        return items[Int(items.Length - 1)];
     }
 
     #endregion

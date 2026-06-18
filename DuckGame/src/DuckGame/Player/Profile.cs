@@ -75,8 +75,11 @@ public class Profile
     public static bool loading;
 
     private string _id;
-
+#if !MODERN_BATCH
     private static MTSpriteBatch _batch;
+#else
+    private static TriangleBatch _batch;
+#endif
 
     private static SpriteMap _egg;
 
@@ -1736,7 +1739,7 @@ public class Profile
         RenderTarget2D targ = new RenderTarget2D(16, 16, pdepth: false, RenderTargetUsage.PreserveContents);
         if (_egg == null)
         {
-            _batch = new MTSpriteBatch(Graphics.device);
+            _batch = new(Graphics.device);
             _egg = new SpriteMap("online/eggWhite", 16, 16);
             _eggShine = new SpriteMap("online/eggShine", 16, 16);
             _eggBorder = new SpriteMap("online/eggBorder", 16, 16);
@@ -1827,9 +1830,13 @@ public class Profile
             symbol = 6;
         }
         bool hasLetter = Rando.Int(300) == 1;
-        MTSpriteBatch screen = Graphics.screen;
+        var screen = Graphics.screen;
         Graphics.screen = _batch;
+#if !MODERN_BATCH
         _batch.Draw(_egg.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
+#else
+        _batch.DrawTexture(_egg.texture, new(0, 0, _egg.texture.w, _egg.texture.h), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+#endif
         if (hasSymbol)
         {
             if (hasLetter)
@@ -1847,10 +1854,18 @@ public class Profile
             }
             else
             {
+#if !MODERN_BATCH
                 _batch.Draw(_eggSymbols.texture, new Vector2(0f, 0f), new Rectangle(symbol * 16, 0f, 16f, 16f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
+#else
+                _batch.DrawTexture(_eggSymbols.texture, new(0, 0, _eggSymbols.texture.w, _eggSymbols.texture.h), new(symbol * 16, 0, 16, 16), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
+#endif
             }
         }
+#if !MODERN_BATCH
         _batch.Draw(_eggOuter.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
+#else
+        _batch.DrawTexture(_eggOuter.texture, new(0, 0, _eggOuter.texture.w, _eggOuter.texture.h), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+#endif
         _batch.End();
         Graphics.screen = screen;
         Graphics.SetRenderTarget(null);
@@ -1942,8 +1957,13 @@ public class Profile
         targ.SetData(cols);
         Graphics.SetRenderTarget(targ);
         _batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Matrix.Identity);
+#if !MODERN_BATCH
         _batch.Draw(_eggShine.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
         _batch.Draw(_eggBorder.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
+#else
+        _batch.DrawTexture(_eggShine.texture, new(0, 0, _eggShine.w, _eggShine.h), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+        _batch.DrawTexture(_eggBorder.texture, new(0, 0, _eggBorder.w, _eggBorder.h), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+#endif
         _batch.End();
         Graphics.SetRenderTarget(null);
         Rando.Generator = realGen;
@@ -1972,7 +1992,7 @@ public class Profile
         Tex2D targ = new RenderTarget2D(19, 12, pdepth: false, RenderTargetUsage.PreserveContents);
         if (_easel == null)
         {
-            _batch = new MTSpriteBatch(Graphics.device);
+            _batch = new(Graphics.device);
             _easel = new SpriteMap("online/easelWhite", 19, 12);
             _eggShine = new SpriteMap("online/eggShine", 16, 16);
             _eggBorder = new SpriteMap("online/eggBorder", 16, 16);
@@ -2032,10 +2052,15 @@ public class Profile
         _ = 1;
         Rando.Int(15);
         Rando.Int(300);
-        MTSpriteBatch screen = Graphics.screen;
+        var screen = Graphics.screen;
         Graphics.screen = _batch;
+#if !MODERN_BATCH
         _batch.Draw(_easel.texture, new Vector2(0f, 0f), null, Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
         _batch.Draw(_easelSymbols.texture, new Vector2(0f, 0f), new Rectangle(symbol * 19, 0f, 19f, 12f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
+#else
+        _batch.DrawTexture(_easel.texture, new(0, 0, _easel.texture.w, _easel.texture.h), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+        _batch.DrawTexture(_easelSymbols.texture, new(0, 0, _easelSymbols.texture.w, _easelSymbols.texture.h), new(symbol * 19, 0, 19, 12), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
+#endif
         _batch.End();
         Graphics.screen = screen;
         Graphics.SetRenderTarget(null);

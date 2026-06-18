@@ -20,7 +20,11 @@ public class SunLight : Thing, ILight
 
         public Vector2 start;
 
+#if !MODERN_BATCH
         public GeometryItem geo;
+#else
+        public ExternalTriangleBatch externalBuffer;
+#endif
 
         public Color lightColor;
 
@@ -62,7 +66,12 @@ public class SunLight : Thing, ILight
         public void Refresh()
         {
             affectors.Clear();
+#if !MODERN_BATCH
             geo = MTSpriteBatch.CreateGeometryItem();
+#else
+            externalBuffer ??= new(256);
+            externalBuffer.Clear();
+#endif
             lightColor.A = 0;
             Vector2 tl = start;
             float dis = 0.25f;
@@ -79,19 +88,34 @@ public class SunLight : Thing, ILight
                 }
                 if (hit == null)
                 {
+#if !MODERN_BATCH
                     geo.AddTriangle(castPos, castPos + new Vector2(9f, 0f), castPos + rayOffset, lightColor, lightColor, lightColor);
                     geo.AddTriangle(castPos, castPos + rayOffset, castPos + new Vector2(9f, 0f) + rayOffset, lightColor, lightColor, lightColor);
+#else
+                    externalBuffer.SetTriangle(castPos, castPos + new Vector2(9, 0), castPos + rayOffset, lightColor, lightColor, lightColor, 0);
+                    externalBuffer.SetTriangle(castPos, castPos + rayOffset, castPos + new Vector2(9, 0) + rayOffset, lightColor, lightColor, lightColor, 0);
+#endif
                     continue;
                 }
                 if (Level.CheckPoint<Block>(rayPos + new Vector2(0f, -9f) + new Vector2(1f, 0f)) != null)
                 {
+#if !MODERN_BATCH
                     geo.AddTriangle(castPos, castPos + new Vector2(8f, 0f), rayPos + new Vector2(0f, -18f), lightColor, lightColor, lightColor);
                     geo.AddTriangle(castPos, rayPos, rayPos + new Vector2(0f, -18f), lightColor, lightColor, lightColor);
+#else
+                    externalBuffer.SetTriangle(castPos, castPos + new Vector2(8, 0), rayPos + new Vector2(0, -18), lightColor, lightColor, lightColor, 0);
+                    externalBuffer.SetTriangle(castPos, rayPos, rayPos + new Vector2(0, -18), lightColor, lightColor, lightColor, 0);
+#endif
                 }
                 else
                 {
+#if !MODERN_BATCH
                     geo.AddTriangle(castPos, castPos + new Vector2(12f, 0f), rayPos + new Vector2(8f, 0f), lightColor, lightColor, lightColor);
                     geo.AddTriangle(castPos, rayPos, rayPos + new Vector2(12f, 0f), lightColor, lightColor, lightColor);
+#else
+                    externalBuffer.SetTriangle(castPos, castPos + new Vector2(12, 0), rayPos + new Vector2(8, 0), lightColor, lightColor, lightColor, 0);
+                    externalBuffer.SetTriangle(castPos, rayPos, rayPos + new Vector2(12, 0), lightColor, lightColor, lightColor, 0);
+#endif
                 }
                 affectors.Add(hit);
                 if (hit is Door)
@@ -207,7 +231,11 @@ public class SunLight : Thing, ILight
     {
         foreach (Section s in _sections)
         {
+#if !MODERN_BATCH
             Graphics.screen.SubmitGeometry(s.geo);
+#else
+            Graphics.screen.SubmitExternalBatch(s.externalBuffer);
+#endif
         }
     }
 }

@@ -12,8 +12,11 @@ public class ConsoleScreen : Thing
     private RenderTarget2D _bloomTarget;
 
     private RenderTarget2D _finalTarget;
-
+#if !MODERN_BATCH
     private MTSpriteBatch _batch;
+#else
+    TriangleBatch _batch;
+#endif
 
     private Material _blurMaterial;
 
@@ -55,7 +58,7 @@ public class ConsoleScreen : Thing
         _screenTarget = new RenderTarget2D(134, 86);
         _bloomTarget = new RenderTarget2D(134, 86);
         _finalTarget = new RenderTarget2D(536, 344);
-        _batch = new MTSpriteBatch(Graphics.device);
+        _batch = new(Graphics.device);
         _selector = s;
     }
 

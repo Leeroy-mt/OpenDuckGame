@@ -6,31 +6,15 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Configurations>Debug;Release</Configurations>
+	  
+	<OS>Windows</OS>
+	<CPU>x64</CPU>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="Steamworks.NET">
-      <HintPath>Windows-x64\Steamworks.NET.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="OSX-Linux-x64\Steamworks.NET.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="steam_api64.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="steam_appid.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Windows-x64\Steamworks.NET.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Windows-x86\Steamworks.NET.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="Steamworks.NET">
+			<HintPath>$(SolutionDir)\deps\steam\$(OS)-$(CPU)\Steamworks.NET.dll</HintPath>
+		</Reference>	
+	</ItemGroup>
 
 </Project>

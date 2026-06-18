@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DuckGame;
 
@@ -16,8 +17,11 @@ public class Layer : DrawList
     private static LayerCore _core = new LayerCore();
 
     private static Layer _preDrawLayer = new Layer("PREDRAW");
-
+#if !MODERN_BATCH
     protected MTSpriteBatch _batch;
+#else
+    protected TriangleBatch _batch;
+#endif
 
     private string _name;
 
@@ -194,8 +198,11 @@ public class Layer : DrawList
     }
 
     public static MTEffect basicLayerEffect => _core._basicEffectFadeAdd;
-
+#if !MODERN_BATCH
     public Matrix fullMatrix => _batch.fullMatrix;
+#else
+    public Matrix fullMatrix => _batch.FullMatrix;
+#endif
 
     public string name => _name;
 
@@ -570,7 +577,7 @@ public class Layer : DrawList
     {
         _name = nameval;
         _depth = depthval;
-        _batch = new MTSpriteBatch(Graphics.device);
+        _batch = new(Graphics.device);
         _state = new RasterizerState();
         _state.CullMode = CullMode.None;
         _camera = cam;
@@ -954,6 +961,7 @@ public class Layer : DrawList
                 }
                 foreach (DrawCall c2 in list)
                 {
+#if !MODERN_BATCH
                     if (c2.material != null)
                     {
                         Graphics.screen.DrawWithMaterial(c2.texture, c2.position, c2.sourceRect, c2.color, c2.rotation, c2.origin, c2.scale, c2.effects, c2.depth, c2.material);
@@ -962,6 +970,10 @@ public class Layer : DrawList
                     {
                         Graphics.screen.Draw(c2.texture, c2.position, c2.sourceRect, c2.color, c2.rotation, c2.origin, c2.scale, c2.effects, c2.depth);
                     }
+#else
+                    Graphics.screen.DrawTexture(c2.texture, c2.position, c2.sourceRect, c2.color, c2.rotation, c2.origin, c2.scale, c2.effects, c2.depth, c2.material);
+                    //Graphics.screen.DrawTexture(c2.texture, new(c2.position, c2.position + new Vector2(c2.sourceRect?.width ?? c2.texture.w, c2.sourceRect?.height ?? c2.texture.h) * c2.scale), c2.sourceRect, c2.color, c2.rotation, c2.origin * c2.scale, c2.effects, c2.depth, c2.material?.effect);
+#endif
                 }
             }
         }

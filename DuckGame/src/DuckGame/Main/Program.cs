@@ -79,23 +79,8 @@ public static class Program
             isLinux = true;
             MonoMain.enableThreadedLoading = false;
         }
-        else
-        {
-            AppDomain.CurrentDomain.AssemblyLoad += WindowsPlatformStartup.AssemblyLoad;
-        }
-        Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-        AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
 
-        if (Environment.Is64BitProcess)
-        {
-            if (File.Exists("Windows-x64\\Steamworks.NET.dll"))
-                Assembly.LoadFrom("Windows-x64\\Steamworks.NET.dll");
-        }
-        else
-        {
-            if (File.Exists("Windows-x86\\Steamworks.NET.dll"))
-                Assembly.LoadFrom("Windows-x86\\Steamworks.NET.dll");
-        }
+        AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
 
         try
         {
@@ -109,10 +94,6 @@ public static class Program
 
     public static void HandleGameCrash(Exception pException)
     {
-        if (!File.Exists("CrashWindow.exe"))
-        {
-            return;
-        }
         if (pException is ThreadAbortException)
         {
             ThreadAbortException a = pException as ThreadAbortException;
@@ -269,17 +250,6 @@ public static class Program
             {
                 modAssembly = crashAssembly;
             }
-            try
-            {
-                crashPoint = 5;
-                if (main != null && main.Window != null)
-                {
-                    SendMessage(main.Window.Handle, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
-                }
-            }
-            catch (Exception)
-            {
-            }
             crashPoint = 6;
             if (File.Exists("CrashWindow.exe"))
             {
@@ -299,10 +269,9 @@ public static class Program
                     WriteToLog("Opening CrashWindow failed with error: " + ex11.ToString() + "\n");
                 }
             }
-            //MonoMain.instance.Exit(); //soft exit
 
-            SDL3.SDL.SDL_DestroyWindow(MonoMain.instance.Window.Handle); //hard exit
-            Environment.Exit(1); //hard exit
+            SDL.SDL_DestroyWindow(MonoMain.instance.Window.Handle);
+            Environment.Exit(1);
         }
         catch (Exception ex12)
         {
@@ -361,9 +330,6 @@ public static class Program
 
     public static void RemotePlayConnected() =>
         Windows_Audio.forceMode = AudioMode.DirectSound;
-
-    public static void UnhandledThreadExceptionTrapper(object sender, ThreadExceptionEventArgs e) =>
-        HandleGameCrash(e.Exception);
 
     public static string ProcessExceptionString(Exception e)
     {
@@ -456,44 +422,21 @@ public static class Program
         return s;
     }
 
-    public static Assembly ModResolve(object sender, ResolveEventArgs args)  =>
-        ManagedContent.ResolveModAssembly(sender, args);
-
     public static Assembly Resolve(object sender, ResolveEventArgs args)
     {
         if (!enteredMain)
             return null;
-        if (args.Name.StartsWith("Steam,"))
-            return Assembly.GetAssembly(typeof(Steam));
         if (!_attemptingResolve)
         {
-            bool modResolutionFailure = false;
             if (enteredMain)
             {
                 _attemptingResolve = true;
-                Assembly resolved = null;
-                try
-                {
-                    resolved = ModResolve(sender, args);
-                }
-                catch (Exception)
-                {
-                }
                 _attemptingResolve = false;
-                if (resolved != null)
-                {
-                    return resolved;
-                }
-                modResolutionFailure = true;
             }
-            if (!_showedError && (!ModLoader.runningModloadCode || MonoMain.modDebugging) && !modResolutionFailure)
+            if (!_showedError && (!ModLoader.runningModloadCode || MonoMain.modDebugging))
             {
                 _showedError = true;
                 string errorLine = "Failed to resolve assembly:\n" + args.Name + "\n";
-                if (args.Name.Contains("Microsoft.Xna.Framework"))
-                {
-                    errorLine += "(You may need to install the XNA redistributables!)\n";
-                }
                 StreamWriter streamWriter = new("ducklog.txt", append: true);
                 streamWriter.WriteLine(errorLine);
                 streamWriter.Close();
@@ -550,14 +493,6 @@ public static class Program
             {
                 _testDependencies = true;
             }
-            else if (args[j] == "-windowedFullscreen")
-            {
-                MonoMain.forceFullscreenMode = 1;
-            }
-            else if (args[j] == "-oldschoolFullscreen")
-            {
-                MonoMain.forceFullscreenMode = 2;
-            }
             else if (args[j] == "-nothreading")
             {
                 MonoMain.enableThreadedLoading = false;
@@ -577,10 +512,6 @@ public static class Program
             else if (args[j] == "-nosteam")
             {
                 MonoMain.disableSteam = true;
-            }
-            else if (args[j] == "-steam")
-            {
-                MonoMain.launchedFromSteam = true;
             }
             else if (args[j] == "-loopdebug")
             {
@@ -613,21 +544,9 @@ public static class Program
             {
                 MonoMain.modDebugging = true;
             }
-            else if (args[j] == "-downloadmods")
-            {
-                MonoMain.downloadWorkshopMods = true;
-            }
             else if (args[j] == "-editsave")
             {
                 MonoMain.editSave = true;
-            }
-            else if (args[j] == "-nodinput")
-            {
-                MonoMain.disableDirectInput = true;
-            }
-            else if (args[j] == "-dinputNoTimeout")
-            {
-                MonoMain.dinputNoTimeout = true;
             }
             else if (args[j] == "-ignoreLegacyLoad")
             {
@@ -688,10 +607,6 @@ public static class Program
                 {
                     DevConsole.startupCommands.Add(args[j]);
                 }
-            }
-            else if (args[j] == "-sdl2")
-            {
-                Environment.SetEnvironmentVariable("FNA_PLATFORM_BACKEND", "SDL2");
             }
             else if (args[j] == "-nostart")
             {
@@ -770,8 +685,5 @@ public static class Program
 
     static void OnOutputDebugStringHandler(int pid, string text) =>
         steamInitializeError = steamInitializeError + text + "\n";
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
     #endregion
 }

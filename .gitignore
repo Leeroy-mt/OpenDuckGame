@@ -59,3 +59,4 @@ nunit-*.xml
 [Oo]bj/
 obj_core
 Properties
+deps

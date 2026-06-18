@@ -41,7 +41,11 @@ public class SpriteMap : Sprite, ICloneable
 
     private bool _flipFlop = true;
 
+#if !MODERN_BATCH
     private MTSpriteBatchItem _batchItem;
+#else
+    TriangleBatch.TriangleInfo? triangle0, triangle1;
+#endif
 
     private int _waitFrames;
 
@@ -372,12 +376,22 @@ public class SpriteMap : Sprite, ICloneable
 
     public void ClearCache()
     {
+#if !MODERN_BATCH
         _batchItem = null;
+#else
+        triangle0 = triangle1 = null;
+#endif
     }
 
     public override void UltraCheapStaticDraw(bool flipH = false)
     {
-        if (_batchItem == null)
+#if !MODERN_BATCH
+        bool cached = _batchItem != null;
+#else
+        bool cached = triangle0 != null && triangle1 != null;
+#endif
+
+        if (!cached)
         {
             if (!valid)
             {
@@ -389,11 +403,16 @@ public class SpriteMap : Sprite, ICloneable
             Graphics.Draw(_texture, Position, _spriteBox, _color, Angle, Center, base.Scale, flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.Depth);
             if (_waitFrames == 1)
             {
+#if !MODERN_BATCH
                 _batchItem = Graphics.screen.StealLastSpriteBatchItem();
                 if (_batchItem.MetaData == null)
                 {
                     _batchItem = null;
                 }
+#else
+                triangle0 = Graphics.screen.StealLastTriangle();
+                triangle1 = Graphics.screen.StealLastTriangle();
+#endif
             }
             _waitFrames++;
             Graphics.recordMetadata = false;
@@ -401,7 +420,12 @@ public class SpriteMap : Sprite, ICloneable
         else
         {
             _texture.currentObjectIndex = _globalIndex;
+#if !MODERN_BATCH
             Graphics.Draw(_batchItem);
+#else
+            Graphics.Draw(triangle0.Value);
+            Graphics.Draw(triangle1.Value);
+#endif
         }
     }
 

@@ -40,8 +40,13 @@ public class MaterialDustSparkle : Material
         SetValue("topLeft", position);
         SetValue("size", size);
         SetValue("fade", Layer.Game.fade * fade);
+#if !MODERN_BATCH
         SetValue("viewMatrix", Graphics.screen.viewMatrix);
         SetValue("projMatrix", Graphics.screen.projMatrix);
+#else
+        SetValue("viewMatrix", Graphics.screen.View);
+        SetValue("projMatrix", Graphics.screen.Projection);
+#endif
         foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();

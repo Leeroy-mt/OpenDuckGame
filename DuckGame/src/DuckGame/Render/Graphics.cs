@@ -69,8 +69,13 @@ public static class Graphics
     static SpriteMap _passwordFont;
     static BitmapFont _biosFontCaseSensitive;
     static FancyBitmapFont _fancyBiosFont;
+#if !MODERN_BATCH
     static MTSpriteBatch _defaultBatch;
     static MTSpriteBatch _currentBatch;
+#else
+    static TriangleBatch _defaultBatch;
+    static TriangleBatch _currentBatch;
+#endif
     static Layer _currentLayer;
     static RenderTarget2D _screenCapture;
     static Tex2D _blank;
@@ -82,7 +87,7 @@ public static class Graphics
     static Dictionary<Tex2D, Dictionary<Vector3, Tex2D>> _recolorMap = [];
     static Stack<Rectangle> _scissorStack = new();
 
-    #endregion
+#endregion
 
     #region Public Properties
 
@@ -239,13 +244,17 @@ public static class Graphics
     {
         get
         {
-            if (Thread.CurrentThread != MonoMain.mainThread && Thread.CurrentThread != MonoMain.initializeThread && Thread.CurrentThread != MonoMain.lazyLoadThread)
+            if (Thread.CurrentThread != MonoMain.mainThread && Thread.CurrentThread != MonoMain.initializeThread)
                 throw new("accessing graphics device from thread other than main thread.");
             return _base;
         }
         set => _base = value;
     }
+#if !MODERN_BATCH
     public static MTSpriteBatch screen
+#else
+    public static TriangleBatch screen
+#endif
     {
         get => _currentBatch;
         set
@@ -290,7 +299,7 @@ public static class Graphics
         set => Level.core.currentFrameCalls = value;
     }
 
-    #endregion
+#endregion
 
     #region Private Properties
 
@@ -470,9 +479,12 @@ public static class Graphics
 
     public static void DrawRecorderItem(ref RecorderFrameItem item)
     {
+#if !MODERN_BATCH
         _currentBatch.DrawRecorderItem(ref item);
+#endif
     }
 
+#if !MODERN_BATCH
     public static void DrawRecorderItemLerped(ref RecorderFrameItem item, ref RecorderFrameItem lerpTo, float dist)
     {
         RecorderFrameItem lerped = item;
@@ -492,6 +504,7 @@ public static class Graphics
         lerped.color = Color.Lerp(item.color, lerpTo.color, dist);
         _currentBatch.DrawRecorderItem(ref lerped);
     }
+#endif
 
     public static void Calc()
     {
@@ -509,10 +522,17 @@ public static class Graphics
         }
     }
 
+#if !MODERN_BATCH
     public static void Draw(MTSpriteBatchItem item)
     {
         _currentBatch.DrawExistingBatchItem(item);
     }
+#else
+    public static void Draw(TriangleBatch.TriangleInfo triangle)
+    {
+        _currentBatch.AppendTriangle(triangle);
+    }
+#endif
 
     public static void Draw(Tex2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, Depth depth = default)
     {
@@ -531,10 +551,15 @@ public static class Graphics
         if (effects == SpriteEffects.FlipHorizontally)
             origin.X = (sourceRectangle.HasValue ? sourceRectangle.Value.width : texture.w) - origin.X;
         float deep = AdjustDepth(depth);
+#if !MODERN_BATCH
         if (material != null)
             _currentBatch.DrawWithMaterial(texture, position, sourceRectangle, color, rotation, origin, scale, effects, deep, material);
         else
             _currentBatch.Draw(texture, position, sourceRectangle, color, rotation, origin, scale, effects, deep);
+#else
+        _currentBatch.DrawTexture(texture, position, sourceRectangle, color, rotation, origin, scale, effects, deep, material);
+        //_currentBatch.DrawTexture(texture, new(position, position + new Vector2(sourceRectangle?.width ?? texture.w, sourceRectangle?.height ?? texture.h) * scale), sourceRectangle, color, rotation, origin * scale, effects, deep, material?.effect);
+#endif
     }
 
     public static void Draw(Sprite g, float x, float y)
@@ -847,7 +872,7 @@ public static class Graphics
     public static void Initialize(GraphicsDevice d)
     {
         _base = d;
-        _defaultBatch = new MTSpriteBatch(_base);
+        _defaultBatch = new(_base);
         screen = _defaultBatch;
         _blank = new Tex2D(1, 1);
         _blank.SetData([Color.White]);
@@ -995,6 +1020,7 @@ public static class Graphics
         }
     }
 
+#if !MODERN_BATCH
     public static void PushLayerScissor(Rectangle pRect)
     {
         screen?.FlushSettingScissor();
@@ -1017,6 +1043,7 @@ public static class Graphics
         else
             SetScissorRectangle(_scissorStack.Peek());
     }
+#endif
 
     public static Rectangle ClipRectangle(Rectangle r, Rectangle clipTo)
     {
@@ -1056,7 +1083,7 @@ public static class Graphics
     {
     }
 
-    #endregion
+#endregion
 
     static void Internal_ViewportSet(Viewport pViewport)
     {

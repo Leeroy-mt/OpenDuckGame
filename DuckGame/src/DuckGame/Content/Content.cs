@@ -58,8 +58,11 @@ public class Content
     private static LayerCore _previewLayerCore = null;
 
     private static string _previewPath = null;
-
+#if !MODERN_BATCH
     private static MTSpriteBatch _previewBatch;
+#else
+    private static TriangleBatch _previewBatch;
+#endif
 
     private static bool _previewBackground = false;
 
@@ -293,7 +296,7 @@ public class Content
 
     private static void DoPreviewRender(bool pSaveMetadata)
     {
-        MTSpriteBatch cur = Graphics.screen;
+        var cur = Graphics.screen;
         Graphics.screen = _previewBatch;
         _ = Graphics.viewport;
         RenderTarget2D curTarget = Graphics.currentRenderTarget;
@@ -501,7 +504,7 @@ public class Content
         Level.skipInitialize = false;
         if (_previewBatch == null)
         {
-            _previewBatch = new MTSpriteBatch(Graphics.device);
+            _previewBatch = new(Graphics.device);
         }
         _previewPath = levelPath;
         if (pCustomPreviewTarget != null)
