@@ -15,7 +15,7 @@ public class PortalDoor
 
     public bool isLeft;
 
-    public Rectangle rect;
+    public RectangleF rect;
 
     public Layer layer;
 
@@ -56,20 +56,20 @@ public class PortalDoor
         {
             if (isLeft)
             {
-                layer.scissor = new Rectangle(0f, yScissor, Graphics.width, Graphics.height - yScissor);
+                layer.scissor = new RectangleF(0f, yScissor, Graphics.width, Graphics.height - yScissor);
             }
             else
             {
-                layer.scissor = new Rectangle(0f, 0f, Graphics.width, yScissor);
+                layer.scissor = new RectangleF(0f, 0f, Graphics.width, yScissor);
             }
         }
         else if (isLeft)
         {
-            layer.scissor = new Rectangle(xScissor, 0f, Graphics.width - xScissor, Graphics.height);
+            layer.scissor = new RectangleF(xScissor, 0f, Graphics.width - xScissor, Graphics.height);
         }
         else
         {
-            layer.scissor = new Rectangle(0f, 0f, xScissor, Graphics.height);
+            layer.scissor = new RectangleF(0f, 0f, xScissor, Graphics.height);
         }
     }
 

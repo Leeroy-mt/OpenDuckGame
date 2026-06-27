@@ -14,7 +14,7 @@ public class BackgroundUpdater : Thing
 
     protected float _yOffset;
 
-    public Rectangle scissor = new Rectangle(0f, 0f, 0f, 0f);
+    public RectangleF scissor = new RectangleF(0f, 0f, 0f, 0f);
 
     public bool overrideBaseScissorCall;
 
@@ -42,7 +42,7 @@ public class BackgroundUpdater : Thing
     {
         _parallax.scissor = scissor;
         _parallax.visible = vis;
-        if (scissor.width != 0f)
+        if (scissor.Width != 0f)
         {
             _parallax.layer.scissor = scissor;
         }
@@ -96,7 +96,7 @@ public class BackgroundUpdater : Thing
             Vector2 wallScissor = GetWallScissor();
             if (wallScissor != Vector2.Zero)
             {
-                scissor = new Rectangle((int)wallScissor.X, 0f, (int)wallScissor.Y, Resolution.current.y);
+                scissor = new RectangleF((int)wallScissor.X, 0f, (int)wallScissor.Y, Resolution.current.y);
             }
         }
         if (!_update)
@@ -119,7 +119,7 @@ public class BackgroundUpdater : Thing
             _parallax.xmove = dif / sfactor;
         }
         _lastCameraX = Level.current.camera.centerX;
-        if (scissor.width != 0f)
+        if (scissor.Width != 0f)
         {
             _parallax.scissor = scissor;
         }

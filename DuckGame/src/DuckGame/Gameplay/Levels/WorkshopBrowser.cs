@@ -251,7 +251,7 @@ internal class WorkshopBrowser : Level
                         {
                             float scaleFactor = 256f / (float)i.preview.height;
                             float xCrop = i.preview.width / 2 - i.preview.height / 2;
-                            Graphics.Draw(i.preview, drawPos + extraOffset, new Rectangle(xCrop, 0f, i.preview.height, i.preview.height), Color.White, 0f, Vector2.Zero, new Vector2(scaleFactor * sizeMul, scaleFactor * sizeMul), SpriteEffects.None, baseDepth);
+                            Graphics.Draw(i.preview, drawPos + extraOffset, new RectangleF(xCrop, 0f, i.preview.height, i.preview.height), Color.White, 0f, Vector2.Zero, new Vector2(scaleFactor * sizeMul, scaleFactor * sizeMul), SpriteEffects.None, baseDepth);
                         }
                         else
                         {

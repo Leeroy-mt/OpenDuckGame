@@ -73,7 +73,7 @@ public class NetGraph
                 int num = _characterMap[(uint)text[i]];
                 int uvX = num % 16 * _tileSize;
                 int uvY = num / 16 * _tileSize;
-                batch.Draw(_texture, new Vector2(xpos + xOff, ypos), new Rectangle(uvX, uvY, _tileSize, _tileSize), c, 0f, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 1f);
+                batch.Draw(_texture, new Vector2(xpos + xOff, ypos), new RectangleF(uvX, uvY, _tileSize, _tileSize), c, 0f, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 1f);
                 xOff += (float)_tileSize;
             }
         }

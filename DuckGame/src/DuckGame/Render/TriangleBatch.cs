@@ -149,7 +149,7 @@ public class TriangleBatch
     public void DrawTexture(
             Tex2D texture,
             Vector2 position,
-            Rectangle? sourceRectangle,
+            RectangleF? sourceRectangle,
             Color color,
             float rotation,
             Vector2 origin,
@@ -163,8 +163,8 @@ public class TriangleBatch
         float h = texture.height * scale.Y;
         if (sourceRectangle.HasValue)
         {
-            w = sourceRectangle.Value.width * scale.X;
-            h = sourceRectangle.Value.height * scale.Y;
+            w = sourceRectangle.Value.Width * scale.X;
+            h = sourceRectangle.Value.Height * scale.Y;
         }
         DrawTexture(texture, new(position.X, position.Y, w, h), sourceRectangle, color, rotation, origin * scale, effect, depth, fx);
     }
@@ -172,7 +172,7 @@ public class TriangleBatch
     public void DrawTexture(
             Texture2D texture,
             Vector4 destination,
-            Rectangle? source,
+            RectangleF? source,
             Color color,
             float rotation,
             Vector2 origin,
@@ -183,14 +183,14 @@ public class TriangleBatch
     {
         float z = depth;
 
-        Rectangle rectangle;
+        RectangleF rectangle;
         if (source.HasValue)
             rectangle = source.Value;
         else
             rectangle = new(0, 0, texture.Width, texture.Height);
 
-        Vector2 tl = new(rectangle.x / texture.Width + edgeBias, rectangle.y / texture.Height + edgeBias),
-                br = new((rectangle.x + rectangle.width) / texture.Width - edgeBias, (rectangle.y + rectangle.height) / texture.Height - edgeBias);
+        Vector2 tl = new(rectangle.X / texture.Width + edgeBias, rectangle.Y / texture.Height + edgeBias),
+                br = new((rectangle.X + rectangle.Width) / texture.Width - edgeBias, (rectangle.Y + rectangle.Height) / texture.Height - edgeBias);
 
         if ((effect & SpriteEffects.FlipVertically) != SpriteEffects.None)
             (br.Y, tl.Y) = (tl.Y, br.Y);

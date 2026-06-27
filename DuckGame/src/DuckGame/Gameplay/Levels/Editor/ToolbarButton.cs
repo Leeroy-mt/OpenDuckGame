@@ -44,7 +44,7 @@ public class ToolbarButton : Thing
 
     public override void Update()
     {
-        Rectangle plotRect = new Rectangle(Position.X, Position.Y, 16f, 16f);
+        RectangleF plotRect = new RectangleF(Position.X, Position.Y, 16f, 16f);
         if (Editor.inputMode == EditorInput.Mouse)
         {
             if (Mouse.x > base.X && Mouse.x < base.X + 16f && Mouse.y > base.Y && Mouse.y < base.Y + 16f)

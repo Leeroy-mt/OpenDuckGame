@@ -84,12 +84,12 @@ public class ContextSlider : ContextMenu
 
     public override void Selected()
     {
-        if (Editor.inputMode == EditorInput.Mouse || (!_enteringSlideMode && Editor.inputMode == EditorInput.Touch && TouchScreen.GetPress().Check(new Rectangle(base.X, base.Y, itemSize.X, itemSize.Y), base.layer.camera)))
+        if (Editor.inputMode == EditorInput.Mouse || (!_enteringSlideMode && Editor.inputMode == EditorInput.Touch && TouchScreen.GetPress().Check(new RectangleF(base.X, base.Y, itemSize.X, itemSize.Y), base.layer.camera)))
         {
             _canEditSlide = true;
         }
         _enteringSlideMode = false;
-        if (_canEditSlide && (Editor.inputMode == EditorInput.Mouse || (Editor.inputMode == EditorInput.Touch && TouchScreen.GetTouch().Check(new Rectangle(base.X, base.Y, itemSize.X, itemSize.Y), base.layer.camera))))
+        if (_canEditSlide && (Editor.inputMode == EditorInput.Mouse || (Editor.inputMode == EditorInput.Touch && TouchScreen.GetTouch().Check(new RectangleF(base.X, base.Y, itemSize.X, itemSize.Y), base.layer.camera))))
         {
             _sliding = true;
             float pos = Maths.Clamp(Mouse.x - Position.X, 0f, itemSize.X);

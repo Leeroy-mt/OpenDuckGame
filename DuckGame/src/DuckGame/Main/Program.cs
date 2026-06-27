@@ -19,12 +19,13 @@ namespace DuckGame;
 public static class Program
 {
     #region Constants
-    const uint WM_CLOSE = 16u;
 
     const string kCleanupString = "C:\\gamedev\\duckgame_try2\\duckgame\\DuckGame\\src\\";
+
     #endregion
 
     #region Public Fields
+
     public static bool alternateSaveLocation;
 
     public static bool isLinux;
@@ -44,29 +45,31 @@ public static class Program
     public static string wineVersion;
 
     public static Assembly crashAssembly;
+
     #endregion
 
     #region Private Fields
+
     static bool enteredMain;
 
     static bool _showedError;
 
     static bool _attemptingResolve;
 
-    static string steamInitializeError = "";
-
     static Main main;
 
     static List<Func<string>> _extraExceptionDetailsMinimal =
     [
-        () => "Date: " + DateTime.UtcNow.ToString(DateTimeFormatInfo.InvariantInfo),
-        () => "Version: " + DG.version,
-        () => "Platform: " + DG.platform + " (Steam Build " + steamBuildID + ")",
-        () => "Command Line: " + commandLine
+        () => $"Date: {DateTime.UtcNow.ToString(DateTimeFormatInfo.InvariantInfo)}",
+        () => $"Version: {DG.version}",
+        () => $"Platform: {DG.platform} (Steam Build {steamBuildID})",
+        () => $"Command Line: {commandLine}"
     ];
+
     #endregion
 
     #region Public Methods
+
     /// <summary>
     /// The main entry point for the application.
     /// </summary>
@@ -257,11 +260,11 @@ public static class Program
                 {
                     if (config != null)
                     {
-                        Process.Start("CrashWindow.exe", "-modResponsible " + (modRelated ? "1" : "0") + " -modDisabled " + ((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0")) + " -modName " + modName + " -source " + ex7.Source + " -commandLine \"" + commandLine + "\" -executable \"" + Environment.ProcessPath + "\" " + DG.GetCrashWindowString(pException, config, error));
+                        Process.Start("CrashWindow.exe", $"-modResponsible {(modRelated ? "1" : "0")} -modDisabled {((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0"))} -modName {modName} -source {ex7.Source} -commandLine \"{commandLine}\" -executable \"{Environment.ProcessPath}\" {DG.GetCrashWindowString(pException, config, error)}");
                     }
                     else
                     {
-                        Process.Start("CrashWindow.exe", "-modResponsible " + (modRelated ? "1" : "0") + " -modDisabled " + ((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0")) + " -modName " + modName + " -source " + ex7.Source + " -commandLine \"" + commandLine + "\" -executable \"" + Environment.ProcessPath + "\" " + DG.GetCrashWindowString(pException, modAssembly, error));
+                        Process.Start("CrashWindow.exe", $"-modResponsible {(modRelated ? "1" : "0")} -modDisabled {((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0"))} -modName {modName} -source {ex7.Source} -commandLine \"{commandLine}\" -executable \"{Environment.ProcessPath}\" {DG.GetCrashWindowString(pException, modAssembly, error)}");
                     }
                 }
                 catch (Exception ex11)
@@ -409,9 +412,7 @@ public static class Program
             if (s[i] == '|')
             {
                 int startIndex = i;
-                for (i++; i < s.Length && s[i] != '|'; i++)
-                {
-                }
+                for (i++; i < s.Length && s[i] != '|'; i++) ;
                 if (i < s.Length && s[i] == '|')
                 {
                     s = s.Remove(startIndex, i - startIndex + 1);
@@ -445,9 +446,11 @@ public static class Program
         }
         return null;
     }
+
     #endregion
 
     #region Private Methods
+
     static void OnProcessExit(object sender, EventArgs e) =>
         main?.KillEverything();
 
@@ -459,11 +462,9 @@ public static class Program
         {
             commandLine += args[i];
             if (i != args.Length - 1)
-            {
                 commandLine += " ";
-            }
         }
-        bool _testDependencies = false;
+        bool enableDebugMonitor = false;
         for (int j = 0; j < args.Length; j++)
         {
             if (args[j] == "+connect_lobby")
@@ -491,7 +492,7 @@ public static class Program
             }
             else if (args[j] == "-debug")
             {
-                _testDependencies = true;
+                enableDebugMonitor = true;
             }
             else if (args[j] == "-nothreading")
             {
@@ -635,16 +636,15 @@ public static class Program
         catch (Exception)
         {
         }
-        if (_testDependencies)
+        if (enableDebugMonitor)
         {
             try
             {
                 DebugMonitor.OnOutputDebugString += OnOutputDebugStringHandler;
                 DebugMonitor.Start();
             }
-            catch (Exception ex3)
+            catch
             {
-                steamInitializeError = "SteamAPI deep debug failed with exception:" + ex3.Message + "\nTry running Duck Game as administrator for more debug info.";
             }
         }
         enteredMain = true;
@@ -678,12 +678,15 @@ public static class Program
         catch (Exception)
         {
         }
-        DevConsole.Log("Starting Duck Game (" + DG.platform + ")...");
+        DevConsole.Log($"Starting Duck Game ({DG.platform})...");
         main = new Main();
         main.Run();
     }
 
-    static void OnOutputDebugStringHandler(int pid, string text) =>
-        steamInitializeError = steamInitializeError + text + "\n";
+    static void OnOutputDebugStringHandler(int pid, string text)
+    {
+        Console.WriteLine(text);
+    }
+
     #endregion
 }

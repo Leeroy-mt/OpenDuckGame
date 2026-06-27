@@ -75,7 +75,7 @@ public class UndergroundBackground : BackgroundUpdater
         }
         float yMul = (float)Resolution.current.y / (float)Graphics.height;
         Vector2 wallScissor = BackgroundUpdater.GetWallScissor();
-        _undergroundRocks.scissor = new Rectangle((int)wallScissor.X, (float)yScissor * yMul, (int)wallScissor.Y, Resolution.current.y - yScissor);
+        _undergroundRocks.scissor = new RectangleF((int)wallScissor.X, (float)yScissor * yMul, (int)wallScissor.Y, Resolution.current.y - yScissor);
         Vector2 vec2 = new Vector2(0f, -10f);
         m = Level.current.camera.getMatrix();
         yScissor = (int)(Vector2.Transform(vec2, m).Y * yMul);
@@ -87,7 +87,7 @@ public class UndergroundBackground : BackgroundUpdater
         {
             yScissor = (int)Resolution.size.Y;
         }
-        _skyline.scissor = new Rectangle((int)wallScissor.X, 0f, (int)wallScissor.Y, yScissor);
+        _skyline.scissor = new RectangleF((int)wallScissor.X, 0f, (int)wallScissor.Y, yScissor);
         base.Update();
     }
 

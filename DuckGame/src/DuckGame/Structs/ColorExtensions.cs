@@ -3,7 +3,10 @@ using System;
 
 namespace DuckGame;
 
-public static class DGColor
+/// <summary>
+/// Extends <see cref="Color"/>.
+/// </summary>
+public static class ColorExtensions
 {
     static Color[] RainbowColors =
         [
@@ -20,10 +23,9 @@ public static class DGColor
     {
         public static Color[] RainbowColors => RainbowColors;
 
-        public string ToDGColorString()
-        {
-            return $"|{color.R},{color.G},{color.B}|";
-        }
+        /// <returns>A string representing a <see cref="Color"/>, in the form |r,g,b|.</returns>
+        public string ToDGColorString() =>
+            $"|{color.R},{color.G},{color.B}|";
 
         public static Color Gradient(float t, params Color[] colors)
         {

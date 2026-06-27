@@ -902,8 +902,8 @@ public class ProfileBox2 : Thing
             rightDoor = _doorRightBlank;
             if (rightRoom)
             {
-                Graphics.Draw(sourceRectangle: new Rectangle((int)_doorX, 0f, leftDoor.width, _doorLeft.height), g: leftDoor, x: base.X - 1f, y: base.Y);
-                Graphics.Draw(sourceRectangle: new Rectangle((int)(0f - _doorX), 0f, _doorRight.width, _doorRight.height), g: rightDoor, x: base.X - 1f + 68f, y: base.Y);
+                Graphics.Draw(sourceRectangle: new RectangleF((int)_doorX, 0f, leftDoor.width, _doorLeft.height), g: leftDoor, x: base.X - 1f, y: base.Y);
+                Graphics.Draw(sourceRectangle: new RectangleF((int)(0f - _doorX), 0f, _doorRight.width, _doorRight.height), g: rightDoor, x: base.X - 1f + 68f, y: base.Y);
                 if (_doorX == 0f)
                 {
                     _fontSmall.Depth = leftDoor.Depth + 10;
@@ -979,8 +979,8 @@ public class ProfileBox2 : Thing
             }
             else
             {
-                Graphics.Draw(sourceRectangle: new Rectangle((int)_doorX, 0f, _doorLeft.width, _doorLeft.height), g: leftDoor, x: base.X, y: base.Y);
-                Graphics.Draw(sourceRectangle: new Rectangle((int)(0f - _doorX), 0f, _doorRight.width, _doorRight.height), g: rightDoor, x: base.X + 68f, y: base.Y);
+                Graphics.Draw(sourceRectangle: new RectangleF((int)_doorX, 0f, _doorLeft.width, _doorLeft.height), g: leftDoor, x: base.X, y: base.Y);
+                Graphics.Draw(sourceRectangle: new RectangleF((int)(0f - _doorX), 0f, _doorRight.width, _doorRight.height), g: rightDoor, x: base.X + 68f, y: base.Y);
                 if (_doorX == 0f)
                 {
                     _fontSmall.Depth = leftDoor.Depth + 10;
@@ -1211,14 +1211,14 @@ public class ProfileBox2 : Thing
                 furniture.background.Depth = _roomLeftBackground.Depth;
                 furniture.sprite.Scale = new Vector2(1f);
                 furniture.background.Scale = new Vector2(1f);
-                Graphics.Draw(furniture.sprite, base.X + 70f, base.Y + 44f, new Rectangle(0f, 0f, 4f, 87f));
-                Graphics.Draw(furniture.sprite, base.X + 70f, base.Y + 44f + 68f, new Rectangle(0f, 68f, 141f, 19f));
-                Graphics.Draw(furniture.sprite, base.X + 70f, base.Y + 44f, new Rectangle(0f, 0f, 141f, 16f));
-                Graphics.Draw(furniture.sprite, base.X + 21f, base.Y + 44f, new Rectangle(49f, 0f, 92f, 68f));
+                Graphics.Draw(furniture.sprite, base.X + 70f, base.Y + 44f, new RectangleF(0f, 0f, 4f, 87f));
+                Graphics.Draw(furniture.sprite, base.X + 70f, base.Y + 44f + 68f, new RectangleF(0f, 68f, 141f, 19f));
+                Graphics.Draw(furniture.sprite, base.X + 70f, base.Y + 44f, new RectangleF(0f, 0f, 141f, 16f));
+                Graphics.Draw(furniture.sprite, base.X + 21f, base.Y + 44f, new RectangleF(49f, 0f, 92f, 68f));
                 furniture.sprite.Depth = _selectConsole.Depth - 20;
-                Graphics.Draw(furniture.sprite, base.X + 70f - 4f, base.Y + 44f, new Rectangle(4f, 0f, 44f, 54f));
+                Graphics.Draw(furniture.sprite, base.X + 70f - 4f, base.Y + 44f, new RectangleF(4f, 0f, 44f, 54f));
                 furniture.sprite.Depth = 0.31f;
-                Graphics.Draw(furniture.sprite, base.X + 70f - 4f, base.Y + 44f + 54f, new Rectangle(4f, 54f, 44f, 14f));
+                Graphics.Draw(furniture.sprite, base.X + 70f - 4f, base.Y + 44f + 54f, new RectangleF(4f, 54f, 44f, 14f));
                 furniture.sprite.flipH = false;
                 furniture.background.flipH = true;
                 Graphics.Draw(furniture.background, base.X + 70f, base.Y + 45f);
@@ -1227,11 +1227,11 @@ public class ProfileBox2 : Thing
             else
             {
                 Graphics.Draw(_roomLeftBackground, X - 1, Y + 1);
-                Graphics.Draw(_roomLeftForeground, X - 1, Y + 1, new Rectangle(0, 0, 49, 16));
-                Graphics.Draw(_roomLeftForeground, X - 1, Y + 17, new Rectangle(0, 16, 6, 8));
-                Graphics.Draw(_roomLeftForeground, X - 1, Y + 56, new Rectangle(0, 55, 53, 13));
-                Graphics.Draw(_roomLeftForeground, X - 1, Y + 69, new Rectangle(0, 68, 141, 19));
-                Graphics.Draw(_roomLeftForeground, X + 136, Y + 1, new Rectangle(137, 0, 4, 87));
+                Graphics.Draw(_roomLeftForeground, X - 1, Y + 1, new RectangleF(0, 0, 49, 16));
+                Graphics.Draw(_roomLeftForeground, X - 1, Y + 17, new RectangleF(0, 16, 6, 8));
+                Graphics.Draw(_roomLeftForeground, X - 1, Y + 56, new RectangleF(0, 55, 53, 13));
+                Graphics.Draw(_roomLeftForeground, X - 1, Y + 69, new RectangleF(0, 68, 141, 19));
+                Graphics.Draw(_roomLeftForeground, X + 136, Y + 1, new RectangleF(137, 0, 4, 87));
             }
             if (Network.isActive && ((Network.isServer && profile.connection == DuckNetwork.localConnection) || profile.connection == Network.host))
             {
@@ -1263,24 +1263,24 @@ public class ProfileBox2 : Thing
                 furniture2.background.Depth = _roomLeftBackground.Depth;
                 furniture2.sprite.Scale = new Vector2(1f);
                 furniture2.background.Scale = new Vector2(1f);
-                Graphics.Draw(furniture2.sprite, base.X + 70f, base.Y + 44f, new Rectangle(0f, 0f, 4f, 87f));
-                Graphics.Draw(furniture2.sprite, base.X + 70f, base.Y + 44f + 68f, new Rectangle(0f, 68f, 141f, 19f));
-                Graphics.Draw(furniture2.sprite, base.X + 70f, base.Y + 44f, new Rectangle(0f, 0f, 141f, 16f));
-                Graphics.Draw(furniture2.sprite, base.X + 70f + 49f, base.Y + 44f, new Rectangle(49f, 0f, 92f, 68f));
+                Graphics.Draw(furniture2.sprite, base.X + 70f, base.Y + 44f, new RectangleF(0f, 0f, 4f, 87f));
+                Graphics.Draw(furniture2.sprite, base.X + 70f, base.Y + 44f + 68f, new RectangleF(0f, 68f, 141f, 19f));
+                Graphics.Draw(furniture2.sprite, base.X + 70f, base.Y + 44f, new RectangleF(0f, 0f, 141f, 16f));
+                Graphics.Draw(furniture2.sprite, base.X + 70f + 49f, base.Y + 44f, new RectangleF(49f, 0f, 92f, 68f));
                 furniture2.sprite.Depth = _selectConsole.Depth - 20;
-                Graphics.Draw(furniture2.sprite, base.X + 70f + 4f, base.Y + 44f, new Rectangle(4f, 0f, 44f, 54f));
+                Graphics.Draw(furniture2.sprite, base.X + 70f + 4f, base.Y + 44f, new RectangleF(4f, 0f, 44f, 54f));
                 furniture2.sprite.Depth = 0.31f;
-                Graphics.Draw(furniture2.sprite, base.X + 70f + 4f, base.Y + 44f + 54f, new Rectangle(4f, 54f, 44f, 14f));
+                Graphics.Draw(furniture2.sprite, base.X + 70f + 4f, base.Y + 44f + 54f, new RectangleF(4f, 54f, 44f, 14f));
                 Graphics.Draw(furniture2.background, base.X + 70f, base.Y + 45f);
             }
             else
             {
                 Graphics.Draw(_roomLeftBackground, base.X + 4f, base.Y + 1f);
-                Graphics.Draw(_roomLeftForeground, base.X, base.Y + 1f, new Rectangle(0f, 0f, 4f, 87f));
-                Graphics.Draw(_roomLeftForeground, base.X + 4f, base.Y + 1f + 68f, new Rectangle(4f, 68f, 137f, 19f));
-                Graphics.Draw(_roomLeftForeground, base.X + 92f, base.Y + 1f, new Rectangle(92f, 0f, 49f, 16f));
-                Graphics.Draw(_roomLeftForeground, base.X + 135f, base.Y + 1f + 16f, new Rectangle(135f, 16f, 6f, 8f));
-                Graphics.Draw(_roomLeftForeground, base.X + 89f, base.Y + 1f + 55f, new Rectangle(89f, 55f, 52f, 13f));
+                Graphics.Draw(_roomLeftForeground, base.X, base.Y + 1f, new RectangleF(0f, 0f, 4f, 87f));
+                Graphics.Draw(_roomLeftForeground, base.X + 4f, base.Y + 1f + 68f, new RectangleF(4f, 68f, 137f, 19f));
+                Graphics.Draw(_roomLeftForeground, base.X + 92f, base.Y + 1f, new RectangleF(92f, 0f, 49f, 16f));
+                Graphics.Draw(_roomLeftForeground, base.X + 135f, base.Y + 1f + 16f, new RectangleF(135f, 16f, 6f, 8f));
+                Graphics.Draw(_roomLeftForeground, base.X + 89f, base.Y + 1f + 55f, new RectangleF(89f, 55f, 52f, 13f));
             }
             if (Network.isActive && ((Network.isServer && profile.connection == DuckNetwork.localConnection) || profile.connection == Network.host))
             {

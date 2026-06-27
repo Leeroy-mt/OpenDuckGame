@@ -1833,7 +1833,7 @@ public class Profile
         var screen = Graphics.screen;
         Graphics.screen = _batch;
 #if !MODERN_BATCH
-        _batch.Draw(_egg.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
+        _batch.Draw(_egg.texture, new Vector2(0f, 0f), new RectangleF(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
 #else
         _batch.DrawTexture(_egg.texture, new(0, 0, _egg.texture.w, _egg.texture.h), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
 #endif
@@ -1855,14 +1855,14 @@ public class Profile
             else
             {
 #if !MODERN_BATCH
-                _batch.Draw(_eggSymbols.texture, new Vector2(0f, 0f), new Rectangle(symbol * 16, 0f, 16f, 16f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
+                _batch.Draw(_eggSymbols.texture, new Vector2(0f, 0f), new RectangleF(symbol * 16, 0f, 16f, 16f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
 #else
                 _batch.DrawTexture(_eggSymbols.texture, new(0, 0, _eggSymbols.texture.w, _eggSymbols.texture.h), new(symbol * 16, 0, 16, 16), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
 #endif
             }
         }
 #if !MODERN_BATCH
-        _batch.Draw(_eggOuter.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
+        _batch.Draw(_eggOuter.texture, new Vector2(0f, 0f), new RectangleF(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
 #else
         _batch.DrawTexture(_eggOuter.texture, new(0, 0, _eggOuter.texture.w, _eggOuter.texture.h), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
 #endif
@@ -1958,8 +1958,8 @@ public class Profile
         Graphics.SetRenderTarget(targ);
         _batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Matrix.Identity);
 #if !MODERN_BATCH
-        _batch.Draw(_eggShine.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
-        _batch.Draw(_eggBorder.texture, new Vector2(0f, 0f), new Rectangle(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
+        _batch.Draw(_eggShine.texture, new Vector2(0f, 0f), new RectangleF(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
+        _batch.Draw(_eggBorder.texture, new Vector2(0f, 0f), new RectangleF(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
 #else
         _batch.DrawTexture(_eggShine.texture, new(0, 0, _eggShine.w, _eggShine.h), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
         _batch.DrawTexture(_eggBorder.texture, new(0, 0, _eggBorder.w, _eggBorder.h), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
@@ -2056,7 +2056,7 @@ public class Profile
         Graphics.screen = _batch;
 #if !MODERN_BATCH
         _batch.Draw(_easel.texture, new Vector2(0f, 0f), null, Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
-        _batch.Draw(_easelSymbols.texture, new Vector2(0f, 0f), new Rectangle(symbol * 19, 0f, 19f, 12f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
+        _batch.Draw(_easelSymbols.texture, new Vector2(0f, 0f), new RectangleF(symbol * 19, 0f, 19f, 12f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
 #else
         _batch.DrawTexture(_easel.texture, new(0, 0, _easel.texture.w, _easel.texture.h), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
         _batch.DrawTexture(_easelSymbols.texture, new(0, 0, _easelSymbols.texture.w, _easelSymbols.texture.h), new(symbol * 19, 0, 19, 12), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);

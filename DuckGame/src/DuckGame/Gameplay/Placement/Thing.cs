@@ -1069,7 +1069,7 @@ public abstract class Thing : Transform
 
     public float h => height;
 
-    public Rectangle rectangle => new Rectangle(left, top, (right - left), (bottom - top));
+    public RectangleF rectangle => new RectangleF(left, top, (right - left), (bottom - top));
 
     public Vector2 collisionCenter
     {

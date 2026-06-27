@@ -138,10 +138,10 @@ public class VirtualBackground : BackgroundUpdater
         {
             Level.current.backgroundColor = Lerp.Color(Level.current.backgroundColor, _realBackground.backgroundColor, 0.04f);
         }
-        Rectangle sc = new Rectangle((int)((1f - backStick) * (float)Resolution.current.x), 0f, Resolution.current.x - (int)((1f - backStick) * (float)Resolution.current.x), Resolution.current.y);
+        RectangleF sc = new RectangleF((int)((1f - backStick) * (float)Resolution.current.x), 0f, Resolution.current.x - (int)((1f - backStick) * (float)Resolution.current.x), Resolution.current.y);
         if (_realBackground != null)
         {
-            if (sc.width == 0f)
+            if (sc.Width == 0f)
             {
                 _realBackground.SetVisible(vis: false);
             }
@@ -151,8 +151,8 @@ public class VirtualBackground : BackgroundUpdater
                 _realBackground.SetVisible(vis: true);
             }
         }
-        Rectangle sc2 = new Rectangle(0f, 0f, (float)Resolution.current.x - sc.width, Resolution.current.y);
-        if (sc2.width == 0f)
+        RectangleF sc2 = new RectangleF(0f, 0f, (float)Resolution.current.x - sc.Width, Resolution.current.y);
+        if (sc2.Width == 0f)
         {
             SetVisible(vis: false);
             visible = false;

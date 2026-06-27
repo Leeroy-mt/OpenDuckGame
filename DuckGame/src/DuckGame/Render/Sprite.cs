@@ -154,7 +154,7 @@ public class Sprite : Transform, ICloneable
         Graphics.Draw(_texture, Position, null, _color * base.Alpha, Angle, Center, base.Scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
     }
 
-    public virtual void Draw(Rectangle r)
+    public virtual void Draw(RectangleF r)
     {
         _texture.currentObjectIndex = _globalIndex;
         Graphics.Draw(_texture, Position, r, _color * base.Alpha, Angle, Center, base.Scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);

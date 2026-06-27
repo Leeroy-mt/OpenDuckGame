@@ -31,7 +31,7 @@ public class SpriteMap : Sprite, ICloneable
 
     private int _lastImageIndex = -1;
 
-    private Rectangle _spriteBox;
+    private RectangleF _spriteBox;
 
     public float _frameInc;
 
@@ -244,7 +244,7 @@ public class SpriteMap : Sprite, ICloneable
         into._animations = new List<Animation>(_animations);
     }
 
-    public Rectangle GetSpriteBox() =>
+    public RectangleF GetSpriteBox() =>
         _spriteBox; //new
 
     public void UpdateSpriteBox()
@@ -254,7 +254,7 @@ public class SpriteMap : Sprite, ICloneable
             int framesPerRow = _texture.width / w;
             int currentRow = _imageIndex / framesPerRow;
             int currentColumn = _imageIndex - currentRow * framesPerRow;
-            _spriteBox = new Rectangle(currentColumn * w, currentRow * h, w - cutWidth, h);
+            _spriteBox = new RectangleF(currentColumn * w, currentRow * h, w - cutWidth, h);
             _lastImageIndex = _imageIndex;
         }
     }
@@ -342,12 +342,12 @@ public class SpriteMap : Sprite, ICloneable
         }
     }
 
-    public override void Draw(Rectangle r)
+    public override void Draw(RectangleF r)
     {
         if (UpdateFrame())
         {
-            r.x += _spriteBox.x;
-            r.y += _spriteBox.y;
+            r.X += _spriteBox.X;
+            r.Y += _spriteBox.Y;
             _texture.currentObjectIndex = _globalIndex;
             Graphics.Draw(_texture, Position, r, _color * base.Alpha, Angle, Center, base.Scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
         }

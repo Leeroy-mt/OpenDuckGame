@@ -223,7 +223,7 @@ public class UnlockScreen : Thing
     {
         float mul = (float)Graphics.width / (_treeLayer.camera.width * 2f);
         float mul2 = (float)Graphics.height / (_treeLayer.camera.height * 2f);
-        _treeLayer.scissor = new Rectangle(50f * mul, 44f * mul, (float)Graphics.width - 180f * mul, 214f * mul2);
+        _treeLayer.scissor = new RectangleF(50f * mul, 44f * mul, (float)Graphics.width - 180f * mul, 214f * mul2);
         if (_confirmMenu != null && !_confirmMenu.open && _tryBuy != null)
         {
             if (_confirm.value)

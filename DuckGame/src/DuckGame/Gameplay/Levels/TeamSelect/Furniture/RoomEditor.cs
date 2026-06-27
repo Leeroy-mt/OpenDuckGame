@@ -640,7 +640,7 @@ public class RoomEditor : Thing
                 }
                 if (curFur.type == FurnitureType.Prop)
                 {
-                    List<Rectangle> rects = new List<Rectangle>();
+                    List<RectangleF> rects = new List<RectangleF>();
                     foreach (FurniturePosition p in _selector.profile.furniturePositions)
                     {
                         Furniture f = GetFurniture(p.id);
@@ -652,7 +652,7 @@ public class RoomEditor : Thing
                                 pos.X = (float)roomSize - pos.X;
                             }
                             pos += _selector.box.Position;
-                            rects.Add(new Rectangle(pos.X - (float)(f.sprite.width / 2), pos.Y - (float)Math.Ceiling((float)f.sprite.height / 2f) + 1f + f.topOffset, f.sprite.width, (float)f.sprite.height - f.topOffset));
+                            rects.Add(new RectangleF(pos.X - (float)(f.sprite.width / 2), pos.Y - (float)Math.Ceiling((float)f.sprite.height / 2f) + 1f + f.topOffset, f.sprite.width, (float)f.sprite.height - f.topOffset));
                         }
                     }
                     _furniPos.X = _furniCursor.X;
@@ -663,7 +663,7 @@ public class RoomEditor : Thing
                         float bottom = _furniCursor.Y + curHeight - 2f;
                         Vector2 hit = Vector2.Zero;
                         float highestTop = 999f;
-                        foreach (Rectangle r in rects)
+                        foreach (RectangleF r in rects)
                         {
                             if (r.Top >= bottom - 2f && r.Top - curHeight < highestTop && Collision.Line(new Vector2(_furniCursor.X, bottom), new Vector2(_furniCursor.X, bottom + 100f), r))
                             {

@@ -2,7 +2,7 @@ namespace DuckGame;
 
 public class BitmapFont_CharacterInfo
 {
-    public Rectangle area;
+    public RectangleF area;
 
     public float leading;
 

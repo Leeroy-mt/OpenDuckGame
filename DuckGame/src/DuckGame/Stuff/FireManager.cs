@@ -105,10 +105,10 @@ public class FireManager
                 {
                     continue;
                 }
-                Rectangle r = f2.rectangle;
+                RectangleF r = f2.rectangle;
                 foreach (Spark s in Level.current.things[typeof(Spark)])
                 {
-                    if (s.X > r.x && s.X < r.x + r.width && s.Y > r.y && s.Y < r.y + r.height)
+                    if (s.X > r.X && s.X < r.X + r.Width && s.Y > r.Y && s.Y < r.Y + r.Height)
                     {
                         f2.Burn(f2.Position, s);
                         break;

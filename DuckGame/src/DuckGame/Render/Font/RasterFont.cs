@@ -88,7 +88,7 @@ public class RasterFont : FancyBitmapFont
         {
             data = FontContext.CreateFontData(pFont, pSize);
             _texture = null;
-            _widths = new List<Rectangle>();
+            _widths = new List<RectangleF>();
             foreach (BitmapFont_CharacterInfo inf in data.characters)
             {
                 _widths.Add(inf.area);

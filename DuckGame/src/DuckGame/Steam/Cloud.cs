@@ -46,8 +46,8 @@ public static class Cloud
             if (base.open)
             {
                 string text = "" + "Working... (" + (int)(progress * 100f) + "%)";
-                Graphics.DrawRect(new Rectangle(_box.X - _box.halfWidth + 8f, _box.Y, _box.width - 16f, 10f), Color.LightGray, 0.8f);
-                Graphics.DrawRect(new Rectangle(_box.X - _box.halfWidth + 8f, _box.Y, Lerp.FloatSmooth(0f, _box.width - 16f, progress), 10f), Color.White, 0.8f);
+                Graphics.DrawRect(new RectangleF(_box.X - _box.halfWidth + 8f, _box.Y, _box.width - 16f, 10f), Color.LightGray, 0.8f);
+                Graphics.DrawRect(new RectangleF(_box.X - _box.halfWidth + 8f, _box.Y, Lerp.FloatSmooth(0f, _box.width - 16f, progress), 10f), Color.White, 0.8f);
                 float width = Graphics.GetStringWidth(text);
                 Graphics.DrawString(text, new Vector2(_box.X - width / 2f, _box.Y - 10f), Color.White, 0.8f);
                 if (!processing)

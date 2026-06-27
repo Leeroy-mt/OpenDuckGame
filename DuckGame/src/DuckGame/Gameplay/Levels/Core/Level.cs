@@ -2417,7 +2417,7 @@ public class Level
         return default(T);
     }
 
-    private T Rectcast<T>(Vector2 p1, Vector2 p2, Rectangle rect, out Vector2 hit)
+    private T Rectcast<T>(Vector2 p1, Vector2 p2, RectangleF rect, out Vector2 hit)
     {
         Vector2 dir = p2 - p1;
         int steps = (int)Math.Ceiling(dir.Length());

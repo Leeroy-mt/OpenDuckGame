@@ -195,7 +195,7 @@ public class Recording
         _frames[_frame].backgroundColor = c;
     }
 
-    public void StateChange(SpriteSortMode sortModeVal, BlendState blendStateVal, SamplerState samplerStateVal, DepthStencilState depthStencilStateVal, RasterizerState rasterizerStateVal, MTEffect effectVal, Matrix cameraVal, Rectangle scissor)
+    public void StateChange(SpriteSortMode sortModeVal, BlendState blendStateVal, SamplerState samplerStateVal, DepthStencilState depthStencilStateVal, RasterizerState rasterizerStateVal, MTEffect effectVal, Matrix cameraVal, RectangleF scissor)
     {
         _frames[_frame].StateChange(sortModeVal, blendStateVal, samplerStateVal, depthStencilStateVal, rasterizerStateVal, effectVal, cameraVal, scissor);
     }

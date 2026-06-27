@@ -453,7 +453,7 @@ public class Rope : Thing
                 if (i == num2 - 1)
                 {
                     _vine.ScaleY = 1f;
-                    Graphics.Draw(_vine, drawPrev.X, drawPrev.Y, new Rectangle(0f, 0f, 16f, (int)(lent % stepSize)));
+                    Graphics.Draw(_vine, drawPrev.X, drawPrev.Y, new RectangleF(0f, 0f, 16f, (int)(lent % stepSize)));
                 }
                 else
                 {

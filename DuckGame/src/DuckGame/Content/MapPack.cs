@@ -196,7 +196,7 @@ public class MapPack : ContentPack
                     float scale = 0.95f;
                     Vector2 scaledSize = new Vector2((float)pair.preview.Width * scaleFactor * scale, (float)pair.preview.Height * scaleFactor * scale);
                     Vector2 realSize = new Vector2((float)pair.preview.Width * scaleFactor, (float)pair.preview.Height * scaleFactor);
-                    Graphics.Draw(pair.preview, new Vector2(offset.X + realSize.X / 2f - scaledSize.X / 2f, offset.Y + realSize.Y / 2f - scaledSize.Y / 2f), new Rectangle(0f, 10f, 320f, 180f), Color.White, 0f, Vector2.Zero, new Vector2(scale * scaleFactor), SpriteEffects.None, 0.9f);
+                    Graphics.Draw(pair.preview, new Vector2(offset.X + realSize.X / 2f - scaledSize.X / 2f, offset.Y + realSize.Y / 2f - scaledSize.Y / 2f), new RectangleF(0f, 10f, 320f, 180f), Color.White, 0f, Vector2.Zero, new Vector2(scale * scaleFactor), SpriteEffects.None, 0.9f);
                 }
             }
             catch (Exception)

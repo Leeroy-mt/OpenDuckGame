@@ -18,7 +18,7 @@ public static class Collision
         return false;
     }
 
-    public static bool Point(Vector2 point, Rectangle r)
+    public static bool Point(Vector2 point, RectangleF r)
     {
         if (point.X >= r.Left && point.X <= r.Right && point.Y >= r.Top && point.Y <= r.Bottom)
         {
@@ -83,12 +83,12 @@ public static class Collision
         return true;
     }
 
-    public static bool Line(Vector2 point1, Vector2 point2, Rectangle rect)
+    public static bool Line(Vector2 point1, Vector2 point2, RectangleF rect)
     {
-        double a_rectangleMinX = rect.x;
-        double a_rectangleMinY = rect.y;
-        double a_rectangleMaxX = rect.x + rect.width;
-        double a_rectangleMaxY = rect.y + rect.height;
+        double a_rectangleMinX = rect.X;
+        double a_rectangleMinY = rect.Y;
+        double a_rectangleMaxX = rect.X + rect.Width;
+        double a_rectangleMaxY = rect.Y + rect.Height;
         double minX = point1.X;
         double maxX = point2.X;
         if (point1.X > point2.X)
@@ -180,7 +180,7 @@ public static class Collision
         return true;
     }
 
-    public static bool Circle(Vector2 center, float radius, Rectangle t)
+    public static bool Circle(Vector2 center, float radius, RectangleF t)
     {
         Vector2 closestPoint = center;
         if (center.X < t.Left)
@@ -216,29 +216,29 @@ public static class Collision
         return false;
     }
 
-    public static bool Rect(Vector2 tl1, Vector2 br1, Rectangle t)
+    public static bool Rect(Vector2 tl1, Vector2 br1, RectangleF t)
     {
-        if (!(br1.Y < t.y) && !(tl1.Y > t.Bottom) && !(tl1.X > t.Right))
+        if (!(br1.Y < t.Y) && !(tl1.Y > t.Bottom) && !(tl1.X > t.Right))
         {
-            return !(br1.X < t.x);
+            return !(br1.X < t.X);
         }
         return false;
     }
 
-    public static bool Rect(Rectangle r1, Rectangle r2)
+    public static bool Rect(RectangleF r1, RectangleF r2)
     {
-        if (!(r1.y + r1.height < r2.y) && !(r1.y > r2.y + r2.height) && !(r1.x > r2.x + r2.width))
+        if (!(r1.Y + r1.Height < r2.Y) && !(r1.Y > r2.Y + r2.Height) && !(r1.X > r2.X + r2.Width))
         {
-            return !(r1.x + r1.width < r2.x);
+            return !(r1.X + r1.Width < r2.X);
         }
         return false;
     }
 
-    public static bool Rect(Rectangle r1, Vector4 r2)
+    public static bool Rect(RectangleF r1, Vector4 r2)
     {
-        if (!(r1.y + r1.height < r2.Y) && !(r1.y > r2.Y + r2.W) && !(r1.x > r2.X + r2.Z))
+        if (!(r1.Y + r1.Height < r2.Y) && !(r1.Y > r2.Y + r2.W) && !(r1.X > r2.X + r2.Z))
         {
-            return !(r1.x + r1.width < r2.X);
+            return !(r1.X + r1.Width < r2.X);
         }
         return false;
     }
@@ -307,7 +307,7 @@ public static class Collision
         return new Vector2(point1.X + u1 * dif.X, point1.Y + u1 * dif.Y);
     }
 
-    public static Vector2 LinePoint(Vector2 point1, Vector2 point2, Rectangle rect)
+    public static Vector2 LinePoint(Vector2 point1, Vector2 point2, RectangleF rect)
     {
         Vector2 dif = point2 - point1;
         float[] p = new float[4]
@@ -319,10 +319,10 @@ public static class Collision
         };
         float[] q = new float[4]
         {
-            point1.X - rect.x,
-            rect.x + rect.width - point1.X,
-            point1.Y - rect.y,
-            rect.y + rect.height - point1.Y
+            point1.X - rect.X,
+            rect.X + rect.Width - point1.X,
+            point1.Y - rect.Y,
+            rect.Y + rect.Height - point1.Y
         };
         float u1 = float.NegativeInfinity;
         float u2 = float.PositiveInfinity;

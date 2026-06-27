@@ -204,7 +204,7 @@ public class UIInviteMenu : UIMenu
             spr.Depth = base.Depth + 4;
             spr.Scale = new Vector2(0.25f);
             spr.Alpha = ((_selection == i) ? 1f : 0.3f);
-            Graphics.Draw(spr, xPos + 8f, yPos + 8f, new Rectangle(6f, 6f, 52f, 52f));
+            Graphics.Draw(spr, xPos + 8f, yPos + 8f, new RectangleF(6f, 6f, 52f, 52f));
             _littleFont.Draw(user.name, new Vector2(xPos + 15f, yPos), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
             if (user.triedInvite)
             {

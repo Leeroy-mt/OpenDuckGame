@@ -42,17 +42,17 @@ public class NetDebugDropdown : NetDebugElement
         position.Y -= 2f;
         width = 280f;
         List<Element> elements = _elements();
-        Rectangle dropButton = new Rectangle(position.X + (size.X - size.Y), position.Y, size.Y, size.Y);
-        Rectangle fullRect = new Rectangle(position.X, position.Y, size.X, size.Y);
+        RectangleF dropButton = new RectangleF(position.X + (size.X - size.Y), position.Y, size.Y, size.Y);
+        RectangleF fullRect = new RectangleF(position.X, position.Y, size.X, size.Y);
         if (_dropped)
         {
             tookInput = true;
-            Rectangle dropList = new Rectangle(position.X, position.Y + size.Y + 4f, size.X, size.Y * (float)elements.Count);
+            RectangleF dropList = new RectangleF(position.X, position.Y + size.Y + 4f, size.X, size.Y * (float)elements.Count);
             Graphics.DrawRect(dropList, Color.White, depth + 2, filled: false);
             Graphics.DrawRect(dropList, Color.Black * 0.8f, depth + 1);
             foreach (Element e in elements)
             {
-                Rectangle elementRect = new Rectangle(dropList.x, dropList.y, size.X, size.Y);
+                RectangleF elementRect = new RectangleF(dropList.X, dropList.Y, size.X, size.Y);
                 if (elementRect.Contains(Mouse.positionConsole))
                 {
                     Graphics.DrawRect(elementRect, Color.White * 0.5f, depth + 3);
@@ -62,8 +62,8 @@ public class NetDebugDropdown : NetDebugElement
                         selected = e;
                     }
                 }
-                Graphics.DrawString(e.name, dropList.tl + new Vector2(2f, 2f), Color.White, depth + 5);
-                dropList.y += size.Y;
+                Graphics.DrawString(e.name, dropList.LeftTop + new Vector2(2f, 2f), Color.White, depth + 5);
+                dropList.Y += size.Y;
             }
             if (Mouse.right == InputState.Pressed || (Mouse.left == InputState.Pressed && !dropList.Contains(Mouse.positionConsole)))
             {

@@ -28,7 +28,7 @@ public class VirtualTransitionCore
     bool _decStage;
 
     Color _backgroundColor;
-    Rectangle _scissor;
+    RectangleF _scissor;
     Color _curBackgroundColor;
     Vector2 _position;
 
@@ -98,7 +98,7 @@ public class VirtualTransitionCore
     {
         _parallax.scissor = _scissor;
         _parallax.visible = vis;
-        if (_scissor.width != 0)
+        if (_scissor.Width != 0)
             _parallax.layer.scissor = _scissor;
     }
 
@@ -139,7 +139,7 @@ public class VirtualTransitionCore
             if (_realBackground != null)
             {
                 Level.activeLevel.backgroundColor = _realBackground.backgroundColor;
-                _realBackground.scissor = new Rectangle(0, 0, Resolution.current.x, Resolution.current.y);
+                _realBackground.scissor = new RectangleF(0, 0, Resolution.current.x, Resolution.current.y);
                 _realBackground = null;
             }
             return;
@@ -171,10 +171,10 @@ public class VirtualTransitionCore
             Level.activeLevel.backgroundColor = Lerp.ColorSmoothNoAlpha(_backgroundColor, Color.Black, .1f);
         if (_scanStage < 2)
             backStick = 0;
-        Rectangle sc = new((int)((1 - backStick) * Resolution.current.x), 0, Resolution.current.x - (int)((1 - backStick) * Resolution.current.x), Resolution.current.y);
+        RectangleF sc = new((int)((1 - backStick) * Resolution.current.x), 0, Resolution.current.x - (int)((1 - backStick) * Resolution.current.x), Resolution.current.y);
         if (_realBackground != null)
         {
-            if (sc.width == 0)
+            if (sc.Width == 0)
                 _realBackground.SetVisible(vis: false);
             else
             {
@@ -182,8 +182,8 @@ public class VirtualTransitionCore
                 _realBackground.SetVisible(vis: true);
             }
         }
-        Rectangle sc2 = new(0, 0, Resolution.current.x - sc.width, Resolution.current.y);
-        if (sc2.width == 0)
+        RectangleF sc2 = new(0, 0, Resolution.current.x - sc.Width, Resolution.current.y);
+        if (sc2.Width == 0)
         {
             SetVisible(vis: false);
             _visible = false;
@@ -291,7 +291,7 @@ public class VirtualTransitionCore
         else if (_scanStage == -1)
             _fullyVirtual = true;
         _lastCameraX = Level.activeLevel.camera.centerX;
-        if (_scissor.width != 0)
+        if (_scissor.Width != 0)
             _parallax.scissor = _scissor;
     }
 
@@ -304,7 +304,6 @@ public class VirtualTransitionCore
                 _parallax.visible = false;
                 return;
             }
-            Graphics.PushMarker("TransitionDraw");
             _position = _parallax.Position;
             float scannerX = _stick * 300;
             float scannerFrontX = 360 - _stick * 400;
@@ -319,7 +318,6 @@ public class VirtualTransitionCore
             Graphics.DrawLine(scannerPosBottom + new Vector2(18, -34), new Vector2(scannerFrontX, scannerPosBottom.Y + 10 - 80 * scanMiddle), Color.Red * a, 2, .9f);
             _parallax.Update();
             _parallax.Draw();
-            Graphics.PopMarker();
         }
     }
 

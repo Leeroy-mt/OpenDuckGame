@@ -2,7 +2,10 @@ using Microsoft.Xna.Framework;
 
 namespace DuckGame;
 
-public static class Vec3
+/// <summary>
+/// Extends <see cref="Vector3"/>.
+/// </summary>
+public static class Vector3Extensions
 {
     extension(Vector3 vector3)
     {

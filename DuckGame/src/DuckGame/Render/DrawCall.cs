@@ -9,7 +9,7 @@ public struct DrawCall
 
     public Vector2 position;
 
-    public Rectangle? sourceRect;
+    public RectangleF? sourceRect;
 
     public Color color;
 

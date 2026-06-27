@@ -256,16 +256,16 @@ public class NetworkDebugger : Level
         switch (index)
         {
             case 0:
-                host.rect = new Rectangle(0f, 0f, Resolution.current.x / 2, Resolution.current.y / 2);
+                host.rect = new RectangleF(0f, 0f, Resolution.current.x / 2, Resolution.current.y / 2);
                 break;
             case 1:
-                host.rect = new Rectangle(Resolution.current.x / 2, 0f, Resolution.current.x / 2, Resolution.current.y / 2);
+                host.rect = new RectangleF(Resolution.current.x / 2, 0f, Resolution.current.x / 2, Resolution.current.y / 2);
                 break;
             case 2:
-                host.rect = new Rectangle(0f, Resolution.current.y / 2, Resolution.current.x / 2, Resolution.current.y / 2);
+                host.rect = new RectangleF(0f, Resolution.current.y / 2, Resolution.current.x / 2, Resolution.current.y / 2);
                 break;
             case 3:
-                host.rect = new Rectangle(Resolution.current.x / 2, Resolution.current.y / 2, Resolution.current.x / 2, Resolution.current.y / 2);
+                host.rect = new RectangleF(Resolution.current.x / 2, Resolution.current.y / 2, Resolution.current.x / 2, Resolution.current.y / 2);
                 break;
         }
     }
@@ -780,7 +780,7 @@ public class NetworkDebugger : Level
             }
             else
             {
-                Graphics.viewport = new Viewport((int)instance.rect.x, (int)instance.rect.y, (int)instance.rect.width, (int)instance.rect.height);
+                Graphics.viewport = new Viewport((int)instance.rect.X, (int)instance.rect.Y, (int)instance.rect.Width, (int)instance.rect.Height);
             }
             if (index != 0)
             {
@@ -1194,7 +1194,7 @@ public class NetworkDebugger : Level
                 i2.debugInterface.Draw();
                 if (i2.debugInterface.visible)
                 {
-                    Network.netGraph.DrawChart(i2.consoleSize.tl + new Vector2(10f, 300f));
+                    Network.netGraph.DrawChart(i2.consoleSize.LeftTop + new Vector2(10f, 300f));
                 }
                 UnlockInstance(i2);
             }

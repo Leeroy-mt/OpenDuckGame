@@ -189,7 +189,7 @@ public class NetDebugInterface
 
     public void Draw()
     {
-        Rectangle rect = _instance.consoleSize;
+        RectangleF rect = _instance.consoleSize;
         if (rect.Contains(Mouse.positionConsole) && Mouse.right == InputState.Pressed)
         {
             _visible = !_visible;
@@ -198,12 +198,12 @@ public class NetDebugInterface
         {
             return;
         }
-        rect.x += 8f;
-        rect.width -= 18f;
-        rect.y += 8f;
-        rect.height = 120f;
+        rect.X += 8f;
+        rect.Width -= 18f;
+        rect.Y += 8f;
+        rect.Height = 120f;
         float depth = 0.8f;
-        Vector2 offset = rect.tl + new Vector2(8f, 8f);
+        Vector2 offset = rect.LeftTop + new Vector2(8f, 8f);
         foreach (NetDebugElement e in _elements)
         {
             e.depth = depth;

@@ -349,7 +349,7 @@ public class UIGachaBox : UIMenu
         _frame.Depth = -0.9f;
         Graphics.Draw(_frame, base.X, base.Y);
         _frame.Depth = -0.7f;
-        Graphics.Draw(_frame, base.X, base.Y, new Rectangle(0f, 0f, 125f, 36f));
+        Graphics.Draw(_frame, base.X, base.Y, new RectangleF(0f, 0f, 125f, 36f));
         if (_swapped)
         {
             _contains.Draw(Position + new Vector2(0f, 10f), -0.8f);

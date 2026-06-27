@@ -15,5 +15,5 @@ public class MTSpriteBatchItemMetaData
 
     public float depth;
 
-    public Rectangle tempRect;
+    public RectangleF tempRect;
 }

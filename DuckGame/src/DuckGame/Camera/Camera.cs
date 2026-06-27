@@ -17,7 +17,7 @@ public class Camera
 
     public bool skipUpdate;
 
-    private Rectangle _rectangle;
+    private RectangleF _rectangle;
 
     public Vector2 _viewSize;
 
@@ -183,7 +183,7 @@ public class Camera
         }
     }
 
-    public Rectangle rectangle => _rectangle;
+    public RectangleF rectangle => _rectangle;
 
     public void InitializeToScreenAspect()
     {
@@ -291,7 +291,7 @@ public class Camera
     {
         if (_dirty || (float)Graphics.viewport.Width != _viewSize.X || (float)Graphics.viewport.Height != _viewSize.Y)
         {
-            _rectangle = new Rectangle(left - 16f, top - 16f, size.X + 32f, size.Y + 32f);
+            _rectangle = new RectangleF(left - 16f, top - 16f, size.X + 32f, size.Y + 32f);
             _viewSize = new Vector2(Graphics.viewport.Width, Graphics.viewport.Height);
             Vector2 pos = position;
             float wid = width;

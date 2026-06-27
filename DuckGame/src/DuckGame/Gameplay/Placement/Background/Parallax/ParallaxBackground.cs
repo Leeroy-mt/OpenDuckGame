@@ -38,7 +38,7 @@ public class ParallaxBackground : Thing
 
     public float xmove;
 
-    public Rectangle scissor;
+    public RectangleF scissor;
 
     public Definition definition;
 
@@ -116,7 +116,7 @@ public class ParallaxBackground : Thing
 
     public override void Draw()
     {
-        if (scissor.width != 0f)
+        if (scissor.Width != 0f)
         {
             base.layer.scissor = scissor;
         }
@@ -142,7 +142,7 @@ public class ParallaxBackground : Thing
                     if (zone.visible)
                     {
                         float offset = zone.scroll % (float)graphic.width;
-                        Graphics.Draw(_sprite.texture, Position + new Vector2(0f, FUCKINGYOFFSET) + new Vector2((offset - (float)graphic.width + (float)(xpos * graphic.width)) * base.Scale.X, (float)(i * 8) * base.Scale.Y), new Rectangle(0f, i * 8, graphic.width, 8f), color, 0f, default(Vector2), new Vector2(base.Scale.X, base.Scale.Y), SpriteEffects.None, base.Depth);
+                        Graphics.Draw(_sprite.texture, Position + new Vector2(0f, FUCKINGYOFFSET) + new Vector2((offset - (float)graphic.width + (float)(xpos * graphic.width)) * base.Scale.X, (float)(i * 8) * base.Scale.Y), new RectangleF(0f, i * 8, graphic.width, 8f), color, 0f, default(Vector2), new Vector2(base.Scale.X, base.Scale.Y), SpriteEffects.None, base.Depth);
                     }
                 }
             }

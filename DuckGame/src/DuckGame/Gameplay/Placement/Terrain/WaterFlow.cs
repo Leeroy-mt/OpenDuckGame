@@ -39,18 +39,18 @@ public class WaterFlow : Thing
         base.hugWalls = WallHug.Floor;
     }
 
-    public Rectangle ProcessGroupRect(Rectangle rect)
+    public RectangleF ProcessGroupRect(RectangleF rect)
     {
         if (!processed)
         {
-            if (base.left < rect.x)
+            if (base.left < rect.X)
             {
-                rect.width += (int)(rect.x - base.left);
-                rect.x = (int)base.left;
+                rect.Width += (int)(rect.X - base.left);
+                rect.X = (int)base.left;
             }
-            if (base.right > rect.x + rect.width)
+            if (base.right > rect.X + rect.Width)
             {
-                rect.width += (int)(base.right - (rect.x + rect.width));
+                rect.Width += (int)(base.right - (rect.X + rect.Width));
             }
             processed = true;
             if (!_wallLeft)
@@ -99,7 +99,7 @@ public class WaterFlow : Thing
             }
             if (!processed)
             {
-                Rectangle group = ProcessGroupRect(base.rectangle);
+                RectangleF group = ProcessGroupRect(base.rectangle);
                 if (_extraWater.Count > 0)
                 {
                     _extraWater.Remove(this);
@@ -108,8 +108,8 @@ public class WaterFlow : Thing
                         Level.Remove(item);
                         item._extraWater.Clear();
                     }
-                    _collisionSize = new Vector2(group.width, group.height);
-                    _collisionOffset = new Vector2(group.x - base.X, _collisionOffset.Y);
+                    _collisionSize = new Vector2(group.Width, group.Height);
+                    _collisionOffset = new Vector2(group.X - base.X, _collisionOffset.Y);
                 }
             }
         }
@@ -160,22 +160,22 @@ public class WaterFlow : Thing
         {
             if (_wallLeft)
             {
-                Graphics.Draw(graphic, base.X - 4f, base.Y, new Rectangle(graphic.w - 4, 0f, 4f, graphic.h));
+                Graphics.Draw(graphic, base.X - 4f, base.Y, new RectangleF(graphic.w - 4, 0f, 4f, graphic.h));
             }
             if (_wallRight)
             {
-                Graphics.Draw(graphic, base.X + 16f, base.Y, new Rectangle(0f, 0f, 4f, graphic.h));
+                Graphics.Draw(graphic, base.X + 16f, base.Y, new RectangleF(0f, 0f, 4f, graphic.h));
             }
         }
         else
         {
             if (_wallRight)
             {
-                Graphics.Draw(graphic, base.X + 4f, base.Y, new Rectangle(graphic.w - 4, 0f, 4f, graphic.h));
+                Graphics.Draw(graphic, base.X + 4f, base.Y, new RectangleF(graphic.w - 4, 0f, 4f, graphic.h));
             }
             if (_wallLeft)
             {
-                Graphics.Draw(graphic, base.X - 16f, base.Y, new Rectangle(0f, 0f, 4f, graphic.h));
+                Graphics.Draw(graphic, base.X - 16f, base.Y, new RectangleF(0f, 0f, 4f, graphic.h));
             }
         }
         foreach (WaterFlow water in _extraWater)

@@ -1756,8 +1756,8 @@ public class RockScoreboard : Level
                             _flashSkipFrames++;
                             finalImage = new RenderTarget2D(wide, high);
                             Layer.Game.visible = false;
-                            Rectangle sciss = _field.scissor;
-                            _field.scissor = new Rectangle(0f, 0f, Resolution.size.X, yCut);
+                            RectangleF sciss = _field.scissor;
+                            _field.scissor = new RectangleF(0f, 0f, Resolution.size.X, yCut);
                             _field.visible = true;
                             MonoMain.RenderGame(finalImage);
                             Layer.Game.visible = true;
@@ -1767,7 +1767,7 @@ public class RockScoreboard : Level
                             Layer.allVisible = false;
                             Layer.Game.visible = true;
                             yCut -= 5;
-                            _field.scissor = new Rectangle(0f, yCut, wide, high - yCut);
+                            _field.scissor = new RectangleF(0f, yCut, wide, high - yCut);
                             _field.visible = true;
                             MonoMain.RenderGame(finalImage2);
                             _field.scissor = sciss;

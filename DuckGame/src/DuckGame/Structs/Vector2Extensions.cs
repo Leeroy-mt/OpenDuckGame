@@ -2,7 +2,10 @@ using Microsoft.Xna.Framework;
 
 namespace DuckGame;
 
-public static class Vec2
+/// <summary>
+/// Extends <see cref="Vector2"/>.
+/// </summary>
+public static class Vector2Extensions
 {
     static Vector2 MaxVector = new(float.MaxValue),
                    MinVector = new(float.MinValue);

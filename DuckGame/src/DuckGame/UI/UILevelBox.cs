@@ -1624,12 +1624,12 @@ public class UILevelBox : UIMenu
         _xpBar.Depth = Depth + 2;
         _xpBar.ScaleX = 1;
         Vector2 barPos = new(X - 87, Y - 18);
-        Graphics.Draw(_xpBar, barPos.X, barPos.Y + fullYOffset, new Rectangle(0, 0, 3, 6));
+        Graphics.Draw(_xpBar, barPos.X, barPos.Y + fullYOffset, new RectangleF(0, 0, 3, 6));
         _xpBar.ScaleX = barX - 4;
-        Graphics.Draw(_xpBar, barPos.X + 3, barPos.Y + fullYOffset, new Rectangle(2, 0, 1, 6));
+        Graphics.Draw(_xpBar, barPos.X + 3, barPos.Y + fullYOffset, new RectangleF(2, 0, 1, 6));
         _xpBar.Depth = Depth + 7;
         _xpBar.ScaleX = 1;
-        Graphics.Draw(_xpBar, barPos.X + (barX - 2), barPos.Y + fullYOffset, new Rectangle(3, 0, 3, 6));
+        Graphics.Draw(_xpBar, barPos.X + (barX - 2), barPos.Y + fullYOffset, new RectangleF(3, 0, 3, 6));
         int startCut = 0;
         _barFront.Depth = Depth + 10;
         if (barX < 13)
@@ -1638,7 +1638,7 @@ public class UILevelBox : UIMenu
         if (_barHeat > 1)
             _barHeat = 1;
         _barFront.Alpha = _barHeat;
-        Graphics.Draw(_barFront, barPos.X + barX + startCut, barPos.Y + fullYOffset, new Rectangle(startCut, 0, _barFront.width - startCut, 6));
+        Graphics.Draw(_barFront, barPos.X + barX + startCut, barPos.Y + fullYOffset, new RectangleF(startCut, 0, _barFront.width - startCut, 6));
         _barHeat = Maths.CountDown(_barHeat, 0.04f);
         if (_currentLevel >= 3)
         {
@@ -1654,12 +1654,12 @@ public class UILevelBox : UIMenu
             _gachaBar.Depth = Depth + 2;
             _gachaBar.ScaleX = 1;
             Vector2 barPos2 = new(X - 87, Y - 5);
-            Graphics.Draw(_gachaBar, barPos2.X, barPos2.Y + fullYOffset, new Rectangle(0, 0, 3, 3));
+            Graphics.Draw(_gachaBar, barPos2.X, barPos2.Y + fullYOffset, new RectangleF(0, 0, 3, 3));
             _gachaBar.ScaleX = barX2 - 5;
-            Graphics.Draw(_gachaBar, barPos2.X + 3, barPos2.Y + fullYOffset, new Rectangle(2, 0, 1, 3));
+            Graphics.Draw(_gachaBar, barPos2.X + 3, barPos2.Y + fullYOffset, new RectangleF(2, 0, 1, 3));
             _gachaBar.Depth = Depth + 7;
             _gachaBar.ScaleX = 1;
-            Graphics.Draw(_gachaBar, barPos2.X + (barX2 - 2), barPos2.Y + fullYOffset, new Rectangle(3, 0, 3, 3));
+            Graphics.Draw(_gachaBar, barPos2.X + (barX2 - 2), barPos2.Y + fullYOffset, new RectangleF(3, 0, 3, 3));
             _duckCoin.frame = 0;
             _duckCoin.Alpha = 1 - Math.Max(_coinLerp - 0.5f, 0) * 2;
             _duckCoin.Depth = 0.9f;
@@ -1675,12 +1675,12 @@ public class UILevelBox : UIMenu
             _sandwichBar.Depth = Depth + 2;
             _sandwichBar.ScaleX = 1;
             Vector2 barPos3 = new(X - 87, Y + 5);
-            Graphics.Draw(_sandwichBar, barPos3.X, barPos3.Y + fullYOffset, new Rectangle(0, 0, 3, 3));
+            Graphics.Draw(_sandwichBar, barPos3.X, barPos3.Y + fullYOffset, new RectangleF(0, 0, 3, 3));
             _sandwichBar.ScaleX = barX3 - 5f;
-            Graphics.Draw(_sandwichBar, barPos3.X + 3, barPos3.Y + fullYOffset, new Rectangle(2, 0, 1, 3));
+            Graphics.Draw(_sandwichBar, barPos3.X + 3, barPos3.Y + fullYOffset, new RectangleF(2, 0, 1, 3));
             _sandwichBar.Depth = Depth + 7;
             _sandwichBar.ScaleX = 1;
-            Graphics.Draw(_sandwichBar, barPos3.X + (barX3 - 2), barPos3.Y + fullYOffset, new Rectangle(3, 0, 3, 3));
+            Graphics.Draw(_sandwichBar, barPos3.X + (barX3 - 2), barPos3.Y + fullYOffset, new RectangleF(3, 0, 3, 3));
             _sandwich.Depth = 0.88f;
             float yOffSandwich = _sandwichLerp * -150;
             float xOffSandwich = 0;
@@ -1695,7 +1695,7 @@ public class UILevelBox : UIMenu
             }
             xCutoff = Math.Max(xCutoff, 0);
             if (xCutoff < _sandwich.width)
-                Graphics.Draw(_sandwich, barPos3.X + (sandwichWide - 2) + 12 + xOffSandwich + xCutoff + 1, barPos3.Y + fullYOffset - 16 + yOffSandwich, new Rectangle(xCutoff, 0, _sandwich.width - xCutoff, _sandwich.height), 0.88f);
+                Graphics.Draw(_sandwich, barPos3.X + (sandwichWide - 2) + 12 + xOffSandwich + xCutoff + 1, barPos3.Y + fullYOffset - 16 + yOffSandwich, new RectangleF(xCutoff, 0, _sandwich.width - xCutoff, _sandwich.height), 0.88f);
         }
         if (_currentStat.Key != null)
         {
@@ -1753,8 +1753,8 @@ public class UILevelBox : UIMenu
                     _egg.ScaleY = 1;
                     int mouthHeight = 8;
                     Vector2 littleEggPos = new(X + levelTextXOffset, Y - 29 + fullYOffset + mouthHeight + yOffSize);
-                    Graphics.Draw(_egg, littleEggPos.X, littleEggPos.Y, new Rectangle(0, mouthHeight + yOffSize, 16, 16 - mouthHeight - yOffSize));
-                    Graphics.Draw(_egg, X + levelTextXOffset, Y - 29 + fullYOffset - mouthOpenAmount, new Rectangle(0, 0, 16, mouthHeight + yOffSize));
+                    Graphics.Draw(_egg, littleEggPos.X, littleEggPos.Y, new RectangleF(0, mouthHeight + yOffSize, 16, 16 - mouthHeight - yOffSize));
+                    Graphics.Draw(_egg, X + levelTextXOffset, Y - 29 + fullYOffset - mouthOpenAmount, new RectangleF(0, 0, 16, mouthHeight + yOffSize));
                     Vector2 center = _egg.Center;
                     _egg.ScaleY = mouthOpenAmount;
                     _egg.Center = center;
@@ -1768,11 +1768,11 @@ public class UILevelBox : UIMenu
                 littleManPos = new Vector2(X + levelTextXOffset, Y + fullYOffset + yOffSize - 25);
                 if (!_inTaxi)
                 {
-                    Graphics.Draw(_littleMan, littleManPos.X, littleManPos.Y, new Rectangle(0, 4 + yOffSize, 16, 12 - yOffSize));
-                    Graphics.Draw(_littleMan, X + levelTextXOffset, Y + fullYOffset - mouthOpenAmount - 29, new Rectangle(0, 0, 16, 4 + yOffSize));
+                    Graphics.Draw(_littleMan, littleManPos.X, littleManPos.Y, new RectangleF(0, 4 + yOffSize, 16, 12 - yOffSize));
+                    Graphics.Draw(_littleMan, X + levelTextXOffset, Y + fullYOffset - mouthOpenAmount - 29, new RectangleF(0, 0, 16, 4 + yOffSize));
                     Vector2 center2 = _littleMan.Center;
                     _littleMan.ScaleY = mouthOpenAmount;
-                    Graphics.Draw(_littleMan, X + levelTextXOffset, Y + (fullYOffset - mouthOpenAmount) + yOffSize - 25, new Rectangle(0, 4 + yOffSize, 16, 1));
+                    Graphics.Draw(_littleMan, X + levelTextXOffset, Y + (fullYOffset - mouthOpenAmount) + yOffSize - 25, new RectangleF(0, 4 + yOffSize, 16, 1));
                     _littleMan.Center = center2;
                 }
             }
@@ -1782,16 +1782,16 @@ public class UILevelBox : UIMenu
             {
                 Vector2 talkPos = new(X + levelTextXOffset + 16, Y + fullYOffset - 28);
                 _talkBubble.ScaleX = 1;
-                Graphics.Draw(_talkBubble, talkPos.X, talkPos.Y, new Rectangle(0, 0, 8, 8));
+                Graphics.Draw(_talkBubble, talkPos.X, talkPos.Y, new RectangleF(0, 0, 8, 8));
                 float talkWidth = Graphics.GetStringWidth(talk) - 5;
                 float talkHeight = Graphics.GetStringHeight(talk) + 2;
                 _talkBubble.ScaleX = talkWidth;
-                Graphics.Draw(_talkBubble, talkPos.X + 8, talkPos.Y, new Rectangle(5, 0, 1, 2));
-                Graphics.Draw(_talkBubble, talkPos.X + 8, talkPos.Y + talkHeight, new Rectangle(5, 10, 1, 2));
+                Graphics.Draw(_talkBubble, talkPos.X + 8, talkPos.Y, new RectangleF(5, 0, 1, 2));
+                Graphics.Draw(_talkBubble, talkPos.X + 8, talkPos.Y + talkHeight, new RectangleF(5, 10, 1, 2));
                 _talkBubble.ScaleX = 1;
-                Graphics.Draw(_talkBubble, talkPos.X, talkPos.Y + (talkHeight - 2), new Rectangle(0, 8, 8, 4));
-                Graphics.Draw(_talkBubble, talkPos.X + talkWidth + 8, talkPos.Y + (talkHeight - 2), new Rectangle(8, 8, 4, 4));
-                Graphics.Draw(_talkBubble, talkPos.X + talkWidth + 8, talkPos.Y, new Rectangle(8, 0, 4, 4));
+                Graphics.Draw(_talkBubble, talkPos.X, talkPos.Y + (talkHeight - 2), new RectangleF(0, 8, 8, 4));
+                Graphics.Draw(_talkBubble, talkPos.X + talkWidth + 8, talkPos.Y + (talkHeight - 2), new RectangleF(8, 8, 4, 4));
+                Graphics.Draw(_talkBubble, talkPos.X + talkWidth + 8, talkPos.Y, new RectangleF(8, 0, 4, 4));
                 Graphics.DrawRect(talkPos + new Vector2(5, 2), talkPos + new Vector2(talkWidth + 11, talkHeight), Color.White, 0.9f);
                 Graphics.DrawLine(talkPos + new Vector2(4.5f, 5), talkPos + new Vector2(4.5f, talkHeight - 1), Color.Black, 1, 0.9f);
                 Graphics.DrawLine(talkPos + new Vector2(11.5f + talkWidth, 4), talkPos + new Vector2(11.5f + talkWidth, talkHeight - 1), Color.Black, 1, 0.9f);
@@ -1903,7 +1903,7 @@ public class UILevelBox : UIMenu
                     _circle.Depth = 0.85f + deepAdd;
                     _circle.Angle = _weekDays.Angle;
                     if (k == 0 && _advancedDay)
-                        Graphics.Draw(_circle, Position.X - 71 + (k * 28) + xOff, Position.Y + 33 + calYOffset + yOff, new Rectangle(0, 0, _circle.width * _newCircleLerp, _circle.height));
+                        Graphics.Draw(_circle, Position.X - 71 + (k * 28) + xOff, Position.Y + 33 + calYOffset + yOff, new RectangleF(0, 0, _circle.width * _newCircleLerp, _circle.height));
                     else
                         Graphics.Draw(_circle, Position.X - 71 + (k * 28) + xOff, Position.Y + 33 + calYOffset + yOff);
                 }
@@ -1938,7 +1938,7 @@ public class UILevelBox : UIMenu
             if (_inTaxi)
             {
                 _littleMan.frame = LittleManFrame(Profiles.experienceProfile.numLittleMen, curlev, 0);
-                Graphics.Draw(_littleMan, taxiPos.X - 16, taxiPos.Y - 8, new Rectangle(0, 0, 16, 6));
+                Graphics.Draw(_littleMan, taxiPos.X - 16, taxiPos.Y - 8, new RectangleF(0, 0, 16, 6));
             }
         }
         if (_intermissionSlide > 0.01f)

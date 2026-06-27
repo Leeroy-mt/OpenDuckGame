@@ -1090,7 +1090,7 @@ public class MonoMain : Game
         Graphics.frameFlipFlop = !Graphics.frameFlipFlop;
         if (Graphics.device.IsDisposed)
             return;
-        Graphics.SetScissorRectangle(new Rectangle(0, 0, Graphics.width, Graphics.height));
+        Graphics.SetScissorRectangle(new RectangleF(0, 0, Graphics.width, Graphics.height));
         Recorder.currentRecording?.NextFrame();
         if (!_started)
         {

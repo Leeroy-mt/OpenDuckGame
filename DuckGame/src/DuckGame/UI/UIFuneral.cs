@@ -127,7 +127,7 @@ public class UIFuneral : UIMenu
         Vector2 portraitPos = new(-53, -4);
         _portraitSprite.Depth = Depth + 2;
         _portraitFrame.Depth = Depth + 4;
-        Graphics.Draw(_portraitSprite, Position.X + portraitPos.X + 1, Position.Y + portraitPos.Y + 1, new Rectangle(2, 0, 12, 10));
+        Graphics.Draw(_portraitSprite, Position.X + portraitPos.X + 1, Position.Y + portraitPos.Y + 1, new RectangleF(2, 0, 12, 10));
         Graphics.Draw(_portraitFrame, Position.X + portraitPos.X - 2, Position.Y + portraitPos.Y - 2);
         Graphics.DrawRect(Position + portraitPos, Position + portraitPos + new Vector2(13), Colors.DGBlue, Depth + 1);
         Y -= yOffset;

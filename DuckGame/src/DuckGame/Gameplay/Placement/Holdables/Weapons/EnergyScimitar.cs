@@ -1307,7 +1307,7 @@ public class EnergyScimitar : Gun
                         {
                             continue;
                         }
-                        if (e.owner == null && e._airFly && e.offDir != base.duck.offDir && ((Math.Abs(e.hSpeed) > 2f && Collision.Line(barrelStartPos, base.barrelPosition, new Rectangle(e.X + e.hSpeed, e.Y - 8f, Math.Abs(e.hSpeed), 16f))) || (Math.Abs(e.vSpeed) > 2f && Collision.Line(barrelStartPos, base.barrelPosition, new Rectangle(e.X - 8f, e.Y + e.vSpeed, 16f, Math.Abs(e.vSpeed))))))
+                        if (e.owner == null && e._airFly && e.offDir != base.duck.offDir && ((Math.Abs(e.hSpeed) > 2f && Collision.Line(barrelStartPos, base.barrelPosition, new RectangleF(e.X + e.hSpeed, e.Y - 8f, Math.Abs(e.hSpeed), 16f))) || (Math.Abs(e.vSpeed) > 2f && Collision.Line(barrelStartPos, base.barrelPosition, new RectangleF(e.X - 8f, e.Y + e.vSpeed, 16f, Math.Abs(e.vSpeed))))))
                         {
                             Fondle(e);
                             e.ReverseFlyDirection();

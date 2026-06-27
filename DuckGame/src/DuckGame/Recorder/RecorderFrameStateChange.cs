@@ -21,5 +21,5 @@ public struct RecorderFrameStateChange
 
     public int stateIndex;
 
-    public Rectangle scissor;
+    public RectangleF scissor;
 }

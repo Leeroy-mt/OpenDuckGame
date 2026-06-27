@@ -8,7 +8,7 @@ public class FancyBitmapFont : Transform
 {
     protected RasterFont.Data _rasterData;
 
-    private static Dictionary<string, List<Rectangle>> widthMap = new Dictionary<string, List<Rectangle>>();
+    private static Dictionary<string, List<RectangleF>> widthMap = new Dictionary<string, List<RectangleF>>();
 
     private SpriteMap swearSprites = new SpriteMap("lagturtle", 16, 16);
 
@@ -64,7 +64,7 @@ public class FancyBitmapFont : Transform
 
     private int _maxWidth;
 
-    protected List<Rectangle> _widths;
+    protected List<RectangleF> _widths;
 
     protected List<BitmapFont_CharacterInfo> _characterInfos;
 
@@ -165,7 +165,7 @@ public class FancyBitmapFont : Transform
         _texture = new Sprite(image);
         if (!widthMap.TryGetValue(image, out _widths))
         {
-            _widths = new List<Rectangle>();
+            _widths = new List<RectangleF>();
             Color[] data = _texture.texture.GetData();
             bool done = false;
             int leftPixel = -1;
@@ -200,7 +200,7 @@ public class FancyBitmapFont : Transform
                             }
                             xpixel++;
                         }
-                        _widths.Add(new Rectangle(leftPixel, ypixel, xpixel - leftPixel, _charHeight));
+                        _widths.Add(new RectangleF(leftPixel, ypixel, xpixel - leftPixel, _charHeight));
                         leftPixel = -1;
                     }
                 }
@@ -213,7 +213,7 @@ public class FancyBitmapFont : Transform
         widthMap[image] = _widths;
         if (_widths.Count > 0)
         {
-            _charHeight = (int)_widths[0].height;
+            _charHeight = (int)_widths[0].Height;
         }
         if (_mapInitialized)
         {
@@ -375,7 +375,7 @@ public class FancyBitmapFont : Transform
                     }
                     else if (charIndex < _widths.Count)
                     {
-                        wide += (_widths[charIndex].width - 1f) * base.Scale.X;
+                        wide += (_widths[charIndex].Width - 1f) * base.Scale.X;
                     }
                 }
             }
@@ -472,7 +472,7 @@ public class FancyBitmapFont : Transform
                     }
                     else
                     {
-                        wide += (_widths[charIndex].width - 1f) * base.Scale.X;
+                        wide += (_widths[charIndex].Width - 1f) * base.Scale.X;
                     }
                 }
             }
@@ -551,7 +551,7 @@ public class FancyBitmapFont : Transform
                         {
                             char charVal = (char)Maths.Clamp(text[idxxx], 0, _characterMap.Length - 1);
                             int cIndex = _characterMap[(uint)charVal];
-                            additionalWidth = ((_characterInfos == null) ? (additionalWidth + (_widths[cIndex].width - 1f) * base.Scale.X) : (additionalWidth + (_characterInfos[cIndex].width + _characterInfos[cIndex].trailing + _characterInfos[cIndex].leading) * base.Scale.X));
+                            additionalWidth = ((_characterInfos == null) ? (additionalWidth + (_widths[cIndex].Width - 1f) * base.Scale.X) : (additionalWidth + (_characterInfos[cIndex].width + _characterInfos[cIndex].trailing + _characterInfos[cIndex].leading) * base.Scale.X));
                         }
                         if (wide + additionalWidth > (float)maxWidth)
                         {
@@ -583,7 +583,7 @@ public class FancyBitmapFont : Transform
                                 }
                             }
                         }
-                        else if (wide + _widths[cIndex2].width * base.Scale.X > (float)maxWidth)
+                        else if (wide + _widths[cIndex2].Width * base.Scale.X > (float)maxWidth)
                         {
                             numHigh++;
                             high += (float)_charHeight * base.Scale.Y;
@@ -615,7 +615,7 @@ public class FancyBitmapFont : Transform
                         }
                         else
                         {
-                            wide += (_widths[charIndex].width - 1f) * base.Scale.X;
+                            wide += (_widths[charIndex].Width - 1f) * base.Scale.X;
                         }
                     }
                 }
@@ -689,7 +689,7 @@ public class FancyBitmapFont : Transform
                         {
                             char charVal = (char)Maths.Clamp(text[idxxx], 0, _characterMap.Length - 1);
                             int cIndex = _characterMap[(uint)charVal];
-                            additionalWidth = ((_characterInfos == null) ? (additionalWidth + (_widths[cIndex].width - 1f) * base.Scale.X) : (additionalWidth + (_characterInfos[cIndex].width + _characterInfos[cIndex].trailing + _characterInfos[cIndex].leading) * base.Scale.X));
+                            additionalWidth = ((_characterInfos == null) ? (additionalWidth + (_widths[cIndex].Width - 1f) * base.Scale.X) : (additionalWidth + (_characterInfos[cIndex].width + _characterInfos[cIndex].trailing + _characterInfos[cIndex].leading) * base.Scale.X));
                         }
                         if (wide + additionalWidth > (float)maxWidth)
                         {
@@ -702,7 +702,7 @@ public class FancyBitmapFont : Transform
                     {
                         char charVal2 = (char)Maths.Clamp(text[_letterIndex], 0, _characterMap.Length - 1);
                         int cIndex2 = _characterMap[(uint)charVal2];
-                        if (wide + _widths[cIndex2].width * base.Scale.X > (float)maxWidth)
+                        if (wide + _widths[cIndex2].Width * base.Scale.X > (float)maxWidth)
                         {
                             high += (float)_charHeight * base.Scale.Y;
                             wide = 0f;
@@ -728,7 +728,7 @@ public class FancyBitmapFont : Transform
                         }
                         else
                         {
-                            wide += (_widths[charIndex].width - 1f) * base.Scale.X;
+                            wide += (_widths[charIndex].Width - 1f) * base.Scale.X;
                         }
                     }
                 }
@@ -857,12 +857,12 @@ public class FancyBitmapFont : Transform
                         if (enforceWidthByWord)
                         {
                             char sp = ' ';
-                            float additionalWidth = _widths[_characterMap[(byte)sp]].width;
+                            float additionalWidth = _widths[_characterMap[(byte)sp]].Width;
                             for (; index < text.Count() && text[index] != ' ' && text[index] != '|' && text[index] != '@'; index++)
                             {
                                 byte charVal = (byte)Maths.Clamp(text[index], 0, 254);
                                 int cIndex = _characterMap[charVal];
-                                additionalWidth += (_widths[cIndex].width - 1f) * base.Scale.X;
+                                additionalWidth += (_widths[cIndex].Width - 1f) * base.Scale.X;
                             }
                             if (xOff + additionalWidth > (float)maxWidth)
                             {
@@ -881,7 +881,7 @@ public class FancyBitmapFont : Transform
                     {
                         byte charVal2 = (byte)Maths.Clamp(text[_letterIndex], 0, 254);
                         int cIndex2 = _characterMap[charVal2];
-                        if (xOff + _widths[cIndex2].width * base.Scale.X > (float)maxWidth)
+                        if (xOff + _widths[cIndex2].Width * base.Scale.X > (float)maxWidth)
                         {
                             yOff += (float)_charHeight * base.Scale.Y;
                             xOff = 0f;
@@ -930,11 +930,11 @@ public class FancyBitmapFont : Transform
                             {
                                 break;
                             }
-                            Rectangle dat = _widths[charIndex];
+                            RectangleF dat = _widths[charIndex];
                             _texture.Scale = base.Scale;
                             if (_highlightStart != -1 && _highlightStart != _highlightEnd && ((_highlightStart < _highlightEnd && _letterIndex >= _highlightStart && _letterIndex < _highlightEnd) || (_letterIndex < _highlightStart && _letterIndex >= _highlightEnd)))
                             {
-                                Graphics.DrawRect(new Vector2(xpos + xOff, ypos + yOff), new Vector2(xpos + xOff, ypos + yOff) + new Vector2(dat.width * base.Scale.X, (float)_charHeight * base.Scale.Y), c, deep - 5);
+                                Graphics.DrawRect(new Vector2(xpos + xOff, ypos + yOff), new Vector2(xpos + xOff, ypos + yOff) + new Vector2(dat.Width * base.Scale.X, (float)_charHeight * base.Scale.Y), c, deep - 5);
                                 _texture.color = highlight;
                             }
                             else
@@ -955,7 +955,7 @@ public class FancyBitmapFont : Transform
                             else
                             {
                                 Graphics.Draw(_texture, xpos + xOff, ypos + yOff, dat, deep);
-                                xOff += (dat.width - 1f) * base.Scale.X;
+                                xOff += (dat.Width - 1f) * base.Scale.X;
                             }
                         }
                     }

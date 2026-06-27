@@ -111,8 +111,8 @@ public class MessageDialogue : ContextMenu
         }
         Vector2 cancelPos = new Vector2(topLeft.X + 160f, bottomRightPos - 50f);
         Vector2 cancelSize = new Vector2(120f, 40f);
-        Rectangle rOKButton = new Rectangle(okPos.X, okPos.Y, okSize.X, okSize.Y);
-        Rectangle rCancelButton = new Rectangle(cancelPos.X, cancelPos.Y, cancelSize.X, cancelSize.Y);
+        RectangleF rOKButton = new RectangleF(okPos.X, okPos.Y, okSize.X, okSize.Y);
+        RectangleF rCancelButton = new RectangleF(cancelPos.X, cancelPos.Y, cancelSize.X, cancelSize.Y);
         bool bTouchSelectedOK = false;
         bool bTouchSelectedCancel = false;
         if (Editor.inputMode == EditorInput.Mouse)

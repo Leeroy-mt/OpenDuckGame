@@ -634,7 +634,7 @@ public class UIGachaBoxNew : UIMenu
             Graphics.material = obj2;
             _capsule.Depth = -0.83f;
             _capsule.frame += 3;
-            Graphics.Draw(_capsule, base.X + _eggOffset.X + additionalEgg.X, base.Y - 38f + gachaY - _eggOffset.Y + (11f + sep) + additionalEgg.Y, new Rectangle(0f, 2f, _capsule.width, _capsule.height - 2));
+            Graphics.Draw(_capsule, base.X + _eggOffset.X + additionalEgg.X, base.Y - 38f + gachaY - _eggOffset.Y + (11f + sep) + additionalEgg.Y, new RectangleF(0f, 2f, _capsule.width, _capsule.height - 2));
             _capsule.frame -= 3;
             if (gachaY > 30f && !opened)
             {

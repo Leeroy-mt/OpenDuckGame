@@ -96,7 +96,7 @@ public class Touch
     /// <param name="pRect">Rectangle to collide with</param>
     /// <param name="pCamera">Camera coordinate space to transform touch into</param>
     /// <returns></returns>
-    public bool Check(Rectangle pRect, Camera pCamera = null)
+    public bool Check(RectangleF pRect, Camera pCamera = null)
     {
         if (data == null)
         {
@@ -117,7 +117,7 @@ public class Touch
     /// <param name="pCellSize">Grid snap to apply to touch point</param>
     /// <param name="pCamera">Camera coordinate space to transform touch into</param>
     /// <returns></returns>
-    public bool CheckGrid(Rectangle pRect, float pCellSize, Camera pCamera = null)
+    public bool CheckGrid(RectangleF pRect, float pCellSize, Camera pCamera = null)
     {
         if (data == null)
         {

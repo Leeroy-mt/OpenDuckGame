@@ -1378,10 +1378,10 @@ public class HatSelector : Thing, ITakeInput
         Graphics.Draw(_screen.target, Position + new Vector2(3f, 3f), null, new Color(_screen.darken, _screen.darken, _screen.darken) * fadeVal, 0f, Vector2.Zero, new Vector2(0.25f, 0.25f), SpriteEffects.None, 0.82f);
         _selectBorder.Alpha = fadeVal;
         _selectBorder.Depth = 0.85f;
-        Graphics.Draw(_selectBorder, base.X - 1f, base.Y, new Rectangle(0f, 0f, 4f, _selectBorder.height));
-        Graphics.Draw(_selectBorder, base.X - 1f + (float)_selectBorder.width - 4f, base.Y, new Rectangle(_selectBorder.width - 4, 0f, 4f, _selectBorder.height));
-        Graphics.Draw(_selectBorder, base.X - 1f + 4f, base.Y, new Rectangle(4f, 0f, _selectBorder.width - 8, 4f));
-        Graphics.Draw(_selectBorder, base.X - 1f + 4f, base.Y + (float)(_selectBorder.height - 25), new Rectangle(4f, _selectBorder.height - 25, _selectBorder.width - 8, 25f));
+        Graphics.Draw(_selectBorder, base.X - 1f, base.Y, new RectangleF(0f, 0f, 4f, _selectBorder.height));
+        Graphics.Draw(_selectBorder, base.X - 1f + (float)_selectBorder.width - 4f, base.Y, new RectangleF(_selectBorder.width - 4, 0f, 4f, _selectBorder.height));
+        Graphics.Draw(_selectBorder, base.X - 1f + 4f, base.Y, new RectangleF(4f, 0f, _selectBorder.width - 8, 4f));
+        Graphics.Draw(_selectBorder, base.X - 1f + 4f, base.Y + (float)(_selectBorder.height - 25), new RectangleF(4f, _selectBorder.height - 25, _selectBorder.width - 8, 25f));
         string buttons = _firstWord;
         _font.Scale = new Vector2(1f, 1f);
         _font.Draw(buttons, base.X + 25f, base.Y + 79f, new Color(163, 206, 39) * fadeVal * _lcdFlash, 0.9f);

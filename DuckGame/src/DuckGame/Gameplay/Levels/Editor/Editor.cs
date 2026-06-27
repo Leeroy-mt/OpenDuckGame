@@ -239,7 +239,7 @@ public class Editor : Level
     Vector2 _moveDragStart = Vector2.Zero;
     Vector2 _copyCenter;
     Vector2 pasteOffset;
-    Rectangle _ultimateBounds;
+    RectangleF _ultimateBounds;
     Vector2 _procDrawOffset = Vector2.Zero;
 
     EditorCam _editorCam;
@@ -2498,16 +2498,16 @@ public class Editor : Level
                     wid = 12;
                     hig = 9;
                 }
-                if (x < _ultimateBounds.x)
+                if (x < _ultimateBounds.X)
                 {
-                    int dif = (int)((_ultimateBounds.x - x) / _cellSize) + 1;
-                    x = (int)(_ultimateBounds.x / _cellSize * _cellSize) + _cellSize / 2;
+                    int dif = (int)((_ultimateBounds.X - x) / _cellSize) + 1;
+                    x = (int)(_ultimateBounds.X / _cellSize * _cellSize) + _cellSize / 2;
                     wid -= dif;
                 }
-                if (y < _ultimateBounds.y)
+                if (y < _ultimateBounds.Y)
                 {
-                    int dif2 = (int)((_ultimateBounds.y - y) / _cellSize) + 1;
-                    y = (int)(_ultimateBounds.y / _cellSize * _cellSize) + _cellSize / 2;
+                    int dif2 = (int)((_ultimateBounds.Y - y) / _cellSize) + 1;
+                    y = (int)(_ultimateBounds.Y / _cellSize * _cellSize) + _cellSize / 2;
                     hig -= dif2;
                 }
                 float limit = x + wid * _cellSize;

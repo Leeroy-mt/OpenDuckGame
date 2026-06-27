@@ -120,7 +120,7 @@ public class Portal : Thing
         {
             door.isLeft = false;
         }
-        door.rect = new Rectangle((int)door.point1.X - 8, (int)door.point1.Y, 16f, (int)door.point2.Y - (int)door.point1.Y);
+        door.rect = new RectangleF((int)door.point1.X - 8, (int)door.point1.Y, 16f, (int)door.point2.Y - (int)door.point1.Y);
     }
 
     public override void Initialize()

@@ -32,18 +32,18 @@ public class NetDebugSlider : NetDebugElement
         float val = _getValue();
         int points = 20;
         int level = (int)Math.Round(val * (float)points);
-        Rectangle rect = new Rectangle(position.X + 100f, position.Y, points * 5, 8f);
+        RectangleF rect = new RectangleF(position.X + 100f, position.Y, points * 5, 8f);
         float hoverLevel = -1f;
         if (rect.Contains(Mouse.positionConsole) && allowInput)
         {
-            hoverLevel = (int)((Mouse.positionConsole.X - rect.Left) / rect.width * (float)points);
+            hoverLevel = (int)((Mouse.positionConsole.X - rect.Left) / rect.Width * (float)points);
             if (Mouse.left == InputState.Down)
             {
                 _setValue(hoverLevel / (float)points);
                 tookInput = true;
             }
         }
-        Vector2 barPos = rect.tl;
+        Vector2 barPos = rect.LeftTop;
         for (int i = 0; i < points; i++)
         {
             Color c = Color.Gray;

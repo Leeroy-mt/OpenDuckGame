@@ -572,7 +572,7 @@ public class ContextMenu : Thing, IContextListener
             Vector2 realPos = _lastDrawPos;
             if (opened)
             {
-                if (Editor.inputMode == EditorInput.Touch && TouchScreen.GetTap().Check(new Rectangle(_lastDrawPos.X, _lastDrawPos.Y, _lastDrawPos.X + menuSize.X, _lastDrawPos.Y + menuSize.Y), base.layer.camera) && !pinOpened)
+                if (Editor.inputMode == EditorInput.Touch && TouchScreen.GetTap().Check(new RectangleF(_lastDrawPos.X, _lastDrawPos.Y, _lastDrawPos.X + menuSize.X, _lastDrawPos.Y + menuSize.Y), base.layer.camera) && !pinOpened)
                 {
                     Editor.clickedContextBackground = true;
                 }
@@ -876,7 +876,7 @@ public class ContextMenu : Thing, IContextListener
                                 index++;
                             }
                         }
-                        new Rectangle(base.X, base.Y, itemSize.X, itemSize.Y);
+                        new RectangleF(base.X, base.Y, itemSize.X, itemSize.Y);
                         if (_hover && (Input.Pressed("SELECT") || (_canExpand && Input.Pressed("MENURIGHT")) || scrollButtonDirection != 0))
                         {
                             if (owner is ContextMenu ownerMenu)
@@ -927,7 +927,7 @@ public class ContextMenu : Thing, IContextListener
                 }
                 else if (Editor.inputMode == EditorInput.Touch)
                 {
-                    Rectangle plotRect = new Rectangle(base.X, base.Y, itemSize.X, itemSize.Y);
+                    RectangleF plotRect = new RectangleF(base.X, base.Y, itemSize.X, itemSize.Y);
                     if (TouchScreen.GetTap().Check(plotRect, base.layer.camera))
                     {
                         clicked = true;
@@ -972,7 +972,7 @@ public class ContextMenu : Thing, IContextListener
                     _didContextScroll = false;
                 }
             }
-            if (!Editor.HasFocus() && _hover && _dragMode && Editor.inputMode == EditorInput.Touch && TouchScreen.GetTouch() != Touch.None && TouchScreen.GetTouch().Check(new Rectangle(base.X, base.Y, itemSize.X, itemSize.Y), base.layer.camera))
+            if (!Editor.HasFocus() && _hover && _dragMode && Editor.inputMode == EditorInput.Touch && TouchScreen.GetTouch() != Touch.None && TouchScreen.GetTouch().Check(new RectangleF(base.X, base.Y, itemSize.X, itemSize.Y), base.layer.camera))
             {
                 clicked = true;
             }

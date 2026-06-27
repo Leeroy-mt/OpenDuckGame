@@ -115,7 +115,7 @@ public class UICaptureBox : UIMenu
         {
             Graphics.DrawRect(new Vector2(_capturePosition.X - 1, _capturePosition.Y - 1), new Vector2(_capturePosition.X + (float)(int)_captureSize.X + 1, _capturePosition.Y + (float)(int)_captureSize.Y + 1), Color.White, 1, filled: false);
             if (_captureTarget != null)
-                Graphics.Draw(_captureTarget, _capturePosition, new Rectangle(0, 0, (int)_captureSize.X * 4, (int)_captureSize.Y * 4), Color.White, 0, Vector2.Zero, new Vector2(0.25f, 0.25f), SpriteEffects.None, 1);
+                Graphics.Draw(_captureTarget, _capturePosition, new RectangleF(0, 0, (int)_captureSize.X * 4, (int)_captureSize.Y * 4), Color.White, 0, Vector2.Zero, new Vector2(0.25f, 0.25f), SpriteEffects.None, 1);
         }
     }
 

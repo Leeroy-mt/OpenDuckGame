@@ -64,7 +64,7 @@ public struct RecorderFrame
         return _states.Where((KeyValuePair<int, RecorderFrameStateChange> x) => x.Value.stateIndex == index).Count() > 0;
     }
 
-    public void StateChange(SpriteSortMode sortModeVal, BlendState blendStateVal, SamplerState samplerStateVal, DepthStencilState depthStencilStateVal, RasterizerState rasterizerStateVal, MTEffect effectVal, Matrix cameraVal, Rectangle sciss)
+    public void StateChange(SpriteSortMode sortModeVal, BlendState blendStateVal, SamplerState samplerStateVal, DepthStencilState depthStencilStateVal, RasterizerState rasterizerStateVal, MTEffect effectVal, Matrix cameraVal, RectangleF sciss)
     {
         _states[currentObject] = new RecorderFrameStateChange
         {

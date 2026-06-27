@@ -350,7 +350,7 @@ public class IceBlock : Holdable, IPlatform
             _graphic.Scale = base.Scale;
             _graphic.Center = Center;
             int yOffset = (int)((1f - _hitPoints) * 12f);
-            Graphics.Draw(_graphic.texture, Position + new Vector2(0f, yOffset), new Rectangle(0f, 0f, 16f, 24 - yOffset), Color.White, Angle, _graphic.Center, base.Scale, graphic.flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.Depth);
+            Graphics.Draw(_graphic.texture, Position + new Vector2(0f, yOffset), new RectangleF(0f, 0f, 16f, 24 - yOffset), Color.White, Angle, _graphic.Center, base.Scale, graphic.flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.Depth);
             base.Y = ypos;
         }
         else

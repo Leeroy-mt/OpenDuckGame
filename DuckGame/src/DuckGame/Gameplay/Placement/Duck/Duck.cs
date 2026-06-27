@@ -766,7 +766,7 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     private Camera _iconCamera;
 
-    private Rectangle _iconRect = new Rectangle(0f, 0f, 96f, 96f);
+    private RectangleF _iconRect = new RectangleF(0f, 0f, 96f, 96f);
 
     public Vector2 tongueCheck = Vector2.Zero;
 

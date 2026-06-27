@@ -36,7 +36,7 @@ public class NetworkInstance
 
     public List<Core> extraCores = new List<Core>();
 
-    public Rectangle rect;
+    public RectangleF rect;
 
     public bool canReconnect;
 
@@ -86,12 +86,12 @@ public class NetworkInstance
 
     public bool hover => rect.Contains(Mouse.mousePos);
 
-    public Rectangle consoleSize
+    public RectangleF consoleSize
     {
         get
         {
-            float scale = rect.width / layerCore._console.camera.width * 0.5f;
-            return new Rectangle(rect.x * scale, rect.y * scale, rect.width * scale, rect.height * scale);
+            float scale = rect.Width / layerCore._console.camera.width * 0.5f;
+            return new RectangleF(rect.X * scale, rect.Y * scale, rect.Width * scale, rect.Height * scale);
         }
     }
 }

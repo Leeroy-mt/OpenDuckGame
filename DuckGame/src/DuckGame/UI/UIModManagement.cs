@@ -90,7 +90,7 @@ public class UIModManagement : UIMenu
 
     Vector2 _oldPos;
 
-    Rectangle _updateButton;
+    RectangleF _updateButton;
 
     UIMenu _openOnClose;
 
@@ -365,7 +365,7 @@ public class UIModManagement : UIMenu
                 {
                     float boxLeft = _box.X - _box.halfWidth;
                     float boxTop = _box.Y - _box.halfHeight + (36 * i);
-                    if (new Rectangle((int)boxLeft, (int)boxTop, (int)_box.width - 14, 36).Contains(Mouse.position))
+                    if (new RectangleF((int)boxLeft, (int)boxTop, (int)_box.width - 14, 36).Contains(Mouse.position))
                     {
                         _hoverIndex = _scrollItemOffset + i;
                         break;
@@ -383,7 +383,7 @@ public class UIModManagement : UIMenu
                     _updateTextBox.Update();
                     float sw = Graphics.GetStringWidth(_updateButtonText, thinButtons: false, 2);
                     float sh = Graphics.GetStringHeight(_updateButtonText) * 2;
-                    _updateButton = new Rectangle(_box.X - sw / 2, _box.Y + _box.halfHeight - 24, sw, sh);
+                    _updateButton = new RectangleF(_box.X - sw / 2, _box.Y + _box.halfHeight - 24, sw, sh);
                     if (_updateButton.Contains(Mouse.position) && Mouse.left == InputState.Pressed)
                     {
                         _needsUpdateNotes = false;
@@ -646,7 +646,7 @@ public class UIModManagement : UIMenu
             }
             Graphics.DrawRect(new Vector2(_box.X - _box.halfWidth, _box.Y - _box.halfHeight), new Vector2(_box.X + _box.halfWidth - 14, _box.Y + _box.halfHeight), Color.Black, 0.4f);
             Graphics.DrawRect(new Vector2(_box.X + _box.halfWidth - 12, _box.Y - _box.halfHeight), new Vector2(_box.X + _box.halfWidth, _box.Y + _box.halfHeight), Color.Black, 0.4f);
-            Rectangle sb = ScrollBarBox();
+            RectangleF sb = ScrollBarBox();
             Graphics.DrawRect(sb, (_draggingScrollbar || sb.Contains(Mouse.position)) ? Color.LightGray : Color.Gray, 0.5f);
             for (int i = 0; i < _maxModsToShow; i++)
             {
@@ -733,7 +733,7 @@ public class UIModManagement : UIMenu
                 Graphics.DrawString("Restart required for some changes to take effect!", new Vector2(X - halfWidth + 128, Y - halfHeight + 8), Color.Red, 0.6f);
             if (_transferItem != null)
             {
-                Graphics.DrawRect(new Rectangle(_box.X - _box.halfWidth, _box.Y - _box.halfHeight, _box.width, _box.height), Color.Black * 0.9f, 0.7f);
+                Graphics.DrawRect(new RectangleF(_box.X - _box.halfWidth, _box.Y - _box.halfHeight, _box.width, _box.height), Color.Black * 0.9f, 0.7f);
                 string centerTopText = "Creating item...";
                 if (_transferring)
                 {
@@ -751,18 +751,18 @@ public class UIModManagement : UIMenu
                     {
                         float percent = pct.bytesDownloaded / (float)pct.bytesTotal;
                         centerTopText = $"{centerTopText} ({(int)(percent * 100)}%)";
-                        Graphics.DrawRect(new Rectangle(_box.X - _box.halfWidth + 8, _box.Y - 8, _box.width - 16, 16), Color.LightGray, 0.8f);
-                        Graphics.DrawRect(new Rectangle(_box.X - _box.halfWidth + 8, _box.Y - 8, Lerp.FloatSmooth(0, _box.width - 16, percent), 16), Color.Green, 0.8f);
+                        Graphics.DrawRect(new RectangleF(_box.X - _box.halfWidth + 8, _box.Y - 8, _box.width - 16, 16), Color.LightGray, 0.8f);
+                        Graphics.DrawRect(new RectangleF(_box.X - _box.halfWidth + 8, _box.Y - 8, Lerp.FloatSmooth(0, _box.width - 16, percent), 16), Color.Green, 0.8f);
                     }
                     centerTopText += "...";
                 }
                 else if (_needsUpdateNotes)
                 {
-                    Graphics.DrawRect(new Rectangle(_updateTextBox.position.X - 1, _updateTextBox.position.Y - 1, _updateTextBox.size.X + 2, _updateTextBox.size.Y + 2), Color.Gray, 0.85f, filled: false);
-                    Graphics.DrawRect(new Rectangle(_updateTextBox.position.X, _updateTextBox.position.Y, _updateTextBox.size.X, _updateTextBox.size.Y), Color.Black, 0.85f);
+                    Graphics.DrawRect(new RectangleF(_updateTextBox.position.X - 1, _updateTextBox.position.Y - 1, _updateTextBox.size.X + 2, _updateTextBox.size.Y + 2), Color.Gray, 0.85f, filled: false);
+                    Graphics.DrawRect(new RectangleF(_updateTextBox.position.X, _updateTextBox.position.Y, _updateTextBox.size.X, _updateTextBox.size.Y), Color.Black, 0.85f);
                     _updateTextBox.Draw();
                     centerTopText = "Enter change notes:";
-                    Graphics.DrawString(_updateButtonText, new Vector2(_updateButton.x, _updateButton.y), _updateButton.Contains(Mouse.position) ? Color.Yellow : Color.White, 0.9f, null, 2);
+                    Graphics.DrawString(_updateButtonText, new Vector2(_updateButton.X, _updateButton.Y), _updateButton.Contains(Mouse.position) ? Color.Yellow : Color.White, 0.9f, null, 2);
                 }
                 float width = Graphics.GetStringWidth(centerTopText, thinButtons: false, 2);
                 Graphics.DrawString(centerTopText, new Vector2(_box.X - width / 2, _box.Y - _box.halfHeight + 24), Color.White, 0.8f, null, 2);
@@ -878,7 +878,7 @@ public class UIModManagement : UIMenu
         new UIMenuActionOpenMenu(_editModMenu, _yesNoMenu).Activate();
     }
 
-    Rectangle ScrollBarBox() => new(_box.X + _box.halfWidth - 11, _box.Y - _box.halfHeight + scrollBarOffset + 1, 10, 32);
+    RectangleF ScrollBarBox() => new(_box.X + _box.halfWidth - 11, _box.Y - _box.halfHeight + scrollBarOffset + 1, 10, 32);
 
     #endregion
 }

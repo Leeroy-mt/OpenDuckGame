@@ -258,7 +258,7 @@ public class Furniture
                     {
                         float sinOffset = (float)Math.Sin((float)Graphics.frame / 10f + (float)i * 0.18f);
                         Vector2 flagStart = pos + new Vector2((spr.flipH ? (-2f) : 2f) * spr.Scale.X, -9f * spr.Scale.Y);
-                        Graphics.Draw(s.texture, flagStart + new Vector2((float)(i * 2) * scale * (spr.flipH ? (-1f) : 1f), sinOffset * 1.4f * ((float)i / 51f)), new Rectangle(i * 2, 0f, 3f, 41f), Color.White, 0f, Vector2.Zero, spr.flipH ? new Vector2(0f - scale, scale) : new Vector2(scale), SpriteEffects.None, depth - 2);
+                        Graphics.Draw(s.texture, flagStart + new Vector2((float)(i * 2) * scale * (spr.flipH ? (-1f) : 1f), sinOffset * 1.4f * ((float)i / 51f)), new RectangleF(i * 2, 0f, 3f, 41f), Color.White, 0f, Vector2.Zero, spr.flipH ? new Vector2(0f - scale, scale) : new Vector2(scale), SpriteEffects.None, depth - 2);
                     }
                 }
             }
@@ -283,7 +283,7 @@ public class Furniture
             _photoSprite.frame = UILevelBox.LittleManFrame(variation, 7, seed);
             _photoSprite.Depth = depth + 6;
             _photoSprite.Scale = sprite.Scale;
-            Graphics.Draw(_photoSprite, pos.X - 6f * _photoSprite.ScaleX, pos.Y - 4f * _photoSprite.ScaleY, new Rectangle(2f, 0f, 12f, 10f));
+            Graphics.Draw(_photoSprite, pos.X - 6f * _photoSprite.ScaleX, pos.Y - 4f * _photoSprite.ScaleY, new RectangleF(2f, 0f, 12f, 10f));
             Graphics.DrawRect(pos + new Vector2(-6f * _photoSprite.ScaleX, -6f * _photoSprite.ScaleY), pos + new Vector2(6f * _photoSprite.ScaleX, 6f * _photoSprite.ScaleY), Colors.DGBlue, depth - 4);
             spr.frame = 0;
         }

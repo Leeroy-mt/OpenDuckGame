@@ -28,7 +28,7 @@ public class QuadTree
 
     private int _max;
 
-    private Rectangle _rectangle;
+    private RectangleF _rectangle;
 
     private bool _split;
 
@@ -36,7 +36,7 @@ public class QuadTree
 
     private int _personalIDX;
 
-    public Rectangle rectangle => _rectangle;
+    public RectangleF rectangle => _rectangle;
 
     public QuadTree(int depth, Vector2 position, float width, int max = 4, QuadTree parent = null)
     {
@@ -47,7 +47,7 @@ public class QuadTree
         _max = max;
         _parent = parent;
         _center = _position + new Vector2(_halfWidth, _halfWidth);
-        _rectangle = new Rectangle((int)position.X, (int)position.Y, (int)width, (int)width);
+        _rectangle = new RectangleF((int)position.X, (int)position.Y, (int)width, (int)width);
         if (_depth != 0)
         {
             for (int i = 0; i < 4; i++)
@@ -1118,7 +1118,7 @@ public class QuadTree
             }
             return;
         }
-        Rectangle tRect = t.rectangle;
+        RectangleF tRect = t.rectangle;
         foreach (QuadTree child in _children)
         {
             if (Collision.Rect(child.rectangle, tRect))
@@ -1135,7 +1135,7 @@ public class QuadTree
         {
             return;
         }
-        Rectangle tRect = t.rectangle;
+        RectangleF tRect = t.rectangle;
         foreach (QuadTree child in _children)
         {
             if (Collision.Rect(child.rectangle, tRect))

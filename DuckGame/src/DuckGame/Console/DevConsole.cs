@@ -242,22 +242,22 @@ public class DevConsole
         _tray.Depth = 0.75f;
         int numSectionsVert = (int)(Layer.core._console.camera.height * dimensions.Y / (16f * _tray.Scale.Y)) - 2;
         int numSectionsHor = (int)(Layer.core._console.camera.width * dimensions.X / (16f * _tray.Scale.X)) - 2;
-        Graphics.Draw(_tray, 0f, 0f, new Rectangle(0f, 0f, 18f, 18f));
-        Graphics.Draw(_tray, 0f, 18f * _tray.Scale.Y + (float)numSectionsVert * (16f * _tray.Scale.Y), new Rectangle(0f, _tray.height - 18, 18f, 18f));
-        Graphics.Draw(_tray, 18f * _tray.Scale.X + (float)(numSectionsHor - 6) * (16f * _tray.Scale.X), 18f * _tray.Scale.Y + (float)numSectionsVert * (16f * _tray.Scale.Y), new Rectangle(_tray.width - 114, _tray.height - 18, 114f, 18f));
+        Graphics.Draw(_tray, 0f, 0f, new RectangleF(0f, 0f, 18f, 18f));
+        Graphics.Draw(_tray, 0f, 18f * _tray.Scale.Y + (float)numSectionsVert * (16f * _tray.Scale.Y), new RectangleF(0f, _tray.height - 18, 18f, 18f));
+        Graphics.Draw(_tray, 18f * _tray.Scale.X + (float)(numSectionsHor - 6) * (16f * _tray.Scale.X), 18f * _tray.Scale.Y + (float)numSectionsVert * (16f * _tray.Scale.Y), new RectangleF(_tray.width - 114, _tray.height - 18, 114f, 18f));
         for (int i = 0; i < numSectionsHor; i++)
         {
-            Graphics.Draw(_tray, 18f * _tray.Scale.X + 16f * _tray.Scale.X * (float)i, 0f, new Rectangle(16f, 0f, 16f, 18f));
+            Graphics.Draw(_tray, 18f * _tray.Scale.X + 16f * _tray.Scale.X * (float)i, 0f, new RectangleF(16f, 0f, 16f, 18f));
             if (i < numSectionsHor - 6)
             {
-                Graphics.Draw(_tray, 18f * _tray.Scale.X + 16f * _tray.Scale.X * (float)i, 18f * _tray.Scale.Y + (float)numSectionsVert * (16f * _tray.Scale.Y), new Rectangle(16f, _tray.height - 18, 16f, 18f));
+                Graphics.Draw(_tray, 18f * _tray.Scale.X + 16f * _tray.Scale.X * (float)i, 18f * _tray.Scale.Y + (float)numSectionsVert * (16f * _tray.Scale.Y), new RectangleF(16f, _tray.height - 18, 16f, 18f));
             }
         }
-        Graphics.Draw(_tray, 18f * _tray.Scale.X + (float)numSectionsHor * (16f * _tray.Scale.X), 0f, new Rectangle(_tray.width - 18, 0f, 18f, 18f));
+        Graphics.Draw(_tray, 18f * _tray.Scale.X + (float)numSectionsHor * (16f * _tray.Scale.X), 0f, new RectangleF(_tray.width - 18, 0f, 18f, 18f));
         for (int j = 0; j < numSectionsVert; j++)
         {
-            Graphics.Draw(_tray, 0f, 18f * _tray.Scale.Y + 16f * _tray.Scale.Y * (float)j, new Rectangle(0f, 18f, 18f, 16f));
-            Graphics.Draw(_tray, 18f * _tray.Scale.X + (float)numSectionsHor * (16f * _tray.Scale.X), 18f * _tray.Scale.Y + 16f * _tray.Scale.Y * (float)j, new Rectangle(_tray.width - 18, 18f, 18f, 16f));
+            Graphics.Draw(_tray, 0f, 18f * _tray.Scale.Y + 16f * _tray.Scale.Y * (float)j, new RectangleF(0f, 18f, 18f, 16f));
+            Graphics.Draw(_tray, 18f * _tray.Scale.X + (float)numSectionsHor * (16f * _tray.Scale.X), 18f * _tray.Scale.Y + 16f * _tray.Scale.Y * (float)j, new RectangleF(_tray.width - 18, 18f, 18f, 16f));
         }
         Graphics.DrawRect(Vector2.Zero, new Vector2(18f * _tray.Scale.X + (float)numSectionsHor * (16f * _tray.Scale.X) + _tray.Scale.Y * 4f, (float)(numSectionsVert + 2) * (16f * _tray.Scale.Y)), Color.Black * 0.8f * _core.alpha, 0.7f);
         _core.fancyFont.Scale = new Vector2(_tray.Scale.X / 2f);

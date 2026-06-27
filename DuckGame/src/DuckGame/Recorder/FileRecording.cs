@@ -255,7 +255,7 @@ public class FileRecording : Recording
                             M43 = _reader.ReadSingle(),
                             M44 = _reader.ReadSingle()
                         },
-                        scissor = new Rectangle(_reader.ReadInt32(), _reader.ReadInt32(), _reader.ReadInt32(), _reader.ReadInt32())
+                        scissor = new RectangleF(_reader.ReadInt32(), _reader.ReadInt32(), _reader.ReadInt32(), _reader.ReadInt32())
                     };
                     _frames[_frame]._states[j] = state;
                 }
@@ -321,10 +321,10 @@ public class FileRecording : Recording
                 _writer.Write(state.camera.M42);
                 _writer.Write(state.camera.M43);
                 _writer.Write(state.camera.M44);
-                _writer.Write(state.scissor.x);
-                _writer.Write(state.scissor.y);
-                _writer.Write(state.scissor.width);
-                _writer.Write(state.scissor.height);
+                _writer.Write(state.scissor.X);
+                _writer.Write(state.scissor.Y);
+                _writer.Write(state.scissor.Width);
+                _writer.Write(state.scissor.Height);
             }
             else
             {

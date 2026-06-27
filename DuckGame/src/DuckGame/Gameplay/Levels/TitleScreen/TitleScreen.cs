@@ -1569,17 +1569,17 @@ public class TitleScreen : Level
                 }
             }
             _background.Depth = 0f;
-            Graphics.Draw(sourceRectangle: new Rectangle(0f, 0f, 90f, _background.height), g: _background, x: 0f, y: 0f);
-            Rectangle area = new Rectangle(63f, 107f, 194f, 61f);
-            Graphics.Draw(_background, area.x, area.y, area);
-            area = new Rectangle(230f, 61f, 28f, 61f);
-            Graphics.Draw(_background, area.x, area.y, area);
-            area = new Rectangle(230f, 0f, 90f, 61f);
-            Graphics.Draw(_background, area.x, area.y, area);
-            area = new Rectangle(230f, 124f, 90f, 56f);
-            Graphics.Draw(_background, area.x, area.y, area);
-            area = new Rectangle(90f, 0f, 140f, 50f);
-            Graphics.Draw(_background, area.x, area.y, area);
+            Graphics.Draw(sourceRectangle: new RectangleF(0f, 0f, 90f, _background.height), g: _background, x: 0f, y: 0f);
+            RectangleF area = new RectangleF(63f, 107f, 194f, 61f);
+            Graphics.Draw(_background, area.X, area.Y, area);
+            area = new RectangleF(230f, 61f, 28f, 61f);
+            Graphics.Draw(_background, area.X, area.Y, area);
+            area = new RectangleF(230f, 0f, 90f, 61f);
+            Graphics.Draw(_background, area.X, area.Y, area);
+            area = new RectangleF(230f, 124f, 90f, 56f);
+            Graphics.Draw(_background, area.X, area.Y, area);
+            area = new RectangleF(90f, 0f, 140f, 50f);
+            Graphics.Draw(_background, area.X, area.Y, area);
         }
         base.PostDrawLayer(layer);
     }

@@ -91,18 +91,18 @@ public class PyramidWall : Block, IBigStupidWall
     public override void Draw()
     {
         graphic.Depth = -0.8f;
-        Graphics.Draw(graphic, base.X - 8f, base.Y - 8f, new Rectangle(0f, 0f, 208f, 8f));
+        Graphics.Draw(graphic, base.X - 8f, base.Y - 8f, new RectangleF(0f, 0f, 208f, 8f));
         graphic.Depth = -0.85f;
-        Graphics.Draw(graphic, base.X, base.Y + 144f, new Rectangle(8f, 152f, 192f, 8f));
+        Graphics.Draw(graphic, base.X, base.Y + 144f, new RectangleF(8f, 152f, 192f, 8f));
         graphic.Depth = -0.86f;
-        Graphics.Draw(graphic, base.X + 192f, base.Y, new Rectangle(200f, 8f, 8f, 144f));
-        Graphics.Draw(graphic, base.X - 8f, base.Y - 8f, new Rectangle(0f, 0f, 8f, 152f));
+        Graphics.Draw(graphic, base.X + 192f, base.Y, new RectangleF(200f, 8f, 8f, 144f));
+        Graphics.Draw(graphic, base.X - 8f, base.Y - 8f, new RectangleF(0f, 0f, 8f, 152f));
         _corner.Depth = -0.9f;
         Graphics.Draw(_corner, base.X - 8f, base.Y + 144f);
         _corner2.Depth = -0.9f;
         Graphics.Draw(_corner2, base.X + 192f, base.Y + 144f);
         graphic.Depth = -0.7f;
-        Graphics.Draw(graphic, base.X, base.Y, new Rectangle(8f, 8f, 192f, 144f));
+        Graphics.Draw(graphic, base.X, base.Y, new RectangleF(8f, 8f, 192f, 144f));
         if (!DevConsole.showCollision)
         {
             return;

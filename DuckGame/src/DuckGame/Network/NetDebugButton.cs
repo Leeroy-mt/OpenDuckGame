@@ -25,7 +25,7 @@ public class NetDebugButton : NetDebugElement
         position.Y -= 2f;
         Vector2 size = new Vector2(100f, 12f);
         width = 100f;
-        Rectangle elementRect = new Rectangle(position.X, position.Y, size.X, size.Y);
+        RectangleF elementRect = new RectangleF(position.X, position.Y, size.X, size.Y);
         if ((!tookInput && elementRect.Contains(Mouse.positionConsole)) || pressing)
         {
             Graphics.DrawRect(position, position + size, Color.White, depth + 2, filled: false);

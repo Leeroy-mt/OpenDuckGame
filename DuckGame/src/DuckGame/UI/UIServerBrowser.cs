@@ -450,7 +450,7 @@ public class UIServerBrowser : UIMenu
                 {
                     float boxLeft = _box.X - _box.halfWidth;
                     float boxTop = _box.Y - _box.halfHeight + (36 * i);
-                    if (new Rectangle((int)boxLeft, (int)boxTop, (int)_box.width - 14, 36).Contains(Mouse.position))
+                    if (new RectangleF((int)boxLeft, (int)boxTop, (int)_box.width - 14, 36).Contains(Mouse.position))
                     {
                         _hoverIndex = _scrollItemOffset + i;
                         break;
@@ -613,7 +613,7 @@ public class UIServerBrowser : UIMenu
             }
             Graphics.DrawRect(new Vector2(_box.X - _box.halfWidth, _box.Y - _box.halfHeight), new Vector2(_box.X + _box.halfWidth - 12 - 2, _box.Y + _box.halfHeight), Color.Black, 0.4f);
             Graphics.DrawRect(new Vector2(_box.X + _box.halfWidth - 12, _box.Y - _box.halfHeight), new Vector2(_box.X + _box.halfWidth, _box.Y + _box.halfHeight), Color.Black, 0.4f);
-            Rectangle sb = ScrollBarBox();
+            RectangleF sb = ScrollBarBox();
             Graphics.DrawRect(sb, (_draggingScrollbar || sb.Contains(Mouse.position)) ? Color.LightGray : Color.Gray, 0.5f);
             if (_lobbies.Count == 0)
             {
@@ -751,10 +751,10 @@ public class UIServerBrowser : UIMenu
                             if (_noImage.texture.width > _noImage.texture.height)
                             {
                                 _noImage.Scale = new Vector2(32f / _noImage.texture.height);
-                                Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, new Rectangle(_noImage.texture.width / 2 - _noImage.texture.height / 2, 0, _noImage.texture.height, _noImage.texture.height), 0.5f);
+                                Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, new RectangleF(_noImage.texture.width / 2 - _noImage.texture.height / 2, 0, _noImage.texture.height, _noImage.texture.height), 0.5f);
                             }
                             else
-                                Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, new Rectangle(0, 0, _noImage.texture.width, _noImage.texture.width), 0.5f);
+                                Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, new RectangleF(0, 0, _noImage.texture.width, _noImage.texture.width), 0.5f);
                         }
                         else
                             Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, 0.5f);
@@ -1037,7 +1037,7 @@ public class UIServerBrowser : UIMenu
         }
     }
 
-    Rectangle ScrollBarBox()
+    RectangleF ScrollBarBox()
     {
         return new(_box.X + _box.halfWidth - 12 + 1, _box.Y - _box.halfHeight + 1 + scrollBarOffset, 10, 32);
     }

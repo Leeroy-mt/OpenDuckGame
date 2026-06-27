@@ -49,7 +49,7 @@ public class Layer : DrawList
 
     private float _targetFade = 1f;
 
-    protected Rectangle _scissor;
+    protected RectangleF _scissor;
 
     protected float _fade = 1f;
 
@@ -356,7 +356,7 @@ public class Layer : DrawList
         }
     }
 
-    public Rectangle scissor
+    public RectangleF scissor
     {
         get
         {
@@ -364,7 +364,7 @@ public class Layer : DrawList
         }
         set
         {
-            if (_scissor.width == 0f && value.width != 0f)
+            if (_scissor.Width == 0f && value.Width != 0f)
             {
                 _state = new RasterizerState();
                 _state.CullMode = CullMode.None;
@@ -565,9 +565,9 @@ public class Layer : DrawList
 
     public void ClearScissor()
     {
-        if (_scissor.width != 0f)
+        if (_scissor.Width != 0f)
         {
-            _scissor = new Rectangle(0f, 0f, 0f, 0f);
+            _scissor = new RectangleF(0f, 0f, 0f, 0f);
             _state = new RasterizerState();
             _state.CullMode = CullMode.None;
         }

@@ -238,7 +238,7 @@ public class YellowBarrel : Holdable, IPlatform, ISequenceItem
             graphic.Scale = base.Scale;
             float ypos = level * (float)graphic.height;
             graphic.Center = Center - new Vector2(0f, (int)ypos);
-            Graphics.Draw(graphic, base.X, base.Y, new Rectangle(0f, (int)ypos, graphic.w, (int)((float)graphic.h - ypos)));
+            Graphics.Draw(graphic, base.X, base.Y, new RectangleF(0f, (int)ypos, graphic.w, (int)((float)graphic.h - ypos)));
         }
     }
 }

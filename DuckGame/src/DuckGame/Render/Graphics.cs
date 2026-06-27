@@ -60,7 +60,7 @@ public static class Graphics
 
     static Vector2 _currentDrawOffset = Vector2.Zero;
     static Matrix _projectionMatrix;
-    static Rectangle _currentTargetSize;
+    static RectangleF _currentTargetSize;
     static Viewport _oldViewport;
     static Viewport _lastViewport;
 
@@ -85,7 +85,6 @@ public static class Graphics
 
     static readonly List<Action>[] _renderTasks = [[], []];
     static Dictionary<Tex2D, Dictionary<Vector3, Tex2D>> _recolorMap = [];
-    static Stack<Rectangle> _scissorStack = new();
 
 #endregion
 
@@ -220,15 +219,15 @@ public static class Graphics
             }
             if (device.Viewport.Width == _lastViewport.Width && device.Viewport.Height == _lastViewport.Height)
             {
-                Rectangle r = value.Bounds;
+                RectangleF r = value.Bounds;
                 if (_currentRenderTarget != null)
-                    ClipRectangle(r, new Rectangle(0, 0, _currentRenderTarget.width, _currentRenderTarget.height));
+                    ClipRectangle(r, new RectangleF(0, 0, _currentRenderTarget.width, _currentRenderTarget.height));
                 else
                     ClipRectangle(r, device.PresentationParameters.Bounds);
-                value.X = (int)r.x;
-                value.Y = (int)r.y;
-                value.Width = (int)r.width;
-                value.Height = (int)r.height;
+                value.X = (int)r.X;
+                value.Y = (int)r.Y;
+                value.Width = (int)r.Width;
+                value.Height = (int)r.Height;
                 Internal_ViewportSet(value);
                 _lastViewport = value;
             }
@@ -339,11 +338,6 @@ public static class Graphics
             objectsToDispose.Clear();
             disposingObjects = false;
         }
-    }
-
-    public static void GarbageDisposal()
-    {
-        GarbageDisposal(pLevelTransition: true);
     }
 
     public static void AddRenderTask(Action a)
@@ -534,7 +528,7 @@ public static class Graphics
     }
 #endif
 
-    public static void Draw(Tex2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, Depth depth = default)
+    public static void Draw(Tex2D texture, Vector2 position, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, Depth depth = default)
     {
         if (texture.nativeObject is Microsoft.Xna.Framework.Graphics.RenderTarget2D)
         {
@@ -549,7 +543,7 @@ public static class Graphics
             position.Y = float.Round(position.Y * snap) / snap;
         }
         if (effects == SpriteEffects.FlipHorizontally)
-            origin.X = (sourceRectangle.HasValue ? sourceRectangle.Value.width : texture.w) - origin.X;
+            origin.X = (sourceRectangle.HasValue ? sourceRectangle.Value.Width : texture.w) - origin.X;
         float deep = AdjustDepth(depth);
 #if !MODERN_BATCH
         if (material != null)
@@ -569,14 +563,14 @@ public static class Graphics
         g.Draw();
     }
 
-    public static void Draw(Sprite g, float x, float y, Rectangle sourceRectangle)
+    public static void Draw(Sprite g, float x, float y, RectangleF sourceRectangle)
     {
         g.X = x;
         g.Y = y;
         g.Draw(sourceRectangle);
     }
 
-    public static void Draw(Sprite g, float x, float y, Rectangle sourceRectangle, Vector2 scale)
+    public static void Draw(Sprite g, float x, float y, RectangleF sourceRectangle, Vector2 scale)
     {
         g.X = x;
         g.Y = y;
@@ -584,7 +578,7 @@ public static class Graphics
         g.Draw(sourceRectangle);
     }
 
-    public static void Draw(Sprite g, float x, float y, Rectangle sourceRectangle, Depth depth)
+    public static void Draw(Sprite g, float x, float y, RectangleF sourceRectangle, Depth depth)
     {
         g.X = x;
         g.Y = y;
@@ -715,7 +709,7 @@ public static class Graphics
         DrawLine(new Vector2(p2.X - wideDiv, p2.Y - borderWidth), new Vector2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, depth);
     }
 
-    public static void DrawRect(Rectangle r, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
+    public static void DrawRect(RectangleF r, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
     {
         currentDrawIndex++;
         Vector2 p1 = new(r.Left, r.Top);
@@ -905,13 +899,13 @@ public static class Graphics
             Microsoft.Xna.Framework.Graphics.RenderTarget2D screenTarget = ((defaultRenderTarget != null) ? (defaultRenderTarget.nativeObject as Microsoft.Xna.Framework.Graphics.RenderTarget2D) : null);
             if (screenTarget == null)
             {
-                _currentTargetSize.width = Resolution.current.x;
-                _currentTargetSize.height = Resolution.current.y;
+                _currentTargetSize.Width = Resolution.current.x;
+                _currentTargetSize.Height = Resolution.current.y;
             }
             else
             {
-                _currentTargetSize.width = screenTarget.Width;
-                _currentTargetSize.height = screenTarget.Height;
+                _currentTargetSize.Width = screenTarget.Width;
+                _currentTargetSize.Height = screenTarget.Height;
             }
             device.SetRenderTarget(screenTarget);
             if (!_settingScreenTarget && _defaultRenderTarget == null)
@@ -920,8 +914,8 @@ public static class Graphics
         else
         {
             device.SetRenderTarget(t.nativeObject as Microsoft.Xna.Framework.Graphics.RenderTarget2D);
-            _currentTargetSize.width = t.width;
-            _currentTargetSize.height = t.height;
+            _currentTargetSize.Width = t.width;
+            _currentTargetSize.Height = t.height;
         }
         _lastViewport = device.Viewport;
         _currentRenderTarget = t;
@@ -939,8 +933,8 @@ public static class Graphics
         {
             X = 0,
             Y = 0,
-            Width = (int)_currentTargetSize.width,
-            Height = (int)_currentTargetSize.height
+            Width = (int)_currentTargetSize.Width,
+            Height = (int)_currentTargetSize.Height
         });
     }
 
@@ -956,18 +950,18 @@ public static class Graphics
             if (pForceReset || !_screenViewport.HasValue)
             {
                 Viewport v = default;
-                if (_currentTargetSize.aspect < 1.77f)
+                if (_currentTargetSize.Aspect < 1.77f)
                 {
-                    v.Width = (int)_currentTargetSize.width;
-                    v.Height = Math.Min((int)Math.Round(_currentTargetSize.width / 1.77777f), (int)_currentTargetSize.height);
+                    v.Width = (int)_currentTargetSize.Width;
+                    v.Height = Math.Min((int)Math.Round(_currentTargetSize.Width / 1.77777f), (int)_currentTargetSize.Height);
                 }
                 else
                 {
-                    v.Height = (int)_currentTargetSize.height;
-                    v.Width = Math.Min((int)Math.Round(_currentTargetSize.height * 1.77777f), (int)_currentTargetSize.width);
+                    v.Height = (int)_currentTargetSize.Height;
+                    v.Width = Math.Min((int)Math.Round(_currentTargetSize.Height * 1.77777f), (int)_currentTargetSize.Width);
                 }
-                v.X = Math.Max((int)((_currentTargetSize.width - v.Width) / 2), 0);
-                v.Y = Math.Max((int)((_currentTargetSize.height - v.Height) / 2), 0);
+                v.X = Math.Max((int)((_currentTargetSize.Width - v.Width) / 2), 0);
+                v.Y = Math.Max((int)((_currentTargetSize.Height - v.Height) / 2), 0);
                 v.MinDepth = 0;
                 v.MaxDepth = 1;
                 _screenViewport = v;
@@ -1000,87 +994,49 @@ public static class Graphics
         Internal_ViewportSet(v);
     }
 
-    public static Rectangle GetScissorRectangle()
-    {
-        return new Rectangle(device.ScissorRectangle.X, device.ScissorRectangle.Y, device.ScissorRectangle.Width, device.ScissorRectangle.Height);
-    }
-
-    public static void SetScissorRectangle(Rectangle r)
+    public static void SetScissorRectangle(RectangleF r)
     {
         float mul = (float)device.Viewport.Bounds.Width / width;
-        if (r.width >= 0 && r.height >= 0)
+        if (r.Width >= 0 && r.Height >= 0)
         {
-            r.width *= mul;
-            r.height *= mul;
-            r.x *= mul;
-            r.y *= mul;
-            r.x += viewport.X;
-            r.y += viewport.Y;
+            r.Width *= mul;
+            r.Height *= mul;
+            r.X *= mul;
+            r.Y *= mul;
+            r.X += viewport.X;
+            r.Y += viewport.Y;
             device.ScissorRectangle = ClipRectangle(r, device.Viewport.Bounds);
         }
     }
 
-#if !MODERN_BATCH
-    public static void PushLayerScissor(Rectangle pRect)
+    public static RectangleF ClipRectangle(RectangleF r, RectangleF clipTo)
     {
-        screen?.FlushSettingScissor();
-        _scissorStack.Push(pRect);
-        float widthDif = width / currentLayer.width;
-        float heightDif = height / currentLayer.height;
-        pRect.x *= widthDif;
-        pRect.y *= heightDif;
-        pRect.width *= widthDif;
-        pRect.height *= heightDif;
-        SetScissorRectangle(pRect);
-    }
-
-    public static void PopLayerScissor()
-    {
-        screen?.FlushAndClearScissor();
-        _scissorStack.Pop();
-        if (_scissorStack.Count == 0)
-            SetScissorRectangle(new Rectangle(0, 0, width, height));
-        else
-            SetScissorRectangle(_scissorStack.Peek());
-    }
-#endif
-
-    public static Rectangle ClipRectangle(Rectangle r, Rectangle clipTo)
-    {
-        if (r.x > clipTo.Right)
-            r.x = clipTo.Right - r.width;
-        if (r.y > clipTo.Bottom)
-            r.y = clipTo.Bottom - r.height;
-        if (r.x < clipTo.Left)
-            r.x = clipTo.Left;
-        if (r.y < clipTo.Top)
-            r.y = clipTo.Top;
-        if (r.x < 0)
-            r.x = 0;
-        if (r.y < 0)
-            r.y = 0;
-        if (r.x + r.width > clipTo.x + clipTo.width)
-            r.width = clipTo.Right - r.x;
-        if (r.y + r.height > clipTo.y + clipTo.height)
-            r.height = clipTo.Bottom - r.y;
-        if (r.width < 0)
-            r.width = 0;
-        if (r.height < 0)
-            r.height = 0;
+        if (r.X > clipTo.Right)
+            r.X = clipTo.Right - r.Width;
+        if (r.Y > clipTo.Bottom)
+            r.Y = clipTo.Bottom - r.Height;
+        if (r.X < clipTo.Left)
+            r.X = clipTo.Left;
+        if (r.Y < clipTo.Top)
+            r.Y = clipTo.Top;
+        if (r.X < 0)
+            r.X = 0;
+        if (r.Y < 0)
+            r.Y = 0;
+        if (r.X + r.Width > clipTo.X + clipTo.Width)
+            r.Width = clipTo.Right - r.X;
+        if (r.Y + r.Height > clipTo.Y + clipTo.Height)
+            r.Height = clipTo.Bottom - r.Y;
+        if (r.Width < 0)
+            r.Width = 0;
+        if (r.Height < 0)
+            r.Height = 0;
         return r;
     }
 
     public static void Clear(Color c)
     {
         device.Clear(c);
-    }
-
-    public static void PushMarker(string s)
-    {
-    }
-
-    public static void PopMarker()
-    {
     }
 
 #endregion

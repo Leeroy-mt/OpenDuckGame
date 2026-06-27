@@ -6,7 +6,7 @@ public class MaterialRoundBox : Material
 {
     public float Radius;
 
-    public Rectangle Rectangle;
+    public RectangleF Rectangle;
 
     public MaterialRoundBox()
     {
@@ -18,7 +18,7 @@ public class MaterialRoundBox : Material
         if (Graphics.device.Textures[0] is Texture2D texture)
         {
             var r = Radius;
-            SetValue("radii", new Rectangle(r, r, r, r));
+            SetValue("radii", new RectangleF(r, r, r, r));
             SetValue("rect", Rectangle);
             SetValue("smoothing", 2.5f);
         }
