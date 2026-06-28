@@ -39,7 +39,7 @@ public class PyramidWallLight : Thing
         graphic.flipH = flipHorizontal;
         if (DevConsole.showCollision)
         {
-            Graphics.DrawCircle(lightPos, 2f, Color.Blue);
+            Graphics.DrawRing(lightPos, 2f, Color.Blue);
             foreach (LightOccluder o in _occluders)
             {
                 Graphics.DrawLine(o.p1, o.p2, Color.Red, 1f, 1f);

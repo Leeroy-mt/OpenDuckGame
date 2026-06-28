@@ -2859,14 +2859,14 @@ public class Editor : Level
         {
             Vector2 pos2 = _objectMenuLayer.camera.transformScreenVector(Mouse.positionConsole + new Vector2(TouchScreen._spoofFingerDistance, 0f));
             Vector2 pos3 = _objectMenuLayer.camera.transformScreenVector(Mouse.positionConsole - new Vector2(TouchScreen._spoofFingerDistance, 0f));
-            Graphics.DrawCircle(pos2, 4, Color.White * 0.2f, 2, 1);
-            Graphics.DrawCircle(pos3, 4, Color.White * 0.2f, 2, 1);
+            Graphics.DrawRing(pos2, 4, Color.White * 0.2f, 2, 1);
+            Graphics.DrawRing(pos3, 4, Color.White * 0.2f, 2, 1);
             Graphics.DrawRect(pos2 + new Vector2(-0.5f), pos2 + new Vector2(0.5f), Color.White, 1);
             Graphics.DrawRect(pos3 + new Vector2(-0.5f), pos3 + new Vector2(0.5f), Color.White, 1);
             return;
         }
         foreach (Touch touch in TouchScreen.GetTouches())
-            Graphics.DrawCircle(touch.Transform(_objectMenuLayer.camera), 4, Color.White, 2, 1);
+            Graphics.DrawRing(touch.Transform(_objectMenuLayer.camera), 4, Color.White, 2, 1);
         return;
     IL_2555:
         _font.Scale = new Vector2(1);

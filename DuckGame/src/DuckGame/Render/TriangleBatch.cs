@@ -111,6 +111,28 @@ public class TriangleBatch
 #endif
     }
 
+    public void DrawTriangle(
+        Vector2 p0,
+        Vector2 p1,
+        Vector2 p2,
+        Vector2 t0,
+        Vector2 t1,
+        Vector2 t2,
+        float depth,
+        Texture2D texture,
+        Color color
+        )
+    {
+        AppendTriangle(new()
+        {
+            V0 = new(new(p0, 0), color, t0),
+            V1 = new(new(p1, 0), color, t1),
+            V2 = new(new(p2, 0), color, t2),
+            Depth = depth,
+            Texture = texture
+        });
+    }
+
     public void DrawQuad(
             Vector2 p0,
             Vector2 p1,
@@ -144,6 +166,18 @@ public class TriangleBatch
 
         AppendTriangle(triangle0);
         AppendTriangle(triangle1);
+    }
+
+    public void DrawQuad(
+        Vector2 v0,
+        Vector2 v1,
+        Vector2 v2,
+        Vector2 v3,
+        float depth,
+        Color color
+        )
+    {
+        DrawQuad(v0, v1, v2, v3, default, default, default, default, depth, null, color);
     }
 
     public void DrawTexture(

@@ -156,7 +156,6 @@ public class Fluid : PhysicsParticle
     {
         if (_stream != null)
         {
-            Graphics.currentDrawIndex++;
             Graphics.DrawLine(Position, _stream.Position, new Color(data.color) * base.Alpha, _thickness, base.Depth);
         }
         else if (_child == null)

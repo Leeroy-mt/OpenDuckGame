@@ -794,7 +794,6 @@ public class Bullet : Thing
                 doBreak = true;
             }
             alph -= incs;
-            Graphics.currentDrawIndex--;
             Graphics.DrawLine(drawStart + travelDirNormalized * length - travelDirNormalized * dist, drawStart + travelDirNormalized * length - travelDirNormalized * (dist + drawLength), color * alph, ammo.bulletThickness, base.Depth);
             if (!doBreak)
             {

@@ -153,7 +153,6 @@ public class NetGraph
 
     public void DrawLine(Vector2 p1, Vector2 p2, Color col, float width = 1f)
     {
-        Graphics.currentDrawIndex++;
         p1 = new Vector2(p1.X, p1.Y);
         p2 = new Vector2(p2.X, p2.Y);
         float angle = (float)Math.Atan2(p2.Y - p1.Y, p2.X - p1.X);

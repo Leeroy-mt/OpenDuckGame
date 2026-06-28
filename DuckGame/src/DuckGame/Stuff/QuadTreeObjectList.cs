@@ -339,8 +339,8 @@ public class QuadTreeObjectList : IEnumerable<Thing>, IEnumerable
         int num = 0;
         foreach (CollisionIsland i in _islands)
         {
-            Graphics.DrawCircle(i.owner.Position, i.radiusCheck, Color.Red * 0.7f, 1f, 0.9f, 64);
-            Graphics.DrawCircle(i.owner.Position, i.radius, Color.Blue * 0.3f, 1f, 0.9f, 64);
+            Graphics.DrawRing(i.owner.Position, i.radiusCheck, Color.Red * 0.7f, 1f, 0.9f, 64);
+            Graphics.DrawRing(i.owner.Position, i.radius, Color.Blue * 0.3f, 1f, 0.9f, 64);
             Graphics.DrawString(Convert.ToString(num), i.owner.Position, Color.Red, 1f);
             foreach (MaterialThing t in i.things)
             {

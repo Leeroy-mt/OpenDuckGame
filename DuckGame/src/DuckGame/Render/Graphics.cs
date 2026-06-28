@@ -131,11 +131,6 @@ public static class Graphics
         get => _currentStateIndex;
         set => _currentStateIndex = value;
     }
-    public static int currentDrawIndex
-    {
-        get => _currentDrawIndex;
-        set => _currentDrawIndex = value;
-    }
     public static int fps => FPSCounter.GetFPS(0);
     public static int width
     {
@@ -365,12 +360,6 @@ public static class Graphics
         }
     }
 
-    public static void SetSize(int w, int h)
-    {
-        _width = w;
-        _height = h;
-    }
-
     public static void ResetSpanAdjust()
     {
         Depth.ResetSpan();
@@ -443,16 +432,17 @@ public static class Graphics
 
     public static float GetStringWidth(string text, bool thinButtons = false, float scale = 1)
     {
-        _biosFont.Scale = new Vector2(scale);
+        var previousScale = _biosFont.Scale;
+        _biosFont.Scale = new(scale);
         text = text.ToUpperInvariant();
         float result = _biosFont.GetWidth(text, thinButtons);
-        _biosFont.Scale = Vector2.One;
+        _biosFont.Scale = previousScale;
         return result;
     }
 
-    public static float GetStringHeight(string text)
+    public static float GetStringHeight(string text, float scale = 1)
     {
-        return text.Split('\n').Length * _biosFont.height;
+        return text.Split('\n').Length * _biosFont.height * scale;
     }
 
     public static void DrawFancyString(string text, Vector2 position, Color color, Depth depth = default, float scale = 1)
@@ -499,22 +489,6 @@ public static class Graphics
         _currentBatch.DrawRecorderItem(ref lerped);
     }
 #endif
-
-    public static void Calc()
-    {
-        if (!didCalc)
-        {
-            didCalc = true;
-            Viewport vp = new(0, 0, 32, 32);
-            Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, 0, -1, out var projection);
-            projection.M41 += -.5f * projection.M11;
-            projection.M42 += -.5f * projection.M22;
-            bottomRight = new Vector2(32);
-            bottomRight = Vector2.Transform(bottomRight, projection);
-            topLeft = Vector2.Zero;
-            topLeft = Vector2.Transform(topLeft, projection);
-        }
-    }
 
 #if !MODERN_BATCH
     public static void Draw(MTSpriteBatchItem item)
@@ -632,15 +606,12 @@ public static class Graphics
 
     public static void DrawLine(Vector2 p1, Vector2 p2, Color col, float width = 1, Depth depth = default)
     {
-        currentDrawIndex++;
-        float angle = float.Atan2(p2.Y - p1.Y, p2.X - p1.X);
-        float length = (p1 - p2).Length();
-        Draw(_blank, p1, null, col, angle, new Vector2(0, .5f), new Vector2(length, width), SpriteEffects.None, depth);
+        var n = Vector2.Normalize(new(p1.Y - p2.Y, p2.X - p1.X)) * width / 2;
+        _currentBatch.DrawQuad(p1 + n, p1 - n, p2 + n, p2 - n, default, default, default, default, AdjustDepth(depth), null, col);
     }
 
     public static void DrawDottedLine(Vector2 p1, Vector2 p2, Color col, float width = 1, float dotLength = 8, Depth depth = default)
     {
-        currentDrawIndex++;
         Vector2 start = p1;
         Vector2 travel = p2 - p1;
         float length = travel.Length();
@@ -660,22 +631,56 @@ public static class Graphics
         }
     }
 
-    public static void DrawCircle(Vector2 pos, float radius, Color col, float width = 1, Depth depth = default, int iterations = 32)
+    public static void DrawRing(Vector2 pos, float radius, Color col, float width = 1, Depth depth = default, int iterations = 32)
     {
-        Vector2 prev = Vector2.Zero;
-        for (int i = 0; i < iterations; i++)
+        var segment0 = new Vector2(1, 0);
+        for (int i = 1; i < iterations + 1; i++)
         {
-            float val = Maths.DegToRad(360f / (iterations - 1) * i);
-            Vector2 cur = new(float.Cos(val) * radius, -float.Sin(val) * radius);
-            if (i > 0)
-                DrawLine(pos + cur, pos + prev, col, width, depth);
-            prev = cur;
+            var theta = (float)i / iterations * float.Tau;
+            var segment1 = new Vector2(float.Cos(theta), float.Sin(theta));
+            _currentBatch.DrawQuad(
+                pos + segment0 * (radius + width / 2),
+                pos + segment1 * (radius + width / 2),
+                pos + segment0 * (radius - width / 2),
+                pos + segment1 * (radius - width / 2),
+                default,
+                default,
+                default,
+                default,
+                AdjustDepth(depth),
+                null,
+                col
+                );
+
+            segment0 = segment1;
+        }
+    }
+
+    public static void DrawCircle(Vector2 pos, float radius, Color col, Depth depth = default, int iterations = 32)
+    {
+        var segment0 = new Vector2(radius, 0);
+        for (int i = 1; i < iterations + 1; i++)
+        {
+            var theta = (float)i / iterations * float.Tau;
+            var segment1 = new Vector2(float.Cos(theta), float.Sin(theta)) * radius;
+            _currentBatch.DrawTriangle(
+                pos,
+                pos + segment0,
+                pos + segment1,
+                default,
+                default,
+                default,
+                AdjustDepth(depth),
+                null,
+                col
+                );
+
+            segment0 = segment1;
         }
     }
 
     public static void DrawTexturedLine(Tex2D texture, Vector2 p1, Vector2 p2, Color col, float width = 1, Depth depth = default)
     {
-        currentDrawIndex++;
         if (texture.width > 1)
         {
             p1 = new Vector2(p1.X, p1.Y);
@@ -696,39 +701,63 @@ public static class Graphics
 
     public static void DrawRect(Vector2 p1, Vector2 p2, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
     {
-        currentDrawIndex++;
         if (filled)
         {
-            Draw(_blank2, p1, null, col, 0, Vector2.Zero, new Vector2(-(p1.X - p2.X), -(p1.Y - p2.Y)), SpriteEffects.None, depth);
+            _currentBatch.DrawQuad(
+                p1,
+                new(p2.X, p1.Y),
+                new(p1.X, p2.Y),
+                p2,
+                AdjustDepth(depth),
+                col
+                );
             return;
         }
-        float wideDiv = borderWidth / 2;
-        DrawLine(new Vector2(p1.X, p1.Y + wideDiv), new Vector2(p2.X, p1.Y + wideDiv), col, borderWidth, depth);
-        DrawLine(new Vector2(p1.X + wideDiv, p1.Y + borderWidth), new Vector2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, depth);
-        DrawLine(new Vector2(p2.X, p2.Y - wideDiv), new Vector2(p1.X, p2.Y - wideDiv), col, borderWidth, depth);
-        DrawLine(new Vector2(p2.X - wideDiv, p2.Y - borderWidth), new Vector2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, depth);
+
+        Vector2 borderVec = new(borderWidth);
+        Vector2 innerLT = p1 + borderVec,
+                innerRB = p2 - borderVec;
+        _currentBatch.DrawQuad(
+            p1,
+            new(p2.X, p1.Y),
+            innerLT,
+            new(innerRB.X, innerLT.Y),
+            AdjustDepth(depth),
+            col
+            );
+        _currentBatch.DrawQuad(
+            p1,
+            innerLT,
+            new(p1.X, p2.Y),
+            new(innerLT.X, innerRB.Y),
+            AdjustDepth(depth),
+            col
+            );
+        _currentBatch.DrawQuad(
+            new(innerLT.X, innerRB.Y),
+            innerRB,
+            new(p1.X, p2.Y),
+            p2,
+            AdjustDepth(depth),
+            col
+            );
+        _currentBatch.DrawQuad(
+            new(innerRB.X, innerLT.Y),
+            new(p2.X, p1.Y),
+            innerRB,
+            p2,
+            AdjustDepth(depth),
+            col
+            );
     }
 
     public static void DrawRect(RectangleF r, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
     {
-        currentDrawIndex++;
-        Vector2 p1 = new(r.Left, r.Top);
-        Vector2 p2 = new(r.Right, r.Bottom);
-        if (filled)
-        {
-            Draw(_blank2, p1, null, col, 0, Vector2.Zero, new Vector2(-(p1.X - p2.X), -(p1.Y - p2.Y)), SpriteEffects.None, depth);
-            return;
-        }
-        float wideDiv = borderWidth / 2;
-        DrawLine(new Vector2(p1.X, p1.Y + wideDiv), new Vector2(p2.X, p1.Y + wideDiv), col, borderWidth, depth);
-        DrawLine(new Vector2(p1.X + wideDiv, p1.Y + borderWidth), new Vector2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, depth);
-        DrawLine(new Vector2(p2.X, p2.Y - wideDiv), new Vector2(p1.X, p2.Y - wideDiv), col, borderWidth, depth);
-        DrawLine(new Vector2(p2.X - wideDiv, p2.Y - borderWidth), new Vector2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, depth);
+        DrawRect(r.LeftTop, r.RightBottom, col, depth, filled, borderWidth);
     }
 
     public static void DrawDottedRect(Vector2 p1, Vector2 p2, Color col, Depth depth = default, float borderWidth = 1, float dotLength = 8)
     {
-        currentDrawIndex++;
         float wideDiv = borderWidth / 2;
         DrawDottedLine(new Vector2(p1.X, p1.Y + wideDiv), new Vector2(p2.X, p1.Y + wideDiv), col, borderWidth, dotLength, depth);
         DrawDottedLine(new Vector2(p1.X + wideDiv, p1.Y + borderWidth), new Vector2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, dotLength, depth);

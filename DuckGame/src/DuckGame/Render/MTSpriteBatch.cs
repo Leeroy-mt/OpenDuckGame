@@ -401,7 +401,6 @@ public class MTSpriteBatch : SpriteBatch
 
     public void DrawQuad(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 t1, Vector2 t2, Vector2 t3, Vector2 t4, float depth, Tex2D tex, Color c)
     {
-        Graphics.currentDrawIndex++;
         MTSpriteBatchItem mTSpriteBatchItem = _batcher.CreateBatchItem();
         mTSpriteBatchItem.Depth = depth;
         mTSpriteBatchItem.Texture = tex.nativeObject as Texture2D;
@@ -411,7 +410,6 @@ public class MTSpriteBatch : SpriteBatch
 
     internal void DoDrawInternal(Tex2D texture, Vector4 destinationRectangle, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, Material fx)
     {
-        Graphics.currentDrawIndex++;
         MTSpriteBatchItem item = _batcher.CreateBatchItem();
         item.Depth = depth;
         item.Texture = texture.nativeObject as Texture2D;
@@ -466,7 +464,6 @@ public class MTSpriteBatch : SpriteBatch
 
     public void DrawExistingBatchItem(MTSpriteBatchItem item)
     {
-        Graphics.currentDrawIndex++;
         _batcher.SqueezeInItem(item);
         if (Recorder.currentRecording != null)
         {

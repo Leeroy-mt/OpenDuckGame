@@ -153,7 +153,7 @@ public class Equipper : Thing
         Graphics.DrawString(containString, Position + new Vector2((0f - Graphics.GetStringWidth(containString)) / 2f, -16f), Color.White, 0.9f);
         if (radius.value != 0)
         {
-            Graphics.DrawCircle(Position, radius.value, Color.Red, 1f, 0.9f);
+            Graphics.DrawRing(Position, radius.value, Color.Red, 1f, 0.9f);
         }
     }
 
