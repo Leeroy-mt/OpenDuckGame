@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Stuff|Props")]
-[BaggedProperty("isInDemo", true)]
 public class Rock : Holdable, IPlatform
 {
     public StateBinding _isGoldBinding = new StateBinding(nameof(isGoldRock));

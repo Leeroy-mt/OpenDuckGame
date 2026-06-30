@@ -156,7 +156,6 @@ public class Teleprompter : Thing
             }
             if (!isDemo)
             {
-                Main.isDemo = false;
                 _lines.Clear();
                 _lines.Add(new DuckStory
                 {

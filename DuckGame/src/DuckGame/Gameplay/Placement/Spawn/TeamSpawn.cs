@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Spawns")]
-[BaggedProperty("isInDemo", true)]
 public class TeamSpawn : SpawnPoint
 {
     public EditorProperty<bool> eightPlayerOnly = new EditorProperty<bool>(val: false);

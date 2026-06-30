@@ -12,29 +12,15 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace DuckGame;
 
 public class MonoMain : Game
 {
-    public class WebCharData
-    {
-        public Tex2D image;
-
-        public string name;
-
-        public string quote;
-    }
-
     #region Public Fields
-    public static bool _fullScreen;
+
     public static bool hidef;
-    public static bool notOnlineError;
     public static bool fourK;
-    public static bool hadInfiniteLoop;
-    public static bool infiniteLoopDebug;
-    public static bool cancelLazyLoad;
     public static bool atPostCloudLogic;
     public static bool closingGame;
     public static bool moddingEnabled = true;
@@ -43,50 +29,34 @@ public class MonoMain : Game
     public static bool defaultControls;
     public static bool oldDefaultControls;
     public static bool noFullscreen;
-    public static bool lostsave;
-    public static bool disableGraphics = true;
     public static bool noConnectionTimeout;
     public static bool logFileOperations;
     public static bool logLevelOperations;
     public static bool recoversave;
     public static bool noHidef;
     public static bool oldAngles;
-    public static bool alternateFullscreen;
     public static bool networkDebugger;
     public static bool disableSteam;
     public static bool noIntro;
     public static bool startInEditor;
-    public static bool preloadModContent = true;
-    public static bool breakSteam;
     public static bool modDebugging;
     public static bool steamConnectionCheckFail;
     public static bool editSave;
     public static bool doPauseFade = true;
-    public static bool _didReceiptCheck;
-    public static bool _recordingStarted;
-    public static bool closedCorruptSaveDialog;
-    public static bool closedNoSpaceDialog;
     public static bool shouldPauseGameplay;
     public static bool exit;
-    public static bool specialSync;
     public static bool NoStart;
     public static bool autoPauseFade = true;
-
-    public static volatile bool pause;
-    public static volatile bool paused;
 
     public static TransitionDirection transitionDirection = TransitionDirection.None;
     public static AudioMode audioModeOverride = AudioMode.None;
 
-    public static int cultureCode;
     public static int timeInMatches;
     public static int timeInArcade;
     public static int timeInEditor;
     public static int framesSinceFocusChange;
     public static int loseDevice;
     public static int MaximumGamepadCount = 4;
-
-    public static float transitionWait;
 
     public static long framesBackInFocus;
 
@@ -96,27 +66,20 @@ public class MonoMain : Game
     public static string lobbyPassword = "";
     public static string modMemoryOffendersString = "";
 
-    public static Thing thing;
     public static Level transitionLevel;
     public static Thread mainThread;
     public static MonoMain instance;
     public static RenderTarget2D _screenCapture;
 
-    public static string[] startupAssemblies;
     public static List<ModConfiguration> loadedModsWithAssemblies = [];
-
-    public static volatile List<string> LoadMessages = [];
-
-    public bool _didInitialVsyncUpdate;
-    public bool lastCanSyncFramerateVal;
-    public bool lastWindowedFullscreenSetting;
 
     public int _adapterW;
     public int _adapterH;
-    public int times;
+
     #endregion
 
     #region Private Fields
+
     static bool _didPauseCapture;
     static bool _started;
 
@@ -127,7 +90,6 @@ public class MonoMain : Game
 
     static MonoMainCore _core = new();
     static Stopwatch _loopTimer = new();
-    static Thread _initializeThread;
     static MaterialPause _pauseMaterial;
     static Recording _tempRecordingReference;
 
@@ -140,7 +102,7 @@ public class MonoMain : Game
         GetOnlineString,
         () => $"Mods: {ModLoader.modHash}",
         () => $"Time Played: {TimeString(DateTime.Now - startTime)} ({Graphics.frame})",
-        () => $"Special Code: {Main.SpecialCode} {Main.SpecialCode2}",
+        () => $"Special Code: {Main.SpecialCode}",
         () => $"Resolution: (A){Resolution.adapterResolution.x}x{Resolution.adapterResolution.y} (G){Resolution.current.x}x{Resolution.current.y + (Options.Data.fullscreen ? ($" (Fullscreen({(Options.Data.windowedFullscreen ? "W" : "H")}))") : " (Windowed)")}(RF {framesSinceFocusChange})",
         () => $"Level: {GetLevelString()}",
         () => $"Command Line: {Program.commandLine}"
@@ -162,12 +124,12 @@ public class MonoMain : Game
     RenderTarget2D saveShot;
     RenderTarget2D _screenshotTarget;
     Thread _infiniteLoopDetector;
-    Timer _waitToStartLoadingTimer = new();
-    Timer _timeSinceLastLoadFrame = new();
     TVSpinScreen LoadingScreen;
+
     #endregion
 
     #region Public Properties
+
     public static bool closeMenus
     {
         get => _core.closeMenus;
@@ -198,8 +160,6 @@ public class MonoMain : Game
 
     public static int screenWidth => _screenWidth;
     public static int screenHeight => _screenHeight;
-    public static int windowWidth => (int)Math.Round(screenWidth * Options.GetWindowScaleMultiplier());
-    public static int windowHeight => (int)Math.Round(screenHeight * Options.GetWindowScaleMultiplier());
 
     public static MonoMainCore core
     {
@@ -222,13 +182,12 @@ public class MonoMain : Game
         }
     }
     public static RenderTarget2D screenCapture => _screenCapture;
-    public static Thread initializeThread => _initializeThread;
     public static MaterialPause pauseMaterial => _pauseMaterial;
 
     public static List<UIComponent> closeMenuUpdate => _core.closeMenuUpdate;
 
-    public bool canSyncFramerateWithVSync => Options.Data.vsync;
     public bool IsFocused => ((uint)SDL.SDL_GetWindowFlags(Window.Handle) & (uint)SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS) > 0;
+
     #endregion
 
     #region Private Properties
@@ -238,16 +197,14 @@ public class MonoMain : Game
         get => _core._pauseMenu;
         set => _core._pauseMenu = value;
     }
+
     #endregion
 
     #region Public Constructors
+
     public MonoMain()
     {
         mainThread = Thread.CurrentThread;
-        cultureCode = CultureInfo.CurrentCulture.LCID;
-        startupAssemblies = [.. (from assembly in AppDomain.CurrentDomain.GetAssemblies()
-                             where !assembly.IsDynamic
-                             select assembly.Location)];
         Content = new SynchronizedContentManager(Services);
         DG.SetVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString());
         graphics = new GraphicsDeviceManager(this);
@@ -286,13 +243,13 @@ public class MonoMain : Game
         Options.PostLoad();
         if (noFullscreen)
             Options.LocalData.currentResolution = Options.LocalData.windowedResolution;
-        Graphics.InitializeBase(graphics, screenWidth, screenHeight);
-        _waitToStartLoadingTimer.Start();
+        Graphics.InitializeBase(graphics);
     }
 
     #endregion
 
     #region Public Methods
+
     public static void RegisterEngineUpdatable(IEngineUpdatable pUpdatable) =>
         core.engineUpdatables.Add(pUpdatable);
     public static void ResetInfiniteLoopTimer() =>
@@ -366,14 +323,10 @@ public class MonoMain : Game
         vp.MinDepth = 0f;
         vp.MaxDepth = 1f;
         Graphics.viewport = vp;
-        Graphics.width = target.width;
-        Graphics.height = target.height;
         Level.DrawCurrentLevel();
         Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.Identity);
         instance.OnDraw();
         Graphics.screen.End();
-        Graphics.width = width;
-        Graphics.height = height;
         Graphics.SetRenderTarget(null);
     }
     /// <summary>
@@ -434,8 +387,6 @@ public class MonoMain : Game
         }
         return Level.current.GetType().ToString();
     }
-    public static string GetExceptionString(UnhandledExceptionEventArgs e) =>
-        GetExceptionString(e.ExceptionObject);
     public static string GetExceptionString(object e)
     {
         string error = Program.ProcessExceptionString(e as Exception) + "\r\n";
@@ -497,28 +448,6 @@ public class MonoMain : Game
         }
         return error;
     }
-    public static string RequestCape(string data)
-    {
-        try
-        {
-            HttpWebRequest obj = (HttpWebRequest)WebRequest.Create(string.Format("http://www.wonthelp.info/DuckWeb/getCape.php?sendRequest=IWannaUseADangOlCape&id=" + data));
-            obj.Credentials = CredentialCache.DefaultCredentials;
-            HttpWebResponse response = (HttpWebResponse)obj.GetResponse();
-            string stringResponse = "";
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                using Stream dataStream = response.GetResponseStream();
-                using StreamReader reader = new StreamReader(dataStream, Encoding.UTF8);
-                stringResponse = reader.ReadToEnd();
-            }
-            response.Close();
-            return stringResponse;
-        }
-        catch
-        {
-        }
-        return "";
-    }
     public static string TimeString(TimeSpan span, int places = 3, bool small = false)
     {
         if (!small)
@@ -533,88 +462,6 @@ public class MonoMain : Game
         if (idx >= 0)
             return stackString[..idx];
         return stackString;
-    }
-
-    public static Texture2D RequestRandomDoodle()
-    {
-        try
-        {
-            HttpWebRequest obj = (HttpWebRequest)WebRequest.Create(string.Format("http://www.wonthelp.info/crappydoodle/getTotallyRandomImage2.php?sendRequest=crappyDoodles&id=" + Rando.Int(112215)));
-            obj.Credentials = CredentialCache.DefaultCredentials;
-            HttpWebResponse response = (HttpWebResponse)obj.GetResponse();
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                using (Stream dataStream = response.GetResponseStream())
-                {
-                    using StreamReader reader = new StreamReader(dataStream, Encoding.UTF8);
-                    string[] parts = reader.ReadToEnd().Split('=');
-                    byte[] buffer = StringToByteArray(parts[1].Split('&')[0]);
-                    _ = parts[2];
-                    return ContentPack.LoadTexture2DFromStream(new MemoryStream(buffer), processPink: false);
-                }
-            }
-            response.Close();
-            return null;
-        }
-        catch (Exception)
-        {
-        }
-        return null;
-    }
-    public static WebCharData RequestRandomCharacter()
-    {
-        try
-        {
-            HttpWebRequest obj = (HttpWebRequest)WebRequest.Create(string.Format("http://www.wonthelp.info/mangaka/getTotallyRandomCharacter.php?sendRequest=charzone&id=" + Rando.Int(464)));
-            obj.Credentials = CredentialCache.DefaultCredentials;
-            HttpWebResponse response = (HttpWebResponse)obj.GetResponse();
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                using (Stream dataStream = response.GetResponseStream())
-                {
-                    using StreamReader reader = new StreamReader(dataStream, Encoding.UTF8);
-                    string[] parts = reader.ReadToEnd().Split('&');
-                    string namee = parts[0].Split('=')[1];
-                    string quotee = parts[2].Split('=')[1];
-                    string swapped = parts[1].Split('=')[1].Replace('|', '+');
-                    int mod4 = swapped.Length % 4;
-                    if (mod4 > 0)
-                        swapped += new string('=', 4 - mod4);
-                    byte[] bytes = Convert.FromBase64String(swapped);
-                    Tex2D tex = new(128, 128);
-                    Color[] colors = new Color[16384];
-                    int index = 0;
-                    for (int i = 0; i < bytes.Length; i++)
-                    {
-                        if (index >= colors.Length)
-                            break;
-                        byte b = bytes[i];
-                        for (int j = 0; j < 8; j++)
-                        {
-                            if ((b & 0x80) != 0)
-                                colors[index] = Color.Black;
-                            else
-                                colors[index] = Color.White;
-                            b <<= 1;
-                            index++;
-                        }
-                    }
-                    tex.SetData(colors);
-                    return new()
-                    {
-                        image = tex,
-                        name = namee,
-                        quote = quotee
-                    };
-                }
-            }
-            response.Close();
-            return null;
-        }
-        catch (Exception)
-        {
-        }
-        return null;
     }
 
     public static byte[] StringToByteArrayFastest(string hex)
@@ -657,36 +504,6 @@ public class MonoMain : Game
         (shotToSave.nativeObject as Microsoft.Xna.Framework.Graphics.RenderTarget2D).SaveAsPng(f, shotToSave.width, shotToSave.height);
         f.Close();
     }
-    public void InfiniteLoopDetector()
-    {
-        while (_infiniteLoopDetector != null)
-        {
-            Thread.Sleep(40);
-            if (!started || !Graphics.inFocus)
-                ResetInfiniteLoopTimer();
-            if (!(_loopTimer.Elapsed.TotalSeconds > 5.0))
-                continue;
-            try
-            {
-                mainThread.Suspend();
-                infiniteLoopDetails = "Infinite loop crash: ";
-                try
-                {
-                    infiniteLoopDetails += GetInfiniteLoopDetails();
-                }
-                catch (Exception)
-                {
-                }
-                hadInfiniteLoop = true;
-                mainThread.Resume();
-                mainThread.Abort(new Exception(infiniteLoopDetails));
-            }
-            catch (Exception ex2)
-            {
-                throw ex2;
-            }
-        }
-    }
     public void KillEverything()
     {
         closingGame = true;
@@ -719,7 +536,6 @@ public class MonoMain : Game
         try
         {
             Music.Terminate();
-            cancelLazyLoad = true;
         }
         catch
         {
@@ -878,30 +694,27 @@ public class MonoMain : Game
         {
             if (_pauseMenu == null)
                 _didPauseCapture = false;
-            if (!_recordingStarted)
+            if (DevConsole.rhythmMode && Level.current is GameLevel)
             {
-                if (DevConsole.rhythmMode && Level.current is GameLevel)
-                {
-                    TimeSpan s = Music.position;
-                    s += new TimeSpan(0, 0, 0, 0, 80);
-                    float bpm = 140f;
-                    RhythmMode.TickSound((float)(s.TotalMinutes * (double)bpm) % 1f / 1f);
-                    s = Music.position;
-                    s += new TimeSpan(0, 0, 0, 0, 40);
-                    bpm = 140f;
-                    RhythmMode.Tick((float)(s.TotalMinutes * (double)bpm) % 1f / 1f);
-                }
-                foreach (IEngineUpdatable engineUpdatable in core.engineUpdatables)
-                    engineUpdatable.PreUpdate();
-                AutoUpdatables.Update();
-                DuckGame.Content.Update();
-                Music.Update();
-                Level.UpdateLevelChange();
-                Level.UpdateCurrentLevel();
-                foreach (IEngineUpdatable engineUpdatable2 in core.engineUpdatables)
-                    engineUpdatable2.Update();
-                OnUpdate();
+                TimeSpan s = Music.position;
+                s += new TimeSpan(0, 0, 0, 0, 80);
+                float bpm = 140f;
+                RhythmMode.TickSound((float)(s.TotalMinutes * (double)bpm) % 1f / 1f);
+                s = Music.position;
+                s += new TimeSpan(0, 0, 0, 0, 40);
+                bpm = 140f;
+                RhythmMode.Tick((float)(s.TotalMinutes * (double)bpm) % 1f / 1f);
             }
+            foreach (IEngineUpdatable engineUpdatable in core.engineUpdatables)
+                engineUpdatable.PreUpdate();
+            AutoUpdatables.Update();
+            DuckGame.Content.Update();
+            Music.Update();
+            Level.UpdateLevelChange();
+            Level.UpdateCurrentLevel();
+            foreach (IEngineUpdatable engineUpdatable2 in core.engineUpdatables)
+                engineUpdatable2.Update();
+            OnUpdate();
         }
         Graphics.RunRenderTasks();
         Input.ignoreInput = false;
@@ -912,9 +725,11 @@ public class MonoMain : Game
         foreach (IEngineUpdatable engineUpdatable3 in core.engineUpdatables)
             engineUpdatable3.PostUpdate();
     }
+
     #endregion
 
     #region Internal Methods
+
     internal void DownloadWorkshopItems()
     {
         if (!Steam.IsInitialized())
@@ -968,17 +783,6 @@ public class MonoMain : Game
         Graphics.device.DeviceResetting += DeviceResetting;
         Graphics.device.DeviceReset += DeviceReset;
         graphicsService.DeviceCreated += (s, a) => OnDeviceCreated();
-        if (infiniteLoopDebug)
-        {
-            _infiniteLoopDetector = new Thread(InfiniteLoopDetector)
-            {
-                CurrentCulture = CultureInfo.InvariantCulture,
-                Priority = ThreadPriority.Lowest,
-                IsBackground = true
-            };
-            _infiniteLoopDetector.Start();
-            _loopTimer.Start();
-        }
         _canStartLoading = true;
     }
     protected override void OnExiting(object sender, EventArgs args)
@@ -1041,7 +845,6 @@ public class MonoMain : Game
         {
             if (GraphicsDevice.IsDisposed)
                 return;
-            Graphics.drawing = true;
             SynchronizedContentManager.blockLoading--;
             if (SynchronizedContentManager.blockLoading < 0)
             {
@@ -1055,7 +858,6 @@ public class MonoMain : Game
                     Graphics.Clear(Color.Black);
                     GraphicsDevice.SetRenderTarget(null);
                     base.Draw(gameTime);
-                    Graphics.drawing = false;
                     return;
                 }
                 RunDraw(gameTime);
@@ -1075,7 +877,6 @@ public class MonoMain : Game
                 Graphics.UpdateScreenViewport();
                 GraphicsDevice.SetRenderTarget(null);
                 base.Draw(gameTime);
-                Graphics.drawing = false;
             }
             catch (Exception pException)
             {
@@ -1098,7 +899,6 @@ public class MonoMain : Game
             _pauseMaterial ??= new MaterialPause();
             Graphics.Clear(Color.Black);
             LoadingScreen.Draw(gameTime);
-            _timeSinceLastLoadFrame.Restart();
         }
         else
         {
@@ -1124,8 +924,6 @@ public class MonoMain : Game
             }
             if (Graphics.screenCapture != null)
             {
-                int width = Graphics.width;
-                int height = Graphics.height;
                 Graphics.SetRenderTarget(Graphics.screenCapture);
                 Graphics.UpdateScreenViewport(pForceReset: true);
                 HUD.hide = true;
@@ -1135,8 +933,6 @@ public class MonoMain : Game
                 Graphics.screen.End();
                 HUD.hide = false;
                 Graphics.screenCapture = null;
-                Graphics.width = width;
-                Graphics.height = height;
                 Graphics.SetRenderTarget(null);
             }
             if (_screenshotTarget != null)
@@ -1145,26 +941,26 @@ public class MonoMain : Game
                 _screenshotTarget = null;
                 SaveShot();
             }
-            if (Graphics.screenTarget != null)
-            {
-                int width2 = Graphics.width;
-                int height2 = Graphics.height;
-                Graphics.SetRenderTarget(Graphics.screenTarget);
-                Graphics.UpdateScreenViewport();
-                HUD.hide = true;
-                Level.DrawCurrentLevel();
-                Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.Identity);
-                OnDraw();
-                Graphics.screen.End();
-                HUD.hide = false;
-                Graphics.width = width2;
-                Graphics.height = height2;
-                Graphics.SetRenderTarget(null);
-                Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.Identity);
-                Graphics.Draw(Graphics.screenTarget, Vector2.Zero, null, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None);
-                Graphics.screen.End();
-                return;
-            }
+            //if (Graphics.screenTarget != null)
+            //{
+            //    int width2 = Graphics.width;
+            //    int height2 = Graphics.height;
+            //    Graphics.SetRenderTarget(Graphics.screenTarget);
+            //    Graphics.UpdateScreenViewport();
+            //    HUD.hide = true;
+            //    Level.DrawCurrentLevel();
+            //    Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.Identity);
+            //    OnDraw();
+            //    Graphics.screen.End();
+            //    HUD.hide = false;
+            //    Graphics.width = width2;
+            //    Graphics.height = height2;
+            //    Graphics.SetRenderTarget(null);
+            //    Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.Identity);
+            //    Graphics.Draw(Graphics.screenTarget, Vector2.Zero, null, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None);
+            //    Graphics.screen.End();
+            //    return;
+            //}
             bool menuShouldPauseGameplay = true;
             if (Network.isActive)
                 menuShouldPauseGameplay = false;
@@ -1226,9 +1022,11 @@ public class MonoMain : Game
             }
         }
     }
+
     #endregion
 
     #region Private Methods
+
     static void ResultFetched(object value0, WorkshopQueryResult result)
     {
         if (result != null && result.details != null)

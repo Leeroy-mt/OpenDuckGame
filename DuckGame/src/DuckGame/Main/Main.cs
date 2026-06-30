@@ -16,45 +16,15 @@ public class Main : MonoMain
 
     #region Public Fields
 
-    public static bool isDemo;
-
-    public static bool foundPurchaseInfo;
-
-    public static bool stopForever;
-
-    public static bool _gotHook;
-
-    public static int codeNumber;
-
-    public static float price = 10;
-
     public static ulong connectID;
-
-    public static string lastLevel = "";
 
     public static string SpecialCode = "";
 
-    public static string SpecialCode2 = "";
-
-    public static string currencyType = "USD";
-
     public static DuckGameEditor editor;
-
-    public bool joinedLobby;
 
     #endregion
 
     #region Public Methods
-
-    public static string GetPriceString() =>
-        $"|GREEN|{price.ToString("0.00", CultureInfo.InvariantCulture)} {currencyType}|WHITE|";
-
-    public static void SetPurchaseDetails(float p, string ct)
-    {
-        price = p;
-        currencyType = ct;
-        foundPurchaseInfo = true;
-    }
 
     public static void ResetMatchStuff()
     {
@@ -74,14 +44,14 @@ public class Main : MonoMain
         {
             foreach (Team t in Teams.all)
             {
-                int prevScoreboardScore = (t.score = 0);
+                int prevScoreboardScore = t.score = 0;
                 t.prevScoreboardScore = prevScoreboardScore;
                 if (t.activeProfiles.Count <= 0)
                     continue;
                 foreach (Profile p in t.activeProfiles)
                 {
                     ProfileStats stats = p.stats;
-                    DateTime lastPlayed = (p.stats.lastPlayed = DateTime.Now);
+                    DateTime lastPlayed = p.stats.lastPlayed = DateTime.Now;
                     stats.lastPlayed = lastPlayed;
                     p.RecordPreviousStats();
                     Profiles.Save(p);
@@ -144,7 +114,6 @@ public class Main : MonoMain
         editor = new DuckGameEditor();
         Input.devicesChanged = false;
         TeamSelect2.ControllerLayoutsChanged();
-        SetPurchaseDetails(9.99f, "USD");
         if (connectID != 0L)
         {
             SpecialCode = $"Joining lobby on startup ({connectID})";
@@ -180,7 +149,6 @@ public class Main : MonoMain
             DevConsole.RunCommand(DevConsole.startupCommands[0]);
             DevConsole.startupCommands.RemoveAt(0);
         }
-        isDemo = false;
         RockWeather.TickWeather();
         RandomLevelDownloader.Update();
         if (!NetworkDebugger.enabled)
@@ -188,7 +156,6 @@ public class Main : MonoMain
         DamageManager.Update();
         if (!Network.isActive)
             NetRand.generator = Rando.Generator;
-
     }
 
     protected override void OnDraw()

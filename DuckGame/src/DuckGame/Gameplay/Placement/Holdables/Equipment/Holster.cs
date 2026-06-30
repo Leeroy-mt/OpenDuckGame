@@ -5,7 +5,6 @@ using System.Linq;
 namespace DuckGame;
 
 [EditorGroup("Equipment")]
-[BaggedProperty("isInDemo", true)]
 public class Holster : Equipment
 {
     public StateBinding _containedObjectBinding = new StateBinding(nameof(netContainedObject));

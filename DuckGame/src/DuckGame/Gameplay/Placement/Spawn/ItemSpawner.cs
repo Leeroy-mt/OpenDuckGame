@@ -6,7 +6,6 @@ using System.Globalization;
 namespace DuckGame;
 
 [EditorGroup("Spawns")]
-[BaggedProperty("isInDemo", true)]
 [BaggedProperty("previewPriority", true)]
 public class ItemSpawner : Thing, IContainAThing, IContainPossibleThings
 {

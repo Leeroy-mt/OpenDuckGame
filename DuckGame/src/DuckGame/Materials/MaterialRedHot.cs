@@ -22,8 +22,8 @@ public class MaterialRedHot : Material
         if (Graphics.device.Textures[0] != null)
         {
             Tex2D tex = Graphics.device.Textures[0] as Texture2D;
-            SetValue("width", tex.frameWidth / (float)tex.width);
-            SetValue("height", tex.frameHeight / (float)tex.height);
+            SetValue("width", tex.frameWidth / tex.width);
+            SetValue("height", tex.frameHeight / tex.height);
             SetValue("xpos", _thing.X);
             SetValue("ypos", _thing.Y);
             SetValue("intensity", intensity);

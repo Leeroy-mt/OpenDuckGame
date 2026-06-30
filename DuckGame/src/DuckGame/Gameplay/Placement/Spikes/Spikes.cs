@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Stuff|Spikes")]
-[BaggedProperty("isInDemo", true)]
 [BaggedProperty("previewPriority", true)]
 public class Spikes : MaterialThing, IDontMove
 {

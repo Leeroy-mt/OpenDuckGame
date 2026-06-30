@@ -6,7 +6,6 @@ using System.Linq;
 namespace DuckGame;
 
 [EditorGroup("Spawns")]
-[BaggedProperty("isInDemo", true)]
 [BaggedProperty("previewPriority", true)]
 public class ItemBox : Block, IPathNodeBlocker, IContainAThing
 {
@@ -365,7 +364,7 @@ public class ItemBox : Block, IPathNodeBlocker, IContainAThing
                 return false;
             }
             IReadOnlyPropertyBag bag = ContentProperties.GetBag(t);
-            return (bag.GetOrDefault("canSpawn", defaultValue: true) && (!Network.isActive || !bag.GetOrDefault("noRandomSpawningOnline", defaultValue: false)) && (!Network.isActive || bag.GetOrDefault("isOnlineCapable", defaultValue: true)) && (Main.isDemo || !bag.GetOrDefault("onlySpawnInDemo", defaultValue: false))) ? true : false;
+            return (bag.GetOrDefault("canSpawn", defaultValue: true) && (!Network.isActive || !bag.GetOrDefault("noRandomSpawningOnline", defaultValue: false)) && (!Network.isActive || bag.GetOrDefault("isOnlineCapable", defaultValue: true)) && !bag.GetOrDefault("onlySpawnInDemo", defaultValue: false)) ? true : false;
         }).ToList();
     }
 

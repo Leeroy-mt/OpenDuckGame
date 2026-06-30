@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Guns|Explosives")]
-[BaggedProperty("isInDemo", true)]
 public class Bazooka : TampingWeapon
 {
     public Bazooka(float xval, float yval)

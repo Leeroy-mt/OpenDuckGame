@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Details|Terrain")]
-[BaggedProperty("isInDemo", true)]
 public class TreeTopDead : Thing
 {
     private Sprite _treeInside;

@@ -167,8 +167,6 @@ public class TitleScreen : Level
 
     private bool _enterLibrary;
 
-    private bool _enterBuyScreen;
-
     private float extraFade = 1f;
 
     private bool _startedMusic;
@@ -1169,7 +1167,7 @@ public class TitleScreen : Level
         }
         Music.volumeMult = 1f;
         _hasMenusOpen = menuOpen;
-        if (!_enterMultiplayer && !_enterEditor && !_enterLibrary && !_enterBuyScreen)
+        if (!_enterMultiplayer && !_enterEditor && !_enterLibrary)
         {
             if (Graphics.fade < 1f)
             {
@@ -1203,10 +1201,6 @@ public class TitleScreen : Level
                 {
                     Level.current = new DoorRoom();
                 }
-                else if (_enterBuyScreen)
-                {
-                    Level.current = new BuyScreen(Main.currencyType, Main.price);
-                }
             }
         }
         _pressStartBlink += 0.01f;
@@ -1225,11 +1219,6 @@ public class TitleScreen : Level
             {
                 MonoMain.exit = true;
                 return;
-            }
-            if (InputProfile.active.Pressed("START") && Main.foundPurchaseInfo && Main.isDemo)
-            {
-                _enterBuyScreen = true;
-                _duck.immobilized = true;
             }
         }
         if (_enterCreditsMenuBool.value)
@@ -1382,10 +1371,6 @@ public class TitleScreen : Level
             }
             if (_duck != null)
             {
-                if (Main.foundPurchaseInfo && Main.isDemo)
-                {
-                    HUD.AddCornerControl(HUDCorner.TopRight, "@START@BUY GAME", _duck.inputProfile);
-                }
                 InputProfile.active = _duck.profile.inputProfile;
                 _fadeInFull = true;
                 _title.Fade = true;

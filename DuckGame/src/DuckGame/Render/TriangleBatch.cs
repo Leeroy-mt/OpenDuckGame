@@ -337,7 +337,7 @@ public class TriangleBatch
         graphicsDevice.RasterizerState = rasterizerState;
 
         var vp = graphicsDevice.Viewport;
-
+        
         Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, 1, -1, out projectionMatrix);
 
         FullMatrix = Matrix.Multiply(viewMatrix, projectionMatrix);
@@ -362,6 +362,7 @@ public class TriangleBatch
         basicEffect.Projection = projectionMatrix;
         basicEffect.View = viewMatrix;
         basicEffect.TextureEnabled = enableTexture;
+        basicEffect.CurrentTechnique.Passes[0].Apply();
 #else
         var basicEffect = (enableTexture ? spriteEffect : simpleEffect).effect;
         basicEffect.Parameters["MatrixTransform"].SetValue(FullMatrix);
@@ -444,17 +445,15 @@ public class TriangleBatch
     /// </summary>
     void Flush(int offset, int length, Texture2D texture, Material material, ref int drawCalls)
     {
+        GraphicsDevice.Textures[0] = texture;
+        PrepareEffect(texture != null);
+
         if (material != null)
         {
             material.SetValue("MatrixTransform", FullMatrix);
             material.Apply();
         }
-        else
-        {
-            PrepareEffect(texture != null);
-        }
 
-        GraphicsDevice.Textures[0] = texture;
         GraphicsDevice.DrawUserPrimitives(
             PrimitiveType.TriangleList,
             vertices,

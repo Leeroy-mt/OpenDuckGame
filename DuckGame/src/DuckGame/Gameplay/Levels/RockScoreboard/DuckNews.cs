@@ -98,7 +98,6 @@ public class DuckNews
                 text = text.Replace("%NAME4%", p[3].name);
             }
         }
-        text = text.Replace("%PRICE%", Main.GetPriceString());
         if (valueCalculation != null)
         {
             object val = valueCalculation.result;

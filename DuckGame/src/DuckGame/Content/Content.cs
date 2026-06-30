@@ -586,13 +586,12 @@ public class Content
         _effectList[index] = e;
         _effectMap[e.effect] = e;
         _effects[e.effectName] = e;
-        e.SetEffectIndex(index);
+        e.EffectIndex = index;
     }
 
     public static MTEffect GetMTEffect(Effect e)
     {
-        MTEffect val = null;
-        _effectMap.TryGetValue(e, out val);
+        _effectMap.TryGetValue(e, out MTEffect val);
         if (val == null)
         {
             val = new MTEffect(e, "", _currentEffectIndex);

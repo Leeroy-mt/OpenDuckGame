@@ -40,10 +40,7 @@ public class UIMenuItemResolution : UIMenuItem
     {
         if (c == default)
             c = Colors.MenuOption;
-        if (MonoMain._fullScreen)
-            controlString = "@WASD@ADJUST @SELECT@APPLY";
-        else
-            controlString = "@WASD@ADJUST @SELECT@APPLY @MENU2@ALL";
+        controlString = "@WASD@ADJUST @SELECT@APPLY @MENU2@ALL";
         UIDivider splitter = new(vert: true, 0);
         UIText t = new(text, c)
         {

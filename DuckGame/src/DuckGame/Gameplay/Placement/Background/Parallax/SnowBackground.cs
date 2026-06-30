@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Background|Parallax")]
-[BaggedProperty("isInDemo", false)]
 public class SnowBackground : BackgroundUpdater
 {
     public SnowBackground(float xpos, float ypos)

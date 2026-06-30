@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 
 namespace DuckGame;
 
-[BaggedProperty("isInDemo", true)]
 public class Conveyor : Block
 {
     private SpriteMap _sprite;

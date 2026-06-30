@@ -376,7 +376,6 @@ public class StreamManager
     public void ProcessReceivedMessage(NetMessage m)
     {
         NetworkConnection.context = _connection;
-        Main.codeNumber = m.typeIndex;
         if (m.manager == BelongsToManager.GhostManager)
         {
             GhostManager.context.OnMessage(m);
@@ -393,7 +392,6 @@ public class StreamManager
         {
             Network.OnMessageStatic(m);
         }
-        Main.codeNumber = 12345;
         NetworkConnection.context = null;
     }
 

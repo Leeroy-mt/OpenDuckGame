@@ -4,7 +4,6 @@ using System;
 namespace DuckGame;
 
 [EditorGroup("Guns|Explosives")]
-[BaggedProperty("isInDemo", true)]
 public class Grenade : Gun
 {
     public StateBinding _timerBinding = new StateBinding(nameof(_timer));

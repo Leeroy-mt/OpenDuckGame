@@ -1,7 +1,6 @@
 namespace DuckGame;
 
 [EditorGroup("Blocks")]
-[BaggedProperty("isInDemo", true)]
 public class DonutTileset : AutoBlock
 {
     public DonutTileset(float x, float y)

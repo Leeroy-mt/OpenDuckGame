@@ -1,7 +1,6 @@
 namespace DuckGame;
 
 [EditorGroup("Background")]
-[BaggedProperty("isInDemo", true)]
 public class ForegroundNature : ForegroundTile
 {
     public ForegroundNature(float xpos, float ypos)

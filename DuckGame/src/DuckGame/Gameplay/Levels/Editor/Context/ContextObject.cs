@@ -26,14 +26,7 @@ public class ContextObject : ContextMenu
         _text = thing.editorName;
         itemSize.X = Graphics.GetFancyStringWidth(_text) + 26f;
         _thingBag = ContentProperties.GetBag(thing.GetType());
-        if (Main.isDemo && !_thingBag.GetOrDefault("isInDemo", defaultValue: false))
-        {
-            greyOut = true;
-        }
-        else
-        {
-            greyOut = false;
-        }
+        greyOut = false;
         if (_thingBag.GetOrDefault("previewPriority", defaultValue: false))
         {
             _previewPriority = true;
@@ -74,10 +67,6 @@ public class ContextObject : ContextMenu
         }
         else
         {
-            if (Main.isDemo && !_thingBag.GetOrDefault("isInDemo", defaultValue: false))
-            {
-                return;
-            }
             if (_placement)
             {
                 if (Level.current is Editor editor)

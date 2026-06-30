@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Guns|Pistols")]
-[BaggedProperty("isInDemo", true)]
 public class SnubbyPistol : Gun
 {
     public new StateBinding _loadedBinding = new StateBinding(nameof(_loaded));

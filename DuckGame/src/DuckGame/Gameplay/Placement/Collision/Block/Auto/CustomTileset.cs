@@ -1,7 +1,6 @@
 namespace DuckGame;
 
 [EditorGroup("Blocks|custom", EditorItemType.Custom)]
-[BaggedProperty("isInDemo", false)]
 public class CustomTileset : AutoBlock
 {
     private static CustomType _customType;

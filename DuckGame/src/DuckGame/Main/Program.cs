@@ -8,7 +8,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace DuckGame;
@@ -514,10 +513,6 @@ public static class Program
             {
                 MonoMain.disableSteam = true;
             }
-            else if (args[j] == "-loopdebug")
-            {
-                MonoMain.infiniteLoopDebug = true;
-            }
             else if (args[j] == "-nomods")
             {
                 MonoMain.nomodsMode = true;
@@ -650,7 +645,7 @@ public static class Program
         enteredMain = true;
         if (!MonoMain.disableSteam)
         {
-            if (MonoMain.breakSteam || !Steam.InitializeCore())
+            if (!Steam.InitializeCore())
             {
                 LogLine("Steam INIT Failed!");
             }

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Guns|Pistols")]
-[BaggedProperty("isInDemo", true)]
 public class Magnum : Gun
 {
     public StateBinding _angleOffsetBinding = new StateBinding(nameof(_angleOffset));

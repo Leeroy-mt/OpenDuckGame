@@ -24,8 +24,6 @@ public class LevelCore
 
     public Thing currentDrawingObject;
 
-    public bool skipFrameLog;
-
     public SmallFire[] firePool = new SmallFire[SmallFire.kMaxObjects];
 
     public int firePoolIndex;

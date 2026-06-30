@@ -5,7 +5,6 @@ using System.Collections.Generic;
 namespace DuckGame;
 
 [EditorGroup("Spawns")]
-[BaggedProperty("isInDemo", true)]
 [BaggedProperty("canSpawn", false)]
 public class ItemCrate : PhysicsObject, IPlatform, IContainAThing, IContainPossibleThings
 {

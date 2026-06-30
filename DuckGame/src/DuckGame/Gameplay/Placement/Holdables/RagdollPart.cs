@@ -5,7 +5,6 @@ using System.Collections.Generic;
 namespace DuckGame;
 
 [BaggedProperty("canSpawn", false)]
-[BaggedProperty("isInDemo", true)]
 public class RagdollPart : Holdable, IAmADuck
 {
     public StateBinding _dollBinding = new StateBinding(nameof(_doll));

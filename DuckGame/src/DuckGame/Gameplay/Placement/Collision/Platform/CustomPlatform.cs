@@ -1,7 +1,6 @@
 namespace DuckGame;
 
 [EditorGroup("Blocks|custom", EditorItemType.Custom)]
-[BaggedProperty("isInDemo", false)]
 public class CustomPlatform : AutoPlatform
 {
     private static CustomType _customType = CustomType.Platform;

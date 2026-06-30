@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Guns|Pistols")]
-[BaggedProperty("isInDemo", true)]
 public class G18 : Gun
 {
     private SpriteMap _sprite;

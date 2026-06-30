@@ -7,7 +7,6 @@ namespace DuckGame;
 
 [EditorGroup("Stuff|Props")]
 [BaggedProperty("isOnlineCapable", true)]
-[BaggedProperty("isInDemo", true)]
 public class DeathCrate : Holdable, IPlatform
 {
     public StateBinding _settingIndexBinding = new StateBinding(nameof(settingIndex));

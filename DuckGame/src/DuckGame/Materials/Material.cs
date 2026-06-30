@@ -5,9 +5,9 @@ namespace DuckGame;
 
 public class Material
 {
-    protected MTEffect _effect;
+    public MTEffect effect { get; protected set; }
 
-    public MTEffect effect => _effect;
+    #region Constructors
 
     public Material()
     {
@@ -15,47 +15,51 @@ public class Material
 
     public Material(string mat)
     {
-        _effect = Content.Load<MTEffect>(mat);
+        effect = Content.Load<MTEffect>(mat);
     }
 
     public Material(Effect e)
     {
-        _effect = e;
+        effect = e;
     }
+
+    #endregion
+
+    #region Public Methods
 
     public virtual void SetValue(string name, float value)
     {
-        _effect.effect.Parameters[name]?.SetValue(value);
+        effect.effect.Parameters[name]?.SetValue(value);
     }
 
     public virtual void SetValue(string name, Vector2 value)
     {
-        _effect.effect.Parameters[name]?.SetValue(value);
+        effect.effect.Parameters[name]?.SetValue(value);
     }
 
     public virtual void SetValue(string name, Vector3 value)
     {
-        _effect.effect.Parameters[name]?.SetValue(value);
+        effect.effect.Parameters[name]?.SetValue(value);
     }
 
     public virtual void SetValue(string name, Color value)
     {
-        _effect.effect.Parameters[name]?.SetValue(value.ToVector4());
+        effect.effect.Parameters[name]?.SetValue(value.ToVector4());
     }
 
     public virtual void SetValue(string name, RectangleF value)
     {
-        _effect.effect.Parameters[name]?.SetValue(value.ToVector4());
+        effect.effect.Parameters[name]?.SetValue(value.ToVector4());
     }
 
     public virtual void SetValue(string name, Matrix value)
     {
-        _effect.effect.Parameters[name]?.SetValue(value);
+        effect.effect.Parameters[name]?.SetValue(value);
     }
 
     public virtual void SetValue(string name, Texture2D value)
     {
-        _effect.effect.Parameters[name]?.SetValue(value);
+        effect.effect.Parameters[name]?.SetValue(value);
     }
 
     public virtual void Update()
@@ -64,11 +68,13 @@ public class Material
 
     public virtual void Apply()
     {
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }
     }
+
+    #endregion
 
     public static implicit operator MTEffect(Material val)
     {

@@ -43,10 +43,6 @@ public class ContextBackgroundTile : ContextMenu
             _file = new ContextFile("LOAD FILE...", this, new FieldBinding(_thing, "customBackground0" + ((thing as CustomBackground).customIndex + 1)), ContextFileType.Background);
         }
         IReadOnlyPropertyBag thingProps = ContentProperties.GetBag(thing.GetType());
-        if (Main.isDemo && !thingProps.GetOrDefault("isInDemo", defaultValue: false))
-        {
-            greyOut = true;
-        }
     }
 
     public override bool HasOpen()

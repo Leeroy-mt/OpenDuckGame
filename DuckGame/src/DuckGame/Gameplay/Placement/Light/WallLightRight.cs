@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace DuckGame;
 
 [EditorGroup("Details|Arcade", EditorItemType.Lighting)]
-[BaggedProperty("isInDemo", true)]
 public class WallLightRight : Thing
 {
     private PointLight _light;

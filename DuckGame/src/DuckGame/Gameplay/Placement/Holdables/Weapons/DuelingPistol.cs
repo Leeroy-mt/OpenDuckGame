@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Guns|Pistols")]
-[BaggedProperty("isInDemo", true)]
 [BaggedProperty("isFatal", false)]
 public class DuelingPistol : Gun
 {

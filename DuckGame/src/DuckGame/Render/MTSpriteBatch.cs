@@ -147,10 +147,6 @@ public class MTSpriteBatch : SpriteBatch
     {
         _beginCalled = false;
         base.End();
-        if (Graphics.recordOnly)
-        {
-            return;
-        }
         if (_batcher.hasSimpleItems)
         {
             if (_sortMode != SpriteSortMode.Immediate)
@@ -403,7 +399,7 @@ public class MTSpriteBatch : SpriteBatch
     {
         MTSpriteBatchItem mTSpriteBatchItem = _batcher.CreateBatchItem();
         mTSpriteBatchItem.Depth = depth;
-        mTSpriteBatchItem.Texture = tex.nativeObject as Texture2D;
+        mTSpriteBatchItem.Texture = tex?.nativeObject as Texture2D;
         mTSpriteBatchItem.Material = null;
         mTSpriteBatchItem.Set(p1, p2, p3, p4, t1, t2, t3, t4, c);
     }
@@ -477,7 +473,6 @@ public class MTSpriteBatch : SpriteBatch
         item.Depth = frame.depth;
         if (frame.texture == -1)
         {
-            item.Texture = Graphics.blankWhiteSquare.nativeObject as Texture2D;
         }
         else
         {

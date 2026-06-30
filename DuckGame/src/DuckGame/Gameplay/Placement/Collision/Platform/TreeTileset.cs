@@ -1,7 +1,6 @@
 namespace DuckGame;
 
 [EditorGroup("Blocks|Jump Through")]
-[BaggedProperty("isInDemo", true)]
 public class TreeTileset : AutoPlatform
 {
     public TreeTileset(float x, float y)

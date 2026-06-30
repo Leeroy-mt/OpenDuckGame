@@ -5,7 +5,6 @@ using System.Collections.Generic;
 namespace DuckGame;
 
 [EditorGroup("Spawns")]
-[BaggedProperty("isInDemo", true)]
 public class MysteryGun : Thing, IContainPossibleThings
 {
     private SpriteMap _sprite;

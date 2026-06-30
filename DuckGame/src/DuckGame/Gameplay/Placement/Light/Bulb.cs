@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace DuckGame;
 
 [EditorGroup("Details|Lights", EditorItemType.Lighting)]
-[BaggedProperty("isInDemo", true)]
 public class Bulb : Thing
 {
     private SpriteThing _shade;

@@ -277,26 +277,6 @@ public class Script
         return HighlightLevel.didSkip;
     }
 
-    public static bool hasPurchaseInfo()
-    {
-        return Main.foundPurchaseInfo;
-    }
-
-    public static bool doesNotHavePurchaseInfo()
-    {
-        return !Main.foundPurchaseInfo;
-    }
-
-    public static bool isDemo()
-    {
-        return Main.isDemo;
-    }
-
-    public static bool isNotDemo()
-    {
-        return !Main.isDemo;
-    }
-
     public static float greatest(string val)
     {
         float greatestVal = -99999f;

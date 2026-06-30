@@ -59,14 +59,7 @@ public class HighlightPlayback : Level
         {
             HighlightLevel.didSkip = true;
             Vote.CloseVoting();
-            if (Main.isDemo)
-            {
-                Level.current = new HighlightLevel(endOfHighlights: true);
-            }
-            else
-            {
-                Level.current = new RockScoreboard(RockScoreboard.returnLevel, ScoreBoardMode.ShowWinner, afterHighlights: true);
-            }
+            Level.current = new RockScoreboard(RockScoreboard.returnLevel, ScoreBoardMode.ShowWinner, afterHighlights: true);
         }
         if (!_showHighlight && Graphics.fade > 0.95f)
         {

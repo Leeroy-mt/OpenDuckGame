@@ -4,7 +4,6 @@ using System;
 namespace DuckGame;
 
 [EditorGroup("Spawns")]
-[BaggedProperty("isInDemo", false)]
 public class LaserSpawner : Thing
 {
     protected float _spawnWait;

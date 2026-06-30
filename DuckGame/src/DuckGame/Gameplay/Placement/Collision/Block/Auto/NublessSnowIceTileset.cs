@@ -1,7 +1,6 @@
 namespace DuckGame;
 
 [EditorGroup("Blocks|Snow")]
-[BaggedProperty("isInDemo", false)]
 public class NublessSnowIceTileset : SnowIceTileset
 {
     public NublessSnowIceTileset(float x, float y)

@@ -804,10 +804,7 @@ public class HatSelector : Thing, ITakeInput
             if (base.isServerForObject)
             {
                 Team t = AllTeams()[_desiredTeamSelection];
-                if (!Main.isDemo || t.inDemo)
-                {
-                    SelectTeam();
-                }
+                SelectTeam();
             }
         }
         if (_upSlideTo != 0f && _upSlide != _upSlideTo)
@@ -822,10 +819,7 @@ public class HatSelector : Thing, ITakeInput
             if (base.isServerForObject)
             {
                 Team t2 = AllTeams()[_desiredTeamSelection];
-                if (!Main.isDemo || t2.inDemo)
-                {
-                    SelectTeam();
-                }
+                SelectTeam();
             }
         }
         if (_selection == HSSelection.ChooseTeam)
@@ -1066,7 +1060,7 @@ public class HatSelector : Thing, ITakeInput
                         }
                         hatOffset = new Vector2(-10f, -10f);
                     }
-                    bool demoHat = Main.isDemo && !t3.inDemo;
+                    bool demoHat = false;
                     if (demoHat)
                     {
                         hat = _demoBox;

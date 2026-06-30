@@ -3,7 +3,6 @@ using System;
 
 namespace DuckGame;
 
-[BaggedProperty("isInDemo", true)]
 public class Respawner : Thing, IDrawToDifferentLayers
 {
     private SpriteMap _sprite;

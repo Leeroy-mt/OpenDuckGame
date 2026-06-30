@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace DuckGame;
 
 [EditorGroup("Details|Pyramid", EditorItemType.Pyramid)]
-[BaggedProperty("isInDemo", true)]
 public class PyramidBLight : Thing
 {
     private SpriteThing _shade;

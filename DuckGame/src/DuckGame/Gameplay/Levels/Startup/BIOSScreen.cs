@@ -25,11 +25,7 @@ public class BIOSScreen : Level
     {
         if (!Steam.IsInitialized())
         {
-            bool coreInit = false;
-            if (!MonoMain.breakSteam)
-            {
-                coreInit = Steam.InitializeCore();
-            }
+            var coreInit = Steam.InitializeCore();
             if (coreInit)
             {
                 Steam.Initialize();

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Background|Parallax")]
-[BaggedProperty("isInDemo", true)]
 [BaggedProperty("previewPriority", true)]
 public class NatureBackground : BackgroundUpdater
 {

@@ -81,15 +81,6 @@ public class BigTitle : Thing
 
     public override void Update()
     {
-        if (Main.isDemo)
-        {
-            _fartWait -= 0.008f;
-            if (_fartWait < 0 && !_showFart)
-            {
-                _showFart = true;
-                SFX.Play("fart" + Rando.Int(3));
-            }
-        }
         _wait++;
         _ = _wait;
         _ = 30;

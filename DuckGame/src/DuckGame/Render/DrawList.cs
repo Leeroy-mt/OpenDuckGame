@@ -4,13 +4,19 @@ namespace DuckGame;
 
 public class DrawList
 {
-    protected HashSet<Thing> _transparent = new HashSet<Thing>();
+    #region Protected Fields
 
-    protected HashSet<Thing> _opaque = new HashSet<Thing>();
+    protected HashSet<Thing> _transparent = [];
 
-    protected HashSet<Thing> _transparentRemove = new HashSet<Thing>();
+    protected HashSet<Thing> _opaque = [];
 
-    protected HashSet<Thing> _opaqueRemove = new HashSet<Thing>();
+    protected HashSet<Thing> _transparentRemove = [];
+
+    protected HashSet<Thing> _opaqueRemove = [];
+
+    #endregion
+
+    #region Public Methods
 
     public void Add(Thing obj)
     {
@@ -29,25 +35,17 @@ public class DrawList
     public void Remove(Thing obj)
     {
         if (obj.opaque)
-        {
             _opaque.Remove(obj);
-        }
         else
-        {
             _transparent.Remove(obj);
-        }
     }
 
     public void RemoveSoon(Thing obj)
     {
         if (obj.opaque)
-        {
             _opaqueRemove.Add(obj);
-        }
         else
-        {
             _transparentRemove.Add(obj);
-        }
     }
 
     public void Clear()
@@ -57,4 +55,6 @@ public class DrawList
         _opaque.Clear();
         _opaqueRemove.Clear();
     }
+
+    #endregion
 }

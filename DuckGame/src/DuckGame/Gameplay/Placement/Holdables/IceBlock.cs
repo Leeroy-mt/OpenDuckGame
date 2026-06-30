@@ -5,7 +5,6 @@ using System;
 namespace DuckGame;
 
 [EditorGroup("Stuff|Props")]
-[BaggedProperty("isInDemo", false)]
 public class IceBlock : Holdable, IPlatform
 {
     public StateBinding _hitPointsBinding = new StateBinding(nameof(_hitPoints));

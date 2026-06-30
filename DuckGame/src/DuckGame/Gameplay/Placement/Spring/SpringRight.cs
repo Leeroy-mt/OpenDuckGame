@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Stuff|Springs")]
-[BaggedProperty("isInDemo", false)]
 [BaggedProperty("previewPriority", false)]
 public class SpringRight : Spring
 {

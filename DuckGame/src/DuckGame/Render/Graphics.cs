@@ -11,31 +11,23 @@ public static class Graphics
     #region Public Fields
 
     public static bool disposingObjects;
-    public static bool drawing;
     public static bool caseSensitiveStringDrawing;
-    public static bool didCalc;
     public static bool skipReplayRender;
     public static bool recordMetadata;
     public static bool doSnap = true;
 
     public static int effectsLevel = 2;
 
-    public static uint currentDepthSpan;
-
-    public static float kSpanIncrement = .0001f;
     public static float snap = 4;
 
     public static long frame;
 
-    public static Vector2 topLeft;
-    public static Vector2 bottomRight;
     public static Viewport? _screenViewport;
 
     public static GraphicsDeviceManager _manager;
     public static Sprite tounge;
     public static BitmapFont _biosFont;
     public static Material material;
-    public static Effect tempEffect;
     public static RenderTarget2D _screenBufferTarget;
 
     public static List<GraphicsResource> objectsToDispose = [];
@@ -44,27 +36,18 @@ public static class Graphics
 
     #region Private Fields
 
-    static bool _recordOnly;
     static bool _frameFlipFlop;
     static bool _settingScreenTarget;
     static bool _lastViewportSet;
 
     static int _targetFlip;
     static int _currentStateIndex;
-    static int _currentDrawIndex;
-    static int _width;
-    static int _height;
 
-    static float _baseDeviceWidth;
-    static float _baseDeviceHeight;
-
-    static Vector2 _currentDrawOffset = Vector2.Zero;
     static Matrix _projectionMatrix;
     static RectangleF _currentTargetSize;
     static Viewport _oldViewport;
     static Viewport _lastViewport;
 
-    static RenderTarget2D _screenTarget;
     static GraphicsDevice _base;
     static SpriteMap _passwordFont;
     static BitmapFont _biosFontCaseSensitive;
@@ -78,24 +61,16 @@ public static class Graphics
 #endif
     static Layer _currentLayer;
     static RenderTarget2D _screenCapture;
-    static Tex2D _blank;
-    static Tex2D _blank2;
     static RenderTarget2D _currentRenderTarget;
     static RenderTarget2D _defaultRenderTarget;
 
     static readonly List<Action>[] _renderTasks = [[], []];
-    static Dictionary<Tex2D, Dictionary<Vector3, Tex2D>> _recolorMap = [];
 
-#endregion
+    #endregion
 
     #region Public Properties
 
     public static bool inFocus => MonoMain.framesBackInFocus > 4;
-    public static bool recordOnly
-    {
-        get => _recordOnly;
-        set => _recordOnly = value;
-    }
     public static bool mouseVisible
     {
         get => MonoMain.instance.IsMouseVisible;
@@ -106,25 +81,6 @@ public static class Graphics
         get => _frameFlipFlop;
         set => _frameFlipFlop = value;
     }
-    public static bool skipFrameLog
-    {
-        get => Level.core.skipFrameLog;
-        set => Level.core.skipFrameLog = value;
-    }
-    public static bool fixedAspect
-    {
-        get
-        {
-            if (!(Resolution.current.aspect > 1.8f))
-            {
-                if (Level.current is not XMLLevel)
-                    return Level.current is not Editor;
-                return false;
-            }
-            return true;
-        }
-    }
-    public static bool sixteenTen => aspect > .57f;
 
     public static int currentStateIndex
     {
@@ -140,7 +96,6 @@ public static class Graphics
                 return device.Viewport.Width;
             return _screenViewport.Value.Width;
         }
-        set => _width = value;
     }
     public static int height
     {
@@ -150,7 +105,6 @@ public static class Graphics
                 return device.Viewport.Height;
             return _screenViewport.Value.Height;
         }
-        set => _height = value;
     }
 
     public static float flashAdd
@@ -186,17 +140,8 @@ public static class Graphics
             return _fadeAdd;
         }
     }
-    public static float baseDeviceWidth => _baseDeviceWidth;
-    public static float baseDeviceHeight => _baseDeviceHeight;
     public static float aspect => .5625f;
-    public static float barSize => (width * aspect - width * .5625f) / 2f;
 
-    public static Vector2 currentDrawOffset
-    {
-        get => _currentDrawOffset;
-        set => _currentDrawOffset = value;
-    }
-    public static Matrix projectionMatrix => _projectionMatrix;
     public static Viewport viewport
     {
         get
@@ -229,16 +174,11 @@ public static class Graphics
         }
     }
 
-    public static RenderTarget2D screenTarget
-    {
-        get => _screenTarget;
-        set => _screenTarget = value;
-    }
     public static GraphicsDevice device
     {
         get
         {
-            if (Thread.CurrentThread != MonoMain.mainThread && Thread.CurrentThread != MonoMain.initializeThread)
+            if (Thread.CurrentThread != MonoMain.mainThread)
                 throw new("accessing graphics device from thread other than main thread.");
             return _base;
         }
@@ -267,7 +207,6 @@ public static class Graphics
         get => _screenCapture;
         set => _screenCapture = value;
     }
-    public static Tex2D blankWhiteSquare => _blank;
     public static RenderTarget2D currentRenderTarget => _currentRenderTarget;
     public static RenderTarget2D defaultRenderTarget
     {
@@ -293,7 +232,7 @@ public static class Graphics
         set => Level.core.currentFrameCalls = value;
     }
 
-#endregion
+    #endregion
 
     #region Private Properties
 
@@ -765,37 +704,6 @@ public static class Graphics
         DrawDottedLine(new Vector2(p2.X - wideDiv, p2.Y - borderWidth), new Vector2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, dotLength, depth);
     }
 
-    public static Tex2D Recolor(string sprite, Vector3 color)
-    {
-        return RecolorOld(Content.Load<Tex2D>(sprite), color);
-    }
-
-    public static Tex2D Recolor(Tex2D sprite, Vector3 color)
-    {
-        if (_recolorMap.TryGetValue(sprite, out Dictionary<Vector3, Tex2D> innerMap))
-        {
-            if (innerMap.TryGetValue(color, out Tex2D ret))
-                return ret;
-        }
-        else
-            _recolorMap[sprite] = [];
-        MaterialRecolor mat = new(new Vector3(color.X / 255, color.Y / 255, color.Z / 255));
-        RenderTarget2D target = new(sprite.w, sprite.h);
-        SetRenderTarget(target);
-        Clear(new Color(0, 0, 0, 0));
-        mat.Apply();
-        screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, mat.effect, Matrix.Identity);
-        Draw(sprite, default, null, Color.White, 0, default, Vector2.One, SpriteEffects.None, .5f);
-        screen.End();
-        device.SetRenderTarget(null);
-        Tex2D tex = new(sprite.w, sprite.h);
-        tex.SetData(target.GetData());
-        tex.AssignTextureName("RESKIN");
-        target.Dispose();
-        _recolorMap[sprite][color] = tex;
-        return tex;
-    }
-
     public static Tex2D RecolorOld(Tex2D sprite, Vector3 color)
     {
         MaterialRecolor mat = new(new Vector3(color.X / 255, color.Y / 255, color.Z / 255));
@@ -817,23 +725,6 @@ public static class Graphics
     {
         Color replace1 = new(255, 255, 255);
         Color replace2 = new(157, 157, 157);
-        Color[] colors = sprite.GetData();
-        for (int i = 0; i < colors.Length; i++)
-        {
-            if (colors[i] == replace1)
-                colors[i] = color1;
-            else if (colors[i] == replace2)
-                colors[i] = color2;
-        }
-        Tex2D tex2D = new(sprite.w, sprite.h);
-        tex2D.SetData(colors);
-        return tex2D;
-    }
-
-    public static Tex2D RecolorM(Tex2D sprite, Color color1, Color color2)
-    {
-        Color replace1 = new(195, 184, 172);
-        Color replace2 = new(163, 147, 128);
         Color[] colors = sprite.GetData();
         for (int i = 0; i < colors.Length; i++)
         {
@@ -883,13 +774,9 @@ public static class Graphics
         return tex2D;
     }
 
-    public static void InitializeBase(GraphicsDeviceManager m, int widthVal, int heightVal)
+    public static void InitializeBase(GraphicsDeviceManager m)
     {
         _manager = m;
-        _width = widthVal;
-        _baseDeviceWidth = _width;
-        _height = heightVal;
-        _baseDeviceHeight = _height;
     }
 
     public static void Initialize(GraphicsDevice d)
@@ -897,10 +784,6 @@ public static class Graphics
         _base = d;
         _defaultBatch = new(_base);
         screen = _defaultBatch;
-        _blank = new Tex2D(1, 1);
-        _blank.SetData([Color.White]);
-        _blank2 = new Tex2D(1, 1);
-        _blank2.SetData([Color.White]);
         _biosFont = new BitmapFont("biosFont", 8);
         _biosFontCaseSensitive = new BitmapFont("biosFontCaseSensitive", 8);
         _fancyBiosFont = new FancyBitmapFont("smallFont");

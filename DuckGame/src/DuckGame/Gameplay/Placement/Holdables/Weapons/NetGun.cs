@@ -5,7 +5,6 @@ namespace DuckGame;
 
 [EditorGroup("Guns|Misc")]
 [BaggedProperty("isFatal", false)]
-[BaggedProperty("isInDemo", true)]
 [BaggedProperty("previewPriority", true)]
 public class NetGun : Gun
 {

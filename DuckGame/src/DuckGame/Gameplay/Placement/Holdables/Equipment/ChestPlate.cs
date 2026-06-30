@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Equipment")]
-[BaggedProperty("isInDemo", true)]
 public class ChestPlate : Equipment
 {
     private SpriteMap _sprite;

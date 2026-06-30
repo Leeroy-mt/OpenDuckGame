@@ -1,7 +1,6 @@
 namespace DuckGame;
 
 [EditorGroup("Spawns")]
-[BaggedProperty("isInDemo", false)]
 [BaggedProperty("previewPriority", false)]
 public class ItemBoxOneTime : ItemBox
 {

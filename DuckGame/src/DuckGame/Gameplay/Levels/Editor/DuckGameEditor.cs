@@ -70,9 +70,4 @@ public class DuckGameEditor : Editor
         }
         Level.current.AddThing(new EditorTestLevel(this));
     }
-
-    public override void Update()
-    {
-        base.Update();
-    }
 }

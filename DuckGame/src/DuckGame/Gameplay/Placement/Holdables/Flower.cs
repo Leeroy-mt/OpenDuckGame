@@ -4,7 +4,6 @@ using System;
 namespace DuckGame;
 
 [EditorGroup("Stuff|Props")]
-[BaggedProperty("isInDemo", true)]
 public class Flower : Holdable
 {
     private Sprite _burnt;

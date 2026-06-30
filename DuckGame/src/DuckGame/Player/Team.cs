@@ -771,7 +771,7 @@ public class Team
 
     public bool inDemo;
 
-    private List<Profile> _activeProfiles = new List<Profile>();
+    private List<Profile> _activeProfiles = [];
 
     public CustomHatMetadata _basicMetadata;
 

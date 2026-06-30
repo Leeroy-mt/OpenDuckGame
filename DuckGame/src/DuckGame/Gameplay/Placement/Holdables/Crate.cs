@@ -4,7 +4,6 @@ using System;
 namespace DuckGame;
 
 [EditorGroup("Stuff|Props")]
-[BaggedProperty("isInDemo", true)]
 [BaggedProperty("previewPriority", true)]
 public class Crate : Holdable, IPlatform
 {

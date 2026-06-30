@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Blocks|Snow")]
-[BaggedProperty("isInDemo", false)]
 public class SnowTileset : AutoBlock
 {
     protected string meltedTileset = "snowTileset";

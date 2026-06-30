@@ -4,7 +4,6 @@ using System.Linq;
 namespace DuckGame;
 
 [EditorGroup("Stuff|Wires")]
-[BaggedProperty("isInDemo", true)]
 public class WireButton : Block, IWirePeripheral
 {
     public EditorProperty<bool> offSignal = new EditorProperty<bool>(val: false);

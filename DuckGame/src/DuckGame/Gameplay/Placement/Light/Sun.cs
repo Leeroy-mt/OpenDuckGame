@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Details|Lights", EditorItemType.Lighting)]
-[BaggedProperty("isInDemo", true)]
 public class Sun : Thing
 {
     public Sun(float xpos, float ypos)

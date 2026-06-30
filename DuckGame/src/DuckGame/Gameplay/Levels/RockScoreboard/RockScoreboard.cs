@@ -139,11 +139,11 @@ public class RockScoreboard : Level
 
     private Thing rainbowThing2;
 
-    private static bool _drawingSunTarget = false;
+    private static bool _drawingSunTarget;
 
-    private static bool _drawingLighting = false;
+    private static bool _drawingLighting;
 
-    private static bool _drawingNormalTarget = false;
+    private static bool _drawingNormalTarget;
 
     private bool _hatSelect;
 
@@ -777,7 +777,6 @@ public class RockScoreboard : Level
                         activeProfile3.stats.gamesPlayed++;
                     }
                 }
-                Main.lastLevel = "";
             }
         }
         _bottomRight = new Vector2(1000f, 1000f);

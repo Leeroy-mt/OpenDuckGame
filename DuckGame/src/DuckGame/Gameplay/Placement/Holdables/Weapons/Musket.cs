@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Guns|Rifles")]
-[BaggedProperty("isInDemo", true)]
 public class Musket : TampingWeapon
 {
     public Musket(float xval, float yval)

@@ -6,7 +6,6 @@ namespace DuckGame;
 
 [EditorGroup("Guns|Lasers")]
 [BaggedProperty("isOnlineCapable", true)]
-[BaggedProperty("isInDemo", true)]
 public class Warpgun : Gun
 {
     public class BlockGlow

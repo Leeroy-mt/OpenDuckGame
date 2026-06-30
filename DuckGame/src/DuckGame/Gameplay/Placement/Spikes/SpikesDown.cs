@@ -4,7 +4,6 @@ using System;
 namespace DuckGame;
 
 [EditorGroup("Stuff|Spikes")]
-[BaggedProperty("isInDemo", false)]
 [BaggedProperty("previewPriority", false)]
 public class SpikesDown : Spikes
 {

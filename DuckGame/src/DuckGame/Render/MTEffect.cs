@@ -4,28 +4,28 @@ namespace DuckGame;
 
 public class MTEffect
 {
-    private Effect _base;
+    #region Private Fields
 
-    private short _effectIndex;
+    string _effectName;
+    Effect _base;
 
-    private string _effectName;
+    #endregion
 
-    public short effectIndex => _effectIndex;
+    #region Public Properties
+
+    public short EffectIndex { get; set; }
 
     public string effectName => _effectName;
 
     public Effect effect => _base;
 
-    public void SetEffectIndex(short index)
-    {
-        _effectIndex = index;
-    }
+    #endregion
 
     public MTEffect(Effect tex, string cureffectName, short cureffectIndex = 0)
     {
         _base = tex;
-        _effectIndex = cureffectIndex;
         _effectName = cureffectName;
+        EffectIndex = cureffectIndex;
     }
 
     public static implicit operator Effect(MTEffect tex)
@@ -35,6 +35,6 @@ public class MTEffect
 
     public static implicit operator MTEffect(Effect tex)
     {
-        return Content.GetMTEffect(tex);
+        return tex is null ? null : Content.GetMTEffect(tex);
     }
 }

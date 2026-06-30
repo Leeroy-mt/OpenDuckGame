@@ -73,7 +73,7 @@ public struct RecorderFrame
             samplerState = samplerStateVal,
             depthStencilState = depthStencilStateVal,
             rasterizerState = rasterizerStateVal,
-            effectIndex = (effectVal?.effectIndex ?? (-1)),
+            effectIndex = (effectVal?.EffectIndex ?? (-1)),
             camera = cameraVal,
             stateIndex = Graphics.currentStateIndex,
             scissor = sciss

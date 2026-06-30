@@ -26,10 +26,6 @@ public class EditorGroup
     {
         get
         {
-            if (Main.isDemo)
-            {
-                return _filteredThings;
-            }
             if (Editor._currentLevelData.metaData.onlineMode)
             {
                 return _onlineFilteredThings;
@@ -81,10 +77,6 @@ public class EditorGroup
             newThing = Editor.GetOrCreateTypeInstance(t);
             Main.SpecialCode = "accessing " + t.AssemblyQualifiedName;
             IReadOnlyPropertyBag bag = ContentProperties.GetBag(t);
-            if (bag.GetOrDefault("isInDemo", defaultValue: false))
-            {
-                _filteredThings.Add(newThing);
-            }
             if (bag.GetOrDefault("isOnlineCapable", defaultValue: true))
             {
                 _onlineFilteredThings.Add(newThing);

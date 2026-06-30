@@ -1,7 +1,6 @@
 namespace DuckGame;
 
 [EditorGroup("Special", EditorItemType.Arcade)]
-[BaggedProperty("isInDemo", true)]
 public class SequenceCrate : Crate, ISequenceItem
 {
     public SequenceCrate(float xpos, float ypos)

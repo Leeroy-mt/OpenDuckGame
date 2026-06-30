@@ -1195,9 +1195,6 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
         l.camera.width /= 2f;
         l.camera.height /= 2f;
         Layer.Add(l);
-        Layer hUD = Layer.HUD;
-        Layer.HUD = l;
-        Layer.HUD = hUD;
         if (!DuckNetwork.isDedicatedServer && !DuckNetwork.ShowUserXPGain() && Unlockables.HasPendingUnlocks())
         {
             MonoMain.pauseMenu = new UIUnlockBox(Unlockables.GetPendingUnlocks().ToList(), Layer.HUD.camera.width / 2f, Layer.HUD.camera.height / 2f, 190f);
@@ -1582,7 +1579,6 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
                         Level newLevel = null;
                         newLevel = ((!ctfMode) ? new GameLevel(Deathmatch.RandomLevelString()) : new CTFLevel(Deathmatch.RandomLevelString("", "ctf")));
                         _spectatorCountdownStop = false;
-                        Main.lastLevel = newLevel.level;
                         if (Network.isActive && Network.isServer)
                         {
                             if (Network.activeNetwork.core.lobby != null)

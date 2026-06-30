@@ -4,7 +4,6 @@ using System;
 namespace DuckGame;
 
 [EditorGroup("Stuff|Springs")]
-[BaggedProperty("isInDemo", true)]
 [BaggedProperty("previewPriority", true)]
 public class Spring : MaterialThing, IDontMove
 {

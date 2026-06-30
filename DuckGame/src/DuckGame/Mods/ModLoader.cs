@@ -340,7 +340,7 @@ public static class ModLoader
                         {
                             throw new ModTypeMissingException(modConfig.uniqueID + " is missing or has more than one Mod subclass");
                         }
-                        if (MonoMain.preloadModContent && modConfig.preloadContent)
+                        if (modConfig.preloadContent)
                         {
                             modConfig.content.PreloadContent();
                         }

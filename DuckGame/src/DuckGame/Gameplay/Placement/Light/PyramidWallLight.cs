@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace DuckGame;
 
 [EditorGroup("Details|Pyramid", EditorItemType.Pyramid)]
-[BaggedProperty("isInDemo", true)]
 public class PyramidWallLight : Thing
 {
     public static Color lightColor = new Color(byte.MaxValue, (byte)200, (byte)150);

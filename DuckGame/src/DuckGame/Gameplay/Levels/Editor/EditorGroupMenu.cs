@@ -18,7 +18,7 @@ public class EditorGroupMenu : ContextMenu
         _root = root;
         if (!_root)
         {
-            greyOut = Main.isDemo || Editor._currentLevelData.metaData.onlineMode;
+            greyOut = Editor._currentLevelData.metaData.onlineMode;
         }
         _maxNumToDraw = 20;
     }
@@ -99,10 +99,6 @@ public class EditorGroupMenu : ContextMenu
         foreach (Thing t in group.AllThings)
         {
             IReadOnlyPropertyBag tBag = ContentProperties.GetBag(t.GetType());
-            if (Main.isDemo && tBag.GetOrDefault("isInDemo", defaultValue: false))
-            {
-                greyOut = false;
-            }
             if (tBag.GetOrDefault("isOnlineCapable", defaultValue: true))
             {
                 greyOut = false;
@@ -121,7 +117,7 @@ public class EditorGroupMenu : ContextMenu
                     if (radioBinding.value is List<TypeProbPair>)
                     {
                         ContextSlider obj2 = new ContextSlider(t.editorName, this, radioBinding, 0.05f, null, time: false, t.GetType());
-                        obj2.greyOut = Main.isDemo && !tBag.GetOrDefault("isInDemo", defaultValue: false);
+                        obj2.greyOut = false;
                         obj2.contextThing = t;
                         if (tBag.GetOrDefault("isOnlineCapable", defaultValue: true))
                         {
@@ -132,7 +128,7 @@ public class EditorGroupMenu : ContextMenu
                     else
                     {
                         ContextCheckBox obj3 = new ContextCheckBox(t.editorName, this, radioBinding, t.GetType());
-                        obj3.greyOut = Main.isDemo && !tBag.GetOrDefault("isInDemo", defaultValue: false);
+                        obj3.greyOut = false;
                         obj3.contextThing = t;
                         if (tBag.GetOrDefault("isOnlineCapable", defaultValue: true))
                         {
@@ -144,7 +140,7 @@ public class EditorGroupMenu : ContextMenu
                 else
                 {
                     ContextRadio obj4 = new ContextRadio(t.editorName, selected: false, t.GetType(), this, radioBinding);
-                    obj4.greyOut = Main.isDemo && !tBag.GetOrDefault("isInDemo", defaultValue: false);
+                    obj4.greyOut = false;
                     obj4.contextThing = t;
                     if (tBag.GetOrDefault("isOnlineCapable", defaultValue: true))
                     {

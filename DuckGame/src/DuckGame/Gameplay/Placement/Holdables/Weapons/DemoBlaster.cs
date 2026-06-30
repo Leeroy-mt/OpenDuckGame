@@ -4,7 +4,6 @@ namespace DuckGame;
 
 [BaggedProperty("canSpawn", false)]
 [BaggedProperty("isFatal", false)]
-[BaggedProperty("isInDemo", true)]
 public class DemoBlaster : Gun
 {
     private FluidStream _stream;

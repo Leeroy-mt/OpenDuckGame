@@ -170,7 +170,7 @@ public class FileRecording : Recording
         {
             atlas.Write((byte)1);
             MTEffect effect = Content.effectList[j];
-            atlas.Write(effect.effectIndex);
+            atlas.Write(effect.EffectIndex);
             atlas.Write(effect.effectName);
             _lastEffectWrittenIndex++;
         }

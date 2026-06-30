@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Background|custom", EditorItemType.Custom)]
-[BaggedProperty("isInDemo", false)]
 public class CustomBackground2 : CustomBackground
 {
     private static CustomType _customType = CustomType.Background;

@@ -1,7 +1,6 @@
 namespace DuckGame;
 
 [EditorGroup("Blocks", EditorItemType.Pyramid)]
-[BaggedProperty("isInDemo", false)]
 public class PyramidTileset : AutoBlock
 {
     public PyramidTileset(float x, float y)

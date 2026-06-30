@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace DuckGame;
 
 [EditorGroup("Background|Parallax")]
-[BaggedProperty("isInDemo", true)]
 public class NatureBackgroundNight : BackgroundUpdater
 {
     public NatureBackgroundNight(float xpos, float ypos)

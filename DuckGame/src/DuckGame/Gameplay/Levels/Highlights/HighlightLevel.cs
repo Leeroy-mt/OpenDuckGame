@@ -269,18 +269,11 @@ public class HighlightLevel : Level
             }
         }
         Graphics.fadeAdd = Lerp.Float(Graphics.fadeAdd, 0f, 0.01f);
-        if (Main.isDemo && _skip && !_firedSkipLogic)
-        {
-            _firedSkipLogic = true;
-            Vote.CloseVoting();
-            HUD.CloseAllCorners();
-            DoSkip();
-        }
         if (Graphics.fade > 0.99f && !_skip && Vote.Passed(VoteType.Skip))
         {
             _skip = true;
         }
-        if (_talker.finished || (!_cancelSkip && _skip && !Main.isDemo))
+        if (_talker.finished || (!_cancelSkip && _skip))
         {
             _done -= 0.04f;
         }

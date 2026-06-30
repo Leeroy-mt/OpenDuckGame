@@ -1,7 +1,6 @@
 namespace DuckGame;
 
 [EditorGroup("Blocks|Snow")]
-[BaggedProperty("isInDemo", false)]
 public class PineTrunkTileset : AutoPlatform
 {
     public PineTrunkTileset(float x, float y)

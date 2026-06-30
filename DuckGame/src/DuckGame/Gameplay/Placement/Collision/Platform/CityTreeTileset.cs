@@ -1,7 +1,6 @@
 namespace DuckGame;
 
 [EditorGroup("Blocks")]
-[BaggedProperty("isInDemo", false)]
 public class CityTreeTileset : AutoPlatform
 {
     public CityTreeTileset(float x, float y)

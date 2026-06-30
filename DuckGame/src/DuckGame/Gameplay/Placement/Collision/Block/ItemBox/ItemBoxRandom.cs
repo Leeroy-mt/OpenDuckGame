@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace DuckGame;
 
 [EditorGroup("Spawns")]
-[BaggedProperty("isInDemo", false)]
 [BaggedProperty("previewPriority", false)]
 public class ItemBoxRandom : ItemBox
 {

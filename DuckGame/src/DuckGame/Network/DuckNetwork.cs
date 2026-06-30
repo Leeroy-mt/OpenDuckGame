@@ -3499,7 +3499,6 @@ public class DuckNetwork
             {
                 return;
             }
-            Main.codeNumber = 13373;
             foreach (Profile p in GetProfiles(m.connection))
             {
                 if (p.networkStatus == DuckNetStatus.Disconnecting || p.networkStatus == DuckNetStatus.Disconnected || p.networkStatus == DuckNetStatus.Failure)

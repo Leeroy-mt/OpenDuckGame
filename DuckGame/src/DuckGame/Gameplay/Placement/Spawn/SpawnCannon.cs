@@ -5,7 +5,6 @@ using System.Collections.Generic;
 namespace DuckGame;
 
 [EditorGroup("Spawns")]
-[BaggedProperty("isInDemo", false)]
 [BaggedProperty("previewPriority", false)]
 public class SpawnCannon : ItemSpawner, IWirePeripheral, ISequenceItem
 {
