@@ -16,14 +16,14 @@ public class MaterialEnergyBlade : Material
 
     public MaterialEnergyBlade(OldEnergyScimi t)
     {
-        _effect = Content.Load<MTEffect>("Shaders/energyBlade");
+        effect = Content.Load<MTEffect>("Shaders/energyBlade");
         _energyTexture = Content.Load<Tex2D>("energyTex");
         _thing = t;
     }
 
     public MaterialEnergyBlade(EnergyScimitar t)
     {
-        _effect = Content.Load<MTEffect>("Shaders/energyBlade");
+        effect = Content.Load<MTEffect>("Shaders/energyBlade");
         _energyTexture = Content.Load<Tex2D>("energyTex");
         _thing2 = t;
     }
@@ -55,7 +55,7 @@ public class MaterialEnergyBlade : Material
         }
         Graphics.device.Textures[1] = (Texture2D)_energyTexture;
         Graphics.device.SamplerStates[1] = SamplerState.PointWrap;
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

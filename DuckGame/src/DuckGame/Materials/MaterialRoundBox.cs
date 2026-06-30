@@ -10,7 +10,7 @@ public class MaterialRoundBox : Material
 
     public MaterialRoundBox()
     {
-        _effect = Content.Load<MTEffect>("Shaders\\roundBoxSdf");
+        effect = Content.Load<MTEffect>("Shaders\\roundBoxSdf");
     }
 
     public override void Apply()
@@ -23,7 +23,7 @@ public class MaterialRoundBox : Material
             SetValue("smoothing", 2.5f);
         }
 
-        foreach (var pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (var pass in effect.effect.CurrentTechnique.Passes)
             pass.Apply();
     }
 }

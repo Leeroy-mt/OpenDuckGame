@@ -8,7 +8,7 @@ public class MaterialAlbum : Material
 
     public MaterialAlbum()
     {
-        _effect = Content.Load<MTEffect>("Shaders/album");
+        effect = Content.Load<MTEffect>("Shaders/album");
         _albumTexture = Content.Load<Tex2D>("playBookPageOffset");
     }
 
@@ -16,7 +16,7 @@ public class MaterialAlbum : Material
     {
         Graphics.device.Textures[1] = (Texture2D)_albumTexture;
         Graphics.device.SamplerStates[1] = SamplerState.PointClamp;
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

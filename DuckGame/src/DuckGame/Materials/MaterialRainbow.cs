@@ -10,14 +10,14 @@ public class MaterialRainbow : Material
 
     public MaterialRainbow()
     {
-        _effect = Content.Load<MTEffect>("Shaders/rainbow");
+        effect = Content.Load<MTEffect>("Shaders/rainbow");
     }
 
     public override void Apply()
     {
-        _effect.effect.Parameters["offset"].SetValue(offset);
-        _effect.effect.Parameters["offset2"].SetValue(offset2);
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        effect.effect.Parameters["offset"].SetValue(offset);
+        effect.effect.Parameters["offset2"].SetValue(offset2);
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

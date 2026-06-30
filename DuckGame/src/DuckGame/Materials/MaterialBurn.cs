@@ -22,7 +22,7 @@ public class MaterialBurn : Material
 
     public MaterialBurn(float burnVal = 0f)
     {
-        _effect = Content.Load<MTEffect>("Shaders/burn");
+        effect = Content.Load<MTEffect>("Shaders/burn");
         _burnTexture = Content.Load<Tex2D>("burn");
         _burnVal = burnVal;
     }
@@ -34,7 +34,7 @@ public class MaterialBurn : Material
         SetValue("width", tex.frameWidth / (float)tex.width);
         SetValue("height", tex.frameHeight / (float)tex.height);
         SetValue("burn", _burnVal);
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

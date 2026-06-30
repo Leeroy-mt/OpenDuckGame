@@ -15,7 +15,7 @@ public class MaterialDustSparkle : Material
 
     public MaterialDustSparkle(Vector2 pos, Vector2 s, bool wide, bool lit)
     {
-        _effect = Content.Load<MTEffect>("Shaders/dustsparkle");
+        effect = Content.Load<MTEffect>("Shaders/dustsparkle");
         if (!lit)
         {
             _cone = Content.Load<Tex2D>("arcade/lightSphere");
@@ -47,7 +47,7 @@ public class MaterialDustSparkle : Material
         SetValue("viewMatrix", Graphics.screen.View);
         SetValue("projMatrix", Graphics.screen.Projection);
 #endif
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

@@ -6,12 +6,12 @@ public class MaterialSecretOutline : Material
 {
     public MaterialSecretOutline()
     {
-        _effect = Content.Load<MTEffect>("Shaders/secret_outline");
+        effect = Content.Load<MTEffect>("Shaders/secret_outline");
     }
 
     public override void Apply()
     {
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

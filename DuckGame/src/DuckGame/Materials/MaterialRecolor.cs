@@ -9,7 +9,7 @@ public class MaterialRecolor : Material
     public MaterialRecolor(Vector3 col)
     {
         color = col;
-        _effect = Content.Load<MTEffect>("Shaders/recolor");
+        effect = Content.Load<MTEffect>("Shaders/recolor");
     }
 
     public override void Update()
@@ -18,7 +18,7 @@ public class MaterialRecolor : Material
 
     public override void Apply()
     {
-        _effect.effect.Parameters["fcol"].SetValue(color);
+        effect.effect.Parameters["fcol"].SetValue(color);
         base.Apply();
     }
 }

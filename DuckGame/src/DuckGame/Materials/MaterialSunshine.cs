@@ -8,7 +8,7 @@ public class MaterialSunshine : Material
 
     public MaterialSunshine(RenderTarget2D col)
     {
-        _effect = Content.Load<MTEffect>("Shaders/sunshine");
+        effect = Content.Load<MTEffect>("Shaders/sunshine");
         _colorMap = col;
     }
 
@@ -17,7 +17,7 @@ public class MaterialSunshine : Material
         Graphics.device.Textures[1] = (Texture2D)_colorMap;
         Graphics.device.SamplerStates[1] = SamplerState.PointClamp;
         Graphics.device.SamplerStates[0] = SamplerState.PointClamp;
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

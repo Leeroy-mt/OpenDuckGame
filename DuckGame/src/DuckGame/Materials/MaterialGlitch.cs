@@ -16,7 +16,7 @@ public class MaterialGlitch : Material
 
     public MaterialGlitch(Thing t)
     {
-        _effect = Content.Load<MTEffect>("Shaders/glitch");
+        effect = Content.Load<MTEffect>("Shaders/glitch");
         _goldTexture = Content.Load<Tex2D>("glitchMap3");
         _thing = t;
     }
@@ -36,7 +36,7 @@ public class MaterialGlitch : Material
         }
         Graphics.device.Textures[1] = (Texture2D)_goldTexture;
         Graphics.device.SamplerStates[1] = SamplerState.PointWrap;
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

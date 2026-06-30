@@ -6,7 +6,7 @@ public class MaterialSpawn : Material
 {
     public MaterialSpawn()
     {
-        _effect = Content.Load<MTEffect>("Shaders/wireframeTex");
+        effect = Content.Load<MTEffect>("Shaders/wireframeTex");
     }
 
     public override void Apply()
@@ -15,9 +15,9 @@ public class MaterialSpawn : Material
         {
             _ = (Tex2D)(Graphics.device.Textures[0] as Texture2D);
         }
-        base.effect.effect.Parameters["screenCross"].SetValue(0.5f);
-        base.effect.effect.Parameters["scanMul"].SetValue(1f);
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        effect.effect.Parameters["screenCross"].SetValue(0.5f);
+        effect.effect.Parameters["scanMul"].SetValue(1f);
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

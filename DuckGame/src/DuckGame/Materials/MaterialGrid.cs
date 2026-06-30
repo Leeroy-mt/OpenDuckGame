@@ -18,7 +18,7 @@ public class MaterialGrid : Material
 
     public MaterialGrid(Thing t)
     {
-        _effect = Content.Load<MTEffect>("Shaders/wireframeTexOuya");
+        effect = Content.Load<MTEffect>("Shaders/wireframeTexOuya");
         _thing = t;
     }
 
@@ -44,7 +44,7 @@ public class MaterialGrid : Material
         Vector3 trans2 = Vector3.Transform(new Vector3(_thing.X + 28f, _thing.Y, 0f), fullMatrix);
         SetValue("scan", trans.X + ((float)Math.Sin(transWave) + 1f) / 2f * (trans2.X - trans.X));
         SetValue("secondScan", secondScan ? 1f : 0f);
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

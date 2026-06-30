@@ -27,7 +27,7 @@ public class MaterialPlasma : Material
 
     public MaterialPlasma()
     {
-        _effect = Content.Load<MTEffect>("Shaders/plasma");
+        effect = Content.Load<MTEffect>("Shaders/plasma");
         _gradient = Content.Load<Texture2D>("arcade/gradient");
         _plasma2 = Content.Load<Texture2D>("arcade/plasma2");
     }
@@ -38,14 +38,14 @@ public class MaterialPlasma : Material
 
     public override void Apply()
     {
-        _effect.effect.Parameters["offset"].SetValue(offset);
-        _effect.effect.Parameters["offset2"].SetValue(offset2);
-        _effect.effect.Parameters["scroll"].SetValue(scroll);
-        _effect.effect.Parameters["scroll2"].SetValue(scroll2);
-        _effect.effect.Parameters["gradientOffset"].SetValue(gradientOffset);
-        _effect.effect.Parameters["gradientOffset2"].SetValue(gradientOffset2);
-        _effect.effect.Parameters["color1"].SetValue(color1.ToVector4());
-        _effect.effect.Parameters["color2"].SetValue(color2.ToVector4());
+        effect.effect.Parameters["offset"].SetValue(offset);
+        effect.effect.Parameters["offset2"].SetValue(offset2);
+        effect.effect.Parameters["scroll"].SetValue(scroll);
+        effect.effect.Parameters["scroll2"].SetValue(scroll2);
+        effect.effect.Parameters["gradientOffset"].SetValue(gradientOffset);
+        effect.effect.Parameters["gradientOffset2"].SetValue(gradientOffset2);
+        effect.effect.Parameters["color1"].SetValue(color1.ToVector4());
+        effect.effect.Parameters["color2"].SetValue(color2.ToVector4());
         Graphics.device.Textures[1] = _gradient;
         Graphics.device.Textures[2] = _plasma2;
         Graphics.device.SamplerStates[1] = SamplerState.PointWrap;

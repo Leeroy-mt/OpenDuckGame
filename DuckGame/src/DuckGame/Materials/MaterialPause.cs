@@ -32,7 +32,7 @@ public class MaterialPause : Material
 
     public MaterialPause()
     {
-        _effect = Content.Load<MTEffect>("Shaders/pause");
+        effect = Content.Load<MTEffect>("Shaders/pause");
         _watermark = Content.Load<Tex2D>("dc5");
     }
 
@@ -50,7 +50,7 @@ public class MaterialPause : Material
         _rot2 += scrollSpeed;
         _scrollX = _rot;
         _scrollY = 0f - _rot2;
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

@@ -6,12 +6,12 @@ public class MaterialFlatColor : Material
 {
     public MaterialFlatColor()
     {
-        _effect = Content.Load<MTEffect>("Shaders/flatColor");
+        effect = Content.Load<MTEffect>("Shaders/flatColor");
     }
 
     public override void Apply()
     {
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

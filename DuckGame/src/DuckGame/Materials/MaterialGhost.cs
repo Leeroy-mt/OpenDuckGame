@@ -6,12 +6,12 @@ public class MaterialGhost : Material
 {
     public MaterialGhost()
     {
-        _effect = Content.Load<MTEffect>("Shaders/ghost");
+        effect = Content.Load<MTEffect>("Shaders/ghost");
     }
 
     public override void Apply()
     {
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

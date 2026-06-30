@@ -8,13 +8,13 @@ public class MaterialSelection : Material
 
     public MaterialSelection()
     {
-        _effect = Content.Load<MTEffect>("Shaders/selection");
+        effect = Content.Load<MTEffect>("Shaders/selection");
     }
 
     public override void Apply()
     {
         SetValue("fade", fade);
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

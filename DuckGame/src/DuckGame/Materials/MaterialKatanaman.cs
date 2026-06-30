@@ -11,7 +11,7 @@ public class MaterialKatanaman : Material
 
     public MaterialKatanaman(TeamHat hat)
     {
-        _effect = Content.Load<MTEffect>("shaders/katanaman");
+        effect = Content.Load<MTEffect>("shaders/katanaman");
         _lighting = Content.Load<Tex2D>("hats/katanaman_lightmap");
         _hat = hat;
     }
@@ -45,7 +45,7 @@ public class MaterialKatanaman : Material
         SetValue("light3y", snap.Y + lightOffset.Y);
         SetValue("add", Layer.kGameLayerAdd);
         SetValue("fade", Layer.kGameLayerFade);
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

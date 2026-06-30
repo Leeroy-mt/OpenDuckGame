@@ -12,7 +12,7 @@ public class MaterialFrozen : Material
 
     public MaterialFrozen(Thing t)
     {
-        _effect = Content.Load<MTEffect>("Shaders/frozen");
+        effect = Content.Load<MTEffect>("Shaders/frozen");
         _frozenTexture = Content.Load<Tex2D>("frozen");
         _thing = t;
     }
@@ -30,7 +30,7 @@ public class MaterialFrozen : Material
         }
         Graphics.device.Textures[1] = (Texture2D)_frozenTexture;
         Graphics.device.SamplerStates[1] = SamplerState.PointWrap;
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }

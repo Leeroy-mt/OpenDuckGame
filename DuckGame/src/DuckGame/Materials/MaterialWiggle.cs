@@ -8,7 +8,7 @@ public class MaterialWiggle : Material
 
     public MaterialWiggle(Sprite t)
     {
-        _effect = Content.Load<MTEffect>("Shaders/wiggle");
+        effect = Content.Load<MTEffect>("Shaders/wiggle");
         _sprite = t;
     }
 
@@ -20,7 +20,7 @@ public class MaterialWiggle : Material
             SetValue("xpos", _sprite.X);
             SetValue("ypos", _sprite.Y);
         }
-        foreach (EffectPass pass in _effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
         {
             pass.Apply();
         }
