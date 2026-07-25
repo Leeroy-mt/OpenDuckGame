@@ -466,7 +466,7 @@ public class UIMatchmakerMark2 : UIMenu
                 else
                     messages.Add("|DGRED|Their version was newer.");
                 if (_processing != null)
-                    blacklist.Add(_processing.id);
+                    blacklist.Add(_processing.Id);
             }
             else if (error.error == DuckNetError.FullServer)
                 messages.Add("|DGRED|Failed (FULL SERVER)");
@@ -486,14 +486,14 @@ public class UIMatchmakerMark2 : UIMenu
             {
                 messages.Add("|DGRED|Unknown connection error.");
                 if (_processing != null)
-                    blacklist.Add(_processing.id);
+                    blacklist.Add(_processing.Id);
             }
         }
         else
         {
             messages.Add("|DGRED|Connection timeout.");
             if (_processing != null)
-                blacklist.Add(_processing.id);
+                blacklist.Add(_processing.Id);
         }
     }
 

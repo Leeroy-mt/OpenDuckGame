@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -8,7 +9,11 @@ public static class DamageManager
 {
     private const int kNumTargets = 256;
 
-    private static List<RenderTarget2D> _targets = new List<RenderTarget2D>();
+#if NO_TEX2D
+    static List<XnaRenderTarget2D> _targets = [];
+#else
+    private static List<RenderTarget2D> _targets = [];
+#endif
 
     private static List<DamageMap> _damageMaps = new List<DamageMap>();
 
@@ -32,7 +37,11 @@ public static class DamageManager
     {
         for (int i = 0; i < 256; i++)
         {
+#if NO_TEX2D
+            _targets.Add(XnaRenderTarget2D.CreateSetUpTarget(16, 16, pdepth: true));
+#else
             _targets.Add(new RenderTarget2D(16, 16, pdepth: true));
+#endif
             _damageMaps.Add(new DamageMap());
         }
         _blendState = new BlendState();
@@ -57,11 +66,19 @@ public static class DamageManager
         _bulletHoles.CenterOrigin();
     }
 
+#if NO_TEX2D
+    public static XnaRenderTarget2D Get16x16Target()
+    {
+        _nextTarget = (_nextTarget + 1) % 256;
+        return _targets[_nextTarget];
+    }
+#else
     public static RenderTarget2D Get16x16Target()
     {
         _nextTarget = (_nextTarget + 1) % 256;
         return _targets[_nextTarget];
     }
+#endif
 
     public static DamageMap GetDamageMap()
     {

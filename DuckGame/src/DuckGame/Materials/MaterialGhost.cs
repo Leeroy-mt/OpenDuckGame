@@ -2,16 +2,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialGhost : Material
+public class MaterialGhost : AutoEffect
 {
-    public MaterialGhost()
-    {
-        effect = Content.Load<MTEffect>("Shaders/ghost");
-    }
+    public MaterialGhost() : base(Content.Load<MTEffect>("Shaders/ghost")) { }
 
     public override void Apply()
     {
-        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in CurrentTechnique.Passes)
         {
             pass.Apply();
         }

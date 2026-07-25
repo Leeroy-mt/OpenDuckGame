@@ -44,15 +44,15 @@ public class UIInviteMenu : UIMenu
         {
             return;
         }
-        foreach (User u in Steam.friends)
+        foreach (User u in Steam.Friends)
         {
-            avatars[u.id] = PrepareSprite(u);
+            avatars[u.Id] = PrepareSprite(u);
         }
     }
 
     public static Sprite PrepareSprite(User u)
     {
-        byte[] data = u.avatarMedium;
+        byte[] data = u.AvatarMedium;
         Sprite av = null;
         if (data != null && data.Length == 16384)
         {
@@ -67,7 +67,7 @@ public class UIInviteMenu : UIMenu
     public static Sprite GetAvatar(User u)
     {
         Sprite spr = null;
-        if (!avatars.TryGetValue(u.id, out spr))
+        if (!avatars.TryGetValue(u.Id, out spr))
         {
             spr = PrepareSprite(u);
         }
@@ -84,7 +84,7 @@ public class UIInviteMenu : UIMenu
     {
         if (Steam.IsInitialized())
         {
-            int numEl = Steam.friends.OrderBy((User u) => _sortDictionary[(int)u.state]).Count();
+            int numEl = Steam.Friends.OrderBy((User u) => _sortDictionary[(int)u.State]).Count();
             if (numEl > _maxShow)
             {
                 numEl = _maxShow;
@@ -108,17 +108,17 @@ public class UIInviteMenu : UIMenu
         _users.Clear();
         if (Steam.IsInitialized())
         {
-            IOrderedEnumerable<User> fends = Steam.friends.OrderBy((User user) => _sortDictionary[(int)user.state]);
+            IOrderedEnumerable<User> fends = Steam.Friends.OrderBy((User user) => _sortDictionary[(int)user.State]);
             int numEl = fends.Count();
             for (int i = 0; i < numEl; i++)
             {
                 User u = fends.ElementAt(i);
-                string nam = u.name;
+                string nam = u.Name;
                 if (nam.Count() > 17)
                 {
                     nam = nam.Substring(0, 16) + ".";
                 }
-                UserInfo info = u.info;
+                UserInfo info = u.Info;
                 if (info.relationship == FriendRelationship.Friend)
                 {
                     _users.Add(new UIInviteUser

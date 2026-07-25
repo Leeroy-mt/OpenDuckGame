@@ -2,16 +2,17 @@
 
 public class WorkshopQueryUser : WorkshopQueryUGC
 {
+    #region Internal Fields
+
+    internal EUserUGCList _listType;
+    internal EUGCMatchingUGCType _type;
+    internal EUserUGCListSortOrder _sortOrder;
 
     internal AccountID_t _accountID;
 
-    internal EUserUGCList _listType;
+    #endregion
 
-    internal EUGCMatchingUGCType _type;
-
-    internal EUserUGCListSortOrder _sortOrder;
-
-    public string cloudNameFileFilter { get; set; }
+    public string? CloudNameFileFilter { get; set; }
 
     internal WorkshopQueryUser(uint unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder)
     {
@@ -21,16 +22,15 @@ public class WorkshopQueryUser : WorkshopQueryUGC
         _sortOrder = eSortOrder;
     }
 
-    internal override unsafe void Create()
+    internal override void Create()
     {
-        _handle = SteamUGC.CreateQueryUserUGCRequest(_accountID, _listType, _type, _sortOrder, (AppId_t)312530, (AppId_t)312530, _page);
+        handle = SteamUGC.CreateQueryUserUGCRequest(_accountID, _listType, _type, _sortOrder, (AppId_t)312530, (AppId_t)312530, _page); //! TODO: appid constant
     }
 
-    internal override unsafe void SetQueryData()
+    internal override void SetQueryData()
     {
         base.SetQueryData();
 
-        SteamUGC.SetCloudFileNameFilter(_handle, cloudNameFileFilter);
+        SteamUGC.SetCloudFileNameFilter(handle, CloudNameFileFilter);
     }
-
 }

@@ -1,0 +1,586 @@
+DUCK GAME
+
+
+
+
+|CREDITSGRAY|@LWINGGRAY@COMMUNITY HERO@RWINGGRAY@
+John "BroDuck" Pichardo
+
+
+|CREDITSGRAY|@LWINGGRAY@LEAD TESTERS@RWINGGRAY@
+Jacob Paul
+Tyler Molz
+Andrew Morrish
+Dayton McKay
+
+
+|CREDITSGRAY|@LWINGGRAY@MIGHTY HELPFUL FRIEND@RWINGGRAY@
+|DGGREEN|YupDanielThatsMe
+
+
+|CREDITSGRAY|@LWINGGRAY@HEROS OF MOD@RWINGGRAY@
+Dord
+YupDanielThatsMe
+YoloCrayolo3
+Zloty_Diament
+eim64
+Antikore
+
+
+|CREDITSGRAY|@LWINGGRAY@TESTERS@RWINGGRAY@
+John Pichardo
+Lotad
+Tufukins
+Sleepy Jirachi
+Paul Hartling
+thebluecosmonaut
+Dan Gaechter
+James Nieves
+Dr. Docter
+ShyNieke
+Spectaqual
+RealGnomeTasty
+Karim Aifi
+Zaahck
+dino rex (guy)
+Peter Smith
+Colin Jacobson
+mage legend
+YvngXero
+Trevor Etzold
+Fluury
+Phantom329
+Kevin Duffy
+Michael Niemann
+Zloty_Diament
+Ben
+Bolus
+Unluck
+Temppuuh
+Rasenshriken
+Andresian
+Spencer Portwood
+James "Sunder" Beliakoff
+David Sabosky (SidDaSloth)
+Jordan "Renim" Gauge
+Tommaso "Giampiero" Bresciani
+Nicodemo "Nikkodemus" Bresciani
+Valentin Zeyfang (RedMser)
+Luke Bromley (mrred55)
+Christopher Alan Bell
+Koteeevvv
+Soh
+NiK0
+cfif126
+kalamari
+Mike Timofeev
+JYAD (Just Your Average Duck)
+ Argo The Rat
+Adam Urbina
+Leonardo "Baffo" Magnani
+The Burger Always Wins
+Max32212 B)
+RaV3_past
+Collin
+|DGPURPLE|Drake
+Tater
+
+Jaydex72
+
+
+|CREDITSGRAY|@LWINGGRAY@EDITOR SEARCH IDEA@RWINGGRAY@
+Zloty_Diament
+
+
+|CREDITSGRAY|@LWINGGRAY@A DUCK GAME COSPLAYER@RWINGGRAY@
+Colin Lamb
+
+
+|CREDITSGRAY|@LWINGGRAY@SLEEPY AND FRIENDS@RWINGGRAY@
+Lotad
+Sleepy Jirachi
+Silverlace
+Slimy
+
+
+|CREDITSGRAY|@LWINGGRAY@FEATHERS WILL FLY CREW@RWINGGRAY@
+Dan "lucidinertia" Myszak
+Yannick "Becer" Marcotte-Gourde
+Aleksander "Acrimonious Defect" K.D.
+Tater
+KlockworkCanary
+Conre
+Xatmamune
+White Ink
+CaptainCrack
+laduck
+This Guy
+Repiteo
+VirtualFishbowl
+Slinky
+JaYlab212
+
+
+The Entire FWF Community!
+
+
+|CREDITSGRAY|@LWINGGRAY@RUSS MONEY@RWINGGRAY@
+AS HIMSELF
+
+
+
+
+
+
+
+DEVELOPMENT TEAM
+
+|CREDITSGRAY|@LWINGGRAY@ART, PROGRAMMING, MUSIC@RWINGGRAY@
+Landon Podbielski
+
+|CREDITSGRAY|@LWINGGRAY@ROOM FURNITURE@RWINGGRAY@
+|CREDITSGRAY|@LWINGGRAY@HOME UPDATE HAT ART@RWINGGRAY@
+Dayton McKay
+
+|CREDITSGRAY|@LWINGGRAY@MOD SUPPORT PROGRAMMER@RWINGGRAY@
+Paril
+
+|CREDITSGRAY|@LWINGGRAY@WAFFLES, CLAMS, HIGHFIVES HATS@RWINGGRAY@
+Lindsey Layne King
+
+|CREDITSGRAY|@LWINGGRAY@EGGPAL, BRAD HATS@RWINGGRAY@
+mushbuh
+
+|CREDITSGRAY|@LWINGGRAY@KERCHIEFS, POSTALS, WAHHS HATS@RWINGGRAY@
+Case Marsteller
+
+|CREDITSGRAY|@LWINGGRAY@B52s, UUFOS HATS@RWINGGRAY@
+William Baldwin
+
+|CREDITSGRAY|@LWINGGRAY@WOLVES HAT, MILKSHAKE@RWINGGRAY@
+Dord
+
+
+
+NINTENDO SWITCH PORT
+&
+DEFINITIVE EDITION
+Armature Studio
+
+|CREDITSGRAY|@LWINGGRAY@ENGINEERING@RWINGGRAY@
+John Allensworth
+Tom Ivey
+Bryan Wagstaff
+
+|CREDITSGRAY|@LWINGGRAY@DIRECTOR OF PRODUCTION@RWINGGRAY@
+Mark Nau
+
+|CREDITSGRAY|@LWINGGRAY@PRODUCTION@RWINGGRAY@
+Tom Ivey
+Mike Pirrone
+
+|CREDITSGRAY|@LWINGGRAY@QUALITY ASSURANCE@RWINGGRAY@
+Gwen Dalmacio
+Mike Pirrone
+
+|CREDITSGRAY|@LWINGGRAY@ARMATURE OPERATIONS@RWINGGRAY@
+Nadine Rossignol
+Nicole Casarona
+Michael Thai
+
+|CREDITSGRAY|@LWINGGRAY@BUSINESS DEVELOPMENT@RWINGGRAY@
+Jonathan Zamkoff
+
+|CREDITSGRAY|@LWINGGRAY@STUDIO EXECUTIVES@RWINGGRAY@
+Greg John
+Todd Keller
+Mark Pacini
+Jonathan Zamkoff
+
+|CREDITSGRAY|@LWINGGRAY@SPECIAL THANKS@RWINGGRAY@
+Vitor Menezes
+Wayne Sikes
+
+
+
+
+ADULT SWIM GAMES
+
+Liz Pate
+Jacob Paul
+Brian Marquez
+Daniel Fuller
+Peter Gollan
+Mariam Naziripour
+Dan Nichols
+Adam Baptiste
+Case Marsteller
+
+Chris Johnston
+Steve Gee
+Charles Park
+Kyle Young
+Duke Nguyen
+Andre Curtis
+Briana Chichester
+William Baldwin
+Taylor Anderson-Barkley
+Josh Terry
+Maddie Beasley
+Justin Morris
+Joseph DuBois
+Lindsey Wade
+Adam Hatch
+Kristy Sottilaro
+
+Jeff Olsen
+Tucker Dean
+Elizabeth Murphy
+David Verble
+Sean Baptiste
+Jacqui Collins
+Zo Douglas
+Megan Fausti
+Abigail Tyson
+Ryan Murray
+
+
+
+Thank you OUYA for publishing
+the original version of Duck Game.
+Especially Bob Mills, who
+made it all happen.
+
+We need to go camping again.
+
+
+
+Thank you ADULT SWIM GAMES
+for publishing Duck Game, and
+for doing so much promotion and
+testing.
+
+
+Thank you Paril for
+writing the mod support for Duck Game.
+Mods wouldn't have been possible
+without you.
+
+
+BroDuck you've been a huge help
+keeping the community running,
+I don't know what would have happened
+without your help.
+
+
+DORD your weapons mod is absolutely
+amazing and beautiful.
+
+
+
+
+Thank you everyone for playing
+Duck Game, for all your support,
+and for being so kind.
+The End
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cya later!

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -112,7 +113,11 @@ public abstract class Gun : Holdable
 
     private SpriteMap _clickPuff;
 
+#if NO_TEX2D
+    Texture2D _laserTex;
+#else
     private Tex2D _laserTex;
+#endif
 
     public bool isFatal = true;
 
@@ -128,7 +133,7 @@ public abstract class Gun : Holdable
 
     public List<Bullet> firedBullets = new List<Bullet>();
 
-    private Material _additiveMaterial;
+    private AutoEffect _additiveMaterial;
 
     public AmmoType ammoType => _ammoType;
 
@@ -284,8 +289,12 @@ public abstract class Gun : Holdable
     {
         if (laserSight && _laserTex == null)
         {
-            _additiveMaterial = new Material("Shaders/basicAdd");
+            _additiveMaterial = new AutoEffect(Content.Load<MTEffect>("Shaders/basicAdd"));
+#if NO_TEX2D
+            _laserTex = Content.Load<Texture2D>("pointerLaser");
+#else
             _laserTex = Content.Load<Tex2D>("pointerLaser");
+#endif
         }
         base.DoUpdate();
     }
@@ -805,7 +814,7 @@ public abstract class Gun : Holdable
             _wallPoint = b.end;
             _laserInit = true;
         }
-        Material obj = Graphics.material;
+        AutoEffect obj = Graphics.material;
         if (graphic != null)
         {
             if (owner != null && owner.graphic != null)

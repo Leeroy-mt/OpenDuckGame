@@ -211,11 +211,11 @@ public class LSItem : Thing
         {
             foreach (WorkshopItem s in Steam.GetAllWorkshopItems())
             {
-                if ((s.stateFlags & WorkshopItemState.Installed) == 0 || s.path == null || !Directory.Exists(s.path))
+                if ((s.StateFlags & WorkshopItemState.Installed) == 0 || s.Path == null || !Directory.Exists(s.Path))
                 {
                     continue;
                 }
-                string[] files = DuckFile.GetFiles(s.path);
+                string[] files = DuckFile.GetFiles(s.Path);
                 foreach (string file in files)
                 {
                     string lName = file;

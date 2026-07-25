@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace DuckGame;
 
@@ -6,9 +7,13 @@ public class GinormoOverlay : Thing
 {
     private Sprite _targetSprite;
 
-    private Material _screenMaterial;
+    private AutoEffect _screenMaterial;
 
+#if NO_TEX2D
+    Texture2D _overlaySprite;
+#else
     private Tex2D _overlaySprite;
+#endif
 
     private bool _smallMode;
 
@@ -22,9 +27,13 @@ public class GinormoOverlay : Thing
 
     public override void Initialize()
     {
+#if NO_TEX2D
+        _overlaySprite = Content.Load<Texture2D>("rockThrow/boardOverlayLarge");
+#else
         _overlaySprite = Content.Load<Tex2D>("rockThrow/boardOverlayLarge");
+#endif
         _targetSprite = new Sprite(GinormoBoard.boardLayer.target);
-        _screenMaterial = new Material("Shaders/lcdNoBlur");
+        _screenMaterial = new AutoEffect(Content.Load<MTEffect>("Shaders/lcdNoBlur"));
         _screenMaterial.SetValue("screenWidth", GinormoScreen.GetSize(_smallMode).X);
         _screenMaterial.SetValue("screenHeight", GinormoScreen.GetSize(_smallMode).Y);
         base.Initialize();
@@ -34,7 +43,7 @@ public class GinormoOverlay : Thing
     {
         if (RockScoreboard.drawingNormalTarget || NetworkDebugger.enabled)
         {
-            Material obj = Graphics.material;
+            AutoEffect obj = Graphics.material;
             Graphics.material = _screenMaterial;
             Graphics.device.Textures[1] = (Texture2D)_overlaySprite;
             Graphics.device.SamplerStates[1] = SamplerState.LinearClamp;

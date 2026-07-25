@@ -96,9 +96,9 @@ public class UIConnectionInfo : UIMenuItem
             if (trigger == "SELECT")
             {
                 if (_profile.connection.data is User)
-                    Steam.OverlayOpenURL("http://steamcommunity.com/profiles/" + (_profile.connection.data as User).id);
-                else if (NetworkDebugger.enabled && Steam.user != null)
-                    Steam.OverlayOpenURL("http://steamcommunity.com/profiles/" + Steam.user.id);
+                    Steam.OverlayOpenURL("http://steamcommunity.com/profiles/" + (_profile.connection.data as User).Id);
+                else if (NetworkDebugger.enabled && Steam.User != null)
+                    Steam.OverlayOpenURL("http://steamcommunity.com/profiles/" + Steam.User.Id);
             }
         }
         base.Activate(trigger);

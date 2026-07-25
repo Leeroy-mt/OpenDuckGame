@@ -24,7 +24,7 @@ public class Album : Level
 
     private Sprite _screen;
 
-    private Material _pageMaterial;
+    private AutoEffect _pageMaterial;
 
     private BitmapFont _font;
 

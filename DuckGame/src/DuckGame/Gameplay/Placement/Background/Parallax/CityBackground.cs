@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -13,7 +14,11 @@ public class CityBackground : BackgroundUpdater
     {
         private FancyBitmapFont _font;
 
+#if NO_TEX2D
+        private XnaRenderTarget2D bannerTarget;
+#else
         private RenderTarget2D bannerTarget;
+#endif
 
         private MaterialWiggle _wiggle;
 
@@ -25,7 +30,13 @@ public class CityBackground : BackgroundUpdater
 
         public new bool finished;
 
-        public float textWidth => (bannerTarget == null) ? 1 : bannerTarget.width;
+        public float textWidth => (bannerTarget == null)
+            ? 1
+#if NO_TEX2D
+            : bannerTarget.Width;
+#else
+            : bannerTarget.width;
+#endif
 
         public Plane(Vector2 pos, string text, bool flyLeft)
             : base("plane", 18, 13)
@@ -38,9 +49,15 @@ public class CityBackground : BackgroundUpdater
             AddAnimation("idle", 0.8f, true, 0, 1);
             SetAnimation("idle");
             float wide = _font.GetWidth(text);
+#if NO_TEX2D
+            bannerTarget = XnaRenderTarget2D.CreateSetUpTarget((int)(wide + 4f) + 8, 15);
+            _wiggle = new MaterialWiggle(this);
+            Camera cam = new Camera(0f, 0f, bannerTarget.Width, bannerTarget.Height)
+#else
             bannerTarget = new RenderTarget2D((int)(wide + 4f) + 8, 15);
             _wiggle = new MaterialWiggle(this);
             Camera cam = new Camera(0f, 0f, bannerTarget.width, bannerTarget.height)
+#endif
             {
                 position = Vector2.Zero
             };
@@ -55,7 +72,11 @@ public class CityBackground : BackgroundUpdater
             };
             Graphics.Clear(Color.Transparent);
             Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, state, RasterizerState.CullNone, null, cam.getMatrix());
+#if NO_TEX2D
+            Graphics.DrawRect(new Vector2(0f, 2f), new Vector2(bannerTarget.Width - 8, bannerTarget.Height - 2), Color.Black);
+#else
             Graphics.DrawRect(new Vector2(0f, 2f), new Vector2(bannerTarget.width - 8, bannerTarget.height - 2), Color.Black);
+#endif
             _font.Draw(text, new Vector2(1f, 3f), new Color(47, 0, 66), 1f);
             Graphics.screen.End();
             Graphics.SetRenderTarget(null);
@@ -64,7 +85,11 @@ public class CityBackground : BackgroundUpdater
         public void UpdateFlying()
         {
             X += (_flyLeft ? (-0.25f) : 0.25f);
+#if NO_TEX2D
+            if (bannerTarget != null && ((_flyLeft && X < (-(400 + bannerTarget.Width))) || (!_flyLeft && X > (400 + bannerTarget.Width))))
+#else
             if (bannerTarget != null && ((_flyLeft && base.X < (float)(-(400 + bannerTarget.width))) || (!_flyLeft && base.X > (float)(400 + bannerTarget.width))))
+#endif
             {
                 finished = true;
             }
@@ -88,7 +113,11 @@ public class CityBackground : BackgroundUpdater
                 {
                     base.Draw();
                     Graphics.material = _wiggle;
+#if NO_TEX2D
+                    Graphics.Draw(bannerTarget, X - (bannerTarget.Width / 2 + 4), Y, 0.5f, 0.5f, 1f);
+#else
                     Graphics.Draw(bannerTarget, base.X - (float)(bannerTarget.width / 2 + 4), base.Y, 0.5f, 0.5f, 1f);
+#endif
                     Graphics.material = null;
                 }
             }

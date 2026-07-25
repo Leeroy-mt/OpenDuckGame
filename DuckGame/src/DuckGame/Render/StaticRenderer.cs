@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using System;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -24,7 +25,11 @@ public class StaticRenderer
             for (int x = 0; x < _numSections; x++)
             {
                 StaticRenderSection section = new StaticRenderSection();
+#if NO_TEX2D
+                section.target = XnaRenderTarget2D.CreateSetUpTarget(_size, _size);
+#else
                 section.target = new RenderTarget2D(_size, _size);
+#endif
                 section.position = new Vector2(_position.X + (float)(x * _size), _position.Y + (float)(y * _size));
                 _targets.Add(layer, section);
             }

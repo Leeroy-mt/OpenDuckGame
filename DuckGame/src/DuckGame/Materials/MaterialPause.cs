@@ -2,9 +2,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialPause : Material
+public class MaterialPause : AutoEffect
 {
+#if NO_TEX2D
+    Texture2D _watermark;
+#else
     private Tex2D _watermark;
+#endif
 
     private float _fade;
 
@@ -30,10 +34,13 @@ public class MaterialPause : Material
         }
     }
 
-    public MaterialPause()
+    public MaterialPause() : base(Content.Load<MTEffect>("Shaders/pause"))
     {
-        effect = Content.Load<MTEffect>("Shaders/pause");
+#if NO_TEX2D
+        _watermark = Content.Load<Texture2D>("dc5");
+#else
         _watermark = Content.Load<Tex2D>("dc5");
+#endif
     }
 
     public override void Apply()
@@ -50,7 +57,7 @@ public class MaterialPause : Material
         _rot2 += scrollSpeed;
         _scrollX = _rot;
         _scrollY = 0f - _rot2;
-        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in CurrentTechnique.Passes)
         {
             pass.Apply();
         }

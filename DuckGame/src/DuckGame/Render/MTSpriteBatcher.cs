@@ -409,7 +409,7 @@ internal class MTSpriteBatcher
             int startIndex = 0;
             int index = 0;
             Texture2D tex = null;
-            Material eff = null;
+            AutoEffect eff = null;
             int numBatchesToProcess = batchCount;
             if (numBatchesToProcess > 5461)
             {
@@ -526,7 +526,7 @@ internal class MTSpriteBatcher
             size += item.length;
         }
         EnsureGeometryArrayCapacity((size + 1) / 3);
-        Material eff = null;
+        AutoEffect eff = null;
         int startIndex = 0;
         int index = 0;
         foreach (GeometryItem item2 in _geometryBatch)

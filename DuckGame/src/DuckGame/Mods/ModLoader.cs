@@ -609,11 +609,11 @@ public static class ModLoader
         }
         try
         {
-            if ((item.stateFlags & WorkshopItemState.Installed) == 0 || !Directory.Exists(item.path))
+            if ((item.StateFlags & WorkshopItemState.Installed) == 0 || !Directory.Exists(item.Path))
             {
                 return;
             }
-            foreach (string item2 in DuckFile.GetDirectoriesNoCloud(item.path))
+            foreach (string item2 in DuckFile.GetDirectoriesNoCloud(item.Path))
             {
                 ModConfiguration config = AttemptModLoad(item2);
                 if (config != null)
@@ -657,9 +657,9 @@ public static class ModLoader
             if (Steam.IsInitialized())
             {
                     runningModloadCode = true;
-                    WorkshopQueryUser workshopQueryUser = Steam.CreateQueryUser(Steam.user.id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
-                    workshopQueryUser.requiredTags.Add("Mod");
-                    workshopQueryUser.onlyQueryIDs = true;
+                    WorkshopQueryUser workshopQueryUser = Steam.CreateQueryUser(Steam.User.Id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
+                    workshopQueryUser.RequiredTags.Add("Mod");
+                    workshopQueryUser.OnlyQueryIDs = true;
                     workshopQueryUser.ResultFetched += ResultFetched;
                     workshopQueryUser.Request();
                     Steam.Update();

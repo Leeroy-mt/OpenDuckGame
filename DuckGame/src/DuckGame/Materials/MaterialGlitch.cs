@@ -2,9 +2,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialGlitch : Material
+public class MaterialGlitch : AutoEffect
 {
+#if NO_TEX2D
+    Texture2D _goldTexture;
+#else
     private Tex2D _goldTexture;
+#endif
 
     private Thing _thing;
 
@@ -14,10 +18,13 @@ public class MaterialGlitch : Material
 
     private int lockframes;
 
-    public MaterialGlitch(Thing t)
+    public MaterialGlitch(Thing t) : base(Content.Load<MTEffect>("Shaders/glitch"))
     {
-        effect = Content.Load<MTEffect>("Shaders/glitch");
+#if NO_TEX2D
+        _goldTexture = Content.Load<Texture2D>("glitchMap3");
+#else
         _goldTexture = Content.Load<Tex2D>("glitchMap3");
+#endif
         _thing = t;
     }
 
@@ -25,10 +32,18 @@ public class MaterialGlitch : Material
     {
         if (Graphics.device.Textures[0] != null)
         {
+#if NO_TEX2D
+            var tex = Graphics.device.Textures[0] as Texture2D;
+            var frameSize = SpriteMap.GetFrameSize(tex);
+            SetValue("width", frameSize.X / tex.Width);
+            SetValue("height", frameSize.Y / tex.Height);
+            SetValue("frameWidth", frameSize.X);
+#else
             Tex2D tex = Graphics.device.Textures[0] as Texture2D;
-            SetValue("width", tex.frameWidth / (float)tex.width);
-            SetValue("height", tex.frameHeight / (float)tex.height);
+            SetValue("width", tex.frameWidth / tex.width);
+            SetValue("height", tex.frameHeight / tex.height);
             SetValue("frameWidth", tex.frameWidth);
+#endif
             SetValue("amount", amount);
             SetValue("yoff", yoffset);
             SetValue("xpos", _thing.X);
@@ -36,7 +51,7 @@ public class MaterialGlitch : Material
         }
         Graphics.device.Textures[1] = (Texture2D)_goldTexture;
         Graphics.device.SamplerStates[1] = SamplerState.PointWrap;
-        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in CurrentTechnique.Passes)
         {
             pass.Apply();
         }

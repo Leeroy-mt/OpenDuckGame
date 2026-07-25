@@ -369,11 +369,11 @@ public class NetworkConnection
         string realName = null;
         if (!hasRealName || data == null)
         {
-            realName = ((data is User) ? (data as User).id.ToString() : ((Steam.user == null) ? "LAN USER" : Steam.user.id.ToString()));
+            realName = ((data is User) ? (data as User).Id.ToString() : ((Steam.User == null) ? "LAN USER" : Steam.User.Id.ToString()));
         }
         else if (Network.activeNetwork.core is NCSteam)
         {
-            realName = name + "," + (data as User).id;
+            realName = name + "," + (data as User).Id;
         }
         else if (Network.activeNetwork.core is NCBasic)
         {
@@ -499,7 +499,7 @@ public class NetworkConnection
         {
             debuggerContext.Reset();
         }
-        DevConsole.Log(DCSection.Connection, "@disconnect Reset called on " + identifier + "(" + ((Steam.user != null) ? Steam.user.id.ToString() : "local") + ", " + reason + ")");
+        DevConsole.Log(DCSection.Connection, "@disconnect Reset called on " + identifier + "(" + ((Steam.User != null) ? Steam.User.Id.ToString() : "local") + ", " + reason + ")");
     }
 
     public void StartNewSession()
@@ -606,7 +606,7 @@ public class NetworkConnection
     private void Disconnect_IncompatibleMods()
     {
         Network.activeNetwork.core.DisconnectClient(this, new DuckNetErrorInfo(DuckNetError.ModsIncompatible, "Host has different Mods enabled!"));
-        ConnectionError.joinLobby = Steam.lobby;
+        ConnectionError.joinLobby = Steam.Lobby;
     }
 
     private void Disconnect_DifferentVersion(string theirVersion)

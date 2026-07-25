@@ -34,7 +34,7 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
 
     private float _glitch;
 
-    public static Material _grayscale = new Material("Shaders/greyscale");
+    public static AutoEffect _grayscale = new(Content.Load<MTEffect>("Shaders/greyscale"));
 
     public List<Profile> _served = new List<Profile>();
 
@@ -285,7 +285,7 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
             if (_currentProjection != null)
             {
                 Duck.renderingIcon = true;
-                Material obj = Graphics.material;
+                AutoEffect obj = Graphics.material;
                 Graphics.material = _grayscale;
                 _currentProjection.Depth = base.Depth - 5;
                 _currentProjection.X = base.X - _double * 2f;
@@ -307,7 +307,7 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
         else if (_currentProjection != null)
         {
             Duck.renderingIcon = true;
-            Material obj2 = Graphics.material;
+            AutoEffect obj2 = Graphics.material;
             Graphics.material = _grayscale;
             _currentProjection.Depth = base.Depth - 5;
             _currentProjection.X = base.X;

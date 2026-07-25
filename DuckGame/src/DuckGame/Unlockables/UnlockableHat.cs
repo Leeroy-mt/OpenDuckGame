@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
 
@@ -69,6 +70,26 @@ public class UnlockableHat : Unlockable
             _team.hat.Depth = depth + 2;
             _team.hat.Center = new Vector2(16f, 16f) + _team.hatOffset;
             Graphics.Draw(_team.hat, _team.hat.frame, x + offset.X, ypos + offset.Y);
+#if NO_TEX2D
+            if (_team.hat.texture.Name == "hats/devhat" && _cape == null)
+            {
+                _hat = new TeamHat(x + offset.X, ypos + offset.Y + 5f, Teams.GetTeam("CAPTAIN"));
+                _cape = new Cape(x + offset.X, ypos + offset.Y, _hat);
+                _cape.SetCapeTexture(Content.Load<Texture2D>("hats/devCape"));
+            }
+            if (_team.hat.texture.Name == "hats/moonwalker" && _cape == null)
+            {
+                _hat = new TeamHat(x + offset.X, ypos + offset.Y + 5f, Teams.GetTeam("MOONWALK"));
+                _cape = new Cape(x + offset.X, ypos + offset.Y, _hat);
+                _cape.SetCapeTexture(Content.Load<Texture2D>("hats/moonCape"));
+            }
+            if (_team.hat.texture.Name == "hats/royalty" && _cape == null)
+            {
+                _hat = new TeamHat(x + offset.X, ypos + offset.Y + 5f, Teams.GetTeam("MAJESTY"));
+                _cape = new Cape(x + offset.X, ypos + offset.Y, _hat);
+                _cape.SetCapeTexture(Content.Load<Texture2D>("hats/royalCape"));
+            }
+#else
             if (_team.hat.texture.textureName == "hats/devhat" && _cape == null)
             {
                 _hat = new TeamHat(x + offset.X, ypos + offset.Y + 5f, Teams.GetTeam("CAPTAIN"));
@@ -87,6 +108,7 @@ public class UnlockableHat : Unlockable
                 _cape = new Cape(x + offset.X, ypos + offset.Y, _hat);
                 _cape.SetCapeTexture(Content.Load<Tex2D>("hats/royalCape"));
             }
+#endif
             if (_cape != null)
             {
                 _hat.Position = new Vector2(x + offset.X, ypos + offset.Y + 5f);

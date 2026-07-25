@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -49,7 +50,11 @@ public class RasterFont : FancyBitmapFont
         {
             if (_textureInternal == null)
             {
+#if NO_TEX2D
+                Texture2D tex = new(Graphics.device, data.colorsWidth, data.colorsHeight);
+#else
                 Tex2D tex = new Tex2D(data.colorsWidth, data.colorsHeight);
+#endif
                 if (data.colors != null)
                 {
                     tex.SetData(data.colors);

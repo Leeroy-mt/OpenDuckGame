@@ -1,91 +1,61 @@
 ﻿using Steamworks;
-using System.Runtime.ExceptionServices;
 
-public class WorkshopItem : IDisposable
+public class WorkshopItem
 {
+    #region Public Fields
 
-    private static Dictionary<ulong, WorkshopItem> _items;
+    public List<object>? subItems;
 
-    internal static WorkshopItem GetItem(PublishedFileId_t id)
+    public List<WorkshopItem?>? dependencies;
+
+    #endregion
+
+    #region Public Properties
+
+    public ulong Id => _id.m_PublishedFileId;
+
+    public ulong UpdateHandle => _currentUpdateHandle.m_UGCUpdateHandle;
+
+    public string? Name { get; private set; }
+
+    public WorkshopItemData? Data { get; private set; }
+
+    public bool FinishedProcessing { get; set; }
+
+    public SteamResult Result { get; private set; }
+
+    public SteamResult DownloadResult { get; private set; }
+
+    public WorkshopItemState StateFlags => (WorkshopItemState)SteamUGC.GetItemState(_id);
+
+    public bool NeedsLegal { get; private set; }
+
+    public string Path
     {
-        return GetItem(id.m_PublishedFileId);
+        get => SteamUGC.GetItemInstallInfo(_id, out _, out string folder, 256, out _)
+            ? folder
+            : "";
     }
 
-    public static WorkshopItem GetItem(ulong id)
+    public uint Timestamp
     {
-        if (id == 0)
-        {
-            return null;
-        }
-
-        if (_items == null)
-        {
-            _items = new Dictionary<ulong, WorkshopItem>();
-        }
-        using (Lock _lock = new Lock(_items))
-        {
-            WorkshopItem item;
-            if (!_items.TryGetValue(id, out item))
-            {
-                item = new WorkshopItem(id);
-                _items[id] = item;
-            }
-            return item;
-        }
-
-    }
-    public List<object> subItems;
-    public List<WorkshopItem> dependencies;
-
-    private PublishedFileId_t _id;
-    public ulong id => _id.m_PublishedFileId;
-
-    private UGCUpdateHandle_t _currentUpdateHandle;
-    public ulong updateHandle => _currentUpdateHandle.m_UGCUpdateHandle;
-
-    public string name { get; private set; }
-
-    public WorkshopItemData data { get; private set; }
-
-    public bool finishedProcessing { get; set; }
-    public SteamResult result { get; private set; }
-    public SteamResult downloadResult { get; private set; }
-
-    public unsafe WorkshopItemState stateFlags => (WorkshopItemState)SteamUGC.GetItemState(_id);
-
-    public bool needsLegal { get; private set; }
-    public unsafe string path
-    {
-        get
-        {
-            ulong SizeOnDisk;
-            string Folder;
-            uint punTimeStamp;
-            bool can = SteamUGC.GetItemInstallInfo(_id, out SizeOnDisk, out Folder, 256, out punTimeStamp);
-            if (can)
-            {
-                return Folder;
-            }
-            return "";
-        }
-    }
-    public unsafe uint timestamp
-    {
-        get
-        {
-            ulong SizeOnDisk;
-            string Folder;
-            uint punTimeStamp;
-            bool can = SteamUGC.GetItemInstallInfo(_id, out SizeOnDisk, out Folder, 256, out punTimeStamp);
-            if (can)
-            {
-                return punTimeStamp;
-            }
-            return 0;
-        }
+        get => SteamUGC.GetItemInstallInfo(_id, out _, out _, 256, out uint punTimeStamp)
+            ? punTimeStamp
+            : 0;
     }
 
-    // private object _tags; // unused
+    #endregion
+
+    #region Private Fields
+
+    PublishedFileId_t _id;
+    UGCUpdateHandle_t _currentUpdateHandle;
+
+    static Dictionary<ulong, WorkshopItem>? items;
+
+    #endregion
+
+    #region Constructors
 
     public WorkshopItem(ulong id)
         : this(new PublishedFileId_t(id))
@@ -95,55 +65,67 @@ public class WorkshopItem : IDisposable
     internal WorkshopItem(PublishedFileId_t id)
     {
         _id = id;
-        //ulong SizeOnDisk;
-        //string Folder;
-        //uint punTimeStamp;
-        //bool ret = SteamUGC.GetItemInstallInfo(_id, out SizeOnDisk, out Folder, 1024, out punTimeStamp);
-        //_path = Folder;
-        finishedProcessing = true;
-        result = SteamResult.OK;
+        FinishedProcessing = true;
+        Result = SteamResult.OK;
     }
 
     public WorkshopItem()
     {
     }
 
+    #endregion
+
+    #region Public Methods
+
+    public static WorkshopItem? GetItem(ulong id)
+    {
+        if (id == 0)
+            return null;
+
+        items ??= [];
+        using Lock _lock = new(items);
+        if (!items.TryGetValue(id, out WorkshopItem? item))
+        {
+            item = new WorkshopItem(id);
+            items[id] = item;
+        }
+        return item;
+    }
+
     public void ApplyResult(SteamResult r, bool legal, ulong id)
     {
-        result = r;
-        needsLegal = legal;
+        Result = r;
+        NeedsLegal = legal;
         _id = new PublishedFileId_t(id);
-        finishedProcessing = true;
+        FinishedProcessing = true;
     }
 
     public void ApplyDownloadResult(SteamResult r)
     {
-        downloadResult = r;
-        finishedProcessing = true;
+        DownloadResult = r;
+        FinishedProcessing = true;
     }
 
-    public unsafe bool ApplyWorkshopData(WorkshopItemData data)
+    public bool ApplyWorkshopData(WorkshopItemData data)
     {
         UGCUpdateHandle_t handle = SteamUGC.StartItemUpdate(SteamUtils.GetAppID(), _id);
         if (handle.m_UGCUpdateHandle == 0)
-        {
             return false;
-        }
-        this.data = data;
+
+        Data = data;
         if (data.name != null && data.name != "")
         {
             SteamUGC.SetItemTitle(handle, data.name);
             SteamUGC.SetItemVisibility(handle, (ERemoteStoragePublishedFileVisibility)data.visibility);
         }
+
         if (data.description != null && data.description != "")
-        {
             SteamUGC.SetItemDescription(handle, data.description);
-        }
-        List<string> tags = data.tags;
+
+        List<string>? tags = data.tags;
         if (tags != null && tags.Count > 0)
-        {
             SteamUGC.SetItemTags(handle, data.tags);
-        }
+
         SteamUGC.SetItemPreview(handle, data.previewPath);
         SteamUGC.SetItemContent(handle, data.contentFolder);
         _currentUpdateHandle = handle;
@@ -151,10 +133,9 @@ public class WorkshopItem : IDisposable
         return true;
     }
 
-    public unsafe TransferProgress GetUploadProgress()
+    public TransferProgress GetUploadProgress()
     {
-        ulong bytesDownloaded, bytesTotal;
-        EItemUpdateStatus status = SteamUGC.GetItemUpdateProgress(_currentUpdateHandle, out bytesDownloaded, out bytesTotal);
+        EItemUpdateStatus status = SteamUGC.GetItemUpdateProgress(_currentUpdateHandle, out ulong bytesDownloaded, out ulong bytesTotal);
         return new TransferProgress
         {
             status = (ItemUpdateStatus)(int)status,
@@ -163,11 +144,9 @@ public class WorkshopItem : IDisposable
         };
     }
 
-    public unsafe TransferProgress GetDownloadProgress()
+    public TransferProgress GetDownloadProgress()
     {
-        ulong bytesDownloaded, bytesTotal;
-        bool status = SteamUGC.GetItemDownloadInfo(_id, out bytesDownloaded, out bytesTotal);
-        if (!status)
+        if (!SteamUGC.GetItemDownloadInfo(_id, out ulong bytesDownloaded, out ulong bytesTotal))
             bytesDownloaded = bytesTotal = 0;
         return new TransferProgress
         {
@@ -179,36 +158,32 @@ public class WorkshopItem : IDisposable
 
     public void ResetProcessing()
     {
-        finishedProcessing = false;
-        needsLegal = false;
+        FinishedProcessing = false;
+        NeedsLegal = false;
     }
 
     public void SkipProcessing()
     {
-        finishedProcessing = true;
-        needsLegal = false;
-        result = SteamResult.OK;
+        FinishedProcessing = true;
+        NeedsLegal = false;
+        Result = SteamResult.OK;
     }
 
     public void SetDetails(string name, WorkshopItemData data)
     {
-        this.name = name;
-        this.data = data;
+        Name = name;
+        Data = data;
     }
 
-    public unsafe void Subscribe()
+    public void Subscribe()
     {
         SteamUGC.SubscribeItem(_id);
     }
 
-    [HandleProcessCorruptedStateExceptions]
-    protected virtual void Dispose(bool flag)
-    {
-    }
+    #endregion
 
-    public void Dispose()
+    internal static WorkshopItem? GetItem(PublishedFileId_t id)
     {
-        Dispose(true);
+        return GetItem(id.m_PublishedFileId);
     }
-
 }

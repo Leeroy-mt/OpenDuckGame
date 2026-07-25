@@ -277,7 +277,7 @@ public class UICloudManagement : UIMenu
                 profileRoot = new File
                 {
                     parent = root,
-                    name = Steam.user.id.ToString(),
+                    name = Steam.User.Id.ToString(),
                     files = []
                 };
                 root.files.Add(profileRoot);

@@ -248,7 +248,7 @@ public class SteamUploadDialog : ContextMenu
                 {
                     _upload.Close();
                     _notify.Open("Item published!");
-                    Steam.ShowWorkshopLegalAgreement(cur.item.id.ToString());
+                    Steam.ShowWorkshopLegalAgreement(cur.item.Id.ToString());
                 }
             }
             else

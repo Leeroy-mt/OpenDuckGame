@@ -211,6 +211,7 @@ public class ScriptStatement
             statement = statement.Remove(0, 1);
             if (!isWord && char.IsNumber(c))
             {
+
                 if (currentWord.Length > 0 && !isNumber)
                 {
                     if (!isOperator || !(currentWord == "-"))

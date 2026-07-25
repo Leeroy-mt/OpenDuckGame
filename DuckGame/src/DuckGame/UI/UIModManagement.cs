@@ -293,12 +293,12 @@ public class UIModManagement : UIMenu
             {
                 if (!_transferring)
                 {
-                    if (_transferItem.result == SteamResult.OK)
+                    if (_transferItem.Result == SteamResult.OK)
                     {
                         WorkshopItemData data = new();
                         if (_selectedMod.configuration.workshopID == 0)
                         {
-                            _selectedMod.configuration.SetWorkshopID(_transferItem.id);
+                            _selectedMod.configuration.SetWorkshopID(_transferItem.Id);
                             data.name = _selectedMod.configuration.displayName;
                             data.description = _selectedMod.configuration.description;
                             data.visibility = RemoteStoragePublishedFileVisibility.Private;
@@ -314,7 +314,7 @@ public class UIModManagement : UIMenu
                             data.changeNotes = _updateTextBox.text;
                         string screenshotPath = _selectedMod.generateAndGetPathToScreenshot;
                         data.previewPath = screenshotPath;
-                        string folderPath = $"{DuckFile.workshopDirectory}{_transferItem.id}/content";
+                        string folderPath = $"{DuckFile.workshopDirectory}{_transferItem.Id}/content";
                         if (Directory.Exists(folderPath))
                             Directory.Delete(folderPath, recursive: true);
                         DuckFile.CreatePath(folderPath);
@@ -337,16 +337,16 @@ public class UIModManagement : UIMenu
                         }
                         data.contentFolder = folderPath;
                         _transferItem.ApplyWorkshopData(data);
-                        if (_transferItem.needsLegal)
-                            Steam.ShowWorkshopLegalAgreement(_transferItem.id.ToString());
+                        if (_transferItem.NeedsLegal)
+                            Steam.ShowWorkshopLegalAgreement(_transferItem.Id.ToString());
                         _transferring = true;
                         _transferItem.ResetProcessing();
                     }
                 }
-                else if (_transferItem.finishedProcessing)
+                else if (_transferItem.FinishedProcessing)
                 {
-                    Steam.OverlayOpenURL($"http://steamcommunity.com/sharedfiles/filedetails/?id={_transferItem.id}");
-                    Directory.Delete($"{DuckFile.workshopDirectory}{_transferItem.id}/", recursive: true);
+                    Steam.OverlayOpenURL($"http://steamcommunity.com/sharedfiles/filedetails/?id={_transferItem.Id}");
+                    Directory.Delete($"{DuckFile.workshopDirectory}{_transferItem.Id}/", recursive: true);
                     _transferItem.ResetProcessing();
                     _transferItem = null;
                     _transferring = false;
@@ -670,11 +670,15 @@ public class UIModManagement : UIMenu
                         _fancyFont.Scale = Vector2.One;
                         continue;
                     }
-                    Tex2D preview = mod.previewTexture;
+                    var preview = mod.previewTexture;
                     if (preview != null && _noImage.texture != preview)
                     {
                         _noImage.texture = preview;
+#if NO_TEX2D
+                        _noImage.Scale = new Vector2(32F / preview.Width);
+#else
                         _noImage.Scale = new Vector2(32F / preview.width);
+#endif
                     }
                     Graphics.DrawRect(new Vector2(boxLeft2 + 2, boxTop2 + 2), new Vector2(boxLeft2 + 34, boxTop2 + 34), Color.Gray, 0.44f, filled: false, 2);
                     Graphics.Draw(_noImage, boxLeft2 + 2, boxTop2 + 2, 0.5f);
@@ -771,7 +775,7 @@ public class UIModManagement : UIMenu
         base.Draw();
     }
 
-    #endregion
+#endregion
 
     #region Private Methods
 

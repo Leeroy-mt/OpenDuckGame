@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -25,7 +26,11 @@ public class MapPack : ContentPack
 
     public static ReskinPack context;
 
+#if NO_TEX2D
+    Texture2D _preview;
+#else
     private Tex2D _preview;
+#endif
 
     public string name
     {
@@ -43,7 +48,11 @@ public class MapPack : ContentPack
 
     public Mod mod => _mod;
 
+#if NO_TEX2D
+    public Texture2D preview => _preview;
+#else
     public Tex2D preview => _preview;
+#endif
 
     public MapPack()
         : base(null)
@@ -71,9 +80,9 @@ public class MapPack : ContentPack
             if (!DuckFile.FileExists(pDir + "/mappack_info.txt"))
             {
                 string defaultAuthor = "Dan Rando";
-                if (Steam.user != null)
+                if (Steam.User != null)
                 {
-                    defaultAuthor = Steam.user.name;
+                    defaultAuthor = Steam.User.Name;
                 }
                 DuckFile.SaveString(pack.name + "\n" + defaultAuthor + "\nEdit info.txt to change this information!\n<add a 1280x720 PNG file called 'screenshot.png' to set a custom workshop image!>", pDir + "/mappack_info.txt");
             }
@@ -93,7 +102,7 @@ public class MapPack : ContentPack
         {
             try
             {
-                Tex2D tex = ContentPack.LoadTexture2D(pDir + "/icon.png");
+                var tex = ContentPack.LoadTexture2D(pDir + "/icon.png");
                 pack._icon = new Sprite(tex);
             }
             catch (Exception)
@@ -130,7 +139,7 @@ public class MapPack : ContentPack
         {
             LoadMapPack(directories[i]);
         }
-        if (Steam.user != null)
+        if (Steam.User != null)
         {
             directories = DuckFile.GetDirectories(DuckFile.globalMappackDirectory);
             for (int i = 0; i < directories.Length; i++)
@@ -167,9 +176,13 @@ public class MapPack : ContentPack
         }
         int previewWidth = 1280;
         int previewHeight = 720;
-        RenderTarget2D previewTarget = new RenderTarget2D(previewWidth, previewHeight);
+#if NO_TEX2D
+        var previewTarget = XnaRenderTarget2D.CreateSetUpTarget(previewWidth, previewHeight);
+#else
+        var previewTarget = new RenderTarget2D(previewWidth, previewHeight);
+#endif
         Viewport oldV = Graphics.viewport;
-        RenderTarget2D oldTarget = Graphics.GetRenderTarget();
+        var oldTarget = Graphics.GetRenderTarget();
         Sprite sprite = new Sprite("shiny");
         Graphics.SetRenderTarget(previewTarget);
         Graphics.viewport = new Viewport(0, 0, previewWidth, previewHeight);
@@ -216,9 +229,15 @@ public class MapPack : ContentPack
         Graphics.screen.End();
         Graphics.SetRenderTarget(oldTarget);
         Graphics.viewport = oldV;
+#if NO_TEX2D
+        _preview = previewTarget.GetTexture2D();
+        FileStream fs = File.Create(pPath);
+        _preview.SaveAsPng(fs, _preview.Width, _preview.Height);
+#else
         _preview = previewTarget.ToTex2D();
         FileStream fs = File.Create(pPath);
         (_preview.nativeObject as Texture2D).SaveAsPng(fs, _preview.width, _preview.height);
+#endif
         fs.Close();
         return pPath;
     }

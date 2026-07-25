@@ -7,6 +7,10 @@ namespace DuckGame;
 
 public class SpriteMap : Sprite, ICloneable
 {
+#if NO_TEX2D
+    static Dictionary<Texture2D, Vector2> textureFramesizes = [];
+#endif
+
     private int _globalIndex = Thing.GetGlobalIndex();
 
     private int _width;
@@ -34,8 +38,6 @@ public class SpriteMap : Sprite, ICloneable
     private RectangleF _spriteBox;
 
     public float _frameInc;
-
-    private static Dictionary<string, List<bool>> _transparency = new Dictionary<string, List<bool>>();
 
     private int _cutWidth;
 
@@ -107,7 +109,11 @@ public class SpriteMap : Sprite, ICloneable
     {
         get
         {
-            if (_texture == null || _texture.w <= 0 || w <= 0)
+#if NO_TEX2D
+            if (_texture == null || _texture.Width <= 0 || w <= 0)
+#else
+            if (_texture == null || _texture.width <= 0 || w <= 0)
+#endif
                 return false;
             return true;
         }
@@ -148,13 +154,23 @@ public class SpriteMap : Sprite, ICloneable
             _imageIndex = _frame;
     }
 
+#if NO_TEX2D
+    public SpriteMap(Texture2D tex, int frameWidth, int frameHeight)
+#else
     public SpriteMap(Tex2D tex, int frameWidth, int frameHeight)
+#endif
     {
         _texture = tex;
+#if NO_TEX2D
+        frameWidth = Math.Min(_texture.Width, frameWidth);
+        frameHeight = Math.Min(_texture.Height, frameHeight);
+        SetFrameSize(tex, new(frameWidth, frameHeight));
+#else
         frameWidth = Math.Min(_texture.width, frameWidth);
         frameHeight = Math.Min(_texture.height, frameHeight);
         tex.frameWidth = frameWidth;
         tex.frameHeight = frameHeight;
+#endif
         Position = new Vector2(X, Y);
         _width = frameWidth;
         _height = frameHeight;
@@ -169,16 +185,41 @@ public class SpriteMap : Sprite, ICloneable
 
     public SpriteMap(string tex, int frameWidth, int frameHeight, bool calculateTransparency = false)
     {
+#if NO_TEX2D
+        _texture = Content.Load<Texture2D>(tex);
+        frameWidth = Math.Min(_texture.Width, frameWidth);
+        frameHeight = Math.Min(_texture.Height, frameHeight);
+        SetFrameSize(_texture, new(frameWidth, frameHeight));
+#else
         _texture = Content.Load<Tex2D>(tex);
         frameWidth = Math.Min(_texture.width, frameWidth);
         frameHeight = Math.Min(_texture.height, frameHeight);
         _texture.frameWidth = frameWidth;
         _texture.frameHeight = frameHeight;
+#endif
         Position = new Vector2(base.X, base.Y);
         _width = frameWidth;
         _height = frameHeight;
         AddDefaultAnimation();
     }
+
+#if NO_TEX2D
+    public static Vector2 GetFrameSize(Texture2D texture)
+    {
+        ArgumentNullException.ThrowIfNull(texture, nameof(texture));
+        if (textureFramesizes.TryGetValue(texture, out var vec))
+            return vec;
+        return new(texture.Width, texture.Height);
+    }
+
+    public static void SetFrameSize(Texture2D texture, Vector2 frameSize)
+    {
+        ArgumentNullException.ThrowIfNull(texture, nameof(texture));
+        if (textureFramesizes.TryAdd(texture, frameSize))
+            return;
+        textureFramesizes[texture] = frameSize;
+    }
+#endif
 
     public bool CurrentFrameIsOpaque()
     {
@@ -190,7 +231,11 @@ public class SpriteMap : Sprite, ICloneable
         int num = 1;
         if (_width > 0)
         {
+#if NO_TEX2D
+            num = _texture.Width / _width * (_texture.Height / _height);
+#else
             num = _texture.width / _width * (_texture.height / _height);
+#endif
         }
         int[] frames = new int[num];
         for (int i = 0; i < num; i++)
@@ -251,7 +296,11 @@ public class SpriteMap : Sprite, ICloneable
     {
         if (valid)
         {
+#if NO_TEX2D
+            int framesPerRow = _texture.Width / w;
+#else
             int framesPerRow = _texture.width / w;
+#endif
             int currentRow = _imageIndex / framesPerRow;
             int currentColumn = _imageIndex - currentRow * framesPerRow;
             _spriteBox = new RectangleF(currentColumn * w, currentRow * h, w - cutWidth, h);
@@ -334,7 +383,9 @@ public class SpriteMap : Sprite, ICloneable
     {
         if (UpdateFrame())
         {
+#if !NO_TEX2D
             _texture.currentObjectIndex = _globalIndex;
+#endif
             if (w > 0)
             {
                 Graphics.Draw(_texture, Position, _spriteBox, _color * base.Alpha, Angle, Center, base.Scale, base.flipH ? SpriteEffects.FlipHorizontally : (base.flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
@@ -348,7 +399,9 @@ public class SpriteMap : Sprite, ICloneable
         {
             r.X += _spriteBox.X;
             r.Y += _spriteBox.Y;
+#if !NO_TEX2D
             _texture.currentObjectIndex = _globalIndex;
+#endif
             Graphics.Draw(_texture, Position, r, _color * base.Alpha, Angle, Center, base.Scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
         }
     }
@@ -357,7 +410,9 @@ public class SpriteMap : Sprite, ICloneable
     {
         if (valid)
         {
+#if !NO_TEX2D
             _texture.currentObjectIndex = _globalIndex;
+#endif
             if (w > 0)
             {
                 Graphics.Draw(_texture, Position, _spriteBox, _color * base.Alpha, Angle, Center, base.Scale, base.flipH ? SpriteEffects.FlipHorizontally : (base.flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
@@ -369,7 +424,9 @@ public class SpriteMap : Sprite, ICloneable
     {
         if (valid)
         {
+#if !NO_TEX2D
             _texture.currentObjectIndex = _globalIndex;
+#endif
             Graphics.Draw(_texture, Position, _spriteBox, _color, Angle, Center, base.Scale, flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.Depth);
         }
     }
@@ -399,7 +456,9 @@ public class SpriteMap : Sprite, ICloneable
             }
             UpdateFrame();
             Graphics.recordMetadata = true;
+#if !NO_TEX2D
             _texture.currentObjectIndex = _globalIndex;
+#endif
             Graphics.Draw(_texture, Position, _spriteBox, _color, Angle, Center, base.Scale, flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None, base.Depth);
             if (_waitFrames == 1)
             {
@@ -419,12 +478,33 @@ public class SpriteMap : Sprite, ICloneable
         }
         else
         {
+#if !NO_TEX2D
             _texture.currentObjectIndex = _globalIndex;
+#endif
 #if !MODERN_BATCH
             Graphics.Draw(_batchItem);
 #else
             Graphics.Draw(triangle0.Value);
             Graphics.Draw(triangle1.Value);
+
+            if (Recorder.currentRecording != null)
+            {
+                var t0 = triangle0.Value;
+                var t1 = triangle1.Value;
+
+                Recorder.currentRecording.LogDraw(
+                    Content.GetTextureIndex(t0.Texture),
+                    new Vector2(t0.V0.Position.X, t0.V0.Position.Y),
+                    new Vector2(t1.V1.Position.X, t1.V1.Position.Y),
+                    Angle,
+                    color,
+                    (short)_spriteBox.X,
+                    (short)_spriteBox.Y,
+                    (short)(_spriteBox.Width * (flipH ? -1 : 1)),
+                    (short)(_spriteBox.Height * (flipV ? 1 : -1)),
+                    Graphics.AdjustDepth(Depth)
+                    );
+            }
 #endif
         }
     }

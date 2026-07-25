@@ -57,9 +57,15 @@ public abstract class Mod
 
     public bool clientMod;
 
+#if NO_TEX2D
+    Texture2D _previewTexture;
+
+    Texture2D _screenshot;
+#else
     private Tex2D _previewTexture;
 
     private Tex2D _screenshot;
+#endif
 
     private Map<ushort, Type> _typeToMessageID = new Map<ushort, Type>();
 
@@ -156,9 +162,13 @@ public abstract class Mod
             if (!File.Exists(screenshotPath))
             {
                 File.Delete(screenshotPath);
-                Tex2D texData = screenshot;
+                var texData = screenshot;
                 Stream stream = DuckFile.Create(screenshotPath);
+#if NO_TEX2D
+                texData.SaveAsPng(stream, texData.Width, texData.Height);
+#else
                 ((Texture2D)texData.nativeObject).SaveAsPng(stream, texData.width, texData.height);
+#endif
                 stream.Dispose();
             }
             return screenshotPath;
@@ -207,6 +217,32 @@ public abstract class Mod
     /// <value>
     /// The preview texture.
     /// </value>
+#if NO_TEX2D
+    public virtual Texture2D previewTexture
+    {
+        get
+        {
+            if (_previewTexture == null)
+            {
+                if (configuration.loaded)
+                {
+                    if (configuration.contentDirectory != null)
+                        _previewTexture = ContentPack.LoadTexture2D(GetPath("preview") + ".png", processPink: false);
+                    _previewTexture ??= Content.Load<Texture2D>("notexture");
+                }
+                else
+                {
+                    _previewTexture = Content.Load<Texture2D>("none");
+                }
+            }
+            return _previewTexture;
+        }
+        protected set
+        {
+            _previewTexture = value;
+        }
+    }
+#else
     public virtual Tex2D previewTexture
     {
         get
@@ -216,13 +252,8 @@ public abstract class Mod
                 if (configuration.loaded)
                 {
                     if (configuration.contentDirectory != null)
-                    {
                         _previewTexture = ContentPack.LoadTexture2D(GetPath("preview") + ".png", processPink: false);
-                    }
-                    if (_previewTexture == null)
-                    {
-                        _previewTexture = Content.Load<Tex2D>("notexture");
-                    }
+                    _previewTexture ??= Content.Load<Tex2D>("notexture");
                 }
                 else
                 {
@@ -236,13 +267,40 @@ public abstract class Mod
             _previewTexture = value;
         }
     }
+#endif
 
-    /// <summary>
-    /// Gets path for screenshot.png from Content folder.
-    /// </summary>
-    /// <value>
-    /// Path for mod screenshot.png from Content folder.
-    /// </value>
+/// <summary>
+/// Gets path for screenshot.png from Content folder.
+/// </summary>
+/// <value>
+/// Path for mod screenshot.png from Content folder.
+/// </value>
+#if NO_TEX2D
+    public virtual Texture2D screenshot
+    {
+        get
+        {
+            if (_screenshot == null)
+            {
+                if (configuration.loaded)
+                {
+                    if (configuration.contentDirectory != null)
+                    {
+                        string shotPath = GetPath("screenshot") + ".png";
+                        if (File.Exists(shotPath))
+                            _screenshot = Content.Load<Texture2D>(shotPath);
+                    }
+                    _screenshot ??= Content.Load<Texture2D>("defaultMod");
+                }
+                else
+                {
+                    _screenshot = null;
+                }
+            }
+            return _screenshot;
+        }
+    }
+#else
     public virtual Tex2D screenshot
     {
         get
@@ -272,6 +330,7 @@ public abstract class Mod
             return _screenshot;
         }
     }
+#endif
 
     public Map<ushort, Type> typeToMessageID => _typeToMessageID;
 

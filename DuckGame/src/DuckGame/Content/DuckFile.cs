@@ -168,9 +168,9 @@ public class DuckFile
     {
         get
         {
-            if (Steam.user != null)
+            if (Steam.User != null)
             {
-                return saveDirectory + Steam.user.id + "/";
+                return saveDirectory + Steam.User.Id + "/";
             }
             return saveDirectory;
         }
@@ -386,7 +386,7 @@ public class DuckFile
         {
             return null;
         }
-        if (Options.Data.mojiFilter == 1 && pConnection != null && pConnection.data is User && (pConnection.data as User).relationship != FriendRelationship.Friend)
+        if (Options.Data.mojiFilter == 1 && pConnection != null && pConnection.data is User && (pConnection.data as User).Relationship != FriendRelationship.Friend)
         {
             return null;
         }
@@ -776,7 +776,7 @@ public class DuckFile
     {
         try
         {
-            return Steam.user != null && Path.GetDirectoryName(path).Contains(Steam.user.id.ToString());
+            return Steam.User != null && Path.GetDirectoryName(path).Contains(Steam.User.Id.ToString());
         }
         catch (Exception)
         {

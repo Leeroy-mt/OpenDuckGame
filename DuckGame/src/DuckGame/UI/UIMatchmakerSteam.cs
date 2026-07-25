@@ -48,8 +48,8 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
         if (pLobby is Lobby l)
         {
             messages.Clear();
-            if (l.owner != null)
-                messages.Add($"|LIME|Trying to join {l.owner.name}'s lobby...");
+            if (l.Owner != null)
+                messages.Add($"|LIME|Trying to join {l.Owner.Name}'s lobby...");
             else
                 messages.Add($"|LIME|Trying to join lobby {_takeIndex}/{lobbies.Count}...");
         }
@@ -113,7 +113,7 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
                     _wait = 60;
                 return;
             }
-            attempted.Add(_processing.id);
+            attempted.Add(_processing.Id);
             NMVersionMismatch.Type mismatch = DuckNetwork.CheckVersion(_processing.GetLobbyData("version"));
             if (mismatch != NMVersionMismatch.Type.Match)
             {
@@ -154,7 +154,7 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
                     else
                         messages.Add("|LIME|Trying to join lobby...");
                 }
-                DuckNetwork.Join(_processing.id.ToString(), "localhost", _passwordAttempt);
+                DuckNetwork.Join(_processing.Id.ToString(), "localhost", _passwordAttempt);
                 ChangeState(State.JoinLobby);
             }
         }
@@ -208,9 +208,9 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
         for (int i = 0; i < numLobbies; i++)
         {
             Lobby lobby = Network.activeNetwork.core.GetSearchLobbyAtIndex(i);
-            foreach (User user in lobby.users)
+            foreach (User user in lobby.Users)
                 _ = user;
-            if (lobby.owner == Steam.user || !lobby.joinable || blacklist.Contains(lobby.id) || attempted.Contains(lobby.id) || (UIMatchmakingBox.core != null && UIMatchmakingBox.core.blacklist.Contains(lobby.id)))
+            if (lobby.Owner == Steam.User || !lobby.Joinable || blacklist.Contains(lobby.Id) || attempted.Contains(lobby.Id) || (UIMatchmakingBox.core != null && UIMatchmakingBox.core.blacklist.Contains(lobby.Id)))
                 continue;
             if (myRandom != 0)
             {
@@ -233,7 +233,7 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
             int num = 100;
             if (x.GetLobbyData("version") != DG.version)
                 num += 100;
-            if (UIMatchmakingBox.core != null && UIMatchmakingBox.core.nonPreferredServers.Contains(x.id))
+            if (UIMatchmakingBox.core != null && UIMatchmakingBox.core.nonPreferredServers.Contains(x.Id))
                 num += 50;
             return num;
         })];
@@ -247,7 +247,7 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
     {
         if (_hostedLobby != null)
         {
-            _hostedLobby.joinable = false;
+            _hostedLobby.Joinable = false;
             Steam.LeaveLobby(_hostedLobby);
         }
     }

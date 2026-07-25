@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Threading;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -96,7 +97,7 @@ public abstract class Thing : Transform
 
     private bool _visible = true;
 
-    private Material _material;
+    private AutoEffect _material;
 
     protected bool _enablePhysics = true;
 
@@ -556,7 +557,7 @@ public abstract class Thing : Transform
         }
     }
 
-    public Material material
+    public AutoEffect material
     {
         get
         {
@@ -1777,12 +1778,20 @@ public abstract class Thing : Transform
     {
     }
 
+#if NO_TEX2D
+    public Sprite GetEditorImage(int wide = 16, int high = 16, bool transparentBack = false, Effect effect = null, XnaRenderTarget2D target = null)
+#else
     public Sprite GetEditorImage(int wide = 16, int high = 16, bool transparentBack = false, Effect effect = null, RenderTarget2D target = null)
+#endif
     {
         return GetEditorImage(wide, high, transparentBack, effect, target, pUseCollisionSize: false);
     }
 
+#if NO_TEX2D
+    public Sprite GetEditorImage(int wide, int high, bool transparentBack, Effect effect, XnaRenderTarget2D target, bool pUseCollisionSize)
+#else
     public Sprite GetEditorImage(int wide, int high, bool transparentBack, Effect effect, RenderTarget2D target, bool pUseCollisionSize)
+#endif
     {
         Sprite tex = null;
         if (_editorIcons.TryGetValue(GetType(), out tex))
@@ -1822,7 +1831,11 @@ public abstract class Thing : Transform
         int scalar = ((wide > high) ? wide : high);
         if (target == null)
         {
+#if NO_TEX2D
+            target = XnaRenderTarget2D.CreateSetUpTarget(wide, high, pdepth: true);
+#else
             target = new RenderTarget2D(wide, high, pdepth: true);
+#endif
         }
         if (graphic == null)
         {
@@ -1835,7 +1848,7 @@ public abstract class Thing : Transform
         {
             cam.center = new Vector2((int)((left + right) / 2f), (int)((top + bottom) / 2f));
         }
-        RenderTarget2D curTarg = Graphics.currentRenderTarget;
+        var curTarg = Graphics.currentRenderTarget;
         Graphics.SetRenderTarget(target);
         DepthStencilState state = new DepthStencilState
         {
@@ -1857,14 +1870,25 @@ public abstract class Thing : Transform
         {
             Graphics.SetRenderTarget(curTarg);
         }
-        Texture2D texture2D = new Texture2D(Graphics.device, target.width, target.height);
+#if NO_TEX2D
+        Texture2D texture2D = new(Graphics.device, target.Width, target.Height);
+        var data = new Color[target.Width * target.Height];
+        target.GetData(data);
+        texture2D.SetData(data);
+#else
+        Texture2D texture2D = new(Graphics.device, target.width, target.height);
         texture2D.SetData(target.GetData());
+#endif
         Sprite spr = new Sprite(texture2D);
         _editorIcons[GetType()] = spr;
         return spr;
     }
 
+#if NO_TEX2D
+    public virtual Sprite GeneratePreview(int wide = 16, int high = 16, bool transparentBack = false, Effect effect = null, XnaRenderTarget2D target = null)
+#else
     public virtual Sprite GeneratePreview(int wide = 16, int high = 16, bool transparentBack = false, Effect effect = null, RenderTarget2D target = null)
+#endif
     {
         bool editorPreview = wide == 16 && high == 16 && transparentBack && effect == null && target == null;
         if (editorPreview && _editorIcon != null)
@@ -1892,7 +1916,11 @@ public abstract class Thing : Transform
         }
         if (target == null)
         {
+#if NO_TEX2D
+            target = XnaRenderTarget2D.CreateSetUpTarget(wide, high, pdepth: true);
+#else
             target = new RenderTarget2D(wide, high, pdepth: true);
+#endif
         }
         if (graphic == null)
         {
@@ -1914,8 +1942,15 @@ public abstract class Thing : Transform
         Draw();
         Graphics.screen.End();
         Graphics.SetRenderTarget(null);
+#if NO_TEX2D
+        Texture2D texture2D = new Texture2D(Graphics.device, target.Width, target.Height);
+        var data = new Color[target.Width * target.Height];
+        target.GetData(data);
+        texture2D.SetData(data);
+#else
         Texture2D texture2D = new Texture2D(Graphics.device, target.width, target.height);
         texture2D.SetData(target.GetData());
+#endif
         Sprite spr = new Sprite(texture2D);
         if (editorPreview)
         {

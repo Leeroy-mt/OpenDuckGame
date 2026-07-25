@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -281,7 +282,11 @@ public class Editor : Level
     Thing _oldHover;
     Thing oldHover;
     Thing oldSecondaryHover;
+#if NO_TEX2D
+    XnaRenderTarget2D _procTarget;
+#else
     RenderTarget2D _procTarget;
+#endif
 
     List<string> existingGUID = [];
     List<Command> _commands = [];
@@ -291,7 +296,7 @@ public class Editor : Level
     List<ContextMenu.SearchPair> searchItems = [];
     List<BinaryClassChunk> _selectionCopy = [];
     List<Thing> _pasteBatch = [];
-    #endregion
+#endregion
 
     #region Public Properties
     public static bool miniMode
@@ -2344,7 +2349,11 @@ public class Editor : Level
                                 {
                                     int frameOffsetX = (int)((snap.X - _tileDragContext.X) / 16f);
                                     int frameOffsetY = (int)((snap.Y - _tileDragContext.Y) / 16f);
+#if NO_TEX2D
+                                    (newThing2 as BackgroundTile).frame = (_placementType as BackgroundTile).frame + frameOffsetX + (int)((float)frameOffsetY * ((float)newThing2.graphic.texture.Width / 16f));
+#else
                                     (newThing2 as BackgroundTile).frame = (_placementType as BackgroundTile).frame + frameOffsetX + (int)((float)frameOffsetY * ((float)newThing2.graphic.texture.width / 16f));
+#endif
                                 }
                                 else if (_placementType is ForegroundTile)
                                     (newThing2.graphic as SpriteMap).frame = ((_placementType as ForegroundTile).graphic as SpriteMap).frame;
@@ -3034,7 +3043,11 @@ public class Editor : Level
 
     public override void StartDrawing()
     {
+#if NO_TEX2D
+        _procTarget ??= XnaRenderTarget2D.CreateSetUpTarget(Graphics.width, Graphics.height);
+#else
         _procTarget ??= new RenderTarget2D(Graphics.width, Graphics.height);
+#endif
         _procContext?.Draw(_procTarget, current.camera, _procDrawOffset);
     }
 
@@ -4026,7 +4039,7 @@ public class Editor : Level
         core.currentLevel = curLevel;
         return data;
     }
-    #endregion
+#endregion
 
     #region Internal Methods
     internal static string SerializeTypeName(Type t)

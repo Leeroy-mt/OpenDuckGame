@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -38,7 +39,11 @@ public class DuckPersona
 
     public SpriteMap chatBust;
 
+#if NO_TEX2D
+    XnaRenderTarget2D _iconMap;
+#else
     private RenderTarget2D _iconMap;
+#endif
 
     public MaterialPersona material;
 
@@ -223,6 +228,17 @@ public class DuckPersona
         }
     }
 
+#if NO_TEX2D
+    public XnaRenderTarget2D iconMap
+    {
+        get
+        {
+            if (_iconMap == null || _iconMap.IsDisposed || _iconMap.IsContentLost)
+                _iconMap = XnaRenderTarget2D.CreateSetUpTarget(96, 96, pdepth: false, RenderTargetUsage.PreserveContents);
+            return _iconMap;
+        }
+    }
+#else
     public RenderTarget2D iconMap
     {
         get
@@ -234,8 +250,13 @@ public class DuckPersona
             return _iconMap;
         }
     }
+#endif
 
+#if NO_TEX2D
+    public Texture2D Recolor(Texture2D pTex)
+#else
     public Tex2D Recolor(Tex2D pTex)
+#endif
     {
         return Graphics.RecolorOld(pTex, _color);
     }
@@ -258,6 +279,15 @@ public class DuckPersona
                 Color c1 = new Color(varCol.X / 255f, varCol.Y / 255f, varCol.Z / 255f);
                 Color c2 = new Color(varCol2.X / 255f, varCol2.Y / 255f, varCol2.Z / 255f);
                 Color c3 = new Color(varCol3.X / 255f, varCol3.Y / 255f, varCol3.Z / 255f);
+#if NO_TEX2D
+                _skipSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("skipSign_m"), c1, c2, c3), 52, 18);
+                _skipSprite.Center = new Vector2(_skipSprite.width - 3, 15f);
+                _arrowSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("startArrow_m"), c1, c2, c3), 24, 16);
+                _arrowSprite.CenterOrigin();
+                _sprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("duck_m"), c1, c2, c3), 32, 32);
+                _sprite.CenterOrigin();
+                _crowdSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("seatDuck_m"), c1, c2, c3), 19, 23);
+#else
                 _skipSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("skipSign_m"), c1, c2, c3), 52, 18);
                 _skipSprite.Center = new Vector2(_skipSprite.width - 3, 15f);
                 _arrowSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("startArrow_m"), c1, c2, c3), 24, 16);
@@ -265,6 +295,7 @@ public class DuckPersona
                 _sprite = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("duck_m"), c1, c2, c3), 32, 32);
                 _sprite.CenterOrigin();
                 _crowdSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("seatDuck_m"), c1, c2, c3), 19, 23);
+#endif
                 _crowdSprite.CenterOrigin();
                 _sprite.ClearAnimations();
                 _sprite.AddAnimation("idle", 1f, true, default(int));
@@ -277,6 +308,22 @@ public class DuckPersona
                 _sprite.AddAnimation("netted", 1f, true, 14);
                 _sprite.AddAnimation("listening", 1f, true, 16);
                 _sprite.SetAnimation("idle");
+#if NO_TEX2D
+                _featherSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("feather_m"), c1, c2, c3), 12, 4);
+                _featherSprite.speed = 0.3f;
+                _featherSprite.AddAnimation("feather", 1f, true, 0, 1, 2, 3);
+                _fingerPositionSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("fingerPositions_m"), c1, c2, c3), 16, 12);
+                _fingerPositionSprite.CenterOrigin();
+                _quackSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("quackduck_m"), c1, c2, c3), 32, 32);
+                _quackSprite.CenterOrigin();
+                _armSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("duckArms_m"), c1, c2, c3), 16, 16);
+                _armSprite.CenterOrigin();
+                _controlledSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("controlledDuck_m"), c1, c2, c3), 32, 32);
+                _controlledSprite.CenterOrigin();
+                _defaultHead = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("hats/default_m"), c1, c2, c3), 32, 32);
+                _defaultHead.CenterOrigin();
+                chatBust = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("chatBust_m"), c1, c2, c3), 14, 13);
+#else
                 _featherSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("feather_m"), c1, c2, c3), 12, 4);
                 _featherSprite.speed = 0.3f;
                 _featherSprite.AddAnimation("feather", 1f, true, 0, 1, 2, 3);
@@ -291,10 +338,20 @@ public class DuckPersona
                 _defaultHead = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("hats/default_m"), c1, c2, c3), 32, 32);
                 _defaultHead.CenterOrigin();
                 chatBust = new SpriteMap(Graphics.RecolorM(Content.Load<Tex2D>("chatBust_m"), c1, c2, c3), 14, 13);
+#endif
                 chatBust.CenterOrigin();
             }
             else
             {
+#if NO_TEX2D
+                _skipSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("skipSign"), _color), 52, 18);
+                _skipSprite.Center = new Vector2(_skipSprite.width - 3, 15f);
+                _arrowSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("startArrow"), _color), 24, 16);
+                _arrowSprite.CenterOrigin();
+                _sprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("duck"), _color), 32, 32);
+                _sprite.CenterOrigin();
+                _crowdSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("seatDuck"), _color), 19, 23);
+#else
                 _skipSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Tex2D>("skipSign"), _color), 52, 18);
                 _skipSprite.Center = new Vector2(_skipSprite.width - 3, 15f);
                 _arrowSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Tex2D>("startArrow"), _color), 24, 16);
@@ -302,6 +359,7 @@ public class DuckPersona
                 _sprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Tex2D>("duck"), _color), 32, 32);
                 _sprite.CenterOrigin();
                 _crowdSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Tex2D>("seatDuck"), _color), 19, 23);
+#endif
                 _crowdSprite.CenterOrigin();
                 _sprite.ClearAnimations();
                 _sprite.AddAnimation("idle", 1f, true, default(int));
@@ -314,6 +372,22 @@ public class DuckPersona
                 _sprite.AddAnimation("netted", 1f, true, 14);
                 _sprite.AddAnimation("listening", 1f, true, 16);
                 _sprite.SetAnimation("idle");
+#if NO_TEX2D
+                _featherSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("feather"), _color), 12, 4);
+                _featherSprite.speed = 0.3f;
+                _featherSprite.AddAnimation("feather", 1f, true, 0, 1, 2, 3);
+                _fingerPositionSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("fingerPositions"), _color), 16, 12);
+                _fingerPositionSprite.CenterOrigin();
+                _quackSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("quackduck"), _color), 32, 32);
+                _quackSprite.CenterOrigin();
+                _armSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("duckArms"), _color), 16, 16);
+                _armSprite.CenterOrigin();
+                _controlledSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("controlledDuck"), _color), 32, 32);
+                _controlledSprite.CenterOrigin();
+                _defaultHead = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("hats/default"), _color), 32, 32);
+                _defaultHead.CenterOrigin();
+                chatBust = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("chatBust"), _color), 14, 13);
+#else
                 _featherSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Tex2D>("feather"), _color), 12, 4);
                 _featherSprite.speed = 0.3f;
                 _featherSprite.AddAnimation("feather", 1f, true, 0, 1, 2, 3);
@@ -328,6 +402,7 @@ public class DuckPersona
                 _defaultHead = new SpriteMap(Graphics.RecolorOld(Content.Load<Tex2D>("hats/default"), _color), 32, 32);
                 _defaultHead.CenterOrigin();
                 chatBust = new SpriteMap(Graphics.RecolorOld(Content.Load<Tex2D>("chatBust"), _color), 14, 13);
+#endif
                 chatBust.CenterOrigin();
             }
         }

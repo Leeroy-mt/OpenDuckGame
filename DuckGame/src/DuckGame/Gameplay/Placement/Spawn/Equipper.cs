@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using System;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -21,7 +22,11 @@ public class Equipper : Thing
 
     public EditorProperty<bool> holsterChained = new(false);
 
+#if NO_TEX2D
+    XnaRenderTarget2D _preview;
+#else
     private RenderTarget2D _preview;
+#endif
 
     private Sprite _previewSprite;
 
@@ -131,7 +136,11 @@ public class Equipper : Thing
         {
             if (_preview == null)
             {
+#if NO_TEX2D
+                _preview = XnaRenderTarget2D.CreateSetUpTarget(32, 32);
+#else
                 _preview = new RenderTarget2D(32, 32);
+#endif
             }
             Thing t = GetContainedInstance();
             if (t != null)

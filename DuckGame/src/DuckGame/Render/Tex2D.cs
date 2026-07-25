@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace DuckGame;
 
@@ -123,5 +125,33 @@ public class Tex2D : Tex2DBase
     public static implicit operator Tex2D(Texture2D tex)
     {
         return Content.GetTex2D(tex);
+    }
+}
+
+public static class Texture2DExtensions
+{
+    readonly static Dictionary<Texture2D, short> textureIndices = [];
+
+    extension(Texture2D texture2D)
+    {
+        public short GetTextureIndex()
+        {
+            if (textureIndices.TryGetValue(texture2D, out var value))
+                return value;
+            return -1;
+        }
+
+        public void SetTextureIndex(short index)
+        {
+            if (!textureIndices.TryAdd(texture2D, index))
+                textureIndices[texture2D] = index;
+        }
+
+        public Color[] GetData()
+        {
+            var data = new Color[texture2D.Width * texture2D.Height];
+            texture2D.GetData(data);
+            return data;
+        }
     }
 }

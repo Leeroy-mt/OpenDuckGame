@@ -100,6 +100,26 @@ public class Script
         }
     }
 
+    public static bool hasPurchaseInfo()
+    {
+        return false;
+    }
+
+    public static bool doesNotHavePurchaseInfo()
+    {
+        return true;
+    }
+
+    public static bool isDemo()
+    {
+        return false;
+    }
+
+    public static bool isNotDemo()
+    {
+        return true;
+    }
+
     public static int profileScore()
     {
         return activeProfile.endOfRoundStats.GetProfileScore();

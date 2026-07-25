@@ -4,6 +4,7 @@ using SDL3;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -129,14 +130,26 @@ public class Resolution
                 break;
             case ScreenMode.Borderless:
                 Graphics.mouseVisible = false;
+#if NO_TEX2D
+                Graphics._screenBufferTarget = XnaRenderTarget2D.CreateSetUpTarget(Options.LocalData.currentResolution.x, Options.LocalData.currentResolution.y, pdepth: true, RenderTargetUsage.PreserveContents);
+#else
                 Graphics._screenBufferTarget = new RenderTarget2D(Options.LocalData.currentResolution.x, Options.LocalData.currentResolution.y, pdepth: true, RenderTargetUsage.PreserveContents);
+#endif
                 SDL.SDL_SetWindowBordered(_window, false);
                 //_window.Location = new System.Drawing.Point(0, 0);
+#if NO_TEX2D
+                if (Graphics._screenBufferTarget.Width < 400)
+#else
                 if (Graphics._screenBufferTarget.width < 400)
+#endif
                 {
                     Graphics.snap = 1f;
                 }
+#if NO_TEX2D
+                else if (Graphics._screenBufferTarget.Width < 800)
+#else
                 else if (Graphics._screenBufferTarget.width < 800)
+#endif
                 {
                     Graphics.snap = 2f;
                 }
@@ -146,7 +159,11 @@ public class Resolution
                 Graphics._screenBufferTarget = null;
                 break;
         }
+#if NO_TEX2D
+        MonoMain._screenCapture = XnaRenderTarget2D.CreateSetUpTarget(current.x, current.y, pdepth: true);
+#else
         MonoMain._screenCapture = new RenderTarget2D(current.x, current.y, pdepth: true);
+#endif
         MonoMain.RetakePauseCapture();
         LayerCore.ReinitializeLightingTargets();
         Options.ResolutionChanged();

@@ -99,7 +99,7 @@ public class NCSteam : NCNetworkImplementation
         HookUpDelegates();
         _initializedSettings = false;
         _lobby = Steam.CreateLobby((SteamLobbyType)lobbyType, maxConnections);
-        _lobby.name = identifier;
+        _lobby.Name = identifier;
         if (_lobby == null)
         {
             return new NCError("|DGORANGE|STEAM |DGRED|Steam is not running.", NCErrorType.Error);
@@ -163,7 +163,7 @@ public class NCSteam : NCNetworkImplementation
         if (identifier == "joinTest")
         {
             _lobby = Steam.JoinLobby(1uL);
-            _serverIdentifier = _lobby.id.ToString();
+            _serverIdentifier = _lobby.Id.ToString();
         }
         else
         {
@@ -187,7 +187,7 @@ public class NCSteam : NCNetworkImplementation
         DevConsole.Log(DCSection.Connection, "NCSteam.LobbyStatusChange(" + GetDrawString(who) + ", " + flags.ToString() + ")");
         if ((flags & SteamLobbyUserStatusFlags.Entered) != 0)
         {
-            DevConsole.Log(DCSection.Steam, "|DGGREEN|" + who.name + " (" + who.id + ") has joined the Steam lobby.");
+            DevConsole.Log(DCSection.Steam, "|DGGREEN|" + who.Name + " (" + who.Id + ") has joined the Steam lobby.");
             if (Network.isServer && DuckNetwork.localConnection.status == ConnectionStatus.Connected)
             {
                 AttemptConnection(who);
@@ -212,28 +212,28 @@ public class NCSteam : NCNetworkImplementation
         Steam_LobbyMessage m = Steam_LobbyMessage.Receive(who, data);
         if (m != null)
         {
-            if (m.message == "COM_FAIL" && m.context == Steam.user)
+            if (m.message == "COM_FAIL" && m.context == Steam.User)
             {
-                DevConsole.Log(DCSection.Connection, "Communication failure with " + who.name + "... Disconnecting!");
+                DevConsole.Log(DCSection.Connection, "Communication failure with " + who.Name + "... Disconnecting!");
                 Network.EndNetworkingSession(new DuckNetErrorInfo(DuckNetError.EveryoneDisconnected, "Could not connect to server."));
             }
             else if (m.message == "IM_OUTTAHERE")
             {
-                DevConsole.Log(DCSection.Connection, "Received lobby exit message from " + who.name + "...");
-                Network.DisconnectClient(GetConnection(who), new DuckNetErrorInfo(DuckNetError.ClientDisconnected, who.name + " left the lobby."));
+                DevConsole.Log(DCSection.Connection, "Received lobby exit message from " + who.Name + "...");
+                Network.DisconnectClient(GetConnection(who), new DuckNetErrorInfo(DuckNetError.ClientDisconnected, who.Name + " left the lobby."));
             }
         }
     }
 
     private string GetDrawString(User pUser)
     {
-        return pUser.name + " (" + pUser.id + ")";
+        return pUser.Name + " (" + pUser.Id + ")";
     }
 
     public void OnConnectionRequest(User who)
     {
         DevConsole.Log(DCSection.Connection, "NCSteam.OnConnectionRequest(" + GetDrawString(who) + ")");
-        if ((GetConnection(who) != null || (base.lobby != null && base.lobby.users.Contains(who))) && Network.isActive)
+        if ((GetConnection(who) != null || (base.lobby != null && base.lobby.Users.Contains(who))) && Network.isActive)
         {
             DevConsole.Log(DCSection.Steam, "|DGYELLOW|" + GetDrawString(who) + " has requested a connection.");
             Steam.AcceptConnection(who);
@@ -266,12 +266,12 @@ public class NCSteam : NCNetworkImplementation
 
     public void OnInviteReceived(User who, Lobby lobby)
     {
-        inviteLobbyID = lobby.id;
+        inviteLobbyID = lobby.Id;
         if (Level.current is TitleScreen || Level.current is Editor || Level.current is DuckGameTestArea || (Level.current is GameLevel && (Level.current as GameLevel)._editorTestMode))
         {
             PrepareProfilesForJoin();
         }
-        Level.current = new JoinServer(lobby.id);
+        Level.current = new JoinServer(lobby.Id);
     }
 
     public void OnLobbySearchComplete(Lobby lobby)
@@ -289,7 +289,7 @@ public class NCSteam : NCNetworkImplementation
 
     public override string GetConnectionIdentifier(object connection)
     {
-        if (connection is User { id: var id })
+        if (connection is User { Id: var id })
         {
             return id.ToString();
         }
@@ -300,16 +300,16 @@ public class NCSteam : NCNetworkImplementation
     {
         if (connection is User user)
         {
-            return user.name;
+            return user.Name;
         }
         return "no info";
     }
 
     protected override string OnGetLocalName()
     {
-        if (Steam.user != null)
+        if (Steam.User != null)
         {
-            return Steam.user.name;
+            return Steam.User.Name;
         }
         return "no info";
     }
@@ -324,11 +324,11 @@ public class NCSteam : NCNetworkImplementation
             }
             return new NCError("|DGORANGE|STEAM |DGRED|Lobby was closed.", NCErrorType.CriticalError);
         }
-        if (_lobby.processing)
+        if (_lobby.Processing)
         {
             return null;
         }
-        if (_lobby.id == 0L)
+        if (_lobby.Id == 0L)
         {
             return new NCError("|DGORANGE|STEAM |DGRED|Failed to create lobby.", NCErrorType.CriticalError);
         }
@@ -341,11 +341,11 @@ public class NCSteam : NCNetworkImplementation
         {
             return new NCError("|DGORANGE|STEAM |DGYELLOW|Lobby was closed.", NCErrorType.CriticalError);
         }
-        if (_lobby.processing)
+        if (_lobby.Processing)
         {
             return null;
         }
-        if (_lobby.id == 0L)
+        if (_lobby.Id == 0L)
         {
             return new NCError("|DGORANGE|STEAM |DGRED|Failed to join lobby.", NCErrorType.CriticalError);
         }
@@ -381,9 +381,9 @@ public class NCSteam : NCNetworkImplementation
     {
         if (_lobby != null)
         {
-            if (_lobby.owner == Steam.user && DuckNetwork.potentialHostObject is User newOwner && _lobby.users.Contains(newOwner))
+            if (_lobby.Owner == Steam.User && DuckNetwork.potentialHostObject is User newOwner && _lobby.Users.Contains(newOwner))
             {
-                _lobby.owner = newOwner;
+                _lobby.Owner = newOwner;
             }
             Steam_LobbyMessage.Send("IM_OUTTAHERE", null);
             Steam.LeaveLobby(_lobby);
@@ -445,7 +445,7 @@ public class NCSteam : NCNetworkImplementation
 
     private void TryGettingPingString()
     {
-        if (_lobby != null && !_lobby.processing && _lobby.id != 0L && pingWaitTimeout <= 0 && !gotPingString)
+        if (_lobby != null && !_lobby.Processing && _lobby.Id != 0L && pingWaitTimeout <= 0 && !gotPingString)
         {
             string pingString = Steam.GetLocalPingString();
             _lobby.SetLobbyData("pingstring", pingString);
@@ -460,14 +460,14 @@ public class NCSteam : NCNetworkImplementation
 
     public override void Update()
     {
-        if (_lobby != null && !_lobby.processing && _lobby.id != 0L)
+        if (_lobby != null && !_lobby.Processing && _lobby.Id != 0L)
         {
             if (!_lobbyCreationComplete)
             {
                 _lobbyCreationComplete = true;
                 if (Network.isServer)
                 {
-                    if (_lobby.joinResult != SteamLobbyJoinResult.Success)
+                    if (_lobby.JoinResult != SteamLobbyJoinResult.Success)
                     {
                         DevConsole.Log(DCSection.Steam, "|DGGREEN|Lobby creation failed!");
                         Network.EndNetworkingSession(new DuckNetErrorInfo(DuckNetError.ControlledDisconnect, "Failed to create steam lobby."));
@@ -477,21 +477,21 @@ public class NCSteam : NCNetworkImplementation
                 }
                 else
                 {
-                    if (_lobby.owner != null && Options.Data.blockedPlayers.Contains(_lobby.owner.id))
+                    if (_lobby.Owner != null && Options.Data.blockedPlayers.Contains(_lobby.Owner.Id))
                     {
                         DuckNetwork.FailWithBlockedUser();
-                        DevConsole.Log(DCSection.Steam, "|DGRED|You have blocked the host! (" + _lobby.owner.name + ")");
+                        DevConsole.Log(DCSection.Steam, "|DGRED|You have blocked the host! (" + _lobby.Owner.Name + ")");
                         return;
                     }
                     if (UIMatchmakerMark2.instance != null)
                     {
                         UIMatchmakerMark2.instance.Hook_OnLobbyProcessed(_lobby);
                     }
-                    if (_lobby.joinResult != SteamLobbyJoinResult.Success)
+                    if (_lobby.JoinResult != SteamLobbyJoinResult.Success)
                     {
-                        DevConsole.Log(DCSection.Steam, "|DGGREEN|Failed to join lobby (" + _lobby.joinResult.ToString() + ")");
+                        DevConsole.Log(DCSection.Steam, "|DGGREEN|Failed to join lobby (" + _lobby.JoinResult.ToString() + ")");
                         string reason = "";
-                        reason = ((_lobby.joinResult == SteamLobbyJoinResult.DoesntExist) ? "Steam Lobby No Longer Exists." : ((_lobby.joinResult != SteamLobbyJoinResult.NotAllowed) ? ("Failed to Join Lobby (" + _lobby.joinResult.ToString() + ")") : "Failed to Join Lobby (Access Denied)"));
+                        reason = ((_lobby.JoinResult == SteamLobbyJoinResult.DoesntExist) ? "Steam Lobby No Longer Exists." : ((_lobby.JoinResult != SteamLobbyJoinResult.NotAllowed) ? ("Failed to Join Lobby (" + _lobby.JoinResult.ToString() + ")") : "Failed to Join Lobby (Access Denied)"));
                         Network.EndNetworkingSession(new DuckNetErrorInfo(DuckNetError.ControlledDisconnect, reason));
                         return;
                     }
@@ -505,7 +505,7 @@ public class NCSteam : NCNetworkImplementation
                     }
                     if (_lobby.GetLobbyData("modhash").Trim() != ModLoader.modHash)
                     {
-                        ConnectionError.joinLobby = Steam.lobby;
+                        ConnectionError.joinLobby = Steam.Lobby;
                         DuckNetwork.FailWithDifferentModsError();
                         return;
                     }
@@ -555,13 +555,13 @@ public class NCSteam : NCNetworkImplementation
                         }
                     }
                     DevConsole.Log(DCSection.Steam, "|DGGREEN|----------------------------------------");
-                    DevConsole.Log(DCSection.Steam, "|DGGREEN|Lobby Joined (" + _lobby.owner.name + ")");
-                    AttemptConnection(_lobby.owner, host: true);
+                    DevConsole.Log(DCSection.Steam, "|DGGREEN|Lobby Joined (" + _lobby.Owner.Name + ")");
+                    AttemptConnection(_lobby.Owner, host: true);
                 }
             }
             if (Network.isServer)
             {
-                if (!_initializedSettings && _lobby.id != 0L)
+                if (!_initializedSettings && _lobby.Id != 0L)
                 {
                     UpdateRandomID(_lobby);
                     _lobby.SetLobbyData("started", "false");
@@ -571,10 +571,10 @@ public class NCSteam : NCNetworkImplementation
                     _lobby.SetLobbyData("modifiers", "false");
                     _lobby.SetLobbyData("modhash", ModLoader.modHash);
                     _lobby.SetLobbyData("datahash", Network.gameDataHash.ToString());
-                    _lobby.SetLobbyData("name", Steam.user.name + "'s Lobby");
+                    _lobby.SetLobbyData("name", Steam.User.Name + "'s Lobby");
                     _lobby.SetLobbyData("numSlots", DuckNetwork.numSlots.ToString());
-                    _lobby.name = _serverIdentifier;
-                    if (_lobby.name != TeamSelect2.DefaultGameName())
+                    _lobby.Name = _serverIdentifier;
+                    if (_lobby.Name != TeamSelect2.DefaultGameName())
                     {
                         _lobby.SetLobbyData("customName", "true");
                     }
@@ -601,14 +601,14 @@ public class NCSteam : NCNetworkImplementation
                     TryGettingPingString();
                 }
             }
-            if (_lobby.owner == Steam.user && !Network.isServer)
+            if (_lobby.Owner == Steam.User && !Network.isServer)
             {
                 foreach (NetworkConnection c in base.connections)
                 {
-                    if (c.data is User && c.isHost && _lobby.users.Contains(c.data as User))
+                    if (c.data is User && c.isHost && _lobby.Users.Contains(c.data as User))
                     {
                         User newLobbyOwner = c.data as User;
-                        _lobby.owner = newLobbyOwner;
+                        _lobby.Owner = newLobbyOwner;
                     }
                 }
             }
@@ -729,18 +729,18 @@ public class NCSteam : NCNetworkImplementation
 
     public override bool IsLobbySearchComplete()
     {
-        return Steam.lobbySearchComplete;
+        return Steam.IsLobbySearchComplete;
     }
 
     public override int NumLobbiesFound()
     {
-        return Steam.lobbiesFound;
+        return Steam.LobbiesFound;
     }
 
     public override bool TryRequestDailyKills(out long kills)
     {
         kills = 0L;
-        if (!Steam.waitingForGlobalStats)
+        if (!Steam.WaitingForGlobalStats)
         {
             kills = (long)Steam.GetDailyGlobalStat("kills");
         }

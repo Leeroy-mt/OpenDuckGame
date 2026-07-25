@@ -100,7 +100,7 @@ public class FlameThrower : Gun
     public override void Draw()
     {
         base.Draw();
-        Material obj = Graphics.material;
+        AutoEffect obj = Graphics.material;
         Graphics.material = null;
         if (_barrelFlame.speed > 0f)
         {

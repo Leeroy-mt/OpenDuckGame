@@ -144,7 +144,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
 
     private MaterialGrid _gridMaterial;
 
-    private Material _oldMaterial;
+    private AutoEffect _oldMaterial;
 
     private bool _oldMaterialSet;
 

@@ -32,7 +32,7 @@ public class UIGameConnectionBox : UIMatchmakingBox
         }
         else
         {
-            DuckNetwork.Join(_tryConnectLobby.id.ToString(), "localhost", _passwordAttempt);
+            DuckNetwork.Join(_tryConnectLobby.Id.ToString(), "localhost", _passwordAttempt);
         }
         ChangeState(MatchmakingState.Connecting);
         _newStatusList.Add("|DGGREEN|Connecting to game...");

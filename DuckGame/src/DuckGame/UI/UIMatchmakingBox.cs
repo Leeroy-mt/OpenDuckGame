@@ -347,20 +347,20 @@ public class UIMatchmakingBox : UIMenu
                         {
                             Lobby lobby = null;
                             lobby = doLater != 0 ? tryLater[i] : Network.activeNetwork.core.GetSearchLobbyAtIndex(i);
-                            if (_tryHostingLobby != null && lobby.id == _tryHostingLobby.id)
+                            if (_tryHostingLobby != null && lobby.Id == _tryHostingLobby.Id)
                                 continue;
 
                             if (i == Network.activeNetwork.core.NumLobbiesFound() - 1)
                                 _failedAttempts.RemoveAll(x => x.cooldown <= 0);
-                            if (IsBlacklisted(lobby.id))
+                            if (IsBlacklisted(lobby.Id))
                             {
-                                DevConsole.Log($"|PURPLE|LOBBY    |DGRED|Skipping {lobby.id} (BLACKLISTED)", Color.White);
+                                DevConsole.Log($"|PURPLE|LOBBY    |DGRED|Skipping {lobby.Id} (BLACKLISTED)", Color.White);
                                 continue;
                             }
-                            if (_core.nonPreferredServers.Contains(lobby.id) && doLater == 0)
+                            if (_core.nonPreferredServers.Contains(lobby.Id) && doLater == 0)
                             {
                                 tryLater.Add(lobby);
-                                DevConsole.Log($"|PURPLE|LOBBY    |DGRED|Skipping {lobby.id} (NOT PREFERRED)", Color.White);
+                                DevConsole.Log($"|PURPLE|LOBBY    |DGRED|Skipping {lobby.Id} (NOT PREFERRED)", Color.White);
                                 continue;
                             }
                             switch (DuckNetwork.CheckVersion(lobby.GetLobbyData("version")))
@@ -403,8 +403,8 @@ public class UIMatchmakingBox : UIMenu
                                 DevConsole.Log("|PURPLE|LOBBY    |DGYELLOW|Lobby beats own lobby, Attempting join.", Color.White);
                             }
                             _tryConnectLobby = lobby;
-                            if (lobby.owner != null)
-                                _newStatusList.Add($"|LIME|Trying to join {lobby.owner.name}.");
+                            if (lobby.Owner != null)
+                                _newStatusList.Add($"|LIME|Trying to join {lobby.Owner.Name}.");
                             else
                                 _newStatusList.Add("|LIME|Trying to join server.");
                             ChangeState(MatchmakingState.Disconnect);
@@ -606,7 +606,7 @@ public class UIMatchmakingBox : UIMenu
                 {
                     _permenantBlacklist.Add(new BlacklistServer
                     {
-                        lobby = _tryConnectLobby.id,
+                        lobby = _tryConnectLobby.Id,
                         cooldown = 15
                     });
                 }
@@ -630,7 +630,7 @@ public class UIMatchmakingBox : UIMenu
                 {
                     _permenantBlacklist.Add(new BlacklistServer
                     {
-                        lobby = _tryConnectLobby.id,
+                        lobby = _tryConnectLobby.Id,
                         cooldown = 15
                     });
                 }
@@ -643,7 +643,7 @@ public class UIMatchmakingBox : UIMenu
             {
                 _permenantBlacklist.Add(new BlacklistServer
                 {
-                    lobby = _tryConnectLobby.id,
+                    lobby = _tryConnectLobby.Id,
                     cooldown = 15
                 });
             }
@@ -652,7 +652,7 @@ public class UIMatchmakingBox : UIMenu
         {
             _failedAttempts.Add(new BlacklistServer
             {
-                lobby = _tryConnectLobby.id,
+                lobby = _tryConnectLobby.Id,
                 cooldown = 15
             });
         }
@@ -683,7 +683,7 @@ public class UIMatchmakingBox : UIMenu
                 FinishAndClose();
             else if (_tryConnectLobby != null)
             {
-                DuckNetwork.Join(_tryConnectLobby.id.ToString());
+                DuckNetwork.Join(_tryConnectLobby.Id.ToString());
                 ChangeState(MatchmakingState.Connecting);
             }
             else

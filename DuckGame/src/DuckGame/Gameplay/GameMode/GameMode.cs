@@ -240,13 +240,13 @@ public class GameMode
         if (Level.current is GameLevel && (Level.current as GameLevel).data != null && (Level.current as GameLevel).data.metaData.workshopID != 0L)
         {
             WorkshopItem item = WorkshopItem.GetItem((Level.current as GameLevel).data.metaData.workshopID);
-            if ((item.stateFlags & WorkshopItemState.Subscribed) != WorkshopItemState.None)
+            if ((item.StateFlags & WorkshopItemState.Subscribed) != WorkshopItemState.None)
             {
-                Steam.WorkshopUnsubscribe(item.id);
+                Steam.WorkshopUnsubscribe(item.Id);
             }
             else
             {
-                Steam.WorkshopSubscribe(item.id);
+                Steam.WorkshopSubscribe(item.Id);
             }
         }
     }
@@ -367,7 +367,7 @@ public class GameMode
                 if (item != null)
                 {
                     pauseBox2.leftSection.Add(new UIMenuItem("@STEAMICON@|DGGREEN|VIEW", new UIMenuActionCallFunction(View), UIAlign.Left));
-                    if ((item.stateFlags & WorkshopItemState.Subscribed) != WorkshopItemState.None)
+                    if ((item.StateFlags & WorkshopItemState.Subscribed) != WorkshopItemState.None)
                     {
                         pauseBox2.leftSection.Add(new UIMenuItem("@STEAMICON@|DGRED|UNSUBSCRIBE", new UIMenuActionCloseMenuCallFunction(_pauseGroup, Subscribe), UIAlign.Left));
                     }

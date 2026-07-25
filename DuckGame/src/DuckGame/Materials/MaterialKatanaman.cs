@@ -3,16 +3,23 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialKatanaman : Material
+public class MaterialKatanaman : AutoEffect
 {
+#if NO_TEX2D
+    Texture2D _lighting;
+#else
     private Tex2D _lighting;
+#endif
 
     public TeamHat _hat;
 
-    public MaterialKatanaman(TeamHat hat)
+    public MaterialKatanaman(TeamHat hat) : base(Content.Load<MTEffect>("shaders/katanaman"))
     {
-        effect = Content.Load<MTEffect>("shaders/katanaman");
+#if NO_TEX2D
+        _lighting = Content.Load<Texture2D>("hats/katanaman_lightmap");
+#else
         _lighting = Content.Load<Tex2D>("hats/katanaman_lightmap");
+#endif
         _hat = hat;
     }
 
@@ -45,9 +52,6 @@ public class MaterialKatanaman : Material
         SetValue("light3y", snap.Y + lightOffset.Y);
         SetValue("add", Layer.kGameLayerAdd);
         SetValue("fade", Layer.kGameLayerFade);
-        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
-        {
-            pass.Apply();
-        }
+        base.Apply();
     }
 }

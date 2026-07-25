@@ -2,41 +2,47 @@
 
 public class WorkshopQueryAll : WorkshopQueryUGC
 {
+    #region Internal Fields
 
-    internal EUGCQuery _queryType;
+    internal EUGCQuery queryType;
 
-    internal EUGCMatchingUGCType _fileType;
+    internal EUGCMatchingUGCType fileType;
 
-    public bool matchAnyTag { get; set; }
+    #endregion
 
-    public string searchText { get; set; }
+    #region Public Properties
 
-    public uint trendRankDays { get; set; }
+    public bool MatchAnyTag { get; set; }
+
+    public uint TrendRankDays { get; set; }
+
+    public string? SearchText { get; set; }
+
+    #endregion
 
     internal WorkshopQueryAll(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingUGCTypeFileType)
     {
-        matchAnyTag = false;
-        searchText = null;
-        trendRankDays = 0;
-
-        _queryType = eQueryType;
-        _fileType = eMatchingUGCTypeFileType;
+        queryType = eQueryType;
+        fileType = eMatchingUGCTypeFileType;
     }
 
-    internal override unsafe void Create()
+    #region Public Fields
+
+    internal override void Create()
     {
-        _handle = SteamUGC.CreateQueryAllUGCRequest(_queryType, _fileType, (AppId_t)312530, (AppId_t)312530, _page);
+        handle = SteamUGC.CreateQueryAllUGCRequest(queryType, fileType, (AppId_t)312530, (AppId_t)312530, _page); //! TODO: appid constant
     }
 
-    internal override unsafe void SetQueryData()
+    internal override void SetQueryData()
     {
         base.SetQueryData();
 
-        SteamUGC.SetMatchAnyTag(_handle, matchAnyTag);
-        SteamUGC.SetSearchText(_handle, searchText);
+        SteamUGC.SetMatchAnyTag(handle, MatchAnyTag);
+        SteamUGC.SetSearchText(handle, SearchText);
 
-        if (trendRankDays != 0)
-            SteamUGC.SetRankedByTrendDays(_handle, trendRankDays);
+        if (TrendRankDays != 0)
+            SteamUGC.SetRankedByTrendDays(handle, TrendRankDays);
     }
 
+    #endregion
 }

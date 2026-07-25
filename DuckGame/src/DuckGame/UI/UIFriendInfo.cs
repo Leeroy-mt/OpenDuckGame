@@ -16,9 +16,9 @@ public class UIFriendInfo : UIMenuItem
     #region Public Constructors
 
     public UIFriendInfo(User friend, UIMenu rootMenu)
-        : base(" " + friend.name)
+        : base(" " + friend.Name)
     {
-        byte[] data = friend.avatarSmall;
+        byte[] data = friend.AvatarSmall;
         if (data != null)
         {
             Texture2D tex = new(Graphics.device, 32, 32);
@@ -30,7 +30,7 @@ public class UIFriendInfo : UIMenuItem
         _collisionSize.Y = 14;
         BitmapFont littleFont = new("smallBiosFont", 7, 6);
         _textElement.SetFont(littleFont);
-        _textElement.text = "  " + friend.name + "\n  |LIME|WANTS TO PLAY";
+        _textElement.text = "  " + friend.Name + "\n  |LIME|WANTS TO PLAY";
     }
 
     #endregion

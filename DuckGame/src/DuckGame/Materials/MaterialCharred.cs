@@ -2,16 +2,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialCharred : Material
+public class MaterialCharred : AutoEffect
 {
-    public MaterialCharred()
-    {
-        effect = Content.Load<MTEffect>("Shaders/charred");
-    }
+    public MaterialCharred() : base(Content.Load<MTEffect>("Shaders/charred")) { }
 
     public override void Apply()
     {
-        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in CurrentTechnique.Passes)
         {
             pass.Apply();
         }

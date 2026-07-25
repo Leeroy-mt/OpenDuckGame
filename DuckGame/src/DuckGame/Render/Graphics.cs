@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -27,8 +28,12 @@ public static class Graphics
     public static GraphicsDeviceManager _manager;
     public static Sprite tounge;
     public static BitmapFont _biosFont;
-    public static Material material;
+    public static AutoEffect material;
+#if NO_TEX2D
+    public static XnaRenderTarget2D _screenBufferTarget;
+#else
     public static RenderTarget2D _screenBufferTarget;
+#endif
 
     public static List<GraphicsResource> objectsToDispose = [];
 
@@ -60,9 +65,18 @@ public static class Graphics
     static TriangleBatch _currentBatch;
 #endif
     static Layer _currentLayer;
+#if NO_TEX2D
+    static XnaRenderTarget2D _screenCapture;
+    static XnaRenderTarget2D _currentRenderTarget;
+    static XnaRenderTarget2D _defaultRenderTarget;
+#else
     static RenderTarget2D _screenCapture;
     static RenderTarget2D _currentRenderTarget;
     static RenderTarget2D _defaultRenderTarget;
+#endif
+#if !MODERN_BATCH
+    static Tex2D blank;
+#endif
 
     static readonly List<Action>[] _renderTasks = [[], []];
 
@@ -161,7 +175,11 @@ public static class Graphics
             {
                 RectangleF r = value.Bounds;
                 if (_currentRenderTarget != null)
+#if NO_TEX2D
+                    ClipRectangle(r, new RectangleF(0, 0, _currentRenderTarget.Width, _currentRenderTarget.Height));
+#else
                     ClipRectangle(r, new RectangleF(0, 0, _currentRenderTarget.width, _currentRenderTarget.height));
+#endif
                 else
                     ClipRectangle(r, device.PresentationParameters.Bounds);
                 value.X = (int)r.X;
@@ -202,6 +220,15 @@ public static class Graphics
         get => _currentLayer;
         set => _currentLayer = value;
     }
+#if NO_TEX2D
+    public static XnaRenderTarget2D screenCapture
+    {
+        get => _screenCapture;
+        set => _screenCapture = value;
+    }
+    public static XnaRenderTarget2D currentRenderTarget => _currentRenderTarget;
+    public static XnaRenderTarget2D defaultRenderTarget
+#else
     public static RenderTarget2D screenCapture
     {
         get => _screenCapture;
@@ -209,6 +236,7 @@ public static class Graphics
     }
     public static RenderTarget2D currentRenderTarget => _currentRenderTarget;
     public static RenderTarget2D defaultRenderTarget
+#endif
     {
         get
         {
@@ -232,7 +260,7 @@ public static class Graphics
         set => Level.core.currentFrameCalls = value;
     }
 
-    #endregion
+#endregion
 
     #region Private Properties
 
@@ -402,9 +430,7 @@ public static class Graphics
 
     public static void DrawRecorderItem(ref RecorderFrameItem item)
     {
-#if !MODERN_BATCH
         _currentBatch.DrawRecorderItem(ref item);
-#endif
     }
 
 #if !MODERN_BATCH
@@ -440,7 +466,35 @@ public static class Graphics
         _currentBatch.AppendTriangle(triangle);
     }
 #endif
-
+#if NO_TEX2D
+    public static void Draw(Texture2D texture, Vector2 position, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, Depth depth = default)
+    {
+        if (texture is Microsoft.Xna.Framework.Graphics.RenderTarget2D)
+        {
+            if ((texture as Microsoft.Xna.Framework.Graphics.RenderTarget2D).IsDisposed)
+                return;
+            if (texture.GetTextureIndex() == 0)
+                Content.AssignTextureIndex(texture);
+        }
+        if (doSnap)
+        {
+            position.X = float.Round(position.X * snap) / snap;
+            position.Y = float.Round(position.Y * snap) / snap;
+        }
+        if (effects == SpriteEffects.FlipHorizontally)
+            origin.X = (sourceRectangle.HasValue ? sourceRectangle.Value.Width : texture.Width) - origin.X;
+        float deep = AdjustDepth(depth);
+#if !MODERN_BATCH
+        if (material != null)
+            _currentBatch.DrawWithMaterial(texture, position, sourceRectangle, color, rotation, origin, scale, effects, deep, material);
+        else
+            _currentBatch.Draw(texture, position, sourceRectangle, color, rotation, origin, scale, effects, deep);
+#else
+        _currentBatch.DrawTexture(texture, position, sourceRectangle, color, rotation, origin, scale, effects, deep, material);
+        //_currentBatch.DrawTexture(texture, new(position, position + new Vector2(sourceRectangle?.width ?? texture.w, sourceRectangle?.height ?? texture.h) * scale), sourceRectangle, color, rotation, origin * scale, effects, deep, material?.effect);
+#endif
+    }
+#else
     public static void Draw(Tex2D texture, Vector2 position, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, Depth depth = default)
     {
         if (texture.nativeObject is Microsoft.Xna.Framework.Graphics.RenderTarget2D)
@@ -456,7 +510,7 @@ public static class Graphics
             position.Y = float.Round(position.Y * snap) / snap;
         }
         if (effects == SpriteEffects.FlipHorizontally)
-            origin.X = (sourceRectangle.HasValue ? sourceRectangle.Value.Width : texture.w) - origin.X;
+            origin.X = (sourceRectangle.HasValue ? sourceRectangle.Value.Width : texture.width) - origin.X;
         float deep = AdjustDepth(depth);
 #if !MODERN_BATCH
         if (material != null)
@@ -468,6 +522,7 @@ public static class Graphics
         //_currentBatch.DrawTexture(texture, new(position, position + new Vector2(sourceRectangle?.width ?? texture.w, sourceRectangle?.height ?? texture.h) * scale), sourceRectangle, color, rotation, origin * scale, effects, deep, material?.effect);
 #endif
     }
+#endif
 
     public static void Draw(Sprite g, float x, float y)
     {
@@ -516,7 +571,11 @@ public static class Graphics
         g.Draw();
     }
 
+#if NO_TEX2D
+    public static void Draw(Texture2D target, float x, float y, float xscale = 1, float yscale = 1, Depth depth = default)
+#else
     public static void Draw(Tex2D target, float x, float y, float xscale = 1, float yscale = 1, Depth depth = default)
+#endif
     {
         Draw(target, new Vector2(x, y), null, Color.White, 0, Vector2.Zero, new Vector2(xscale, yscale), SpriteEffects.None, depth);
     }
@@ -545,8 +604,14 @@ public static class Graphics
 
     public static void DrawLine(Vector2 p1, Vector2 p2, Color col, float width = 1, Depth depth = default)
     {
+#if !MODERN_BATCH
+        float angle = float.Atan2(p2.Y - p1.Y, p2.X - p1.X);
+        float length = (p1 - p2).Length();
+        Draw(blank, p1, null, col, angle, new Vector2(0, .5f), new Vector2(length, width), SpriteEffects.None, depth);
+#else
         var n = Vector2.Normalize(new(p1.Y - p2.Y, p2.X - p1.X)) * width / 2;
         _currentBatch.DrawQuad(p1 + n, p1 - n, p2 + n, p2 - n, default, default, default, default, AdjustDepth(depth), null, col);
+#endif
     }
 
     public static void DrawDottedLine(Vector2 p1, Vector2 p2, Color col, float width = 1, float dotLength = 8, Depth depth = default)
@@ -572,6 +637,17 @@ public static class Graphics
 
     public static void DrawRing(Vector2 pos, float radius, Color col, float width = 1, Depth depth = default, int iterations = 32)
     {
+#if !MODERN_BATCH
+        Vector2 prev = Vector2.Zero;
+        for (int i = 0; i < iterations; i++)
+        {
+            float val = Maths.DegToRad(360f / (iterations - 1) * i);
+            Vector2 cur = new(float.Cos(val) * radius, -float.Sin(val) * radius);
+            if (i > 0)
+                DrawLine(pos + cur, pos + prev, col, width, depth);
+            prev = cur;
+        }
+#else
         var segment0 = new Vector2(1, 0);
         for (int i = 1; i < iterations + 1; i++)
         {
@@ -593,8 +669,10 @@ public static class Graphics
 
             segment0 = segment1;
         }
+#endif
     }
 
+#if MODERN_BATCH
     public static void DrawCircle(Vector2 pos, float radius, Color col, Depth depth = default, int iterations = 32)
     {
         var segment0 = new Vector2(radius, 0);
@@ -617,7 +695,29 @@ public static class Graphics
             segment0 = segment1;
         }
     }
+#endif
 
+#if NO_TEX2D
+    public static void DrawTexturedLine(Texture2D texture, Vector2 p1, Vector2 p2, Color col, float width = 1, Depth depth = default)
+    {
+        if (texture.Width > 1)
+        {
+            p1 = new Vector2(p1.X, p1.Y);
+            p2 = new Vector2(p2.X, p2.Y);
+            float angle = (float)Math.Atan2(p2.Y - p1.Y, p2.X - p1.X);
+            float length = (p1 - p2).Length() / texture.Width;
+            Draw(texture, p1, null, col, angle, new Vector2(0f, texture.Height / 2), new Vector2(length, width), SpriteEffects.None, depth);
+        }
+        else
+        {
+            p1 = new Vector2(p1.X, p1.Y);
+            p2 = new Vector2(p2.X, p2.Y);
+            float angle2 = (float)Math.Atan2(p2.Y - p1.Y, p2.X - p1.X);
+            float length2 = (p1 - p2).Length();
+            Draw(texture, p1, null, col, angle2, new Vector2(0, texture.Height / 2), new Vector2(length2, width), SpriteEffects.None, depth);
+        }
+    }
+#else
     public static void DrawTexturedLine(Tex2D texture, Vector2 p1, Vector2 p2, Color col, float width = 1, Depth depth = default)
     {
         if (texture.width > 1)
@@ -637,7 +737,23 @@ public static class Graphics
             Draw(texture, p1, null, col, angle2, new Vector2(0, texture.height / 2), new Vector2(length2, width), SpriteEffects.None, depth);
         }
     }
+#endif
 
+#if !MODERN_BATCH
+    public static void DrawRect(Vector2 p1, Vector2 p2, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
+    {
+        if (filled)
+        {
+            Draw(blank, p1, null, col, 0, Vector2.Zero, new Vector2(-(p1.X - p2.X), -(p1.Y - p2.Y)), SpriteEffects.None, depth);
+            return;
+        }
+        float wideDiv = borderWidth / 2;
+        DrawLine(new Vector2(p1.X, p1.Y + wideDiv), new Vector2(p2.X, p1.Y + wideDiv), col, borderWidth, depth);
+        DrawLine(new Vector2(p1.X + wideDiv, p1.Y + borderWidth), new Vector2(p1.X + wideDiv, p2.Y - borderWidth), col, borderWidth, depth);
+        DrawLine(new Vector2(p2.X, p2.Y - wideDiv), new Vector2(p1.X, p2.Y - wideDiv), col, borderWidth, depth);
+        DrawLine(new Vector2(p2.X - wideDiv, p2.Y - borderWidth), new Vector2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, depth);
+    }
+#else
     public static void DrawRect(Vector2 p1, Vector2 p2, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
     {
         if (filled)
@@ -689,6 +805,7 @@ public static class Graphics
             col
             );
     }
+#endif
 
     public static void DrawRect(RectangleF r, Color col, Depth depth = default, bool filled = true, float borderWidth = 1)
     {
@@ -704,23 +821,63 @@ public static class Graphics
         DrawDottedLine(new Vector2(p2.X - wideDiv, p2.Y - borderWidth), new Vector2(p2.X - wideDiv, p1.Y + borderWidth), col, borderWidth, dotLength, depth);
     }
 
-    public static Tex2D RecolorOld(Tex2D sprite, Vector3 color)
+#if NO_TEX2D
+    public static Texture2D RecolorOld(Texture2D sprite, Vector3 color)
     {
         MaterialRecolor mat = new(new Vector3(color.X / 255, color.Y / 255, color.Z / 255));
-        RenderTarget2D target = new(sprite.w, sprite.h);
+        var target = XnaRenderTarget2D.CreateSetUpTarget(sprite.Width, sprite.Height);
         SetRenderTarget(target);
         Clear(new Color(0, 0, 0, 0));
         mat.Apply();
-        screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, mat.effect, Matrix.Identity);
+        screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, mat, Matrix.Identity);
         Draw(sprite, default, null, Color.White, 0, default, Vector2.One, SpriteEffects.None, .5f);
         screen.End();
         device.SetRenderTarget(null);
-        Tex2D tex2D = new(sprite.w, sprite.h);
+        Texture2D tex2D = new(device, sprite.Width, sprite.Height);
+        var data = new Color[sprite.Width * sprite.Height];
+        target.GetData(data);
+        tex2D.SetData(data);
+        target.Dispose();
+        return tex2D;
+    }
+#else
+    public static Tex2D RecolorOld(Tex2D sprite, Vector3 color)
+    {
+        MaterialRecolor mat = new(new Vector3(color.X / 255, color.Y / 255, color.Z / 255));
+        RenderTarget2D target = new(sprite.width, sprite.height);
+        SetRenderTarget(target);
+        Clear(new Color(0, 0, 0, 0));
+        mat.Apply();
+        screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, mat, Matrix.Identity);
+        Draw(sprite, default, null, Color.White, 0, default, Vector2.One, SpriteEffects.None, .5f);
+        screen.End();
+        device.SetRenderTarget(null);
+        Tex2D tex2D = new(sprite.width, sprite.height);
         tex2D.SetData(target.GetData());
         target.Dispose();
         return tex2D;
     }
+#endif
 
+#if NO_TEX2D
+    public static Texture2D RecolorNew(Texture2D sprite, Color color1, Color color2)
+    {
+        Color replace1 = new(255, 255, 255);
+        Color replace2 = new(157, 157, 157);
+        var colors = new Color[sprite.Width * sprite.Height];
+        sprite.GetData(colors);
+        for (int i = 0; i < colors.Length; i++)
+        {
+            if (colors[i] == replace1)
+                colors[i] = color1;
+            else if (colors[i] == replace2)
+                colors[i] = color2;
+        }
+        Texture2D tex2D = new(device, sprite.Width, sprite.Height);
+        tex2D.SetData(colors);
+        return tex2D;
+    }
+#else
     public static Tex2D RecolorNew(Tex2D sprite, Color color1, Color color2)
     {
         Color replace1 = new(255, 255, 255);
@@ -733,11 +890,50 @@ public static class Graphics
             else if (colors[i] == replace2)
                 colors[i] = color2;
         }
-        Tex2D tex2D = new(sprite.w, sprite.h);
+        Tex2D tex2D = new(sprite.width, sprite.height);
         tex2D.SetData(colors);
         return tex2D;
     }
+#endif
 
+#if NO_TEX2D
+    public static Texture2D RecolorM(Texture2D sprite, Color color1, Color color2, Color color3)
+    {
+        Color replace1 = new(161, 146, 130);
+        Color replace2 = new(128, 113, 96);
+        Color replace3 = new(191, 181, 171);
+        Color foot1 = new(236, 89, 60);
+        Color foot2 = new(248, 131, 99);
+        Color footr1 = new(235, 137, 49);
+        Color footr2 = new(247, 224, 90);
+        Color beak1 = new(219, 88, 31);
+        Color beak2 = new(236, 116, 60);
+        Color beakr1 = new(164, 100, 34);
+        Color beakr2 = new(235, 137, 49);
+        var colors = new Color[sprite.Width * sprite.Height];
+        sprite.GetData(colors);
+        for (int i = 0; i < colors.Length; i++)
+        {
+            if (colors[i] == replace1)
+                colors[i] = color1;
+            else if (colors[i] == replace2)
+                colors[i] = color2;
+            else if (colors[i] == replace3)
+                colors[i] = color3;
+            else if (colors[i] == foot1)
+                colors[i] = footr1;
+            else if (colors[i] == foot2)
+                colors[i] = footr2;
+            else if (colors[i] == beak1)
+                colors[i] = beakr1;
+            else if (colors[i] == beak2)
+                colors[i] = beakr2;
+        }
+        Texture2D tex2D = new(device, sprite.Width, sprite.Height);
+        tex2D.SetData(colors);
+        return tex2D;
+    }
+#else
     public static Tex2D RecolorM(Tex2D sprite, Color color1, Color color2, Color color3)
     {
         Color replace1 = new(161, 146, 130);
@@ -769,10 +965,11 @@ public static class Graphics
             else if (colors[i] == beak2)
                 colors[i] = beakr2;
         }
-        Tex2D tex2D = new(sprite.w, sprite.h);
+        Tex2D tex2D = new(sprite.width, sprite.height);
         tex2D.SetData(colors);
         return tex2D;
     }
+#endif
 
     public static void InitializeBase(GraphicsDeviceManager m)
     {
@@ -784,6 +981,10 @@ public static class Graphics
         _base = d;
         _defaultBatch = new(_base);
         screen = _defaultBatch;
+#if !MODERN_BATCH
+        blank = new Tex2D(1, 1);
+        blank.SetData([Color.White]);
+#endif
         _biosFont = new BitmapFont("biosFont", 8);
         _biosFontCaseSensitive = new BitmapFont("biosFontCaseSensitive", 8);
         _fancyBiosFont = new FancyBitmapFont("smallFont");
@@ -801,6 +1002,39 @@ public static class Graphics
         _settingScreenTarget = false;
     }
 
+#if NO_TEX2D
+    public static void SetRenderTarget(XnaRenderTarget2D t)
+    {
+        if (t != null && t.IsDisposed)
+            return;
+
+        if (t == null)
+        {
+            XnaRenderTarget2D screenTarget = defaultRenderTarget;
+            if (screenTarget == null)
+            {
+                _currentTargetSize.Width = Resolution.current.x;
+                _currentTargetSize.Height = Resolution.current.y;
+            }
+            else
+            {
+                _currentTargetSize.Width = screenTarget.Width;
+                _currentTargetSize.Height = screenTarget.Height;
+            }
+            device.SetRenderTarget(screenTarget);
+            if (!_settingScreenTarget && _defaultRenderTarget == null)
+                UpdateScreenViewport();
+        }
+        else
+        {
+            device.SetRenderTarget(t);
+            _currentTargetSize.Width = t.Width;
+            _currentTargetSize.Height = t.Height;
+        }
+        _lastViewport = device.Viewport;
+        _currentRenderTarget = t;
+    }
+#else
     public static void SetRenderTarget(RenderTarget2D t)
     {
         if (t != null && t.IsDisposed)
@@ -832,8 +1066,13 @@ public static class Graphics
         _lastViewport = device.Viewport;
         _currentRenderTarget = t;
     }
+#endif
 
+#if NO_TEX2D
+    public static XnaRenderTarget2D GetRenderTarget()
+#else
     public static RenderTarget2D GetRenderTarget()
+#endif
     {
         return _currentRenderTarget;
     }

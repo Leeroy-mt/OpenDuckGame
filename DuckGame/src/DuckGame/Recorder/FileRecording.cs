@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using System.IO.Compression;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -116,14 +117,22 @@ public class FileRecording : Recording
                     int height = atlas.ReadInt32();
                     byte[] texData = new byte[width * height * 4];
                     atlas.Read(texData, 0, width * height * 4);
-                    RenderTarget2D target = new RenderTarget2D(width, height);
+#if NO_TEX2D
+                    var target = XnaRenderTarget2D.CreateSetUpTarget(width, height);
+#else
+                    var target = new RenderTarget2D(width, height);
+#endif
                     target.SetData(texData);
                     Content.SetTextureAtIndex(index, target);
                 }
                 else
                 {
                     string name = atlas.ReadString();
+#if NO_TEX2D
+                    Content.SetTextureAtIndex(index, Content.Load<Texture2D>(name));
+#else
                     Content.SetTextureAtIndex(index, Content.Load<Tex2D>(name));
+#endif
                 }
             }
             else
@@ -145,7 +154,27 @@ public class FileRecording : Recording
         for (int i = _lastTextureWrittenIndex; i < Content.textureList.Count; i++)
         {
             atlas.Write((byte)0);
-            Tex2D tex = Content.textureList[i];
+            var tex = Content.textureList[i];
+#if NO_TEX2D
+            atlas.Write(tex.GetTextureIndex());
+            if (tex.Name == "" || tex.Name == "__renderTarget" || tex.Name == "__internal")
+            {
+                atlas.Write((byte)0);
+                atlas.Write(tex.Width);
+                atlas.Write(tex.Height);
+                byte[] data = new byte[tex.Width * tex.Height * 4];
+                if (!tex.IsDisposed && !tex.IsDisposed)
+                {
+                    tex.GetData(data);
+                }
+                atlas.Write(data);
+            }
+            else
+            {
+                atlas.Write((byte)1);
+                atlas.Write(tex.Name);
+            }
+#else
             atlas.Write(tex.textureIndex);
             if (tex.textureName == "" || tex.textureName == "__renderTarget" || tex.textureName == "__internal")
             {
@@ -164,6 +193,7 @@ public class FileRecording : Recording
                 atlas.Write((byte)1);
                 atlas.Write(tex.textureName);
             }
+#endif
             _lastTextureWrittenIndex++;
         }
         for (int j = _lastEffectWrittenIndex; j < Content.effectList.Count; j++)

@@ -1,32 +1,29 @@
 ﻿using Steamworks;
 
-// THIS TYPE DOESN'T EXIST IN THE ORIGINAL Steam.dll!
 public class OfflineSelfUser : User
 {
+    #region Public Properties
 
-    public override ulong id => 0;
+    public override bool InGame => true;
+    public override bool InCurrentGame => true;
+    public override bool InCurrentLobby => false;
 
-    public override unsafe string name => "UNKNOWN";
+    public override ulong Id => 0;
 
-    public override unsafe byte[] avatarSmall => null;
+    public override string Name => "UNKNOWN";
 
-    public override unsafe byte[] avatarMedium => null;
+    public override SteamUserState State => SteamUserState.Offline;
+    public override FriendRelationship Relationship => FriendRelationship.None;
 
-    public override unsafe bool inGame => true;
+    public override byte[] AvatarSmall => null!;
+    public override byte[] AvatarMedium => null!;
 
-    public override unsafe bool inCurrentGame => true;
+    #endregion
 
-    protected override unsafe bool inLobby => false;
-
-    public override unsafe bool inCurrentLobby => false;
-
-    public override unsafe SteamUserState state => SteamUserState.Offline;
-
-    public override unsafe FriendRelationship relationship => FriendRelationship.None;
+    protected override bool InLobby => false;
 
     internal OfflineSelfUser()
         : base(new CSteamID())
     {
     }
-
 }

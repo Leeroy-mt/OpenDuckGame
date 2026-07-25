@@ -2,19 +2,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialSelection : Material
+public class MaterialSelection : AutoEffect
 {
     public float fade = 1f;
 
-    public MaterialSelection()
-    {
-        effect = Content.Load<MTEffect>("Shaders/selection");
-    }
+    public MaterialSelection() : base(Content.Load<MTEffect>("Shaders/selection")) { }
 
     public override void Apply()
     {
         SetValue("fade", fade);
-        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in CurrentTechnique.Passes)
         {
             pass.Apply();
         }

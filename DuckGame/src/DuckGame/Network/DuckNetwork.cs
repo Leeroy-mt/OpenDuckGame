@@ -571,17 +571,17 @@ public class DuckNetwork
         {
             return;
         }
-        if (Steam.lobby != null)
+        if (Steam.Lobby != null)
         {
-            if (Steam.lobby.type == SteamLobbyType.Private || Steam.lobby.type == SteamLobbyType.FriendsOnly)
+            if (Steam.Lobby.Type == SteamLobbyType.Private || Steam.Lobby.Type == SteamLobbyType.FriendsOnly)
             {
                 invited = true;
             }
-            Steam.lobby.type = (SteamLobbyType)type;
-            Steam.lobby.maxMembers = 32;
-            Steam.lobby.SetLobbyData("numSlots", numSlots.ToString());
+            Steam.Lobby.Type = (SteamLobbyType)type;
+            Steam.Lobby.MaxMembers = 32;
+            Steam.Lobby.SetLobbyData("numSlots", numSlots.ToString());
             TeamSelect2.GetOnlineSetting("maxplayers").value = numSlots;
-            Steam.lobby.SetLobbyData("maxplayers", numSlots.ToString());
+            Steam.Lobby.SetLobbyData("maxplayers", numSlots.ToString());
         }
         List<byte> slots = new List<byte>();
         for (int i = 0; i < DG.MaxPlayers; i++)
@@ -1187,9 +1187,9 @@ public class DuckNetwork
 
     public static void CopyInviteLink()
     {
-        if (Steam.user != null && Steam.lobby != null)
+        if (Steam.User != null && Steam.Lobby != null)
         {
-            SDL.SDL_SetClipboardText("steam://joinlobby/312530/" + Steam.lobby.id + "/" + Steam.user.id);
+            SDL.SDL_SetClipboardText("steam://joinlobby/312530/" + Steam.Lobby.Id + "/" + Steam.User.Id);
             HUD.AddPlayerChangeDisplay("@CLIPCOPY@Invite Link Copied!");
         }
     }
@@ -1343,7 +1343,7 @@ public class DuckNetwork
                 if (item != null)
                 {
                     _core._ducknetMenu.Add(new UIMenuItem("@STEAMICON@|DGGREEN|VIEW", new UIMenuActionCallFunction(GameMode.View), UIAlign.Left));
-                    if ((item.stateFlags & WorkshopItemState.Subscribed) != WorkshopItemState.None)
+                    if ((item.StateFlags & WorkshopItemState.Subscribed) != WorkshopItemState.None)
                     {
                         _core._ducknetMenu.Add(new UIMenuItem("@STEAMICON@|DGRED|UNSUBSCRIBE", new UIMenuActionCloseMenuCallFunction(_ducknetUIGroup, GameMode.Subscribe), UIAlign.Left));
                     }
@@ -1635,7 +1635,7 @@ public class DuckNetwork
     {
         invited = false;
         ulong joinID = 0uL;
-        if (Steam.lobby != null && NCSteam.inviteLobbyID != 0L && NCSteam.inviteLobbyID == Steam.lobby.id)
+        if (Steam.Lobby != null && NCSteam.inviteLobbyID != 0L && NCSteam.inviteLobbyID == Steam.Lobby.Id)
         {
             invited = true;
         }
@@ -1854,13 +1854,13 @@ public class DuckNetwork
     private static IEnumerable<Profile> GetOpenProfiles(NetworkConnection pConnection, bool pInvited, bool pLocal, bool pSpectator)
     {
         bool pFriend = false;
-        if (pConnection.data is User && (pConnection.data as User).id != 0L)
+        if (pConnection.data is User && (pConnection.data as User).Id != 0L)
         {
-            if (_core._invitedFriends.Contains((pConnection.data as User).id))
+            if (_core._invitedFriends.Contains((pConnection.data as User).Id))
             {
                 pInvited = true;
             }
-            if ((pConnection.data as User).relationship == FriendRelationship.Friend)
+            if ((pConnection.data as User).Relationship == FriendRelationship.Friend)
             {
                 pFriend = true;
             }
@@ -2325,9 +2325,9 @@ public class DuckNetwork
             }
             else
             {
-                if (Steam.lobby != null)
+                if (Steam.Lobby != null)
                 {
-                    UIMatchmakingBox.core.nonPreferredServers.Add(Steam.lobby.id);
+                    UIMatchmakingBox.core.nonPreferredServers.Add(Steam.Lobby.Id);
                 }
                 if (!finishedMatch)
                 {
@@ -2452,10 +2452,13 @@ public class DuckNetwork
                                         {
                                             if (p.connection != null && p.connection != localConnection && (!p.isHost || p == hostProfile) && !p.sentMojis.Contains(mojiString))
                                             {
-                                                if (pair.Value.texture.width <= 28 && pair.Value.texture.height <= 28)
-                                                {
+#if NO_TEX2D
+                                                if (pair.Value.texture.Width <= 28 && pair.Value.texture.Height <= 28)
                                                     Send.Message(new NMMojiData(Editor.TextureToString(pair.Value.texture), pair.Key), p.connection);
-                                                }
+#else
+                                                if (pair.Value.texture.width <= 28 && pair.Value.texture.height <= 28)
+                                                    Send.Message(new NMMojiData(Editor.TextureToString(pair.Value.texture), pair.Key), p.connection);
+#endif
                                                 p.sentMojis.Add(mojiString);
                                             }
                                         }
@@ -2728,7 +2731,7 @@ public class DuckNetwork
             if (chatMode > 0)
             {
                 bool friend = false;
-                if (pProfile.connection.data is User { relationship: FriendRelationship.Friend })
+                if (pProfile.connection.data is User { Relationship: FriendRelationship.Friend })
                 {
                     friend = true;
                 }
@@ -3236,9 +3239,9 @@ public class DuckNetwork
             if (m is NMKick)
             {
                 _core.status = DuckNetStatus.Failure;
-                if (Steam.lobby != null)
+                if (Steam.Lobby != null)
                 {
-                    UIMatchmakingBox.core.blacklist.Add(Steam.lobby.id);
+                    UIMatchmakingBox.core.blacklist.Add(Steam.Lobby.Id);
                 }
                 Network.EndNetworkingSession(new DuckNetErrorInfo(DuckNetError.Kicked, "|RED|Oh no! The host kicked you :("));
                 return true;
@@ -3246,10 +3249,10 @@ public class DuckNetwork
             if (m is NMBan)
             {
                 _core.status = DuckNetStatus.Failure;
-                if (Steam.lobby != null)
+                if (Steam.Lobby != null)
                 {
-                    UIMatchmakingBox.core.nonPreferredServers.Add(Steam.lobby.id);
-                    UIMatchmakingBox.core.blacklist.Add(Steam.lobby.id);
+                    UIMatchmakingBox.core.nonPreferredServers.Add(Steam.Lobby.Id);
+                    UIMatchmakingBox.core.blacklist.Add(Steam.Lobby.Id);
                 }
                 Network.EndNetworkingSession(new DuckNetErrorInfo(DuckNetError.Kicked, "|RED|Oh no!! The host banned you :("));
                 return true;
@@ -3864,14 +3867,17 @@ public class DuckNetwork
                     hat.CenterOrigin();
                     hat.Depth = hatDepth - 0.001f;
                     hat.Alpha = message.alpha * opacity;
-                    if (quack && hat.texture != null && hat.texture.width > 32)
-                    {
+#if NO_TEX2D
+                    if (quack && hat.texture != null && hat.texture.Width > 32)
                         hat.frame = 1;
-                    }
                     else
-                    {
                         hat.frame = 0;
-                    }
+#else
+                    if (quack && hat.texture != null && hat.texture.width > 32)
+                        hat.frame = 1;
+                    else
+                        hat.frame = 0;
+#endif
                     hat.Scale = new Vector2(duckfontScale, duckfontScale) * (Options.Data.chatHeadScale + 1);
                     Graphics.Draw(hat, hatDraw.X - offset.X, hatDraw.Y - offset.Y);
                     hat.Scale = new Vector2(1f, 1f);

@@ -1,13 +1,12 @@
 namespace DuckGame;
 
-public class MaterialPersona : Material
+public class MaterialPersona : AutoEffect
 {
     private DuckPersona persona;
 
-    public MaterialPersona(DuckPersona pPersona)
+    public MaterialPersona(DuckPersona pPersona) : base(Content.Load<MTEffect>("Shaders/recolor_duo"))
     {
         persona = pPersona;
-        effect = Content.Load<MTEffect>("Shaders/recolor_duo");
     }
 
     public override void Update()
@@ -16,8 +15,8 @@ public class MaterialPersona : Material
 
     public override void Apply()
     {
-        effect.effect.Parameters["replace1"].SetValue(persona.color / 255f);
-        effect.effect.Parameters["replace2"].SetValue(persona.colorDark / 255f);
+        Parameters["replace1"].SetValue(persona.color / 255f);
+        Parameters["replace2"].SetValue(persona.colorDark / 255f);
         base.Apply();
     }
 }

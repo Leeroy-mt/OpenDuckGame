@@ -124,10 +124,14 @@ public class ParallaxBackground : Thing
         {
             Y = 0f;
         }
+#if NO_TEX2D
+        if (restrictBottom && Position.Y + (float)_sprite.texture.Height < Layer.Parallax.camera.bottom)
+            Y = Layer.Parallax.camera.bottom - (float)_sprite.texture.Height;
+#else
         if (restrictBottom && Position.Y + (float)_sprite.texture.height < Layer.Parallax.camera.bottom)
-        {
             Y = Layer.Parallax.camera.bottom - (float)_sprite.texture.height;
-        }
+#endif
+
         for (int xpos = 0; xpos < _hRepeat; xpos++)
         {
             for (int i = 0; i < graphic.height / 8; i++)

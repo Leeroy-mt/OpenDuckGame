@@ -70,8 +70,8 @@ public static class DG
         {
             if (NetworkDebugger.enabled)
                 return (ulong)(1330 + NetworkDebugger.currentIndex);
-            if (Steam.user != null)
-                return Steam.user.id;
+            if (Steam.User != null)
+                return Steam.User.Id;
             return _localID;
         }
     }

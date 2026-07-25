@@ -5,7 +5,11 @@ namespace DuckGame;
 
 public struct DrawCall
 {
+#if NO_TEX2D
+    public Texture2D texture;
+#else
     public Tex2D texture;
+#endif
 
     public Vector2 position;
 
@@ -23,5 +27,5 @@ public struct DrawCall
 
     public float depth;
 
-    public Material material;
+    public AutoEffect material;
 }

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -31,7 +32,11 @@ public class Warpgun : Gun
 
     protected new Sprite _sightHit;
 
+#if NO_TEX2D
+    Texture2D _laserTex;
+#else
     private Tex2D _laserTex;
+#endif
 
     private int maxUngroundedShots = 2;
 
@@ -84,7 +89,11 @@ public class Warpgun : Gun
         _warpLine = new Sprite("warpLine2");
         _sightHit = new Sprite("laserSightHit");
         _sightHit.CenterOrigin();
+#if NO_TEX2D
+        _laserTex = Content.Load<Texture2D>("pointerLaser");
+#else
         _laserTex = Content.Load<Tex2D>("pointerLaser");
+#endif
     }
 
     protected override void PlayFireSound()

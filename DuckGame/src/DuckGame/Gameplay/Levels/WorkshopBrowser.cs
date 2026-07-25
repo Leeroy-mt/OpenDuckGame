@@ -17,7 +17,11 @@ internal class WorkshopBrowser : Level
 
         public WorkshopQueryResultDetails details;
 
+#if NO_TEX2D
+        Texture2D _preview;
+#else
         private Tex2D _preview;
+#endif
 
         public PNGData _previewData;
 
@@ -25,6 +29,20 @@ internal class WorkshopBrowser : Level
 
         public string name => details.title;
 
+#if NO_TEX2D
+        public Texture2D preview
+        {
+            get
+            {
+                if (_preview == null && _previewData != null)
+                {
+                    _preview = new Texture2D(Graphics.device, _previewData.width, _previewData.height);
+                    _preview.SetData(_previewData.data);
+                }
+                return _preview;
+            }
+        }
+#else
         public Tex2D preview
         {
             get
@@ -37,6 +55,7 @@ internal class WorkshopBrowser : Level
                 return _preview;
             }
         }
+#endif
 
         public static Item Get(ulong pID)
         {
@@ -89,13 +108,13 @@ internal class WorkshopBrowser : Level
             else
             {
                 _currentQuery = Steam.CreateQueryAll(orderMode, WorkshopType.Items);
-                (_currentQuery as WorkshopQueryAll).searchText = searchText;
+                (_currentQuery as WorkshopQueryAll).SearchText = searchText;
             }
             foreach (string s in tags)
             {
-                _currentQuery.requiredTags.Add(s);
+                _currentQuery.RequiredTags.Add(s);
             }
-            _currentQuery.justOnePage = true;
+            _currentQuery.JustOnePage = true;
             _currentQuery.QueryFinished += FinishedQuery;
             _currentQuery.ResultFetched += Fetched;
             _currentQuery._dataToFetch = WorkshopQueryData.AdditionalPreviews | WorkshopQueryData.PreviewURL;
@@ -104,7 +123,7 @@ internal class WorkshopBrowser : Level
 
         private void Fetched(object sender, WorkshopQueryResult result)
         {
-            Item item = Item.Get(result.details.publishedFile.id);
+            Item item = Item.Get(result.details.publishedFile.Id);
             if (item.preview == null)
             {
                 string previewUrl = result.previewURL;
@@ -160,7 +179,7 @@ internal class WorkshopBrowser : Level
         _font = new FancyBitmapFont("smallFont");
         Layer.HUD.camera.width *= 2f;
         Layer.HUD.camera.height *= 2f;
-        groups.Add(new Group("Subscribed", WorkshopQueryFilterOrder.RankedByVote, Steam.user.id, null, "Mod"));
+        groups.Add(new Group("Subscribed", WorkshopQueryFilterOrder.RankedByVote, Steam.User.Id, null, "Mod"));
         groups.Add(new Group("Hats", WorkshopQueryFilterOrder.RankedByVote, 0uL, "hat", "Mod"));
         groups.Add(new Group("Mods", WorkshopQueryFilterOrder.RankedByVote, 0uL, null, "Mod"));
         groups.Add(new Group("Maps", WorkshopQueryFilterOrder.RankedByVote, 0uL, null, "Map"));
@@ -218,7 +237,11 @@ internal class WorkshopBrowser : Level
                 _font.Draw(_openedItem.name, new Vector2(16f, 16f), Color.White, 0.5f);
                 if (_openedItem.preview != null)
                 {
+#if NO_TEX2D
+                    Graphics.Draw(_openedItem.preview, 16f, 32f, 256f / (float)_openedItem.preview.Height * 0.5f, 256f / (float)_openedItem.preview.Height * 0.5f, 0.5f);
+#else
                     Graphics.Draw(_openedItem.preview, 16f, 32f, 256f / (float)_openedItem.preview.height * 0.5f, 256f / (float)_openedItem.preview.height * 0.5f, 0.5f);
+#endif
                 }
                 _font.maxWidth = 300;
                 _font.Draw(_openedItem.description, new Vector2(16f, 170f), Color.White, 0.5f);
@@ -249,9 +272,15 @@ internal class WorkshopBrowser : Level
                         }
                         if (i.preview != null)
                         {
+#if NO_TEX2D
+                            float scaleFactor = 256f / (float)i.preview.Height;
+                            float xCrop = i.preview.Width / 2 - i.preview.Height / 2;
+                            Graphics.Draw(i.preview, drawPos + extraOffset, new RectangleF(xCrop, 0f, i.preview.Height, i.preview.Height), Color.White, 0f, Vector2.Zero, new Vector2(scaleFactor * sizeMul, scaleFactor * sizeMul), SpriteEffects.None, baseDepth);
+#else
                             float scaleFactor = 256f / (float)i.preview.height;
                             float xCrop = i.preview.width / 2 - i.preview.height / 2;
                             Graphics.Draw(i.preview, drawPos + extraOffset, new RectangleF(xCrop, 0f, i.preview.height, i.preview.height), Color.White, 0f, Vector2.Zero, new Vector2(scaleFactor * sizeMul, scaleFactor * sizeMul), SpriteEffects.None, baseDepth);
+#endif
                         }
                         else
                         {

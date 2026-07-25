@@ -1,199 +1,176 @@
 ﻿using Steamworks;
-using System.Runtime.ExceptionServices;
 
-public class Lobby : IDisposable
+public class Lobby
 {
+    #region Delegates & Events
 
-    public int randomID; // Duck Game uses this... BUT IT ISN'T USED ANYWHERE IN Steam.dll?!
+    public delegate void UserStatusChangeDelegate(User? user, SteamLobbyUserStatusFlags flags, User? responsibleUser);
 
-    public delegate void UserStatusChangeDelegate(User user, SteamLobbyUserStatusFlags flags, User responsibleUser);
-
-
-
-    public event UserStatusChangeDelegate UserStatusChange;
     public delegate void ChatMessageDelegate(User user, byte[] data);
-    public event ChatMessageDelegate ChatMessage;
 
+    public event UserStatusChangeDelegate? UserStatusChange;
 
-    private CSteamID _id;
-    public ulong id => _id.m_SteamID;
+    public event ChatMessageDelegate? ChatMessage;
 
-    public SteamLobbyJoinResult joinResult { get; private set; }
+    #endregion
 
-    public unsafe User owner
+    public int randomID;
+
+    #region Private Fields
+
+    bool joinable;
+
+    SteamLobbyType type;
+
+    CSteamID id;
+
+    #endregion
+
+    #region Public Properties
+
+    public bool Joinable
+    {
+        get => Id != 0
+            && joinable;
+        set
+        {
+            if (Id != 0 && Steam.Initialized)
+            {
+                SteamMatchmaking.SetLobbyJoinable(id, value);
+                joinable = value;
+            }
+        }
+    }
+    public bool Processing { get; private set; }
+
+    public int MaxMembers
+    {
+        get => Id != 0 && Steam.Initialized
+            ? SteamMatchmaking.GetLobbyMemberLimit(id)
+            : 0;
+        set
+        {
+            if (Id != 0 && Steam.Initialized)
+                SteamMatchmaking.SetLobbyMemberLimit(id, value);
+        }
+    }
+
+    public ulong Id => id.m_SteamID;
+
+    public string Name
+    {
+        get => Id != 0 && Steam.Initialized
+            ? SteamMatchmaking.GetLobbyData(id, "name")
+            : "";
+        set
+        {
+            if (Id != 0 && Steam.Initialized)
+                SteamMatchmaking.SetLobbyData(id, "name", value);
+        }
+    }
+
+    public SteamLobbyJoinResult JoinResult { get; private set; }
+    public SteamLobbyType Type
+    {
+        get => type;
+        set
+        {
+            if (Id != 0 && Steam.Initialized)
+            {
+                SteamMatchmaking.SetLobbyType(id, (ELobbyType)value);
+                type = value;
+            }
+        }
+    }
+
+    public User? Owner
     {
         get
         {
             try
             {
-                if (id != 0 && Steam.initialized)
-                {
-                    return User.GetUser(SteamMatchmaking.GetLobbyOwner(_id));
-                }
+                if (Id != 0 && Steam.Initialized)
+                    return User.GetUser(SteamMatchmaking.GetLobbyOwner(id));
             }
             catch { }
+
             return null;
         }
         set
         {
-            SteamMatchmaking.SetLobbyOwner((CSteamID)this.id, (CSteamID)value.id);
-        }
-    }
-    public unsafe void SetLobbyModsData(string value)
-    {
-        if (id != 0 && Steam.initialized)
-        {
-            SteamMatchmaking.SetLobbyData(_id, "mods", value);
-        }
-    }
-    public unsafe string name
-    {
-        get
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                return SteamMatchmaking.GetLobbyData(_id, "name");
-            }
-            return "";
-        }
-        set
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                SteamMatchmaking.SetLobbyData(_id, "name", value);
-            }
+            ArgumentNullException.ThrowIfNull(value, nameof(value));
+            SteamMatchmaking.SetLobbyOwner((CSteamID)Id, (CSteamID)value.Id);
         }
     }
 
-    private bool _joinable;
-    public unsafe bool joinable
-    {
-        get
-        {
-            return id != 0 && _joinable;
-        }
-        set
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                SteamMatchmaking.SetLobbyJoinable(_id, value);
-                _joinable = value;
-            }
-        }
-    }
+    public List<User?> Users => Id != 0 && Steam.Initialized
+        ? SteamHelper.GetList(SteamMatchmaking.GetNumLobbyMembers(id), i => User.GetUser(SteamMatchmaking.GetLobbyMemberByIndex(id, i)))
+        : [];
 
-    private SteamLobbyType _type;
-    public unsafe SteamLobbyType type
-    {
-        get
-        {
-            return _type;
-        }
-        set
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                SteamMatchmaking.SetLobbyType(_id, (ELobbyType)value);
-                // This isn't set by the original Steam.dll...
-                _type = value;
-            }
-        }
-    }
+    #endregion
 
-    private int _maxMembers;
-    public unsafe int maxMembers
-    {
-        get
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                return _maxMembers = SteamMatchmaking.GetLobbyMemberLimit(_id);
-            }
-            return 0;
-        }
-        set
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                SteamMatchmaking.SetLobbyMemberLimit(_id, _maxMembers = value);
-            }
-        }
-    }
-
-    public unsafe List<User> users
-    {
-        get
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                return SteamHelper.GetList(SteamMatchmaking.GetNumLobbyMembers(_id), i => User.GetUser(SteamMatchmaking.GetLobbyMemberByIndex(_id, i)));
-            }
-
-            return new List<User>();
-        }
-    }
-    public bool processing { get; private set; }
+    #region Constructors
 
     public Lobby(ulong lobbyID)
-        : this(new CSteamID(lobbyID))
+        : this(new CSteamID(lobbyID)) { }
+
+    public Lobby(SteamLobbyType lobbyTypeVal)
     {
+        type = lobbyTypeVal;
+        id = new CSteamID();
+        joinable = true;
+
+        Processing = true;
     }
 
     internal Lobby(CSteamID lobbyID)
     {
-        _type = SteamLobbyType.FriendsOnly;
-        processing = true;
-        _id = lobbyID;
-        _joinable = true;
+        type = SteamLobbyType.FriendsOnly;
+        id = lobbyID;
+        joinable = true;
+
+        Processing = true;
     }
 
-    public Lobby(SteamLobbyType lobbyTypeVal, int maxMembersVal)
+    #endregion
+
+    #region Public Methods
+
+    public void SetLobbyModsData(string value)
     {
-        _type = lobbyTypeVal;
-        // This is set to this.maxMembers by the original Steam.dll...
-        _maxMembers = maxMembersVal;
-        processing = true;
-        _id = new CSteamID();
-        _joinable = true;
+        if (Id != 0 && Steam.Initialized)
+            SteamMatchmaking.SetLobbyData(id, "mods", value);
     }
 
     public void OnProcessingComplete(ulong idVal, SteamLobbyJoinResult result)
     {
-        _id = new CSteamID(idVal);
-        joinResult = result;
-        processing = false;
+        id = new CSteamID(idVal);
+        JoinResult = result;
+        Processing = false;
     }
 
-    public void OnUserStatusChange(User user, SteamLobbyUserStatusFlags flags, User responsibleUser)
+    public void OnUserStatusChange(User? user, SteamLobbyUserStatusFlags flags, User? responsibleUser)
     {
         UserStatusChange?.Invoke(user, flags, responsibleUser);
     }
+
     public void OnChatMessage(User user, byte[] data)
     {
         ChatMessage?.Invoke(user, data);
     }
 
-    public unsafe void SetLobbyData(string name, string value)
+    public void SetLobbyData(string name, string value)
     {
-        if (id != 0 && Steam.initialized)
-            SteamMatchmaking.SetLobbyData(_id, name, value);
+        if (Id != 0 && Steam.Initialized)
+            SteamMatchmaking.SetLobbyData(id, name, value);
     }
 
-    public unsafe string GetLobbyData(string name)
+    public string GetLobbyData(string name)
     {
-        if (id != 0 && Steam.initialized)
-            return SteamMatchmaking.GetLobbyData(_id, name);
+        if (Id != 0 && Steam.Initialized)
+            return SteamMatchmaking.GetLobbyData(id, name);
         return "";
     }
 
-    [HandleProcessCorruptedStateExceptions]
-    protected virtual void Dispose(bool flag)
-    {
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-    }
-
+    #endregion
 }

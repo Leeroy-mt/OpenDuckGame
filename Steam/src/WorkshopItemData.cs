@@ -1,22 +1,18 @@
 ﻿public class WorkshopItemData
 {
-    public WorkshopItemData()
-    {
-    }
+    #region Public Fields
 
-    public string name;
+    public int votesUp;
 
-    public string description;
-
-    public string contentFolder;
-
-    public string previewPath;
+    public string? name;
+    public string? description;
+    public string? contentFolder;
+    public string? previewPath;
+    public string? changeNotes;
 
     public RemoteStoragePublishedFileVisibility visibility;
 
-    public List<string> tags;
+    public List<string>? tags;
 
-    public string changeNotes;
-
-    public int votesUp;
+    #endregion
 }

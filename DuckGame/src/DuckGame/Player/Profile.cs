@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -711,9 +712,9 @@ public class Profile
             }
             if (steamID != 0L && slotType != SlotType.Local)
             {
-                if (Steam.user != null && steamID == Steam.user.id)
+                if (Steam.User != null && steamID == Steam.User.Id)
                 {
-                    return Steam.user.name;
+                    return Steam.User.Name;
                 }
                 if (lastKnownName != null)
                 {
@@ -724,9 +725,9 @@ public class Profile
                     if (Steam.IsInitialized())
                     {
                         User u = User.GetUser(steamID);
-                        if (u != null && u.id != 0L)
+                        if (u != null && u.Id != 0L)
                         {
-                            lastKnownName = u.name;
+                            lastKnownName = u.Name;
                             return lastKnownName;
                         }
                     }
@@ -749,10 +750,10 @@ public class Profile
     {
         get
         {
-            if (Steam.user != null)
+            if (Steam.User != null)
             {
-                Random gen = new Random(Math.Abs((int)(Steam.user.id % int.MaxValue)));
-                for (int i = 0; i < (int)(Steam.user.id % 252); i++)
+                Random gen = new Random(Math.Abs((int)(Steam.User.Id % int.MaxValue)));
+                for (int i = 0; i < (int)(Steam.User.Id % 252); i++)
                 {
                     Rando.Int(100);
                 }
@@ -898,7 +899,7 @@ public class Profile
             {
                 return _linkedProfile.xp;
             }
-            if (Steam.user != null && this == Profiles.experienceProfile)
+            if (Steam.User != null && this == Profiles.experienceProfile)
             {
                 if ((int)Steam.GetStat("xp") == 0)
                 {
@@ -918,7 +919,7 @@ public class Profile
             {
                 DevConsole.Log(DCSection.General, ("Profile(" + name != null) ? name : (").xp set(" + xp + ")"));
             }
-            if (Steam.user != null && this == Profiles.experienceProfile)
+            if (Steam.User != null && this == Profiles.experienceProfile)
             {
                 Steam.SetStat("xp", value);
             }
@@ -1080,7 +1081,7 @@ public class Profile
             }
             if (connection != null && connection.data is User)
             {
-                return (connection.data as User).id;
+                return (connection.data as User).Id;
             }
             return _steamID;
         }
@@ -1734,9 +1735,15 @@ public class Profile
         return s;
     }
 
+#if NO_TEX2D
+    public static Texture2D GetEggTexture(int index, ulong seed)
+    {
+        var targ = XnaRenderTarget2D.CreateSetUpTarget(16, 16, pdepth: false, RenderTargetUsage.PreserveContents);
+#else
     public static Tex2D GetEggTexture(int index, ulong seed)
     {
-        RenderTarget2D targ = new RenderTarget2D(16, 16, pdepth: false, RenderTargetUsage.PreserveContents);
+        var targ = new RenderTarget2D(16, 16, pdepth: false, RenderTargetUsage.PreserveContents);
+#endif
         if (_egg == null)
         {
             _batch = new(Graphics.device);
@@ -1835,7 +1842,11 @@ public class Profile
 #if !MODERN_BATCH
         _batch.Draw(_egg.texture, new Vector2(0f, 0f), new RectangleF(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
 #else
-        _batch.DrawTexture(_egg.texture, new(0, 0, _egg.texture.w, _egg.texture.h), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+#if NO_TEX2D
+        _batch.DrawTexture(_egg.texture, new(0, 0, _egg.texture.Width, _egg.texture.Height), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+#else
+        _batch.DrawTexture(_egg.texture, new(0, 0, _egg.texture.width, _egg.texture.height), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+#endif
 #endif
         if (hasSymbol)
         {
@@ -1857,14 +1868,22 @@ public class Profile
 #if !MODERN_BATCH
                 _batch.Draw(_eggSymbols.texture, new Vector2(0f, 0f), new RectangleF(symbol * 16, 0f, 16f, 16f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
 #else
-                _batch.DrawTexture(_eggSymbols.texture, new(0, 0, _eggSymbols.texture.w, _eggSymbols.texture.h), new(symbol * 16, 0, 16, 16), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
+#if NO_TEX2D
+                _batch.DrawTexture(_eggSymbols.texture, new(0, 0, _eggSymbols.texture.Width, _eggSymbols.texture.Height), new(symbol * 16, 0, 16, 16), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
+#else
+                _batch.DrawTexture(_eggSymbols.texture, new(0, 0, _eggSymbols.texture.width, _eggSymbols.texture.height), new(symbol * 16, 0, 16, 16), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
+#endif
 #endif
             }
         }
 #if !MODERN_BATCH
         _batch.Draw(_eggOuter.texture, new Vector2(0f, 0f), new RectangleF(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
 #else
-        _batch.DrawTexture(_eggOuter.texture, new(0, 0, _eggOuter.texture.w, _eggOuter.texture.h), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+#if NO_TEX2D
+        _batch.DrawTexture(_eggOuter.texture, new(0, 0, _eggOuter.texture.Width, _eggOuter.texture.Height), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+#else
+        _batch.DrawTexture(_eggOuter.texture, new(0, 0, _eggOuter.texture.width, _eggOuter.texture.height), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+#endif
 #endif
         _batch.End();
         Graphics.screen = screen;
@@ -1877,9 +1896,16 @@ public class Profile
         Color symbolColor = PickColor();
         float xOff = Rando.Float(100000f);
         float yOff = Rando.Float(100000f);
-        for (int yVal = 0; yVal < targ.height; yVal++)
+#if NO_TEX2D
+        int width = targ.Width;
+        int height = targ.Height;
+#else
+        int width = targ.width;
+        int height = targ.height;
+#endif
+        for (int yVal = 0; yVal < height; yVal++)
         {
-            for (int xVal = 0; xVal < targ.width; xVal++)
+            for (int xVal = 0; xVal < width; xVal++)
             {
                 float realX = (float)(xVal + 32) * 0.75f;
                 int realY = yVal + 32;
@@ -1887,7 +1913,7 @@ public class Profile
                 float val2 = (Noise.Generate(xOff + (realX + 100f) * (trig * 2f), (yOff + (float)realY + 100f) * (trig * 2f)) + 1f) / 2f * (hasBlob2 ? 1f : 0f);
                 val1 = ((!(val1 < 0.5f)) ? 1f : 0f);
                 val2 = ((!(val2 < 0.5f)) ? 1f : 0f);
-                Color c2 = cols[xVal + yVal * targ.width];
+                Color c2 = cols[xVal + yVal * width];
                 float extraMul = 1f;
                 if (val2 > 0f)
                 {
@@ -1895,62 +1921,62 @@ public class Profile
                 }
                 if (c2.R == 0)
                 {
-                    cols[xVal + yVal * targ.width] = new Color(0, 0, 0, 0);
+                    cols[xVal + yVal * width] = new Color(0, 0, 0, 0);
                 }
                 else if (c2.R < 110)
                 {
                     if (dontSymbolMesh)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)symbolColor.R * 0.6f), (byte)((float)(int)symbolColor.G * 0.6f), (byte)((float)(int)symbolColor.B * 0.6f));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)symbolColor.R * 0.6f), (byte)((float)(int)symbolColor.G * 0.6f), (byte)((float)(int)symbolColor.B * 0.6f));
                         continue;
                     }
                     float rlExtra = extraMul;
                     rlExtra = ((rlExtra != 1f) ? 1f : 0.9f);
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * 0.6f * rlExtra), (byte)((float)(int)eggColor.G * 0.6f * rlExtra), (byte)((float)(int)eggColor.B * 0.6f * rlExtra));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)eggColor.R * 0.6f * rlExtra), (byte)((float)(int)eggColor.G * 0.6f * rlExtra), (byte)((float)(int)eggColor.B * 0.6f * rlExtra));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * 0.6f * rlExtra), (byte)((float)(int)blobColor.G * 0.6f * rlExtra), (byte)((float)(int)blobColor.B * 0.6f * rlExtra));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)blobColor.R * 0.6f * rlExtra), (byte)((float)(int)blobColor.G * 0.6f * rlExtra), (byte)((float)(int)blobColor.B * 0.6f * rlExtra));
                     }
                 }
                 else if (c2.R < 120)
                 {
                     if (dontSymbolMesh)
                     {
-                        cols[xVal + yVal * targ.width] = new Color(symbolColor.R, symbolColor.G, symbolColor.B);
+                        cols[xVal + yVal * width] = new Color(symbolColor.R, symbolColor.G, symbolColor.B);
                         continue;
                     }
                     float rlExtra2 = extraMul;
                     rlExtra2 = ((rlExtra2 != 1f) ? 1f : 0.9f);
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * rlExtra2), (byte)((float)(int)eggColor.G * rlExtra2), (byte)((float)(int)eggColor.B * rlExtra2));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)eggColor.R * rlExtra2), (byte)((float)(int)eggColor.G * rlExtra2), (byte)((float)(int)eggColor.B * rlExtra2));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * rlExtra2), (byte)((float)(int)blobColor.G * rlExtra2), (byte)((float)(int)blobColor.B * rlExtra2));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)blobColor.R * rlExtra2), (byte)((float)(int)blobColor.G * rlExtra2), (byte)((float)(int)blobColor.B * rlExtra2));
                     }
                 }
                 else if (c2.R < byte.MaxValue)
                 {
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * 0.6f * extraMul), (byte)((float)(int)blobColor.G * 0.6f * extraMul), (byte)((float)(int)blobColor.B * 0.6f * extraMul));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)blobColor.R * 0.6f * extraMul), (byte)((float)(int)blobColor.G * 0.6f * extraMul), (byte)((float)(int)blobColor.B * 0.6f * extraMul));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * 0.6f * extraMul), (byte)((float)(int)eggColor.G * 0.6f * extraMul), (byte)((float)(int)eggColor.B * 0.6f * extraMul));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)eggColor.R * 0.6f * extraMul), (byte)((float)(int)eggColor.G * 0.6f * extraMul), (byte)((float)(int)eggColor.B * 0.6f * extraMul));
                     }
                 }
                 else if (val1 > 0f)
                 {
-                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * extraMul), (byte)((float)(int)blobColor.G * extraMul), (byte)((float)(int)blobColor.B * extraMul));
+                    cols[xVal + yVal * width] = new Color((byte)((float)(int)blobColor.R * extraMul), (byte)((float)(int)blobColor.G * extraMul), (byte)((float)(int)blobColor.B * extraMul));
                 }
                 else
                 {
-                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * extraMul), (byte)((float)(int)eggColor.G * extraMul), (byte)((float)(int)eggColor.B * extraMul));
+                    cols[xVal + yVal * width] = new Color((byte)((float)(int)eggColor.R * extraMul), (byte)((float)(int)eggColor.G * extraMul), (byte)((float)(int)eggColor.B * extraMul));
                 }
             }
         }
@@ -1967,7 +1993,11 @@ public class Profile
         _batch.End();
         Graphics.SetRenderTarget(null);
         Rando.Generator = realGen;
-        Tex2D tex2D = new Tex2D(targ.width, targ.height);
+#if NO_TEX2D
+        Texture2D tex2D = new(Graphics.device, width, height);
+#else
+        Tex2D tex2D = new(targ.width, targ.height);
+#endif
         tex2D.SetData(targ.GetData());
         targ.Dispose();
         return tex2D;
@@ -1989,7 +2019,11 @@ public class Profile
 
     public static void GetPainting(int index, ulong seed, Sprite spr)
     {
-        Tex2D targ = new RenderTarget2D(19, 12, pdepth: false, RenderTargetUsage.PreserveContents);
+#if NO_TEX2D
+        var targ = XnaRenderTarget2D.CreateSetUpTarget(19, 12, pdepth: false, RenderTargetUsage.PreserveContents);
+#else
+        var targ = new RenderTarget2D(19, 12, pdepth: false, RenderTargetUsage.PreserveContents);
+#endif
         if (_easel == null)
         {
             _batch = new(Graphics.device);
@@ -2044,7 +2078,7 @@ public class Profile
         {
             _allowedColors.Add(new Color(229, 245, 181));
         }
-        Graphics.SetRenderTarget(targ as RenderTarget2D);
+        Graphics.SetRenderTarget(targ);
         Graphics.Clear(Color.Black);
         _batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Matrix.Identity);
         int symbol = 8 + Rando.Int(12);
@@ -2058,8 +2092,13 @@ public class Profile
         _batch.Draw(_easel.texture, new Vector2(0f, 0f), null, Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
         _batch.Draw(_easelSymbols.texture, new Vector2(0f, 0f), new RectangleF(symbol * 19, 0f, 19f, 12f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
 #else
-        _batch.DrawTexture(_easel.texture, new(0, 0, _easel.texture.w, _easel.texture.h), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
-        _batch.DrawTexture(_easelSymbols.texture, new(0, 0, _easelSymbols.texture.w, _easelSymbols.texture.h), new(symbol * 19, 0, 19, 12), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
+#if NO_TEX2D
+        _batch.DrawTexture(_easel.texture, new(0, 0, _easel.texture.Width, _easel.texture.Height), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+        _batch.DrawTexture(_easelSymbols.texture, new(0, 0, _easelSymbols.texture.Width, _easelSymbols.texture.Height), new(symbol * 19, 0, 19, 12), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
+#else
+        _batch.DrawTexture(_easel.texture, new(0, 0, _easel.texture.width, _easel.texture.height), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
+        _batch.DrawTexture(_easelSymbols.texture, new(0, 0, _easelSymbols.texture.width, _easelSymbols.texture.height), new(symbol * 19, 0, 19, 12), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
+#endif
 #endif
         _batch.End();
         Graphics.screen = screen;
@@ -2072,9 +2111,16 @@ public class Profile
         Color symbolColor = PickColor();
         float xOff = Rando.Float(100000f);
         float yOff = Rando.Float(100000f);
-        for (int yVal = 0; yVal < targ.height; yVal++)
+#if NO_TEX2D
+        var width = targ.Width;
+        var height = targ.Height;
+#else
+        var width = targ.width;
+        var height = targ.height;
+#endif
+        for (int yVal = 0; yVal < height; yVal++)
         {
-            for (int xVal = 0; xVal < targ.width; xVal++)
+            for (int xVal = 0; xVal < width; xVal++)
             {
                 float realX = (float)(xVal + 32) * 0.75f;
                 int realY = yVal + 32;
@@ -2082,7 +2128,7 @@ public class Profile
                 float val2 = (Noise.Generate(xOff + (realX + 100f) * (trig * 2f), (yOff + (float)realY + 100f) * (trig * 2f)) + 1f) / 2f * (hasBlob2 ? 1f : 0f);
                 val1 = ((!(val1 < 0.5f)) ? 1f : 0f);
                 val2 = ((!(val2 < 0.5f)) ? 1f : 0f);
-                Color c = cols[xVal + yVal * targ.width];
+                Color c = cols[xVal + yVal * width];
                 float extraMul = 1f;
                 if (val2 > 0f)
                 {
@@ -2090,69 +2136,73 @@ public class Profile
                 }
                 if (c.R == 0)
                 {
-                    cols[xVal + yVal * targ.width] = new Color(0, 0, 0, 0);
+                    cols[xVal + yVal * width] = new Color(0, 0, 0, 0);
                 }
                 else if (c.R < 110)
                 {
                     if (dontSymbolMesh)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)symbolColor.R * 0.6f), (byte)((float)(int)symbolColor.G * 0.6f), (byte)((float)(int)symbolColor.B * 0.6f));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)symbolColor.R * 0.6f), (byte)((float)(int)symbolColor.G * 0.6f), (byte)((float)(int)symbolColor.B * 0.6f));
                         continue;
                     }
                     float rlExtra = extraMul;
                     rlExtra = ((rlExtra != 1f) ? 1f : 0.9f);
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * 0.6f * rlExtra), (byte)((float)(int)eggColor.G * 0.6f * rlExtra), (byte)((float)(int)eggColor.B * 0.6f * rlExtra));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)eggColor.R * 0.6f * rlExtra), (byte)((float)(int)eggColor.G * 0.6f * rlExtra), (byte)((float)(int)eggColor.B * 0.6f * rlExtra));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * 0.6f * rlExtra), (byte)((float)(int)blobColor.G * 0.6f * rlExtra), (byte)((float)(int)blobColor.B * 0.6f * rlExtra));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)blobColor.R * 0.6f * rlExtra), (byte)((float)(int)blobColor.G * 0.6f * rlExtra), (byte)((float)(int)blobColor.B * 0.6f * rlExtra));
                     }
                 }
                 else if (c.R < 120)
                 {
                     if (dontSymbolMesh)
                     {
-                        cols[xVal + yVal * targ.width] = new Color(symbolColor.R, symbolColor.G, symbolColor.B);
+                        cols[xVal + yVal * width] = new Color(symbolColor.R, symbolColor.G, symbolColor.B);
                         continue;
                     }
                     float rlExtra2 = extraMul;
                     rlExtra2 = ((rlExtra2 != 1f) ? 1f : 0.9f);
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * rlExtra2), (byte)((float)(int)eggColor.G * rlExtra2), (byte)((float)(int)eggColor.B * rlExtra2));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)eggColor.R * rlExtra2), (byte)((float)(int)eggColor.G * rlExtra2), (byte)((float)(int)eggColor.B * rlExtra2));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * rlExtra2), (byte)((float)(int)blobColor.G * rlExtra2), (byte)((float)(int)blobColor.B * rlExtra2));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)blobColor.R * rlExtra2), (byte)((float)(int)blobColor.G * rlExtra2), (byte)((float)(int)blobColor.B * rlExtra2));
                     }
                 }
                 else if (c.R < byte.MaxValue)
                 {
                     if (val1 > 0f)
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * 0.6f * extraMul), (byte)((float)(int)blobColor.G * 0.6f * extraMul), (byte)((float)(int)blobColor.B * 0.6f * extraMul));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)blobColor.R * 0.6f * extraMul), (byte)((float)(int)blobColor.G * 0.6f * extraMul), (byte)((float)(int)blobColor.B * 0.6f * extraMul));
                     }
                     else
                     {
-                        cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * 0.6f * extraMul), (byte)((float)(int)eggColor.G * 0.6f * extraMul), (byte)((float)(int)eggColor.B * 0.6f * extraMul));
+                        cols[xVal + yVal * width] = new Color((byte)((float)(int)eggColor.R * 0.6f * extraMul), (byte)((float)(int)eggColor.G * 0.6f * extraMul), (byte)((float)(int)eggColor.B * 0.6f * extraMul));
                     }
                 }
                 else if (val1 > 0f)
                 {
-                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)blobColor.R * extraMul), (byte)((float)(int)blobColor.G * extraMul), (byte)((float)(int)blobColor.B * extraMul));
+                    cols[xVal + yVal * width] = new Color((byte)((float)(int)blobColor.R * extraMul), (byte)((float)(int)blobColor.G * extraMul), (byte)((float)(int)blobColor.B * extraMul));
                 }
                 else
                 {
-                    cols[xVal + yVal * targ.width] = new Color((byte)((float)(int)eggColor.R * extraMul), (byte)((float)(int)eggColor.G * extraMul), (byte)((float)(int)eggColor.B * extraMul));
+                    cols[xVal + yVal * width] = new Color((byte)((float)(int)eggColor.R * extraMul), (byte)((float)(int)eggColor.G * extraMul), (byte)((float)(int)eggColor.B * extraMul));
                 }
             }
         }
         targ.SetData(cols);
         Rando.Generator = realGen;
         spr.texture = targ;
-        Tex2D tex = new Tex2D(targ.width, targ.height);
+#if NO_TEX2D
+        Texture2D tex = new(Graphics.device, width, height);
+#else
+        Tex2D tex = new(targ.width, targ.height);
+#endif
         tex.SetData(targ.GetData());
         targ.Dispose();
         spr.texture = tex;

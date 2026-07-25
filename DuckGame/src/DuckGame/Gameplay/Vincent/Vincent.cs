@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -98,7 +99,11 @@ public class Vincent
 
     public static Sprite _fancyBanner;
 
-    private static List<RenderTarget2D> _priceTargets = new List<RenderTarget2D>();
+#if NO_TEX2D
+    static List<XnaRenderTarget2D> _priceTargets = [];
+#else
+    private static List<RenderTarget2D> _priceTargets = [];
+#endif
 
     private static int _soldSelectIndex = -1;
 
@@ -689,10 +694,17 @@ public class Vincent
             _cheapTape.CenterOrigin();
             _bigBanner = new Sprite("bigBanner");
             _fancyBanner = new Sprite("fancyBanner");
+#if NO_TEX2D
+            _priceTargets.Add(XnaRenderTarget2D.CreateSetUpTarget(64, 16));
+            _priceTargets.Add(XnaRenderTarget2D.CreateSetUpTarget(64, 16));
+            _priceTargets.Add(XnaRenderTarget2D.CreateSetUpTarget(64, 16));
+            _priceTargets.Add(XnaRenderTarget2D.CreateSetUpTarget(64, 16));
+#else
             _priceTargets.Add(new RenderTarget2D(64, 16));
             _priceTargets.Add(new RenderTarget2D(64, 16));
             _priceTargets.Add(new RenderTarget2D(64, 16));
             _priceTargets.Add(new RenderTarget2D(64, 16));
+#endif
         }
     }
 

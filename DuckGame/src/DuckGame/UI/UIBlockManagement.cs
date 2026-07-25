@@ -205,7 +205,7 @@ public class UIBlockManagement : UIMenu
                     User user = User.GetUser(pair.Key);
                     if (user != null)
                     {
-                        drawName = user.name;
+                        drawName = user.Name;
                     }
                     if (drawName.Length > 31)
                     {

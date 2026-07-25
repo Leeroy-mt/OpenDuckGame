@@ -5,16 +5,7 @@ public delegate void WorkshopQueryResultFetched(object sender, WorkshopQueryResu
 
 public abstract class WorkshopQueryBase : IDisposable
 {
-
-    internal static readonly bool _hasSetReturnOnlyIDs = typeof(SteamUGC).GetMethod("SetReturnOnlyIDs") != null;
-
-    internal CallResult<SteamUGCQueryCompleted_t> _completedCallResult;
-
-    public event WorkshopQueryFinished QueryFinished;
-    public event WorkshopQueryResultFetched ResultFetched;
-
-    internal UGCQueryHandle_t _handle;
-    internal ulong handle => _handle.m_UGCQueryHandle;
+    #region Public Fields
 
     public uint _numResultsFetched;
 
@@ -22,131 +13,162 @@ public abstract class WorkshopQueryBase : IDisposable
 
     public uint _maxCacheTime;
 
-    public bool justOnePage { get; set; }
+    public uint _page;
 
     public WorkshopQueryData _dataToFetch;
 
-    public uint _page;
+    #endregion
 
-    public bool onlyQueryIDs { get; set; }
+    #region Internal Fields
 
-    internal unsafe WorkshopQueryBase()
+    internal static readonly bool hasSetReturnOnlyIDs = typeof(SteamUGC).GetMethod("SetReturnOnlyIDs") != null;
+
+    internal UGCQueryHandle_t handle;
+
+    internal CallResult<SteamUGCQueryCompleted_t>? completedCallResult;
+
+    #endregion
+
+    #region Events
+
+    public event WorkshopQueryFinished? QueryFinished;
+    public event WorkshopQueryResultFetched? ResultFetched;
+
+    #endregion
+
+    #region Public Properties
+
+    public bool JustOnePage { get; set; }
+
+    public bool OnlyQueryIDs { get; set; }
+
+    #endregion
+
+    internal ulong Handle => handle.m_UGCQueryHandle;
+
+    #region Constructor & Finalizer
+
+    internal WorkshopQueryBase()
     {
-        _numResultsTotal = 0;
-        _numResultsFetched = 0;
         _dataToFetch = WorkshopQueryData.Details;
-        _maxCacheTime = 0;
-        _completedCallResult = CallResult<SteamUGCQueryCompleted_t>.Create(OnSteamUGCQueryCompleted);
+        completedCallResult = CallResult<SteamUGCQueryCompleted_t>.Create(OnSteamUGCQueryCompleted);
         _page = 1;
-        _handle = new UGCQueryHandle_t();
+        handle = new UGCQueryHandle_t();
     }
 
-    unsafe ~WorkshopQueryBase()
+    ~WorkshopQueryBase()
     {
         Dispose(true);
     }
 
-    internal abstract void Create();
+    #endregion
 
-    internal virtual unsafe void Destroy()
-    {
-        if (!Steam.initialized)
-            return;
-        try // this segment seems to get triggered when game closing and can cause another crash ontop of closing so Try catched, the above should cover it as well though.
-        {
-            SteamUGC.ReleaseQueryUGCRequest(_handle);
-            _handle = new UGCQueryHandle_t();
-            _completedCallResult = CallResult<SteamUGCQueryCompleted_t>.Create(OnSteamUGCQueryCompleted);
-        }
-        catch
-        {
+    #region Public Fields
 
-        }
-    }
-
-    internal virtual unsafe void SetQueryData()
-    {
-        if (_dataToFetch == WorkshopQueryData.TotalOnly)
-            SteamUGC.SetReturnTotalOnly(_handle, true);
-        else
-        {
-            if ((_dataToFetch & WorkshopQueryData.LongDescription) != 0)
-                SteamUGC.SetReturnLongDescription(_handle, true);
-            else
-                SteamUGC.SetReturnLongDescription(_handle, false);
-            if ((_dataToFetch & WorkshopQueryData.Metadata) != 0)
-                SteamUGC.SetReturnMetadata(_handle, true);
-            else
-                SteamUGC.SetReturnMetadata(_handle, false);
-            if ((_dataToFetch & WorkshopQueryData.Children) != 0)
-                SteamUGC.SetReturnChildren(_handle, true);
-            else
-                SteamUGC.SetReturnChildren(_handle, false);
-            if ((_dataToFetch & WorkshopQueryData.AdditionalPreviews) != 0)
-                SteamUGC.SetReturnAdditionalPreviews(_handle, true);
-            else
-                SteamUGC.SetReturnAdditionalPreviews(_handle, false);
-        }
-
-        if (_maxCacheTime != 0)
-            SteamUGC.SetAllowCachedResponse(_handle, _maxCacheTime);
-
-        if (onlyQueryIDs)
-            SteamUGC.SetReturnOnlyIDs(_handle, true);
-        //WorkshopQueryData dataToFetch = _dataToFetch;
-        //if (dataToFetch == WorkshopQueryData.TotalOnly) {
-        //    SteamUGC.SetReturnTotalOnly(_handle, true);
-        //} else {
-        //    SteamUGC.SetReturnLongDescription(_handle, (dataToFetch & WorkshopQueryData.LongDescription) != 0);
-        //    SteamUGC.SetReturnMetadata(_handle, (dataToFetch & WorkshopQueryData.Metadata) != 0);
-        //    SteamUGC.SetReturnChildren(_handle, (dataToFetch & WorkshopQueryData.Children) != 0);
-        //    SteamUGC.SetReturnAdditionalPreviews(_handle, (dataToFetch & WorkshopQueryData.AdditionalPreviews) != 0);
-        //}
-        //if (_maxCacheTime != 0)
-        //    SteamUGC.SetAllowCachedResponse(_handle, _maxCacheTime);
-        //if (onlyQueryIDs && _hasSetReturnOnlyIDs)
-        //    try {
-        //        SetQueryData_SetReturnOnlyIDs(_handle, true);
-        //    } catch (MissingMethodException) {
-        //        // We're definitely using the stubbed Steamworks.NET now... unless someone dropped in an outdated version? But why?
-        //    }
-    }
-
-    internal unsafe void SetQueryData_SetReturnOnlyIDs(UGCQueryHandle_t handle, bool bReturnOnlyIDs)
-    {
-        SteamUGC.SetReturnOnlyIDs(_handle, true);
-    }
-
-    public unsafe void Request()
+    public void Request()
     {
         try
         {
-            _Request();
+            RequestImpl();
         }
         catch (TypeLoadException)
         {
-            // We're definitely using the stubbed Steamworks.NET now... unless someone dropped in an outdated version? But why?
             QueryFinished?.Invoke(this);
         }
     }
 
-    protected virtual unsafe void _Request()
+    public void Dispose()
     {
-        if (handle == 0)
-            Create();
-        SetQueryData();
-        SteamAPICall_t hSteamAPICall = SteamUGC.SendQueryUGCRequest(_handle);
-        if (hSteamAPICall.m_SteamAPICall != 0)
-        {
-            _completedCallResult.Set(hSteamAPICall);
-        }
-        else
-        {
-            OnSteamUGCQueryCompleted(new SteamUGCQueryCompleted_t(), false);
-        }
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 
-    private unsafe void OnSteamUGCQueryCompleted(SteamUGCQueryCompleted_t queryCompleted, bool ioFailure)
+    #endregion
+
+    #region Internal Methods
+
+    internal abstract void Create();
+
+    internal virtual void Destroy()
+    {
+        if (!Steam.Initialized)
+            return;
+
+        try
+        {
+            SteamUGC.ReleaseQueryUGCRequest(handle);
+            handle = new UGCQueryHandle_t();
+            completedCallResult = CallResult<SteamUGCQueryCompleted_t>.Create(OnSteamUGCQueryCompleted);
+        }
+        catch { }
+    }
+
+    internal virtual void SetQueryData()
+    {
+        if (_dataToFetch == WorkshopQueryData.TotalOnly)
+            SteamUGC.SetReturnTotalOnly(handle, true);
+        else
+        {
+            {
+                var returnLongDescription = (_dataToFetch & WorkshopQueryData.LongDescription) != 0;
+                SteamUGC.SetReturnLongDescription(handle, returnLongDescription);
+            }
+
+            {
+                var returnMetadata = (_dataToFetch & WorkshopQueryData.Metadata) != 0;
+                SteamUGC.SetReturnMetadata(handle, returnMetadata);
+            }
+
+            {
+                var returnChildren = (_dataToFetch & WorkshopQueryData.Children) != 0;
+                SteamUGC.SetReturnChildren(handle, returnChildren);
+            }
+
+            {
+                var returnAdditionalPreviews = (_dataToFetch & WorkshopQueryData.AdditionalPreviews) != 0;
+                SteamUGC.SetReturnAdditionalPreviews(handle, returnAdditionalPreviews);
+            }
+        }
+
+        if (_maxCacheTime != 0)
+            SteamUGC.SetAllowCachedResponse(handle, _maxCacheTime);
+
+        if (OnlyQueryIDs)
+            SteamUGC.SetReturnOnlyIDs(handle, true);
+    }
+
+    internal void SetQueryData_SetReturnOnlyIDs(bool bReturnOnlyIDs) //! possible method remove
+    {
+        SteamUGC.SetReturnOnlyIDs(handle, bReturnOnlyIDs);
+    }
+
+    #endregion
+
+    #region Protected Methods
+
+    protected virtual void RequestImpl()
+    {
+        if (Handle == 0)
+            Create();
+        SetQueryData();
+        SteamAPICall_t hSteamAPICall = SteamUGC.SendQueryUGCRequest(handle);
+        if (hSteamAPICall.m_SteamAPICall != 0)
+            completedCallResult?.Set(hSteamAPICall);
+        else
+            OnSteamUGCQueryCompleted(new SteamUGCQueryCompleted_t(), false);
+    }
+
+    protected virtual void Dispose(bool flag)
+    {
+        Destroy();
+        completedCallResult?.Cancel();
+        (completedCallResult as IDisposable)?.Dispose();
+        completedCallResult = null;
+    }
+
+    #endregion
+
+    void OnSteamUGCQueryCompleted(SteamUGCQueryCompleted_t queryCompleted, bool ioFailure)
     {
         _numResultsTotal = queryCompleted.m_unTotalMatchingResults;
 
@@ -156,13 +178,12 @@ public abstract class WorkshopQueryBase : IDisposable
             return;
         }
         _numResultsFetched += queryCompleted.m_unNumResultsReturned;
-        for (uint resulti = 0; resulti < queryCompleted.m_unNumResultsReturned; resulti++)
+        for (uint i = 0; i < queryCompleted.m_unNumResultsReturned; i++)
         {
-            WorkshopQueryResult result = new WorkshopQueryResult();
-            SteamUGC.GetQueryUGCPreviewURL(queryCompleted.m_handle, resulti, out result.previewURL, 260);
+            WorkshopQueryResult result = new();
+            SteamUGC.GetQueryUGCPreviewURL(queryCompleted.m_handle, i, out result.previewURL, 260);
 
-            SteamUGCDetails_t ugcDetails;
-            SteamUGC.GetQueryUGCResult(queryCompleted.m_handle, resulti, out ugcDetails);
+            SteamUGC.GetQueryUGCResult(queryCompleted.m_handle, i, out SteamUGCDetails_t ugcDetails);
             WorkshopQueryResultDetails resultDetails = result.details = new WorkshopQueryResultDetails();
 
             resultDetails.acceptedForUse = ugcDetails.m_bAcceptedForUse;
@@ -195,24 +216,19 @@ public abstract class WorkshopQueryBase : IDisposable
             if ((_dataToFetch & WorkshopQueryData.Children) != 0)
             {
                 PublishedFileId_t[] children = new PublishedFileId_t[resultDetails.numChildren];
-                if (SteamUGC.GetQueryUGCChildren(queryCompleted.m_handle, resulti, children, (uint)children.Length))
-                    result.fileList = SteamHelper.GetArray(children, id => WorkshopItem.GetItem(id));
+                if (SteamUGC.GetQueryUGCChildren(queryCompleted.m_handle, i, children, (uint)children.Length))
+                    result.fileList = SteamHelper.GetArray(children, id => WorkshopItem.GetItem(id)!);
             }
 
             if ((_dataToFetch & WorkshopQueryData.Metadata) != 0)
-            {
-                SteamUGC.GetQueryUGCMetadata(queryCompleted.m_handle, resulti, out result.metadata, 260);
-            }
+                SteamUGC.GetQueryUGCMetadata(queryCompleted.m_handle, i, out result.metadata, 260);
 
             if ((_dataToFetch & WorkshopQueryData.AdditionalPreviews) != 0)
             {
-                WorkshopQueryResultAdditionalPreview[] previews = result.additionalPreviews = new WorkshopQueryResultAdditionalPreview[SteamUGC.GetQueryUGCNumAdditionalPreviews(queryCompleted.m_handle, resulti)];
+                WorkshopQueryResultAdditionalPreview[] previews = result.additionalPreviews = new WorkshopQueryResultAdditionalPreview[SteamUGC.GetQueryUGCNumAdditionalPreviews(queryCompleted.m_handle, i)];
                 for (uint previewi = 0; previewi < previews.Length; previewi++)
                 {
-                    string url;
-                    string name;
-                    EItemPreviewType type;
-                    if (SteamUGC.GetQueryUGCAdditionalPreview(queryCompleted.m_handle, resulti, previewi, out url, 260, out name, 260, out type))
+                    if (SteamUGC.GetQueryUGCAdditionalPreview(queryCompleted.m_handle, i, previewi, out string url, 260, out string name, 260, out EItemPreviewType type))
                         previews[previewi] = new WorkshopQueryResultAdditionalPreview(type == EItemPreviewType.k_EItemPreviewType_Image, url);
                 }
             }
@@ -222,8 +238,7 @@ public abstract class WorkshopQueryBase : IDisposable
                 uint[] stats = result.statistics = new uint[8];
                 for (WorkshopResultStatistic stat = WorkshopResultStatistic.NumSubscriptions; (int)stat < stats.Length; stat++)
                 {
-                    ulong val;
-                    if (SteamUGC.GetQueryUGCStatistic(queryCompleted.m_handle, resulti, (EItemStatistic)stat, out val))
+                    if (SteamUGC.GetQueryUGCStatistic(queryCompleted.m_handle, i, (EItemStatistic)stat, out ulong val))
                         stats[(int)stat] = (uint)val;
                 }
             }
@@ -231,7 +246,7 @@ public abstract class WorkshopQueryBase : IDisposable
             ResultFetched?.Invoke(this, result);
         }
 
-        if (_numResultsFetched == _numResultsTotal || justOnePage)
+        if (_numResultsFetched == _numResultsTotal || JustOnePage)
         {
             QueryFinished?.Invoke(this);
         }
@@ -243,19 +258,4 @@ public abstract class WorkshopQueryBase : IDisposable
             Request();
         }
     }
-
-    protected virtual void Dispose(bool flag)
-    {
-        Destroy();
-        _completedCallResult?.Cancel();
-        (_completedCallResult as IDisposable)?.Dispose();
-        _completedCallResult = null;
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
 }

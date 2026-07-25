@@ -11,7 +11,7 @@ public class MTSpriteBatchItem
 
     public Texture2D Texture;
 
-    public Material Material;
+    public AutoEffect Material;
 
     public float Depth;
 

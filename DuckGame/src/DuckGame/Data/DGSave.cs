@@ -12,11 +12,11 @@ public static class DGSave
 
     public static void Initialize(bool pForce = false)
     {
-        if (Steam.IsInitialized() && Steam.user != null)
+        if (Steam.IsInitialized() && Steam.User != null)
         {
-            if (Steam.user != null)
+            if (Steam.User != null)
             {
-                DevConsole.Log(DCSection.General, "Welcome to the Grid, |DGBLUE|" + Steam.user.name + "|WHITE|.");
+                DevConsole.Log(DCSection.General, "Welcome to the Grid, |DGBLUE|" + Steam.User.Name + "|WHITE|.");
                 DevConsole.Log(DCSection.General, "You are running Duck Game Steam Build " + Program.steamBuildID + ".");
             }
             if (!Directory.Exists(DuckFile.userDirectory) || pForce)
@@ -28,7 +28,7 @@ public static class DGSave
                 Copy(DuckFile.globalOptionsDirectory, DuckFile.optionsDirectory, "global.dat");
                 Copy(DuckFile.globalOptionsDirectory, DuckFile.optionsDirectory, "input.dat");
                 Copy(DuckFile.globalModsDirectory, DuckFile.modsDirectory, "mods.conf");
-                Copy(DuckFile.globalProfileDirectory, DuckFile.profileDirectory, Steam.user.id + ".pro");
+                Copy(DuckFile.globalProfileDirectory, DuckFile.profileDirectory, Steam.User.Id + ".pro");
                 if (Directory.Exists(DuckFile.globalProfileDirectory))
                 {
                     string[] files = Directory.GetFiles(DuckFile.globalProfileDirectory);

@@ -71,7 +71,7 @@ public class Network
         {
             if (Steam.IsInitialized())
             {
-                return Steam.user != null;
+                return Steam.User != null;
             }
             return false;
         }
@@ -239,7 +239,7 @@ public class Network
                 return false;
             }
             bool can = isServer && lanMode;
-            if (isServer && Steam.lobby != null && Steam.lobby.type != SteamLobbyType.Public)
+            if (isServer && Steam.Lobby != null && Steam.Lobby.Type != SteamLobbyType.Public)
             {
                 can = true;
             }

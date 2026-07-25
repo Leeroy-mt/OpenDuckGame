@@ -791,7 +791,11 @@ public class Team
 
     public string fullFolderPath;
 
+#if NO_TEX2D
+    public Texture2D folderTexture;
+#else
     public Tex2D folderTexture;
+#endif
 
     public bool defaultTeam;
 
@@ -815,7 +819,7 @@ public class Team
                     return true;
                 }
                 bool filter = Options.Data.hatFilter == 2;
-                if (Options.Data.hatFilter == 1 && customConnection.data is User && (customConnection.data as User).relationship != FriendRelationship.Friend)
+                if (Options.Data.hatFilter == 1 && customConnection.data is User && (customConnection.data as User).Relationship != FriendRelationship.Friend)
                 {
                     filter = true;
                 }
@@ -900,7 +904,11 @@ public class Team
         {
             if (hat != null)
             {
+#if NO_TEX2D
+                return hat.texture.Name != "hats/noHat";
+#else
                 return hat.texture.textureName != "hats/noHat";
+#endif
             }
             return false;
         }

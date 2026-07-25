@@ -173,7 +173,7 @@ public class Trombone : Gun
     public override void Draw()
     {
         base.Draw();
-        Material obj = Graphics.material;
+        AutoEffect obj = Graphics.material;
         Graphics.material = base.material;
         Draw(_slide, new Vector2(6f + _slideVal * 8f, 0f), -1);
         Graphics.material = obj;

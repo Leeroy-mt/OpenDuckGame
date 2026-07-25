@@ -1022,7 +1022,7 @@ public class Level
             {
                 Graphics.Clear(Color.Black);
                 Graphics.SetFullViewport();
-                Material material = Graphics.material;
+                AutoEffect material = Graphics.material;
                 Graphics.material = null;
                 Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Matrix.Identity);
                 Graphics.DrawRect(new Vector2(0f, 0f), new Vector2(Resolution.current.x, Resolution.current.y), c, -1f);

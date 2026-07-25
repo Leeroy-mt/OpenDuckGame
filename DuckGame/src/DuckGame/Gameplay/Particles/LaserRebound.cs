@@ -1,10 +1,15 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
 public class LaserRebound : Thing
 {
+#if NO_TEX2D
+    Texture2D _rebound = Content.Load<Texture2D>("laserRebound");
+#else
     private Tex2D _rebound = Content.Load<Tex2D>("laserRebound");
+#endif
 
     public LaserRebound(float xpos, float ypos)
         : base(xpos, ypos)

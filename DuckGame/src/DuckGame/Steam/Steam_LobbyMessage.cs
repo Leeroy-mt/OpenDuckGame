@@ -22,7 +22,7 @@ public class Steam_LobbyMessage
         message.Write(kLobbyMessageID);
         if (pContext != null)
         {
-            message.Write(pContext.id);
+            message.Write(pContext.Id);
         }
         else
         {

@@ -1,8 +1,6 @@
 ﻿public class UserInfo
 {
-    public UserInfo()
-    {
-    }
+    #region Public Fields
 
     public bool inGame;
 
@@ -15,4 +13,6 @@
     public SteamUserState state;
 
     public FriendRelationship relationship;
+
+    #endregion
 }

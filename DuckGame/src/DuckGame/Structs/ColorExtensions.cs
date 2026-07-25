@@ -78,10 +78,10 @@ public static class ColorExtensions
         public static Color operator *(Color left, Color right)
         {
             return new(
-                left.R * right.R,
-                left.G * right.G,
-                left.B * right.B,
-                left.A * right.A
+                (left.R / 255f) * (right.R / 255f),
+                (left.G / 255f) * (right.G / 255f),
+                (left.B / 255f) * (right.B / 255f),
+                (left.A / 255f) * (right.A / 255f)
                 );
         }
     }

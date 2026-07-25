@@ -15,7 +15,7 @@ public class GeometryItem
 
     public int size = 512;
 
-    public Material material;
+    public AutoEffect material;
 
     public GeometryItem()
     {

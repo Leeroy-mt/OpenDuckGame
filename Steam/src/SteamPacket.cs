@@ -1,10 +1,6 @@
 ﻿public class SteamPacket
 {
-    public SteamPacket()
-    {
-    }
+    public byte[]? data;
 
-    public User connection;
-
-    public byte[] data;
+    public User? connection;
 }

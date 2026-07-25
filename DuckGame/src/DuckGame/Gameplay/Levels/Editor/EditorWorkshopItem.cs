@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -11,7 +12,11 @@ public class EditorWorkshopItem
 
     public bool challengeTestSuccess;
 
+#if NO_TEX2D
+    Texture2D _preview;
+#else
     private Tex2D _preview;
+#endif
 
     private WorkshopItem _item;
 
@@ -23,7 +28,11 @@ public class EditorWorkshopItem
 
     private EditorWorkshopItem _parent;
 
+#if NO_TEX2D
+    public Texture2D preview
+#else
     public Tex2D preview
+#endif
     {
         get
         {
@@ -41,26 +50,43 @@ public class EditorWorkshopItem
                 }
                 else
                 {
+#if NO_TEX2D
+                    XnaRenderTarget2D previewTarget;
+#else
                     RenderTarget2D previewTarget;
+#endif
                     if (_level.metaData.type == LevelType.Arcade_Machine)
                     {
+#if NO_TEX2D
+                        previewTarget = XnaRenderTarget2D.CreateSetUpTarget(512, 512);
+#else
                         previewTarget = new RenderTarget2D(512, 512);
+#endif
                         Content.customPreviewWidth = 128;
                         Content.customPreviewHeight = 128;
                         Content.customPreviewCenter = (Level.current as Editor).levelThings[0].Position;
                     }
                     else
                     {
+#if NO_TEX2D
+                        previewTarget = XnaRenderTarget2D.CreateSetUpTarget(1280, 720);
+#else
                         previewTarget = new RenderTarget2D(1280, 720);
+#endif
                     }
                     Content.GeneratePreview(_level, pRefresh: true, previewTarget);
                     Content.customPreviewWidth = 0;
                     Content.customPreviewHeight = 0;
                     Content.customPreviewCenter = Vector2.Zero;
+#if NO_TEX2D
+                    _preview = new Texture2D(Graphics.device, previewTarget.Width, previewTarget.Height);
+                    Color[] colors = new Color[previewTarget.Width * previewTarget.Height];
+#else
                     _preview = new Texture2D(Graphics.device, previewTarget.width, previewTarget.height);
                     Color[] colors = new Color[previewTarget.width * previewTarget.height];
+#endif
                     previewTarget.GetData(colors);
-                    ((Tex2DBase)_preview).SetData<Color>(colors);
+                    _preview.SetData<Color>(colors);
                 }
             }
             return _preview;
@@ -125,9 +151,9 @@ public class EditorWorkshopItem
         }
     }
 
-    public SteamResult result => _item.result;
+    public SteamResult result => _item.Result;
 
-    public bool finishedProcessing => _item.finishedProcessing;
+    public bool finishedProcessing => _item.FinishedProcessing;
 
     public WorkshopItem item => _item;
 
@@ -153,9 +179,9 @@ public class EditorWorkshopItem
             _item = WorkshopItem.GetItem(_level.metaData.workshopID);
             Steam.RequestWorkshopInfo(new List<WorkshopItem> { _item });
             Wait();
-            _level.workshopData.name = _item.data.name;
-            _level.workshopData.description = _item.data.description;
-            _level.workshopData.tags = new List<string>(_item.data.tags);
+            _level.workshopData.name = _item.Data.name;
+            _level.workshopData.description = _item.Data.description;
+            _level.workshopData.tags = new List<string>(_item.Data.tags);
         }
         if (_level.workshopData.name == "")
         {
@@ -187,9 +213,9 @@ public class EditorWorkshopItem
             _item = WorkshopItem.GetItem(_mod.configuration.workshopID);
             Steam.RequestWorkshopInfo(new List<WorkshopItem> { _item });
             Wait();
-            _mod.workshopData.name = _item.data.name;
-            _mod.workshopData.description = _item.data.description;
-            _mod.workshopData.tags = new List<string>(_item.data.tags);
+            _mod.workshopData.name = _item.Data.name;
+            _mod.workshopData.description = _item.Data.description;
+            _mod.workshopData.tags = new List<string>(_item.Data.tags);
         }
         _mod.workshopData.name = _mod.configuration.displayName;
         if (!workshopData.tags.Contains("Mod"))
@@ -204,20 +230,20 @@ public class EditorWorkshopItem
         {
             _item = Steam.CreateItem();
             Wait();
-            _level.metaData.workshopID = _item.id;
+            _level.metaData.workshopID = _item.Id;
             _item.SetDetails(workshopData.name, new WorkshopItemData());
             if (_parent != null && _parent._level.metaData.type == LevelType.Arcade_Machine)
             {
-                _level.workshopData.name = _parent._item.name + " Sub Challenge " + subIndex;
-                _level.workshopData.description = "One of the challenges in the \"" + _parent._item.name + "\" Arcade Machine.";
+                _level.workshopData.name = _parent._item.Name + " Sub Challenge " + subIndex;
+                _level.workshopData.description = "One of the challenges in the \"" + _parent._item.Name + "\" Arcade Machine.";
             }
         }
         if (result != SteamResult.OK)
         {
             return result;
         }
-        _item.data.name = workshopData.name;
-        _item.data.description = workshopData.description;
+        _item.Data.name = workshopData.name;
+        _item.Data.description = workshopData.description;
         workshopData.tags.RemoveAll((string x) => !SteamUploadDialog.possibleTags.Contains(x));
         if (_level.metaData.type != LevelType.Arcade_Machine)
         {
@@ -275,7 +301,7 @@ public class EditorWorkshopItem
         {
             AddTag("Custom Art");
         }
-        _item.data.tags = new List<string>(workshopData.tags);
+        _item.Data.tags = new List<string>(workshopData.tags);
         foreach (ulong u in _level.workshopData.dependencies)
         {
             Steam.WorkshopRemoveDependency(_item, WorkshopItem.GetItem(u));
@@ -287,7 +313,7 @@ public class EditorWorkshopItem
             {
                 return i.result;
             }
-            _level.workshopData.dependencies.Add(i.item.id);
+            _level.workshopData.dependencies.Add(i.item.Id);
             Steam.WorkshopAddDependency(_item, i.item);
         }
         CopyFiles();
@@ -309,35 +335,39 @@ public class EditorWorkshopItem
         }
         File.Copy(_level.GetPath(), fileName);
         File.SetAttributes(_level.GetPath(), FileAttributes.Normal);
-        _item.data.contentFolder = folderPath;
+        _item.Data.contentFolder = folderPath;
         string previewName = text + loneName + ".png";
         if (File.Exists(previewName))
         {
             File.Delete(previewName);
         }
         Stream stream = DuckFile.Create(previewName);
+#if NO_TEX2D
+        preview.SaveAsPng(stream, preview.Width, preview.Height);
+#else
         ((Texture2D)preview.nativeObject).SaveAsPng(stream, preview.width, preview.height);
+#endif
         stream.Dispose();
-        _item.data.previewPath = previewName;
+        _item.Data.previewPath = previewName;
     }
 
     public void Upload()
     {
         _item.ResetProcessing();
-        _item.ApplyWorkshopData(_item.data);
+        _item.ApplyWorkshopData(_item.Data);
     }
 
     public void FinishUpload()
     {
-        if (_item.needsLegal)
+        if (_item.NeedsLegal)
         {
-            Steam.ShowWorkshopLegalAgreement(_item.id.ToString());
+            Steam.ShowWorkshopLegalAgreement(_item.Id.ToString());
         }
     }
 
     private void Wait()
     {
-        while (!_item.finishedProcessing)
+        while (!_item.FinishedProcessing)
         {
             Steam.Update();
         }

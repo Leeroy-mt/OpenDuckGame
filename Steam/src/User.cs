@@ -1,193 +1,132 @@
 ﻿using Steamworks;
-using System.Runtime.ExceptionServices;
 
-public class User : IDisposable
+public class User
 {
+    #region Public Fields
 
-    private static Dictionary<ulong, User> _users;
+    public virtual ulong Id => _id.m_SteamID;
 
-    internal static User GetUser(CSteamID id)
+    public virtual string Name
     {
-        return GetUser(id.m_SteamID);
+        get => Id != 0 && Steam.Initialized
+            ? SteamFriends.GetFriendPersonaName(_id)
+            : "";
     }
 
-    public static User GetUser(ulong id)
+    public virtual byte[]? AvatarSmall
     {
-        if (id == 0)
-        {
-            return null;
-        }
-        if (_users == null)
-        {
-            _users = new Dictionary<ulong, User>();
-        }
-        using (Lock _lock = new Lock(_users))
-        {
-            User user;
-            if (!_users.TryGetValue(id, out user))
-            {
-                user = new User(id);
-                _users[id] = user;
-            }
-            return user;
-        }
+        get => Id != 0 && Steam.Initialized
+            ? avatarDataSmall ??= SteamHelper.GetImageRGBA(SteamFriends.GetSmallFriendAvatar(_id))
+            : null;
     }
 
-    private CSteamID _id;
-    public virtual ulong id => _id.m_SteamID;
-
-    public virtual unsafe string name
+    public virtual byte[]? AvatarMedium
     {
-        get
-        {
-            if (id != 0 && Steam.initialized)
-                return SteamFriends.GetFriendPersonaName(_id);
-            return "";
-        }
+        get => Id != 0 && Steam.Initialized
+            ? avatarDataMedium ??= SteamHelper.GetImageRGBA(SteamFriends.GetMediumFriendAvatar(_id))
+            : null;
     }
 
-    private byte[] _avatarDataSmall;
-    public virtual unsafe byte[] avatarSmall
+    public virtual bool InGame
     {
-        get
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                if (_avatarDataSmall != null)
-                    return _avatarDataSmall;
-                return _avatarDataSmall = SteamHelper.GetImageRGBA(SteamFriends.GetSmallFriendAvatar(_id));
-            }
-
-            return null;
-        }
+        get => Id != 0
+            && Steam.Initialized
+            && SteamFriends.GetFriendGamePlayed(_id, out _);
     }
 
-    private byte[] _avatarDataMedium;
-    public virtual unsafe byte[] avatarMedium
+    public virtual bool InCurrentGame
     {
-        get
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                if (_avatarDataMedium != null)
-                    return _avatarDataMedium;
-                return _avatarDataMedium = SteamHelper.GetImageRGBA(SteamFriends.GetMediumFriendAvatar(_id));
-            }
-
-            return null;
-        }
+        get => Id != 0
+            && Steam.Initialized
+            && SteamFriends.GetFriendGamePlayed(_id, out var game)
+            && game.m_gameID.AppID() == SteamUtils.GetAppID();
     }
 
-    public virtual unsafe bool inGame
+    protected virtual bool InLobby
     {
-        get
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                FriendGameInfo_t game;
-                return SteamFriends.GetFriendGamePlayed(_id, out game);
-            }
-
-            return false;
-        }
+        get => Id != 0
+            && Steam.Initialized
+            && SteamFriends.GetFriendGamePlayed(_id, out var game)
+            && game.m_steamIDLobby.m_SteamID != 0;
     }
 
-    public virtual unsafe bool inCurrentGame
+    public virtual bool InCurrentLobby
     {
-        get
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                FriendGameInfo_t game;
-                return SteamFriends.GetFriendGamePlayed(_id, out game) && game.m_gameID.AppID() == SteamUtils.GetAppID();
-            }
-
-            return false;
-        }
+        get => Id != 0
+            && Steam.Lobby != null
+            && Steam.Initialized
+            && SteamFriends.GetFriendGamePlayed(_id, out var game)
+            && game.m_steamIDLobby.m_SteamID != Steam.Lobby.Id;
     }
 
-    protected virtual unsafe bool inLobby
+    public virtual UserInfo Info => new()
     {
-        get
-        {
-            if (id != 0 && Steam.initialized)
-            {
-                FriendGameInfo_t game;
-                return SteamFriends.GetFriendGamePlayed(_id, out game) && game.m_steamIDLobby.m_SteamID != 0;
-            }
+        inGame = InGame,
+        inCurrentGame = InCurrentGame,
+        inLobby = InLobby,
+        inMyLobby = InCurrentLobby,
+        state = State,
+        relationship = Relationship
+    };
 
-            return false;
-        }
+    public virtual SteamUserState State
+    {
+        get => Id != 0 && Steam.Initialized
+            ? (SteamUserState)SteamFriends.GetFriendPersonaState(_id)
+            : SteamUserState.Offline;
     }
 
-    public virtual unsafe bool inCurrentLobby
+    public virtual FriendRelationship Relationship
     {
-        get
-        {
-            if (id != 0 && Steam.lobby != null && Steam.initialized)
-            {
-                FriendGameInfo_t game;
-                return SteamFriends.GetFriendGamePlayed(_id, out game) && game.m_steamIDLobby.m_SteamID != Steam.lobby.id;
-            }
-
-            return false;
-        }
+        get => Id != 0 && Steam.Initialized
+            ? (FriendRelationship)SteamFriends.GetFriendRelationship(_id)
+            : FriendRelationship.None;
     }
 
-    public virtual unsafe UserInfo info
-    {
-        get
-        {
-            return new UserInfo()
-            {
-                inGame = inGame,
-                inCurrentGame = inCurrentGame,
-                inLobby = inLobby,
-                inMyLobby = inCurrentLobby,
-                state = state,
-                relationship = relationship
-            };
-        }
-    }
+    #endregion
 
-    public virtual unsafe SteamUserState state
-    {
-        get
-        {
-            if (id != 0 && Steam.initialized)
-                return (SteamUserState)SteamFriends.GetFriendPersonaState(_id);
-            return SteamUserState.Offline;
-        }
-    }
+    #region Private Fields
 
-    public virtual unsafe FriendRelationship relationship
-    {
-        get
-        {
-            if (id != 0 && Steam.initialized)
-                return (FriendRelationship)SteamFriends.GetFriendRelationship(_id);
-            return FriendRelationship.None;
-        }
-    }
+    CSteamID _id;
 
-    private User(ulong id)
-    {
-        _id = new CSteamID(id);
-    }
+    byte[]? avatarDataSmall;
+    byte[]? avatarDataMedium;
+
+    static Dictionary<ulong, User>? users;
+
+    #endregion
+
+    #region Constructors
+
+    User(ulong id)
+        : this(new CSteamID(id)) { }
 
     internal User(CSteamID id)
     {
         _id = id;
     }
 
-    [HandleProcessCorruptedStateExceptions]
-    protected virtual void Dispose(bool flag)
+    #endregion
+
+    public static User? GetUser(ulong id)
     {
+        if (id == 0)
+            return null;
+
+        users ??= [];
+        using Lock _lock = new(users);
+
+        if (!users.TryGetValue(id, out User? user))
+        {
+            user = new User(id);
+            users[id] = user;
+        }
+
+        return user;
     }
 
-    public void Dispose()
+    internal static User? GetUser(CSteamID id)
     {
-        Dispose(true);
+        return GetUser(id.m_SteamID);
     }
-
 }

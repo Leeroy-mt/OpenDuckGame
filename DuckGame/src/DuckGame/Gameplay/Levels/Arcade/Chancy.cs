@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -80,7 +81,11 @@ public class Chancy
 
     private static ChallengeData _challengeData;
 
+#if NO_TEX2D
+    static XnaRenderTarget2D _bestTextTarget;
+#else
     private static RenderTarget2D _bestTextTarget;
+#endif
 
     private static Random _random;
 
@@ -481,13 +486,21 @@ public class Chancy
         {
             if (_bestTextTarget == null)
             {
+#if NO_TEX2D
+                _bestTextTarget = XnaRenderTarget2D.CreateSetUpTarget(120, 8);
+#else
                 _bestTextTarget = new RenderTarget2D(120, 8);
+#endif
             }
             Graphics.SetRenderTarget(_bestTextTarget);
             Graphics.Clear(Color.Transparent);
             Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullNone, null, Matrix.Identity);
             string text = GetChallengeBestString(_save, activeChallenge);
+#if NO_TEX2D
+            _font.Draw(text, new Vector2((int)Math.Round((float)_bestTextTarget.Width / 2f - _font.GetWidth(text) / 2f), 0f), Color.Black * 0.7f);
+#else
             _font.Draw(text, new Vector2((int)Math.Round((float)_bestTextTarget.width / 2f - _font.GetWidth(text) / 2f), 0f), Color.Black * 0.7f);
+#endif
             Graphics.screen.End();
             Graphics.SetRenderTarget(null);
         }
@@ -832,7 +845,11 @@ public class Chancy
                     Graphics.Draw(_tape, paperPos.X + 64f, paperPos.Y + 22f);
                     if (_bestTextTarget != null)
                     {
+#if NO_TEX2D
+                        Graphics.Draw(_bestTextTarget, new Vector2(paperPos.X + 64f, paperPos.Y + 22f), null, Color.White, Maths.DegToRad(_paperAngle), new Vector2(_bestTextTarget.Width / 2, _bestTextTarget.Height / 2), new Vector2(1f, 1f), SpriteEffects.None, 0.92f);
+#else
                         Graphics.Draw((Texture2D)_bestTextTarget, new Vector2(paperPos.X + 64f, paperPos.Y + 22f), null, Color.White, Maths.DegToRad(_paperAngle), new Vector2(_bestTextTarget.width / 2, _bestTextTarget.height / 2), new Vector2(1f, 1f), SpriteEffects.None, 0.92f);
+#endif
                     }
                 }
             }

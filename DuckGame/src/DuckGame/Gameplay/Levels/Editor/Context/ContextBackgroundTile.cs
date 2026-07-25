@@ -87,8 +87,13 @@ public class ContextBackgroundTile : ContextMenu
         if (base.opened)
         {
             SpriteMap map = _thing.graphic as SpriteMap;
+#if NO_TEX2D
+            int wide = map.texture.Width / map.w;
+            int high = map.texture.Height / map.h;
+#else
             int wide = map.texture.width / map.w;
             int high = map.texture.height / map.h;
+#endif
             if (justOpened)
             {
                 tooltip = _text;
@@ -105,7 +110,11 @@ public class ContextBackgroundTile : ContextMenu
                     positionCursor = false;
                 }
             }
+#if NO_TEX2D
+            menuSize = new Vector2(map.texture.Width + 2, map.texture.Height + 2);
+#else
             menuSize = new Vector2(map.texture.width + 2, map.texture.height + 2);
+#endif
             float menuWidth = menuSize.X;
             float menuHeight = menuSize.Y;
             Vector2 pos = new Vector2(base.X, base.Y);
@@ -196,6 +205,26 @@ public class ContextBackgroundTile : ContextMenu
             Editor editor = Level.current as Editor;
             _hoverPos.X = (float)Math.Round(_hoverPos.X / (float)map.w) * (float)map.w;
             _hoverPos.Y = (float)Math.Round(_hoverPos.Y / (float)map.h) * (float)map.h;
+#if NO_TEX2D
+            if ((_file == null || !_file.hover) && _hoverPos.X >= 0f && _hoverPos.X < map.texture.Width && _hoverPos.Y >= 0f && _hoverPos.Y < map.texture.Height)
+            {
+                Graphics.DrawRect(_hoverPos + pos, _hoverPos + pos + new Vector2(map.w + 2, map.h + 2), Color.Lime * 0.8f, 0.8f, filled: false);
+                if ((Editor.inputMode == EditorInput.Mouse && Mouse.left == InputState.Pressed) || (Editor.inputMode == EditorInput.Gamepad && Input.Pressed("SELECT") && !justOpened) || (Editor.inputMode == EditorInput.Touch && TouchScreen.GetTap() != Touch.None))
+                {
+                    if (_thing is BackgroundTile)
+                        (_thing as BackgroundTile).frame = (int)(_hoverPos.X / map.w + _hoverPos.Y / map.h * (map.texture.Width / map.w));
+                    else
+                        map.frame = (int)(_hoverPos.X / map.w + _hoverPos.Y / map.h * (map.texture.Width / map.w));
+                    editor.placementType = _thing;
+                    editor.placementType = _thing;
+                    if (!floatMode || Editor.inputMode == EditorInput.Gamepad)
+                    {
+                        Disappear();
+                        editor.CloseMenu();
+                    }
+                }
+            }
+#else
             if ((_file == null || !_file.hover) && _hoverPos.X >= 0f && _hoverPos.X < (float)map.texture.width && _hoverPos.Y >= 0f && _hoverPos.Y < (float)map.texture.height)
             {
                 Graphics.DrawRect(_hoverPos + pos, _hoverPos + pos + new Vector2(map.w + 2, map.h + 2), Color.Lime * 0.8f, 0.8f, filled: false);
@@ -218,6 +247,7 @@ public class ContextBackgroundTile : ContextMenu
                     }
                 }
             }
+#endif
             if (!justOpened && Input.Pressed("MENU1") && owner == null)
             {
                 Disappear();

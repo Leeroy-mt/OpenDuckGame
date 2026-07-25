@@ -436,7 +436,7 @@ public class DevConsole
             if (/*cmd.cheat*/false && !NetworkDebugger.enabled)
             {
                 bool overrideCheats = false;
-                if (Steam.user != null && (Steam.user.id == 76561197996786074L || Steam.user.id == 76561198885030822L || Steam.user.id == 76561198416200652L || Steam.user.id == 76561198104352795L || Steam.user.id == 76561198114791325L))
+                if (Steam.User != null && (Steam.User.Id == 76561197996786074L || Steam.User.Id == 76561198885030822L || Steam.User.Id == 76561198416200652L || Steam.User.Id == 76561198104352795L || Steam.User.Id == 76561198114791325L))
                 {
                     overrideCheats = true;
                 }
@@ -1347,7 +1347,7 @@ public class DevConsole
             return false;
         }
         bool overrideCheats = false;
-        if (Steam.user != null && (Steam.user.id == 76561197996786074L || Steam.user.id == 76561198885030822L || Steam.user.id == 76561198416200652L || Steam.user.id == 76561198104352795L || Steam.user.id == 76561198114791325L))
+        if (Steam.User != null && (Steam.User.Id == 76561197996786074L || Steam.User.Id == 76561198885030822L || Steam.User.Id == 76561198416200652L || Steam.User.Id == 76561198104352795L || Steam.User.Id == 76561198114791325L))
         {
             overrideCheats = true;
         }
@@ -1516,7 +1516,7 @@ public class DevConsole
         }
         if (pName == null)
         {
-            pName = DateTime.Now.ToShortDateString().Replace('/', '_') + "_" + DateTime.Now.ToLongTimeString().Replace(':', '_') + "_" + Steam.user.name + "_netlog.txt";
+            pName = DateTime.Now.ToShortDateString().Replace('/', '_') + "_" + DateTime.Now.ToLongTimeString().Replace(':', '_') + "_" + Steam.User.Name + "_netlog.txt";
         }
         else if (!pName.EndsWith(".txt"))
         {

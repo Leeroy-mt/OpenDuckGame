@@ -18,9 +18,9 @@ public class WorkshopMetaData : BinaryClassChunk
 
     public WorkshopMetaData()
     {
-        if (Steam.user != null)
+        if (Steam.User != null)
         {
-            author = Steam.user.name;
+            author = Steam.User.Name;
         }
         Reset();
     }

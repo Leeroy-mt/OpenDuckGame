@@ -2,9 +2,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialEnergyBlade : Material
+public class MaterialEnergyBlade : AutoEffect
 {
+#if NO_TEX2D
+    Texture2D _energyTexture;
+#else
     private Tex2D _energyTexture;
+#endif
 
     private OldEnergyScimi _thing;
 
@@ -14,17 +18,23 @@ public class MaterialEnergyBlade : Material
 
     public float glow;
 
-    public MaterialEnergyBlade(OldEnergyScimi t)
+    public MaterialEnergyBlade(OldEnergyScimi t) : base(Content.Load<MTEffect>("Shaders/energyBlade"))
     {
-        effect = Content.Load<MTEffect>("Shaders/energyBlade");
+#if NO_TEX2D
+        _energyTexture = Content.Load<Texture2D>("energyTex");
+#else
         _energyTexture = Content.Load<Tex2D>("energyTex");
+#endif
         _thing = t;
     }
 
-    public MaterialEnergyBlade(EnergyScimitar t)
+    public MaterialEnergyBlade(EnergyScimitar t) : base(Content.Load<MTEffect>("Shaders/energyBlade"))
     {
-        effect = Content.Load<MTEffect>("Shaders/energyBlade");
+#if NO_TEX2D
+        _energyTexture = Content.Load<Texture2D>("energyTex");
+#else
         _energyTexture = Content.Load<Tex2D>("energyTex");
+#endif
         _thing2 = t;
     }
 
@@ -33,9 +43,16 @@ public class MaterialEnergyBlade : Material
         _time += 0.016f;
         if (Graphics.device.Textures[0] != null)
         {
+#if NO_TEX2D
+            var tex = Graphics.device.Textures[0] as Texture2D;
+            var frameSize = SpriteMap.GetFrameSize(tex);
+            SetValue("width", frameSize.X / tex.Width);
+            SetValue("height", frameSize.Y / tex.Height);
+#else
             Tex2D tex = Graphics.device.Textures[0] as Texture2D;
             SetValue("width", tex.frameWidth / (float)tex.width);
             SetValue("height", tex.frameHeight / (float)tex.height);
+#endif
             if (_thing != null)
             {
                 SetValue("xpos", _thing.X);
@@ -55,7 +72,7 @@ public class MaterialEnergyBlade : Material
         }
         Graphics.device.Textures[1] = (Texture2D)_energyTexture;
         Graphics.device.SamplerStates[1] = SamplerState.PointWrap;
-        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
+        foreach (EffectPass pass in CurrentTechnique.Passes)
         {
             pass.Apply();
         }

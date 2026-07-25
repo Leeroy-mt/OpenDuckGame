@@ -870,7 +870,7 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
                 if (Network.isActive && Network.activeNetwork.core.lobby != null)
                 {
                     Network.activeNetwork.core.lobby.SetLobbyData("started", "false");
-                    Network.activeNetwork.core.lobby.joinable = true;
+                    Network.activeNetwork.core.lobby.Joinable = true;
                 }
                 foreach (Profile p in DuckNetwork.profiles)
                 {
@@ -1266,9 +1266,9 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
         if (Network.InLobby() && u != null)
         {
             _invitedUsers.Add(u);
-            DuckNetwork.core._invitedFriends.Add(u.id);
+            DuckNetwork.core._invitedFriends.Add(u.Id);
             DoInvite();
-            Main.SpecialCode = "Invited Friend (" + u.id + ")";
+            Main.SpecialCode = "Invited Friend (" + u.Id + ")";
             DevConsole.Log(DCSection.Connection, Main.SpecialCode);
         }
     }
@@ -1294,7 +1294,7 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
             }
         }
         base.backgroundColor = Color.Black;
-        if (_copyInviteLink && Steam.user != null && Steam.lobby != null && Steam.lobby.id != 0L)
+        if (_copyInviteLink && Steam.User != null && Steam.Lobby != null && Steam.Lobby.Id != 0L)
         {
             DuckNetwork.CopyInviteLink();
             _copyInviteLink = false;
@@ -1382,11 +1382,11 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
             }
             _attemptingToInvite = true;
         }
-        if (_attemptingToInvite && Network.isActive && (!_didHost || (Steam.lobby != null && !Steam.lobby.processing)))
+        if (_attemptingToInvite && Network.isActive && (!_didHost || (Steam.Lobby != null && !Steam.Lobby.Processing)))
         {
             foreach (User invitedUser in _invitedUsers)
             {
-                Steam.InviteUser(invitedUser, Steam.lobby);
+                Steam.InviteUser(invitedUser, Steam.Lobby);
             }
             _invitedUsers.Clear();
             _attemptingToInvite = false;
@@ -1584,7 +1584,7 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
                             if (Network.activeNetwork.core.lobby != null)
                             {
                                 Network.activeNetwork.core.lobby.SetLobbyData("started", "true");
-                                Network.activeNetwork.core.lobby.joinable = false;
+                                Network.activeNetwork.core.lobby.Joinable = false;
                             }
                             DuckNetwork.inGame = true;
                         }
@@ -1888,7 +1888,7 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
                 if (!Network.available)
                 {
                     onlineString = "@MENU2@PLAY LAN (NO STEAM)";
-                    if (Steam.user != null && Steam.user.state == SteamUserState.Offline)
+                    if (Steam.User != null && Steam.User.State == SteamUserState.Offline)
                     {
                         onlineString = "@MENU2@PLAY LAN (STEAM OFFLINE MODE)";
                     }

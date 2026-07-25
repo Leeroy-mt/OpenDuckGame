@@ -38,7 +38,7 @@ public static class RandomLevelDownloader
 
     public static void ProcessWorkshopItem(WorkshopItem pItem)
     {
-        ProcessLevel(pItem.path);
+        ProcessLevel(pItem.Path);
     }
 
     public static void DownloadRandomMap()
@@ -73,11 +73,11 @@ public static class RandomLevelDownloader
             page = 1;
         numSinceLowRating++;
         WorkshopQueryAll workshopQueryAll = Steam.CreateQueryAll(_orderMode, WorkshopType.Items);
-        workshopQueryAll.requiredTags.Add("Deathmatch");
-        workshopQueryAll.excludedTags.Add("Exclude From Random");
+        workshopQueryAll.RequiredTags.Add("Deathmatch");
+        workshopQueryAll.ExcludedTags.Add("Exclude From Random");
         workshopQueryAll.ResultFetched += Fetched;
         workshopQueryAll._page = (uint)page;
-        workshopQueryAll.justOnePage = true;
+        workshopQueryAll.JustOnePage = true;
         workshopQueryAll.Request();
         _fetchDelay = 5;
     }
@@ -91,11 +91,11 @@ public static class RandomLevelDownloader
         {
             for (int i = 0; i < _downloadingItems.Count; i++)
             {
-                if (_downloadingItems[i].finishedProcessing)
+                if (_downloadingItems[i].FinishedProcessing)
                 {
-                    if (_downloadingItems[i].downloadResult == SteamResult.OK)
+                    if (_downloadingItems[i].DownloadResult == SteamResult.OK)
                     {
-                        List<string> levelList = GetLevelList(_downloadingItems[i].path);
+                        List<string> levelList = GetLevelList(_downloadingItems[i].Path);
                         ProcessLevel(levelList[Rando.Int(levelList.Count - 1)]);
                     }
                     _downloadingItems.RemoveAt(i);
@@ -110,8 +110,8 @@ public static class RandomLevelDownloader
                 _toFetchIndex = -1;
                 _numFetch = 0;
                 WorkshopQueryAll workshopQueryAll = Steam.CreateQueryAll(_orderMode, WorkshopType.Items);
-                workshopQueryAll.requiredTags.Add("Deathmatch");
-                workshopQueryAll.excludedTags.Add("Exclude From Random");
+                workshopQueryAll.RequiredTags.Add("Deathmatch");
+                workshopQueryAll.ExcludedTags.Add("Exclude From Random");
                 workshopQueryAll.QueryFinished += FinishedTotalQuery;
                 workshopQueryAll._dataToFetch = WorkshopQueryData.TotalOnly;
                 workshopQueryAll.Request();
@@ -154,7 +154,7 @@ public static class RandomLevelDownloader
         }
         if (_toFetchIndex == _numFetch)
         {
-            if (Global.data.blacklist.Contains(result.details.publishedFile.id))
+            if (Global.data.blacklist.Contains(result.details.publishedFile.Id))
             {
                 if (_numFetch < 49)
                     _numFetch++;

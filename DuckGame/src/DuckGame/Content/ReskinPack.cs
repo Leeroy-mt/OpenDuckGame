@@ -117,7 +117,7 @@ public class ReskinPack : ContentPack
         {
             LoadReskin(directories[i]);
         }
-        if (Steam.user != null)
+        if (Steam.User != null)
         {
             directories = DuckFile.GetDirectories(DuckFile.globalSkinsDirectory);
             for (int i = 0; i < directories.Length; i++)

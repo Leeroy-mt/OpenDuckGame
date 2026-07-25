@@ -393,7 +393,7 @@ public abstract class NCNetworkImplementation
             return null;
         }
         NetworkConnection connection = GetOrAddConnection(context);
-        if (connection.status != ConnectionStatus.Connected && !connection.banned && Network.isServer && connection.data is User && Options.Data.blockedPlayers.Contains((connection.data as User).id))
+        if (connection.status != ConnectionStatus.Connected && !connection.banned && Network.isServer && connection.data is User && Options.Data.blockedPlayers.Contains((connection.data as User).Id))
         {
             DevConsole.Log(DCSection.NetCore, "@error Ignoring connection from " + connection.ToString() + "(blocked)@error");
             connection.banned = true;
@@ -670,7 +670,7 @@ public abstract class NCNetworkImplementation
         {
             if (context != null && context is User)
             {
-                _pendingMessages.Enqueue(new NCError("|DGBLUE|NETCORE |DGRED|Packet received from unknown connection(" + (context as User).id + "," + (context as User).name + ").", NCErrorType.Debug));
+                _pendingMessages.Enqueue(new NCError("|DGBLUE|NETCORE |DGRED|Packet received from unknown connection(" + (context as User).Id + "," + (context as User).Name + ").", NCErrorType.Debug));
             }
             else
             {

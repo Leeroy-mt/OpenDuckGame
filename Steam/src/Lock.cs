@@ -1,7 +1,8 @@
 ﻿internal class Lock : IDisposable
 {
+    readonly object m_pObject;
 
-    private object m_pObject;
+    #region Constructor & Destructor
 
     public Lock(object pObject)
     {
@@ -14,11 +15,7 @@
         Dispose(true);
     }
 
-    protected virtual void Dispose(bool disposing)
-    {
-        if (disposing)
-            Monitor.Exit(m_pObject);
-    }
+    #endregion
 
     public void Dispose()
     {
@@ -26,5 +23,9 @@
         GC.SuppressFinalize(this);
     }
 
-
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+            Monitor.Exit(m_pObject);
+    }
 }

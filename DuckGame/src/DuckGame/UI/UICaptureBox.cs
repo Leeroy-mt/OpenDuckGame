@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -19,11 +20,15 @@ public class UICaptureBox : UIMenu
 
     Vector2 _captureSize;
 
+#if NO_TEX2D
+    XnaRenderTarget2D _captureTarget;
+#else
     RenderTarget2D _captureTarget;
+#endif
 
     UIMenu _closeMenu;
 
-    #endregion
+#endregion
 
     #region Public Constructors
 
@@ -49,10 +54,17 @@ public class UICaptureBox : UIMenu
         {
             if (_captureTarget == null)
             {
+#if NO_TEX2D
+                if (_resizable)
+                    _captureTarget = XnaRenderTarget2D.CreateSetUpTarget(1280, 720, pdepth: true);
+                else
+                    _captureTarget = XnaRenderTarget2D.CreateSetUpTarget(152, 152, pdepth: true);
+#else
                 if (_resizable)
                     _captureTarget = new RenderTarget2D(1280, 720, pdepth: true);
                 else
                     _captureTarget = new RenderTarget2D(152, 152, pdepth: true);
+#endif
             }
 
             MonoMain.autoPauseFade = false;
@@ -119,5 +131,5 @@ public class UICaptureBox : UIMenu
         }
     }
 
-    #endregion
+#endregion
 }

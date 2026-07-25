@@ -792,8 +792,6 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
 
     public float tilt;
 
-    private static Material kGhostMaterial;
-
     public int waitGhost;
 
     private ConnectionIndicators _indicators;
@@ -6103,9 +6101,9 @@ public class Duck : PhysicsObject, ITakeInput, IAmADuck, IDrawToDifferentLayers
         {
             return;
         }
-        RenderTarget2D iconMap = persona.iconMap;
+        var iconMap = persona.iconMap;
         Viewport oldV = Graphics.viewport;
-        RenderTarget2D oldTarget = Graphics.GetRenderTarget();
+        var oldTarget = Graphics.GetRenderTarget();
         Graphics.SetRenderTarget(iconMap);
         Graphics.viewport = new Viewport(0, 0, 96, 96);
         if (_iconCamera == null)

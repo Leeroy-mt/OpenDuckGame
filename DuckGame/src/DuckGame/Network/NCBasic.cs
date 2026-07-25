@@ -488,7 +488,7 @@ public class NCBasic : NCNetworkImplementation
     public override bool TryRequestDailyKills(out long kills)
     {
         kills = 0L;
-        if (!Steam.waitingForGlobalStats)
+        if (!Steam.WaitingForGlobalStats)
         {
             kills = (long)Steam.GetDailyGlobalStat("kills");
             return true;

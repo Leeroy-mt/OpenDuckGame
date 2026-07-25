@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using System;
-using System.Globalization;
 
 namespace DuckGame;
 
@@ -18,7 +17,17 @@ public class Main : MonoMain
 
     public static ulong connectID;
 
-    public static string SpecialCode = "";
+    public static string SpecialCode
+    {
+        get;
+        set
+        {
+            //!! FIXME: only for debug purposes
+            if (!string.IsNullOrEmpty(value))
+                Console.WriteLine(value);
+            field = value;
+        }
+    } = "";
 
     public static DuckGameEditor editor;
 
@@ -140,6 +149,10 @@ public class Main : MonoMain
                 Level.current = new BIOSScreen();
         }
         ModLoader.Start();
+
+#if DEBUG
+        Unlockables.UnlockAll();
+#endif
     }
 
     protected override void OnUpdate()

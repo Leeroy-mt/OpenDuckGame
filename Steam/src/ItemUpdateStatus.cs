@@ -6,5 +6,4 @@
     PreparingContent = 2,
     PreparingConfig = 1,
     Invalid = 0
-
 }

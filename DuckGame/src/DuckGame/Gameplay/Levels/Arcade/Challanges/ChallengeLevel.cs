@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -96,7 +97,11 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
 
     private bool _fading;
 
+#if NO_TEX2D
+    XnaRenderTarget2D _captureTarget;
+#else
     private RenderTarget2D _captureTarget;
+#endif
 
     public FollowCam followCam => _followCam;
 
@@ -374,38 +379,51 @@ public class ChallengeLevel : XMLLevel, IHaveAVirtualTransition
                                 float frameMult = frame.GetRenderTargetZoom();
                                 if (_captureTarget == null)
                                 {
+#if NO_TEX2D
+                                    _captureTarget = XnaRenderTarget2D.CreateSetUpTarget((int)(frameSize.X * 6f), (int)(frameSize.Y * 6f));
+#else
                                     _captureTarget = new RenderTarget2D((int)(frameSize.X * 6f), (int)(frameSize.Y * 6f));
+#endif
                                 }
                                 _ = Graphics.width / 320;
-                                Camera cam = new Camera(0f, 0f, (float)_captureTarget.width * frameMult, (float)_captureTarget.height * frameMult);
+#if NO_TEX2D
+                                Camera cam = new(0f, 0f, (float)_captureTarget.Width * frameMult, (float)_captureTarget.Height * frameMult);
+#else
+                                Camera cam = new(0f, 0f, (float)_captureTarget.width * frameMult, (float)_captureTarget.height * frameMult);
+#endif
                                 if (_duck != null)
                                 {
                                     Layer.HUD.visible = false;
                                     MonoMain.RenderGame(MonoMain.screenCapture);
                                     Layer.HUD.visible = true;
+#if NO_TEX2D
+                                    Matrix.CreateOrthographicOffCenter(0f, MonoMain.screenCapture.Width, MonoMain.screenCapture.Height, 0f, 0f, -1f, out var projMatrix);
+#else
                                     Matrix.CreateOrthographicOffCenter(0f, MonoMain.screenCapture.width, MonoMain.screenCapture.height, 0f, 0f, -1f, out var projMatrix);
+#endif
                                     projMatrix.M41 += -0.5f * projMatrix.M11;
                                     projMatrix.M42 += -0.5f * projMatrix.M22;
                                     Matrix mat = Level.current.camera.getMatrix();
                                     Vector3 pos = Graphics.viewport.Project(new Vector3(_duck.cameraPosition.X, _duck.cameraPosition.Y, 0f), projMatrix, mat, Matrix.Identity);
                                     Graphics.SetRenderTarget(_captureTarget);
                                     cam.center = new Vector2(pos.X, pos.Y);
-                                    if (cam.bottom > (float)MonoMain.screenCapture.height)
-                                    {
-                                        cam.centerY = (float)MonoMain.screenCapture.height - cam.height / 2f;
-                                    }
+#if NO_TEX2D
+                                    if (cam.bottom > (float)MonoMain.screenCapture.Height)
+                                        cam.centerY = (float)MonoMain.screenCapture.Height - cam.height / 2f;
                                     if (cam.top < 0f)
-                                    {
                                         cam.centerY = cam.height / 2f;
-                                    }
+                                    if (cam.right > (float)MonoMain.screenCapture.Width)
+                                        cam.centerX = (float)MonoMain.screenCapture.Width - cam.width / 2f;
+#else
+                                    if (cam.bottom > (float)MonoMain.screenCapture.height)
+                                        cam.centerY = (float)MonoMain.screenCapture.height - cam.height / 2f;
+                                    if (cam.top < 0f)
+                                        cam.centerY = cam.height / 2f;
                                     if (cam.right > (float)MonoMain.screenCapture.width)
-                                    {
                                         cam.centerX = (float)MonoMain.screenCapture.width - cam.width / 2f;
-                                    }
+#endif
                                     if (cam.left < 0f)
-                                    {
                                         cam.centerX = cam.width / 2f;
-                                    }
                                     Graphics.Clear(Color.Black);
                                     Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullNone, null, cam.getMatrix());
                                     Graphics.Draw(MonoMain.screenCapture, 0f, 0f);

@@ -11,7 +11,7 @@ public static class Vector3Extensions
     {
         public Color ToColor()
         {
-            return new(vector3);
+            return new(vector3 / 255);
         }
     }
 }

@@ -183,7 +183,7 @@ public class Chaingun : Gun
 
     public override void Draw()
     {
-        Material obj = Graphics.material;
+        AutoEffect obj = Graphics.material;
         base.Draw();
         Graphics.material = base.material;
         _tip.flipH = graphic.flipH;

@@ -477,15 +477,15 @@ public class ProfilesCore
         Profile experience_profile = null;
         ulong experienceProfileID = 0uL;
         numExperienceProfiles = 0;
-        if (Steam.user == null)
+        if (Steam.User == null)
         {
             experience_profile = Profiles.DefaultPlayer1;
         }
         else
         {
-            if (Steam.user != null && Steam.user.id != 0L)
+            if (Steam.User != null && Steam.User.Id != 0L)
             {
-                Options.Data.lastSteamID = Steam.user.id;
+                Options.Data.lastSteamID = Steam.User.Id;
             }
             experienceProfileID = Options.Data.lastSteamID;
             foreach (Profile pro in Profiles.all)
@@ -722,7 +722,7 @@ public class ProfilesCore
         string formattedName = p.name;
         if (p.steamID != 0L)
         {
-            if (Steam.user == null || p.steamID != DG.localID)
+            if (Steam.User == null || p.steamID != DG.localID)
             {
                 return null;
             }
@@ -806,9 +806,9 @@ public class ProfilesCore
             profile.Add(fowner);
             DXMLNode steamer = new DXMLNode("SteamID", p.steamID);
             profile.Add(steamer);
-            if (p.steamID != 0L && Steam.user != null && p.steamID == Steam.user.id)
+            if (p.steamID != 0L && Steam.User != null && p.steamID == Steam.User.Id)
             {
-                DXMLNode lastName = new DXMLNode("LastKnownName", Steam.user.name);
+                DXMLNode lastName = new DXMLNode("LastKnownName", Steam.User.Name);
                 profile.Add(lastName);
             }
             profile.Add(p.stats.Serialize());

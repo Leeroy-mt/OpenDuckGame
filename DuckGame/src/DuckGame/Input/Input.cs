@@ -1026,28 +1026,6 @@ public class Input
         _buttonStyles.Add(new Sprite("buttons/genesis/b"));
         _buttonStyles.Add(new Sprite("buttons/genesis/c"));
         _buttonStyles.Add(new Sprite("buttons/genesis/start"));
-        _buttonStyles.Add(new Sprite("buttons/wii/1button.png"));
-        _buttonStyles.Add(new Sprite("buttons/wii/2button.png"));
-        _buttonStyles.Add(new Sprite("buttons/wii/aButton.png"));
-        _buttonStyles.Add(new Sprite("buttons/wii/bButton.png"));
-        _buttonStyles.Add(new Sprite("buttons/wii/cButton.png"));
-        _buttonStyles.Add(new Sprite("buttons/wii/zButton.png"));
-        _buttonStyles.Add(new Sprite("buttons/wii/homeButton.png"));
-        _buttonStyles.Add(new Sprite("buttons/wii/minusButton.png"));
-        _buttonStyles.Add(new Sprite("buttons/wii/plusButton.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/aButton.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/aButton.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/bButton.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/startButton"));
-        _buttonStyles.Add(new Sprite("buttons/n64/cPad.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/dPad.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/dPadUp.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/dPadDown.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/dPadLeft.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/dPadRight.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/leftBumper.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/rightBumper.png"));
-        _buttonStyles.Add(new Sprite("buttons/n64/zTrigger.png"));
         _buttonStyles.Add(new Sprite("buttons/playstation/blank"));
         _buttonStyles.Add(new Sprite("buttons/genericButton"));
     }

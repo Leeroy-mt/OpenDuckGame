@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -24,7 +25,11 @@ public class GinormoCard : Thing
 
     private Sprite _trophy;
 
+#if NO_TEX2D
+    XnaRenderTarget2D _faceTarget;
+#else
     private RenderTarget2D _faceTarget;
+#endif
 
     private Sprite _targetSprite;
 
@@ -50,14 +55,17 @@ public class GinormoCard : Thing
         _font = new BitmapFont("biosFont", 8);
         _smallFont = new BitmapFont("smallBiosFont", 7, 6);
         _mode = mode;
+#if NO_TEX2D
         if (_smallMode)
-        {
-            _faceTarget = new RenderTarget2D(104, 12);
-        }
+            _faceTarget = XnaRenderTarget2D.CreateSetUpTarget(104, 12);
         else
-        {
+            _faceTarget = XnaRenderTarget2D.CreateSetUpTarget(104, 24);
+#else
+        if (_smallMode)
+            _faceTarget = new RenderTarget2D(104, 12);
+        else
             _faceTarget = new RenderTarget2D(104, 24);
-        }
+#endif
         _targetSprite = new Sprite(_faceTarget);
         _gradient = new Sprite("rockThrow/headGradient2");
         if (_smallMode)
@@ -134,7 +142,11 @@ public class GinormoCard : Thing
             hat.Depth = 0.8f;
             hat.Center = new Vector2(16f, 16f) + p.team.hatOffset;
             hat.Scale = new Vector2(2f, 2f);
+#if NO_TEX2D
+            if ((float)hat.texture.Width > 16f)
+#else
             if ((float)hat.texture.width > 16f)
+#endif
             {
                 hat.frame = 1;
             }

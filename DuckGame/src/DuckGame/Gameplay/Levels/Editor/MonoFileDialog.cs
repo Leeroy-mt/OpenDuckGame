@@ -78,7 +78,11 @@ public class MonoFileDialog : ContextMenu
 
     private LevelMetaData.PreviewPair _previewPair;
 
+#if NO_TEX2D
+    Texture2D _preview;
+#else
     private Tex2D _preview;
+#endif
 
     private Sprite _previewSprite;
 
@@ -398,6 +402,18 @@ public class MonoFileDialog : ContextMenu
         menuSize.Y = _fdHeight;
     }
 
+#if NO_TEX2D
+    Texture2D GetArcadeSizeTex2D(string pTex, Texture2D pOriginalTex)
+    {
+        if (pOriginalTex.Width != 48 || pOriginalTex.Height != 48)
+        {
+            using MemoryStream stream = new();
+            pOriginalTex.SaveAsPng(stream, 48, 48);
+            return Texture2D.FromStream(Graphics.device, stream);
+        }
+        return pOriginalTex;
+    }
+#else
     private Tex2D GetArcadeSizeTex2D(string pTex, Tex2D pOriginalTex)
     {
         if (pOriginalTex.width != 48 || pOriginalTex.height != 48)
@@ -408,6 +424,7 @@ public class MonoFileDialog : ContextMenu
         }
         return pOriginalTex;
     }
+#endif
 
     public override void Selected(ContextMenu item)
     {
@@ -451,7 +468,11 @@ public class MonoFileDialog : ContextMenu
                     }
                     else if (_type == ContextFileType.ArcadeStyle)
                     {
+#if NO_TEX2D
+                        result = Editor.TextureToString(GetArcadeSizeTex2D(t, Content.Load<Texture2D>(t)));
+#else
                         result = Editor.TextureToString(GetArcadeSizeTex2D(t, Content.Load<Tex2D>(t)));
+#endif
                     }
                     else
                     {

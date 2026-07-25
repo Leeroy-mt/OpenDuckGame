@@ -1,18 +1,15 @@
 ﻿public class WorkshopQueryResult
 {
-    public WorkshopQueryResult()
-    {
-    }
+    #region Public Fields
 
-    public WorkshopQueryResultDetails details;
+    public string? previewURL;
+    public string? metadata;
 
-    public string previewURL;
+    public WorkshopQueryResultDetails? details;
+    public WorkshopItem[]? fileList;
+    public WorkshopQueryResultAdditionalPreview[]? additionalPreviews;
 
-    public string metadata;
+    public uint[]? statistics;
 
-    public WorkshopItem[] fileList;
-
-    public WorkshopQueryResultAdditionalPreview[] additionalPreviews;
-
-    public uint[] statistics;
+    #endregion
 }

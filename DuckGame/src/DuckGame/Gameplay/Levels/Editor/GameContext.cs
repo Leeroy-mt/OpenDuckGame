@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -41,6 +42,30 @@ public class GameContext
         RevertStates();
     }
 
+#if NO_TEX2D
+    public void Draw(XnaRenderTarget2D target = null, Camera c = null, Vector2 offset = default(Vector2))
+    {
+        ApplyStates();
+        c.position += offset;
+        if (c != null)
+        {
+            Level.current.camera = c;
+        }
+        XnaRenderTarget2D curTarget = null;
+        if (target != null)
+        {
+            curTarget = Graphics.GetRenderTarget();
+            Graphics.SetRenderTarget(target);
+        }
+        Level.DrawCurrentLevel();
+        if (target != null)
+        {
+            Graphics.SetRenderTarget(curTarget);
+        }
+        RevertStates();
+        c.position -= offset;
+    }
+#else
     public void Draw(RenderTarget2D target = null, Camera c = null, Vector2 offset = default(Vector2))
     {
         ApplyStates();
@@ -63,4 +88,5 @@ public class GameContext
         RevertStates();
         c.position -= offset;
     }
+#endif
 }

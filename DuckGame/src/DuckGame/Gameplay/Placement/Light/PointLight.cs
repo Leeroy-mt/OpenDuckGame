@@ -7,7 +7,7 @@ namespace DuckGame;
 
 public class PointLight : Thing, ILight
 {
-    public new Material material;
+    public new AutoEffect material;
 
     private List<LightOccluder> _occluders = new List<LightOccluder>();
 

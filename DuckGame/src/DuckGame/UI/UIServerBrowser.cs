@@ -82,7 +82,7 @@ public class UIServerBrowser : UIMenu
             get
             {
                 if (lobby != null)
-                    return lobby.users.Count;
+                    return lobby.Users.Count;
                 return _userCount;
             }
         }
@@ -156,7 +156,11 @@ public class UIServerBrowser : UIMenu
 
     static LobbyData _joiningLobby;
 
+#if NO_TEX2D
+    static Dictionary<ulong, Texture2D> _previewMap = [];
+#else
     static Dictionary<ulong, Tex2D> _previewMap = [];
+#endif
 
     static Dictionary<object, ulong> _clientMap = [];
 
@@ -226,9 +230,15 @@ public class UIServerBrowser : UIMenu
 
     UIMenuItem _yesNoNo;
 
+#if NO_TEX2D
+    Texture2D defaultImage;
+
+    Texture2D defaultImageLan;
+#else
     Tex2D defaultImage;
 
     Tex2D defaultImageLan;
+#endif
 
     UIMenu _downloadModsMenu;
 
@@ -236,7 +246,7 @@ public class UIServerBrowser : UIMenu
 
     List<LobbyData> _lobbies = [];
 
-    #endregion
+#endregion
 
     #region Public Properties
 
@@ -257,8 +267,13 @@ public class UIServerBrowser : UIMenu
     public UIServerBrowser(UIMenu openOnClose, string title, float xpos, float ypos, float wide = -1f, float high = -1f, InputProfile conProfile = null)
         : base(title, xpos, ypos, wide, high, "@WASD@@SELECT@JOIN @MENU1@REFRESH @CANCEL@BACK", conProfile)
     {
+#if NO_TEX2D
+        defaultImage = Content.Load<Texture2D>("server_default");
+        defaultImageLan = Content.Load<Texture2D>("server_default_lan");
+#else
         defaultImage = Content.Load<Tex2D>("server_default");
         defaultImageLan = Content.Load<Tex2D>("server_default_lan");
+#endif
         _splitter.topSection.components[0].align = UIAlign.Left;
         _openOnClose = openOnClose;
         _moreArrow = new Sprite("moreArrow");
@@ -371,11 +386,11 @@ public class UIServerBrowser : UIMenu
         }
         foreach (WorkshopItem w2 in _joiningLobby.workshopItems)
         {
-            Mod m = ModLoader.allMods.FirstOrDefault((Mod x) => x.configuration.workshopID == w2.id);
+            Mod m = ModLoader.allMods.FirstOrDefault((Mod x) => x.configuration.workshopID == w2.Id);
             m?.configuration.disabled = false;
-            Steam.WorkshopSubscribe(w2.id);
+            Steam.WorkshopSubscribe(w2.Id);
         }
-        Program.commandLine = $"{Program.commandLine} -downloadmods +connect_lobby {_joiningLobby.lobby.id}";
+        Program.commandLine = $"{Program.commandLine} -downloadmods +connect_lobby {_joiningLobby.lobby.Id}";
         if (MonoMain.lobbyPassword != "")
             Program.commandLine = $"{Program.commandLine} +password {MonoMain.lobbyPassword}";
         ModLoader.DisabledModsChanged();
@@ -656,7 +671,11 @@ public class UIServerBrowser : UIMenu
                 if (lobby.lobby == null)
                     _noImage.texture = defaultImageLan;
                 _noImage.Scale = Vector2.One;
+#if NO_TEX2D
+                List<Texture2D> workshopTextures = [];
+#else
                 List<Tex2D> workshopTextures = [];
+#endif
                 string details = lobby.name;
                 if (lobby.lobby == null)
                     details = !lobby.dedicated ? $"{details} (LAN)" : $"{details} |DGGREEN|(DEDICATED LAN SERVER)";
@@ -666,9 +685,9 @@ public class UIServerBrowser : UIMenu
                 if (lobby.workshopItems.Count > 0)
                 {
                     WorkshopItem w = lobby.workshopItems[0];
-                    if (w.data != null)
+                    if (w.Data != null)
                     {
-                        lobby.workshopItems = [.. lobby.workshopItems.OrderByDescending(x => x.data != null ? x.data.votesUp : 0)];
+                        lobby.workshopItems = [.. lobby.workshopItems.OrderByDescending(x => x.Data != null ? x.Data.votesUp : 0)];
                         if (!lobby.downloadedWorkshopItems)
                         {
                             lobby.hasFirstMod = true;
@@ -676,7 +695,7 @@ public class UIServerBrowser : UIMenu
                             bool firstIteration = true;
                             foreach (WorkshopItem item in lobby.workshopItems)
                             {
-                                ulong id = item.id;
+                                ulong id = item.Id;
                                 if (ModLoader.accessibleMods.FirstOrDefault(x => x.configuration.workshopID == id) == null)
                                 {
                                     if (firstIteration)
@@ -688,33 +707,37 @@ public class UIServerBrowser : UIMenu
                             }
                             lobby.downloadedWorkshopItems = true;
                         }
-                        modDetails = !lobby.hasFirstMod ? $"|RED|Requires {w.name}" : $"|DGGREEN|Requires {w.name}";
+                        modDetails = !lobby.hasFirstMod ? $"|RED|Requires {w.Name}" : $"|DGGREEN|Requires {w.Name}";
                         string col = lobby.hasRestOfMods ? "|DGGREEN|" : "|RED|";
                         if (lobby.workshopItems.Count == 2)
                             modDetails = $"{modDetails}{col} +{lobby.workshopItems.Count - 1} other mod.";
                         else if (lobby.workshopItems.Count > 2)
                             modDetails = $"{modDetails}{col} +{lobby.workshopItems.Count - 1} other mods.";
                         modDetails += "\n|GRAY|";
-                        if (!_previewMap.TryGetValue(w.id, out Tex2D tex))
+#if NO_TEX2D
+                        if (!_previewMap.TryGetValue(w.Id, out Texture2D tex))
+#else
+                        if (!_previewMap.TryGetValue(w.Id, out Tex2D tex))
+#endif
                         {
-                            if (w.data.previewPath != null && w.data.previewPath != "")
+                            if (w.Data.previewPath != null && w.Data.previewPath != "")
                             {
                                 try
                                 {
                                     WebClient client = new();
-                                    string file = PreviewPathForWorkshopItem(w.id);
+                                    string file = PreviewPathForWorkshopItem(w.Id);
                                     DuckFile.CreatePath(file);
                                     if (File.Exists(file))
                                         DuckFile.Delete(file);
-                                    client.DownloadFileAsync(new Uri(w.data.previewPath), file);
+                                    client.DownloadFileAsync(new Uri(w.Data.previewPath), file);
                                     client.DownloadFileCompleted += Completed;
-                                    _clientMap[client] = w.id;
+                                    _clientMap[client] = w.Id;
                                 }
                                 catch (Exception)
                                 {
                                 }
                             }
-                            _previewMap[w.id] = null;
+                            _previewMap[w.Id] = null;
                         }
                         else
                         {
@@ -742,6 +765,30 @@ public class UIServerBrowser : UIMenu
                         if (iTex >= workshopTextures.Count)
                             continue;
                         _noImage.texture = workshopTextures[iTex];
+#if NO_TEX2D
+                        if (workshopTextures.Count > 1)
+                            _noImage.Scale = new Vector2(16f / _noImage.texture.Width);
+                        else
+                            _noImage.Scale = new Vector2(32f / _noImage.texture.Width);
+                        if (_noImage.texture.Width != _noImage.texture.Height)
+                        {
+                            if (_noImage.texture.Width > _noImage.texture.Height)
+                            {
+                                _noImage.Scale = new Vector2(32f / _noImage.texture.Height);
+                                Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, new RectangleF(_noImage.texture.Width / 2 - _noImage.texture.Height / 2, 0, _noImage.texture.Height, _noImage.texture.Height), 0.5f);
+                            }
+                            else
+                                Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, new RectangleF(0, 0, _noImage.texture.Width, _noImage.texture.Width), 0.5f);
+                        }
+                        else
+                            Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, 0.5f);
+                        drawOffset.X += 16;
+                        if (drawOffset.X >= 32)
+                        {
+                            drawOffset.X = 0;
+                            drawOffset.Y += 16;
+                        }
+#else
                         if (workshopTextures.Count > 1)
                             _noImage.Scale = new Vector2(16f / _noImage.texture.width);
                         else
@@ -764,6 +811,7 @@ public class UIServerBrowser : UIMenu
                             drawOffset.X = 0;
                             drawOffset.Y += 16;
                         }
+#endif
                     }
                 }
                 else
@@ -873,7 +921,7 @@ public class UIServerBrowser : UIMenu
         _selectedLobby = null;
     }
 
-    #endregion
+#endregion
 
     #region Private Methods
 
@@ -926,7 +974,7 @@ public class UIServerBrowser : UIMenu
             for (int i = 0; i < lobbies; i++)
             {
                 Lobby lobby = Network.activeNetwork.core.GetSearchLobbyAtIndex(i);
-                if (_lobbies.FirstOrDefault(x => x.lobby != null && x.lobby.id == lobby.id) != null)
+                if (_lobbies.FirstOrDefault(x => x.lobby != null && x.lobby.Id == lobby.Id) != null)
                     continue;
                 string lobbyName = lobby.GetLobbyData("name");
                 if (string.IsNullOrEmpty(lobbyName))
@@ -968,8 +1016,8 @@ public class UIServerBrowser : UIMenu
                 }
                 d2.isGlobalLobby = mode == SearchMode.Global;
                 d2.hasFriends = false;
-                foreach (User user in lobby.users)
-                    if (Steam.friends.Contains(user))
+                foreach (User user in lobby.Users)
+                    if (Steam.Friends.Contains(user))
                     {
                         d2.hasFriends = true;
                         break;
@@ -1031,9 +1079,13 @@ public class UIServerBrowser : UIMenu
         Texture2D texture = ContentPack.LoadTexture2D(PreviewPathForWorkshopItem(id), processPink: false);
         if (texture != null)
         {
+#if NO_TEX2D
+            _previewMap[id] = texture;
+#else
             Tex2D tex = texture;
             if (tex != null)
                 _previewMap[id] = tex;
+#endif
         }
     }
 

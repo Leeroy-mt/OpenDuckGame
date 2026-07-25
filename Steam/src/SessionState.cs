@@ -1,23 +1,18 @@
 ﻿public class SessionState
 {
-    public SessionState()
-    {
-    }
+    #region Public Fields
 
     public byte m_bConnectionActive;
-
-
     public byte m_bConnecting;
-
     public byte m_eP2PSessionError;
-
     public byte m_bUsingRelay;
 
-    public int m_nBytesQueuedForSend;
+    public ushort m_nRemotePort;
 
+    public int m_nBytesQueuedForSend;
     public int m_nPacketsQueuedForSend;
 
     public uint m_nRemoteIP;
 
-    public ushort m_nRemotePort;
+    #endregion
 }

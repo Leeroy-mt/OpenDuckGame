@@ -35,16 +35,16 @@ internal class Startup(MonoMain main)
             new(Content.InitializeEffects, true),
             new(Input.InitializeGraphics, true),
             new(Music.Initialize, true),
-            //new(DevConsole.InitializeFont, true),
+            new(DevConsole.InitializeFont, true),
             new(DevConsole.InitializeCommands, true),
             new(Editor.InitializePlaceableGroup, true),
-            //new(Challenges.Initialize, true),
-            //new(Collision.Initialize, true),
-            //new(Level.InitializeCollisionLists, true),
+            new(Challenges.Initialize, true),
+            new(Collision.Initialize, true),
+            new(Level.InitializeCollisionLists, true),
             new(Keyboard.InitTriggerImages, true),
-            //new(MapPack.RegeneratePreviewsIfNecessary, true),
+            new(MapPack.RegeneratePreviewsIfNecessary, true),
             new(SFX.Initialize, true),
-            //new(Content.Initialize, true),
+            new(Content.Initialize, true),
             new(main.SetStarted, true)
         ];
 

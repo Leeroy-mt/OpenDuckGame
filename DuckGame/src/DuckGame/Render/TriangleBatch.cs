@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DuckGame;
 
@@ -12,7 +12,7 @@ namespace DuckGame;
 public class TriangleBatch
 {
     /// <summary>
-    /// Represents info about polygon texture and start index in the vertex array
+    /// Represents info about polygon texture
     /// </summary>
     public struct TriangleInfo
     {
@@ -22,7 +22,7 @@ public class TriangleBatch
 
         public Texture2D Texture;
 
-        public Material Effect;
+        public Effect Effect;
     }
 
     class TextureComparer : IComparer<TriangleInfo>
@@ -181,7 +181,11 @@ public class TriangleBatch
     }
 
     public void DrawTexture(
+#if NO_TEX2D
+            Texture2D texture,
+#else
             Tex2D texture,
+#endif
             Vector2 position,
             RectangleF? sourceRectangle,
             Color color,
@@ -190,11 +194,16 @@ public class TriangleBatch
             Vector2 scale,
             SpriteEffects effect,
             float depth,
-            Material fx
+            Effect fx
             )
     {
+#if NO_TEX2D
+        float w = texture.Width * scale.X;
+        float h = texture.Height * scale.Y;
+#else
         float w = texture.width * scale.X;
         float h = texture.height * scale.Y;
+#endif
         if (sourceRectangle.HasValue)
         {
             w = sourceRectangle.Value.Width * scale.X;
@@ -212,17 +221,12 @@ public class TriangleBatch
             Vector2 origin,
             SpriteEffects effect,
             float depth,
-            Material fx
+            Effect fx
             )
     {
         float z = depth;
 
-        RectangleF rectangle;
-        if (source.HasValue)
-            rectangle = source.Value;
-        else
-            rectangle = new(0, 0, texture.Width, texture.Height);
-
+        RectangleF rectangle = source ?? new(0, 0, texture.Width, texture.Height);
         Vector2 tl = new(rectangle.X / texture.Width + edgeBias, rectangle.Y / texture.Height + edgeBias),
                 br = new((rectangle.X + rectangle.Width) / texture.Width - edgeBias, (rectangle.Y + rectangle.Height) / texture.Height - edgeBias);
 
@@ -275,6 +279,91 @@ public class TriangleBatch
 
         AppendTriangle(triangle0);
         AppendTriangle(triangle1);
+
+        if (!Graphics.skipReplayRender && Recorder.currentRecording != null && Graphics.currentRenderTarget == null)
+            Recorder.currentRecording.LogDraw(
+                Content.GetTextureIndex(texture),
+                new(triangle0.V0.Position.X, triangle0.V0.Position.Y),
+                new(triangle1.V2.Position.X, triangle1.V2.Position.Y),
+                rotation,
+                color,
+                (short)rectangle.X,
+                (short)rectangle.Y,
+                (short)(rectangle.Width * (((effect & SpriteEffects.FlipHorizontally) == 0) ? 1 : -1)),
+                (short)(rectangle.Height * (((effect & SpriteEffects.FlipVertically) == 0) ? 1 : -1)),
+                depth
+                );
+    }
+
+    public void DrawRecorderItem(ref RecorderFrameItem frame)
+    {
+        if (frame.texture is -1)
+            return;
+
+        var texture = Content.GetTex2DFromIndex(frame.texture);
+        if (texture is null)
+            return;
+
+        float w = Math.Abs(frame.texW),
+              h = Math.Abs(frame.texH);
+#if NO_TEX2D
+        Vector2 tl = new(frame.texX / (float)texture.Width + edgeBias, frame.texY / (float)texture.Height + edgeBias),
+                br = new((frame.texX + w) / texture.Width - edgeBias, (frame.texY + h) / texture.Height - edgeBias);
+#else
+        Vector2 tl = new(frame.texX / (float)texture.width + edgeBias, frame.texY / (float)texture.height + edgeBias),
+                br = new((frame.texX + w) / texture.width - edgeBias, (frame.texY + h) / texture.height - edgeBias);
+#endif
+
+        if (frame.texH < 0)
+            (tl.Y, br.Y) = (br.Y, tl.Y);
+        if (frame.texW < 0)
+            (tl.X, br.X) = (br.X, tl.X);
+
+        var rotation = frame.bottomRight.Rotate(0 - frame.rotation, frame.topLeft);
+
+        Vector4 destination = new(frame.topLeft.X, frame.topLeft.Y, rotation.X - frame.topLeft.X, rotation.Y - frame.topLeft.Y);
+        Vector2 origin = Vector2.Zero;
+        float cos = float.Cos(frame.rotation),
+              sin = float.Sin(frame.rotation);
+        float z = frame.depth;
+
+        TriangleInfo triangle0 = new()
+        {
+            Depth = frame.depth,
+            Texture = texture,
+            V0 = new(
+                new(destination.X + origin.X * cos - origin.Y * sin, destination.Y + origin.X * sin + origin.Y * cos, z),
+                frame.color,
+                tl),
+            V1 = new(
+                new(destination.X + (origin.X + destination.Z) * cos - origin.Y * sin, destination.Y + (origin.X + destination.Z) * sin + origin.Y * cos, z),
+                frame.color,
+                new(br.X, tl.Y)),
+            V2 = new(
+                new(destination.X + origin.X * cos - (origin.Y + destination.W) * sin, destination.Y + origin.X * sin + (origin.Y + destination.W) * cos, z),
+                frame.color,
+                new(tl.X, br.Y))
+        };
+        TriangleInfo triangle1 = new()
+        {
+            Depth = frame.depth,
+            Texture = texture,
+            V0 = new(
+                new(destination.X + origin.X * cos - (origin.Y + destination.W) * sin, destination.Y + origin.X * sin + (origin.Y + destination.W) * cos, z),
+                frame.color,
+                new(tl.X, br.Y)),
+            V1 = new(
+                new(destination.X + (origin.X + destination.Z) * cos - origin.Y * sin, destination.Y + (origin.X + destination.Z) * sin + origin.Y * cos, z),
+                frame.color,
+                new(br.X, tl.Y)),
+            V2 = new(
+                new(destination.X + (origin.X + destination.Z) * cos - (origin.Y + destination.W) * sin, destination.Y + (origin.X + destination.Z) * sin + (origin.Y + destination.W) * cos, z),
+                frame.color,
+                br)
+        };
+
+        AppendTriangle(triangle0);
+        AppendTriangle(triangle1);
     }
 
     public TriangleInfo StealLastTriangle()
@@ -322,6 +411,19 @@ public class TriangleBatch
         this.rasterizerState = rasterizerState;
         this.effect = effect;
         this.viewMatrix = viewMatrix;
+
+        Recorder.currentRecording?.StateChange(
+            spriteSortMode,
+            blendState,
+            samplerState,
+            depthStencilState,
+            rasterizerState,
+            Layer.IsBasicLayerEffect(effect)
+            ? Layer.basicLayerEffect
+            : effect,
+            viewMatrix,
+            GraphicsDevice.ScissorRectangle
+            );
     }
 
     /// <summary>
@@ -337,7 +439,7 @@ public class TriangleBatch
         graphicsDevice.RasterizerState = rasterizerState;
 
         var vp = graphicsDevice.Viewport;
-        
+
         Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, 1, -1, out projectionMatrix);
 
         FullMatrix = Matrix.Multiply(viewMatrix, projectionMatrix);
@@ -443,15 +545,19 @@ public class TriangleBatch
     /// <paramref name="offset"/> offset in the vertex array to start flushing from
     /// <paramref name="length"/> number of vertices to flush
     /// </summary>
-    void Flush(int offset, int length, Texture2D texture, Material material, ref int drawCalls)
+    void Flush(int offset, int length, Texture2D texture, Effect effect, ref int drawCalls)
     {
         GraphicsDevice.Textures[0] = texture;
         PrepareEffect(texture != null);
 
-        if (material != null)
+        if (effect != null)
         {
-            material.SetValue("MatrixTransform", FullMatrix);
-            material.Apply();
+            effect.Parameters["MatrixTransform"]?.SetValue(FullMatrix);
+            if (effect is AutoEffect autoEffect)
+                autoEffect.Apply();
+            else
+                foreach (var pass in effect.CurrentTechnique.Passes)
+                    pass.Apply();
         }
 
         GraphicsDevice.DrawUserPrimitives(

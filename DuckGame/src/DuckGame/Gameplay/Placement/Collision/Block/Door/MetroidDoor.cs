@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -8,7 +9,11 @@ public class MetroidDoor : VerticalDoor
 {
     public Profile _arcadeProfile;
 
+#if NO_TEX2D
+    XnaRenderTarget2D _screenCapture;
+#else
     private RenderTarget2D _screenCapture;
+#endif
 
     private bool _transitioning;
 

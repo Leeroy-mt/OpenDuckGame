@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -267,7 +268,11 @@ public class ArcadeMachine : Thing
             {
                 Thing._alphaTestEffect = Content.Load<MTEffect>("Shaders/alphatest");
             }
-            RenderTarget2D target = new RenderTarget2D(48, 48, pdepth: true);
+#if NO_TEX2D
+            var target = XnaRenderTarget2D.CreateSetUpTarget(48, 48, pdepth: true);
+#else
+            var target = new RenderTarget2D(48, 48, pdepth: true);
+#endif
             Camera cam = new Camera(0f, 0f, 48f, 48f);
             Graphics.SetRenderTarget(target);
             DepthStencilState state = new DepthStencilState
@@ -284,8 +289,12 @@ public class ArcadeMachine : Thing
             Graphics.Draw(_customMachineOverlayMask, 0f, 0f, 0.9f);
             Graphics.screen.End();
             Graphics.SetRenderTarget(null);
-            Texture2D newTex = new Texture2D(Graphics.device, target.width, target.height);
-            Color[] data = target.GetData();
+#if NO_TEX2D
+            Texture2D newTex = new(Graphics.device, target.Width, target.Height);
+#else
+            Texture2D newTex = new(Graphics.device, target.width, target.height);
+#endif
+            var data = target.GetData();
             for (int i = 0; i < newTex.Width * newTex.Height; i++)
             {
                 if (data[i].R == 250 && data[i].G == 0 && data[i].B == byte.MaxValue)
@@ -393,6 +402,20 @@ public class ArcadeMachine : Thing
                 };
                 if (ld != null && ld.previewData.preview != null)
                 {
+#if NO_TEX2D
+                    Texture2D previewTex = Editor.StringToTexture(ld.previewData.preview);
+                    Vector2 pos = new Vector2(X - 28, Y + 30 - previewTex.Width / 8f - 6f);
+                    switch (i)
+                    {
+                        case 1:
+                            pos = new Vector2(X + 28 - previewTex.Width / 8f, Y + 30f - previewTex.Width / 8f - 6f);
+                            break;
+                        case 2:
+                            pos = new Vector2(X - previewTex.Width / 8f / 2f, Y + 30f - previewTex.Width / 8f);
+                            break;
+                    }
+                    Graphics.DrawRect(new Vector2(pos.X - 0.5f, pos.Y - 0.5f), new Vector2(pos.X + previewTex.Width / 8f + 0.5f, pos.Y + previewTex.Height / 8f + 0.5f), Color.White, (i == 2) ? 0.9f : 0.8f);
+#else
                     Tex2D previewTex = Editor.StringToTexture(ld.previewData.preview);
                     Vector2 pos = new Vector2(base.X - 28f, base.Y + 30f - (float)previewTex.width / 8f - 6f);
                     switch (i)
@@ -405,6 +428,7 @@ public class ArcadeMachine : Thing
                             break;
                     }
                     Graphics.DrawRect(new Vector2(pos.X - 0.5f, pos.Y - 0.5f), new Vector2(pos.X + (float)previewTex.width / 8f + 0.5f, pos.Y + (float)previewTex.height / 8f + 0.5f), Color.White, (i == 2) ? 0.9f : 0.8f);
+#endif
                     Graphics.Draw(previewTex, pos.X, pos.Y, 0.125f, 0.125f, (i == 2) ? 0.99f : 0.85f);
                 }
             }

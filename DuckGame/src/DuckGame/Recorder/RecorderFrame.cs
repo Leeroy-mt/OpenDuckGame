@@ -7,21 +7,7 @@ namespace DuckGame;
 
 public struct RecorderFrame
 {
-    private static int kMaxObjects = 1200;
-
-    public RecorderFrameItem[] objects;
-
-    public Dictionary<long, RecorderFrameItem> sortedObjects;
-
-    public int currentObject;
-
-    public Dictionary<int, RecorderFrameStateChange> _states;
-
-    public List<RecorderSoundItem> sounds;
-
-    public Color backgroundColor;
-
-    public float totalVelocity;
+    #region Public Fields
 
     public byte deaths;
 
@@ -31,20 +17,40 @@ public struct RecorderFrame
 
     public byte coolness;
 
+    public int currentObject;
+
+    public float totalVelocity;
+
+    public Color backgroundColor;
+
+    public RecorderFrameItem[] objects;
+
+    public List<RecorderSoundItem> sounds;
+
+    public Dictionary<long, RecorderFrameItem> sortedObjects;
+
+    public Dictionary<int, RecorderFrameStateChange> _states;
+
+    #endregion
+
+    static int kMaxObjects = 1200;
+
+    #region Public Methods
+
     public void Initialize()
     {
         currentObject = 0;
         objects = new RecorderFrameItem[kMaxObjects];
-        _states = new Dictionary<int, RecorderFrameStateChange>();
-        sortedObjects = new Dictionary<long, RecorderFrameItem>();
-        sounds = new List<RecorderSoundItem>();
+        _states = [];
+        sortedObjects = [];
+        sounds = [];
         backgroundColor = Color.White;
     }
 
     public void Reset()
     {
         currentObject = 0;
-        totalVelocity = 0f;
+        totalVelocity = 0;
         actions = 0;
         bonus = 0;
         deaths = 0;
@@ -56,12 +62,12 @@ public struct RecorderFrame
 
     public RecorderFrameStateChange GetStateWithIndex(int index)
     {
-        return _states.FirstOrDefault((KeyValuePair<int, RecorderFrameStateChange> x) => x.Value.stateIndex == index).Value;
+        return _states.FirstOrDefault(x => x.Value.stateIndex == index).Value;
     }
 
     public bool HasStateWithIndex(int index)
     {
-        return _states.Where((KeyValuePair<int, RecorderFrameStateChange> x) => x.Value.stateIndex == index).Count() > 0;
+        return _states.Any(x => x.Value.stateIndex == index);
     }
 
     public void StateChange(SpriteSortMode sortModeVal, BlendState blendStateVal, SamplerState samplerStateVal, DepthStencilState depthStencilStateVal, RasterizerState rasterizerStateVal, MTEffect effectVal, Matrix cameraVal, RectangleF sciss)
@@ -73,7 +79,7 @@ public struct RecorderFrame
             samplerState = samplerStateVal,
             depthStencilState = depthStencilStateVal,
             rasterizerState = rasterizerStateVal,
-            effectIndex = (effectVal?.EffectIndex ?? (-1)),
+            effectIndex = effectVal?.EffectIndex ?? (-1),
             camera = cameraVal,
             stateIndex = Graphics.currentStateIndex,
             scissor = sciss
@@ -84,9 +90,7 @@ public struct RecorderFrame
     {
         currentObject++;
         if (currentObject >= kMaxObjects)
-        {
             currentObject = kMaxObjects - 1;
-        }
     }
 
     public void Render()
@@ -95,13 +99,11 @@ public struct RecorderFrame
         Graphics.Clear(backgroundColor * Graphics.fade);
         for (int i = 0; i < currentObject; i++)
         {
-            if (_states.ContainsKey(i))
+            if (_states.TryGetValue(i, out RecorderFrameStateChange state))
             {
                 if (begun)
-                {
                     Graphics.screen.End();
-                }
-                RecorderFrameStateChange state = _states[i];
+
                 begun = true;
                 MTEffect e = Content.GetMTEffectFromIndex(state.effectIndex);
                 if (Layer.IsBasicLayerEffect(e))
@@ -114,17 +116,16 @@ public struct RecorderFrame
             }
             Graphics.DrawRecorderItem(ref objects[i]);
         }
+
         if (begun)
-        {
             Graphics.screen.End();
-        }
     }
 
     public void Update()
     {
         foreach (RecorderSoundItem item in sounds)
-        {
             SFX.Play(item.sound, item.volume, item.pitch, item.pan);
-        }
     }
+
+    #endregion
 }

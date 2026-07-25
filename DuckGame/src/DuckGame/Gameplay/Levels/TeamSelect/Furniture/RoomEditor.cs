@@ -101,7 +101,7 @@ public class RoomEditor : Thing
 
     private float _moodVal = 0.5f;
 
-    private Material grayscale = new Material("Shaders/greyscale");
+    private AutoEffect grayscale = new(Content.Load<MTEffect>("Shaders/greyscale"));
 
     public float fade => _fade;
 
@@ -738,7 +738,11 @@ public class RoomEditor : Thing
                         else if (curFur.sprite != null)
                         {
                             _placementVariation++;
+#if NO_TEX2D
+                            if (_placementVariation > curFur.sprite.texture.Width / curFur.sprite.width - 1 + (curFur.sprite.texture.Height / curFur.sprite.height - 1))
+#else
                             if (_placementVariation > curFur.sprite.texture.width / curFur.sprite.width - 1 + (curFur.sprite.texture.height / curFur.sprite.height - 1))
+#endif
                             {
                                 if (curFur.canFlip)
                                 {
