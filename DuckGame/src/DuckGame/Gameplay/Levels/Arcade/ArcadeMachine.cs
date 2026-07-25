@@ -266,7 +266,7 @@ public class ArcadeMachine : Thing
             _machineStyleSprite = new Sprite(Editor.StringToTexture(machineStyle));
             if (Thing._alphaTestEffect == null)
             {
-                Thing._alphaTestEffect = Content.Load<MTEffect>("Shaders/alphatest");
+                Thing._alphaTestEffect = Content.Load<Effect>("Shaders/alphatest");
             }
 #if NO_TEX2D
             var target = XnaRenderTarget2D.CreateSetUpTarget(48, 48, pdepth: true);

@@ -4,7 +4,7 @@ using System;
 
 namespace DuckGame;
 
-public class MaterialRedHot : AutoEffect
+public class MaterialRedHot : Material
 {
 #if NO_TEX2D
     Texture2D _goldTexture;
@@ -16,7 +16,7 @@ public class MaterialRedHot : AutoEffect
 
     public float intensity;
 
-    public MaterialRedHot(Thing t) : base(Content.Load<MTEffect>("Shaders/redhot"))
+    public MaterialRedHot(Thing t) : base(Content.Load<Effect>("Shaders/redhot"))
     {
 #if NO_TEX2D
         _goldTexture = Content.Load<Texture2D>("redHot");

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialKatanaman : AutoEffect
+public class MaterialKatanaman : Material
 {
 #if NO_TEX2D
     Texture2D _lighting;
@@ -13,7 +13,7 @@ public class MaterialKatanaman : AutoEffect
 
     public TeamHat _hat;
 
-    public MaterialKatanaman(TeamHat hat) : base(Content.Load<MTEffect>("shaders/katanaman"))
+    public MaterialKatanaman(TeamHat hat) : base(Content.Load<Effect>("shaders/katanaman"))
     {
 #if NO_TEX2D
         _lighting = Content.Load<Texture2D>("hats/katanaman_lightmap");

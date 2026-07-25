@@ -275,7 +275,7 @@ public class Chaindart : Gun
 
     public override void Draw()
     {
-        AutoEffect m = Graphics.material;
+        var m = Graphics.material;
         if (burntOut)
         {
             graphic = _burned;

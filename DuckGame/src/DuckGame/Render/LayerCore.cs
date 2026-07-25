@@ -36,12 +36,12 @@ public class LayerCore
     public List<Layer> _extraLayers = [];
     public List<Layer> _hybridList = [];
 
-    public MTEffect _basicEffectFadeAdd;
-    public MTEffect _basicEffectAdd;
-    public MTEffect _basicEffectFade;
-    public MTEffect _basicEffect;
-    public MTEffect _basicWireframeEffect;
-    public MTEffect _basicWireframeEffectTex;
+    public Effect _basicEffectFadeAdd;
+    public Effect _basicEffectAdd;
+    public Effect _basicEffectFade;
+    public Effect _basicEffect;
+    public Effect _basicWireframeEffect;
+    public Effect _basicWireframeEffectTex;
 
     #endregion
 
@@ -66,7 +66,7 @@ public class LayerCore
         }
     }
 
-    public MTEffect basicWireframeEffect =>
+    public Effect basicWireframeEffect =>
         !basicWireframeTex ? _basicWireframeEffect : _basicWireframeEffectTex;
 
     #endregion
@@ -167,16 +167,16 @@ public class LayerCore
 
         if (_basicEffect == null)
         {
-            _basicWireframeEffect = Content.Load<MTEffect>("Shaders/wireframe");
-            _basicWireframeEffectTex = Content.Load<MTEffect>("Shaders/wireframeTex");
-            _basicEffect = Content.Load<MTEffect>("Shaders/basic");
-            _basicEffect.effect.Name = "Shaders/basic";
-            _basicEffectFade = Content.Load<MTEffect>("Shaders/basicFade");
-            _basicEffectFade.effect.Name = "Shaders/basicFade";
-            _basicEffectAdd = Content.Load<MTEffect>("Shaders/basicAdd");
-            _basicEffectAdd.effect.Name = "Shaders/basicAdd";
-            _basicEffectFadeAdd = Content.Load<MTEffect>("Shaders/basicFadeAdd");
-            _basicEffectFadeAdd.effect.Name = "Shaders/basicFadeAdd";
+            _basicWireframeEffect = Content.Load<Effect>("Shaders/wireframe");
+            _basicWireframeEffectTex = Content.Load<Effect>("Shaders/wireframeTex");
+            _basicEffect = Content.Load<Effect>("Shaders/basic");
+            _basicEffect.Name = "Shaders/basic";
+            _basicEffectFade = Content.Load<Effect>("Shaders/basicFade");
+            _basicEffectFade.Name = "Shaders/basicFade";
+            _basicEffectAdd = Content.Load<Effect>("Shaders/basicAdd");
+            _basicEffectAdd.Name = "Shaders/basicAdd";
+            _basicEffectFadeAdd = Content.Load<Effect>("Shaders/basicFadeAdd");
+            _basicEffectFadeAdd.Name = "Shaders/basicFadeAdd";
         }
 
         ReinitializeLightingTargets();
@@ -280,13 +280,14 @@ public class LayerCore
         _hybridList.Remove(l);
     }
 
-    public bool IsBasicLayerEffect(MTEffect e)
+    public bool IsBasicLayerEffect(Effect e)
     {
         if (e == null)
             return false;
 
-        if (e.EffectIndex != _basicEffect.EffectIndex && e.EffectIndex != _basicEffectAdd.EffectIndex && e.EffectIndex != _basicEffectFade.EffectIndex)
-            return e.EffectIndex == _basicEffectFadeAdd.EffectIndex;
+        var effectIndex = e.GetEffectIndex();
+        if (effectIndex != _basicEffect.GetEffectIndex() && effectIndex != _basicEffectAdd.GetEffectIndex() && effectIndex != _basicEffectFade.GetEffectIndex())
+            return effectIndex == _basicEffectFadeAdd.GetEffectIndex();
 
         return true;
     }

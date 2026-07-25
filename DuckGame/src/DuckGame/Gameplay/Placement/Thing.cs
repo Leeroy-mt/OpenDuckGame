@@ -97,7 +97,7 @@ public abstract class Thing : Transform
 
     private bool _visible = true;
 
-    private AutoEffect _material;
+    private Material _material;
 
     protected bool _enablePhysics = true;
 
@@ -557,7 +557,7 @@ public abstract class Thing : Transform
         }
     }
 
-    public AutoEffect material
+    public Material material
     {
         get
         {
@@ -1804,7 +1804,7 @@ public abstract class Thing : Transform
         }
         if (_alphaTestEffect == null)
         {
-            _alphaTestEffect = Content.Load<MTEffect>("Shaders/alphatest");
+            _alphaTestEffect = Content.Load<Effect>("Shaders/alphatest");
         }
         if (pUseCollisionSize && collisionSize.X > 0f)
         {
@@ -1859,7 +1859,7 @@ public abstract class Thing : Transform
             DepthBufferEnable = false
         };
         Graphics.Clear(transparentBack ? new Color(0, 0, 0, 0) : new Color(15, 4, 16));
-        Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, state, RasterizerState.CullNone, (effect == null) ? _alphaTestEffect : effect, cam.getMatrix());
+        Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, state, RasterizerState.CullNone, effect ?? _alphaTestEffect, cam.getMatrix());
         Draw();
         Graphics.screen.End();
         if (curTarg == null || curTarg.IsDisposed)
@@ -1901,7 +1901,7 @@ public abstract class Thing : Transform
         }
         if (_alphaTestEffect == null)
         {
-            _alphaTestEffect = Content.Load<MTEffect>("Shaders/alphatest");
+            _alphaTestEffect = Content.Load<Effect>("Shaders/alphatest");
         }
         if (graphic != null)
         {
@@ -1938,7 +1938,7 @@ public abstract class Thing : Transform
             DepthBufferEnable = false
         };
         Graphics.Clear(transparentBack ? new Color(0, 0, 0, 0) : new Color(30, 30, 30));
-        Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, state, RasterizerState.CullNone, (effect == null) ? _alphaTestEffect : effect, cam.getMatrix());
+        Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, state, RasterizerState.CullNone, effect ?? _alphaTestEffect, cam.getMatrix());
         Draw();
         Graphics.screen.End();
         Graphics.SetRenderTarget(null);

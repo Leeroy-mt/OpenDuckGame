@@ -7,7 +7,7 @@ namespace DuckGame;
 
 public class ConsoleScreen : Thing
 {
-    private AutoEffect _lcdMaterial;
+    private Effect _lcdMaterial;
 
 #if NO_TEX2D
     XnaRenderTarget2D _realScreenTarget;
@@ -24,7 +24,7 @@ public class ConsoleScreen : Thing
     TriangleBatch _batch;
 #endif
 
-    private AutoEffect _blurMaterial;
+    private Effect _blurMaterial;
 
     public float _darken = 1f;
 
@@ -59,8 +59,8 @@ public class ConsoleScreen : Thing
     public ConsoleScreen(float xpos, float ypos, HatSelector s)
         : base(xpos, ypos)
     {
-        _lcdMaterial = new AutoEffect(Content.Load<MTEffect>("Shaders/lcd"));
-        _blurMaterial = new AutoEffect(Content.Load<MTEffect>("Shaders/lcdBlur"));
+        _lcdMaterial = Content.Load<Effect>("Shaders/lcd");
+        _blurMaterial = Content.Load<Effect>("Shaders/lcdBlur");
 #if NO_TEX2D
         _screenTarget = XnaRenderTarget2D.CreateSetUpTarget(134, 86);
         _bloomTarget = XnaRenderTarget2D.CreateSetUpTarget(134, 86);

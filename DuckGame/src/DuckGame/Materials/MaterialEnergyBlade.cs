@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialEnergyBlade : AutoEffect
+public class MaterialEnergyBlade : Material
 {
 #if NO_TEX2D
     Texture2D _energyTexture;
@@ -18,7 +18,7 @@ public class MaterialEnergyBlade : AutoEffect
 
     public float glow;
 
-    public MaterialEnergyBlade(OldEnergyScimi t) : base(Content.Load<MTEffect>("Shaders/energyBlade"))
+    public MaterialEnergyBlade(OldEnergyScimi t) : base(Content.Load<Effect>("Shaders/energyBlade"))
     {
 #if NO_TEX2D
         _energyTexture = Content.Load<Texture2D>("energyTex");
@@ -28,7 +28,7 @@ public class MaterialEnergyBlade : AutoEffect
         _thing = t;
     }
 
-    public MaterialEnergyBlade(EnergyScimitar t) : base(Content.Load<MTEffect>("Shaders/energyBlade"))
+    public MaterialEnergyBlade(EnergyScimitar t) : base(Content.Load<Effect>("Shaders/energyBlade"))
     {
 #if NO_TEX2D
         _energyTexture = Content.Load<Texture2D>("energyTex");

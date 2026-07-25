@@ -133,7 +133,7 @@ public abstract class Gun : Holdable
 
     public List<Bullet> firedBullets = new List<Bullet>();
 
-    private AutoEffect _additiveMaterial;
+    private Effect _additiveMaterial;
 
     public AmmoType ammoType => _ammoType;
 
@@ -289,7 +289,7 @@ public abstract class Gun : Holdable
     {
         if (laserSight && _laserTex == null)
         {
-            _additiveMaterial = new AutoEffect(Content.Load<MTEffect>("Shaders/basicAdd"));
+            _additiveMaterial = Content.Load<Effect>("Shaders/basicAdd");
 #if NO_TEX2D
             _laserTex = Content.Load<Texture2D>("pointerLaser");
 #else
@@ -814,7 +814,7 @@ public abstract class Gun : Holdable
             _wallPoint = b.end;
             _laserInit = true;
         }
-        AutoEffect obj = Graphics.material;
+        var obj = Graphics.material;
         if (graphic != null)
         {
             if (owner != null && owner.graphic != null)

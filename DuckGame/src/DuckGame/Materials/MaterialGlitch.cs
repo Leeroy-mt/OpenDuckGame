@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialGlitch : AutoEffect
+public class MaterialGlitch : Material
 {
 #if NO_TEX2D
     Texture2D _goldTexture;
@@ -18,7 +18,7 @@ public class MaterialGlitch : AutoEffect
 
     private int lockframes;
 
-    public MaterialGlitch(Thing t) : base(Content.Load<MTEffect>("Shaders/glitch"))
+    public MaterialGlitch(Thing t) : base(Content.Load<Effect>("Shaders/glitch"))
     {
 #if NO_TEX2D
         _goldTexture = Content.Load<Texture2D>("glitchMap3");

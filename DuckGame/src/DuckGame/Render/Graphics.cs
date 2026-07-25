@@ -28,7 +28,7 @@ public static class Graphics
     public static GraphicsDeviceManager _manager;
     public static Sprite tounge;
     public static BitmapFont _biosFont;
-    public static AutoEffect material;
+    public static Effect material;
 #if NO_TEX2D
     public static XnaRenderTarget2D _screenBufferTarget;
 #else

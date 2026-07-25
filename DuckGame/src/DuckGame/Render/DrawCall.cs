@@ -27,5 +27,5 @@ public struct DrawCall
 
     public float depth;
 
-    public AutoEffect material;
+    public Effect material;
 }

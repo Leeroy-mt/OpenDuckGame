@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ namespace DuckGame;
 
 public class PointLight : Thing, ILight
 {
-    public new AutoEffect material;
+    public new Effect material;
 
     private List<LightOccluder> _occluders = new List<LightOccluder>();
 

@@ -98,7 +98,7 @@ public class IceBlock : Holdable, IPlatform
                     intensity = 1f
                 };
             }
-            AutoEffect obj = Graphics.material;
+            Effect obj = Graphics.material;
             Graphics.material = _frozen;
             _previewSprite.Alpha = 0.5f;
             Graphics.Draw(_previewSprite, base.X, base.Y, base.Depth + 10);
@@ -323,7 +323,7 @@ public class IceBlock : Holdable, IPlatform
                 _frozen = new MaterialFrozen(_containedThing);
                 _frozen.intensity = 1f;
             }
-            AutoEffect obj = Graphics.material;
+            Effect obj = Graphics.material;
             Graphics.material = _frozen;
             _containedThing.Position = Position;
             _containedThing.Alpha = 1f;

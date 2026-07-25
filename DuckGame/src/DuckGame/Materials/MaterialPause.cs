@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialPause : AutoEffect
+public class MaterialPause : Material
 {
 #if NO_TEX2D
     Texture2D _watermark;
@@ -34,7 +34,7 @@ public class MaterialPause : AutoEffect
         }
     }
 
-    public MaterialPause() : base(Content.Load<MTEffect>("Shaders/pause"))
+    public MaterialPause() : base(Content.Load<Effect>("Shaders/pause"))
     {
 #if NO_TEX2D
         _watermark = Content.Load<Texture2D>("dc5");

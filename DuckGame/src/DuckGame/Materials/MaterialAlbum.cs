@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialAlbum : AutoEffect
+public class MaterialAlbum : Material
 {
 #if NO_TEX2D
     Texture2D _albumTexture;
@@ -10,7 +10,7 @@ public class MaterialAlbum : AutoEffect
     private Tex2D _albumTexture;
 #endif
 
-    public MaterialAlbum() : base(Content.Load<MTEffect>("Shaders/album"))
+    public MaterialAlbum() : base(Content.Load<Effect>("Shaders/album"))
     {
 #if NO_TEX2D
         _albumTexture = Content.Load<Texture2D>("playBookPageOffset");

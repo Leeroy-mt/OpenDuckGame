@@ -39,7 +39,7 @@ public class UIGachaBoxNew : UIMenu
 
     private bool _rareCapsule;
 
-    private AutoEffect _flatColor = new MaterialFlatColor();
+    private MaterialFlatColor _flatColor = new MaterialFlatColor();
 
     private MaterialRainbow _rainbowMaterial = new MaterialRainbow();
 
@@ -594,7 +594,7 @@ public class UIGachaBoxNew : UIMenu
         _gachaTwisterShadow.Depth = -0.11f;
         _gachaTwisterShadow.Alpha = 0.5f;
         Graphics.Draw(_gachaTwisterShadow, base.X - 14f + twisterPos.X + shadowOffset.X, base.Y + twisterPos.Y + shadowOffset.Y);
-        AutoEffect obj = Graphics.material;
+        var obj = Graphics.material;
         Graphics.material = _rainbowMaterial;
         _rainbowMaterial.offset += 0.05f;
         _rainbowMaterial.offset2 += 0.02f;
@@ -628,7 +628,7 @@ public class UIGachaBoxNew : UIMenu
             }
             _capsule.Depth = -0.84f;
             Graphics.Draw(_capsule, base.X + _eggOffset.X + additionalEgg.X, base.Y - 38f + gachaY - _eggOffset.Y - (10f + sep) + additionalEgg.Y);
-            AutoEffect obj2 = Graphics.material;
+            var obj2 = Graphics.material;
             Graphics.material = _flatColor;
             _contains.Draw(new Vector2(base.X + _eggOffset.X + _toyPosition.X + additionalEgg.X, base.Y - 38f + gachaY - _eggOffset.Y - 10f + _toyPosition.Y + 8f + additionalEgg.Y), -0.835f, 0, null, affectScale: true, !_swapped, Maths.DegToRad(_toyAngle + 90f));
             Graphics.material = obj2;

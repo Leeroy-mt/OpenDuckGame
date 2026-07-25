@@ -7,7 +7,7 @@ public class GinormoOverlay : Thing
 {
     private Sprite _targetSprite;
 
-    private AutoEffect _screenMaterial;
+    private Effect _screenMaterial;
 
 #if NO_TEX2D
     Texture2D _overlaySprite;
@@ -33,9 +33,9 @@ public class GinormoOverlay : Thing
         _overlaySprite = Content.Load<Tex2D>("rockThrow/boardOverlayLarge");
 #endif
         _targetSprite = new Sprite(GinormoBoard.boardLayer.target);
-        _screenMaterial = new AutoEffect(Content.Load<MTEffect>("Shaders/lcdNoBlur"));
-        _screenMaterial.SetValue("screenWidth", GinormoScreen.GetSize(_smallMode).X);
-        _screenMaterial.SetValue("screenHeight", GinormoScreen.GetSize(_smallMode).Y);
+        _screenMaterial = Content.Load<Effect>("Shaders/lcdNoBlur");
+        _screenMaterial.Parameters["screenWidth"]?.SetValue(GinormoScreen.GetSize(_smallMode).X);
+        _screenMaterial.Parameters["screenHeight"]?.SetValue(GinormoScreen.GetSize(_smallMode).Y);
         base.Initialize();
     }
 
@@ -43,7 +43,7 @@ public class GinormoOverlay : Thing
     {
         if (RockScoreboard.drawingNormalTarget || NetworkDebugger.enabled)
         {
-            AutoEffect obj = Graphics.material;
+            var obj = Graphics.material;
             Graphics.material = _screenMaterial;
             Graphics.device.Textures[1] = (Texture2D)_overlaySprite;
             Graphics.device.SamplerStates[1] = SamplerState.LinearClamp;

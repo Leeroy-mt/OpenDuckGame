@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -144,7 +145,7 @@ public abstract class PhysicsObject : MaterialThing, ITeleport
 
     private MaterialGrid _gridMaterial;
 
-    private AutoEffect _oldMaterial;
+    private Material _oldMaterial;
 
     private bool _oldMaterialSet;
 

@@ -239,7 +239,7 @@ public class VirtualBackground : BackgroundUpdater
         }
         if (scanStage < 2)
         {
-            Layer.basicWireframeEffect.effect.Parameters["screenCross"].SetValue(stick);
+            Layer.basicWireframeEffect.Parameters["screenCross"].SetValue(stick);
             if (scanStage == 1)
             {
                 Layer.basicWireframeTex = true;

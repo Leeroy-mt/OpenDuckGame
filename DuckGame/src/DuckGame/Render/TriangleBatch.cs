@@ -72,7 +72,7 @@ public class TriangleBatch
 #if USE_BASICEFFECT
     BasicEffect basicEffect;
 #else
-    MTEffect spriteEffect, simpleEffect;
+    Effect spriteEffect, simpleEffect;
 #endif
 
     Effect effect;
@@ -106,8 +106,8 @@ public class TriangleBatch
             VertexColorEnabled = true
         };
 #else
-        spriteEffect = Content.Load<MTEffect>("Shaders/SpriteEffect");
-        simpleEffect = Content.Load<MTEffect>("Shaders/SpriteEffectSimple");
+        spriteEffect = Content.Load<Effect>("Shaders/SpriteEffect");
+        simpleEffect = Content.Load<Effect>("Shaders/SpriteEffectSimple");
 #endif
     }
 
@@ -398,7 +398,7 @@ public class TriangleBatch
         SamplerState samplerState,
         DepthStencilState depthStencilState,
         RasterizerState rasterizerState,
-        MTEffect effect,
+        Effect effect,
         Matrix viewMatrix
         )
     {
@@ -466,7 +466,7 @@ public class TriangleBatch
         basicEffect.TextureEnabled = enableTexture;
         basicEffect.CurrentTechnique.Passes[0].Apply();
 #else
-        var basicEffect = (enableTexture ? spriteEffect : simpleEffect).effect;
+        var basicEffect = (enableTexture ? spriteEffect : simpleEffect);
         basicEffect.Parameters["MatrixTransform"].SetValue(FullMatrix);
         basicEffect.CurrentTechnique.Passes[0].Apply();
 #endif
@@ -553,7 +553,7 @@ public class TriangleBatch
         if (effect != null)
         {
             effect.Parameters["MatrixTransform"]?.SetValue(FullMatrix);
-            if (effect is AutoEffect autoEffect)
+            if (effect is Material autoEffect)
                 autoEffect.Apply();
             else
                 foreach (var pass in effect.CurrentTechnique.Passes)

@@ -3,81 +3,115 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class Material
+public class Material(Effect effect) : Effect(effect)
 {
-    public MTEffect effect { get; protected set; }
-
-    #region Constructors
-
-    public Material()
-    {
-    }
-
-    public Material(string mat)
-    {
-        effect = Content.Load<MTEffect>(mat);
-    }
-
-    public Material(Effect e)
-    {
-        effect = e;
-    }
-
-    #endregion
-
-    #region Public Methods
-
-    public virtual void SetValue(string name, float value)
-    {
-        effect.effect.Parameters[name]?.SetValue(value);
-    }
-
-    public virtual void SetValue(string name, Vector2 value)
-    {
-        effect.effect.Parameters[name]?.SetValue(value);
-    }
-
-    public virtual void SetValue(string name, Vector3 value)
-    {
-        effect.effect.Parameters[name]?.SetValue(value);
-    }
-
-    public virtual void SetValue(string name, Color value)
-    {
-        effect.effect.Parameters[name]?.SetValue(value.ToVector4());
-    }
-
-    public virtual void SetValue(string name, RectangleF value)
-    {
-        effect.effect.Parameters[name]?.SetValue(value.ToVector4());
-    }
-
-    public virtual void SetValue(string name, Matrix value)
-    {
-        effect.effect.Parameters[name]?.SetValue(value);
-    }
-
-    public virtual void SetValue(string name, Texture2D value)
-    {
-        effect.effect.Parameters[name]?.SetValue(value);
-    }
-
     public virtual void Update()
     {
     }
 
     public virtual void Apply()
     {
-        foreach (EffectPass pass in effect.effect.CurrentTechnique.Passes)
-        {
+        foreach (EffectPass pass in CurrentTechnique.Passes)
             pass.Apply();
-        }
     }
 
-    #endregion
-
-    public static implicit operator MTEffect(Material val)
+    public void SetValue(string name, bool value)
     {
-        return val.effect;
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, bool[] value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, float value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, float[] value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, int value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, int[] value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Matrix value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Matrix[] value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Quaternion value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Quaternion[] value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, string value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Texture value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Vector2 value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Vector2[] value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Vector3 value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Vector3[] value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Vector4 value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Vector4[] value)
+    {
+        Parameters[name]?.SetValue(value);
+    }
+
+    public void SetValue(string name, Color value)
+    {
+        Parameters[name]?.SetValue(value.ToVector4());
+    }
+
+    public void SetValue(string name, RectangleF value)
+    {
+        Parameters[name]?.SetValue(value.ToVector4());
     }
 }

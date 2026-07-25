@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,7 +102,7 @@ public class RoomEditor : Thing
 
     private float _moodVal = 0.5f;
 
-    private AutoEffect grayscale = new(Content.Load<MTEffect>("Shaders/greyscale"));
+    private Effect grayscale = Content.Load<Effect>("Shaders/greyscale");
 
     public float fade => _fade;
 

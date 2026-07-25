@@ -93,56 +93,6 @@ public class FileRecording : Recording
         }
     }
 
-    public void LoadAtlasFile(string file = "")
-    {
-        if (_writer != null)
-        {
-            UpdateAtlasFile();
-        }
-        if (file == "")
-        {
-            file = _fileName;
-        }
-        _fileName = file;
-        BinaryReader atlas = new BinaryReader(File.Open(file + ".dat", FileMode.Open));
-        while (atlas.BaseStream.Position != atlas.BaseStream.Length)
-        {
-            byte num = atlas.ReadByte();
-            short index = atlas.ReadInt16();
-            if (num == 0)
-            {
-                if (atlas.ReadByte() == 0)
-                {
-                    int width = atlas.ReadInt32();
-                    int height = atlas.ReadInt32();
-                    byte[] texData = new byte[width * height * 4];
-                    atlas.Read(texData, 0, width * height * 4);
-#if NO_TEX2D
-                    var target = XnaRenderTarget2D.CreateSetUpTarget(width, height);
-#else
-                    var target = new RenderTarget2D(width, height);
-#endif
-                    target.SetData(texData);
-                    Content.SetTextureAtIndex(index, target);
-                }
-                else
-                {
-                    string name = atlas.ReadString();
-#if NO_TEX2D
-                    Content.SetTextureAtIndex(index, Content.Load<Texture2D>(name));
-#else
-                    Content.SetTextureAtIndex(index, Content.Load<Tex2D>(name));
-#endif
-                }
-            }
-            else
-            {
-                string name2 = atlas.ReadString();
-                Content.SetEffectAtIndex(index, (name2 == "") ? ((MTEffect)new BasicEffect(Graphics.device)) : Content.Load<MTEffect>(name2));
-            }
-        }
-    }
-
     public void UpdateAtlasFile()
     {
         if (_writer == null)
@@ -199,9 +149,9 @@ public class FileRecording : Recording
         for (int j = _lastEffectWrittenIndex; j < Content.effectList.Count; j++)
         {
             atlas.Write((byte)1);
-            MTEffect effect = Content.effectList[j];
-            atlas.Write(effect.EffectIndex);
-            atlas.Write(effect.effectName);
+            var effect = Content.effectList[j];
+            atlas.Write(effect.GetEffectIndex());
+            atlas.Write(effect.Name);
             _lastEffectWrittenIndex++;
         }
         atlas.Close();

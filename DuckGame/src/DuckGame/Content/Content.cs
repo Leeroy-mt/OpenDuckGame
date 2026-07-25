@@ -67,9 +67,8 @@ public class Content
     static ContentManager _base;
 
     static MultiMap<string, LevelData> _levels = [];
-    static Dictionary<string, MTEffect> _effects = [];
-    static Dictionary<Effect, MTEffect> _effectMap = [];
-    static List<MTEffect> _effectList = [];
+    static Dictionary<string, Effect> _effects = [];
+    static List<Effect> _effectList = [];
     static Dictionary<string, SoundEffect> _sounds = [];
 #if NO_TEX2D
     static Dictionary<string, Texture2D> _textures = [];
@@ -117,7 +116,7 @@ public class Content
 
     public static Thread previewThread => _previewThread;
 
-    public static List<MTEffect> effectList => _effectList;
+    public static List<Effect> effectList => _effectList;
 #if NO_TEX2D
     public static Dictionary<string, Texture2D> textures => _textures;
     public static List<Texture2D> textureList => _textureList;
@@ -324,7 +323,7 @@ public class Content
 #endif
     }
 
-    public static void SetEffectAtIndex(short index, MTEffect e)
+    public static void SetEffectAtIndex(short index, Effect e)
     {
         while (index > _effectList.Count)
         {
@@ -332,22 +331,7 @@ public class Content
             _currentEffectIndex++;
         }
         _effectList[index] = e;
-        _effectMap[e.effect] = e;
-        _effects[e.effectName] = e;
-        e.EffectIndex = index;
-    }
-
-    public static MTEffect GetMTEffect(Effect e)
-    {
-        _effectMap.TryGetValue(e, out MTEffect val);
-        if (val == null)
-        {
-            val = new MTEffect(e, "", _currentEffectIndex);
-            _currentEffectIndex++;
-            _effectList.Add(val);
-            _effectMap[e] = val;
-        }
-        return val;
+        _effects[e.Name] = e;
     }
 
 #if NO_TEX2D
@@ -362,7 +346,7 @@ public class Content
     }
 #endif
 
-    public static MTEffect GetMTEffectFromIndex(short index)
+    public static Effect GetMTEffectFromIndex(short index)
     {
         if (index < 0)
             return null;
@@ -766,9 +750,9 @@ public class Content
             return (T)(object)t2;
         }
 
-        if (typeof(T) == typeof(MTEffect))
+        if (typeof(T) == typeof(Effect))
         {
-            MTEffect t3 = null;
+            Effect t3 = null;
             lock (_effects)
             {
                 _effects.TryGetValue(name, out t3);
@@ -776,18 +760,14 @@ public class Content
 
             if (t3 == null)
             {
-                Effect e = null;
                 lock (_loadLock)
                 {
-                    e = _base.Load<Effect>(name);
+                    t3 = _base.Load<Effect>(name);
                 }
                 lock (_loadLock)
                 {
-                    t3 = new MTEffect(e, name, _currentEffectIndex);
-                    _currentEffectIndex++;
                     _effectList.Add(t3);
                     _effects[name] = t3;
-                    _effectMap[e] = t3;
                 }
             }
             return (T)(object)t3;
@@ -1219,7 +1199,7 @@ public class Content
                 if (path.StartsWith("Content/"))
                     path = path[8..];
                 path = path[..^4];
-                Load<MTEffect>(path);
+                Load<Effect>(path);
             }
         }
         catch (Exception ex)

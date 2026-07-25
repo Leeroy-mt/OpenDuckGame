@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -143,7 +144,7 @@ public class HighlightLevel : Level
         _background = new Sprite("duckChannelBackground");
         _blurLayer = new Layer("BLUR", Layer.HUD.depth + 5, Layer.HUD.camera);
         Layer.Add(_blurLayer);
-        _blurLayer.effect = Content.Load<MTEffect>("Shaders/blur");
+        _blurLayer.effect = Content.Load<Effect>("Shaders/blur");
         _transition = new DuckChannelLogo();
         Level.Add(_transition);
         _tl = new Vector2(30f, 32f);

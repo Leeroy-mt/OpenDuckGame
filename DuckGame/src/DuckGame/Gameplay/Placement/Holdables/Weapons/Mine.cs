@@ -378,7 +378,7 @@ public class Mine : Gun
 
     public override void Draw()
     {
-        AutoEffect obj = Graphics.material;
+        var obj = Graphics.material;
         Graphics.material = null;
         if (_mineFlash.Alpha > 0.01f)
         {

@@ -4,7 +4,7 @@ using System;
 
 namespace DuckGame;
 
-public class MaterialGrid : AutoEffect
+public class MaterialGrid : Material
 {
     private Thing _thing;
 
@@ -16,7 +16,7 @@ public class MaterialGrid : AutoEffect
 
     public bool finished;
 
-    public MaterialGrid(Thing t) : base(Content.Load<MTEffect>("Shaders/wireframeTexOuya"))
+    public MaterialGrid(Thing t) : base(Content.Load<Effect>("Shaders/wireframeTexOuya"))
     {
         _thing = t;
     }

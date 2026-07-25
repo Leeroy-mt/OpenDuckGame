@@ -160,9 +160,9 @@ public class RockScoreboard : Level
 
     private bool _returnToScoreboard;
 
-    private AutoEffect _sunshineMaterial;
+    private Effect _sunshineMaterial;
 
-    private AutoEffect _sunshineMaterialBare;
+    private Effect _sunshineMaterialBare;
 
     public override string networkIdentifier
     {

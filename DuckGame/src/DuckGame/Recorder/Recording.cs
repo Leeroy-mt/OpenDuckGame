@@ -185,23 +185,13 @@ public class Recording
         _frames[_frame].backgroundColor = c;
     }
 
-    public void StateChange(SpriteSortMode sortModeVal, BlendState blendStateVal, SamplerState samplerStateVal, DepthStencilState depthStencilStateVal, RasterizerState rasterizerStateVal, MTEffect effectVal, Matrix cameraVal, RectangleF scissor)
+    public void StateChange(SpriteSortMode sortModeVal, BlendState blendStateVal, SamplerState samplerStateVal, DepthStencilState depthStencilStateVal, RasterizerState rasterizerStateVal, Effect effectVal, Matrix cameraVal, RectangleF scissor)
     {
         _frames[_frame].StateChange(sortModeVal, blendStateVal, samplerStateVal, depthStencilStateVal, rasterizerStateVal, effectVal, cameraVal, scissor);
     }
 
     public void LogDraw(short textureVal, Vector2 topLeftVal, Vector2 bottomRightVal, float rotationVal, Color colorVal, short texXVal, short texYVal, short texWVal, short texHVal, float depthVal)
     {
-        // textureVal: 516
-        // topLeftVal 152 136
-        // bottomRightVal 168 152
-        // rotationVal 0
-        // colorVal 255 255 255 255
-        // texXVal 48
-        // texYVal 64
-        // texWVal 16
-        // texHVal 16
-        // depthVal 0.305250049
         _frames[_frame].objects[_frames[_frame].currentObject].SetData(textureVal, topLeftVal, bottomRightVal, rotationVal, colorVal, texXVal, texYVal, texWVal, texHVal, depthVal);
         _frames[_frame].IncrementObject();
     }

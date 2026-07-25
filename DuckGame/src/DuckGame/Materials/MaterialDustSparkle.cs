@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialDustSparkle : AutoEffect
+public class MaterialDustSparkle : Material
 {
 #if NO_TEX2D
     Texture2D _cone;
@@ -17,7 +17,7 @@ public class MaterialDustSparkle : AutoEffect
 
     public float fade;
 
-    public MaterialDustSparkle(Vector2 pos, Vector2 s, bool wide, bool lit) : base(Content.Load<MTEffect>("Shaders/dustsparkle"))
+    public MaterialDustSparkle(Vector2 pos, Vector2 s, bool wide, bool lit) : base(Content.Load<Effect>("Shaders/dustsparkle"))
     {
 #if NO_TEX2D
         if (!lit)

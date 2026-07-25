@@ -2,11 +2,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialWiggle : AutoEffect
+public class MaterialWiggle : Material
 {
     private Sprite _sprite;
 
-    public MaterialWiggle(Sprite t) : base(Content.Load<MTEffect>("Shaders/wiggle"))
+    public MaterialWiggle(Sprite t) : base(Content.Load<Effect>("Shaders/wiggle"))
     {
         _sprite = t;
     }

@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialGold : AutoEffect
+public class MaterialGold : Material
 {
 #if NO_TEX2D
     Texture2D _goldTexture;
@@ -12,7 +12,7 @@ public class MaterialGold : AutoEffect
 
     private Thing _thing;
 
-    public MaterialGold(Thing t) : base(Content.Load<MTEffect>("Shaders/gold"))
+    public MaterialGold(Thing t) : base(Content.Load<Effect>("Shaders/gold"))
     {
 #if NO_TEX2D
         _goldTexture = Content.Load<Texture2D>("bigGold");

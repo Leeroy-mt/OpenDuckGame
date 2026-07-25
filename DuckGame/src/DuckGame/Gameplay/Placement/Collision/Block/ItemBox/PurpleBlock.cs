@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -34,7 +35,7 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
 
     private float _glitch;
 
-    public static AutoEffect _grayscale = new(Content.Load<MTEffect>("Shaders/greyscale"));
+    public static Effect _grayscale = Content.Load<Effect>("Shaders/greyscale");
 
     public List<Profile> _served = new List<Profile>();
 
@@ -285,7 +286,7 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
             if (_currentProjection != null)
             {
                 Duck.renderingIcon = true;
-                AutoEffect obj = Graphics.material;
+                Effect obj = Graphics.material;
                 Graphics.material = _grayscale;
                 _currentProjection.Depth = base.Depth - 5;
                 _currentProjection.X = base.X - _double * 2f;
@@ -307,7 +308,7 @@ public class PurpleBlock : ItemBox, IDrawToDifferentLayers
         else if (_currentProjection != null)
         {
             Duck.renderingIcon = true;
-            AutoEffect obj2 = Graphics.material;
+            Effect obj2 = Graphics.material;
             Graphics.material = _grayscale;
             _currentProjection.Depth = base.Depth - 5;
             _currentProjection.X = base.X;

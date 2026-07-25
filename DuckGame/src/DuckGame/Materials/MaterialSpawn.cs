@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialSpawn : AutoEffect
+public class MaterialSpawn : Material
 {
-    public MaterialSpawn() : base(Content.Load<MTEffect>("Shaders/wireframeTex")) { }
+    public MaterialSpawn() : base(Content.Load<Effect>("Shaders/wireframeTex")) { }
 
     public override void Apply()
     {

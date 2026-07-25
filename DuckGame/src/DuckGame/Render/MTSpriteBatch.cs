@@ -45,9 +45,9 @@ public class MTSpriteBatch : SpriteBatch
 
     Effect _effect;
 
-    MTEffect _spriteEffect;
+    Effect _spriteEffect;
 
-    MTEffect _simpleEffect;
+    Effect _simpleEffect;
 
     readonly MTSpriteBatcher _batcher;
 
@@ -59,15 +59,15 @@ public class MTSpriteBatch : SpriteBatch
 
     #region Public Properties
 
-    public bool transitionEffect => Layer.basicWireframeEffect != null && (_effect == Layer.basicWireframeEffect.effect);
+    public bool transitionEffect => Layer.basicWireframeEffect != null && (_effect == Layer.basicWireframeEffect);
 
     public Matrix viewMatrix => _matrix;
 
     public Matrix projMatrix => _projMatrix;
 
-    public MTEffect SpriteEffect => _spriteEffect;
+    public Effect SpriteEffect => _spriteEffect;
 
-    public MTEffect SimpleEffect => _simpleEffect;
+    public Effect SimpleEffect => _simpleEffect;
 
     #endregion
 
@@ -78,10 +78,10 @@ public class MTSpriteBatch : SpriteBatch
         {
             throw new ArgumentException("graphicsDevice");
         }
-        _spriteEffect = Content.Load<MTEffect>("Shaders/SpriteEffect");
-        _matrixTransformSprite = _spriteEffect.effect.Parameters["MatrixTransform"];
-        _simpleEffect = Content.Load<MTEffect>("Shaders/SpriteEffectSimple");
-        _matrixTransformSimple = _simpleEffect.effect.Parameters["MatrixTransform"];
+        _spriteEffect = Content.Load<Effect>("Shaders/SpriteEffect");
+        _matrixTransformSprite = _spriteEffect.Parameters["MatrixTransform"];
+        _simpleEffect = Content.Load<Effect>("Shaders/SpriteEffectSimple");
+        _matrixTransformSimple = _simpleEffect.Parameters["MatrixTransform"];
         _batcher = new MTSpriteBatcher(graphicsDevice, this);
         _beginCalled = false;
     }
@@ -96,7 +96,7 @@ public class MTSpriteBatch : SpriteBatch
         Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Matrix.Identity);
     }
 
-    public void Begin(SpriteSortMode sortMode, BlendState blendState, SamplerState samplerState, DepthStencilState depthStencilState, RasterizerState rasterizerState, MTEffect effect, Matrix transformMatrix)
+    public void Begin(SpriteSortMode sortMode, BlendState blendState, SamplerState samplerState, DepthStencilState depthStencilState, RasterizerState rasterizerState, Effect effect, Matrix transformMatrix)
     {
         _ = Graphics.device;
 
@@ -138,7 +138,7 @@ public class MTSpriteBatch : SpriteBatch
         Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, null, Matrix.Identity);
     }
 
-    public void Begin(SpriteSortMode sortMode, BlendState blendState, SamplerState samplerState, DepthStencilState depthStencilState, RasterizerState rasterizerState, MTEffect effect)
+    public void Begin(SpriteSortMode sortMode, BlendState blendState, SamplerState samplerState, DepthStencilState depthStencilState, RasterizerState rasterizerState, Effect effect)
     {
         Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, effect, Matrix.Identity);
     }
@@ -187,11 +187,11 @@ public class MTSpriteBatch : SpriteBatch
         graphicsDevice.SamplerStates[0] = _samplerState;
         if (simple)
         {
-            _simpleEffect.effect.CurrentTechnique.Passes[0].Apply();
+            _simpleEffect.CurrentTechnique.Passes[0].Apply();
         }
         else
         {
-            _spriteEffect.effect.CurrentTechnique.Passes[0].Apply();
+            _spriteEffect.CurrentTechnique.Passes[0].Apply();
         }
     }
 
@@ -214,12 +214,12 @@ public class MTSpriteBatch : SpriteBatch
         if (simple)
         {
             _matrixTransformSimple.SetValue(projection);
-            _simpleEffect.effect.CurrentTechnique.Passes[0].Apply();
+            _simpleEffect.CurrentTechnique.Passes[0].Apply();
         }
         else
         {
             _matrixTransformSprite.SetValue(projection);
-            _spriteEffect.effect.CurrentTechnique.Passes[0].Apply();
+            _spriteEffect.CurrentTechnique.Passes[0].Apply();
         }
         if (_effect != null)
         {
@@ -376,9 +376,9 @@ public class MTSpriteBatch : SpriteBatch
     }
 
 #if NO_TEX2D
-    public void DrawWithMaterial(Texture2D texture, Vector2 position, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effect, float depth, AutoEffect fx)
+    public void DrawWithMaterial(Texture2D texture, Vector2 position, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effect, float depth, Material fx)
 #else
-    public void DrawWithMaterial(Tex2D texture, Vector2 position, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effect, float depth, AutoEffect fx)
+    public void DrawWithMaterial(Tex2D texture, Vector2 position, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effect, float depth, Material fx)
 #endif
     {
         CheckValid(texture);
@@ -451,9 +451,9 @@ public class MTSpriteBatch : SpriteBatch
     }
 
 #if NO_TEX2D
-    internal void DoDrawInternal(Texture2D texture, Vector4 destinationRectangle, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, AutoEffect fx)
+    internal void DoDrawInternal(Texture2D texture, Vector4 destinationRectangle, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, Material fx)
 #else
-    internal void DoDrawInternal(Tex2D texture, Vector4 destinationRectangle, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, AutoEffect fx)
+    internal void DoDrawInternal(Tex2D texture, Vector4 destinationRectangle, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, Material fx)
 #endif
     {
         MTSpriteBatchItem item = _batcher.CreateBatchItem();
@@ -672,7 +672,7 @@ public class MTSpriteBatch : SpriteBatch
     {
         if (!base.IsDisposed && disposing && _spriteEffect != null)
         {
-            _spriteEffect.effect.Dispose();
+            _spriteEffect.Dispose();
             _spriteEffect = null;
         }
         base.Dispose(disposing);
@@ -692,9 +692,9 @@ public class MTSpriteBatch : SpriteBatch
     /// <param name="autoFlush"></param>
     /// <param name="fx"></param>
 #if NO_TEX2D
-    internal void DoDrawInternalTex2D(Texture2D texture, Vector4 destinationRectangle, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, AutoEffect fx)
+    internal void DoDrawInternalTex2D(Texture2D texture, Vector4 destinationRectangle, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, Material fx)
 #else
-    internal void DoDrawInternalTex2D(Tex2D texture, Vector4 destinationRectangle, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, AutoEffect fx)
+    internal void DoDrawInternalTex2D(Tex2D texture, Vector4 destinationRectangle, RectangleF? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth, bool autoFlush, Material fx)
 #endif
     {
         DoDrawInternal(texture, destinationRectangle, sourceRectangle, color, rotation, origin, effect, depth, autoFlush, fx);

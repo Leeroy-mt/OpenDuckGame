@@ -66,7 +66,7 @@ public class WallLayer : Layer
     public WallLayer(string nameval, int depthval = 0)
         : base(nameval, depthval)
     {
-        _fx = Content.Load<MTEffect>("Shaders/fieldFadeAdd");
+        _fx = Content.Load<Effect>("Shaders/fieldFadeAdd");
         _view = Matrix.CreateLookAt(new Vector3(0f, 0f, -5f), new Vector3(0f, 0f, 0f), Vector3.Up);
         _proj = Matrix.CreatePerspectiveFieldOfView((float)Math.PI / 4f, 1.7777778f, 0.01f, 100000f);
     }

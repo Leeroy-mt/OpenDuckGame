@@ -227,8 +227,8 @@ public class Layer : DrawList
     public static Layer Foreground => _core._foreground;
     public static Layer HUD => _core._hud;
     public static Layer Console => _core._console;
-    public static MTEffect basicWireframeEffect => _core.basicWireframeEffect;
-    public static MTEffect basicLayerEffect => _core._basicEffectFadeAdd;
+    public static Effect basicWireframeEffect => _core.basicWireframeEffect;
+    public static Effect basicLayerEffect => _core._basicEffectFadeAdd;
     public static LayerCore core
     {
         get => _core;
@@ -333,7 +333,7 @@ public class Layer : DrawList
         }
 
         Graphics.ResetSpanAdjust();
-        Effect effect = _core._basicEffect;
+        var effect = _core._basicEffect;
         var fade = new Vector3(Graphics.fade * _fade * (1 - _darken)) * colorMul;
         var fadeAdd = _colorAdd + new Vector3(_fadeAdd) + new Vector3(Graphics.flashAddRenderValue) * flashAddInfluence + new Vector3(Graphics.fadeAddRenderValue) - new Vector3(darken);
         fadeAdd = new Vector3(Maths.Clamp(fadeAdd.X, -1, 1), Maths.Clamp(fadeAdd.Y, -1, 1), Maths.Clamp(fadeAdd.Z, -1, 1));
@@ -379,7 +379,7 @@ public class Layer : DrawList
             }
 
             if (doVirtualEffect && (Game == this || Foreground == this || Blocks == this || Background == this))
-                effect = !basicWireframeTex ? (Effect)_core._basicWireframeEffect : (Effect)_core._basicWireframeEffectTex;
+                effect = !basicWireframeTex ? _core._basicWireframeEffect : _core._basicWireframeEffectTex;
         }
 
         if (_state.ScissorTestEnable)
@@ -672,7 +672,7 @@ public class Layer : DrawList
         _core.Remove(l);
     }
 
-    public static bool IsBasicLayerEffect(MTEffect e)
+    public static bool IsBasicLayerEffect(Effect e)
     {
         return _core.IsBasicLayerEffect(e);
     }

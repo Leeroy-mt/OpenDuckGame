@@ -1,10 +1,12 @@
+using Microsoft.Xna.Framework.Graphics;
+
 namespace DuckGame;
 
-public class MaterialPersona : AutoEffect
+public class MaterialPersona : Material
 {
     private DuckPersona persona;
 
-    public MaterialPersona(DuckPersona pPersona) : base(Content.Load<MTEffect>("Shaders/recolor_duo"))
+    public MaterialPersona(DuckPersona pPersona) : base(Content.Load<Effect>("Shaders/recolor_duo"))
     {
         persona = pPersona;
     }

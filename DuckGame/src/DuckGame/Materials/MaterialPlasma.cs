@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialPlasma : AutoEffect
+public class MaterialPlasma : Material
 {
     public float offset;
 
@@ -25,7 +25,7 @@ public class MaterialPlasma : AutoEffect
 
     private Texture2D _plasma2;
 
-    public MaterialPlasma() : base(Content.Load<MTEffect>("Shaders/plasma"))
+    public MaterialPlasma() : base(Content.Load<Effect>("Shaders/plasma"))
     {
         _gradient = Content.Load<Texture2D>("arcade/gradient");
         _plasma2 = Content.Load<Texture2D>("arcade/plasma2");

@@ -277,7 +277,7 @@ public class HugeLaser : Gun
     public override void Draw()
     {
         base.Draw();
-        AutoEffect obj = Graphics.material;
+        var obj = Graphics.material;
         Graphics.material = base.material;
         _tip.Depth = base.Depth + 1;
         _tip.Alpha = _charge;

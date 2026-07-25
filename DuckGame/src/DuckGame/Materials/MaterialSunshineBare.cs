@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialSunshineBare : AutoEffect
+public class MaterialSunshineBare : Material
 {
-    public MaterialSunshineBare() : base(Content.Load<MTEffect>("Shaders/baresunshine")) { }
+    public MaterialSunshineBare() : base(Content.Load<Effect>("Shaders/baresunshine")) { }
 
     public override void Apply()
     {

@@ -223,9 +223,9 @@ public class VirtualTransitionCore
             }
             else if (_scanStage == 2)
             {
-                Layer.basicWireframeEffect.effect.Parameters["screenCross"].SetValue(0);
+                Layer.basicWireframeEffect.Parameters["screenCross"].SetValue(0);
                 if (Layer.basicWireframeTex)
-                    Layer.basicWireframeEffect.effect.Parameters["scanMul"].SetValue(0);
+                    Layer.basicWireframeEffect.Parameters["scanMul"].SetValue(0);
                 _stick = Lerp.Float(_stick, 1, lerpSpeed);
                 if (_stick > .99f)
                 {
@@ -237,9 +237,9 @@ public class VirtualTransitionCore
         }
         else if (_scanStage == 2)
         {
-            Layer.basicWireframeEffect.effect.Parameters["screenCross"].SetValue(0);
+            Layer.basicWireframeEffect.Parameters["screenCross"].SetValue(0);
             if (Layer.basicWireframeTex)
-                Layer.basicWireframeEffect.effect.Parameters["scanMul"].SetValue(0);
+                Layer.basicWireframeEffect.Parameters["scanMul"].SetValue(0);
             _stick = Lerp.Float(_stick, 0, outLerpSpeed);
             if (_stick < .01f)
             {
@@ -280,9 +280,9 @@ public class VirtualTransitionCore
         {
             Layer.doVirtualEffect = true;
             Layer.basicWireframeTex = _scanStage == 1;
-            Layer.basicWireframeEffect.effect.Parameters["screenCross"].SetValue(_stick);
+            Layer.basicWireframeEffect.Parameters["screenCross"].SetValue(_stick);
             if (Layer.basicWireframeTex)
-                Layer.basicWireframeEffect.effect.Parameters["scanMul"].SetValue(1);
+                Layer.basicWireframeEffect.Parameters["scanMul"].SetValue(1);
         }
         _fullyVirtual = false;
         _fullyNonVirtual = false;

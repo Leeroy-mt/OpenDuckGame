@@ -70,7 +70,7 @@ public struct RecorderFrame
         return _states.Any(x => x.Value.stateIndex == index);
     }
 
-    public void StateChange(SpriteSortMode sortModeVal, BlendState blendStateVal, SamplerState samplerStateVal, DepthStencilState depthStencilStateVal, RasterizerState rasterizerStateVal, MTEffect effectVal, Matrix cameraVal, RectangleF sciss)
+    public void StateChange(SpriteSortMode sortModeVal, BlendState blendStateVal, SamplerState samplerStateVal, DepthStencilState depthStencilStateVal, RasterizerState rasterizerStateVal, Effect effectVal, Matrix cameraVal, RectangleF sciss)
     {
         _states[currentObject] = new RecorderFrameStateChange
         {
@@ -79,7 +79,7 @@ public struct RecorderFrame
             samplerState = samplerStateVal,
             depthStencilState = depthStencilStateVal,
             rasterizerState = rasterizerStateVal,
-            effectIndex = effectVal?.EffectIndex ?? (-1),
+            effectIndex = effectVal?.GetEffectIndex() ?? -1,
             camera = cameraVal,
             stateIndex = Graphics.currentStateIndex,
             scissor = sciss
@@ -105,11 +105,11 @@ public struct RecorderFrame
                     Graphics.screen.End();
 
                 begun = true;
-                MTEffect e = Content.GetMTEffectFromIndex(state.effectIndex);
+                var e = Content.GetMTEffectFromIndex(state.effectIndex);
                 if (Layer.IsBasicLayerEffect(e))
                 {
-                    e.effect.Parameters["fade"].SetValue(new Vector3(Graphics.fade));
-                    e.effect.Parameters["add"].SetValue(new Vector3(Graphics.fadeAddRenderValue));
+                    e.Parameters["fade"].SetValue(new Vector3(Graphics.fade));
+                    e.Parameters["add"].SetValue(new Vector3(Graphics.fadeAddRenderValue));
                 }
                 Graphics.screen.Begin(state.sortMode, state.blendState, state.samplerState, state.depthStencilState, state.rasterizerState, Content.GetMTEffectFromIndex(state.effectIndex), state.camera);
                 Graphics.SetScissorRectangle(state.scissor);

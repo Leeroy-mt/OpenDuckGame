@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialFlatColor : AutoEffect
+public class MaterialFlatColor : Material
 {
-    public MaterialFlatColor() : base(Content.Load<MTEffect>("Shaders/flatColor")) { }
+    public MaterialFlatColor() : base(Content.Load<Effect>("Shaders/flatColor")) { }
 
     public override void Apply()
     {

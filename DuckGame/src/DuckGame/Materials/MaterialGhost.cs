@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialGhost : AutoEffect
+public class MaterialGhost : Material
 {
-    public MaterialGhost() : base(Content.Load<MTEffect>("Shaders/ghost")) { }
+    public MaterialGhost() : base(Content.Load<Effect>("Shaders/ghost")) { }
 
     public override void Apply()
     {

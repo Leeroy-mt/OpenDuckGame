@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialBurn : AutoEffect
+public class MaterialBurn : Material
 {
 #if NO_TEX2D
     Texture2D _burnTexture;
@@ -24,7 +24,7 @@ public class MaterialBurn : AutoEffect
         }
     }
 
-    public MaterialBurn(float burnVal = 0f) : base(Content.Load<MTEffect>("Shaders/burn"))
+    public MaterialBurn(float burnVal = 0f) : base(Content.Load<Effect>("Shaders/burn"))
     {
 #if NO_TEX2D
         _burnTexture = Content.Load<Texture2D>("burn");

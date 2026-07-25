@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
 
-public class MaterialFrozen : AutoEffect
+public class MaterialFrozen : Material
 {
 #if NO_TEX2D
     Texture2D _frozenTexture;
@@ -14,7 +14,7 @@ public class MaterialFrozen : AutoEffect
 
     public float intensity;
 
-    public MaterialFrozen(Thing t) : base(Content.Load<MTEffect>("Shaders/frozen"))
+    public MaterialFrozen(Thing t) : base(Content.Load<Effect>("Shaders/frozen"))
     {
 #if NO_TEX2D
         _frozenTexture = Content.Load<Texture2D>("frozen");
