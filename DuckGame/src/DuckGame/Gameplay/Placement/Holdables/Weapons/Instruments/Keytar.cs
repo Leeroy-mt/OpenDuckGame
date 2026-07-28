@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -100,11 +99,7 @@ public class Keytar : Gun
         RefreshColor();
     }
 
-#if NO_TEX2D
-    public override Sprite GeneratePreview(int wide = 16, int high = 16, bool transparentBack = false, Effect effect = null, XnaRenderTarget2D target = null)
-#else
     public override Sprite GeneratePreview(int wide = 16, int high = 16, bool transparentBack = false, Effect effect = null, RenderTarget2D target = null)
-#endif
     {
         color.value = 0;
         RefreshColor();

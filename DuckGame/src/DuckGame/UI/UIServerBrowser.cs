@@ -156,11 +156,7 @@ public class UIServerBrowser : UIMenu
 
     static LobbyData _joiningLobby;
 
-#if NO_TEX2D
     static Dictionary<ulong, Texture2D> _previewMap = [];
-#else
-    static Dictionary<ulong, Tex2D> _previewMap = [];
-#endif
 
     static Dictionary<object, ulong> _clientMap = [];
 
@@ -230,15 +226,9 @@ public class UIServerBrowser : UIMenu
 
     UIMenuItem _yesNoNo;
 
-#if NO_TEX2D
     Texture2D defaultImage;
 
     Texture2D defaultImageLan;
-#else
-    Tex2D defaultImage;
-
-    Tex2D defaultImageLan;
-#endif
 
     UIMenu _downloadModsMenu;
 
@@ -246,7 +236,7 @@ public class UIServerBrowser : UIMenu
 
     List<LobbyData> _lobbies = [];
 
-#endregion
+    #endregion
 
     #region Public Properties
 
@@ -267,13 +257,8 @@ public class UIServerBrowser : UIMenu
     public UIServerBrowser(UIMenu openOnClose, string title, float xpos, float ypos, float wide = -1f, float high = -1f, InputProfile conProfile = null)
         : base(title, xpos, ypos, wide, high, "@WASD@@SELECT@JOIN @MENU1@REFRESH @CANCEL@BACK", conProfile)
     {
-#if NO_TEX2D
         defaultImage = Content.Load<Texture2D>("server_default");
         defaultImageLan = Content.Load<Texture2D>("server_default_lan");
-#else
-        defaultImage = Content.Load<Tex2D>("server_default");
-        defaultImageLan = Content.Load<Tex2D>("server_default_lan");
-#endif
         _splitter.topSection.components[0].align = UIAlign.Left;
         _openOnClose = openOnClose;
         _moreArrow = new Sprite("moreArrow");
@@ -671,11 +656,7 @@ public class UIServerBrowser : UIMenu
                 if (lobby.lobby == null)
                     _noImage.texture = defaultImageLan;
                 _noImage.Scale = Vector2.One;
-#if NO_TEX2D
                 List<Texture2D> workshopTextures = [];
-#else
-                List<Tex2D> workshopTextures = [];
-#endif
                 string details = lobby.name;
                 if (lobby.lobby == null)
                     details = !lobby.dedicated ? $"{details} (LAN)" : $"{details} |DGGREEN|(DEDICATED LAN SERVER)";
@@ -714,11 +695,7 @@ public class UIServerBrowser : UIMenu
                         else if (lobby.workshopItems.Count > 2)
                             modDetails = $"{modDetails}{col} +{lobby.workshopItems.Count - 1} other mods.";
                         modDetails += "\n|GRAY|";
-#if NO_TEX2D
                         if (!_previewMap.TryGetValue(w.Id, out Texture2D tex))
-#else
-                        if (!_previewMap.TryGetValue(w.Id, out Tex2D tex))
-#endif
                         {
                             if (w.Data.previewPath != null && w.Data.previewPath != "")
                             {
@@ -765,7 +742,6 @@ public class UIServerBrowser : UIMenu
                         if (iTex >= workshopTextures.Count)
                             continue;
                         _noImage.texture = workshopTextures[iTex];
-#if NO_TEX2D
                         if (workshopTextures.Count > 1)
                             _noImage.Scale = new Vector2(16f / _noImage.texture.Width);
                         else
@@ -788,30 +764,6 @@ public class UIServerBrowser : UIMenu
                             drawOffset.X = 0;
                             drawOffset.Y += 16;
                         }
-#else
-                        if (workshopTextures.Count > 1)
-                            _noImage.Scale = new Vector2(16f / _noImage.texture.width);
-                        else
-                            _noImage.Scale = new Vector2(32f / _noImage.texture.width);
-                        if (_noImage.texture.width != _noImage.texture.height)
-                        {
-                            if (_noImage.texture.width > _noImage.texture.height)
-                            {
-                                _noImage.Scale = new Vector2(32f / _noImage.texture.height);
-                                Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, new RectangleF(_noImage.texture.width / 2 - _noImage.texture.height / 2, 0, _noImage.texture.height, _noImage.texture.height), 0.5f);
-                            }
-                            else
-                                Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, new RectangleF(0, 0, _noImage.texture.width, _noImage.texture.width), 0.5f);
-                        }
-                        else
-                            Graphics.Draw(_noImage, boxLeft3 + 2 + drawOffset.X, boxTop3 + 2 + drawOffset.Y, 0.5f);
-                        drawOffset.X += 16;
-                        if (drawOffset.X >= 32)
-                        {
-                            drawOffset.X = 0;
-                            drawOffset.Y += 16;
-                        }
-#endif
                     }
                 }
                 else
@@ -1079,13 +1031,7 @@ public class UIServerBrowser : UIMenu
         Texture2D texture = ContentPack.LoadTexture2D(PreviewPathForWorkshopItem(id), processPink: false);
         if (texture != null)
         {
-#if NO_TEX2D
             _previewMap[id] = texture;
-#else
-            Tex2D tex = texture;
-            if (tex != null)
-                _previewMap[id] = tex;
-#endif
         }
     }
 

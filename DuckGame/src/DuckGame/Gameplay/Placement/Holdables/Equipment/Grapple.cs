@@ -22,11 +22,7 @@ public class Grapple : Equipment, ISwing
 
     private float _grappleLength = 200f;
 
-#if NO_TEX2D
     Texture2D _laserTex;
-#else
-    private Tex2D _laserTex;
-#endif
 
     public Sprite _ropeSprite;
 
@@ -67,11 +63,7 @@ public class Grapple : Equipment, ISwing
         _barrelOffsetTL = new Vector2(10f, 4f);
         _jumpMod = true;
         thickness = 0.1f;
-#if NO_TEX2D
         _laserTex = Content.Load<Texture2D>("pointerLaser");
-#else
-        _laserTex = Content.Load<Tex2D>("pointerLaser");
-#endif
         editorTooltip = "Allows you to swing from platforms like some kind of loon.";
     }
 

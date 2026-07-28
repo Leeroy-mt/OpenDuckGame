@@ -175,7 +175,6 @@ public static class SFX
             NoSoundcard = true;
             return;
         }
-        //MonoMain.loadMessage = "Loading SFX";
         SearchDir("Content/Audio/SFX");
         NetSoundEffect.Initialize();
     }

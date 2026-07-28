@@ -7,12 +7,9 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -70,18 +67,14 @@ public class MonoMain : Game
     public static Level transitionLevel;
     public static Thread mainThread;
     public static MonoMain instance;
-#if NO_TEX2D
-    public static XnaRenderTarget2D _screenCapture;
-#else
     public static RenderTarget2D _screenCapture;
-#endif
 
     public static List<ModConfiguration> loadedModsWithAssemblies = [];
 
     public int _adapterW;
     public int _adapterH;
 
-#endregion
+    #endregion
 
     #region Private Fields
 
@@ -127,18 +120,13 @@ public class MonoMain : Game
 
     GraphicsDeviceManager graphics;
 
-#if NO_TEX2D
-    XnaRenderTarget2D saveShot;
-    XnaRenderTarget2D _screenshotTarget;
-#else
     RenderTarget2D saveShot;
     RenderTarget2D _screenshotTarget;
-#endif
 
     Thread _infiniteLoopDetector;
     TVSpinScreen LoadingScreen;
 
-#endregion
+    #endregion
 
     #region Public Properties
 
@@ -193,18 +181,14 @@ public class MonoMain : Game
             _pauseMenu = value;
         }
     }
-#if NO_TEX2D
-    public static XnaRenderTarget2D screenCapture => _screenCapture;
-#else
     public static RenderTarget2D screenCapture => _screenCapture;
-#endif
     public static MaterialPause pauseMaterial => _pauseMaterial;
 
     public static List<UIComponent> closeMenuUpdate => _core.closeMenuUpdate;
 
     public bool IsFocused => ((uint)SDL.SDL_GetWindowFlags(Window.Handle) & (uint)SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS) > 0;
 
-#endregion
+    #endregion
 
     #region Private Properties
 
@@ -326,11 +310,7 @@ public class MonoMain : Game
         if (!found)
             modMemoryOffendersString = "";
     }
-#if NO_TEX2D
-    public static void RenderGame(XnaRenderTarget2D target)
-#else
     public static void RenderGame(RenderTarget2D target)
-#endif
     {
         int width = Graphics.width;
         int height = Graphics.height;
@@ -338,13 +318,8 @@ public class MonoMain : Game
         Viewport vp = default;
         int x = vp.Y = 0;
         vp.X = x;
-#if NO_TEX2D
         vp.Width = target.Width;
         vp.Height = target.Height;
-#else
-        vp.Width = target.width;
-        vp.Height = target.height;
-#endif
         vp.MinDepth = 0f;
         vp.MaxDepth = 1f;
         Graphics.viewport = vp;
@@ -526,11 +501,7 @@ public class MonoMain : Game
         if (!Directory.Exists("screenshots"))
             Directory.CreateDirectory("screenshots");
         FileStream f = File.OpenWrite($"screenshots/duckscreen-{d}.png");
-#if NO_TEX2D
         shotToSave.SaveAsPng(f, shotToSave.Width, shotToSave.Height);
-#else
-        (shotToSave.nativeObject as Microsoft.Xna.Framework.Graphics.RenderTarget2D).SaveAsPng(f, shotToSave.width, shotToSave.height);
-#endif
         f.Close();
     }
     public void KillEverything()
@@ -754,7 +725,7 @@ public class MonoMain : Game
             engineUpdatable3.PostUpdate();
     }
 
-#endregion
+    #endregion
 
     #region Internal Methods
 
@@ -805,11 +776,7 @@ public class MonoMain : Game
         Resolution.Set(Options.LocalData.currentResolution);
         Resolution.Apply();
         LoadingScreen = new(this);
-#if NO_TEX2D
-        _screenCapture = XnaRenderTarget2D.CreateSetUpTarget(Resolution.current.x, Resolution.current.y, true);
-#else
-        _screenCapture = new RenderTarget2D(Resolution.current.x, Resolution.current.y, true);
-#endif
+        _screenCapture = RenderTarget2D.CreateSetUpTarget(Resolution.current.x, Resolution.current.y, true);
         graphicsService = Services.GetService(typeof(IGraphicsDeviceService)) as IGraphicsDeviceService;
         Graphics.device.DeviceLost += DeviceLost;
         Graphics.device.DeviceResetting += DeviceResetting;
@@ -900,11 +867,7 @@ public class MonoMain : Game
                     Recorder.currentRecording = null;
                     Graphics.SetScreenTargetViewport();
                     Graphics.Clear(Color.Black);
-#if NO_TEX2D
                     Camera c = new(0, 0, Graphics._screenBufferTarget.Width, Graphics._screenBufferTarget.Height);
-#else
-                    Camera c = new(0, 0, Graphics._screenBufferTarget.width, Graphics._screenBufferTarget.height);
-#endif
                     Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, c.getMatrix());
                     Graphics.Draw(Graphics._screenBufferTarget, 0, 0);
                     Graphics.screen.End();
@@ -945,11 +908,7 @@ public class MonoMain : Game
                 takingShot = true;
                 if ((Keyboard.shift && Keyboard.Pressed(Keys.F12)) || waitFrames < 0)
                 {
-#if NO_TEX2D
-                    _screenshotTarget ??= XnaRenderTarget2D.CreateSetUpTarget(Graphics.width, Graphics.height, true);
-#else
-                    _screenshotTarget ??= new RenderTarget2D(Graphics.width, Graphics.height, true);
-#endif
+                    _screenshotTarget ??= RenderTarget2D.CreateSetUpTarget(Graphics.width, Graphics.height, true);
                     Graphics.screenCapture = _screenshotTarget;
                     RunDraw(gameTime);
                     waitFrames = 60 + Rando.Int(60);
@@ -1063,7 +1022,7 @@ public class MonoMain : Game
         }
     }
 
-#endregion
+    #endregion
 
     #region Private Methods
 

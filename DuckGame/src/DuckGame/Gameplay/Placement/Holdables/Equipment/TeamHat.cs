@@ -292,11 +292,7 @@ public class TeamHat : Hat
         if (!_specialInitialized && _team != null)
         {
             _specialInitialized = true;
-#if NO_TEX2D
             _isKatanaHat = _sprite.texture.Name == "hats/katanaman";
-#else
-            _isKatanaHat = _sprite.texture.textureName == "hats/katanaman";
-#endif
             if (_isKatanaHat)
             {
                 _katanaMaterial = new MaterialKatanaman(this);
@@ -348,11 +344,7 @@ public class TeamHat : Hat
         {
             return;
         }
-#if NO_TEX2D
         if (_sprite.texture.Name == "hats/johnnys")
-#else
-        if (_sprite.texture.textureName == "hats/johnnys")
-#endif
         {
             quacks = false;
         }
@@ -364,17 +356,9 @@ public class TeamHat : Hat
             }
             _cape = null;
         }
-#if NO_TEX2D
         if (_sprite.texture.Name == "hats/suit")
-#else
-        if (_sprite.texture.textureName == "hats/suit")
-#endif
         { 
-#if NO_TEX2D
             Texture2D capeTexture = null;
-#else
-            Tex2D capeTexture = null;
-#endif
             int flagIndex = Global.data.flag;
             if (Network.isActive)
             {
@@ -392,11 +376,7 @@ public class TeamHat : Hat
             if (capeTexture != null)
             {
                 _cape = new Cape(base.X, base.Y, this);
-#if NO_TEX2D
                 if (!capeTexture.Name.Contains("full_"))
-#else
-                if (!capeTexture.textureName.Contains("full_"))
-#endif
                 {
                     _cape.halfFlag = true;
                 }
@@ -508,11 +488,7 @@ public class TeamHat : Hat
 
     public override void Quack(float volume, float pitch)
     {
-#if NO_TEX2D
         if (base.duck != null && _sprite.texture.Name == "hats/hearts")
-#else
-        if (base.duck != null && _sprite.texture.textureName == "hats/hearts")
-#endif
         {
             SFX.Play("heartfart", volume, Math.Min(pitch + 0.4f - Rando.Float(0.1f), 1f));
             Level.Add(new HeartPuff(base.X, base.Y)
@@ -647,11 +623,7 @@ public class TeamHat : Hat
                 _addedParticles.Add(c);
             }
         }
-#if NO_TEX2D
         else if (_sprite.texture.Name == "hats/burgers")
-#else
-        else if (_sprite.texture.textureName == "hats/burgers")
-#endif
         {
             FluidData dat = Fluid.Ketchup;
             dat.amount = Rando.Float(0.0005f, 0.001f);
@@ -664,11 +636,7 @@ public class TeamHat : Hat
                 });
             }
         }
-#if NO_TEX2D
         else if (_sprite.texture.Name == "hats/divers" || _sprite.texture.Name == "hats/fridge")
-#else
-        else if (_sprite.texture.textureName == "hats/divers" || _sprite.texture.textureName == "hats/fridge")
-#endif
         {
             FluidData dat2 = Fluid.Water;
             dat2.amount = Rando.Float(0.0001f, 0.0005f);
@@ -681,11 +649,7 @@ public class TeamHat : Hat
                 });
             }
         }
-#if NO_TEX2D
         else if (_sprite.texture.Name == "hats/gross")
-#else
-        else if (_sprite.texture.textureName == "hats/gross")
-#endif
         {
             FluidData dat3 = Fluid.Water;
             dat3.amount = Rando.Float(0.0002f, 0.0007f);
@@ -698,11 +662,7 @@ public class TeamHat : Hat
                 });
             }
         }
-#if NO_TEX2D
         else if (_sprite.texture.Name == "hats/tube")
-#else
-        else if (_sprite.texture.textureName == "hats/tube")
-#endif
         {
             for (int m = 0; m < 4; m++)
             {
@@ -731,11 +691,7 @@ public class TeamHat : Hat
                 SFX.Play("smallDoorShut", 1f, Rando.Float(-0.1f, 0.1f));
             }
         }
-#if NO_TEX2D
         if (_sprite.texture.Name == "hats/burgers")
-#else
-        if (_sprite.texture.textureName == "hats/burgers")
-#endif
         {
             if (_timeOpen > 1f)
             {
@@ -752,11 +708,7 @@ public class TeamHat : Hat
                 SFX.Play("smallSplat", 0.9f, Rando.Float(-0.4f, 0.4f));
             }
         }
-#if NO_TEX2D
         else if ((_sprite.texture.Name == "hats/divers" || _sprite.texture.Name == "hats/fridge") && _timeOpen > 2f)
-#else
-        else if ((_sprite.texture.textureName == "hats/divers" || _sprite.texture.textureName == "hats/fridge") && _timeOpen > 2f)
-#endif
         {
             SFX.Play("smallDoorShut", 1f, Rando.Float(-0.1f, 0.1f));
         }
@@ -829,11 +781,7 @@ public class TeamHat : Hat
         _hatOffset = poss;
         if (base.duck != null)
         {
-#if NO_TEX2D
             if (_sprite.texture.Name == "hats/sensei")
-#else
-            if (_sprite.texture.textureName == "hats/sensei")
-#endif
             {
                 if (_specialSprite == null)
                 {
@@ -853,11 +801,7 @@ public class TeamHat : Hat
                     Graphics.Draw(_specialSprite, pos.X, pos.Y);
                 }
             }
-#if NO_TEX2D
             else if (_sprite.frame == 1 && _sprite.texture.Name == "hats/master")
-#else
-            else if (_sprite.frame == 1 && _sprite.texture.textureName == "hats/master")
-#endif
             {
                 if (_specialSprite == null)
                 {

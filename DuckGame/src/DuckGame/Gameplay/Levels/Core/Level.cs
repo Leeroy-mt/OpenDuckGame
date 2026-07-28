@@ -29,8 +29,6 @@ public class Level
 
     public bool isPreview;
 
-    private static Queue<List<object>> _collisionLists = new Queue<List<object>>();
-
     private bool _simulatePhysics = true;
 
     private Color _backgroundColor = Color.Black;
@@ -272,15 +270,6 @@ public class Level
         set
         {
             _clearScreen = value;
-        }
-    }
-
-    public static void InitializeCollisionLists()
-    {
-        //MonoMain.loadMessage = "Loading Collision Lists";
-        for (int i = 0; i < 10; i++)
-        {
-            _collisionLists.Enqueue(new List<object>());
         }
     }
 

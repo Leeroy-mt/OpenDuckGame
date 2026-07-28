@@ -17,17 +17,17 @@ public class DuckRig
         {
             _hatPoints.Clear();
             _chestPoints.Clear();
-            BinaryReader r = new BinaryReader(File.OpenRead(Content.path + "rig_duckRig.rig"));
+            BinaryReader r = new(File.OpenRead(Content.path + "rig_duckRig.rig"));
             int num = r.ReadInt32();
             for (int i = 0; i < num; i++)
             {
-                Vector2 hatPoint = new Vector2
+                Vector2 hatPoint = new()
                 {
                     X = r.ReadInt32(),
                     Y = r.ReadInt32()
                 };
                 _hatPoints.Add(hatPoint);
-                Vector2 chestPoint = new Vector2
+                Vector2 chestPoint = new()
                 {
                     X = r.ReadInt32(),
                     Y = r.ReadInt32()

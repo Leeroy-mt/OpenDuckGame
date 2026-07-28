@@ -350,11 +350,7 @@ public class HighlightLevel : Level
                 if (_rockImage2.texture != null)
                 {
                     float sizeNeg = 0f;
-#if NO_TEX2D
                     float size = (Layer.HUD.camera.width - sizeNeg) / (float)_rockImage2.texture.Width;
-#else
-                    float size = (Layer.HUD.camera.width - sizeNeg) / (float)_rockImage2.texture.width;
-#endif
                     _rockImage2.color = new Color(_tvFade, _tvFade, _tvFade);
                     _rockImage2.Scale = new Vector2(size, size);
                     Graphics.Draw(_rockImage2, -10f + drawOffX, drawOffY, 0.8f);

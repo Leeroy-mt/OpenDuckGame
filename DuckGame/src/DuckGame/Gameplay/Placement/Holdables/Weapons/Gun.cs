@@ -113,11 +113,7 @@ public abstract class Gun : Holdable
 
     private SpriteMap _clickPuff;
 
-#if NO_TEX2D
     Texture2D _laserTex;
-#else
-    private Tex2D _laserTex;
-#endif
 
     public bool isFatal = true;
 
@@ -290,11 +286,7 @@ public abstract class Gun : Holdable
         if (laserSight && _laserTex == null)
         {
             _additiveMaterial = Content.Load<Effect>("Shaders/basicAdd");
-#if NO_TEX2D
             _laserTex = Content.Load<Texture2D>("pointerLaser");
-#else
-            _laserTex = Content.Load<Tex2D>("pointerLaser");
-#endif
         }
         base.DoUpdate();
     }

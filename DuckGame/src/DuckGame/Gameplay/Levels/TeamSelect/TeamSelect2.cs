@@ -558,6 +558,11 @@ public class TeamSelect2 : Level, IHaveAVirtualTransition
         _pauseMenu.Add(pauseBox);
         pauseBox.leftSection.Add(new UIMenuItem("RESUME", new UIMenuActionCloseMenu(_pauseGroup)));
         pauseBox.leftSection.Add(new UIMenuItem("OPTIONS", new UIMenuActionOpenMenu(_pauseMenu, Options.optionsMenu)));
+#if LOCAL_MATCHSETTINGS
+        pauseBox.leftSection.Add(new UIMenuItem("|DGBLUE|MATCH SETTINGS", new UIMenuActionOpenMenu(_pauseMenu, _hostMatchSettingsMenu)));
+        _pauseGroup.Add(_hostMatchSettingsMenu, false);
+        _hostMatchSettingsMenu.SetBackFunction(new UIMenuActionOpenMenu(_hostMatchSettingsMenu, _pauseMenu));
+#endif
         pauseBox.leftSection.Add(new UIText("", Color.White));
         Options.openOnClose = _pauseMenu;
         Options.AddMenus(_pauseGroup);

@@ -528,7 +528,7 @@ public class Network
 
     public static void Initialize()
     {
-        _netMessagePriorities = Enum.GetValues(typeof(NetMessagePriority)).Cast<NetMessagePriority>();
+        _netMessagePriorities = Enum.GetValues<NetMessagePriority>();
         activeNetwork.DoInitialize();
     }
 
@@ -571,14 +571,14 @@ public class Network
             ConstructorInfo empty = t2.GetConstructor(Type.EmptyTypes);
             if (empty == null)
             {
-                string error = "NetMessage (" + t2.Name + ") has no empty constructor! All NetMessages must allow 'new " + t2.Name + "()'";
+                string error = $"NetMessage ({t2.Name}) has no empty constructor! All NetMessages must allow 'new {t2.Name}()'";
                 if (MonoMain.modDebugging)
                 {
                     Debugger.Break();
                     Program.crashAssembly = t2.Assembly;
                     throw new Exception(error);
                 }
-                DevConsole.Log(DCSection.General, "|DGRED|" + error);
+                DevConsole.Log(DCSection.General, $"|DGRED|{error}");
             }
             Mod m2 = ModLoader.GetModFromTypeIgnoreCore(t2);
             if (m2 != null && m2 is DisabledMod)

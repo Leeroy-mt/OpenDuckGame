@@ -674,11 +674,7 @@ public class UIModManagement : UIMenu
                     if (preview != null && _noImage.texture != preview)
                     {
                         _noImage.texture = preview;
-#if NO_TEX2D
                         _noImage.Scale = new Vector2(32F / preview.Width);
-#else
-                        _noImage.Scale = new Vector2(32F / preview.width);
-#endif
                     }
                     Graphics.DrawRect(new Vector2(boxLeft2 + 2, boxTop2 + 2), new Vector2(boxLeft2 + 34, boxTop2 + 34), Color.Gray, 0.44f, filled: false, 2);
                     Graphics.Draw(_noImage, boxLeft2 + 2, boxTop2 + 2, 0.5f);

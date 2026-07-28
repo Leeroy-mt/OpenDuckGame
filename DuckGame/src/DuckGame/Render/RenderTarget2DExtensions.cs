@@ -3,43 +3,18 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
-public class RenderTarget2D : Tex2D
-{
-    public bool depth;
-
-    public RenderTarget2D(int width, int height, bool pdepth, RenderTargetUsage usage)
-        : base(new Microsoft.Xna.Framework.Graphics.RenderTarget2D(Graphics.device, MonoMain.hidef ? Math.Min(width, 4096) : Math.Min(width, 2048), MonoMain.hidef ? Math.Min(height, 4096) : Math.Min(height, 2048), mipMap: false, SurfaceFormat.Color, pdepth ? DepthFormat.Depth24Stencil8 : DepthFormat.None, 0, usage), "__renderTarget", 0)
-    {
-        depth = pdepth;
-    }
-
-    public RenderTarget2D(int width, int height, bool pdepth = false)
-        : base(new Microsoft.Xna.Framework.Graphics.RenderTarget2D(Graphics.device, MonoMain.hidef ? Math.Min(width, 4096) : Math.Min(width, 2048), MonoMain.hidef ? Math.Min(height, 4096) : Math.Min(height, 2048), mipMap: false, SurfaceFormat.Color, pdepth ? DepthFormat.Depth24Stencil8 : DepthFormat.None, 0, RenderTargetUsage.DiscardContents), "__renderTarget", 0)
-    {
-        depth = pdepth;
-    }
-
-    public Tex2D ToTex2D()
-    {
-        Tex2D tex2D = new Tex2D(width, height);
-        tex2D.SetData(GetData());
-        return tex2D;
-    }
-}
-
 public static class RenderTarget2DExtensions
 {
-    readonly static HashSet<XnaRenderTarget2D> depthRenderTargets = [];
+    readonly static HashSet<RenderTarget2D> depthRenderTargets = [];
 
-    extension(XnaRenderTarget2D target)
+    extension(RenderTarget2D target)
     {
-        public static XnaRenderTarget2D CreateSetUpTarget(int width, int height, bool pdepth, RenderTargetUsage usage)
+        public static RenderTarget2D CreateSetUpTarget(int width, int height, bool pdepth, RenderTargetUsage usage)
         {
-            return new XnaRenderTarget2D(
+            return new RenderTarget2D(
                 Graphics.device,
                 MonoMain.hidef ? Math.Min(width, 4096) : Math.Min(width, 2048),
                 MonoMain.hidef ? Math.Min(height, 4096) : Math.Min(height, 2048),
@@ -51,7 +26,7 @@ public static class RenderTarget2DExtensions
             );
         }
 
-        public static XnaRenderTarget2D CreateSetUpTarget(int width, int height, bool pdepth = false)
+        public static RenderTarget2D CreateSetUpTarget(int width, int height, bool pdepth = false)
         {
             return CreateSetUpTarget(width, height, pdepth, RenderTargetUsage.DiscardContents);
         }

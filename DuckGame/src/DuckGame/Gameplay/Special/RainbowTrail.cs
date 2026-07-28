@@ -37,11 +37,7 @@ public class RainbowTrail : Thing
 
     private bool _initLastPos = true;
 
-#if NO_TEX2D
     Texture2D _capeTexture;
-#else
-    private Tex2D _capeTexture;
-#endif
 
     public RainbowTrail(float xpos, float ypos, PhysicsObject attach)
         : base(xpos, ypos)

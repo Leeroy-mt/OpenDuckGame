@@ -9,11 +9,7 @@ public class GinormoOverlay : Thing
 
     private Effect _screenMaterial;
 
-#if NO_TEX2D
     Texture2D _overlaySprite;
-#else
-    private Tex2D _overlaySprite;
-#endif
 
     private bool _smallMode;
 
@@ -27,11 +23,7 @@ public class GinormoOverlay : Thing
 
     public override void Initialize()
     {
-#if NO_TEX2D
         _overlaySprite = Content.Load<Texture2D>("rockThrow/boardOverlayLarge");
-#else
-        _overlaySprite = Content.Load<Tex2D>("rockThrow/boardOverlayLarge");
-#endif
         _targetSprite = new Sprite(GinormoBoard.boardLayer.target);
         _screenMaterial = Content.Load<Effect>("Shaders/lcdNoBlur");
         _screenMaterial.Parameters["screenWidth"]?.SetValue(GinormoScreen.GetSize(_smallMode).X);

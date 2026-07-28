@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -26,11 +25,7 @@ public class MapPack : ContentPack
 
     public static ReskinPack context;
 
-#if NO_TEX2D
     Texture2D _preview;
-#else
-    private Tex2D _preview;
-#endif
 
     public string name
     {
@@ -48,11 +43,7 @@ public class MapPack : ContentPack
 
     public Mod mod => _mod;
 
-#if NO_TEX2D
     public Texture2D preview => _preview;
-#else
-    public Tex2D preview => _preview;
-#endif
 
     public MapPack()
         : base(null)
@@ -176,11 +167,7 @@ public class MapPack : ContentPack
         }
         int previewWidth = 1280;
         int previewHeight = 720;
-#if NO_TEX2D
-        var previewTarget = XnaRenderTarget2D.CreateSetUpTarget(previewWidth, previewHeight);
-#else
-        var previewTarget = new RenderTarget2D(previewWidth, previewHeight);
-#endif
+        var previewTarget = RenderTarget2D.CreateSetUpTarget(previewWidth, previewHeight);
         Viewport oldV = Graphics.viewport;
         var oldTarget = Graphics.GetRenderTarget();
         Sprite sprite = new Sprite("shiny");
@@ -229,15 +216,9 @@ public class MapPack : ContentPack
         Graphics.screen.End();
         Graphics.SetRenderTarget(oldTarget);
         Graphics.viewport = oldV;
-#if NO_TEX2D
         _preview = previewTarget.GetTexture2D();
         FileStream fs = File.Create(pPath);
         _preview.SaveAsPng(fs, _preview.Width, _preview.Height);
-#else
-        _preview = previewTarget.ToTex2D();
-        FileStream fs = File.Create(pPath);
-        (_preview.nativeObject as Texture2D).SaveAsPng(fs, _preview.width, _preview.height);
-#endif
         fs.Close();
         return pPath;
     }

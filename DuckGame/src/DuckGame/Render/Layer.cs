@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -18,11 +17,7 @@ public class Layer : DrawList
     public float currentSpanOffset;
 
     public Camera _tallCamera;
-#if NO_TEX2D
-    public XnaRenderTarget2D _target;
-#else
     public RenderTarget2D _target;
-#endif
 
     public static bool lightingTwoPointOh;
     public static bool blurry;
@@ -72,11 +67,7 @@ public class Layer : DrawList
     BlendState _targetBlend = BlendState.AlphaBlend;
     DepthStencilState _targetDepthStencil = DepthStencilState.Default;
     Sprite _dropShadow = new("dropShadow");
-#if NO_TEX2D
-    XnaRenderTarget2D _oldRenderTarget;
-#else
     RenderTarget2D _oldRenderTarget;
-#endif
     Camera _targetCamera = new();
 
     static bool _lighting;
@@ -84,7 +75,7 @@ public class Layer : DrawList
     static LayerCore _core = new();
     static Layer _preDrawLayer = new("PREDRAW");
 
-#endregion
+    #endregion
 
     #region Public Properties
 
@@ -165,11 +156,7 @@ public class Layer : DrawList
         set => _colorAdd = value;
     }
 
-#if NO_TEX2D
-    public XnaRenderTarget2D target => _target;
-#else
     public RenderTarget2D target => _target;
-#endif
     public Effect effect
     {
         get => _effect;
@@ -251,17 +238,10 @@ public class Layer : DrawList
         _dropShadow.Alpha = 0.5f;
         if (targetLayer)
         {
-#if NO_TEX2D
             if (targetSize == default)
-                _target = XnaRenderTarget2D.CreateSetUpTarget(Graphics.width, Graphics.height);
+                _target = RenderTarget2D.CreateSetUpTarget(Graphics.width, Graphics.height);
             else
-                _target = XnaRenderTarget2D.CreateSetUpTarget((int)targetSize.X, (int)targetSize.Y);
-#else
-            if (targetSize == default)
-                _target = new(Graphics.width, Graphics.height);
-            else
-                _target = new((int)targetSize.X, (int)targetSize.Y);
-#endif
+                _target = RenderTarget2D.CreateSetUpTarget((int)targetSize.X, (int)targetSize.Y);
         }
     }
 
@@ -320,11 +300,7 @@ public class Layer : DrawList
                     Graphics.Clear(_targetClearColor);
             }
 
-#if NO_TEX2D
             if (!isTargetDraw && (Graphics.currentRenderTarget == null || Graphics.currentRenderTarget.DepthEnabled()))
-#else
-            if (!isTargetDraw && (Graphics.currentRenderTarget == null || Graphics.currentRenderTarget.depth))
-#endif
                 Graphics.device.Clear(ClearOptions.DepthBuffer, Color.Black, 1, 0);
         }
         catch (Exception ex)
@@ -470,11 +446,7 @@ public class Layer : DrawList
             Color c = new(1f, 1f, 1f, 1f);
             Vector2 sizo = new(Math.Max(camera.width, Graphics.width), Math.Max(camera.height, Graphics.height));
             Graphics.skipReplayRender = true;
-#if NO_TEX2D
             Graphics.Draw(target, pos, null, c, 0, Vector2.Zero, new Vector2(sizo.X / target.Width, sizo.Y / target.Height), SpriteEffects.None, 1);
-#else
-            Graphics.Draw(target, pos, null, c, 0, Vector2.Zero, new Vector2(sizo.X / target.width, sizo.Y / target.height), SpriteEffects.None, 1);
-#endif
 
             if (name == "LIGHTING")
             {

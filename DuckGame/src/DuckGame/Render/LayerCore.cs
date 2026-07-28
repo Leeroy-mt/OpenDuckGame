@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -301,11 +300,7 @@ public class LayerCore
     {
         if (Layer.core._lighting != null)
         {
-#if NO_TEX2D
-            Layer.core._lighting._target = XnaRenderTarget2D.CreateSetUpTarget(Resolution.current.x, Resolution.current.y);
-#else
-            Layer.core._lighting._target = new RenderTarget2D(Resolution.current.x, Resolution.current.y);
-#endif
+            Layer.core._lighting._target = RenderTarget2D.CreateSetUpTarget(Resolution.current.x, Resolution.current.y);
             Layer.core._console.camera = new Camera(0f, 0f, DevConsole.size.X, DevConsole.size.Y);
         }
     }

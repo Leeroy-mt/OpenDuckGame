@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -1735,15 +1734,9 @@ public class Profile
         return s;
     }
 
-#if NO_TEX2D
     public static Texture2D GetEggTexture(int index, ulong seed)
     {
-        var targ = XnaRenderTarget2D.CreateSetUpTarget(16, 16, pdepth: false, RenderTargetUsage.PreserveContents);
-#else
-    public static Tex2D GetEggTexture(int index, ulong seed)
-    {
-        var targ = new RenderTarget2D(16, 16, pdepth: false, RenderTargetUsage.PreserveContents);
-#endif
+        var targ = RenderTarget2D.CreateSetUpTarget(16, 16, pdepth: false, RenderTargetUsage.PreserveContents);
         if (_egg == null)
         {
             _batch = new(Graphics.device);
@@ -1842,11 +1835,7 @@ public class Profile
 #if !MODERN_BATCH
         _batch.Draw(_egg.texture, new Vector2(0f, 0f), new RectangleF(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
 #else
-#if NO_TEX2D
         _batch.DrawTexture(_egg.texture, new(0, 0, _egg.texture.Width, _egg.texture.Height), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
-#else
-        _batch.DrawTexture(_egg.texture, new(0, 0, _egg.texture.width, _egg.texture.height), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
-#endif
 #endif
         if (hasSymbol)
         {
@@ -1868,22 +1857,14 @@ public class Profile
 #if !MODERN_BATCH
                 _batch.Draw(_eggSymbols.texture, new Vector2(0f, 0f), new RectangleF(symbol * 16, 0f, 16f, 16f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
 #else
-#if NO_TEX2D
                 _batch.DrawTexture(_eggSymbols.texture, new(0, 0, _eggSymbols.texture.Width, _eggSymbols.texture.Height), new(symbol * 16, 0, 16, 16), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
-#else
-                _batch.DrawTexture(_eggSymbols.texture, new(0, 0, _eggSymbols.texture.width, _eggSymbols.texture.height), new(symbol * 16, 0, 16, 16), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
-#endif
 #endif
             }
         }
 #if !MODERN_BATCH
         _batch.Draw(_eggOuter.texture, new Vector2(0f, 0f), new RectangleF(frame * 16, 0f, 16f, 16f), Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
 #else
-#if NO_TEX2D
         _batch.DrawTexture(_eggOuter.texture, new(0, 0, _eggOuter.texture.Width, _eggOuter.texture.Height), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
-#else
-        _batch.DrawTexture(_eggOuter.texture, new(0, 0, _eggOuter.texture.width, _eggOuter.texture.height), new(frame * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
-#endif
 #endif
         _batch.End();
         Graphics.screen = screen;
@@ -1896,13 +1877,8 @@ public class Profile
         Color symbolColor = PickColor();
         float xOff = Rando.Float(100000f);
         float yOff = Rando.Float(100000f);
-#if NO_TEX2D
         int width = targ.Width;
         int height = targ.Height;
-#else
-        int width = targ.width;
-        int height = targ.height;
-#endif
         for (int yVal = 0; yVal < height; yVal++)
         {
             for (int xVal = 0; xVal < width; xVal++)
@@ -1993,11 +1969,7 @@ public class Profile
         _batch.End();
         Graphics.SetRenderTarget(null);
         Rando.Generator = realGen;
-#if NO_TEX2D
-        Texture2D tex2D = new(Graphics.device, width, height);
-#else
-        Tex2D tex2D = new(targ.width, targ.height);
-#endif
+        var tex2D = Texture2D.GetTex2DLike(width, height);
         tex2D.SetData(targ.GetData());
         targ.Dispose();
         return tex2D;
@@ -2019,11 +1991,7 @@ public class Profile
 
     public static void GetPainting(int index, ulong seed, Sprite spr)
     {
-#if NO_TEX2D
-        var targ = XnaRenderTarget2D.CreateSetUpTarget(19, 12, pdepth: false, RenderTargetUsage.PreserveContents);
-#else
-        var targ = new RenderTarget2D(19, 12, pdepth: false, RenderTargetUsage.PreserveContents);
-#endif
+        var targ = RenderTarget2D.CreateSetUpTarget(19, 12, pdepth: false, RenderTargetUsage.PreserveContents);
         if (_easel == null)
         {
             _batch = new(Graphics.device);
@@ -2092,13 +2060,8 @@ public class Profile
         _batch.Draw(_easel.texture, new Vector2(0f, 0f), null, Color.White, 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 1f);
         _batch.Draw(_easelSymbols.texture, new Vector2(0f, 0f), new RectangleF(symbol * 19, 0f, 19f, 12f), new Color(60, 60, 60, 200), 0f, new Vector2(0f, 0f), 1f, SpriteEffects.None, 0.9f);
 #else
-#if NO_TEX2D
         _batch.DrawTexture(_easel.texture, new(0, 0, _easel.texture.Width, _easel.texture.Height), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
         _batch.DrawTexture(_easelSymbols.texture, new(0, 0, _easelSymbols.texture.Width, _easelSymbols.texture.Height), new(symbol * 19, 0, 19, 12), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
-#else
-        _batch.DrawTexture(_easel.texture, new(0, 0, _easel.texture.width, _easel.texture.height), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1, null);
-        _batch.DrawTexture(_easelSymbols.texture, new(0, 0, _easelSymbols.texture.width, _easelSymbols.texture.height), new(symbol * 19, 0, 19, 12), new(60, 60, 60, 200), 0, Vector2.Zero, SpriteEffects.None, 0.9f, null);
-#endif
 #endif
         _batch.End();
         Graphics.screen = screen;
@@ -2111,13 +2074,8 @@ public class Profile
         Color symbolColor = PickColor();
         float xOff = Rando.Float(100000f);
         float yOff = Rando.Float(100000f);
-#if NO_TEX2D
         var width = targ.Width;
         var height = targ.Height;
-#else
-        var width = targ.width;
-        var height = targ.height;
-#endif
         for (int yVal = 0; yVal < height; yVal++)
         {
             for (int xVal = 0; xVal < width; xVal++)
@@ -2198,11 +2156,7 @@ public class Profile
         targ.SetData(cols);
         Rando.Generator = realGen;
         spr.texture = targ;
-#if NO_TEX2D
-        Texture2D tex = new(Graphics.device, width, height);
-#else
-        Tex2D tex = new(targ.width, targ.height);
-#endif
+        var tex = Texture2D.GetTex2DLike(width, height);
         tex.SetData(targ.GetData());
         targ.Dispose();
         spr.texture = tex;

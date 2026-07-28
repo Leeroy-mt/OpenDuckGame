@@ -5,21 +5,13 @@ namespace DuckGame;
 
 public class MaterialKatanaman : Material
 {
-#if NO_TEX2D
     Texture2D _lighting;
-#else
-    private Tex2D _lighting;
-#endif
 
     public TeamHat _hat;
 
     public MaterialKatanaman(TeamHat hat) : base(Content.Load<Effect>("shaders/katanaman"))
     {
-#if NO_TEX2D
         _lighting = Content.Load<Texture2D>("hats/katanaman_lightmap");
-#else
-        _lighting = Content.Load<Tex2D>("hats/katanaman_lightmap");
-#endif
         _hat = hat;
     }
 

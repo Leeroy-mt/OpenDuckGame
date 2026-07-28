@@ -4,11 +4,7 @@ namespace DuckGame;
 
 public class MaterialPause : Material
 {
-#if NO_TEX2D
     Texture2D _watermark;
-#else
-    private Tex2D _watermark;
-#endif
 
     private float _fade;
 
@@ -36,11 +32,7 @@ public class MaterialPause : Material
 
     public MaterialPause() : base(Content.Load<Effect>("Shaders/pause"))
     {
-#if NO_TEX2D
         _watermark = Content.Load<Texture2D>("dc5");
-#else
-        _watermark = Content.Load<Tex2D>("dc5");
-#endif
     }
 
     public override void Apply()

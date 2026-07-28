@@ -5,11 +5,7 @@ namespace DuckGame;
 
 public class MaterialDustSparkle : Material
 {
-#if NO_TEX2D
     Texture2D _cone;
-#else
-    private Tex2D _cone;
-#endif
 
     public Vector2 position;
 
@@ -19,7 +15,6 @@ public class MaterialDustSparkle : Material
 
     public MaterialDustSparkle(Vector2 pos, Vector2 s, bool wide, bool lit) : base(Content.Load<Effect>("Shaders/dustsparkle"))
     {
-#if NO_TEX2D
         if (!lit)
         {
             _cone = Content.Load<Texture2D>("arcade/lightSphere");
@@ -29,17 +24,6 @@ public class MaterialDustSparkle : Material
             _cone = Content.Load<Texture2D>("arcade/bigLightCone");
         else
             _cone = Content.Load<Texture2D>("arcade/lightCone");
-#else
-        if (!lit)
-        {
-            _cone = Content.Load<Tex2D>("arcade/lightSphere");
-            pos.Y += 10f;
-        }
-        else if (wide)
-            _cone = Content.Load<Tex2D>("arcade/bigLightCone");
-        else
-            _cone = Content.Load<Tex2D>("arcade/lightCone");
-#endif
         position = pos;
         size = s;
     }

@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame;
-
+#if false
 public class BigBoyTex2D : Tex2D
 {
     public float scaleFactor;
@@ -40,3 +40,4 @@ public class BigBoyTex2D : Tex2D
     {
     }
 }
+#endif

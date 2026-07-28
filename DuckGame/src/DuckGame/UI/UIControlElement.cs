@@ -210,11 +210,7 @@ public class UIControlElement : UIMenuItem
                     finished = true;
                     if (inputMapping.map.TryGetValue(_trigger, out var mapping2))
                     {
-#if NO_TEX2D
                         inputMapping.graphicMap[mapping2] = Input.buttonStyles[_selectionIndex].texture.Name;
-#else
-                        inputMapping.graphicMap[mapping2] = Input.buttonStyles[_selectionIndex].texture.textureName;
-#endif
                         SFX.Play("consoleSelect");
                     }
                 }
@@ -359,11 +355,7 @@ public class UIControlElement : UIMenuItem
                 {
                     foreach (Sprite s in Input.buttonStyles)
                     {
-#if NO_TEX2D
                         if (spr.texture != null && spr.texture.Name == s.texture.Name)
-#else
-                        if (spr.texture != null && spr.texture.textureName == s.texture.textureName)
-#endif
                         {
                             _selectionIndex = index;
                             break;

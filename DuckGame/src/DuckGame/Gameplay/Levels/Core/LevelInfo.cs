@@ -11,11 +11,7 @@ public class LevelInfo : Card
 
     private Sprite _sprite;
 
-#if NO_TEX2D
     Texture2D _image;
-#else
-    private Tex2D _image;
-#endif
 
     protected bool _large;
 
@@ -55,11 +51,7 @@ public class LevelInfo : Card
         }
     }
 
-#if NO_TEX2D
     public Texture2D image
-#else
-    public Tex2D image
-#endif
     {
         get
         {

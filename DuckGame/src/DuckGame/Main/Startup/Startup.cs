@@ -18,7 +18,6 @@ internal class Startup(MonoMain main)
     readonly TaskInfo[] Tasks = [
             new(Persona.Initialize, false),
             new(ManagedContent.PreInitializeMods, true),
-            new(Content.InitializeTextureSizeDictionary, true),
             new(Network.Initialize, true),
             new(Teams.Initialize, true),
             new(Chancy.Initialize, true),
@@ -39,8 +38,6 @@ internal class Startup(MonoMain main)
             new(DevConsole.InitializeCommands, true),
             new(Editor.InitializePlaceableGroup, true),
             new(Challenges.Initialize, true),
-            new(Collision.Initialize, true),
-            new(Level.InitializeCollisionLists, true),
             new(Keyboard.InitTriggerImages, true),
             new(MapPack.RegeneratePreviewsIfNecessary, true),
             new(SFX.Initialize, true),

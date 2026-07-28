@@ -9,11 +9,7 @@ public class UIFlagSelection : UIMenu
 {
     #region Private Fields
 
-#if NO_TEX2D
     static Texture2D _flagTexture;
-#else
-    static Tex2D _flagTexture;
-#endif
 
     static List<string> _flagFiles;
 
@@ -71,11 +67,10 @@ public class UIFlagSelection : UIMenu
             return s;
         try
         {
-#if NO_TEX2D
             _flagTexture ??= Content.Load<Texture2D>("flags/flags");
             if (_flagTexture != null)
             {
-                Texture2D ret = new(Graphics.device, 61, 41);
+                var ret = Texture2D.GetTex2DLike(61, 41);
                 int num = idx % 16;
                 int yIndex = idx / 16;
                 Color[] colors = new Color[2501];
@@ -92,28 +87,6 @@ public class UIFlagSelection : UIMenu
             }
             else
                 DevConsole.Log(DCSection.General, "Found no renderable flags...");
-#else
-            _flagTexture ??= Content.Load<Tex2D>("flags/flags");
-            if (_flagTexture != null)
-            {
-                Tex2D ret = new(61, 41);
-                int num = idx % 16;
-                int yIndex = idx / 16;
-                Color[] colors = new Color[2501];
-                Color[] allColors = new Color[_flagTexture.width * _flagTexture.height];
-                (_flagTexture.nativeObject as Texture2D).GetData(allColors);
-                int xCol = num * 61;
-                int yCol = yIndex * 41;
-                for (int yPos = 0; yPos < 41; yPos++)
-                    for (int xPos = 0; xPos < 61; xPos++)
-                        colors[xPos + yPos * 61] = allColors[xCol + xPos + (yCol + yPos) * _flagTexture.width];
-                ret.SetData(colors);
-                s = new Sprite(ret);
-                _sprites[idx] = s;
-            }
-            else
-                DevConsole.Log(DCSection.General, "Found no renderable flags...");
-#endif
         }
         catch (Exception ex)
         {
@@ -168,11 +141,7 @@ public class UIFlagSelection : UIMenu
 
     public override void Draw()
     {
-#if NO_TEX2D
         _flagTexture ??= Content.Load<Texture2D>("flags/flags");
-#else
-        _flagTexture ??= Content.Load<Tex2D>("flags/flags");
-#endif
         int idx = 0;
         int flagIndx = 0;
         float xDraw = 0;

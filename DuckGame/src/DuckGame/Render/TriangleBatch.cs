@@ -57,7 +57,7 @@ public class TriangleBatch
 
     public Matrix FullMatrix { get; private set; }
 
-    static float edgeBias = 1E-05f;
+    const float edgeBias = 1E-05f;
 
     Matrix projectionMatrix;
 
@@ -181,11 +181,7 @@ public class TriangleBatch
     }
 
     public void DrawTexture(
-#if NO_TEX2D
             Texture2D texture,
-#else
-            Tex2D texture,
-#endif
             Vector2 position,
             RectangleF? sourceRectangle,
             Color color,
@@ -197,13 +193,8 @@ public class TriangleBatch
             Effect fx
             )
     {
-#if NO_TEX2D
         float w = texture.Width * scale.X;
         float h = texture.Height * scale.Y;
-#else
-        float w = texture.width * scale.X;
-        float h = texture.height * scale.Y;
-#endif
         if (sourceRectangle.HasValue)
         {
             w = sourceRectangle.Value.Width * scale.X;
@@ -297,27 +288,24 @@ public class TriangleBatch
 
     public void DrawRecorderItem(ref RecorderFrameItem frame)
     {
-        if (frame.texture is -1)
-            return;
-
-        var texture = Content.GetTex2DFromIndex(frame.texture);
-        if (texture is null)
-            return;
+        var texture = frame.texture is -1
+            ? null
+            : Content.GetTex2DFromIndex(frame.texture);
 
         float w = Math.Abs(frame.texW),
               h = Math.Abs(frame.texH);
-#if NO_TEX2D
-        Vector2 tl = new(frame.texX / (float)texture.Width + edgeBias, frame.texY / (float)texture.Height + edgeBias),
-                br = new((frame.texX + w) / texture.Width - edgeBias, (frame.texY + h) / texture.Height - edgeBias);
-#else
-        Vector2 tl = new(frame.texX / (float)texture.width + edgeBias, frame.texY / (float)texture.height + edgeBias),
-                br = new((frame.texX + w) / texture.width - edgeBias, (frame.texY + h) / texture.height - edgeBias);
-#endif
+        Vector2 tl = default,
+                br = default;
+        if (texture is not null)
+        {
+            tl = new(frame.texX / (float)texture.Width + edgeBias, frame.texY / (float)texture.Height + edgeBias);
+            br = new((frame.texX + w) / texture.Width - edgeBias, (frame.texY + h) / texture.Height - edgeBias);
 
-        if (frame.texH < 0)
-            (tl.Y, br.Y) = (br.Y, tl.Y);
-        if (frame.texW < 0)
-            (tl.X, br.X) = (br.X, tl.X);
+            if (frame.texH < 0)
+                (tl.Y, br.Y) = (br.Y, tl.Y);
+            if (frame.texW < 0)
+                (tl.X, br.X) = (br.X, tl.X);
+        }
 
         var rotation = frame.bottomRight.Rotate(0 - frame.rotation, frame.topLeft);
 

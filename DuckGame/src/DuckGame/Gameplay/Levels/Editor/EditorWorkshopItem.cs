@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -12,11 +11,7 @@ public class EditorWorkshopItem
 
     public bool challengeTestSuccess;
 
-#if NO_TEX2D
     Texture2D _preview;
-#else
-    private Tex2D _preview;
-#endif
 
     private WorkshopItem _item;
 
@@ -28,11 +23,7 @@ public class EditorWorkshopItem
 
     private EditorWorkshopItem _parent;
 
-#if NO_TEX2D
     public Texture2D preview
-#else
-    public Tex2D preview
-#endif
     {
         get
         {
@@ -50,41 +41,24 @@ public class EditorWorkshopItem
                 }
                 else
                 {
-#if NO_TEX2D
-                    XnaRenderTarget2D previewTarget;
-#else
                     RenderTarget2D previewTarget;
-#endif
                     if (_level.metaData.type == LevelType.Arcade_Machine)
                     {
-#if NO_TEX2D
-                        previewTarget = XnaRenderTarget2D.CreateSetUpTarget(512, 512);
-#else
-                        previewTarget = new RenderTarget2D(512, 512);
-#endif
+                        previewTarget = RenderTarget2D.CreateSetUpTarget(512, 512);
                         Content.customPreviewWidth = 128;
                         Content.customPreviewHeight = 128;
                         Content.customPreviewCenter = (Level.current as Editor).levelThings[0].Position;
                     }
                     else
                     {
-#if NO_TEX2D
-                        previewTarget = XnaRenderTarget2D.CreateSetUpTarget(1280, 720);
-#else
-                        previewTarget = new RenderTarget2D(1280, 720);
-#endif
+                        previewTarget = RenderTarget2D.CreateSetUpTarget(1280, 720);
                     }
                     Content.GeneratePreview(_level, pRefresh: true, previewTarget);
                     Content.customPreviewWidth = 0;
                     Content.customPreviewHeight = 0;
                     Content.customPreviewCenter = Vector2.Zero;
-#if NO_TEX2D
                     _preview = new Texture2D(Graphics.device, previewTarget.Width, previewTarget.Height);
                     Color[] colors = new Color[previewTarget.Width * previewTarget.Height];
-#else
-                    _preview = new Texture2D(Graphics.device, previewTarget.width, previewTarget.height);
-                    Color[] colors = new Color[previewTarget.width * previewTarget.height];
-#endif
                     previewTarget.GetData(colors);
                     _preview.SetData<Color>(colors);
                 }
@@ -342,11 +316,7 @@ public class EditorWorkshopItem
             File.Delete(previewName);
         }
         Stream stream = DuckFile.Create(previewName);
-#if NO_TEX2D
         preview.SaveAsPng(stream, preview.Width, preview.Height);
-#else
-        ((Texture2D)preview.nativeObject).SaveAsPng(stream, preview.width, preview.height);
-#endif
         stream.Dispose();
         _item.Data.previewPath = previewName;
     }

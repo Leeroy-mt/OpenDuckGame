@@ -610,11 +610,7 @@ public class LevelSelect : Level
         else if (_selectedLevel.mapPack != null && _selectedLevel.mapPack.preview != null)
         {
             var tex = _selectedLevel.mapPack.preview;
-#if NO_TEX2D
             Vector2 scale = new Vector2(320f / (float)tex.Width, 180f / (float)tex.Height) * 0.5f;
-#else
-            Vector2 scale = new Vector2(320f / (float)tex.width, 180f / (float)tex.height) * 0.5f;
-#endif
             Graphics.Draw(tex, 150f, 45f, scale.X, scale.Y);
         }
         _font.Depth = deep;

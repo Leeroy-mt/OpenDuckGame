@@ -208,10 +208,7 @@ public class DevConsole
         {
             _raster = null;
         }
-        else if (_raster == null)
-        {
-            _raster = new RasterFont(Options.Data.consoleFont, Options.Data.consoleFontSize);
-        }
+        else _raster ??= new RasterFont(Options.Data.consoleFont, Options.Data.consoleFontSize);
     }
 
     public static void Draw()
@@ -1585,10 +1582,10 @@ public class DevConsole
                 Log("|DGRED|vsync disabled");
         }));
 
-        AddCommand(new CMD("level", new CMD.Argument[1]
-        {
+        AddCommand(new CMD("level",
+        [
             new CMD.Level("level")
-        }, delegate (CMD cmd)
+        ], delegate (CMD cmd)
         {
             Level.current = cmd.Arg<Level>("level");
         })

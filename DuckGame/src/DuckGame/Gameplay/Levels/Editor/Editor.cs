@@ -9,13 +9,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
 public class Editor : Level
 {
     #region Private Nesteds
+
     enum EditorTouchState
     {
         Normal,
@@ -42,9 +42,11 @@ public class Editor : Level
     }
 
     delegate Thing ThingConstructor();
+
     #endregion
 
     #region Public Fields
+
     public static bool editingContent;
     public static bool active;
     public static bool selectingLevel;
@@ -127,18 +129,22 @@ public class Editor : Level
 
     public HashSet<Thing> _currentDragSelectionHover = [];
     public HashSet<Thing> _currentDragSelectionHoverAdd = [];
+
     #endregion
 
     #region Protected Fields
+
     protected int _procSeed;
 
     protected RandomLevelData _centerTile;
 
     protected List<Thing> _levelThingsNormal = [];
     protected List<Thing> _levelThingsAlternate = [];
+
     #endregion
 
     #region Private Fields
+
     static bool _listLoaded;
     static bool _clearOnce;
 
@@ -282,11 +288,7 @@ public class Editor : Level
     Thing _oldHover;
     Thing oldHover;
     Thing oldSecondaryHover;
-#if NO_TEX2D
-    XnaRenderTarget2D _procTarget;
-#else
     RenderTarget2D _procTarget;
-#endif
 
     List<string> existingGUID = [];
     List<Command> _commands = [];
@@ -296,7 +298,8 @@ public class Editor : Level
     List<ContextMenu.SearchPair> searchItems = [];
     List<BinaryClassChunk> _selectionCopy = [];
     List<Thing> _pasteBatch = [];
-#endregion
+
+    #endregion
 
     #region Public Properties
     public static bool miniMode
@@ -1108,7 +1111,7 @@ public class Editor : Level
             catch (Exception)
             {
             }
-            throw new Exception("Error loading constructor parameters for type " + t.ToString() + "(" + _constructorParameters.Count + " parms vs " + Program.thingTypes + ", " + Program.constructorsLoaded + ", " + localTypesCount + " things vs " + Program.thingTypes + ")");
+            throw new Exception($"Error loading constructor parameters for type {t}({_constructorParameters.Count} parms vs {Program.thingTypes}, {Program.constructorsLoaded}, {localTypesCount} things vs {Program.thingTypes})");
         }
         return ret;
     }
@@ -2349,11 +2352,7 @@ public class Editor : Level
                                 {
                                     int frameOffsetX = (int)((snap.X - _tileDragContext.X) / 16f);
                                     int frameOffsetY = (int)((snap.Y - _tileDragContext.Y) / 16f);
-#if NO_TEX2D
                                     (newThing2 as BackgroundTile).frame = (_placementType as BackgroundTile).frame + frameOffsetX + (int)((float)frameOffsetY * ((float)newThing2.graphic.texture.Width / 16f));
-#else
-                                    (newThing2 as BackgroundTile).frame = (_placementType as BackgroundTile).frame + frameOffsetX + (int)((float)frameOffsetY * ((float)newThing2.graphic.texture.width / 16f));
-#endif
                                 }
                                 else if (_placementType is ForegroundTile)
                                     (newThing2.graphic as SpriteMap).frame = ((_placementType as ForegroundTile).graphic as SpriteMap).frame;
@@ -3043,11 +3042,7 @@ public class Editor : Level
 
     public override void StartDrawing()
     {
-#if NO_TEX2D
-        _procTarget ??= XnaRenderTarget2D.CreateSetUpTarget(Graphics.width, Graphics.height);
-#else
-        _procTarget ??= new RenderTarget2D(Graphics.width, Graphics.height);
-#endif
+        _procTarget ??= RenderTarget2D.CreateSetUpTarget(Graphics.width, Graphics.height);
         _procContext?.Draw(_procTarget, current.camera, _procDrawOffset);
     }
 

@@ -791,11 +791,7 @@ public class Team
 
     public string fullFolderPath;
 
-#if NO_TEX2D
     public Texture2D folderTexture;
-#else
-    public Tex2D folderTexture;
-#endif
 
     public bool defaultTeam;
 
@@ -904,11 +900,7 @@ public class Team
         {
             if (hat != null)
             {
-#if NO_TEX2D
                 return hat.texture.Name != "hats/noHat";
-#else
-                return hat.texture.textureName != "hats/noHat";
-#endif
             }
             return false;
         }

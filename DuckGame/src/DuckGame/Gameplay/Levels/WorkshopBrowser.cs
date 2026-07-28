@@ -17,11 +17,7 @@ internal class WorkshopBrowser : Level
 
         public WorkshopQueryResultDetails details;
 
-#if NO_TEX2D
         Texture2D _preview;
-#else
-        private Tex2D _preview;
-#endif
 
         public PNGData _previewData;
 
@@ -29,33 +25,18 @@ internal class WorkshopBrowser : Level
 
         public string name => details.title;
 
-#if NO_TEX2D
         public Texture2D preview
         {
             get
             {
                 if (_preview == null && _previewData != null)
                 {
-                    _preview = new Texture2D(Graphics.device, _previewData.width, _previewData.height);
+                    _preview = Texture2D.GetTex2DLike(_previewData.width, _previewData.height);
                     _preview.SetData(_previewData.data);
                 }
                 return _preview;
             }
         }
-#else
-        public Tex2D preview
-        {
-            get
-            {
-                if (_preview == null && _previewData != null)
-                {
-                    _preview = new Tex2D(_previewData.width, _previewData.height);
-                    _preview.SetData(_previewData.data);
-                }
-                return _preview;
-            }
-        }
-#endif
 
         public static Item Get(ulong pID)
         {
@@ -237,11 +218,7 @@ internal class WorkshopBrowser : Level
                 _font.Draw(_openedItem.name, new Vector2(16f, 16f), Color.White, 0.5f);
                 if (_openedItem.preview != null)
                 {
-#if NO_TEX2D
                     Graphics.Draw(_openedItem.preview, 16f, 32f, 256f / (float)_openedItem.preview.Height * 0.5f, 256f / (float)_openedItem.preview.Height * 0.5f, 0.5f);
-#else
-                    Graphics.Draw(_openedItem.preview, 16f, 32f, 256f / (float)_openedItem.preview.height * 0.5f, 256f / (float)_openedItem.preview.height * 0.5f, 0.5f);
-#endif
                 }
                 _font.maxWidth = 300;
                 _font.Draw(_openedItem.description, new Vector2(16f, 170f), Color.White, 0.5f);
@@ -272,15 +249,9 @@ internal class WorkshopBrowser : Level
                         }
                         if (i.preview != null)
                         {
-#if NO_TEX2D
                             float scaleFactor = 256f / (float)i.preview.Height;
                             float xCrop = i.preview.Width / 2 - i.preview.Height / 2;
                             Graphics.Draw(i.preview, drawPos + extraOffset, new RectangleF(xCrop, 0f, i.preview.Height, i.preview.Height), Color.White, 0f, Vector2.Zero, new Vector2(scaleFactor * sizeMul, scaleFactor * sizeMul), SpriteEffects.None, baseDepth);
-#else
-                            float scaleFactor = 256f / (float)i.preview.height;
-                            float xCrop = i.preview.width / 2 - i.preview.height / 2;
-                            Graphics.Draw(i.preview, drawPos + extraOffset, new RectangleF(xCrop, 0f, i.preview.height, i.preview.height), Color.White, 0f, Vector2.Zero, new Vector2(scaleFactor * sizeMul, scaleFactor * sizeMul), SpriteEffects.None, baseDepth);
-#endif
                         }
                         else
                         {

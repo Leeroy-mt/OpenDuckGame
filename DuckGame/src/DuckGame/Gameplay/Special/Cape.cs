@@ -41,11 +41,7 @@ public class Cape : Thing
 
     public Team.CustomHatMetadata metadata = new Team.CustomHatMetadata(null);
 
-#if NO_TEX2D
     public Texture2D _capeTexture;
-#else
-    public Tex2D _capeTexture;
-#endif
 
     public bool halfFlag;
 
@@ -197,15 +193,9 @@ public class Cape : Thing
     public void SetCapeTexture(Texture2D tex)
     {
         _capeTexture = tex;
-#if NO_TEX2D
         maxLength = _capeTexture.Height / 2 - 6;
         if (halfFlag)
             maxLength = (int)(_capeTexture.Width * 0.28f) - 6;
-#else
-        maxLength = _capeTexture.height / 2 - 6;
-        if (halfFlag)
-            maxLength = (int)((float)_capeTexture.width * 0.28f) - 6;
-#endif
     }
 
     public override void Draw()

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -19,32 +18,23 @@ public class Content
     public static bool doingTempSave;
     public static bool renderingToTarget;
 
-    public static short _currentTextureIndex;
-
     public static int customPreviewWidth;
     public static int customPreviewHeight;
 
     public static Vector2 customPreviewCenter;
 
-#if NO_TEX2D
     public static Texture2D invalidTexture;
-#else
-    public static Tex2D invalidTexture;
-#endif
     public static XMLLevel previewLevel;
-    public static Exception lastException;
 
     public static object _loadLock = new();
 
     public static byte[] generatePreviewBytes;
 
-#endregion
+    #endregion
 
     #region Private Fields
 
     static bool _previewBackground;
-
-    static short _currentEffectIndex;
 
     static string _previewPath;
     static string _path = "";
@@ -58,11 +48,7 @@ public class Content
     static TriangleBatch _previewBatch;
 #endif
     static Thread _previewThread;
-#if NO_TEX2D
-    static XnaRenderTarget2D _currentPreviewTarget;
-#else
     static RenderTarget2D _currentPreviewTarget;
-#endif
     static LevelMetaData.PreviewPair _currentPreviewPair;
     static ContentManager _base;
 
@@ -70,20 +56,10 @@ public class Content
     static Dictionary<string, Effect> _effects = [];
     static List<Effect> _effectList = [];
     static Dictionary<string, SoundEffect> _sounds = [];
-#if NO_TEX2D
     static Dictionary<string, Texture2D> _textures = [];
     static List<Texture2D> _textureList = [];
-#else
-    static Dictionary<string, Tex2D> _textures = [];
-    static Dictionary<object, Tex2D> _texture2DMap = [];
-    static List<Tex2D> _textureList = [];
-#endif
     static Dictionary<Type, string> _extensionList = new()
     {
-        {
-            typeof(Tex2D),
-            "*.png"
-        },
         {
             typeof(Texture2D),
             "*.png"
@@ -105,10 +81,9 @@ public class Content
             "*.xnb"
         }
     };
-    static Dictionary<string, Vector2> _spriteSizeDirectory = [];
     static Dictionary<string, ParallaxBackground.Definition> _parallaxDefinitions = [];
 
-#endregion
+    #endregion
 
     #region Public Properties
 
@@ -117,13 +92,8 @@ public class Content
     public static Thread previewThread => _previewThread;
 
     public static List<Effect> effectList => _effectList;
-#if NO_TEX2D
     public static Dictionary<string, Texture2D> textures => _textures;
     public static List<Texture2D> textureList => _textureList;
-#else
-    public static Dictionary<string, Tex2D> textures => _textures;
-    public static List<Tex2D> textureList => _textureList;
-#endif
 
     #endregion
 
@@ -170,21 +140,13 @@ public class Content
         }
     }
 
-#if NO_TEX2D
-    public static LevelMetaData.PreviewPair GeneratePreview(LevelData levelData, bool pRefresh = false, XnaRenderTarget2D pCustomPreviewTarget = null)
-#else
     public static LevelMetaData.PreviewPair GeneratePreview(LevelData levelData, bool pRefresh = false, RenderTarget2D pCustomPreviewTarget = null)
-#endif
     {
         _previewLevelData = levelData;
         return GeneratePreview((string)null, pRefresh, pCustomPreviewTarget);
     }
 
-#if NO_TEX2D
-    public static LevelMetaData.PreviewPair GeneratePreview(string levelPath, bool pRefresh = false, XnaRenderTarget2D pCustomPreviewTarget = null)
-#else
     public static LevelMetaData.PreviewPair GeneratePreview(string levelPath, bool pRefresh = false, RenderTarget2D pCustomPreviewTarget = null)
-#endif
     {
         if (generatePreviewBytes != null)
         {
@@ -232,11 +194,7 @@ public class Content
         Level.skipInitialize = false;
         _previewBatch ??= new(Graphics.device);
         _previewPath = levelPath;
-#if NO_TEX2D
-        _currentPreviewTarget = pCustomPreviewTarget ?? XnaRenderTarget2D.CreateSetUpTarget(320, 200);
-#else
-        _currentPreviewTarget = pCustomPreviewTarget ?? new RenderTarget2D(320, 200);
-#endif
+        _currentPreviewTarget = pCustomPreviewTarget ?? RenderTarget2D.CreateSetUpTarget(320, 200);
         renderingToTarget = true;
         renderingPreview = true;
         readyToRenderPreview = true;
@@ -248,103 +206,19 @@ public class Content
         return _currentPreviewPair;
     }
 
-#if NO_TEX2D
-    public static void SetTextureAtIndex(short index, Texture2D tex)
-#else
-    public static void SetTextureAtIndex(short index, Tex2D tex)
-#endif
-    {
-        while (index >= _textureList.Count)
-        {
-            _textureList.Add(null);
-            _currentTextureIndex++;
-        }
-        _textureList[index] = tex;
-#if NO_TEX2D
-        _textures[tex.Name] = tex;
-#else
-        _texture2DMap[tex.nativeObject] = tex;
-        _textures[tex.textureName] = tex;
-#endif
-        tex.SetTextureIndex(index);
-    }
-
-#if NO_TEX2D
     public static Texture2D AssignTextureIndex(Texture2D tex)
     {
-        var index = tex.GetTextureIndex();
-        if (index is -1)
+        if (!_textureList.Contains(tex))
         {
-            tex.SetTextureIndex(_currentTextureIndex);
-            _currentTextureIndex++;
             _textureList.Add(tex);
         }
         return tex;
     }
-#else
-    public static Tex2D AssignTextureIndex(Tex2D tex)
-    {
 
-        _texture2DMap.TryGetValue(tex, out Tex2D val);
-        if (val == null)
-        {
-            tex.SetTextureIndex(_currentTextureIndex);
-            _currentTextureIndex++;
-            _textureList.Add(tex);
-            _texture2DMap[tex] = tex;
-        }
-        return val;
-    }
-#endif
-
-#if !NO_TEX2D
-    public static Tex2D GetTex2D(object tex)
-    {
-        return GetTex2D((Texture2D)tex);
-    }
-#endif
-
-    public static Tex2D GetTex2D(Texture2D tex)
-    {
-        if (tex == null)
-            return null;
-#if NO_TEX2D
-        return tex;
-#else
-        _texture2DMap.TryGetValue(tex, out Tex2D val);
-        if (val == null)
-        {
-            val = new Tex2D(tex, "", _currentTextureIndex);
-            _currentTextureIndex++;
-            _textureList.Add(val);
-            _texture2DMap[tex] = val;
-        }
-        return val;
-#endif
-    }
-
-    public static void SetEffectAtIndex(short index, Effect e)
-    {
-        while (index > _effectList.Count)
-        {
-            _effectList.Add(null);
-            _currentEffectIndex++;
-        }
-        _effectList[index] = e;
-        _effects[e.Name] = e;
-    }
-
-#if NO_TEX2D
     public static Texture2D GetTex2DFromIndex(short index)
     {
         return _textureList[index];
     }
-#else
-    public static Tex2D GetTex2DFromIndex(short index)
-    {
-        return _textureList[index];
-    }
-#endif
 
     public static Effect GetMTEffectFromIndex(short index)
     {
@@ -451,11 +325,7 @@ public class Content
     public static void InitializeBase(ContentManager manager)
     {
         _base = manager;
-#if NO_TEX2D
         invalidTexture = Load<Texture2D>("notexture");
-#else
-        invalidTexture = Load<Tex2D>("notexture");
-#endif
         _path = $"{Directory.GetCurrentDirectory()}/Content/";
     }
 
@@ -476,35 +346,6 @@ public class Content
         };
         workshopQueryUser.Request();
         Steam.Update();
-    }
-
-    public static Vector2 GetTextureSize(string pName)
-    {
-        if (_spriteSizeDirectory.TryGetValue(pName, out Vector2 size))
-            return size;
-
-        return Vector2.Zero;
-    }
-
-    public static void InitializeTextureSizeDictionary()
-    {
-        try
-        {
-            if (File.Exists($"{DuckFile.contentDirectory}texture_size_directory.dat"))
-            {
-                string[] array = File.ReadAllLines($"{DuckFile.contentDirectory}texture_size_directory.dat");
-                for (int i = 0; i < array.Length; i++)
-                {
-                    string[] subParts = array[i].Split(',');
-                    _spriteSizeDirectory[subParts[0].Trim().Replace('\\', '/')] = new Vector2(Convert.ToSingle(subParts[1]), Convert.ToSingle(subParts[2]));
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            DevConsole.Log(DCSection.General, "|DGRED|Error initializing texture_size_directory.dat:");
-            DevConsole.Log(DCSection.General, $"|DGRED|{ex.Message}");
-        }
     }
 
     public static void Initialize(bool reverse)
@@ -629,7 +470,7 @@ public class Content
 
     public static T Load<T>(string name)
     {
-#if !NO_TEX2D
+#if false
         if (ReskinPack.active.Count > 0)
         {
             try
@@ -666,15 +507,9 @@ public class Content
             }
         }
 #endif
-#if NO_TEX2D
         if (typeof(T) == typeof(Texture2D))
         {
             Texture2D t2 = null;
-#else
-        if (typeof(T) == typeof(Tex2D))
-        {
-            Tex2D t2 = null;
-#endif
             lock (_textures)
             {
                 _textures.TryGetValue(name, out t2);
@@ -693,10 +528,9 @@ public class Content
                     {
                         t2d = _base.Load<Texture2D>(name);
                     }
-                    catch (Exception ex2)
+                    catch
                     {
                         modLoad = MonoMain.moddingEnabled && ModLoader.modsEnabled;
-                        lastException = ex2;
                     }
                 }
 
@@ -717,9 +551,8 @@ public class Content
                     {
                         t2d = ContentPack.LoadTexture2D(name);
                     }
-                    catch (Exception ex3)
+                    catch
                     {
-                        lastException = ex3;
                     }
                 }
 
@@ -731,20 +564,9 @@ public class Content
 
                 lock (_loadLock)
                 {
-#if NO_TEX2D
-                    t2 = t2d;
-                    t2.Name = name;
-                    t2.SetTextureIndex(_currentTextureIndex);
-                    _currentTextureIndex++;
+                    t2 = Texture2D.GetTex2DLike(t2d, name);
                     _textureList.Add(t2);
                     _textures[name] = t2;
-#else
-                    t2 = new Tex2D(t2d, name, _currentTextureIndex);
-                    _currentTextureIndex++;
-                    _textureList.Add(t2);
-                    _textures[name] = t2;
-                    _texture2DMap[t2d] = t2;
-#endif
                 }
             }
             return (T)(object)t2;
@@ -792,9 +614,8 @@ public class Content
                             sound = SoundEffect.FromStream(new MemoryStream(File.ReadAllBytes(fullName)));
                             sound?.file = fullName;
                         }
-                        catch (Exception ex4)
+                        catch
                         {
-                            lastException = ex4;
                         }
                     }
                 }
@@ -843,15 +664,7 @@ public class Content
 
     public static short GetTextureIndex(Texture2D tex)
     {
-#if NO_TEX2D
         return tex?.GetTextureIndex() ?? -1;
-#else
-        if (tex is null)
-            return -1;
-        var tex2d = GetTex2D(tex);
-        var index = tex2d?.textureIndex ?? -1;
-        return index;
-#endif
     }
 
 #endregion
@@ -961,11 +774,7 @@ public class Content
 
         var curTarget = Graphics.currentRenderTarget;
         Graphics.SetRenderTarget(_currentPreviewTarget);
-#if NO_TEX2D
         Graphics.viewport = new Viewport(0, 0, _currentPreviewTarget.Width, _currentPreviewTarget.Height);
-#else
-        Graphics.viewport = new Viewport(0, 0, _currentPreviewTarget.width, _currentPreviewTarget.height);
-#endif
 
         string curTileset0 = Custom.data[CustomType.Block][0];
         if (Custom.previewData[CustomType.Block][0] != null)
@@ -1181,11 +990,7 @@ public class Content
             if (path.StartsWith("Content/"))
                 path = path[8..];
             path = path[..^4];
-#if NO_TEX2D
             Load<Texture2D>(path);
-#else
-            Load<Tex2D>(path);
-#endif
         }
     }
 

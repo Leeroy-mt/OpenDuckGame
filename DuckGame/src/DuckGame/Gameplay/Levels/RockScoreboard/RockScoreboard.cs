@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -114,19 +113,11 @@ public class RockScoreboard : Level
 
     private Layer _sunLayer;
 
-#if NO_TEX2D
-    public static XnaRenderTarget2D finalImage;
-    public static XnaRenderTarget2D finalImage2;
-    private XnaRenderTarget2D _sunshineTarget;
-    private XnaRenderTarget2D _screenTarget;
-    private XnaRenderTarget2D _pixelTarget;
-#else
     public static RenderTarget2D finalImage;
     public static RenderTarget2D finalImage2;
     private RenderTarget2D _sunshineTarget;
     private RenderTarget2D _screenTarget;
     private RenderTarget2D _pixelTarget;
-#endif
 
     public static bool _sunEnabled = true;
 
@@ -379,15 +370,9 @@ public class RockScoreboard : Level
         if (_sunEnabled)
         {
             float aspect = 0.5625f;
-#if NO_TEX2D
-            _sunshineTarget = XnaRenderTarget2D.CreateSetUpTarget(Graphics.width / 12, (int)(Graphics.width * aspect) / 12);
-            _screenTarget = XnaRenderTarget2D.CreateSetUpTarget(Graphics.width, (int)(Graphics.width * aspect));
-            _pixelTarget = XnaRenderTarget2D.CreateSetUpTarget(160, (int)(320f * aspect / 2f));
-#else
-            _sunshineTarget = new RenderTarget2D(Graphics.width / 12, (int)((float)Graphics.width * aspect) / 12);
-            _screenTarget = new RenderTarget2D(Graphics.width, (int)((float)Graphics.width * aspect));
-            _pixelTarget = new RenderTarget2D(160, (int)(320f * aspect / 2f));
-#endif
+            _sunshineTarget = RenderTarget2D.CreateSetUpTarget(Graphics.width / 12, (int)(Graphics.width * aspect) / 12);
+            _screenTarget = RenderTarget2D.CreateSetUpTarget(Graphics.width, (int)(Graphics.width * aspect));
+            _pixelTarget = RenderTarget2D.CreateSetUpTarget(160, (int)(320f * aspect / 2f));
             _sunLayer = new Layer("SUN LAYER", 99999);
             Layer.Add(_sunLayer);
             Thing tthing = new SpriteThing(150f, 120f, new Sprite("sun"));
@@ -1015,17 +1000,10 @@ public class RockScoreboard : Level
         _sunshineMaterialBare.Parameters["exposure"].SetValue(1f);
         Viewport viewport = Graphics.viewport;
         Graphics.SetRenderTarget(_pixelTarget);
-#if NO_TEX2D
         Graphics.viewport = new Viewport(0, 0, _pixelTarget.Width, _pixelTarget.Height);
         Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, camera.getMatrix());
         Graphics.material = _sunshineMaterialBare;
         Graphics.Draw(scale: new Vector2(_pixelTarget.Width * 2 / (float)_sunshineTarget.Width), texture: _sunshineTarget, position: Vector2.Zero, sourceRectangle: null, color: Color.White, rotation: 0f, origin: Vector2.Zero, effects: SpriteEffects.None);
-#else
-        Graphics.viewport = new Viewport(0, 0, _pixelTarget.width, _pixelTarget.height);
-        Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, base.camera.getMatrix());
-        Graphics.material = _sunshineMaterialBare;
-        Graphics.Draw(scale: new Vector2((float)(_pixelTarget.width * 2) / (float)_sunshineTarget.width), texture: _sunshineTarget, position: Vector2.Zero, sourceRectangle: null, color: Color.White, rotation: 0f, origin: Vector2.Zero, effects: SpriteEffects.None);
-#endif
         Graphics.material = null;
         Graphics.screen.End();
         Graphics.SetRenderTarget(null);
@@ -1771,11 +1749,7 @@ public class RockScoreboard : Level
                             Graphics.fadeAdd = 0f;
                             Layer.Background.fade = 0.8f;
                             _flashSkipFrames++;
-#if NO_TEX2D
-                            finalImage = XnaRenderTarget2D.CreateSetUpTarget(wide, high);
-#else
-                            finalImage = new RenderTarget2D(wide, high);
-#endif
+                            finalImage = RenderTarget2D.CreateSetUpTarget(wide, high);
                             Layer.Game.visible = false;
                             RectangleF sciss = _field.scissor;
                             _field.scissor = new RectangleF(0f, 0f, Resolution.size.X, yCut);
@@ -1784,11 +1758,7 @@ public class RockScoreboard : Level
                             Layer.Game.visible = true;
                             Color c = Level.current.backgroundColor;
                             Level.current.backgroundColor = Color.Transparent;
-#if NO_TEX2D
-                            finalImage2 = XnaRenderTarget2D.CreateSetUpTarget(wide, high);
-#else
-                            finalImage2 = new RenderTarget2D(wide, high);
-#endif
+                            finalImage2 = RenderTarget2D.CreateSetUpTarget(wide, high);
                             Layer.allVisible = false;
                             Layer.Game.visible = true;
                             yCut -= 5;
@@ -1801,11 +1771,7 @@ public class RockScoreboard : Level
                             _getScreenshot = true;
                             _finalSprite = new Sprite(finalImage);
                             Stream stream = DuckFile.Create(DuckFile.albumDirectory + "album" + DateTime.Now.ToString("MM-dd-yy H;mm;ss") + ".png");
-#if NO_TEX2D
                             _finalSprite.texture.SaveAsPng(stream, wide, high);
-#else
-                            ((Texture2D)_finalSprite.texture.nativeObject).SaveAsPng(stream, wide, high);
-#endif
                             stream.Dispose();
                         }
                         else
@@ -1814,31 +1780,18 @@ public class RockScoreboard : Level
                             Layer.Background.fade = 0.8f;
                             _weather.Update();
                             DoRender();
-#if NO_TEX2D
-                            finalImage = XnaRenderTarget2D.CreateSetUpTarget(wide, high);
+                            finalImage = RenderTarget2D.CreateSetUpTarget(wide, high);
                             RenderFinalImage(finalImage, shrink: false);
-#else
-                            finalImage = new RenderTarget2D(wide, high);
-                            RenderFinalImage(finalImage, shrink: false);
-#endif
                             _finalSprite = new Sprite(finalImage);
                             _getScreenshot = true;
                             Graphics.fadeAdd = 1f;
                             wide = 320;
                             high = 180;
-#if NO_TEX2D
-                            var image = XnaRenderTarget2D.CreateSetUpTarget(wide, high);
-#else
-                            var image = new RenderTarget2D(wide, high);
-#endif
+                            var image = RenderTarget2D.CreateSetUpTarget(wide, high);
                             RenderFinalImage(image, shrink: true);
                             Graphics.fadeAdd = 1f;
                             Stream stream2 = DuckFile.Create(DuckFile.albumDirectory + DateTime.Now.ToString("MM-dd-yy H;mm") + ".png");
-#if NO_TEX2D
                             image.SaveAsPng(stream2, wide, high);
-#else
-                            (image.nativeObject as Microsoft.Xna.Framework.Graphics.RenderTarget2D).SaveAsPng(stream2, wide, high);
-#endif
                             stream2.Dispose();
                             DoRender();
                         }
@@ -1900,11 +1853,7 @@ public class RockScoreboard : Level
         Vote.CloseVoting();
     }
 
-#if NO_TEX2D
-    public void RenderFinalImage(XnaRenderTarget2D image, bool shrink)
-#else
     public void RenderFinalImage(RenderTarget2D image, bool shrink)
-#endif
     {
         if (_sunshineMaterial == null)
         {
@@ -1913,11 +1862,7 @@ public class RockScoreboard : Level
         Graphics.SetRenderTarget(image);
         Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, base.camera.getMatrix());
         Graphics.material = _sunshineMaterial;
-#if NO_TEX2D
         float scale = (float)Graphics.width / ((float)_pixelTarget.Width * ((float)Graphics.width / 320f));
-#else
-        float scale = (float)Graphics.width / ((float)_pixelTarget.width * ((float)Graphics.width / 320f));
-#endif
         if (shrink)
         {
             scale = 2f;
@@ -1948,11 +1893,7 @@ public class RockScoreboard : Level
             if (NetworkDebugger.enabled)
             {
                 Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, base.camera.getMatrix());
-#if NO_TEX2D
                 float scale = (float)Graphics.width / ((float)_screenTarget.Width * ((float)Graphics.width / 320f));
-#else
-                float scale = (float)Graphics.width / ((float)_screenTarget.width * ((float)Graphics.width / 320f));
-#endif
                 Graphics.Draw(_screenTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, new Vector2(scale), SpriteEffects.None);
                 Graphics.material = null;
                 Graphics.screen.End();
@@ -1961,11 +1902,7 @@ public class RockScoreboard : Level
             {
                 Graphics.screen.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, base.camera.getMatrix());
                 Graphics.material = _sunshineMaterial;
-#if NO_TEX2D
                 float scale2 = (float)Graphics.width / ((float)_pixelTarget.Width * ((float)Graphics.width / 320f));
-#else
-                float scale2 = (float)Graphics.width / ((float)_pixelTarget.width * ((float)Graphics.width / 320f));
-#endif
                 Graphics.Draw(_pixelTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, new Vector2(scale2), SpriteEffects.None);
                 Graphics.material = null;
                 Graphics.screen.End();

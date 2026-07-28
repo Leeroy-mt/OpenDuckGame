@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -10,11 +9,7 @@ public class PlasmaLayer : Layer
 
     private MaterialPlasma _plasmaMaterial;
 
-#if NO_TEX2D
-    new XnaRenderTarget2D _target;
-#else
-    private new RenderTarget2D _target;
-#endif
+    new RenderTarget2D _target;
 
     public float alpha;
 
@@ -24,11 +19,7 @@ public class PlasmaLayer : Layer
         _plasma = new Sprite("arcade/plasma");
         base.camera = new Camera();
         _plasmaMaterial = new MaterialPlasma();
-#if NO_TEX2D
-        _target = XnaRenderTarget2D.CreateSetUpTarget(320, (int)(320f * Graphics.aspect));
-#else
-        _target = new RenderTarget2D(320, (int)(320f * Graphics.aspect));
-#endif
+        _target = RenderTarget2D.CreateSetUpTarget(320, (int)(320f * Graphics.aspect));
         base.visible = false;
     }
 

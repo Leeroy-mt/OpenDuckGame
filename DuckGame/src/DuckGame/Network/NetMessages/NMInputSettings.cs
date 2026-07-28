@@ -77,11 +77,7 @@ public class NMInputSettings : NMDuckNetworkEvent
                 base.serializedData.Write((byte)map.graphicMap.Count);
                 foreach (KeyValuePair<int, string> pair3 in map.graphicMap)
                 {
-#if NO_TEX2D
                     Sprite spr = Input.buttonStyles.FirstOrDefault((Sprite x) => x.texture != null && x.texture.Name == pair3.Value);
-#else
-                    Sprite spr = Input.buttonStyles.FirstOrDefault((Sprite x) => x.texture != null && x.texture.textureName == pair3.Value);
-#endif
                     byte idx = 0;
                     if (spr != null)
                     {
@@ -143,11 +139,7 @@ public class NMInputSettings : NMDuckNetworkEvent
                 {
                     int idx2 = msg.ReadInt();
                     int val2 = msg.ReadByte();
-#if NO_TEX2D
                     map.graphicMap[idx2] = Input.buttonStyles[val2].texture.Name;
-#else
-                    map.graphicMap[idx2] = Input.buttonStyles[val2].texture.textureName;
-#endif
                 }
             }
         }

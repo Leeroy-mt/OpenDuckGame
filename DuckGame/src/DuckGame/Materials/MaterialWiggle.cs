@@ -15,9 +15,6 @@ public class MaterialWiggle : Material
     {
         if (Graphics.device.Textures[0] != null)
         {
-#if !NO_TEX2D
-            _ = (Tex2D)(Graphics.device.Textures[0] as Texture2D);
-#endif
             SetValue("xpos", _sprite.X);
             SetValue("ypos", _sprite.Y);
         }

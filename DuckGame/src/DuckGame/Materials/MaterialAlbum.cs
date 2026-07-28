@@ -4,19 +4,11 @@ namespace DuckGame;
 
 public class MaterialAlbum : Material
 {
-#if NO_TEX2D
     Texture2D _albumTexture;
-#else
-    private Tex2D _albumTexture;
-#endif
 
     public MaterialAlbum() : base(Content.Load<Effect>("Shaders/album"))
     {
-#if NO_TEX2D
         _albumTexture = Content.Load<Texture2D>("playBookPageOffset");
-#else
-        _albumTexture = Content.Load<Tex2D>("playBookPageOffset");
-#endif
     }
 
     public override void Apply()

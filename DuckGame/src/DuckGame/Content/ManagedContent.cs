@@ -49,7 +49,6 @@ public static class ManagedContent
 
     public static void InitializeMods()
     {
-        //MonoMain.loadMessage = "Loading Mods";
         if (MonoMain.moddingEnabled)
         {
             ModLoader.LoadMods(DuckFile.modsDirectory);

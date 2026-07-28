@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using System.IO.Compression;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -105,7 +104,6 @@ public class FileRecording : Recording
         {
             atlas.Write((byte)0);
             var tex = Content.textureList[i];
-#if NO_TEX2D
             atlas.Write(tex.GetTextureIndex());
             if (tex.Name == "" || tex.Name == "__renderTarget" || tex.Name == "__internal")
             {
@@ -124,26 +122,6 @@ public class FileRecording : Recording
                 atlas.Write((byte)1);
                 atlas.Write(tex.Name);
             }
-#else
-            atlas.Write(tex.textureIndex);
-            if (tex.textureName == "" || tex.textureName == "__renderTarget" || tex.textureName == "__internal")
-            {
-                atlas.Write((byte)0);
-                atlas.Write(tex.width);
-                atlas.Write(tex.height);
-                byte[] data = new byte[tex.width * tex.height * 4];
-                if (!tex.IsDisposed && !((Texture2D)tex.nativeObject).IsDisposed)
-                {
-                    tex.GetData(data);
-                }
-                atlas.Write(data);
-            }
-            else
-            {
-                atlas.Write((byte)1);
-                atlas.Write(tex.textureName);
-            }
-#endif
             _lastTextureWrittenIndex++;
         }
         for (int j = _lastEffectWrittenIndex; j < Content.effectList.Count; j++)

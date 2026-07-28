@@ -49,7 +49,7 @@ public class DeathCrate : Holdable, IPlatform
             }
             return;
         }
-        foreach (Type t in (IEnumerable<Type>)Editor.GetSubclasses(typeof(DeathCrateSetting)).ToList())
+        foreach (Type t in Editor.GetSubclasses(typeof(DeathCrateSetting)))
         {
             _settings.Add(Activator.CreateInstance(t) as DeathCrateSetting);
         }

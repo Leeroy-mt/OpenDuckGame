@@ -5,10 +5,6 @@ namespace DuckGame;
 
 public static class Collision
 {
-    public static void Initialize()
-    {
-    }
-
     public static bool Point(Vector2 point, Thing t)
     {
         if (point.X >= t.left && point.X <= t.right && point.Y >= t.top && point.Y <= t.bottom)

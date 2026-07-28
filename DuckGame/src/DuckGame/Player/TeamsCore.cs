@@ -155,11 +155,7 @@ public class TeamsCore
             new Team("Wizards", "hats/wizbiz"),
             new Team("FUNNYMAN", "hats/FunnyMan"),
             new Team("Pumpkins", "hats/Dumplin"),
-#if NO_TEX2D
             new Team("CAPTAIN", "hats/devhat", demo: false, lockd: true, default(Vector2), "", Content.Load<Texture2D>("hats/devCape")),
-#else
-            new Team("CAPTAIN", "hats/devhat", demo: false, lockd: true, default(Vector2), "", Content.Load<Tex2D>("hats/devCape")),
-#endif
             new Team("BRICK", "hats/brick", demo: false, lockd: true),
             new Team(varHair: true, "Pompadour", "hats/pompadour"),
             new Team(varHair: true, "Super", "hats/super"),
@@ -171,11 +167,7 @@ public class TeamsCore
             new Team("eyebob", "hats/gross"),
             new Team("masters", "hats/master"),
             new Team("clams", "hats/clams"),
-#if NO_TEX2D
             new Team("waffles", "hats/waffles", demo: false, lockd: false, default(Vector2), "", Content.Load<Texture2D>("hats/waffleCape")),
-#else
-            new Team("waffles", "hats/waffles", demo: false, lockd: false, default(Vector2), "", Content.Load<Tex2D>("hats/waffleCape")),
-#endif
             new Team("HIGHFIVES", "hats/highfives", demo: false, lockd: true, default(Vector2), "Right on!!"),
             new Team("toeboys", "hats/toeboys", demo: false, lockd: false, new Vector2(-1f, -2f)),
             new Team("bigearls", "hats/bigearls", demo: false, lockd: false, new Vector2(0f, 1f)),
@@ -188,13 +180,8 @@ public class TeamsCore
             new Team("PONYCAP", "hats/ponycap", demo: false, lockd: true, default(Vector2)),
             new Team("TRICORNE", "hats/tricorne", demo: false, lockd: true, default(Vector2), "We fight for freedom!"),
             new Team(varHair: true, "TWINTAIL", "hats/twintail", demo: false, lockd: true, default(Vector2), "Two tails are better than one."),
-#if NO_TEX2D
             new Team("MAJESTY", "hats/royalty", demo: false, lockd: true, default(Vector2), "", Content.Load<Texture2D>("hats/royalCape")),
             new Team("MOONWALK", "hats/moonwalker", demo: false, lockd: true, default(Vector2), "", Content.Load<Texture2D>("hats/moonCape")),
-#else
-            new Team("MAJESTY", "hats/royalty", demo: false, lockd: true, default(Vector2), "", Content.Load<Tex2D>("hats/royalCape")),
-            new Team("MOONWALK", "hats/moonwalker", demo: false, lockd: true, default(Vector2), "", Content.Load<Tex2D>("hats/moonCape")),
-#endif
             new Team("kerchiefs", "hats/kerchief", demo: false, lockd: false, new Vector2(0f, -1f)),
             new Team("postals", "hats/mailbox"),
             new Team("wahhs", "hats/wahhs"),

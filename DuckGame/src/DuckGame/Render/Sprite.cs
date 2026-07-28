@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
@@ -9,17 +8,9 @@ public class Sprite : Transform, ICloneable
 {
     private int _globalIndex = Thing.GetGlobalIndex();
 
-#if NO_TEX2D
     protected Texture2D _texture;
-#else
-    protected Tex2D _texture;
-#endif
 
-#if NO_TEX2D
-    protected XnaRenderTarget2D _renderTexture;
-#else
     protected RenderTarget2D _renderTexture;
-#endif
 
     protected bool _flipH;
 
@@ -31,11 +22,7 @@ public class Sprite : Transform, ICloneable
 
     public int globalIndex => _globalIndex;
 
-#if NO_TEX2D
     public Texture2D texture
-#else
-    public Tex2D texture
-#endif
     {
         get
         {
@@ -47,11 +34,7 @@ public class Sprite : Transform, ICloneable
         }
     }
 
-#if NO_TEX2D
-    public XnaRenderTarget2D renderTexture
-#else
     public RenderTarget2D renderTexture
-#endif
     {
         get
         {
@@ -63,19 +46,11 @@ public class Sprite : Transform, ICloneable
         }
     }
 
-#if NO_TEX2D
     public virtual int width => _texture.Width;
-#else
-    public virtual int width => _texture.width;
-#endif
 
     public virtual int w => width;
 
-#if NO_TEX2D
     public virtual int height => _texture.Height;
-#else
-    public virtual int height => _texture.height;
-#endif
 
     public virtual int h => height;
 
@@ -148,21 +123,13 @@ public class Sprite : Transform, ICloneable
     {
     }
 
-#if NO_TEX2D
     public Sprite(Texture2D tex, float x = 0f, float y = 0f)
-#else
-    public Sprite(Tex2D tex, float x = 0f, float y = 0f)
-#endif
     {
         _texture = tex;
         Position = new Vector2(x, y);
     }
 
-#if NO_TEX2D
-    public Sprite(XnaRenderTarget2D tex, float x = 0f, float y = 0f)
-#else
     public Sprite(RenderTarget2D tex, float x = 0f, float y = 0f)
-#endif
     {
         _texture = tex;
         _renderTexture = tex;
@@ -171,37 +138,23 @@ public class Sprite : Transform, ICloneable
 
     public Sprite(string tex, float x = 0f, float y = 0f)
     {
-#if NO_TEX2D
         _texture = Content.Load<Texture2D>(tex);
-#else
-        _texture = Content.Load<Tex2D>(tex);
-#endif
         Position = new Vector2(x, y);
     }
 
     public Sprite(string tex, Vector2 pCenter)
     {
-#if NO_TEX2D
         _texture = Content.Load<Texture2D>(tex);
-#else
-        _texture = Content.Load<Tex2D>(tex);
-#endif
         Center = pCenter;
     }
 
     public virtual void Draw()
     {
-#if !NO_TEX2D
-        _texture.currentObjectIndex = _globalIndex;
-#endif
         Graphics.Draw(_texture, Position, null, _color * base.Alpha, Angle, Center, base.Scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
     }
 
     public virtual void Draw(RectangleF r)
     {
-#if !NO_TEX2D
-        _texture.currentObjectIndex = _globalIndex;
-#endif
         Graphics.Draw(_texture, Position, r, _color * base.Alpha, Angle, Center, base.Scale, _flipH ? SpriteEffects.FlipHorizontally : (_flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), base.Depth);
     }
 

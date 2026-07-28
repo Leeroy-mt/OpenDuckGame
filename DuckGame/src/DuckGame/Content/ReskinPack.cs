@@ -187,7 +187,7 @@ public class ReskinPack : ContentPack
         }
         else
         {
-            if (typeof(T) == typeof(Texture2D) || typeof(T) == typeof(Tex2D))
+            if (typeof(T) == typeof(Texture2D))
             {
                 Texture2D t = null;
                 if (_textures.TryGetValue(name, out t))

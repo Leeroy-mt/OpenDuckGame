@@ -423,8 +423,10 @@ public class DuckNetwork
 
     public static void Initialize()
     {
-        _core._builtInChatFont = new FancyBitmapFont("smallFontChat");
-        _core._builtInChatFont.chatFont = true;
+        _core._builtInChatFont = new FancyBitmapFont("smallFontChat")
+        {
+            chatFont = true
+        };
         _core.initialized = true;
     }
 
@@ -2452,13 +2454,8 @@ public class DuckNetwork
                                         {
                                             if (p.connection != null && p.connection != localConnection && (!p.isHost || p == hostProfile) && !p.sentMojis.Contains(mojiString))
                                             {
-#if NO_TEX2D
                                                 if (pair.Value.texture.Width <= 28 && pair.Value.texture.Height <= 28)
                                                     Send.Message(new NMMojiData(Editor.TextureToString(pair.Value.texture), pair.Key), p.connection);
-#else
-                                                if (pair.Value.texture.width <= 28 && pair.Value.texture.height <= 28)
-                                                    Send.Message(new NMMojiData(Editor.TextureToString(pair.Value.texture), pair.Key), p.connection);
-#endif
                                                 p.sentMojis.Add(mojiString);
                                             }
                                         }
@@ -3867,17 +3864,10 @@ public class DuckNetwork
                     hat.CenterOrigin();
                     hat.Depth = hatDepth - 0.001f;
                     hat.Alpha = message.alpha * opacity;
-#if NO_TEX2D
                     if (quack && hat.texture != null && hat.texture.Width > 32)
                         hat.frame = 1;
                     else
                         hat.frame = 0;
-#else
-                    if (quack && hat.texture != null && hat.texture.width > 32)
-                        hat.frame = 1;
-                    else
-                        hat.frame = 0;
-#endif
                     hat.Scale = new Vector2(duckfontScale, duckfontScale) * (Options.Data.chatHeadScale + 1);
                     Graphics.Draw(hat, hatDraw.X - offset.X, hatDraw.Y - offset.Y);
                     hat.Scale = new Vector2(1f, 1f);

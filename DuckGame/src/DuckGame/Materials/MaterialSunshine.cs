@@ -1,19 +1,12 @@
 using Microsoft.Xna.Framework.Graphics;
-using XnaRenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 namespace DuckGame;
 
 public class MaterialSunshine : Material
 {
-#if NO_TEX2D
-    XnaRenderTarget2D _colorMap;
-
-    public MaterialSunshine(XnaRenderTarget2D col) : base(Content.Load<Effect>("Shaders/sunshine"))
-#else
-    private RenderTarget2D _colorMap;
+    RenderTarget2D _colorMap;
 
     public MaterialSunshine(RenderTarget2D col) : base(Content.Load<Effect>("Shaders/sunshine"))
-#endif
     {
         _colorMap = col;
     }
