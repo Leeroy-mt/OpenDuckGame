@@ -1,5 +1,6 @@
 ﻿using DuckGame;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 internal class Startup(MonoMain main)
@@ -17,32 +18,32 @@ internal class Startup(MonoMain main)
 
     readonly TaskInfo[] Tasks = [
             new(Persona.Initialize, false),
-            new(ManagedContent.PreInitializeMods, true),
-            new(Network.Initialize, true),
-            new(Teams.Initialize, true),
-            new(Chancy.Initialize, true),
-            new(DuckNetwork.Initialize, true),
-            new(DuckRig.Initialize, true),
-            new(Input.Initialize, true),
-            new(main.DownloadWorkshopItems, true),
-            new(ManagedContent.InitializeMods, true),
-            new(Network.InitializeMessageTypes, true),
-            new(DeathCrate.InitializeDeathCrateSettings, true),
-            new(Editor.InitializeConstructorLists, true),
-            new(Team.DeserializeCustomHats, true),
-            new(Content.InitializeLevels, true),
-            new(Content.InitializeEffects, true),
-            new(Input.InitializeGraphics, true),
-            new(Music.Initialize, true),
-            new(DevConsole.InitializeFont, true),
-            new(DevConsole.InitializeCommands, true),
-            new(Editor.InitializePlaceableGroup, true),
-            new(Challenges.Initialize, true),
-            new(Keyboard.InitTriggerImages, true),
-            new(MapPack.RegeneratePreviewsIfNecessary, true),
-            new(SFX.Initialize, true),
-            new(Content.Initialize, true),
-            new(main.SetStarted, true)
+            new(ManagedContent.PreInitializeMods, false),
+            new(Network.Initialize, false),
+            new(Teams.Initialize, false),
+            new(Chancy.Initialize, false),
+            new(DuckNetwork.Initialize, false),
+            new(DuckRig.Initialize, false),
+            new(Input.Initialize, false),
+            new(main.DownloadWorkshopItems, false),
+            new(ManagedContent.InitializeMods, false),
+            new(Network.InitializeMessageTypes, false),
+            new(DeathCrate.InitializeDeathCrateSettings, false),
+            new(Editor.InitializeConstructorLists, false),
+            new(Team.DeserializeCustomHats, false),
+            new(Content.InitializeLevels, false),
+            new(Content.InitializeEffects, false),
+            new(Input.InitializeGraphics, false),
+            new(Music.Initialize, false),
+            new(DevConsole.InitializeFont, false),
+            new(DevConsole.InitializeCommands, false),
+            new(Editor.InitializePlaceableGroup, false),
+            new(Challenges.Initialize, false),
+            new(Keyboard.InitTriggerImages, false),
+            new(MapPack.RegeneratePreviewsIfNecessary, false),
+            new(SFX.Initialize, false),
+            new(Content.Initialize, false),
+            new(main.SetStarted, false)
         ];
 
     public async void Start()

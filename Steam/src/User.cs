@@ -1,5 +1,7 @@
 ﻿using Steamworks;
 
+namespace Steam;
+
 public class User
 {
     #region Public Fields
@@ -8,21 +10,21 @@ public class User
 
     public virtual string Name
     {
-        get => Id != 0 && Steam.Initialized
+        get => Id != 0 && DGSteam.Initialized
             ? SteamFriends.GetFriendPersonaName(_id)
             : "";
     }
 
     public virtual byte[]? AvatarSmall
     {
-        get => Id != 0 && Steam.Initialized
+        get => Id != 0 && DGSteam.Initialized
             ? avatarDataSmall ??= SteamHelper.GetImageRGBA(SteamFriends.GetSmallFriendAvatar(_id))
             : null;
     }
 
     public virtual byte[]? AvatarMedium
     {
-        get => Id != 0 && Steam.Initialized
+        get => Id != 0 && DGSteam.Initialized
             ? avatarDataMedium ??= SteamHelper.GetImageRGBA(SteamFriends.GetMediumFriendAvatar(_id))
             : null;
     }
@@ -30,14 +32,14 @@ public class User
     public virtual bool InGame
     {
         get => Id != 0
-            && Steam.Initialized
+            && DGSteam.Initialized
             && SteamFriends.GetFriendGamePlayed(_id, out _);
     }
 
     public virtual bool InCurrentGame
     {
         get => Id != 0
-            && Steam.Initialized
+            && DGSteam.Initialized
             && SteamFriends.GetFriendGamePlayed(_id, out var game)
             && game.m_gameID.AppID() == SteamUtils.GetAppID();
     }
@@ -45,7 +47,7 @@ public class User
     protected virtual bool InLobby
     {
         get => Id != 0
-            && Steam.Initialized
+            && DGSteam.Initialized
             && SteamFriends.GetFriendGamePlayed(_id, out var game)
             && game.m_steamIDLobby.m_SteamID != 0;
     }
@@ -53,32 +55,32 @@ public class User
     public virtual bool InCurrentLobby
     {
         get => Id != 0
-            && Steam.Lobby != null
-            && Steam.Initialized
+            && DGSteam.Lobby != null
+            && DGSteam.Initialized
             && SteamFriends.GetFriendGamePlayed(_id, out var game)
-            && game.m_steamIDLobby.m_SteamID != Steam.Lobby.Id;
+            && game.m_steamIDLobby.m_SteamID != DGSteam.Lobby.Id;
     }
 
     public virtual UserInfo Info => new()
     {
-        inGame = InGame,
-        inCurrentGame = InCurrentGame,
-        inLobby = InLobby,
-        inMyLobby = InCurrentLobby,
-        state = State,
-        relationship = Relationship
+        InGame = InGame,
+        InCurrentGame = InCurrentGame,
+        InLobby = InLobby,
+        InMyLobby = InCurrentLobby,
+        State = State,
+        Relationship = Relationship
     };
 
     public virtual SteamUserState State
     {
-        get => Id != 0 && Steam.Initialized
+        get => Id != 0 && DGSteam.Initialized
             ? (SteamUserState)SteamFriends.GetFriendPersonaState(_id)
             : SteamUserState.Offline;
     }
 
     public virtual FriendRelationship Relationship
     {
-        get => Id != 0 && Steam.Initialized
+        get => Id != 0 && DGSteam.Initialized
             ? (FriendRelationship)SteamFriends.GetFriendRelationship(_id)
             : FriendRelationship.None;
     }

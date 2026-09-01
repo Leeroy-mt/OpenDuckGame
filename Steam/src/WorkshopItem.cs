@@ -1,41 +1,21 @@
 ﻿using Steamworks;
+using System.Data;
+
+namespace Steam;
 
 public class WorkshopItem
 {
     #region Public Fields
 
     public List<object>? subItems;
-
     public List<WorkshopItem?>? dependencies;
 
     #endregion
 
     #region Public Properties
 
-    public ulong Id => _id.m_PublishedFileId;
-
-    public ulong UpdateHandle => _currentUpdateHandle.m_UGCUpdateHandle;
-
-    public string? Name { get; private set; }
-
-    public WorkshopItemData? Data { get; private set; }
-
     public bool FinishedProcessing { get; set; }
-
-    public SteamResult Result { get; private set; }
-
-    public SteamResult DownloadResult { get; private set; }
-
-    public WorkshopItemState StateFlags => (WorkshopItemState)SteamUGC.GetItemState(_id);
-
     public bool NeedsLegal { get; private set; }
-
-    public string Path
-    {
-        get => SteamUGC.GetItemInstallInfo(_id, out _, out string folder, 256, out _)
-            ? folder
-            : "";
-    }
 
     public uint Timestamp
     {
@@ -43,6 +23,23 @@ public class WorkshopItem
             ? punTimeStamp
             : 0;
     }
+
+    public ulong Id => _id.m_PublishedFileId;
+    public ulong UpdateHandle => _currentUpdateHandle.m_UGCUpdateHandle;
+
+    public string? Name { get; private set; }
+    public string Path
+    {
+        get => SteamUGC.GetItemInstallInfo(_id, out _, out string folder, 256, out _)
+            ? folder
+            : "";
+    }
+
+    public SteamResult Result { get; private set; }
+    public SteamResult DownloadResult { get; private set; }
+    public WorkshopItemState StateFlags => (WorkshopItemState)SteamUGC.GetItemState(_id);
+
+    public WorkshopItemData? Data { get; private set; }
 
     #endregion
 
@@ -58,9 +55,7 @@ public class WorkshopItem
     #region Constructors
 
     public WorkshopItem(ulong id)
-        : this(new PublishedFileId_t(id))
-    {
-    }
+        : this(new PublishedFileId_t(id)) { }
 
     internal WorkshopItem(PublishedFileId_t id)
     {
@@ -122,21 +117,21 @@ public class WorkshopItem
         if (data.description != null && data.description != "")
             SteamUGC.SetItemDescription(handle, data.description);
 
-        List<string>? tags = data.tags;
+        var tags = data.tags;
         if (tags != null && tags.Count > 0)
             SteamUGC.SetItemTags(handle, data.tags);
 
         SteamUGC.SetItemPreview(handle, data.previewPath);
         SteamUGC.SetItemContent(handle, data.contentFolder);
         _currentUpdateHandle = handle;
-        Steam.StartUpload(this);
+        DGSteam.StartUpload(this);
         return true;
     }
 
     public TransferProgress GetUploadProgress()
     {
-        EItemUpdateStatus status = SteamUGC.GetItemUpdateProgress(_currentUpdateHandle, out ulong bytesDownloaded, out ulong bytesTotal);
-        return new TransferProgress
+        var status = SteamUGC.GetItemUpdateProgress(_currentUpdateHandle, out ulong bytesDownloaded, out ulong bytesTotal);
+        return new()
         {
             status = (ItemUpdateStatus)(int)status,
             bytesDownloaded = bytesDownloaded,
@@ -148,7 +143,8 @@ public class WorkshopItem
     {
         if (!SteamUGC.GetItemDownloadInfo(_id, out ulong bytesDownloaded, out ulong bytesTotal))
             bytesDownloaded = bytesTotal = 0;
-        return new TransferProgress
+
+        return new()
         {
             status = ItemUpdateStatus.Invalid,
             bytesDownloaded = bytesDownloaded,

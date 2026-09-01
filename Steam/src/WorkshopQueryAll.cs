@@ -1,12 +1,14 @@
 ﻿using Steamworks;
 
+namespace Steam;
+
 public class WorkshopQueryAll : WorkshopQueryUGC
 {
     #region Internal Fields
 
-    internal EUGCQuery queryType;
+    internal WorkshopQueryFilterOrder queryType;
 
-    internal EUGCMatchingUGCType fileType;
+    internal WorkshopType fileType;
 
     #endregion
 
@@ -20,7 +22,7 @@ public class WorkshopQueryAll : WorkshopQueryUGC
 
     #endregion
 
-    internal WorkshopQueryAll(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingUGCTypeFileType)
+    internal WorkshopQueryAll(WorkshopQueryFilterOrder eQueryType, WorkshopType eMatchingUGCTypeFileType)
     {
         queryType = eQueryType;
         fileType = eMatchingUGCTypeFileType;
@@ -30,13 +32,12 @@ public class WorkshopQueryAll : WorkshopQueryUGC
 
     internal override void Create()
     {
-        handle = SteamUGC.CreateQueryAllUGCRequest(queryType, fileType, (AppId_t)312530, (AppId_t)312530, _page); //! TODO: appid constant
+        handle = SteamUGC.CreateQueryAllUGCRequest((EUGCQuery)queryType, (EUGCMatchingUGCType)fileType, (AppId_t)DGSteam.AppId, (AppId_t)DGSteam.AppId, Page);
     }
 
     internal override void SetQueryData()
     {
         base.SetQueryData();
-
         SteamUGC.SetMatchAnyTag(handle, MatchAnyTag);
         SteamUGC.SetSearchText(handle, SearchText);
 

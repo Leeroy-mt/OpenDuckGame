@@ -1,4 +1,6 @@
-﻿public enum WorkshopType
+﻿namespace Steam;
+
+public enum WorkshopType
 {
     Collections = 3,
     ControllerBindings = 11,

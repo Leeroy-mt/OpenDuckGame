@@ -1,4 +1,6 @@
-﻿public enum FriendRelationship
+﻿namespace Steam;
+
+public enum FriendRelationship
 {
     Max = 8,
     Suggested = 7,

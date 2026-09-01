@@ -1,36 +1,45 @@
 ﻿using Steamworks;
 
+namespace Steam;
+
 public class WorkshopQueryUser : WorkshopQueryUGC
 {
     #region Internal Fields
 
-    internal EUserUGCList _listType;
-    internal EUGCMatchingUGCType _type;
-    internal EUserUGCListSortOrder _sortOrder;
+    internal WorkshopList listType;
+    internal WorkshopType type;
+    internal WorkshopSortOrder sortOrder;
 
-    internal AccountID_t _accountID;
+    internal AccountID_t accountID;
 
     #endregion
 
     public string? CloudNameFileFilter { get; set; }
 
-    internal WorkshopQueryUser(uint unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder)
+    internal WorkshopQueryUser(uint unAccountID, WorkshopList eListType, WorkshopType eMatchingUGCType, WorkshopSortOrder eSortOrder)
     {
-        _accountID = new AccountID_t(unAccountID);
-        _listType = eListType;
-        _type = eMatchingUGCType;
-        _sortOrder = eSortOrder;
+        accountID = new(unAccountID);
+        listType = eListType;
+        type = eMatchingUGCType;
+        sortOrder = eSortOrder;
     }
 
     internal override void Create()
     {
-        handle = SteamUGC.CreateQueryUserUGCRequest(_accountID, _listType, _type, _sortOrder, (AppId_t)312530, (AppId_t)312530, _page); //! TODO: appid constant
+        handle = SteamUGC.CreateQueryUserUGCRequest(
+            accountID,
+            (EUserUGCList)listType,
+            (EUGCMatchingUGCType)type,
+            (EUserUGCListSortOrder)sortOrder,
+            (AppId_t)DGSteam.AppId,
+            (AppId_t)DGSteam.AppId,
+            Page
+            );
     }
 
     internal override void SetQueryData()
     {
         base.SetQueryData();
-
         SteamUGC.SetCloudFileNameFilter(handle, CloudNameFileFilter);
     }
 }

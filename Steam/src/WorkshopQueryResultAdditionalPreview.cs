@@ -1,16 +1,18 @@
-﻿public class WorkshopQueryResultAdditionalPreview
+﻿namespace Steam;
+
+public class WorkshopQueryResultAdditionalPreview
 {
     #region Public Fields
 
-    public bool isImage;
+    public bool IsImage;
 
-    public string urlOrVideoID;
+    public string UrlOrVideoID;
 
     #endregion
 
     public WorkshopQueryResultAdditionalPreview(bool isImage, string urlOrVideoID)
     {
-        this.isImage = isImage;
-        this.urlOrVideoID = urlOrVideoID;
+        this.IsImage = isImage;
+        this.UrlOrVideoID = urlOrVideoID;
     }
 }

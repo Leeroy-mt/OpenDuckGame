@@ -1,4 +1,6 @@
-﻿public class WorkshopItemData
+﻿namespace Steam;
+
+public class WorkshopItemData
 {
     #region Public Fields
 

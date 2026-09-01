@@ -1,4 +1,6 @@
-﻿public enum WorkshopList
+﻿namespace Steam;
+
+public enum WorkshopList
 {
     Followed = 8,
     UsedOrPlayed = 7,

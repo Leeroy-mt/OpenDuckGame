@@ -26,7 +26,11 @@ public class UIGameConnectionBox : UIMatchmakingBox
     {
         base.Open();
         _tryConnectLobby = _connectLobby.lobby;
+#if FACEPUNCH
+        if (_connectLobby.lobby.Id == 0)
+#else
         if (_connectLobby.lobby == null)
+#endif
         {
             DuckNetwork.Join("", _connectLobby.lanAddress, _passwordAttempt);
         }

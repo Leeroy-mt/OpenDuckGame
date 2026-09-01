@@ -1,5 +1,11 @@
 using System.IO;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public static class DGSave
@@ -12,13 +18,22 @@ public static class DGSave
 
     public static void Initialize(bool pForce = false)
     {
-        if (Steam.IsInitialized() && Steam.User != null)
+#if FACEPUNCH
+        if (SteamClient.IsValid && SteamClient.SteamId != 0)
         {
-            if (Steam.User != null)
+            if (SteamClient.SteamId != 0)
             {
-                DevConsole.Log(DCSection.General, "Welcome to the Grid, |DGBLUE|" + Steam.User.Name + "|WHITE|.");
+                DevConsole.Log(DCSection.General, $"Welcome to the Grid, |DGBLUE|{FacepunchSteam.Me.Name}|WHITE|.");
+#else
+        if (DGSteam.IsInitialized() && DGSteam.User != null)
+        {
+            if (DGSteam.User != null)
+            {
+                DevConsole.Log(DCSection.General, "Welcome to the Grid, |DGBLUE|" + DGSteam.User.Name + "|WHITE|.");
+#endif
                 DevConsole.Log(DCSection.General, "You are running Duck Game Steam Build " + Program.steamBuildID + ".");
             }
+
             if (!Directory.Exists(DuckFile.userDirectory) || pForce)
             {
                 upgradingFromVanilla = true;
@@ -28,7 +43,11 @@ public static class DGSave
                 Copy(DuckFile.globalOptionsDirectory, DuckFile.optionsDirectory, "global.dat");
                 Copy(DuckFile.globalOptionsDirectory, DuckFile.optionsDirectory, "input.dat");
                 Copy(DuckFile.globalModsDirectory, DuckFile.modsDirectory, "mods.conf");
-                Copy(DuckFile.globalProfileDirectory, DuckFile.profileDirectory, Steam.User.Id + ".pro");
+#if FACEPUNCH
+                Copy(DuckFile.globalProfileDirectory, DuckFile.profileDirectory, $"{SteamClient.SteamId}.pro");
+#else
+                Copy(DuckFile.globalProfileDirectory, DuckFile.profileDirectory, DGSteam.User.Id + ".pro");
+#endif
                 if (Directory.Exists(DuckFile.globalProfileDirectory))
                 {
                     string[] files = Directory.GetFiles(DuckFile.globalProfileDirectory);

@@ -1,6 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class UIFriendInfo : UIMenuItem
@@ -15,9 +21,26 @@ public class UIFriendInfo : UIMenuItem
 
     #region Public Constructors
 
+#if FACEPUNCH
+    public UIFriendInfo(Friend friend, UIMenu rootMenu)
+#else
     public UIFriendInfo(User friend, UIMenu rootMenu)
+#endif
         : base(" " + friend.Name)
     {
+#if FACEPUNCH
+        var avatarImage = friend.GetSmallAvatarAsync()
+            .GetAwaiter()
+            .GetResult();
+
+        if (avatarImage != null)
+        {
+            Texture2D tex = new(Graphics.device, 32, 32);
+            tex.SetData(avatarImage.Value.Data);
+            _avatar = new Sprite(tex);
+            _avatar.CenterOrigin();
+        }
+#else
         byte[] data = friend.AvatarSmall;
         if (data != null)
         {
@@ -26,6 +49,7 @@ public class UIFriendInfo : UIMenuItem
             _avatar = new Sprite(tex);
             _avatar.CenterOrigin();
         }
+#endif
         _rootMenu = rootMenu;
         _collisionSize.Y = 14;
         BitmapFont littleFont = new("smallBiosFont", 7, 6);
@@ -33,7 +57,7 @@ public class UIFriendInfo : UIMenuItem
         _textElement.text = "  " + friend.Name + "\n  |LIME|WANTS TO PLAY";
     }
 
-    #endregion
+#endregion
 
     #region Public Methods
 

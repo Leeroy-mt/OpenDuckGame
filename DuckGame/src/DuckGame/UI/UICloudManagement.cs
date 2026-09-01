@@ -4,6 +4,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class UICloudManagement : UIMenu
@@ -94,10 +100,18 @@ public class UICloudManagement : UIMenu
             files = []
         };
         profileRoot = null;
-        int num = Steam.FileGetCount();
+#if FACEPUNCH
+        int num = SteamRemoteStorage.FileCount;
+#else
+        int num = DGSteam.FileGetCount();
+#endif
         for (int i = 0; i < num; i++)
         {
-            CloudFile c = CloudFile.Get(Steam.FileGetName(i), pDelete: true);
+#if FACEPUNCH
+            CloudFile c = CloudFile.Get(SteamRemoteStorage.Files.ElementAt(i), pDelete: true);
+#else
+            CloudFile c = CloudFile.Get(DGSteam.FileGetName(i), pDelete: true);
+#endif
             if (c != null)
             {
                 string nonCloudFilename = c.cloudPath[9..];
@@ -277,7 +291,11 @@ public class UICloudManagement : UIMenu
                 profileRoot = new File
                 {
                     parent = root,
-                    name = Steam.User.Id.ToString(),
+#if FACEPUNCH
+                    name = SteamClient.SteamId.ToString(),
+#else
+                    name = DGSteam.User.Id.ToString(),
+#endif
                     files = []
                 };
                 root.files.Add(profileRoot);

@@ -1,5 +1,14 @@
 using Microsoft.Xna.Framework;
 using System.Linq;
+using Color = Microsoft.Xna.Framework.Color;
+
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Data;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -29,9 +38,17 @@ public class ConnectionError : Level, IConnectionScreen
     {
         DuckNetwork.ClosePauseMenu();
         ConnectionStatusUI.Hide();
+#if FACEPUNCH
+        if (joinLobby.Id != 0)
+#else
         if (joinLobby != null)
+#endif
         {
+#if FACEPUNCH
+            var loadedMods = joinLobby.GetData("mods");
+#else
             string loadedMods = joinLobby.GetLobbyData("mods");
+#endif
             if (loadedMods != null && loadedMods != "" && loadedMods.Split('|').Contains("LOCAL"))
             {
                 _text = "Host has non-workshop mods enabled!";
@@ -52,7 +69,7 @@ public class ConnectionError : Level, IConnectionScreen
                 MonoMain.pauseMenu = _downloadModsMenu;
             }
         }
-        Level.core.gameFinished = true;
+        core.gameFinished = true;
         _startCalled = true;
         HUD.AddCornerMessage(HUDCorner.BottomRight, "@START@CONTINUE");
         base.Initialize();
@@ -62,8 +79,12 @@ public class ConnectionError : Level, IConnectionScreen
     {
         if ((_downloadModsMenu == null || !_downloadModsMenu.open) && Input.Pressed("START"))
         {
-            Level.current = new TitleScreen();
+            current = new TitleScreen();
+#if FACEPUNCH
+            joinLobby = default;
+#else
             joinLobby = null;
+#endif
         }
         base.Update();
     }
@@ -71,7 +92,7 @@ public class ConnectionError : Level, IConnectionScreen
     public override void Draw()
     {
         string[] array = _text.Split('{');
-        float xoff = -(array.Count() - 1) * 8;
+        float xoff = -(array.Length - 1) * 8;
         string[] array2 = array;
         foreach (string text in array2)
         {

@@ -1,6 +1,12 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class UIBlockManagement : UIMenu
@@ -134,18 +140,19 @@ public class UIBlockManagement : UIMenu
             }
             if (Input.Pressed("SELECT"))
             {
-                Steam.OverlayOpenURL("http://steamcommunity.com/profiles/" + items[_selection].Key);
+#if FACEPUNCH
+                SteamFriends.OpenWebOverlay("http://steamcommunity.com/profiles/" + items[_selection].Key);
+#else
+                DGSteam.OverlayOpenURL("http://steamcommunity.com/profiles/" + items[_selection].Key);
+#endif
             }
+
             if (Input.Pressed("CANCEL"))
             {
                 if (_openOnClose != null)
-                {
                     new UIMenuActionOpenMenu(this, _openOnClose).Activate();
-                }
                 else
-                {
                     new UIMenuActionCloseMenu(this).Activate();
-                }
             }
         }
         _opening = false;
@@ -202,22 +209,25 @@ public class UIBlockManagement : UIMenu
                 }
                 else
                 {
-                    User user = User.GetUser(pair.Key);
+#if FACEPUNCH
+                    Friend user = new(pair.Key);
+                    if (user.Id != 0)
+#else
+                    var user = User.GetUser(pair.Key);
                     if (user != null)
+#endif
                     {
                         drawName = user.Name;
                     }
+
                     if (drawName.Length > 31)
-                    {
-                        drawName = drawName.Substring(0, 30) + "..";
-                    }
+                        drawName = drawName[..30] + "..";
                     drawName = (pair.Value ? "@DELETEFLAG_ON@" : "@DELETEFLAG_OFF@") + drawName;
                     drawName = ((idx != _selection) ? (" " + drawName) : ("@SELECTICON@" + drawName));
                 }
+
                 if (pair.Value)
-                {
                     drawName = "|DGRED|" + drawName;
-                }
                 _littleFont.Draw(drawName, pos + new Vector2(0f, yOffset), Color.White, 0.5f);
                 yOffset += 8f;
                 idx++;

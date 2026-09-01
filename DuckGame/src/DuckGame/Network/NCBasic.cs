@@ -5,6 +5,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Data;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -388,7 +396,11 @@ public class NCBasic : NCNetworkImplementation
 
     public override void AddLobbyStringFilter(string key, string value, LobbyFilterComparison op)
     {
-        Steam.AddLobbyStringFilter(key, value, (SteamLobbyComparison)op);
+#if FACEPUNCH
+        currentQuery = currentQuery.WithKeyValue(key, value);
+#else
+        DGSteam.AddLobbyStringFilter(key, value, (SteamLobbyComparison)op);
+#endif
     }
 
     public override bool IsLobbySearchComplete()
@@ -485,42 +497,96 @@ public class NCBasic : NCNetworkImplementation
         return _foundLobbies.Count;
     }
 
-    public override bool TryRequestDailyKills(out long kills)
+    public override long TryRequestDailyKills()
     {
-        kills = 0L;
-        if (!Steam.WaitingForGlobalStats)
-        {
-            kills = (long)Steam.GetDailyGlobalStat("kills");
-            return true;
-        }
-        return false;
+#if FACEPUNCH
+        Stat stat = new("kills");
+        var KillsByDays = stat.GetGlobalIntDaysAsync(1)
+            .GetAwaiter()
+            .GetResult();
+
+        if (KillsByDays?.Length > 0)
+            return KillsByDays[0];
+        return 0;
+#else
+        if (!DGSteam.WaitingForGlobalStats)
+            return (long)DGSteam.GetDailyGlobalStat("kills");
+        DGSteam.RequestGlobalStats();
+        return 0;
+#endif
     }
 
     public override void ApplyTS2LobbyFilters()
     {
+#if FACEPUNCH
+        foreach (MatchSetting s in TeamSelect2.matchSettings)
+        {
+            if (s.value is int i)
+            {
+                if (s.filtered)
+                    currentQuery = ApplyFilter(currentQuery, s.filterMode, s.id, i);
+                else
+                    currentQuery = currentQuery.OrderByNear(s.id, (int)s.defaultValue);
+            }
+
+            if (s.value is bool b)
+            {
+                if (s.filtered)
+                    currentQuery = ApplyFilter(currentQuery, s.filterMode, s.id, b ? 1 : 0);
+                else
+                    currentQuery = currentQuery.OrderByNear(s.id, ((bool)s.defaultValue) ? 1 : 0);
+            }
+        }
+
+        foreach (MatchSetting s2 in TeamSelect2.onlineSettings)
+        {
+            if (s2.value is int i)
+            {
+                if (s2.filtered)
+                    currentQuery = ApplyFilter(currentQuery, s2.filterMode, s2.id, i);
+                else
+                    currentQuery = currentQuery.OrderByNear(s2.id, (int)s2.defaultValue);
+            }
+
+            if (s2.value is not bool)
+                continue;
+
+            if (s2.id == "modifiers")
+            {
+                if (s2.filtered)
+                    currentQuery = currentQuery.WithKeyValue(s2.id, (bool)s2.value ? "true" : "false");
+            }
+            else if (s2.id == "customlevelsenabled")
+            {
+                if (s2.filtered)
+                {
+                    if ((bool)s2.value)
+                        currentQuery = ApplyFilter(currentQuery, FilterMode.GreaterThan, s2.id, 0);
+                    else
+                        currentQuery = ApplyFilter(currentQuery, FilterMode.Equal, s2.id, 0);
+                }
+            }
+            else if (s2.filtered)
+                currentQuery = ApplyFilter(currentQuery, s2.filterMode, s2.id, (bool)s2.value ? 1 : 0);
+            else
+                currentQuery = currentQuery.OrderByNear(s2.id, (bool)s2.defaultValue ? 1 : 0);
+        }
+#else
         foreach (MatchSetting s in TeamSelect2.matchSettings)
         {
             if (s.value is int)
             {
                 if (s.filtered)
-                {
-                    Steam.AddLobbyNumericalFilter(s.id, (int)s.value, (SteamLobbyComparison)s.filterMode);
-                }
+                    DGSteam.AddLobbyNumericalFilter(s.id, (int)s.value, (SteamLobbyComparison)s.filterMode);
                 else if (!s.filtered)
-                {
-                    Steam.AddLobbyNearFilter(s.id, (int)s.defaultValue);
-                }
+                    DGSteam.AddLobbyNearFilter(s.id, (int)s.defaultValue);
             }
             if (s.value is bool)
             {
                 if (s.filtered)
-                {
-                    Steam.AddLobbyNumericalFilter(s.id, ((bool)s.value) ? 1 : 0, (SteamLobbyComparison)s.filterMode);
-                }
+                    DGSteam.AddLobbyNumericalFilter(s.id, ((bool)s.value) ? 1 : 0, (SteamLobbyComparison)s.filterMode);
                 else if (!s.filtered)
-                {
-                    Steam.AddLobbyNearFilter(s.id, ((bool)s.defaultValue) ? 1 : 0);
-                }
+                    DGSteam.AddLobbyNearFilter(s.id, ((bool)s.defaultValue) ? 1 : 0);
             }
         }
         foreach (MatchSetting s2 in TeamSelect2.onlineSettings)
@@ -528,62 +594,62 @@ public class NCBasic : NCNetworkImplementation
             if (s2.value is int)
             {
                 if (s2.filtered)
-                {
-                    Steam.AddLobbyNumericalFilter(s2.id, (int)s2.value, (SteamLobbyComparison)s2.filterMode);
-                }
+                    DGSteam.AddLobbyNumericalFilter(s2.id, (int)s2.value, (SteamLobbyComparison)s2.filterMode);
                 else if (!s2.filtered)
-                {
-                    Steam.AddLobbyNearFilter(s2.id, (int)s2.defaultValue);
-                }
+                    DGSteam.AddLobbyNearFilter(s2.id, (int)s2.defaultValue);
             }
+
             if (!(s2.value is bool))
-            {
                 continue;
-            }
+
             if (s2.id == "modifiers")
             {
                 if (s2.filtered)
-                {
-                    Steam.AddLobbyStringFilter(s2.id, ((bool)s2.value) ? "true" : "false", SteamLobbyComparison.Equal);
-                }
+                    DGSteam.AddLobbyStringFilter(s2.id, ((bool)s2.value) ? "true" : "false", SteamLobbyComparison.Equal);
             }
             else if (s2.id == "customlevelsenabled")
             {
                 if (s2.filtered)
                 {
                     if ((bool)s2.value)
-                    {
-                        Steam.AddLobbyNumericalFilter(s2.id, 0, SteamLobbyComparison.GreaterThan);
-                    }
+                        DGSteam.AddLobbyNumericalFilter(s2.id, 0, SteamLobbyComparison.GreaterThan);
                     else
-                    {
-                        Steam.AddLobbyNumericalFilter(s2.id, 0, SteamLobbyComparison.Equal);
-                    }
+                        DGSteam.AddLobbyNumericalFilter(s2.id, 0, SteamLobbyComparison.Equal);
                 }
             }
             else if (s2.filtered)
-            {
-                Steam.AddLobbyNumericalFilter(s2.id, ((bool)s2.value) ? 1 : 0, (SteamLobbyComparison)s2.filterMode);
-            }
-            else if (!s2.filtered)
-            {
-                Steam.AddLobbyNearFilter(s2.id, ((bool)s2.defaultValue) ? 1 : 0);
-            }
+                DGSteam.AddLobbyNumericalFilter(s2.id, ((bool)s2.value) ? 1 : 0, (SteamLobbyComparison)s2.filterMode);
+            else
+                DGSteam.AddLobbyNearFilter(s2.id, ((bool)s2.defaultValue) ? 1 : 0);
         }
+#endif
     }
 
     public override void AddLobbyNumericalFilter(string key, int value, LobbyFilterComparison op)
     {
-        Steam.AddLobbyNumericalFilter(key, value, (SteamLobbyComparison)op);
+#if FACEPUNCH
+        currentQuery = ApplyFilter(currentQuery, (FilterMode)op, key, value);
+#else
+        DGSteam.AddLobbyNumericalFilter(key, value, (SteamLobbyComparison)op);
+#endif
     }
 
     public override void RequestGlobalStats()
     {
-        Steam.RequestGlobalStats();
+#if FACEPUNCH
+#else
+        DGSteam.RequestGlobalStats();
+#endif
     }
 
     public override Lobby GetSearchLobbyAtIndex(int i)
     {
-        return Steam.GetSearchLobbyAtIndex(i);
+#if FACEPUNCH
+        if (foundLobbies != null && foundLobbies.Length > i)
+            return foundLobbies[i];
+        return default;
+#else
+        return DGSteam.GetSearchLobbyAtIndex(i);
+#endif
     }
 }

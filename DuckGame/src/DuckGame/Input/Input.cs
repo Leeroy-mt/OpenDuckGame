@@ -1,9 +1,16 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using SDL3;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -1197,6 +1204,14 @@ public class Input
                     mapping.Deserialize(element);
                     SetDefaultMapping(mapping);
                 }
+
+#if FACEPUNCH
+            if (SteamClient.IsValid)
+                SteamFriends.OnGameOverlayActivated += active => SDL.SDL_ResetKeyboard();
+#else
+            if (DGSteam.Initialized)
+                DGSteam.OverlayActiveChanged += active => SDL.SDL_ResetKeyboard();
+#endif
         }
     }
 

@@ -1,18 +1,20 @@
-﻿public class UserInfo
+﻿namespace Steam;
+
+public class UserInfo
 {
     #region Public Fields
 
-    public bool inGame;
+    public bool InGame;
 
-    public bool inCurrentGame;
+    public bool InCurrentGame;
 
-    public bool inLobby;
+    public bool InLobby;
 
-    public bool inMyLobby;
+    public bool InMyLobby;
 
-    public SteamUserState state;
+    public SteamUserState State;
 
-    public FriendRelationship relationship;
+    public FriendRelationship Relationship;
 
     #endregion
 }

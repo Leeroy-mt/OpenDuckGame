@@ -1,5 +1,12 @@
 using System.Collections.Generic;
 
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Data;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public static class Global
@@ -36,19 +43,26 @@ public static class Global
 
     public static bool HasAchievement(string pAchievement)
     {
-        bool res = false;
-        if (!_achievementStatus.TryGetValue(pAchievement, out res))
+        if (!_achievementStatus.TryGetValue(pAchievement, out bool res))
         {
-            return Steam.GetAchievement(pAchievement);
+#if FACEPUNCH
+            return new Achievement(pAchievement).State;
+#else
+            return DGSteam.GetAchievement(pAchievement);
+#endif
         }
-        return res;
+            return res;
     }
 
     public static void GiveAchievement(string pAchievement)
     {
         if (!HasAchievement(pAchievement))
         {
-            Steam.SetAchievement(pAchievement);
+#if FACEPUNCH
+            FacepunchSteam.GetAchievement(pAchievement)?.Trigger();
+#else
+            DGSteam.SetAchievement(pAchievement);
+#endif
             _achievementStatus[pAchievement] = true;
         }
     }
@@ -57,7 +71,11 @@ public static class Global
     {
         foreach (string s in _achievementList)
         {
-            _achievementStatus[s] = Steam.GetAchievement(s);
+#if FACEPUNCH
+            _achievementStatus[s] = FacepunchSteam.GetAchievement(s)?.State ?? false;
+#else
+            _achievementStatus[s] = DGSteam.GetAchievement(s);
+#endif
         }
         data.unlockListIndex = Rando.Int(500);
         data.flag = 0;

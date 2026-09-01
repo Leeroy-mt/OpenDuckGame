@@ -5,6 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class Level
@@ -629,7 +635,11 @@ public class Level
                     {
                         Graphics.fadeAdd = 0f;
                     }
-                    Steam.StoreStats();
+#if FACEPUNCH
+                    FacepunchSteam.StoreStats();
+#else
+                    DGSteam.StoreStats();
+#endif
                 }
                 foreach (Profile item in Profiles.active)
                 {

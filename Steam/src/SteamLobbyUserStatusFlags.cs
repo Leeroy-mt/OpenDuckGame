@@ -1,4 +1,6 @@
-﻿[Flags]
+﻿namespace Steam;
+
+[Flags]
 public enum SteamLobbyUserStatusFlags
 {
     Banned = 16,

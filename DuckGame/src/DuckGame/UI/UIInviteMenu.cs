@@ -2,6 +2,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Color = Microsoft.Xna.Framework.Color;
+
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Data;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -40,16 +50,47 @@ public class UIInviteMenu : UIMenu
 
     public new static void Initialize()
     {
-        if (!Steam.IsInitialized())
-        {
+#if FACEPUNCH
+        if (!SteamClient.IsValid)
             return;
-        }
-        foreach (User u in Steam.Friends)
-        {
+
+        foreach (var u in SteamFriends.GetFriends())
             avatars[u.Id] = PrepareSprite(u);
-        }
+#else
+        if (!DGSteam.IsInitialized())
+            return;
+
+        foreach (User u in DGSteam.Friends)
+            avatars[u.Id] = PrepareSprite(u);
+#endif
     }
 
+#if FACEPUNCH
+    public static Sprite PrepareSprite(Friend friend)
+    {
+        var avatarImage = friend.GetMediumAvatarAsync()
+            .GetAwaiter()
+            .GetResult();
+
+        Sprite av = null;
+        if (avatarImage?.Data is byte[] imageData && imageData.Length == 16384)
+        {
+            Texture2D texture2D = new(Graphics.device, 64, 64);
+            texture2D.SetData(imageData);
+            av = new(texture2D);
+            av.CenterOrigin();
+        }
+        return av;
+    }
+
+    public static Sprite GetAvatar(Friend u)
+    {
+        Sprite spr = null;
+        if (!avatars.TryGetValue(u.Id, out spr))
+            spr = PrepareSprite(u);
+        return spr;
+    }
+#else
     public static Sprite PrepareSprite(User u)
     {
         byte[] data = u.AvatarMedium;
@@ -68,11 +109,10 @@ public class UIInviteMenu : UIMenu
     {
         Sprite spr = null;
         if (!avatars.TryGetValue(u.Id, out spr))
-        {
             spr = PrepareSprite(u);
-        }
         return spr;
     }
+#endif
 
     public void SetAction(UIMenuAction a)
     {
@@ -82,13 +122,19 @@ public class UIInviteMenu : UIMenu
     public UIInviteMenu(string title, UIMenuAction act, float xpos, float ypos, float wide = -1f, float high = -1f, string conString = "", InputProfile conProfile = null, bool tiny = false)
         : base(title, xpos, ypos, wide, high)
     {
-        if (Steam.IsInitialized())
+#if FACEPUNCH
+        if (SteamClient.IsValid)
         {
-            int numEl = Steam.Friends.OrderBy((User u) => _sortDictionary[(int)u.State]).Count();
+            int numEl = SteamFriends.GetFriends()
+                .OrderBy(u => _sortDictionary[(int)u.State])
+                .Count();
+#else
+        if (DGSteam.IsInitialized())
+        {
+            int numEl = DGSteam.Friends.OrderBy(u => _sortDictionary[(int)u.State]).Count();
+#endif
             if (numEl > _maxShow)
-            {
                 numEl = _maxShow;
-            }
             _littleFont = new BitmapFont("smallBiosFont", 7, 6);
             _moreArrow = new Sprite("moreArrow");
             _moreArrow.CenterOrigin();
@@ -106,9 +152,38 @@ public class UIInviteMenu : UIMenu
         HUD.AddCornerControl(HUDCorner.BottomRight, "@MENU1@INVITE");
         HUD.AddCornerControl(HUDCorner.BottomLeft, "@CANCEL@EXIT");
         _users.Clear();
-        if (Steam.IsInitialized())
+#if FACEPUNCH
+        if (SteamClient.IsValid)
         {
-            IOrderedEnumerable<User> fends = Steam.Friends.OrderBy((User user) => _sortDictionary[(int)user.State]);
+            var fends = SteamFriends.GetFriends().OrderBy(user => _sortDictionary[(int)user.State]);
+            int numEl = fends.Count();
+            for (int i = 0; i < numEl; i++)
+            {
+                var u = fends.ElementAt(i);
+                string nam = u.Name;
+                if (nam.Length > 17)
+                    nam = nam.Substring(0, 16) + ".";
+
+                if (u.Relationship == Relationship.Friend)
+                {
+                    _users.Add(new UIInviteUser
+                    {
+                        user = u,
+                        sprite = GetAvatar(u),
+                        state = u.State,
+                        name = nam,
+                        inGame = u.GameInfo?.GameID > 0,
+                        inDuckGame = u.IsPlayingThisGame,
+                        inMyLobby = u.GameInfo?.Lobby?.Id == FacepunchSteam.Lobby.Id
+                    });
+                }
+            }
+            _users = _users.OrderBy((UIInviteUser h) => h, new CompareUsers()).ToList();
+        }
+#else
+        if (DGSteam.IsInitialized())
+        {
+            IOrderedEnumerable<User> fends = DGSteam.Friends.OrderBy((User user) => _sortDictionary[(int)user.State]);
             int numEl = fends.Count();
             for (int i = 0; i < numEl; i++)
             {
@@ -119,22 +194,23 @@ public class UIInviteMenu : UIMenu
                     nam = nam.Substring(0, 16) + ".";
                 }
                 UserInfo info = u.Info;
-                if (info.relationship == FriendRelationship.Friend)
+                if (info.Relationship == FriendRelationship.Friend)
                 {
                     _users.Add(new UIInviteUser
                     {
                         user = u,
                         sprite = GetAvatar(u),
-                        state = info.state,
+                        state = info.State,
                         name = nam,
-                        inGame = info.inGame,
-                        inDuckGame = info.inCurrentGame,
-                        inMyLobby = info.inLobby
+                        inGame = info.InGame,
+                        inDuckGame = info.InCurrentGame,
+                        inMyLobby = info.InMyLobby // was info.inLobby. mistake???
                     });
                 }
             }
             _users = _users.OrderBy((UIInviteUser h) => h, new CompareUsers()).ToList();
         }
+#endif
         base.Open();
     }
 
@@ -221,34 +297,37 @@ public class UIInviteMenu : UIMenu
                     _littleFont.Draw("@USERONLINE@|YELLOW|IN SOME GAME", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
                 }
             }
+#if FACEPUNCH
+            else if (user.state == FriendState.Online)
+                _littleFont.Draw("@USERONLINE@|DGGREEN|ONLINE", new(xPos + 15, yPos + 6), Color.White * ((_selection == i) ? 1 : .3f), Depth + 4);
+            else if (user.state == FriendState.Away)
+                _littleFont.Draw("@USERAWAY@|YELLOW|AWAY", new(xPos + 15, yPos + 6), Color.White * ((_selection == i) ? 1 : .3f), Depth + 4);
+            else if (user.state == FriendState.Busy)
+                _littleFont.Draw("@USERBUSY@|YELLOW|BUSY", new(xPos + 15, yPos + 6), Color.White * ((_selection == i) ? 1 : .3f), Depth + 4);
+            else if (user.state == FriendState.Snooze)
+                _littleFont.Draw("@USERBUSY@|YELLOW|SNOOZE", new(xPos + 15, yPos + 6), Color.White * ((_selection == i) ? 1 : .3f), Depth + 4);
+            else if (user.state == FriendState.Offline)
+                _littleFont.Draw("@USEROFFLINE@|LIGHTGRAY|OFFLINE", new(xPos + 15, yPos + 6), Color.White * ((_selection == i) ? 1 : .3f), Depth + 4);
+            else if (user.state == FriendState.LookingToPlay)
+                _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO PLAY", new(xPos + 15, yPos + 6), Color.White * ((_selection == i) ? 1 : .3f), Depth + 4);
+            else if (user.state == FriendState.LookingToTrade)
+                _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO TRADE", new(xPos + 15, yPos + 6), Color.White * ((_selection == i) ? 1 : .3f), Depth + 4);
+#else
             else if (user.state == SteamUserState.Online)
-            {
                 _littleFont.Draw("@USERONLINE@|DGGREEN|ONLINE", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
-            }
             else if (user.state == SteamUserState.Away)
-            {
                 _littleFont.Draw("@USERAWAY@|YELLOW|AWAY", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
-            }
             else if (user.state == SteamUserState.Busy)
-            {
                 _littleFont.Draw("@USERBUSY@|YELLOW|BUSY", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
-            }
             else if (user.state == SteamUserState.Snooze)
-            {
                 _littleFont.Draw("@USERBUSY@|YELLOW|SNOOZE", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
-            }
             else if (user.state == SteamUserState.Offline)
-            {
                 _littleFont.Draw("@USEROFFLINE@|LIGHTGRAY|OFFLINE", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
-            }
             else if (user.state == SteamUserState.LookingToPlay)
-            {
                 _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO PLAY", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
-            }
             else if (user.state == SteamUserState.LookingToTrade)
-            {
                 _littleFont.Draw("@USERONLINE@|DGGREEN|WANTS TO TRADE", new Vector2(xPos + 15f, yPos + 6f), Color.White * ((_selection == i) ? 1f : 0.3f), base.Depth + 4);
-            }
+#endif
             Graphics.DrawRect(new Vector2(xPos, yPos), new Vector2(xPos + 135f, yPos + 13f), (second ? Colors.BlueGray : (Colors.BlueGray * 0.6f)) * ((_selection == i) ? 1f : 0.3f), base.Depth + 2);
             yOff += 14f;
             second = !second;

@@ -2,6 +2,15 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Color = Microsoft.Xna.Framework.Color;
+
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Data;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -36,8 +45,11 @@ public class UIMatchmakerMark2 : UIMenu
 
     public static int searchMode = 1;
 
+#if FACEPUNCH
+    public SteamLobby _hostedLobby;
+#else
     public Lobby _hostedLobby;
-
+#endif
     public Lobby _processing;
 
     public HashSet<ulong> blacklist = [];
@@ -214,7 +226,7 @@ public class UIMatchmakerMark2 : UIMenu
         _timeOpen = 0;
         _currentLevel = Level.current;
         instance = this;
-        _processing = null;
+        _processing = default;
         messages.Clear();
         if (_directConnectLobby != null)
             _state = State.TryJoiningLobbies;
@@ -269,8 +281,8 @@ public class UIMatchmakerMark2 : UIMenu
                 Network.Terminate();
                 if (_state != State.Aborting)
                     ChangeState(State.TryJoiningLobbies);
-                _processing = null;
-                _hostedLobby = null;
+                _processing = default;
+                _hostedLobby = default;
             }
         }
         else
@@ -438,7 +450,11 @@ public class UIMatchmakerMark2 : UIMenu
         _framesSinceReset = 0;
         if (_state != State.Aborting)
         {
+#if FACEPUNCH
+            if (_hostedLobby.Id == 0)
+#else
             if (_hostedLobby == null)
+#endif
             {
                 if (error == null || error.error != DuckNetError.HostIsABlockedUser)
                 {
@@ -451,8 +467,8 @@ public class UIMatchmakerMark2 : UIMenu
             }
             ChangeState(State.TryJoiningLobbies);
         }
-        _processing = null;
-        _hostedLobby = null;
+        _processing = default;
+        _hostedLobby = default;
     }
 
     public void OnConnectionError(DuckNetErrorInfo error)
@@ -465,7 +481,11 @@ public class UIMatchmakerMark2 : UIMenu
                     messages.Add("|DGRED|Their version was older.");
                 else
                     messages.Add("|DGRED|Their version was newer.");
+#if FACEPUNCH
+                if (_processing.Id != 0)
+#else
                 if (_processing != null)
+#endif
                     blacklist.Add(_processing.Id);
             }
             else if (error.error == DuckNetError.FullServer)
@@ -485,14 +505,22 @@ public class UIMatchmakerMark2 : UIMenu
             else if (error.error != DuckNetError.HostIsABlockedUser)
             {
                 messages.Add("|DGRED|Unknown connection error.");
+#if FACEPUNCH
+                if (_processing.Id != 0)
+#else
                 if (_processing != null)
+#endif
                     blacklist.Add(_processing.Id);
             }
         }
         else
         {
             messages.Add("|DGRED|Connection timeout.");
+#if FACEPUNCH
+            if (_processing.Id != 0)
+#else
             if (_processing != null)
+#endif
                 blacklist.Add(_processing.Id);
         }
     }
@@ -523,7 +551,11 @@ public class UIMatchmakerMark2 : UIMenu
 
     protected bool HostLobby()
     {
+#if FACEPUNCH
+        if (_hostedLobby.Id == 0 && Reset())
+#else
         if (_hostedLobby == null && Reset())
+#endif
         {
             messages.Add("|DGYELLOW|Having trouble finding an open lobby...");
             messages.Add("|DGGREEN|Creating a lobby of our very own...");
@@ -532,7 +564,11 @@ public class UIMatchmakerMark2 : UIMenu
             DevConsole.Log("|PURPLE|LOBBY    |DGYELLOW|Opened lobby while searching.", Color.White);
             _wait = 280 + Rando.Int(120);
         }
+#if FACEPUNCH
+        return _hostedLobby.Id != 0;
+#else
         return _hostedLobby != null;
+#endif
     }
 
     protected bool Reset()

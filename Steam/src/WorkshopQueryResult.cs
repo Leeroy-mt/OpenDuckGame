@@ -1,15 +1,17 @@
-﻿public class WorkshopQueryResult
+﻿namespace Steam;
+
+public class WorkshopQueryResult
 {
     #region Public Fields
 
-    public string? previewURL;
-    public string? metadata;
+    public string? PreviewURL;
+    public string? Metadata;
 
-    public WorkshopQueryResultDetails? details;
-    public WorkshopItem[]? fileList;
-    public WorkshopQueryResultAdditionalPreview[]? additionalPreviews;
+    public WorkshopQueryResultDetails? Details;
+    public WorkshopItem[]? FileList;
+    public WorkshopQueryResultAdditionalPreview[]? AdditionalPreviews;
 
-    public uint[]? statistics;
+    public uint[]? Statistics;
 
     #endregion
 }

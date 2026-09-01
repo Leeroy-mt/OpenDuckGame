@@ -7,6 +7,12 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class Team
@@ -815,10 +821,12 @@ public class Team
                     return true;
                 }
                 bool filter = Options.Data.hatFilter == 2;
+#if FACEPUNCH
+                if (Options.Data.hatFilter == 1 && customConnection.data is Friend && ((Friend)customConnection.data).Relationship != Relationship.Friend)
+#else
                 if (Options.Data.hatFilter == 1 && customConnection.data is User && (customConnection.data as User).Relationship != FriendRelationship.Friend)
-                {
+#endif
                     filter = true;
-                }
                 return filter;
             }
             return false;

@@ -1,3 +1,9 @@
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class StatBinding
@@ -30,11 +36,14 @@ public class StatBinding
         }
         set
         {
-            if (!(_value is int) || value > (int)_value)
-            {
+            if (_value is not int || value > (int)_value)
                 _value = value;
-            }
-            Steam.SetStat(_name, valueInt);
+
+#if FACEPUNCH
+            FacepunchSteam.SetStat(_name, valueInt);
+#else
+            DGSteam.SetStat(_name, valueInt);
+#endif
         }
     }
 
@@ -42,19 +51,18 @@ public class StatBinding
     {
         get
         {
-            if (_value is int)
-            {
-                return (int)_value;
-            }
-            return (float)_value;
+            return _value is int i ? i : (float)_value;
         }
         set
         {
-            if (!(_value is float) || value > (float)_value)
-            {
+            if (_value is not float || value > (float)_value)
                 _value = value;
-            }
-            Steam.SetStat(_name, valueFloat);
+
+#if FACEPUNCH
+            SteamUserStats.SetStat(_name, valueFloat);
+#else
+            DGSteam.SetStat(_name, valueFloat);
+#endif
         }
     }
 
@@ -63,14 +71,19 @@ public class StatBinding
     public void BindName(string name)
     {
         _name = name;
-        _value = 0f;
-        if (Steam.IsInitialized())
+        _value = 0;
+
+#if FACEPUNCH
+        if (SteamClient.IsValid)
         {
-            float f = Steam.GetStat(_name);
+            float f = SteamUserStats.GetStatFloat(_name);
+#else
+        if (DGSteam.IsInitialized())
+        {
+            float f = DGSteam.GetStat(_name);
+#endif
             if (f > -99999f)
-            {
                 _value = f;
-            }
         }
     }
 

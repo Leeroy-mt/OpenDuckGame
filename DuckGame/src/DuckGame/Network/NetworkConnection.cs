@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class NetworkConnection
@@ -359,26 +365,26 @@ public class NetworkConnection
     {
         string connectionName = "|WHITE|(";
         if (profile != null && profile.persona != null)
-        {
             connectionName = connectionName + profile.persona.colorUsable.ToDGColorString() + "(" + profile.networkIndex + ")";
-        }
+
         if (isHost)
-        {
             connectionName += "(H)";
-        }
+
         string realName = null;
+#if FACEPUNCH
         if (!hasRealName || data == null)
-        {
-            realName = ((data is User) ? (data as User).Id.ToString() : ((Steam.User == null) ? "LAN USER" : Steam.User.Id.ToString()));
-        }
+            realName = data is Friend friend ? friend.Id.ToString() : (SteamClient.SteamId == 0 ? "LAN USER" : SteamClient.SteamId.ToString());
         else if (Network.activeNetwork.core is NCSteam)
-        {
+            realName = name + "," + ((Friend)data).Id;
+#else
+        if (!hasRealName || data == null)
+            realName = ((data is User) ? (data as User).Id.ToString() : ((DGSteam.User == null) ? "LAN USER" : DGSteam.User.Id.ToString()));
+        else if (Network.activeNetwork.core is NCSteam)
             realName = name + "," + (data as User).Id;
-        }
+#endif
         else if (Network.activeNetwork.core is NCBasic)
-        {
             realName = name + "," + (data as IPEndPoint).ToString();
-        }
+
         realName.Replace("|", "(");
         realName.Replace("@", "$");
         connectionName += realName;
@@ -499,7 +505,11 @@ public class NetworkConnection
         {
             debuggerContext.Reset();
         }
-        DevConsole.Log(DCSection.Connection, "@disconnect Reset called on " + identifier + "(" + ((Steam.User != null) ? Steam.User.Id.ToString() : "local") + ", " + reason + ")");
+#if FACEPUNCH
+        DevConsole.Log(DCSection.Connection, $"@disconnect Reset called on {identifier}({((FacepunchSteam.SteamId != 0) ? SteamClient.SteamId.ToString() : "local")}, {reason})");
+#else
+        DevConsole.Log(DCSection.Connection, "@disconnect Reset called on " + identifier + "(" + ((DGSteam.User != null) ? DGSteam.User.Id.ToString() : "local") + ", " + reason + ")");
+#endif
     }
 
     public void StartNewSession()
@@ -606,7 +616,11 @@ public class NetworkConnection
     private void Disconnect_IncompatibleMods()
     {
         Network.activeNetwork.core.DisconnectClient(this, new DuckNetErrorInfo(DuckNetError.ModsIncompatible, "Host has different Mods enabled!"));
-        ConnectionError.joinLobby = Steam.Lobby;
+#if FACEPUNCH
+        ConnectionError.joinLobby = FacepunchSteam.Lobby?.Base ?? default;
+#else
+        ConnectionError.joinLobby = DGSteam.Lobby;
+#endif
     }
 
     private void Disconnect_DifferentVersion(string theirVersion)
@@ -857,10 +871,12 @@ public class NetworkConnection
 
     private void LogSessionDetails()
     {
+#if FACEPUNCH
+#else
         if (data is User)
         {
-            SessionState state = Steam.GetSessionState(data as User);
-            DevConsole.Log("Information for " + ToString() + ":", Colors.DGBlue);
+            SessionState state = DGSteam.GetSessionState(data as User);
+            DevConsole.Log($"Information for {ToString()}:", Colors.DGBlue);
             FieldInfo[] fields = state.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             foreach (FieldInfo f in fields)
             {
@@ -868,6 +884,7 @@ public class NetworkConnection
             }
             DevConsole.Log("", Colors.DGBlue);
         }
+#endif
     }
 
     public void PostUpdate(int frameCounter)

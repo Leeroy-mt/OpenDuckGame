@@ -11,10 +11,12 @@
 	<CPU>x64</CPU>
   </PropertyGroup>
 
-	<ItemGroup>
-		<Reference Include="Steamworks.NET">
-			<HintPath>$(SolutionDir)\deps\steam\$(OS)-$(CPU)\Steamworks.NET.dll</HintPath>
-		</Reference>	
-	</ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
+
+  <ItemGroup>
+    <Reference Include="Steamworks.NET">
+      <HintPath>..\deps\steam\Windows-x64\Steamworks.NET.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

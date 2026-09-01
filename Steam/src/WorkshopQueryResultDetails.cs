@@ -1,39 +1,40 @@
 ﻿using Steamworks;
 
+namespace Steam;
+
 public class WorkshopQueryResultDetails
 {
     #region Public Fields
 
-    public bool banned;
-    public bool acceptedForUse;
-    public bool tagsTruncated;
+    public bool Banned;
+    public bool AcceptedForUse;
+    public bool TagsTruncated;
 
-    public int fileSize;
-    public int previewFileSize;
+    public int FileSize;
+    public int PreviewFileSize;
 
-    public uint timeCreated;
-    public uint timeUpdated;
-    public uint timeAddedToUserList;
-    public uint votesUp;
-    public uint votesDown;
-    public uint numChildren;
+    public uint TimeCreated;
+    public uint TimeUpdated;
+    public uint TimeAddedToUserList;
+    public uint VotesUp;
+    public uint VotesDown;
+    public uint NumChildren;
 
-    public float score;
+    public float Score;
 
-    public ulong steamIDOwner;
-    public ulong file;
-    public ulong previewFile;
+    public ulong SteamIDOwner;
+    public ulong File;
+    public ulong PreviewFile;
 
-    public string? title;
-    public string? description;
-    public string? fileName;
+    public string? Title;
+    public string? Description;
+    public string? FileName;
     public string? URL;
+    public EResult Result;
+    public EWorkshopFileType FileType;
+    public ERemoteStoragePublishedFileVisibility Visibility;
 
-    public EResult result;
-    public EWorkshopFileType fileType;
-    public ERemoteStoragePublishedFileVisibility visibility;
-
-    public WorkshopItem? publishedFile;
+    public WorkshopItem? PublishedFile;
 
     public string[]? tags;
 

@@ -1,4 +1,6 @@
-﻿[Flags]
+﻿namespace Steam;
+
+[Flags]
 public enum WorkshopItemState : uint
 {
     None = 0,

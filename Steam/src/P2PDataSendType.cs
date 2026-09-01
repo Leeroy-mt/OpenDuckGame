@@ -1,4 +1,6 @@
-﻿public enum P2PDataSendType
+﻿namespace Steam;
+
+public enum P2PDataSendType
 {
     ReliableWithBuffering = 3,
     Reliable = 2,

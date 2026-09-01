@@ -1,4 +1,6 @@
-﻿public class TransferProgress
+﻿namespace Steam;
+
+public class TransferProgress
 {
     public ulong bytesDownloaded;
 

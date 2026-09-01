@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class ProfilesCore
@@ -477,15 +483,31 @@ public class ProfilesCore
         Profile experience_profile = null;
         ulong experienceProfileID = 0uL;
         numExperienceProfiles = 0;
-        if (Steam.User == null)
-        {
+
+#if FACEPUNCH
+        if (FacepunchSteam.SteamId == 0)
             experience_profile = Profiles.DefaultPlayer1;
-        }
         else
         {
-            if (Steam.User != null && Steam.User.Id != 0L)
+            if (SteamClient.SteamId != 0)
+                Options.Data.lastSteamID = SteamClient.SteamId;
+            experienceProfileID = Options.Data.lastSteamID;
+            foreach (Profile pro in Profiles.all)
             {
-                Options.Data.lastSteamID = Steam.User.Id;
+                if (pro.steamID != 0)
+                    numExperienceProfiles++;
+                if (pro.steamID == experienceProfileID)
+                    experience_profile = pro;
+            }
+        }
+#else
+        if (DGSteam.User == null)
+            experience_profile = Profiles.DefaultPlayer1;
+        else
+        {
+            if (DGSteam.User != null && DGSteam.User.Id != 0L)
+            {
+                Options.Data.lastSteamID = DGSteam.User.Id;
             }
             experienceProfileID = Options.Data.lastSteamID;
             foreach (Profile pro in Profiles.all)
@@ -500,6 +522,7 @@ public class ProfilesCore
                 }
             }
         }
+#endif
         if (numExperienceProfiles == 0)
         {
             Options.Data.defaultAccountMerged = true;
@@ -720,12 +743,14 @@ public class ProfilesCore
             return p.fileName;
         }
         string formattedName = p.name;
-        if (p.steamID != 0L)
+        if (p.steamID != 0)
         {
-            if (Steam.User == null || p.steamID != DG.localID)
-            {
+#if FACEPUNCH
+            if (SteamClient.SteamId == 0 || p.steamID != DG.localID)
+#else
+            if (DGSteam.User == null || p.steamID != DG.localID)
+#endif
                 return null;
-            }
             formattedName = p.steamID.ToString();
         }
         return DuckFile.profileDirectory + DuckFile.ReplaceInvalidCharacters(formattedName) + ".pro";
@@ -806,11 +831,19 @@ public class ProfilesCore
             profile.Add(fowner);
             DXMLNode steamer = new DXMLNode("SteamID", p.steamID);
             profile.Add(steamer);
-            if (p.steamID != 0L && Steam.User != null && p.steamID == Steam.User.Id)
+#if FACEPUNCH
+            if (p.steamID != 0L && SteamClient.SteamId != 0 && p.steamID == SteamClient.SteamId)
             {
-                DXMLNode lastName = new DXMLNode("LastKnownName", Steam.User.Name);
+                DXMLNode lastName = new DXMLNode("LastKnownName", SteamClient.Name);
                 profile.Add(lastName);
             }
+#else
+            if (p.steamID != 0L && DGSteam.User != null && p.steamID == DGSteam.User.Id)
+            {
+                DXMLNode lastName = new DXMLNode("LastKnownName", DGSteam.User.Name);
+                profile.Add(lastName);
+            }
+#endif
             profile.Add(p.stats.Serialize());
             string unlockString = "";
             foreach (string thing in p.unlocks)

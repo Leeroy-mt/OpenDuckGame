@@ -5,6 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
+
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Ugc;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -332,20 +341,49 @@ public class Content
     public static void InitializeLevels()
     {
         SearchDirLevels("Content/levels", LevelLocation.Content);
-        if (!Steam.IsInitialized())
+#if FACEPUNCH
+        if (!SteamClient.IsValid)
             return;
 
-        WorkshopQueryUser workshopQueryUser = Steam.CreateQueryUser(Steam.User.Id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
+        var query = Query.UsableInGame
+            .WhereUserSubscribed()
+            .SortByTitleAsc()
+            .WithTag("Map")
+            .WithOnlyIDs(true);
+
+        static void ResultFetched(Item result)
+        {
+            if (result.IsInstalled)
+                SearchDirLevels(result.Directory, LevelLocation.Workshop);
+        }
+
+        var page = query.GetPageAsync(1)
+            .GetAwaiter()
+            .GetResult();
+        for (int i = 2; page?.ResultCount != 0; i++)
+        {
+            foreach (var item in page?.Entries)
+                ResultFetched(item);
+            page = query.GetPageAsync(i)
+                .GetAwaiter()
+                .GetResult();
+        }
+        FacepunchSteam.Update();
+#else
+        if (!DGSteam.IsInitialized())
+            return;
+        WorkshopQueryUser workshopQueryUser = DGSteam.CreateQueryUser(DGSteam.User.Id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
         workshopQueryUser.RequiredTags.Add("Map");
         workshopQueryUser.OnlyQueryIDs = true;
         workshopQueryUser.ResultFetched += delegate (object sender, WorkshopQueryResult result)
         {
-            WorkshopItem publishedFile = result.details.publishedFile;
+            WorkshopItem publishedFile = result.Details.PublishedFile;
             if ((publishedFile.StateFlags & WorkshopItemState.Installed) != WorkshopItemState.None)
                 SearchDirLevels(publishedFile.Path, LevelLocation.Workshop);
         };
         workshopQueryUser.Request();
-        Steam.Update();
+        DGSteam.Update();
+#endif
     }
 
     public static void Initialize(bool reverse)

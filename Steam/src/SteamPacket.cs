@@ -1,4 +1,6 @@
-﻿public class SteamPacket
+﻿namespace Steam;
+
+public class SteamPacket
 {
     public byte[]? data;
 

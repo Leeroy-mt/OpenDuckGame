@@ -1,5 +1,7 @@
 ﻿using Steamworks;
 
+namespace Steam;
+
 public class Lobby
 {
     #region Delegates & Events
@@ -34,24 +36,25 @@ public class Lobby
             && joinable;
         set
         {
-            if (Id != 0 && Steam.Initialized)
+            if (Id != 0 && DGSteam.Initialized)
             {
                 SteamMatchmaking.SetLobbyJoinable(id, value);
                 joinable = value;
             }
         }
     }
+
     public bool Processing { get; private set; }
 
     public int MaxMembers
     {
-        get => Id != 0 && Steam.Initialized
+        get => Id != 0 && DGSteam.Initialized
             ? SteamMatchmaking.GetLobbyMemberLimit(id)
             : 0;
         set
         {
-            if (Id != 0 && Steam.Initialized)
-                SteamMatchmaking.SetLobbyMemberLimit(id, value);
+            if (Id != 0 && DGSteam.Initialized)
+            SteamMatchmaking.SetLobbyMemberLimit(id, value);
         }
     }
 
@@ -59,23 +62,24 @@ public class Lobby
 
     public string Name
     {
-        get => Id != 0 && Steam.Initialized
+        get => Id != 0 && DGSteam.Initialized
             ? SteamMatchmaking.GetLobbyData(id, "name")
             : "";
         set
         {
-            if (Id != 0 && Steam.Initialized)
+            if (Id != 0 && DGSteam.Initialized)
                 SteamMatchmaking.SetLobbyData(id, "name", value);
         }
     }
 
     public SteamLobbyJoinResult JoinResult { get; private set; }
+
     public SteamLobbyType Type
     {
         get => type;
         set
         {
-            if (Id != 0 && Steam.Initialized)
+            if (Id != 0 && DGSteam.Initialized)
             {
                 SteamMatchmaking.SetLobbyType(id, (ELobbyType)value);
                 type = value;
@@ -89,7 +93,7 @@ public class Lobby
         {
             try
             {
-                if (Id != 0 && Steam.Initialized)
+                if (Id != 0 && DGSteam.Initialized)
                     return User.GetUser(SteamMatchmaking.GetLobbyOwner(id));
             }
             catch { }
@@ -99,11 +103,11 @@ public class Lobby
         set
         {
             ArgumentNullException.ThrowIfNull(value, nameof(value));
-            SteamMatchmaking.SetLobbyOwner((CSteamID)Id, (CSteamID)value.Id);
+            SteamMatchmaking.SetLobbyOwner(new(Id), new(value.Id));
         }
     }
 
-    public List<User?> Users => Id != 0 && Steam.Initialized
+    public List<User?> Users => Id != 0 && DGSteam.Initialized
         ? SteamHelper.GetList(SteamMatchmaking.GetNumLobbyMembers(id), i => User.GetUser(SteamMatchmaking.GetLobbyMemberByIndex(id, i)))
         : [];
 
@@ -122,7 +126,6 @@ public class Lobby
 
         Processing = true;
     }
-
     internal Lobby(CSteamID lobbyID)
     {
         type = SteamLobbyType.FriendsOnly;
@@ -138,7 +141,7 @@ public class Lobby
 
     public void SetLobbyModsData(string value)
     {
-        if (Id != 0 && Steam.Initialized)
+        if (Id != 0 && DGSteam.Initialized)
             SteamMatchmaking.SetLobbyData(id, "mods", value);
     }
 
@@ -161,13 +164,13 @@ public class Lobby
 
     public void SetLobbyData(string name, string value)
     {
-        if (Id != 0 && Steam.Initialized)
+        if (Id != 0 && DGSteam.Initialized)
             SteamMatchmaking.SetLobbyData(id, name, value);
     }
 
     public string GetLobbyData(string name)
     {
-        if (Id != 0 && Steam.Initialized)
+        if (Id != 0 && DGSteam.Initialized)
             return SteamMatchmaking.GetLobbyData(id, name);
         return "";
     }

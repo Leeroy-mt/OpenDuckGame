@@ -5,6 +5,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class MapPack : ContentPack
@@ -71,10 +77,13 @@ public class MapPack : ContentPack
             if (!DuckFile.FileExists(pDir + "/mappack_info.txt"))
             {
                 string defaultAuthor = "Dan Rando";
-                if (Steam.User != null)
-                {
-                    defaultAuthor = Steam.User.Name;
-                }
+#if FACEPUNCH
+                if (SteamClient.SteamId != 0)
+                    defaultAuthor = FacepunchSteam.Me.Name;
+#else
+                if (DGSteam.User != null)
+                    defaultAuthor = DGSteam.User.Name;
+#endif
                 DuckFile.SaveString(pack.name + "\n" + defaultAuthor + "\nEdit info.txt to change this information!\n<add a 1280x720 PNG file called 'screenshot.png' to set a custom workshop image!>", pDir + "/mappack_info.txt");
             }
         }
@@ -130,7 +139,11 @@ public class MapPack : ContentPack
         {
             LoadMapPack(directories[i]);
         }
-        if (Steam.User != null)
+#if FACEPUNCH
+        if (SteamClient.SteamId != 0)
+#else
+        if (DGSteam.User != null)
+#endif
         {
             directories = DuckFile.GetDirectories(DuckFile.globalMappackDirectory);
             for (int i = 0; i < directories.Length; i++)

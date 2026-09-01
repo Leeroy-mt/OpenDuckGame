@@ -4,6 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class ReskinPack : ContentPack
@@ -117,7 +123,11 @@ public class ReskinPack : ContentPack
         {
             LoadReskin(directories[i]);
         }
-        if (Steam.User != null)
+#if FACEPUNCH
+        if (SteamClient.SteamId != 0)
+#else
+        if (DGSteam.User != null)
+#endif
         {
             directories = DuckFile.GetDirectories(DuckFile.globalSkinsDirectory);
             for (int i = 0; i < directories.Length; i++)

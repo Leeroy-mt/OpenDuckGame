@@ -9,6 +9,12 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class DevConsole
@@ -433,10 +439,18 @@ public class DevConsole
             if (/*cmd.cheat*/false && !NetworkDebugger.enabled)
             {
                 bool overrideCheats = false;
-                if (Steam.User != null && (Steam.User.Id == 76561197996786074L || Steam.User.Id == 76561198885030822L || Steam.User.Id == 76561198416200652L || Steam.User.Id == 76561198104352795L || Steam.User.Id == 76561198114791325L))
-                {
+#if FACEPUNCH
+                if (SteamClient.SteamId != 0
+                    && (SteamClient.SteamId == 76561197996786074L
+                    || SteamClient.SteamId == 76561198885030822L
+                    || SteamClient.SteamId == 76561198416200652L
+                    || SteamClient.SteamId == 76561198104352795L
+                    || SteamClient.SteamId == 76561198114791325L)
+                    )
+#else
+                if (DGSteam.User != null && (DGSteam.User.Id == 76561197996786074L || DGSteam.User.Id == 76561198885030822L || DGSteam.User.Id == 76561198416200652L || DGSteam.User.Id == 76561198104352795L || DGSteam.User.Id == 76561198114791325L))
+#endif
                     overrideCheats = true;
-                }
                 if (!overrideCheats && (Network.isActive || Level.current is ChallengeLevel || Level.current is ArcadeLevel))
                 {
                     _core.lines.Enqueue(new DCLine
@@ -1344,10 +1358,18 @@ public class DevConsole
             return false;
         }
         bool overrideCheats = false;
-        if (Steam.User != null && (Steam.User.Id == 76561197996786074L || Steam.User.Id == 76561198885030822L || Steam.User.Id == 76561198416200652L || Steam.User.Id == 76561198104352795L || Steam.User.Id == 76561198114791325L))
-        {
+#if FACEPUNCH
+        if (SteamClient.SteamId != 0
+            && (SteamClient.SteamId == 76561197996786074L
+            || SteamClient.SteamId == 76561198885030822L
+            || SteamClient.SteamId == 76561198416200652L
+            || SteamClient.SteamId == 76561198104352795L
+            || SteamClient.SteamId == 76561198114791325L)
+            )
+#else
+        if (DGSteam.User != null && (DGSteam.User.Id == 76561197996786074L || DGSteam.User.Id == 76561198885030822L || DGSteam.User.Id == 76561198416200652L || DGSteam.User.Id == 76561198104352795L || DGSteam.User.Id == 76561198114791325L))
+#endif
             overrideCheats = true;
-        }
         if (!overrideCheats && (Network.isActive || Level.current is ChallengeLevel || Level.current is ArcadeLevel))
         {
             _core.lines.Enqueue(new DCLine
@@ -1456,6 +1478,7 @@ public class DevConsole
 
     public static void Log(DCSection section, Verbosity verbose, string text, int netIndex = -1)
     {
+        Console.WriteLine(Program.RemoveColorTags(text));
         DCLine line = new DCLine
         {
             line = text,
@@ -1513,7 +1536,11 @@ public class DevConsole
         }
         if (pName == null)
         {
-            pName = DateTime.Now.ToShortDateString().Replace('/', '_') + "_" + DateTime.Now.ToLongTimeString().Replace(':', '_') + "_" + Steam.User.Name + "_netlog.txt";
+#if FACEPUNCH
+            pName = $"{DateTime.Now.ToShortDateString().Replace('/', '_')}_{DateTime.Now.ToLongTimeString().Replace(':', '_')}_{FacepunchSteam.Me.Name}_netlog.txt";
+#else
+            pName = $"{DateTime.Now.ToShortDateString().Replace('/', '_')}_{DateTime.Now.ToLongTimeString().Replace(':', '_')}_{DGSteam.User.Name}_netlog.txt";
+#endif
         }
         else if (!pName.EndsWith(".txt"))
         {
@@ -2105,7 +2132,11 @@ public class DevConsole
             hidden = true,
             cheat = true
         });
-        if (!Steam.IsInitialized())
+#if FACEPUNCH
+        if (!SteamClient.IsValid)
+#else
+        if (!DGSteam.IsInitialized())
+#endif
         {
             return;
         }

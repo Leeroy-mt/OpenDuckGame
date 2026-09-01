@@ -6,6 +6,15 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using Color = Microsoft.Xna.Framework.Color;
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Data;
+using Steamworks.Ugc;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -70,7 +79,11 @@ public class UIServerBrowser : UIMenu
                 if (DG.version == version && (Network.gameDataHash == datahash || ModLoader.modHash != modHash) && started == "false" && (customLevels == "" || customLevels == "0" || !ParentalControls.AreParentalControlsActive()) && (!hasLocalMods || ModLoader.modHash == modHash) && userCount < numSlots)
                 {
                     if (type != "2")
+#if FACEPUNCH
+                        return lobby.Id == 0;
+#else
                         return lobby == null;
+#endif
                     return true;
                 }
                 return false;
@@ -81,8 +94,13 @@ public class UIServerBrowser : UIMenu
         {
             get
             {
+#if FACEPUNCH
+                if (lobby.Id != 0)
+                    return lobby.MemberCount;
+#else
                 if (lobby != null)
                     return lobby.Users.Count;
+#endif
                 return _userCount;
             }
         }
@@ -109,10 +127,17 @@ public class UIServerBrowser : UIMenu
                 return -10;
             if (hasPassword && !other.hasPassword)
                 return 10;
+#if FACEPUNCH
+            if (lobby.Id == 0 && other.lobby.Id != 0)
+                return -1000;
+            if (lobby.Id != 0 && other.lobby.Id == 0)
+                return 1000;
+#else
             if (lobby == null && other.lobby != null)
                 return -1000;
             if (lobby != null && other.lobby == null)
                 return 1000;
+#endif
             if (dedicated && !other.dedicated)
                 return 1;
             if (!dedicated && other.dedicated)
@@ -338,13 +363,21 @@ public class UIServerBrowser : UIMenu
         {
             allMod.configuration.disabled = true;
         }
+#if FACEPUNCH
+        if (ConnectionError.joinLobby.Id != 0)
+#else
         if (ConnectionError.joinLobby != null)
+#endif
         {
             _joiningLobby = new LobbyData
             {
                 lobby = ConnectionError.joinLobby
             };
+#if FACEPUNCH
+            string loadedMods = ConnectionError.joinLobby.GetData("mods");
+#else
             string loadedMods = ConnectionError.joinLobby.GetLobbyData("mods");
+#endif
             if (loadedMods != null && loadedMods != "")
             {
                 string[] array = loadedMods.Split('|');
@@ -373,7 +406,11 @@ public class UIServerBrowser : UIMenu
         {
             Mod m = ModLoader.allMods.FirstOrDefault((Mod x) => x.configuration.workshopID == w2.Id);
             m?.configuration.disabled = false;
-            Steam.WorkshopSubscribe(w2.Id);
+#if FACEPUNCH
+            w2.Subscribe();
+#else
+            DGSteam.WorkshopSubscribe(w2.Id);
+#endif
         }
         Program.commandLine = $"{Program.commandLine} -downloadmods +connect_lobby {_joiningLobby.lobby.Id}";
         if (MonoMain.lobbyPassword != "")
@@ -653,12 +690,20 @@ public class UIServerBrowser : UIMenu
                 if (lobby == null)
                     continue;
                 _noImage.texture = defaultImage;
+#if FACEPUNCH
+                if (lobby.lobby.Id == 0)
+#else
                 if (lobby.lobby == null)
+#endif
                     _noImage.texture = defaultImageLan;
                 _noImage.Scale = Vector2.One;
                 List<Texture2D> workshopTextures = [];
                 string details = lobby.name;
+#if FACEPUNCH
+                if (lobby.lobby.Id == 0)
+#else
                 if (lobby.lobby == null)
+#endif
                     details = !lobby.dedicated ? $"{details} (LAN)" : $"{details} |DGGREEN|(DEDICATED LAN SERVER)";
                 else if (lobby.dedicated)
                     details += " |DGGREEN|(DEDICATED SERVER)";
@@ -668,7 +713,11 @@ public class UIServerBrowser : UIMenu
                     WorkshopItem w = lobby.workshopItems[0];
                     if (w.Data != null)
                     {
+#if FACEPUNCH
+                        lobby.workshopItems = [.. lobby.workshopItems.OrderByDescending(x => x.Data != null ? x.Data.VotesUp : 0)];
+#else
                         lobby.workshopItems = [.. lobby.workshopItems.OrderByDescending(x => x.Data != null ? x.Data.votesUp : 0)];
+#endif
                         if (!lobby.downloadedWorkshopItems)
                         {
                             lobby.hasFirstMod = true;
@@ -697,7 +746,11 @@ public class UIServerBrowser : UIMenu
                         modDetails += "\n|GRAY|";
                         if (!_previewMap.TryGetValue(w.Id, out Texture2D tex))
                         {
+#if FACEPUNCH
+                            if (w.Data.PreviewPath != null && w.Data.PreviewPath != "")
+#else
                             if (w.Data.previewPath != null && w.Data.previewPath != "")
+#endif
                             {
                                 try
                                 {
@@ -706,7 +759,11 @@ public class UIServerBrowser : UIMenu
                                     DuckFile.CreatePath(file);
                                     if (File.Exists(file))
                                         DuckFile.Delete(file);
+#if FACEPUNCH
+                                    client.DownloadFileAsync(new Uri(w.Data.PreviewPath), file);
+#else
                                     client.DownloadFileAsync(new Uri(w.Data.previewPath), file);
+#endif
                                     client.DownloadFileCompleted += Completed;
                                     _clientMap[client] = w.Id;
                                 }
@@ -790,7 +847,11 @@ public class UIServerBrowser : UIMenu
                              ? $"{titleString}This game is in progress."
                              : (lobby.userCount >= lobby.numSlots
                                ? $"{titleString}Lobby is full."
+#if FACEPUNCH
+                               : (lobby.lobby.Id != 0 && lobby.type != "2"
+#else
                                : (lobby.lobby != null && lobby.type != "2"
+#endif
                                  ? $"{titleString}This game is not public."
                                  : (lobby.hasLocalMods
                                    ? $"{titleString}This game is using non-workshop mods."
@@ -826,7 +887,12 @@ public class UIServerBrowser : UIMenu
                 if (lobby.pingRefreshTimeout <= 0)
                 {
                     lobby.pingRefreshTimeout = 60;
-                    lobby.estimatedPing = Steam.EstimatePing(lobby.pingstring);
+#if FACEPUNCH
+                    var location = NetPingLocation.TryParseFromString(lobby.pingstring) ?? default;
+                    lobby.estimatedPing = SteamNetworkingUtils.EstimatePingTo(location);
+#else
+                    lobby.estimatedPing = DGSteam.EstimatePing(lobby.pingstring);
+#endif
                 }
                 lobby.pingRefreshTimeout--;
                 if (lobby.estimatedPing != -1)
@@ -840,7 +906,11 @@ public class UIServerBrowser : UIMenu
                 }
                 else
                     _fancyFont.Draw("????ms", new Vector2(boxLeft3 + 470, boxTop3 + 26), Colors.DGRed * 0.45f, 0.5f);
+#if FACEPUNCH
+                if (lobby.lobby.Id != 0)
+#else
                 if (lobby.lobby != null)
+#endif
                     Graphics.Draw(_steamIcon, boxLeft3 + 36, boxTop3 + 2.5f, 0.5f);
                 else
                     Graphics.Draw(_lanIcon, boxLeft3 + 36, boxTop3 + 2.5f, 0.5f);
@@ -898,7 +968,7 @@ public class UIServerBrowser : UIMenu
         }
     }
 
-    void UpdateLobbySearch()
+    async void UpdateLobbySearch()
     {
         if (!_searching && mode != SearchMode.None && Graphics.frame >= _lobbySearchCooldownNextAvailable)
         {
@@ -923,6 +993,109 @@ public class UIServerBrowser : UIMenu
         }
         else
         {
+#if FACEPUNCH
+            for (int i = 0; i < lobbies; i++)
+            {
+                Lobby lobby = Network.activeNetwork.core.GetSearchLobbyAtIndex(i);
+                if (_lobbies.FirstOrDefault(x => x.lobby.Id != 0 && x.lobby.Id == lobby.Id) != null)
+                    continue;
+                string lobbyName = lobby.GetData("name");
+                if (string.IsNullOrEmpty(lobbyName))
+                    continue;
+                LobbyData d2 = new()
+                {
+                    lobby = lobby,
+                    name = DuckNetwork.core.FilterText(lobbyName, lobby.Owner.Id),
+                    hasCustomName = lobby.GetData("customName") == "true",
+                    modHash = lobby.GetData("modhash"),
+                    requiredWins = lobby.GetData("requiredwins"),
+                    restsEvery = lobby.GetData("restsevery"),
+                    wallMode = lobby.GetData("wallmode"),
+                    customLevels = lobby.GetData("customLevels"),
+                    version = lobby.GetData("version"),
+                    started = lobby.GetData("started"),
+                    type = lobby.GetData("type")
+                };
+                try
+                {
+                    d2.numSlots = Convert.ToInt32(lobby.GetData("numSlots"));
+                }
+                catch (Exception)
+                {
+                    d2.numSlots = 0;
+                }
+                d2.hasModifiers = lobby.GetData("modifiers");
+                d2.hasPassword = lobby.GetData("password") == "true";
+                d2.dedicated = lobby.GetData("dedicated") == "true";
+                d2.pingstring = lobby.GetData("pingstring");
+
+                if (d2.pingstring != "" && d2.pingstring != null)
+                {
+                    var location = NetPingLocation.TryParseFromString(d2.pingstring) ?? default;
+                    d2.estimatedPing = SteamNetworkingUtils.EstimatePingTo(location);
+                }
+
+                try
+                {
+                    d2.datahash = Convert.ToInt64(lobby.GetData("datahash"));
+                }
+                catch (Exception)
+                {
+                }
+
+                d2.isGlobalLobby = mode == SearchMode.Global;
+                d2.hasFriends = false;
+                foreach (var user in lobby.Members)
+                {
+                    var friends = SteamFriends.GetFriends();
+                    if (friends.Contains(user))
+                    {
+                        d2.hasFriends = true;
+                        break;
+                    }
+                }
+                string loadedMods = lobby.GetData("mods");
+                if (loadedMods != null && loadedMods != "")
+                {
+                    string[] array = loadedMods.Split('|');
+                    foreach (string s in array)
+                    {
+                        try
+                        {
+                            if (s == "")
+                                continue;
+                            if (s == "LOCAL")
+                            {
+                                d2.hasLocalMods = true;
+                                continue;
+                            }
+                            string[] s2 = s.Split(',');
+                            string workshopID = "";
+                            workshopID = (s2.Length != 2) ? s : s2[0].Trim();
+                            var w = WorkshopItem.GetItem(Convert.ToUInt64(workshopID));
+                            if (w != null)
+                            {
+                                queryItems.Add(w);
+                                d2.workshopItems.Add(w);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                }
+                try
+                {
+                    d2.maxPlayers = Convert.ToInt32(lobby.GetData("maxplayers"));
+                }
+                catch (Exception)
+                {
+                    d2.maxPlayers = 0;
+                }
+                _lobbies.Add(d2);
+            }
+        }
+#else
             for (int i = 0; i < lobbies; i++)
             {
                 Lobby lobby = Network.activeNetwork.core.GetSearchLobbyAtIndex(i);
@@ -934,7 +1107,7 @@ public class UIServerBrowser : UIMenu
                 LobbyData d2 = new()
                 {
                     lobby = lobby,
-                    name = DuckNetwork.core.FilterText(lobbyName, null),
+                    name = DuckNetwork.core.FilterText(lobbyName, lobby.Owner?.Id ?? 0),
                     hasCustomName = lobby.GetLobbyData("customName") == "true",
                     modHash = lobby.GetLobbyData("modhash"),
                     requiredWins = lobby.GetLobbyData("requiredwins"),
@@ -958,7 +1131,7 @@ public class UIServerBrowser : UIMenu
                 d2.dedicated = lobby.GetLobbyData("dedicated") == "true";
                 d2.pingstring = lobby.GetLobbyData("pingstring");
                 if (d2.pingstring != "" && d2.pingstring != null)
-                    d2.estimatedPing = Steam.EstimatePing(d2.pingstring);
+                    d2.estimatedPing = DGSteam.EstimatePing(d2.pingstring);
                 try
                 {
                     d2.datahash = Convert.ToInt64(lobby.GetLobbyData("datahash"));
@@ -969,7 +1142,7 @@ public class UIServerBrowser : UIMenu
                 d2.isGlobalLobby = mode == SearchMode.Global;
                 d2.hasFriends = false;
                 foreach (User user in lobby.Users)
-                    if (Steam.Friends.Contains(user))
+                    if (DGSteam.Friends.Contains(user))
                     {
                         d2.hasFriends = true;
                         break;
@@ -1015,8 +1188,19 @@ public class UIServerBrowser : UIMenu
                 _lobbies.Add(d2);
             }
         }
+#endif
         if (queryItems.Count > 0)
-            Steam.RequestWorkshopInfo(queryItems);
+#if FACEPUNCH
+        {
+            var page = await Query.All
+                .WithFileId([.. queryItems.Select(i => i.Id)])
+                .GetPageAsync(1);
+            if (page is ResultPage result)
+                FacepunchSteam.OnSendQueryUGCRequest(result);
+        }
+#else
+            DGSteam.RequestWorkshopInfo(queryItems);
+#endif
         _modeQueue.Dequeue();
     }
 

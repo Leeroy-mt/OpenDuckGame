@@ -2,6 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public static class DG
@@ -70,8 +76,13 @@ public static class DG
         {
             if (NetworkDebugger.enabled)
                 return (ulong)(1330 + NetworkDebugger.currentIndex);
-            if (Steam.User != null)
-                return Steam.User.Id;
+#if FACEPUNCH
+            if (SteamClient.SteamId != 0)
+                return SteamClient.SteamId;
+#else
+            if (DGSteam.User != null)
+                return DGSteam.User.Id;
+#endif
             return _localID;
         }
     }

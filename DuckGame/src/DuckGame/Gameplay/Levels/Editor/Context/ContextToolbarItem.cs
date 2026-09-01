@@ -1,6 +1,12 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class ContextToolbarItem : ContextMenu, IContextListener
@@ -431,7 +437,11 @@ public class ContextToolbarItem : ContextMenu, IContextListener
             loadItem.itemSize.X = 40f;
             loadItem.text = "SAVE AS";
             _saveMenu.AddItem(loadItem);
-            if (Steam.IsInitialized())
+#if FACEPUNCH
+            if (SteamClient.IsValid)
+#else
+            if (DGSteam.IsInitialized())
+#endif
             {
                 ContextMenu publishItem = new ContextMenu(this);
                 publishItem.itemSize.X = 40f;

@@ -1,3 +1,9 @@
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class UIInviteUser
@@ -12,9 +18,17 @@ public class UIInviteUser
 
     public string name;
 
+#if FACEPUNCH
+    public FriendState state;
+#else
     public SteamUserState state;
+#endif
 
     public Sprite sprite;
 
+#if FACEPUNCH
+    public Friend user;
+#else
     public User user;
+#endif
 }

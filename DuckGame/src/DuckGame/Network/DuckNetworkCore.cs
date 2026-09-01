@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class DuckNetworkCore
@@ -390,13 +396,17 @@ public class DuckNetworkCore
         profilesFixedOrder = profiles.OrderBy((Profile x) => x.fixedGhostIndex).ToList();
     }
 
-    public string FilterText(string pText, User pUser)
+    public string FilterText(string pText, ulong pUser)
     {
         if (Options.Data.languageFilter)
         {
             filteredSpeech = "";
             pText = pText.Replace("*", "@_sr_@");
-            pText = Steam.FilterText(pText, pUser);
+#if FACEPUNCH
+            pText = SteamUtils.FilterText(TextFilteringContext.Chat, pUser, pText);
+#else
+            pText = DGSteam.FilterText(pText, pUser);
+#endif
             swearCharOffset = 0;
             bool swearing = false;
             string newMessage = "";
@@ -453,7 +463,7 @@ public class DuckNetworkCore
             prev = chatMessages[0];
         }
         int newlines = 0;
-        pMessage.text = FilterText(pMessage.text, null);
+        pMessage.text = FilterText(pMessage.text, pMessage.who.steamID);
         if (Options.Data.textToSpeech)
         {
             if (Options.Data.textToSpeechReadNames)

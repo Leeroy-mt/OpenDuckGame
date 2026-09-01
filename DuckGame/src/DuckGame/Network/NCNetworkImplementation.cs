@@ -3,11 +3,34 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Data;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
 public abstract class NCNetworkImplementation
 {
+#if FACEPUNCH
+    protected Lobby[] foundLobbies;
+    protected LobbyQuery currentQuery;
+
+    protected static LobbyQuery ApplyFilter(LobbyQuery query, FilterMode filter, string key, int value)
+    {
+        return filter switch
+        {
+            FilterMode.GreaterThan => query.WithHigher(key, value),
+            FilterMode.LessThan => query.WithLower(key, value),
+            FilterMode.Equal => query.WithEqual(key, value)
+        };
+    }
+#endif
+
     public Network _core;
 
     private DataLayer _dataLayer;
@@ -36,7 +59,11 @@ public abstract class NCNetworkImplementation
 
     protected Queue<NCError> _pendingMessages = new Queue<NCError>();
 
+#if FACEPUNCH
+    protected SteamLobby _lobby;
+#else
     protected Lobby _lobby;
+#endif
 
     private GhostManager _ghostManager;
 
@@ -129,7 +156,11 @@ public abstract class NCNetworkImplementation
 
     public bool isActive => _networkThread != null;
 
+#if FACEPUNCH
+    public SteamLobby lobby => _lobby;
+#else
     public Lobby lobby => _lobby;
+#endif
 
     public GhostManager ghostManager => _ghostManager;
 
@@ -393,7 +424,11 @@ public abstract class NCNetworkImplementation
             return null;
         }
         NetworkConnection connection = GetOrAddConnection(context);
+#if FACEPUNCH
+        if (connection.status != ConnectionStatus.Connected && !connection.banned && Network.isServer && connection.data is Friend friend && Options.Data.blockedPlayers.Contains(friend.Id))
+#else
         if (connection.status != ConnectionStatus.Connected && !connection.banned && Network.isServer && connection.data is User && Options.Data.blockedPlayers.Contains((connection.data as User).Id))
+#endif
         {
             DevConsole.Log(DCSection.NetCore, "@error Ignoring connection from " + connection.ToString() + "(blocked)@error");
             connection.banned = true;
@@ -469,7 +504,7 @@ public abstract class NCNetworkImplementation
     protected NetworkConnection GetConnection(object context)
     {
         string id = GetConnectionIdentifier(context);
-        return allConnections.FirstOrDefault((NetworkConnection x) => x.identifier == id);
+        return allConnections.FirstOrDefault(x => x.identifier == id);
     }
 
     public void DisconnectClient(NetworkConnection connection, DuckNetErrorInfo error, bool kicked = false)
@@ -637,7 +672,7 @@ public abstract class NCNetworkImplementation
 
     public abstract int NumLobbiesFound();
 
-    public abstract bool TryRequestDailyKills(out long numKills);
+    public abstract long TryRequestDailyKills();
 
     public abstract Lobby GetSearchLobbyAtIndex(int i);
 
@@ -645,10 +680,18 @@ public abstract class NCNetworkImplementation
     {
     }
 
+#if FACEPUNCH
+    public void UpdateRandomID(SteamLobby l)
+#else
     public void UpdateRandomID(Lobby l)
+#endif
     {
+#if FACEPUNCH
+        l.SetData("randomID", Rando.Int(2147483646).ToString());
+#else
         l.randomID = Rando.Int(2147483646);
         l.SetLobbyData("randomID", l.randomID.ToString());
+#endif
     }
 
     /// <summary>
@@ -668,25 +711,30 @@ public abstract class NCNetworkImplementation
         NetworkConnection connection = GetConnection(context);
         if (connection == null)
         {
+#if FACEPUNCH
+            if (context is Friend friend)
+                _pendingMessages.Enqueue(new NCError($"|DGBLUE|NETCORE |DGRED|Packet received from unknown connection({friend.Id},{friend.Name}).", NCErrorType.Debug));
+#else
             if (context != null && context is User)
-            {
                 _pendingMessages.Enqueue(new NCError("|DGBLUE|NETCORE |DGRED|Packet received from unknown connection(" + (context as User).Id + "," + (context as User).Name + ").", NCErrorType.Debug));
-            }
+#endif
             else
-            {
                 _pendingMessages.Enqueue(new NCError("|DGBLUE|NETCORE |DGRED|Packet received from unknown connection.", NCErrorType.Debug));
-            }
             return;
         }
+
         if (connection.banned)
         {
             if (connection.failureNotificationCooldown <= 0)
             {
+#if FACEPUNCH
+                if (Network.activeNetwork.core.lobby.Id != 0 && connection.data is Friend friend)
+                    Steam_LobbyMessage.Send("COM_FAIL", friend);
+#else
                 if (Network.activeNetwork.core.lobby != null && connection.data is User)
-                {
                     Steam_LobbyMessage.Send("COM_FAIL", connection.data as User);
-                }
-                _pendingMessages.Enqueue(new NCError("|DGBLUE|NETCORE |DGRED|Ignoring packet (banned)(" + connection.ToString() + ").", NCErrorType.Debug));
+#endif
+                _pendingMessages.Enqueue(new NCError($"|DGBLUE|NETCORE |DGRED|Ignoring packet (banned)({connection}).", NCErrorType.Debug));
                 connection.failureNotificationCooldown = 60;
             }
             return;

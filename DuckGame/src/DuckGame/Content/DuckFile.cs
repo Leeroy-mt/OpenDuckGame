@@ -10,6 +10,12 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class DuckFile
@@ -168,10 +174,13 @@ public class DuckFile
     {
         get
         {
-            if (Steam.User != null)
-            {
-                return saveDirectory + Steam.User.Id + "/";
-            }
+#if FACEPUNCH
+            if (FacepunchSteam.SteamId != 0)
+                return $"{saveDirectory}{SteamClient.SteamId}/";
+#else
+            if (DGSteam.User != null)
+                return saveDirectory + DGSteam.User.Id + "/";
+#endif
             return saveDirectory;
         }
     }
@@ -383,13 +392,15 @@ public class DuckFile
     public static Sprite GetMoji(string moji, NetworkConnection pConnection = null)
     {
         if (!mojimode)
-        {
             return null;
-        }
+
+#if FACEPUNCH
+        if (Options.Data.mojiFilter == 1 && pConnection != null && pConnection.data is Friend friend && friend.Relationship != Relationship.Friend)
+#else
         if (Options.Data.mojiFilter == 1 && pConnection != null && pConnection.data is User && (pConnection.data as User).Relationship != FriendRelationship.Friend)
-        {
+#endif
             return null;
-        }
+
         Sprite s = null;
         if (pConnection != null)
         {
@@ -776,7 +787,11 @@ public class DuckFile
     {
         try
         {
-            return Steam.User != null && Path.GetDirectoryName(path).Contains(Steam.User.Id.ToString());
+#if FACEPUNCH
+            return SteamClient.SteamId != 0 && Path.GetDirectoryName(path).Contains(SteamClient.SteamId.ToString());
+#else
+            return DGSteam.User != null && Path.GetDirectoryName(path).Contains(DGSteam.User.Id.ToString());
+#endif
         }
         catch (Exception)
         {

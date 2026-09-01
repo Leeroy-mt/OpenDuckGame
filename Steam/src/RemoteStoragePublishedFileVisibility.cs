@@ -1,4 +1,6 @@
-﻿public enum RemoteStoragePublishedFileVisibility
+﻿namespace Steam;
+
+public enum RemoteStoragePublishedFileVisibility
 {
     FriendsOnly = 1,
     Public = 0,

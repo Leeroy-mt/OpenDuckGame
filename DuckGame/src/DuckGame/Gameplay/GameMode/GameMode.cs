@@ -3,6 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class GameMode
@@ -240,23 +246,28 @@ public class GameMode
         if (Level.current is GameLevel && (Level.current as GameLevel).data != null && (Level.current as GameLevel).data.metaData.workshopID != 0L)
         {
             WorkshopItem item = WorkshopItem.GetItem((Level.current as GameLevel).data.metaData.workshopID);
-            if ((item.StateFlags & WorkshopItemState.Subscribed) != WorkshopItemState.None)
-            {
-                Steam.WorkshopUnsubscribe(item.Id);
-            }
+#if FACEPUNCH
+            if (item.IsSubscribed)
+                item.Unsubscribe();
             else
-            {
-                Steam.WorkshopSubscribe(item.Id);
-            }
+                item.Subscribe();
+#else
+            if ((item.StateFlags & WorkshopItemState.Subscribed) != WorkshopItemState.None)
+                DGSteam.WorkshopUnsubscribe(item.Id);
+            else
+                DGSteam.WorkshopSubscribe(item.Id);
+#endif
         }
     }
 
     public static void View()
     {
         if (Level.current is GameLevel && (Level.current as GameLevel).data != null && (Level.current as GameLevel).data.metaData.workshopID != 0L)
-        {
-            Steam.OverlayOpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + (Level.current as GameLevel).data.metaData.workshopID);
-        }
+#if FACEPUNCH
+            SteamFriends.OpenWebOverlay($"https://steamcommunity.com/sharedfiles/filedetails/?id={(Level.current as GameLevel).data.metaData.workshopID}");
+#else
+            DGSteam.OverlayOpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + (Level.current as GameLevel).data.metaData.workshopID);
+#endif
     }
 
     public static void Blacklist()
@@ -367,10 +378,12 @@ public class GameMode
                 if (item != null)
                 {
                     pauseBox2.leftSection.Add(new UIMenuItem("@STEAMICON@|DGGREEN|VIEW", new UIMenuActionCallFunction(View), UIAlign.Left));
+#if FACEPUNCH
+                    if (item.IsSubscribed)
+#else
                     if ((item.StateFlags & WorkshopItemState.Subscribed) != WorkshopItemState.None)
-                    {
+#endif
                         pauseBox2.leftSection.Add(new UIMenuItem("@STEAMICON@|DGRED|UNSUBSCRIBE", new UIMenuActionCloseMenuCallFunction(_pauseGroup, Subscribe), UIAlign.Left));
-                    }
                     else
                     {
                         pauseBox2.leftSection.Add(new UIMenuItem("@STEAMICON@|DGGREEN|SUBSCRIBE", new UIMenuActionCloseMenuCallFunction(_pauseGroup, Subscribe), UIAlign.Left));

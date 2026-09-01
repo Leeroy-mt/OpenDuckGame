@@ -2,6 +2,12 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class TextEntryDialog : ContextMenu
@@ -64,9 +70,25 @@ public class TextEntryDialog : ContextMenu
         _textbox.filename = true;
     }
 
-    private void TextEntryComplete(string pResult)
+#if FACEPUNCH
+    void TextEntryComplete(bool submited)
     {
-        Steam.TextEntryComplete -= TextEntryComplete;
+        SteamUtils.OnGamepadTextInputDismissed -= TextEntryComplete;
+
+        if (!submited || SteamUtils.GetEnteredGamepadText() is not string pResult || pResult is "")
+            result = _startingText;
+        else
+            result = pResult;
+
+        opened = false;
+        Editor.skipFrame = true;
+        Editor.PopFocus();
+        Editor.enteringText = false;
+    }
+#else
+    void TextEntryComplete(string pResult)
+    {
+        DGSteam.TextEntryComplete -= TextEntryComplete;
         result = pResult;
         if (result == null || result == "")
         {
@@ -77,16 +99,23 @@ public class TextEntryDialog : ContextMenu
         Editor.PopFocus();
         Editor.enteringText = false;
     }
+#endif
 
     public void Open(string text, string startingText = "", int maxChars = 30)
     {
         _usingOnscreenKeyboard = false;
         _startingText = startingText;
         result = null;
-        base.opened = true;
-        if (Steam.ShowOnscreenKeyboard(multiline: false, text, startingText, maxChars))
+        opened = true;
+#if FACEPUNCH
+        if (FacepunchSteam.ShowOnscreenKeyboard(multiline: false, text, startingText, maxChars))
         {
-            Steam.TextEntryComplete += TextEntryComplete;
+            SteamUtils.OnGamepadTextInputDismissed += TextEntryComplete;
+#else
+        if (DGSteam.ShowOnscreenKeyboard(multiline: false, text, startingText, maxChars))
+        {
+            DGSteam.TextEntryComplete += TextEntryComplete;
+#endif
             _usingOnscreenKeyboard = true;
             Editor.enteringText = true;
             Editor.PushFocus(this);

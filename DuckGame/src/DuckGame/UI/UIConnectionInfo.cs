@@ -2,6 +2,12 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class UIConnectionInfo : UIMenuItem
@@ -95,10 +101,17 @@ public class UIConnectionInfo : UIMenuItem
             }
             if (trigger == "SELECT")
             {
+#if FACEPUNCH
+                if (_profile.connection.data is Friend)
+                    SteamFriends.OpenWebOverlay($"http://steamcommunity.com/profiles/{((Friend)_profile.connection.data).Id}");
+                else if (NetworkDebugger.enabled && SteamClient.SteamId != 0)
+                    SteamFriends.OpenWebOverlay($"http://steamcommunity.com/profiles/{SteamClient.SteamId}");
+#else
                 if (_profile.connection.data is User)
-                    Steam.OverlayOpenURL("http://steamcommunity.com/profiles/" + (_profile.connection.data as User).Id);
-                else if (NetworkDebugger.enabled && Steam.User != null)
-                    Steam.OverlayOpenURL("http://steamcommunity.com/profiles/" + Steam.User.Id);
+                    DGSteam.OverlayOpenURL("http://steamcommunity.com/profiles/" + (_profile.connection.data as User).Id);
+                else if (NetworkDebugger.enabled && DGSteam.User != null)
+                    DGSteam.OverlayOpenURL("http://steamcommunity.com/profiles/" + DGSteam.User.Id);
+#endif
             }
         }
         base.Activate(trigger);
@@ -347,7 +360,11 @@ public class UIConnectionInfo : UIMenuItem
             else
                 controlString += " @MENU1@SPECTATOR";
         }
+#if FACEPUNCH
+        if (p.connection.data is Friend || NetworkDebugger.enabled)
+#else
         if (p.connection.data is User || NetworkDebugger.enabled)
+#endif
             controlString += " @SELECT@@STEAMICON@";
     }
 

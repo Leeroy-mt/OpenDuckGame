@@ -1,4 +1,6 @@
-﻿public enum SteamLobbyType
+﻿namespace Steam;
+
+public enum SteamLobbyType
 {
     Invisible = 3,
     Public = 2,

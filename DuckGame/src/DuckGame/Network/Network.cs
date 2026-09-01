@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
+
+
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -69,10 +77,13 @@ public class Network
     {
         get
         {
-            if (Steam.IsInitialized())
-            {
-                return Steam.User != null;
-            }
+#if FACEPUNCH
+            if (SteamClient.IsValid)
+                return SteamClient.SteamId != 0;
+#else
+            if (DGSteam.IsInitialized())
+                return DGSteam.User != null;
+#endif
             return false;
         }
     }
@@ -235,18 +246,20 @@ public class Network
         get
         {
             if (DuckNetwork.isDedicatedServer)
-            {
                 return false;
-            }
+
             bool can = isServer && lanMode;
-            if (isServer && Steam.Lobby != null && Steam.Lobby.Type != SteamLobbyType.Public)
-            {
+
+#if FACEPUNCH
+            if (isServer && FacepunchSteam.Lobby != null && FacepunchSteam.Lobby.Visibility != LobbyVisibility.Public)
+#else
+            if (isServer && DGSteam.Lobby != null && DGSteam.Lobby.Type != SteamLobbyType.Public)
+#endif
                 can = true;
-            }
+
             if (!InLobby())
-            {
                 can = false;
-            }
+
             return can;
         }
     }

@@ -3,6 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+
+
+
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -169,21 +178,19 @@ public class LSItem : Thing
         else
         {
             if (!isFolder && !isPlaylist)
-            {
-                path = path.Substring(0, path.Length - 4);
-            }
+                path = path[..^4];
+
             string shortName = path.Substring(path.LastIndexOf("/levels/", StringComparison.InvariantCultureIgnoreCase) + 8);
+
             if (isFolder || isPlaylist)
             {
                 _levelsInside = GetLevelsInside(_select, _path);
                 if (!isModPath)
-                {
-                    _path = "/" + shortName;
-                }
+                    _path = $"/{shortName}";
             }
             else
             {
-                _path = path + ".lev";
+                _path = $"{path}.lev";
             }
         }
         bool found = false;
@@ -206,25 +213,41 @@ public class LSItem : Thing
 
     public static List<string> GetLevelsInside(LevelSelect selector, string path)
     {
-        List<string> levels = new List<string>();
+        List<string> levels = [];
         if (path == "@WORKSHOP@")
         {
-            foreach (WorkshopItem s in Steam.GetAllWorkshopItems())
+#if FACEPUNCH
+            var items = FacepunchSteam.GetAllWorkshopItems()
+                .GetAwaiter()
+                .GetResult();
+            foreach (var s in items)
+            {
+                if (s.Item?.IsInstalled ?? true || s.Data?.ContentFolder == null || !Directory.Exists(s.Data.ContentFolder))
+                    continue;
+
+                string[] files = DuckFile.GetFiles(s.Data.ContentFolder);
+                foreach (string file in files)
+                {
+                    string lName = file;
+                    if (lName.EndsWith(".lev") && selector.filters.TrueForAll(a => a.Filter(lName, LevelLocation.Workshop)))
+                        levels.Add(lName);
+                }
+            }
+#else
+            foreach (WorkshopItem s in DGSteam.GetAllWorkshopItems())
             {
                 if ((s.StateFlags & WorkshopItemState.Installed) == 0 || s.Path == null || !Directory.Exists(s.Path))
-                {
                     continue;
-                }
+
                 string[] files = DuckFile.GetFiles(s.Path);
                 foreach (string file in files)
                 {
                     string lName = file;
                     if (lName.EndsWith(".lev") && selector.filters.TrueForAll((IFilterLSItems a) => a.Filter(lName, LevelLocation.Workshop)))
-                    {
                         levels.Add(lName);
-                    }
                 }
             }
+#endif
         }
         else if (path == "@VANILLA@")
         {

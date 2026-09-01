@@ -10,6 +10,16 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Xml;
+using Steamworks.Ugc;
+using System.Threading.Tasks;
+
+
+
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -595,14 +605,37 @@ public static class ModLoader
                                                              select a.configuration.uniqueID);
         DuckFile.SaveSharpXML(doc, modConfigFile);
     }
-
-    private static void ResultFetched(object value0, WorkshopQueryResult result)
+#if FACEPUNCH
+    static void ResultFetched(object value0, Item result)
     {
-        if (result == null || result.details == null)
+        try
+        {
+            if (!result.IsInstalled || !Directory.Exists(result.Directory))
+                return;
+
+            foreach (var item in DuckFile.GetDirectoriesNoCloud(result.Directory))
+            {
+                ModConfiguration config = AttemptModLoad(item);
+
+                if (config != null)
+                {
+                    try
+                    {
+                        config.isWorkshop = true;
+                        loadableMods.Add(config.uniqueID, config);
+                    } catch { }
+                }
+            }
+        } catch { }
+    }
+#else
+    static void ResultFetched(object value0, WorkshopQueryResult result)
+    {
+        if (result == null || result.Details == null)
         {
             return;
         }
-        WorkshopItem item = result.details.publishedFile;
+        WorkshopItem item = result.Details.PublishedFile;
         if (item == null)
         {
             return;
@@ -633,6 +666,7 @@ public static class ModLoader
         {
         }
     }
+#endif
 
     public static void FailWithHarmonyException()
     {
@@ -651,19 +685,44 @@ public static class ModLoader
     {
         modDirectory = dir;
         LoadConfig();
-        loadableMods = new Dictionary<string, ModConfiguration>();
+        loadableMods = [];
         if (Directory.Exists(modDirectory))
         {
-            if (Steam.IsInitialized())
+#if FACEPUNCH
+            if (SteamClient.IsValid)
             {
-                    runningModloadCode = true;
-                    WorkshopQueryUser workshopQueryUser = Steam.CreateQueryUser(Steam.User.Id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
-                    workshopQueryUser.RequiredTags.Add("Mod");
-                    workshopQueryUser.OnlyQueryIDs = true;
-                    workshopQueryUser.ResultFetched += ResultFetched;
-                    workshopQueryUser.Request();
-                    Steam.Update();
+                runningModloadCode = true;
+                var query = Query.UsableInGame
+                                 .WhereUserSubscribed()
+                                 .SortByTitleAsc()
+                                 .WithTag("Mod")
+                                 .WithOnlyIDs(true);
+                var page = query.GetPageAsync(1)
+                    .GetAwaiter()
+                    .GetResult();
+                for (int i = 2; page?.ResultCount != 0; i++)
+                {
+                    foreach (var item in page?.Entries)
+                        ResultFetched(page, item);
+
+                    page = query.GetPageAsync(i)
+                        .GetAwaiter()
+                        .GetResult();
+                }
+                FacepunchSteam.Update();
             }
+#else
+            if (DGSteam.IsInitialized())
+            {
+                runningModloadCode = true;
+                WorkshopQueryUser workshopQueryUser = DGSteam.CreateQueryUser(DGSteam.User.Id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
+                workshopQueryUser.RequiredTags.Add("Mod");
+                workshopQueryUser.OnlyQueryIDs = true;
+                workshopQueryUser.ResultFetched += ResultFetched;
+                workshopQueryUser.Request();
+                DGSteam.Update();
+            }
+#endif
             runningModloadCode = true;
             List<string> directoriesNoCloud = DuckFile.GetDirectoriesNoCloud(modDirectory);
             directoriesNoCloud.AddRange(DuckFile.GetDirectoriesNoCloud(DuckFile.globalModsDirectory));

@@ -5,6 +5,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+
+
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -130,10 +138,13 @@ public class LevelSelect : Level
             {
                 itemType = LSItemType.Vanilla
             });
-            if (Steam.GetNumWorkshopItems() > 0)
-            {
+
+#if FACEPUNCH
+#warning FACEPUNCH implementation is missing
+#else
+            if (DGSteam.GetNumWorkshopItems() > 0)
                 AddItem(new LSItem(0f, 0f, this, "@WORKSHOP@", isWorkshop: true));
-            }
+#endif
         }
         if (folder.EndsWith(".play") || folder == "@WORKSHOP@" || folder == "@VANILLA@")
         {

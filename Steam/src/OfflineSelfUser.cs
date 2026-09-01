@@ -1,5 +1,7 @@
 ﻿using Steamworks;
 
+namespace Steam;
+
 public class OfflineSelfUser : User
 {
     #region Public Properties
@@ -21,9 +23,6 @@ public class OfflineSelfUser : User
     #endregion
 
     protected override bool InLobby => false;
-
     internal OfflineSelfUser()
-        : base(new CSteamID())
-    {
-    }
+        : base(new CSteamID()) { }
 }

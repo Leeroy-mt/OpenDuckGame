@@ -1,16 +1,23 @@
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Ugc;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 [ChunkVersion(2)]
 [MagicNumber(5033950674723417L)]
 public class LevelData : BinaryClassChunk
 {
-    private LevelMetaData _rerouteMetadata;
+    LevelMetaData _rerouteMetadata;
 
-    private string _path;
+    string _path;
 
-    private LevelLocation _location;
+    LevelLocation _location;
 
-    private WorkshopItem _publishingWorkshopItem;
+    WorkshopItem _publishingWorkshopItem;
 
     public LevelMetaData metaData
     {
@@ -73,9 +80,9 @@ public class LevelData : BinaryClassChunk
 
     public LevelData Clone()
     {
-        BinaryClassChunk.fullDeserializeMode = true;
+        fullDeserializeMode = true;
         LevelData levelData = DuckFile.LoadLevel(Serialize().buffer);
-        BinaryClassChunk.fullDeserializeMode = false;
+        fullDeserializeMode = false;
         levelData._path = _path;
         levelData._location = _location;
         return levelData;

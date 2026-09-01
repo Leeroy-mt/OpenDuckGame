@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class Unlockables
@@ -183,7 +189,11 @@ public class Unlockables
                 u.DoLock();
             }
         }
-        Steam.StoreStats();
+#if FACEPUNCH
+        FacepunchSteam.StoreStats();
+#else
+        DGSteam.StoreStats();
+#endif
         return _pendingUnlocks.Count > 0;
     }
 

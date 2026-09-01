@@ -1,5 +1,11 @@
 using Microsoft.Xna.Framework;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class BIOSScreen : Level
@@ -23,14 +29,22 @@ public class BIOSScreen : Level
 
     public override void Initialize()
     {
-        if (!Steam.IsInitialized())
+#if FACEPUNCH
+        if (!SteamClient.IsValid)
         {
-            var coreInit = Steam.InitializeCore();
+            if (FacepunchSteam.Initialize())
+                FacepunchSteam.SetupEvents();
+        }
+#else
+        if (!DGSteam.IsInitialized())
+        {
+            var coreInit = DGSteam.InitializeCore();
             if (coreInit)
             {
-                Steam.Initialize();
+                DGSteam.Initialize();
             }
         }
+#endif
         _font = new BitmapFont("biosFont", 8);
         base.Initialize();
     }

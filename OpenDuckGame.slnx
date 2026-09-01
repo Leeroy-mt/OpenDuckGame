@@ -1,6 +1,11 @@
 <Solution>
   <Project Path="CrashWindow/CrashWindow.csproj" />
   <Project Path="DuckGame/DuckGame.csproj" />
-  <Project Path="FNA/FNA.Core.csproj" />
+  <Project Path="Facepunch.Steamworks/Facepunch.Steamworks/Facepunch.Steamworks.Win64.csproj">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
+  <Project Path="FNA/FNA.Core.csproj">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
   <Project Path="Steam/Steam.csproj" />
 </Solution>

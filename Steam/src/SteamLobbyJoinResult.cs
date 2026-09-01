@@ -1,4 +1,6 @@
-﻿public enum SteamLobbyJoinResult
+﻿namespace Steam;
+
+public enum SteamLobbyJoinResult
 {
     YouBlockedMember = 11,
     MemberBlockedYou = 10,

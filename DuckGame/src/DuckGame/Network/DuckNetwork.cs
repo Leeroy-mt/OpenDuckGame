@@ -5,6 +5,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+
+
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -573,19 +581,34 @@ public class DuckNetwork
         {
             return;
         }
-        if (Steam.Lobby != null)
+#if FACEPUNCH
+        if (FacepunchSteam.Lobby != null)
         {
-            if (Steam.Lobby.Type == SteamLobbyType.Private || Steam.Lobby.Type == SteamLobbyType.FriendsOnly)
+            if (FacepunchSteam.Lobby.Visibility == LobbyVisibility.Private
+            || FacepunchSteam.Lobby.Visibility == LobbyVisibility.FriendsOnly)
+                invited = true;
+
+            FacepunchSteam.Lobby.Visibility = (LobbyVisibility)type;
+            FacepunchSteam.Lobby.MaxMembers = 32;
+            FacepunchSteam.Lobby.SetData("numSlots", numSlots.ToString());
+            TeamSelect2.GetOnlineSetting("maxplayers").value = numSlots;
+            FacepunchSteam.Lobby.SetData("maxplayers", numSlots.ToString());
+        }
+#else
+        if (DGSteam.Lobby != null)
+        {
+            if (DGSteam.Lobby.Type == SteamLobbyType.Private || DGSteam.Lobby.Type == SteamLobbyType.FriendsOnly)
             {
                 invited = true;
             }
-            Steam.Lobby.Type = (SteamLobbyType)type;
-            Steam.Lobby.MaxMembers = 32;
-            Steam.Lobby.SetLobbyData("numSlots", numSlots.ToString());
+            DGSteam.Lobby.Type = (SteamLobbyType)type;
+            DGSteam.Lobby.MaxMembers = 32;
+            DGSteam.Lobby.SetLobbyData("numSlots", numSlots.ToString());
             TeamSelect2.GetOnlineSetting("maxplayers").value = numSlots;
-            Steam.Lobby.SetLobbyData("maxplayers", numSlots.ToString());
+            DGSteam.Lobby.SetLobbyData("maxplayers", numSlots.ToString());
         }
-        List<byte> slots = new List<byte>();
+#endif
+        List<byte> slots = [];
         for (int i = 0; i < DG.MaxPlayers; i++)
         {
             slots.Add((byte)profiles[i].slotType);
@@ -1189,11 +1212,19 @@ public class DuckNetwork
 
     public static void CopyInviteLink()
     {
-        if (Steam.User != null && Steam.Lobby != null)
+#if FACEPUNCH
+        if (SteamClient.SteamId != 0 && FacepunchSteam.Lobby != null)
         {
-            SDL.SDL_SetClipboardText("steam://joinlobby/312530/" + Steam.Lobby.Id + "/" + Steam.User.Id);
+            SDL.SDL_SetClipboardText($"steam://joinlobby/{FacepunchSteam.AppId}/{FacepunchSteam.Lobby.Id}/{SteamClient.SteamId}");
             HUD.AddPlayerChangeDisplay("@CLIPCOPY@Invite Link Copied!");
         }
+#else
+        if (DGSteam.User != null && DGSteam.Lobby != null)
+        {
+            SDL.SDL_SetClipboardText("steam://joinlobby/312530/" + DGSteam.Lobby.Id + "/" + DGSteam.User.Id);
+            HUD.AddPlayerChangeDisplay("@CLIPCOPY@Invite Link Copied!");
+        }
+#endif
     }
 
     private static void OpenMenu(Profile whoOpen)
@@ -1338,17 +1369,20 @@ public class DuckNetwork
         Main.SpecialCode = "men10";
         if (Level.current is GameLevel && Level.current.isCustomLevel)
         {
-            if ((Level.current as GameLevel).data.metaData.workshopID != 0L && Steam.IsInitialized())
+#if FACEPUNCH
+            if ((Level.current as GameLevel).data.metaData.workshopID != 0L && SteamClient.IsValid)
+#else
+            if ((Level.current as GameLevel).data.metaData.workshopID != 0L && DGSteam.IsInitialized())
+#endif
             {
                 Main.SpecialCode = "men11";
+#if FACEPUNCH
                 WorkshopItem item = WorkshopItem.GetItem((Level.current as GameLevel).data.metaData.workshopID);
                 if (item != null)
                 {
                     _core._ducknetMenu.Add(new UIMenuItem("@STEAMICON@|DGGREEN|VIEW", new UIMenuActionCallFunction(GameMode.View), UIAlign.Left));
-                    if ((item.StateFlags & WorkshopItemState.Subscribed) != WorkshopItemState.None)
-                    {
+                    if (item.IsSubscribed)
                         _core._ducknetMenu.Add(new UIMenuItem("@STEAMICON@|DGRED|UNSUBSCRIBE", new UIMenuActionCloseMenuCallFunction(_ducknetUIGroup, GameMode.Subscribe), UIAlign.Left));
-                    }
                     else
                     {
                         _core._ducknetMenu.Add(new UIMenuItem("@STEAMICON@|DGGREEN|SUBSCRIBE", new UIMenuActionCloseMenuCallFunction(_ducknetUIGroup, GameMode.Subscribe), UIAlign.Left));
@@ -1358,6 +1392,23 @@ public class DuckNetwork
                         }
                     }
                 }
+#else
+                WorkshopItem item = WorkshopItem.GetItem((Level.current as GameLevel).data.metaData.workshopID);
+                if (item != null)
+                {
+                    _core._ducknetMenu.Add(new UIMenuItem("@STEAMICON@|DGGREEN|VIEW", new UIMenuActionCallFunction(GameMode.View), UIAlign.Left));
+                    if ((item.StateFlags & WorkshopItemState.Subscribed) != WorkshopItemState.None)
+                        _core._ducknetMenu.Add(new UIMenuItem("@STEAMICON@|DGRED|UNSUBSCRIBE", new UIMenuActionCloseMenuCallFunction(_ducknetUIGroup, GameMode.Subscribe), UIAlign.Left));
+                    else
+                    {
+                        _core._ducknetMenu.Add(new UIMenuItem("@STEAMICON@|DGGREEN|SUBSCRIBE", new UIMenuActionCloseMenuCallFunction(_ducknetUIGroup, GameMode.Subscribe), UIAlign.Left));
+                        if (Network.isServer)
+                        {
+                            _core._ducknetMenu.Add(new UIMenuItem("@blacklist@|DGRED|NEVER AGAIN", new UIMenuActionOpenMenu(_core._ducknetMenu, _core._confirmBlacklistMenu), UIAlign.Left));
+                        }
+                    }
+                }
+#endif
             }
             Main.SpecialCode = "men12";
             if (!(Level.current as GameLevel).matchOver && Network.isServer)
@@ -1637,7 +1688,11 @@ public class DuckNetwork
     {
         invited = false;
         ulong joinID = 0uL;
-        if (Steam.Lobby != null && NCSteam.inviteLobbyID != 0L && NCSteam.inviteLobbyID == Steam.Lobby.Id)
+#if FACEPUNCH
+        if (FacepunchSteam.Lobby != null && NCSteam.inviteLobbyID != 0L && NCSteam.inviteLobbyID == FacepunchSteam.Lobby.Id)
+#else
+        if (DGSteam.Lobby != null && NCSteam.inviteLobbyID != 0L && NCSteam.inviteLobbyID == DGSteam.Lobby.Id)
+#endif
         {
             invited = true;
         }
@@ -1856,17 +1911,25 @@ public class DuckNetwork
     private static IEnumerable<Profile> GetOpenProfiles(NetworkConnection pConnection, bool pInvited, bool pLocal, bool pSpectator)
     {
         bool pFriend = false;
+#if FACEPUNCH
+        if (pConnection.data is Friend friend && friend.Id != 0)
+        {
+            if (_core._invitedFriends.Contains(friend.Id))
+                pInvited = true;
+
+            if (friend.Relationship == Relationship.Friend)
+                pFriend = true;
+        }
+#else
         if (pConnection.data is User && (pConnection.data as User).Id != 0L)
         {
             if (_core._invitedFriends.Contains((pConnection.data as User).Id))
-            {
                 pInvited = true;
-            }
+
             if ((pConnection.data as User).Relationship == FriendRelationship.Friend)
-            {
                 pFriend = true;
-            }
         }
+#endif
         IEnumerable<Profile> available = profiles.Where((Profile x) => x.connection == null && x.reservedUser != null && pConnection.data == x.reservedUser);
         if (available.Count() == 0)
         {
@@ -2327,10 +2390,13 @@ public class DuckNetwork
             }
             else
             {
-                if (Steam.Lobby != null)
-                {
-                    UIMatchmakingBox.core.nonPreferredServers.Add(Steam.Lobby.Id);
-                }
+#if FACEPUNCH
+                if (FacepunchSteam.Lobby != null)
+                    UIMatchmakingBox.core.nonPreferredServers.Add(FacepunchSteam.Lobby.Id);
+#else
+                if (DGSteam.Lobby != null)
+                    UIMatchmakingBox.core.nonPreferredServers.Add(DGSteam.Lobby.Id);
+#endif
                 if (!finishedMatch)
                 {
                     _xpEarned.Clear();
@@ -2712,6 +2778,7 @@ public class DuckNetwork
             }
             bool filter = false;
             bool muted = false;
+
             if (NetworkDebugger.enabled)
             {
                 if (pProfile.muteChat)
@@ -2720,35 +2787,37 @@ public class DuckNetwork
                     muted = true;
                 }
             }
+#if FACEPUNCH
+            else if (pProfile.connection.data is Friend && pProfile.muteChat)
+#else
             else if (pProfile.connection.data is User && pProfile.muteChat)
+#endif
             {
                 filter = true;
                 muted = true;
             }
+
             if (chatMode > 0)
             {
                 bool friend = false;
+#if FACEPUNCH
+                if (pProfile.connection.data is Friend { Relationship: Relationship.Friend })
+#else
                 if (pProfile.connection.data is User { Relationship: FriendRelationship.Friend })
-                {
+#endif
                     friend = true;
-                }
+
                 if (chatMode == 1 && !friend && !invited)
-                {
                     filter = true;
-                }
                 else if (chatMode == 2 && !friend)
-                {
                     filter = true;
-                }
             }
+
             if (filter && muted)
-            {
                 return 2;
-            }
+
             if (filter)
-            {
                 return 1;
-            }
         }
         return 0;
     }
@@ -3236,21 +3305,32 @@ public class DuckNetwork
             if (m is NMKick)
             {
                 _core.status = DuckNetStatus.Failure;
-                if (Steam.Lobby != null)
-                {
-                    UIMatchmakingBox.core.blacklist.Add(Steam.Lobby.Id);
-                }
+#if FACEPUNCH
+                if (FacepunchSteam.Lobby != null)
+                    UIMatchmakingBox.core.blacklist.Add(FacepunchSteam.Lobby.Id);
+#else
+                if (DGSteam.Lobby != null)
+                    UIMatchmakingBox.core.blacklist.Add(DGSteam.Lobby.Id);
+#endif
                 Network.EndNetworkingSession(new DuckNetErrorInfo(DuckNetError.Kicked, "|RED|Oh no! The host kicked you :("));
                 return true;
             }
             if (m is NMBan)
             {
                 _core.status = DuckNetStatus.Failure;
-                if (Steam.Lobby != null)
+#if FACEPUNCH
+                if (FacepunchSteam.Lobby != null)
                 {
-                    UIMatchmakingBox.core.nonPreferredServers.Add(Steam.Lobby.Id);
-                    UIMatchmakingBox.core.blacklist.Add(Steam.Lobby.Id);
+                    UIMatchmakingBox.core.nonPreferredServers.Add(FacepunchSteam.Lobby.Id);
+                    UIMatchmakingBox.core.blacklist.Add(FacepunchSteam.Lobby.Id);
                 }
+#else
+                if (DGSteam.Lobby != null)
+                {
+                    UIMatchmakingBox.core.nonPreferredServers.Add(DGSteam.Lobby.Id);
+                    UIMatchmakingBox.core.blacklist.Add(DGSteam.Lobby.Id);
+                }
+#endif
                 Network.EndNetworkingSession(new DuckNetErrorInfo(DuckNetError.Kicked, "|RED|Oh no!! The host banned you :("));
                 return true;
             }
@@ -3337,21 +3417,33 @@ public class DuckNetwork
 
     public static void FailWithVersionMismatch(string theirVersion, NMVersionMismatch.Type type)
     {
-        Steam.MarkForUpdateCheck();
+#if FACEPUNCH
+        SteamApps.MarkContentCorrupt(false);
+#else
+        DGSteam.MarkForUpdateCheck();
+#endif
         _core.status = DuckNetStatus.Failure;
         Network.EndNetworkingSession(AssembleMismatchError(theirVersion));
     }
 
     public static void FailWithDatahashMismatch()
     {
-        Steam.MarkForUpdateCheck();
+#if FACEPUNCH
+        SteamApps.MarkContentCorrupt(false);
+#else
+        DGSteam.MarkForUpdateCheck();
+#endif
         _core.status = DuckNetStatus.Failure;
         Network.EndNetworkingSession(new DuckNetErrorInfo(DuckNetError.ModsIncompatible, "|RED|Game data does not match the host's!\n    Please ensure game versions\n           are the same."));
     }
 
     public static void FailWithModDatahashMismatch(Mod pMod)
     {
-        Steam.MarkForUpdateCheck();
+#if FACEPUNCH
+        SteamApps.MarkContentCorrupt(false);
+#else
+        DGSteam.MarkForUpdateCheck();
+#endif
         _core.status = DuckNetStatus.Failure;
         Network.EndNetworkingSession(new DuckNetErrorInfo(DuckNetError.ModsIncompatible, "|RED|Mod data mismatch:\n   |DGBLUE|" + pMod.configuration.displayName + "|PREV|\n"));
     }

@@ -1,18 +1,20 @@
-﻿public class SessionState
+﻿namespace Steam;
+
+public class SessionState
 {
     #region Public Fields
 
-    public byte m_bConnectionActive;
-    public byte m_bConnecting;
-    public byte m_eP2PSessionError;
-    public byte m_bUsingRelay;
+    public byte ConnectionActive;
+    public byte Connecting;
+    public byte P2PSessionError;
+    public byte UsingRelay;
 
-    public ushort m_nRemotePort;
+    public ushort RemotePort;
 
-    public int m_nBytesQueuedForSend;
-    public int m_nPacketsQueuedForSend;
+    public int BytesQueuedForSend;
+    public int PacketsQueuedForSend;
 
-    public uint m_nRemoteIP;
+    public uint RemoteIP;
 
     #endregion
 }

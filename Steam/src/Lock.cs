@@ -1,4 +1,6 @@
-﻿internal class Lock : IDisposable
+﻿namespace Steam;
+
+internal class Lock : IDisposable
 {
     readonly object m_pObject;
 

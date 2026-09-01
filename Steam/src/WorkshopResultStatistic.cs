@@ -1,4 +1,6 @@
-﻿public enum WorkshopResultStatistic
+﻿namespace Steam;
+
+public enum WorkshopResultStatistic
 {
     Total = 8,
     ReportScore = 7,

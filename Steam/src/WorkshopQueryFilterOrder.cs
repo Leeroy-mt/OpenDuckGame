@@ -1,4 +1,6 @@
-﻿public enum WorkshopQueryFilterOrder
+﻿namespace Steam;
+
+public enum WorkshopQueryFilterOrder
 {
     RankedByTotalUniqueSubscriptions = 12,
     RankedByTextSearch = 11,

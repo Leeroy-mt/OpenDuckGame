@@ -3,6 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
+
+
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -108,7 +116,11 @@ public static class Cloud
                 {
                     DevConsole.Log(DCSection.General, "Cloud.Execute.Delete(" + file.cloudPath + ")");
                 }
-                Steam.FileDelete(file.cloudPath);
+#if FACEPUNCH
+                SteamRemoteStorage.FileDelete(file.cloudPath);
+#else
+                DGSteam.FileDelete(file.cloudPath);
+#endif
                 file.cloudDate = DateTime.MinValue;
             }
             else if (type == Type.ReadFromCloud)
@@ -136,7 +148,11 @@ public static class Cloud
                     return;
                 }
                 byte[] writeData = File.ReadAllBytes(file.localPath);
-                Steam.FileWrite(file.cloudPath, writeData, writeData.Length);
+#if FACEPUNCH
+                SteamRemoteStorage.FileWrite(file.cloudPath, writeData);
+#else
+                DGSteam.FileWrite(file.cloudPath, writeData, writeData.Length);
+#endif
                 if (MonoMain.logFileOperations)
                 {
                     DevConsole.Log(DCSection.General, "Cloud.Execute.WriteToCloud(" + file.cloudPath + ")");
@@ -173,13 +189,14 @@ public static class Cloud
         get
         {
             if (!_initializedCloud || nocloud)
-            {
                 return false;
-            }
-            if (!Steam.IsInitialized() || !Steam.CloudEnabled())
-            {
+
+#if FACEPUNCH
+            if (!SteamClient.IsValid || !SteamRemoteStorage.IsCloudEnabled)
+#else
+            if (!DGSteam.IsInitialized() || !DGSteam.CloudEnabled())
+#endif
                 return false;
-            }
             return true;
         }
     }
@@ -200,7 +217,11 @@ public static class Cloud
 
     public static void Initialize()
     {
-        if (Steam.IsInitialized())
+#if FACEPUNCH
+        if (SteamClient.IsValid)
+#else
+        if (DGSteam.IsInitialized())
+#endif
         {
             DownloadLatestData();
         }
@@ -247,17 +268,25 @@ public static class Cloud
         {
             DevConsole.Log(DCSection.General, "Cloud.Delete(" + pPath + ")");
         }
-        if (!Steam.IsInitialized())
+#if FACEPUNCH
+        if (!SteamClient.IsValid)
+#else
+        if (!DGSteam.IsInitialized())
+#endif
         {
             return;
         }
         CloudFile c = CloudFile.GetLocal(pPath, pDelete: true);
         if (c != null)
         {
-            Steam.FileDelete(c.cloudPath);
+#if FACEPUNCH
+            SteamRemoteStorage.FileDelete(c.cloudPath);
+#else
+            DGSteam.FileDelete(c.cloudPath);
+#endif
             if (MonoMain.logFileOperations)
             {
-                DevConsole.Log(DCSection.General, "Steam.FileDelete(" + c.cloudPath + ")");
+                DevConsole.Log(DCSection.General, "SteamClient.FileDelete(" + c.cloudPath + ")");
             }
             c.cloudDate = DateTime.MinValue;
         }
@@ -277,7 +306,11 @@ public static class Cloud
         {
             DevConsole.Log(DCSection.General, "Cloud.Write(" + path + ")");
         }
-        if (!Steam.IsInitialized())
+#if FACEPUNCH
+        if (!SteamClient.IsValid)
+#else
+        if (!DGSteam.IsInitialized())
+#endif
         {
             return;
         }
@@ -285,10 +318,14 @@ public static class Cloud
         if (c != null && !c.isOld)
         {
             byte[] docData = File.ReadAllBytes(c.localPath);
-            Steam.FileWrite(c.cloudPath, docData, docData.Length);
+#if FACEPUNCH
+            SteamRemoteStorage.FileWrite(c.cloudPath, docData);
+#else
+            DGSteam.FileWrite(c.cloudPath, docData, docData.Length);
+#endif
             if (MonoMain.logFileOperations)
             {
-                DevConsole.Log(DCSection.General, "Steam.FileWrite(" + c.cloudPath + ")");
+                DevConsole.Log(DCSection.General, "SteamClient.FileWrite(" + c.cloudPath + ")");
             }
             c.localDate = DateTime.Now;
             c.cloudDate = DateTime.Now;
@@ -307,7 +344,11 @@ public static class Cloud
             return;
         }
         pLocalPath = DuckFile.PreparePath(pLocalPath);
-        if (Steam.IsInitialized())
+#if FACEPUNCH
+        if (SteamClient.IsValid)
+#else
+        if (DGSteam.IsInitialized())
+#endif
         {
             ReplaceLocalFileWithCloudFile(CloudFile.GetLocal(pLocalPath));
         }
@@ -343,7 +384,11 @@ public static class Cloud
             {
                 DevConsole.Log(DCSection.General, "Cloud.ReplaceLocalFileWithCloudFile(" + pFile.cloudPath + ")");
             }
-            byte[] data = Steam.FileRead(pFile.cloudPath);
+#if FACEPUNCH
+            var data = SteamRemoteStorage.FileRead(pFile.cloudPath);
+#else
+            byte[] data = DGSteam.FileRead(pFile.cloudPath);
+#endif
             if (data == null)
             {
                 return;
@@ -368,14 +413,26 @@ public static class Cloud
     {
         using FileStream fileStream = new FileStream(pFile, FileMode.Create);
         using ZipArchive archive = new ZipArchive(fileStream, ZipArchiveMode.Create, leaveOpen: true);
-        int num = Steam.FileGetCount();
+#if FACEPUNCH
+        var num = SteamRemoteStorage.FileCount;
+#else
+        int num = DGSteam.FileGetCount();
+#endif
         for (int i = 0; i < num; i++)
         {
-            string file = Steam.FileGetName(i);
+#if FACEPUNCH
+            var file = SteamRemoteStorage.Files.ElementAt(i);
+#else
+            string file = DGSteam.FileGetName(i);
+#endif
             if (!file.EndsWith(".lev") && !file.EndsWith(".png") && !file.EndsWith(".play"))
             {
                 using Stream entryStream = archive.CreateEntry(file).Open();
-                byte[] data = Steam.FileRead(file);
+#if FACEPUNCH
+                var data = SteamRemoteStorage.FileRead(file);
+#else
+                byte[] data = DGSteam.FileRead(file);
+#endif
                 entryStream.Write(data, 0, data.Length);
             }
         }
@@ -391,10 +448,18 @@ public static class Cloud
         Level.Add(uICloudProcess);
         uICloudProcess.Open();
         MonoMain.pauseMenu = uICloudProcess;
-        int num = Steam.FileGetCount();
+#if FACEPUNCH
+        var num = SteamRemoteStorage.FileCount;
+#else
+        int num = DGSteam.FileGetCount();
+#endif
         for (int i = 0; i < num; i++)
         {
-            CloudFile c = CloudFile.Get(Steam.FileGetName(i));
+#if FACEPUNCH
+            var c = CloudFile.Get(SteamRemoteStorage.Files.ElementAt(i));
+#else
+            CloudFile c = CloudFile.Get(DGSteam.FileGetName(i));
+#endif
             if (c != null && (!pNewDataOnly || c.cloudPath.StartsWith("nq500000_")))
             {
                 _operations.Enqueue(new CloudOperation
@@ -418,10 +483,18 @@ public static class Cloud
         {
             return;
         }
-        int num = Steam.FileGetCount();
+#if FACEPUNCH
+        var num = SteamRemoteStorage.FileCount;
+#else
+        int num = DGSteam.FileGetCount();
+#endif
         for (int i = 0; i < num; i++)
         {
-            CloudFile c = CloudFile.Get(Steam.FileGetName(i));
+#if FACEPUNCH
+            var c = CloudFile.Get(SteamRemoteStorage.Files.ElementAt(i));
+#else
+            CloudFile c = CloudFile.Get(DGSteam.FileGetName(i));
+#endif
             if (c == null)
             {
                 continue;

@@ -10,6 +10,14 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Steamworks.Ugc;
+using System.Threading.Tasks;
+
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -91,7 +99,11 @@ public class MonoMain : Game
     static MaterialPause _pauseMaterial;
     static Recording _tempRecordingReference;
 
+#if FACEPUNCH
+    static List<Item> availableModsToDownload = [];
+#else
     static List<WorkshopItem> availableModsToDownload = [];
+#endif
     static List<Func<string>> _extraExceptionDetails =
     [
         () => $"Date: {DateTime.UtcNow.ToString(DateTimeFormatInfo.InvariantInfo)}",
@@ -101,7 +113,7 @@ public class MonoMain : Game
         () => $"Mods: {ModLoader.modHash}",
         () => $"Time Played: {TimeString(DateTime.Now - startTime)} ({Graphics.frame})",
         () => $"Special Code: {Main.SpecialCode}",
-        () => $"Resolution: (A){Resolution.adapterResolution.x}x{Resolution.adapterResolution.y} (G){Resolution.current.x}x{Resolution.current.y + (Options.Data.fullscreen ? ($" (Fullscreen({(Options.Data.windowedFullscreen ? "W" : "H")}))") : " (Windowed)")}(RF {framesSinceFocusChange})",
+        () => $"Resolution: (A){Resolution.adapterResolution?.x}x{Resolution.adapterResolution?.y} (G){Resolution.current?.x}x{Resolution.current?.y + (Options.Data.fullscreen ? ($" (Fullscreen({(Options.Data.windowedFullscreen ? "W" : "H")}))") : " (Windowed)")}(RF {framesSinceFocusChange})",
         () => $"Level: {GetLevelString()}",
         () => $"Command Line: {Program.commandLine}"
     ];
@@ -524,7 +536,11 @@ public class MonoMain : Game
                     {
                         Send.ImmediateUnreliableBroadcast(new NMClientClosedGame());
                         Send.ImmediateUnreliableBroadcast(new NMClientClosedGame());
-                        Steam.Update();
+#if FACEPUNCH
+                        FacepunchSteam.Update();
+#else
+                        DGSteam.Update();
+#endif
                         Thread.Sleep(16);
                     }
                 }
@@ -553,7 +569,11 @@ public class MonoMain : Game
         {
             while (Cloud.processing)
                 Cloud.Update();
-            Steam.Terminate();
+#if FACEPUNCH
+            SteamClient.Shutdown();
+#else
+            DGSteam.Terminate();
+#endif
         }
         catch (Exception)
         {
@@ -590,11 +610,16 @@ public class MonoMain : Game
                 if (_loggedConnectionCheckFailure)
                 {
                     _loggedConnectionCheckFailure = true;
-                    DevConsole.Log("|DGRED|Failed to initialize a connection to Steam.");
+                    DevConsole.Log("|DGRED|Failed to initialize a connection to SteamClient.");
                 }
             }
-            else if (Steam.IsInitialized() && Steam.IsRunningInitializeProcedures())
-                Steam.Update();
+#if FACEPUNCH
+            else if (SteamClient.IsValid)
+                FacepunchSteam.Update();
+#else
+            else if (DGSteam.IsInitialized() && DGSteam.IsRunningInitializeProcedures())
+                DGSteam.Update();
+#endif
         }
         if (_canStartLoading && !LoadingScreen.LoadingStarted && _didFirstDraw)
         {
@@ -639,7 +664,11 @@ public class MonoMain : Game
             Options.FullscreenChanged();
         }
         if (!Cloud.processing)
-            Steam.Update();
+#if FACEPUNCH
+            FacepunchSteam.Update();
+#else
+            DGSteam.Update();
+#endif
         try
         {
             if (Keyboard.Pressed(Keys.F2))
@@ -725,24 +754,47 @@ public class MonoMain : Game
             engineUpdatable3.PostUpdate();
     }
 
-    #endregion
+#endregion
 
     #region Internal Methods
 
     internal void DownloadWorkshopItems()
     {
-        if (!Steam.IsInitialized())
+#if FACEPUNCH
+        if (!SteamClient.IsValid)
             return;
-        WorkshopQueryUser workshopQueryUser = Steam.CreateQueryUser(Steam.User.Id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
+        var query = Query.UsableInGame
+                         .WhereUserSubscribed()
+                         .SortByTitleAsc()
+                         .WithTag("Mod")
+                         .WithOnlyIDs(true);
+        var page = query.GetPageAsync(1)
+            .GetAwaiter()
+            .GetResult();
+
+        for (int i = 2; page?.ResultCount != 0; i++)
+        {
+            foreach (var item in page?.Entries)
+                ResultFetched(page, item);
+            page = query.GetPageAsync(i)
+                .GetAwaiter()
+                .GetResult();
+        }
+        FacepunchSteam.Update();
+        foreach (var u in availableModsToDownload)
+            u.Download(true);
+#else
+        if (!DGSteam.IsInitialized())
+            return;
+        WorkshopQueryUser workshopQueryUser = DGSteam.CreateQueryUser(DGSteam.User.Id, WorkshopList.Subscribed, WorkshopType.UsableInGame, WorkshopSortOrder.TitleAsc);
         workshopQueryUser.RequiredTags.Add("Mod");
         workshopQueryUser.OnlyQueryIDs = true;
         workshopQueryUser.ResultFetched += ResultFetched;
         workshopQueryUser.Request();
-        Steam.Update();
+        DGSteam.Update();
         foreach (WorkshopItem u in availableModsToDownload)
-        {
-            Steam.DownloadWorkshopItem(u);
-        }
+            DGSteam.DownloadWorkshopItem(u);
+#endif
     }
     internal void SetStarted()
     {
@@ -1026,17 +1078,27 @@ public class MonoMain : Game
 
     #region Private Methods
 
+#if FACEPUNCH
+    static void ResultFetched(object value0, Item result)
+    {
+        int num = DuckFile.GetFiles(result.Directory).Length;
+        int numDirectories = DuckFile.GetDirectories(result.Directory).Length;
+        if ((num == 0 && numDirectories == 0) || !result.IsInstalled || result.NeedsUpdate)
+            availableModsToDownload.Add(result);
+    }
+#else
     static void ResultFetched(object value0, WorkshopQueryResult result)
     {
-        if (result != null && result.details != null)
+        if (result != null && result.Details != null)
         {
-            WorkshopItem item = result.details.publishedFile;
+            WorkshopItem item = result.Details.PublishedFile;
             int num = DuckFile.GetFiles(item.Path).Count();
             int numDirectories = DuckFile.GetDirectories(item.Path).Count();
             if ((num == 0 && numDirectories == 0) || (item.StateFlags & WorkshopItemState.Installed) == 0 || (item.StateFlags & WorkshopItemState.NeedsUpdate) != WorkshopItemState.None)
                 availableModsToDownload.Add(item);
         }
     }
+#endif
 
     [DllImport("ntdll.dll", SetLastError = true)]
     static extern int NtQueryTimerResolution(out int MinimumResolution, out int MaximumResolution, out int CurrentResolution);

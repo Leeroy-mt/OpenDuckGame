@@ -4,6 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class Profile
@@ -702,26 +708,38 @@ public class Profile
         get
         {
             if (linkedProfile != null && connection == DuckNetwork.localConnection && !Profiles.IsExperience(this))
-            {
                 return linkedProfile.name;
-            }
+
             if (keepSetName)
-            {
                 return _name;
-            }
+
             if (steamID != 0L && slotType != SlotType.Local)
             {
-                if (Steam.User != null && steamID == Steam.User.Id)
-                {
-                    return Steam.User.Name;
-                }
+#if FACEPUNCH
+                if (SteamClient.SteamId != 0 && steamID == SteamClient.SteamId)
+                    return FacepunchSteam.Me.Name;
+#else
+                if (DGSteam.User != null && steamID == DGSteam.User.Id)
+                    return DGSteam.User.Name;
+#endif
+
                 if (lastKnownName != null)
-                {
                     return lastKnownName;
-                }
+
                 if (_name == steamID.ToString())
                 {
-                    if (Steam.IsInitialized())
+#if FACEPUNCH
+                    if (SteamClient.IsValid)
+                    {
+                        Friend u = new(steamID);
+                        if (u.Id != 0)
+                        {
+                            lastKnownName = u.Name;
+                            return lastKnownName;
+                        }
+                    }
+#else
+                    if (DGSteam.IsInitialized())
                     {
                         User u = User.GetUser(steamID);
                         if (u != null && u.Id != 0L)
@@ -730,6 +748,7 @@ public class Profile
                             return lastKnownName;
                         }
                     }
+#endif
                     return "STEAM PROFILE";
                 }
             }
@@ -749,15 +768,23 @@ public class Profile
     {
         get
         {
-            if (Steam.User != null)
+#if FACEPUNCH
+            if (SteamClient.SteamId != 0)
             {
-                Random gen = new Random(Math.Abs((int)(Steam.User.Id % int.MaxValue)));
-                for (int i = 0; i < (int)(Steam.User.Id % 252); i++)
-                {
+                Random gen = new(Math.Abs((int)(SteamClient.SteamId % int.MaxValue)));
+                for (int i = 0; i < (int)(SteamClient.SteamId % 252); i++)
                     Rando.Int(100);
-                }
                 return gen;
             }
+#else
+            if (DGSteam.User != null)
+            {
+                Random gen = new Random(Math.Abs((int)(DGSteam.User.Id % int.MaxValue)));
+                for (int i = 0; i < (int)(DGSteam.User.Id % 252); i++)
+                    Rando.Int(100);
+                return gen;
+            }
+#endif
             return new Random(90210);
         }
     }
@@ -898,30 +925,35 @@ public class Profile
             {
                 return _linkedProfile.xp;
             }
-            if (Steam.User != null && this == Profiles.experienceProfile)
+#if FACEPUNCH
+            if (FacepunchSteam.SteamId != 0 && this == Profiles.experienceProfile)
             {
-                if ((int)Steam.GetStat("xp") == 0)
-                {
-                    Steam.SetStat("xp", _xp);
-                }
+                if ((int)SteamUserStats.GetStatInt("xp") == 0)
+                    SteamUserStats.SetStat("xp", _xp);
                 return _xp;
             }
+#else
+            if (DGSteam.User != null && this == Profiles.experienceProfile)
+            {
+                if ((int)DGSteam.GetStat("xp") == 0)
+                    DGSteam.SetStat("xp", _xp);
+                return _xp;
+            }
+#endif
             return _xp;
         }
         set
         {
-            if (_linkedProfile != null)
-            {
-                _linkedProfile.xp = value;
-            }
+            _linkedProfile?.xp = value;
             if (MonoMain.logFileOperations && _xp != value)
-            {
-                DevConsole.Log(DCSection.General, ("Profile(" + name != null) ? name : (").xp set(" + xp + ")"));
-            }
-            if (Steam.User != null && this == Profiles.experienceProfile)
-            {
-                Steam.SetStat("xp", value);
-            }
+                DevConsole.Log(DCSection.General, ($"Profile({name}" != null) ? name : ($").xp set({xp})"));
+#if FACEPUNCH
+            if (FacepunchSteam.SteamId != 0 && this == Profiles.experienceProfile)
+                SteamUserStats.SetStat("xp", value);
+#else
+            if (DGSteam.User != null && this == Profiles.experienceProfile)
+                DGSteam.SetStat("xp", value);
+#endif
             _xp = value;
         }
     }
@@ -1075,13 +1107,15 @@ public class Profile
         get
         {
             if (connection == DuckNetwork.localConnection && (!Network.isActive || !Network.lanMode))
-            {
                 return DG.localID;
-            }
+
+#if FACEPUNCH
+            if (connection != null && connection.data is Friend friend)
+                return friend.Id;
+#else
             if (connection != null && connection.data is User)
-            {
                 return (connection.data as User).Id;
-            }
+#endif
             return _steamID;
         }
         set

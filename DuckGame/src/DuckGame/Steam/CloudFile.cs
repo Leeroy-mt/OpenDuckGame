@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 [DebuggerDisplay("{cloudPath}")]
@@ -66,10 +72,13 @@ public class CloudFile
     {
         get
         {
-            if (Steam.FileExists(cloudPath))
-            {
-                return Steam.FileTimestamp(cloudPath);
-            }
+#if FACEPUNCH
+            if (SteamRemoteStorage.FileExists(cloudPath))
+                return SteamRemoteStorage.FileTime(cloudPath);
+#else
+            if (DGSteam.FileExists(cloudPath))
+                return DGSteam.FileTimestamp(cloudPath);
+#endif
             return DateTime.MinValue;
         }
     }
@@ -171,7 +180,11 @@ public class CloudFile
                 {
                     return null;
                 }
-                if (oldFile && !levelFile && Steam.FileExists(pCloudPath.Replace("nq403216_", "nq500000_")))
+#if FACEPUNCH
+                if (oldFile && !levelFile && SteamRemoteStorage.FileExists(pCloudPath.Replace("nq403216_", "nq500000_")))
+#else
+                if (oldFile && !levelFile && DGSteam.FileExists(pCloudPath.Replace("nq403216_", "nq500000_")))
+#endif
                 {
                     return null;
                 }

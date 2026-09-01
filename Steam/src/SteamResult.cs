@@ -1,4 +1,6 @@
-﻿public enum SteamResult
+﻿namespace Steam;
+
+public enum SteamResult
 {
     Ignored = 41,
     Blocked = 40,

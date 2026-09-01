@@ -5,6 +5,12 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class DataClass
@@ -301,16 +307,16 @@ public class DataClass
                     }
                     else if (property.PropertyType == typeof(StatBinding))
                     {
-                        if ((!Steam.IsInitialized() || Steam.GetStat(property.Name) < -99999f) && property.GetValue(output, null) is StatBinding b)
+#if FACEPUNCH
+                        if ((!SteamClient.IsValid || SteamUserStats.GetStatFloat(property.Name) < -99999f) && property.GetValue(output, null) is StatBinding b)
+#else
+                        if ((!DGSteam.IsInitialized() || DGSteam.GetStat(property.Name) < -99999f) && property.GetValue(output, null) is StatBinding b)
+#endif
                         {
                             if (b.isFloat)
-                            {
                                 b.valueFloat = Convert.ToSingle(element.Value);
-                            }
                             else
-                            {
                                 b.valueInt = Convert.ToInt32(element.Value);
-                            }
                         }
                     }
                     else if (property.PropertyType == typeof(Resolution))
@@ -351,16 +357,16 @@ public class DataClass
                 }
                 else if (field.FieldType == typeof(StatBinding))
                 {
-                    if ((!Steam.IsInitialized() || Steam.GetStat(field.Name) < -99999f) && field.GetValue(output) is StatBinding b2)
+#if FACEPUNCH
+                    if ((!SteamClient.IsValid || SteamUserStats.GetStatFloat(field.Name) < -99999f) && field.GetValue(output) is StatBinding b2)
+#else
+                    if ((!DGSteam.IsInitialized() || DGSteam.GetStat(field.Name) < -99999f) && field.GetValue(output) is StatBinding b2)
+#endif
                     {
                         if (b2.isFloat)
-                        {
                             b2.valueFloat = Convert.ToSingle(element.Value);
-                        }
                         else
-                        {
                             b2.valueInt = Convert.ToInt32(element.Value);
-                        }
                     }
                 }
                 else if (field.FieldType == typeof(Resolution))

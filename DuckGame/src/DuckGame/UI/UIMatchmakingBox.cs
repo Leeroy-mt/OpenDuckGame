@@ -2,6 +2,14 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Color = Microsoft.Xna.Framework.Color;
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Data;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -69,7 +77,11 @@ public class UIMatchmakingBox : UIMenu
 
     FancyBitmapFont _fancyFont;
 
+#if FACEPUNCH
+    SteamLobby _tryHostingLobby;
+#else
     Lobby _tryHostingLobby;
+#endif
 
     SpriteMap _signalCrossLocal;
 
@@ -160,8 +172,8 @@ public class UIMatchmakingBox : UIMenu
             Music.Play("jazzroom");
         _triesSinceSearch = 0;
         triedHostingAlready = false;
-        _tryConnectLobby = null;
-        _tryHostingLobby = null;
+        _tryConnectLobby = default;
+        _tryHostingLobby = default;
         ChangeState(MatchmakingState.ConnectToMoon);
         _quit = false;
         _tries = 0;
@@ -234,7 +246,11 @@ public class UIMatchmakingBox : UIMenu
             }
             if (DuckNetwork.status == DuckNetStatus.Connected)
             {
+#if FACEPUNCH
+                if (_tryHostingLobby.Id != 0)
+#else
                 if (_tryHostingLobby != null)
+#endif
                 {
                     (Level.current as TeamSelect2).CloseAllDialogs();
                     Level.current = new TeamSelect2();
@@ -309,7 +325,11 @@ public class UIMatchmakingBox : UIMenu
                     ChangeState(MatchmakingState.CheckingTotalGames);
                     return;
                 }
+#if FACEPUNCH
+                if (_tries > 0 && _tryHostingLobby.Id == 0)
+#else
                 if (_tries > 0 && _tryHostingLobby == null)
+#endif
                 {
                     DuckNetwork.Host(TeamSelect2.GetSettingInt("maxplayers"), NetworkLobbyType.Public);
                     _tryHostingLobby = Network.activeNetwork.core.lobby;
@@ -345,9 +365,13 @@ public class UIMatchmakingBox : UIMenu
                         lobbies = ((doLater != 0) ? tryLater.Count : Network.activeNetwork.core.NumLobbiesFound());
                         for (int i = 0; i < lobbies; i++)
                         {
-                            Lobby lobby = null;
+                            Lobby lobby = default;
                             lobby = doLater != 0 ? tryLater[i] : Network.activeNetwork.core.GetSearchLobbyAtIndex(i);
+#if FACEPUNCH
+                            if (_tryHostingLobby.Id != 0 && lobby.Id == _tryHostingLobby.Id)
+#else
                             if (_tryHostingLobby != null && lobby.Id == _tryHostingLobby.Id)
+#endif
                                 continue;
 
                             if (i == Network.activeNetwork.core.NumLobbiesFound() - 1)
@@ -363,7 +387,11 @@ public class UIMatchmakingBox : UIMenu
                                 DevConsole.Log($"|PURPLE|LOBBY    |DGRED|Skipping {lobby.Id} (NOT PREFERRED)", Color.White);
                                 continue;
                             }
+#if FACEPUNCH
+                            switch (DuckNetwork.CheckVersion(lobby.GetData("version")))
+#else
                             switch (DuckNetwork.CheckVersion(lobby.GetLobbyData("version")))
+#endif
                             {
                                 case NMVersionMismatch.Type.Older:
                                     _newStatusList.Add("|PURPLE|LOBBY |DGRED|Skipped(TOO OLD)");
@@ -377,12 +405,20 @@ public class UIMatchmakingBox : UIMenu
                                 case NMVersionMismatch.Type.Match:
                                     break;
                             }
+#if FACEPUNCH
+                            if (_tryHostingLobby.Id != 0)
+#else
                             if (_tryHostingLobby != null)
+#endif
                             {
                                 int lobbyRandom = -1;
                                 try
                                 {
+#if FACEPUNCH
+                                    string dat = lobby.GetData("randomID");
+#else
                                     string dat = lobby.GetLobbyData("randomID");
+#endif
                                     if (dat != "")
                                         lobbyRandom = Convert.ToInt32(dat);
                                 }
@@ -394,7 +430,11 @@ public class UIMatchmakingBox : UIMenu
                                     DevConsole.Log("|PURPLE|LOBBY    |DGYELLOW|Bad lobby seed.", Color.White);
                                     lobbyRandom = Rando.Int(2147483646);
                                 }
+#if FACEPUNCH
+                                if (lobbyRandom < Convert.ToInt32(_tryHostingLobby.GetData("randomID")))
+#else
                                 if (lobbyRandom < _tryHostingLobby.randomID)
+#endif
                                 {
                                     DevConsole.Log("|PURPLE|LOBBY    |DGYELLOW|Skipping lobby (Chose to keep hosting).", Color.White);
                                     Network.activeNetwork.core.UpdateRandomID(_tryHostingLobby);
@@ -403,7 +443,11 @@ public class UIMatchmakingBox : UIMenu
                                 DevConsole.Log("|PURPLE|LOBBY    |DGYELLOW|Lobby beats own lobby, Attempting join.", Color.White);
                             }
                             _tryConnectLobby = lobby;
+#if FACEPUNCH
+                            if (lobby.Owner.Id != 0)
+#else
                             if (lobby.Owner != null)
+#endif
                                 _newStatusList.Add($"|LIME|Trying to join {lobby.Owner.Name}.");
                             else
                                 _newStatusList.Add("|LIME|Trying to join server.");
@@ -411,7 +455,11 @@ public class UIMatchmakingBox : UIMenu
                             break;
                         }
                     }
+#if FACEPUNCH
+                    if (_tryConnectLobby.Id == 0)
+#else
                     if (_tryConnectLobby == null)
+#endif
                     {
                         DevConsole.Log("|PURPLE|LOBBY    |DGYELLOW|Found no valid lobbies.", Color.White);
                         ChangeState(MatchmakingState.SearchForLobbies, 3);
@@ -423,7 +471,7 @@ public class UIMatchmakingBox : UIMenu
                 _connectTimeout++;
                 if (!Network.connected && _connectTimeout > 120)
                 {
-                    _tryConnectLobby = null;
+                    _tryConnectLobby = default;
                     DevConsole.Log("|PURPLE|LOBBY    |DGRED|Failed to connect!", Color.White);
                     if (this is UIGameConnectionBox)
                     {
@@ -567,7 +615,11 @@ public class UIMatchmakingBox : UIMenu
 
     public void OnDisconnect(NetworkConnection n)
     {
+#if FACEPUNCH
+        if (open && _core._state == MatchmakingState.Connecting && _tryHostingLobby.Id != 0 && Network.connections.Count == 0)
+#else
         if (open && _core._state == MatchmakingState.Connecting && _tryHostingLobby != null && Network.connections.Count == 0)
+#endif
         {
             ChangeState(MatchmakingState.SearchForLobbies);
             DevConsole.Log("|PURPLE|LOBBY    |DGGREEN|Client disconnect, continuing search.", Color.White);
@@ -602,7 +654,11 @@ public class UIMatchmakingBox : UIMenu
                     _newStatusList.Add("|DGRED|Their version was older.");
                 else
                     _newStatusList.Add("|DGRED|Their version was newer.");
+#if FACEPUNCH
+                if (_tryConnectLobby.Id != 0)
+#else
                 if (_tryConnectLobby != null)
+#endif
                 {
                     _permenantBlacklist.Add(new BlacklistServer
                     {
@@ -626,7 +682,11 @@ public class UIMatchmakingBox : UIMenu
             else
             {
                 _newStatusList.Add("|DGRED|Unknown connection error.");
+#if FACEPUNCH
+                if (_tryConnectLobby.Id != 0)
+#else
                 if (_tryConnectLobby != null)
+#endif
                 {
                     _permenantBlacklist.Add(new BlacklistServer
                     {
@@ -639,7 +699,11 @@ public class UIMatchmakingBox : UIMenu
         else
         {
             _newStatusList.Add("|DGRED|Connection timeout.");
+#if FACEPUNCH
+            if (_tryConnectLobby.Id != 0)
+#else
             if (_tryConnectLobby != null)
+#endif
             {
                 _permenantBlacklist.Add(new BlacklistServer
                 {
@@ -648,7 +712,11 @@ public class UIMatchmakingBox : UIMenu
                 });
             }
         }
+#if FACEPUNCH
+        if (_tryConnectLobby.Id != 0)
+#else
         if (_tryConnectLobby != null)
+#endif
         {
             _failedAttempts.Add(new BlacklistServer
             {
@@ -657,7 +725,7 @@ public class UIMatchmakingBox : UIMenu
             });
         }
         DevConsole.Log("|PURPLE|LOBBY    |DGGREEN|Connection failure, continuing search.", Color.White);
-        _tryConnectLobby = null;
+        _tryConnectLobby = default;
         if (_continueSearchOnFail)
         {
             ChangeState(MatchmakingState.SearchForLobbies);
@@ -676,12 +744,22 @@ public class UIMatchmakingBox : UIMenu
 
         if (_core._state == MatchmakingState.Disconnect)
         {
+#if FACEPUNCH
+            if (_tryHostingLobby.Id != 0)
+                _tries = 0;
+            _tryHostingLobby = default;
+#else
             if (_tryHostingLobby != null)
                 _tries = 0;
             _tryHostingLobby = null;
+#endif
             if (_quit)
                 FinishAndClose();
+#if FACEPUNCH
+            else if (_tryConnectLobby.Id != 0)
+#else
             else if (_tryConnectLobby != null)
+#endif
             {
                 DuckNetwork.Join(_tryConnectLobby.Id.ToString());
                 ChangeState(MatchmakingState.Connecting);

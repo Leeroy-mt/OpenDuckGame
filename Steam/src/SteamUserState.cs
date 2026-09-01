@@ -1,4 +1,6 @@
-﻿public enum SteamUserState
+﻿namespace Steam;
+
+public enum SteamUserState
 {
     Max = 7,
     LookingToPlay = 6,

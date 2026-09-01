@@ -10,6 +10,12 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class Editor : Level
@@ -3556,7 +3562,11 @@ public class Editor : Level
             _currentLevelData.workshopData.description = workshopElement.Value;
         workshopElement = lev.Element("workshopVisibility");
         if (workshopElement != null)
+#if FACEPUNCH
+            _currentLevelData.workshopData.visibility = (Visibility)Convert.ToInt32(workshopElement.Value);
+#else
             _currentLevelData.workshopData.visibility = (RemoteStoragePublishedFileVisibility)Convert.ToInt32(workshopElement.Value);
+#endif
         workshopElement = lev.Element("workshopTags");
         if (workshopElement != null)
         {

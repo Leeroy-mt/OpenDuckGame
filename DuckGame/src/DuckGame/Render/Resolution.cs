@@ -353,11 +353,11 @@ public class Resolution
 
     public static Resolution GetDefault(ScreenMode pMode)
     {
-        Resolution r = supportedDisplaySizes[pMode].FirstOrDefault((Resolution x) => x.isDefault);
-        if (r == null)
-        {
-            r = supportedDisplaySizes[pMode].Last();
-        }
+        if (supportedDisplaySizes is null)
+            return null;
+
+        Resolution r = supportedDisplaySizes[pMode].FirstOrDefault(x => x.isDefault);
+        r ??= supportedDisplaySizes[pMode].Last();
         return r;
     }
 

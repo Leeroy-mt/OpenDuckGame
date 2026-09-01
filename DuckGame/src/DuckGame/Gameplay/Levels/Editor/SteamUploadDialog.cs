@@ -2,6 +2,14 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Ugc;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class SteamUploadDialog : ContextMenu
@@ -197,9 +205,13 @@ public class SteamUploadDialog : ContextMenu
     {
         _publishItem.name = _nameBox.text;
         _publishItem.description = _descriptionBox.text;
+#if FACEPUNCH
+        if (_publishItem.PrepareItem() != Result.OK)
+#else
         if (_publishItem.PrepareItem() != SteamResult.OK)
+#endif
         {
-            _notify.Open("Failed with code " + (int)_publishItem.result + " (" + _publishItem.result.ToString() + ")");
+            _notify.Open($"Failed with code {(int)_publishItem.result} ({_publishItem.result})");
             return;
         }
         _publishStack.Clear();
@@ -225,7 +237,7 @@ public class SteamUploadDialog : ContextMenu
         }
         else
         {
-            _upload.Open("Uploading Sub Item(" + next.subIndex + ")...", next.item);
+            _upload.Open($"Uploading Sub Item({next.subIndex})...", next.item);
         }
         return true;
     }
@@ -240,7 +252,11 @@ public class SteamUploadDialog : ContextMenu
             }
             _publishStack.Peek().FinishUpload();
             _upload.Close();
+#if FACEPUNCH
+            if (_publishStack.Peek().result == Result.OK)
+#else
             if (_publishStack.Peek().result == SteamResult.OK)
+#endif
             {
                 EditorWorkshopItem cur = _publishStack.Peek();
                 _publishStack.Pop();
@@ -248,7 +264,11 @@ public class SteamUploadDialog : ContextMenu
                 {
                     _upload.Close();
                     _notify.Open("Item published!");
-                    Steam.ShowWorkshopLegalAgreement(cur.item.Id.ToString());
+#if FACEPUNCH
+                    SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{cur.item.Id}");
+#else
+                    DGSteam.ShowWorkshopLegalAgreement(cur.item.Id.ToString());
+#endif
                 }
             }
             else

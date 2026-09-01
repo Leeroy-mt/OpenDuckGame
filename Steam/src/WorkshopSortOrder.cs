@@ -1,4 +1,6 @@
-﻿public enum WorkshopSortOrder
+﻿namespace Steam;
+
+public enum WorkshopSortOrder
 {
     ForModeration = 6,
     VoteScoreDesc = 5,

@@ -1,5 +1,11 @@
 using System.Collections.Generic;
 
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class WorkshopMetaData : BinaryClassChunk
@@ -10,7 +16,11 @@ public class WorkshopMetaData : BinaryClassChunk
 
     public string author;
 
+#if FACEPUNCH
+    public Visibility visibility;
+#else
     public RemoteStoragePublishedFileVisibility visibility;
+#endif
 
     public List<string> tags;
 
@@ -18,10 +28,13 @@ public class WorkshopMetaData : BinaryClassChunk
 
     public WorkshopMetaData()
     {
-        if (Steam.User != null)
-        {
-            author = Steam.User.Name;
-        }
+#if FACEPUNCH
+        if (FacepunchSteam.SteamId != 0)
+            author = FacepunchSteam.Me.Name;
+#else
+        if (DGSteam.User != null)
+            author = DGSteam.User.Name;
+#endif
         Reset();
     }
 
@@ -30,8 +43,21 @@ public class WorkshopMetaData : BinaryClassChunk
         name = "";
         description = "";
         author = "";
+#if FACEPUNCH
+        visibility = Visibility.Public;
+#else
         visibility = RemoteStoragePublishedFileVisibility.Public;
+#endif
         tags = new List<string>();
         dependencies = new List<ulong>();
     }
 }
+
+#if FACEPUNCH
+public enum Visibility
+{
+    Public,
+    FriendsOnly,
+    Private
+}
+#endif

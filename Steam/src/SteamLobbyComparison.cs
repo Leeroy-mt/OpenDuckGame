@@ -1,4 +1,6 @@
-﻿public enum SteamLobbyComparison
+﻿namespace Steam;
+
+public enum SteamLobbyComparison
 {
     NotEqual = 3,
     EqualToOrGreaterThan = 2,

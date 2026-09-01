@@ -1,5 +1,13 @@
 using Microsoft.Xna.Framework;
 
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Ugc;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class UploadDialogue : ContextMenu
@@ -112,15 +120,27 @@ public class UploadDialogue : ContextMenu
             _font.Scale = new Vector2(1f, 1f);
             Vector2 barPos = topLeft + new Vector2(14f, 38f);
             Vector2 barSize = new Vector2(270f, 16f);
+#if FACEPUNCH
+            float progress = _item.Item?.DownloadBytesDownloaded / (float)_item.Item?.DownloadBytesTotal ?? 1;
+#else
             TransferProgress p = _item.GetUploadProgress();
             float progress = (float)p.bytesDownloaded / (float)p.bytesTotal;
-            Graphics.DrawRect(barPos, barPos + barSize * new Vector2(progress, 1f), _hoverOk ? new Color(80, 80, 80) : new Color(30, 30, 30), base.Depth + 2);
+#endif
+            Graphics.DrawRect(barPos, barPos + barSize * new Vector2(progress, 1f), _hoverOk ? new Color(80, 80, 80) : new Color(30, 30, 30), Depth + 2);
+#if FACEPUNCH
+            if (_item.Item?.DownloadBytesTotal == 0)
+#else
             if (p.bytesTotal == 0L)
+#endif
             {
-                _font.Draw("Waiting...", barPos.X, barPos.Y - 12f, Color.White, base.Depth + 3);
+                _font.Draw("Waiting...", barPos.X, barPos.Y - 12f, Color.White, Depth + 3);
                 return;
             }
+#if FACEPUNCH
+            _font.Draw($"Uploading {_item.Item?.DownloadBytesDownloaded}/{_item.Item?.DownloadBytesTotal}B", barPos.X, barPos.Y - 12, Color.White, Depth + 3);
+#else
             _font.Draw("Uploading " + p.bytesDownloaded + "/" + p.bytesTotal + "B", barPos.X, barPos.Y - 12f, Color.White, base.Depth + 3);
+#endif
         }
     }
 }

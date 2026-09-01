@@ -1,11 +1,12 @@
 ﻿using Steamworks;
 
+namespace Steam;
+
 public abstract class WorkshopQueryUGC : WorkshopQueryBase
 {
     #region Public Properties
 
     public IList<string> RequiredTags { get; internal set; }
-
     public IList<string> ExcludedTags { get; internal set; }
 
     #endregion

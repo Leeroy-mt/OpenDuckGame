@@ -1,5 +1,4 @@
 using DbMon.NET;
-using DGWindows;
 using SDL3;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+
+#if FACEPUNCH
+using Steamworks;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -75,12 +80,11 @@ public static class Program
     public static void Main(string[] args)
     {
         AppDomain.CurrentDomain.AssemblyResolve += Resolve;
-        if (args.Contains("-linux") || (WindowsPlatformStartup.IsRunningWine && !args.Contains("-nolinux")))
-        {
-            wineVersion = WindowsPlatformStartup.WineVersion;
-            isLinux = true;
-            MonoMain.enableThreadedLoading = false;
-        }
+        var p = (int)Environment.OSVersion.Platform;
+        isLinux = args.Contains("-linux") || p is 4 or 6 or 128;
+
+        if (args.Contains("-nolinux"))
+            isLinux = false;
 
         AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
 
@@ -113,7 +117,11 @@ public static class Program
                 {
                     Send.ImmediateUnreliableBroadcast(new NMClientCrashed());
                     Send.ImmediateUnreliableBroadcast(new NMClientCrashed());
-                    Steam.Update();
+#if FACEPUNCH
+                    FacepunchSteam.Update();
+#else
+                    DGSteam.Update();
+#endif
                     Thread.Sleep(16);
                 }
                 crashed = true;
@@ -141,6 +149,7 @@ public static class Program
                     error = pException.ToString();
                 }
             }
+
             try
             {
                 if (pException is UnauthorizedAccessException && !DuckFile.appdataSave)
@@ -160,12 +169,12 @@ public static class Program
                     catch (Exception)
                     {
                     }
-                    error = WindowsPlatformStartup.ProcessErrorLine(error, pException);
                 }
             }
             catch (Exception)
             {
             }
+
             try
             {
                 WriteToLog(error);
@@ -257,14 +266,13 @@ public static class Program
             {
                 try
                 {
-                    if (config != null)
-                    {
-                        Process.Start("CrashWindow.exe", $"-modResponsible {(modRelated ? "1" : "0")} -modDisabled {((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0"))} -modName {modName} -source {ex7.Source} -commandLine \"{commandLine}\" -executable \"{Environment.ProcessPath}\" {DG.GetCrashWindowString(pException, config, error)}");
-                    }
-                    else
-                    {
-                        Process.Start("CrashWindow.exe", $"-modResponsible {(modRelated ? "1" : "0")} -modDisabled {((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0"))} -modName {modName} -source {ex7.Source} -commandLine \"{commandLine}\" -executable \"{Environment.ProcessPath}\" {DG.GetCrashWindowString(pException, modAssembly, error)}");
-                    }
+                    var str = config != null
+                        ? DG.GetCrashWindowString(pException, config, error)
+                        : DG.GetCrashWindowString(pException, modAssembly, error);
+                    Process.Start(
+                        "CrashWindow.exe",
+                        $"-modResponsible {(modRelated ? "1" : "0")} -modDisabled {((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0"))} -modName {modName} -source {ex7.Source} -commandLine \"{commandLine}\" -executable \"{Environment.ProcessPath}\" {str}"
+                        );
                 }
                 catch (Exception ex11)
                 {
@@ -272,19 +280,20 @@ public static class Program
                 }
             }
 
-            SDL.SDL_DestroyWindow(MonoMain.instance.Window.Handle);
+            if (MonoMain.instance?.Window != null)
+                SDL.SDL_DestroyWindow(MonoMain.instance.Window.Handle);
             Environment.Exit(1);
         }
         catch (Exception ex12)
         {
             try
             {
-                WriteToLog("Crash catcher failed (crashpoint " + crashPoint + ") with exception: " + ex12.Message + "\n But Also: \n" + error);
+                WriteToLog($"Crash catcher failed (crashpoint {crashPoint}) with exception: {ex12.Message}\n But Also: \n{error}");
             }
             catch (Exception)
             {
                 StreamWriter streamWriter = new("ducklog.txt", append: true);
-                streamWriter.WriteLine("Failed to write exception to log: " + ex12.Message + "\n");
+                streamWriter.WriteLine($"Failed to write exception to log: {ex12.Message}\n");
                 streamWriter.Close();
             }
         }
@@ -310,9 +319,9 @@ public static class Program
     {
         StreamWriter file = new("netlog.txt", append: false);
         foreach (DCLine d in DevConsole.core.lines)
-            file.WriteLine(d.timestamp.ToLongTimeString() + " " + RemoveColorTags(d.SectionString()) + " " + RemoveColorTags(d.line) + "\n");
+            file.WriteLine($"{d.timestamp:T} {RemoveColorTags(d.SectionString())} {RemoveColorTags(d.line)}\n");
         foreach (DCLine d2 in DevConsole.core.pendingLines)
-            file.WriteLine(d2.timestamp.ToLongTimeString() + " " + RemoveColorTags(d2.SectionString()) + " " + RemoveColorTags(d2.line) + "\n");
+            file.WriteLine($"{d2.timestamp:T} {RemoveColorTags(d2.SectionString())} {RemoveColorTags(d2.line)}\n");
         file.WriteLine("\n");
         file.Close();
     }
@@ -330,8 +339,10 @@ public static class Program
         }
     }
 
-    public static void RemotePlayConnected() =>
+    public static void RemotePlayConnected()
+    {
         Windows_Audio.forceMode = AudioMode.DirectSound;
+    }
 
     public static string ProcessExceptionString(Exception e)
     {
@@ -446,7 +457,7 @@ public static class Program
         return null;
     }
 
-    #endregion
+#endregion
 
     #region Private Methods
 
@@ -643,36 +654,54 @@ public static class Program
             }
         }
         enteredMain = true;
+#if FACEPUNCH
         if (!MonoMain.disableSteam)
         {
-            if (!Steam.InitializeCore())
-            {
+            if (!File.Exists("steam_appid.txt"))
+                File.WriteAllText("steam_appid.txt", FacepunchSteam.AppId.ToString());
+
+            if (!FacepunchSteam.Initialize())
                 LogLine("Steam INIT Failed!");
-            }
             else
-            {
-                Steam.Initialize();
-            }
+                FacepunchSteam.SetupEvents();
         }
         try
         {
-            if (Steam.IsInitialized())
+            if (SteamClient.IsValid)
             {
-                steamBuildID = Steam.GetGameBuildID();
-                Steam.RemotePlay += RemotePlayConnected;
-                if (!Steam.IsLoggedIn() || !Steam.Authorize())
+                steamBuildID = SteamApps.BuildId;
+                SteamRemotePlay.OnSessionConnected += session => RemotePlayConnected();
+                if (!SteamClient.IsLoggedOn || !SteamApps.IsSubscribed)
+                    MonoMain.steamConnectionCheckFail = true;
+            }
+#else
+        if (!MonoMain.disableSteam)
+        {
+            if (!File.Exists("steam_appid.txt"))
+                File.WriteAllText("steam_appid.txt", DGSteam.AppId.ToString());
+
+            if (!DGSteam.InitializeCore())
+                LogLine("Steam INIT Failed!");
+            else
+                DGSteam.Initialize();
+        }
+        try
+        {
+            if (DGSteam.IsInitialized())
+            {
+                steamBuildID = DGSteam.GetGameBuildID();
+                DGSteam.RemotePlay += RemotePlayConnected;
+                if (!DGSteam.IsLoggedIn() || !DGSteam.Authorize())
                 {
                     MonoMain.steamConnectionCheckFail = true;
                 }
             }
+#endif
             else
             {
                 steamBuildID = -1;
             }
-        }
-        catch (Exception)
-        {
-        }
+        } catch { }
         DevConsole.Log($"Starting Duck Game ({DG.platform})...");
         main = new Main();
         main.Run();
@@ -683,5 +712,5 @@ public static class Program
         Console.WriteLine(text);
     }
 
-    #endregion
+#endregion
 }

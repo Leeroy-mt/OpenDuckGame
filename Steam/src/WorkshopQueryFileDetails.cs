@@ -1,5 +1,7 @@
 ﻿using Steamworks;
 
+namespace Steam;
+
 public class WorkshopQueryFileDetails : WorkshopQueryBase
 {
     public IList<ulong> Files { get; internal set; }

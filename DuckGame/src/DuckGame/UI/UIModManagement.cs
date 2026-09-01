@@ -5,6 +5,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Ugc;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -125,9 +133,9 @@ public class UIModManagement : UIMenu
     UIMenuItem _yesNoNo;
     
     SteamUploadDialog _uploadDialog;
-    
+
     WorkshopItem _transferItem;
-    
+
     Textbox _updateTextBox;
     
     Sprite _modErrorIcon;
@@ -289,6 +297,73 @@ public class UIModManagement : UIMenu
         }
         else if (open)
         {
+#if FACEPUNCH
+            if (_transferItem != null && !_needsUpdateNotes)
+            {
+                if (!_transferring)
+                {
+                    if (_transferItem.Result == Result.OK)
+                    {
+                        WorkshopItemData data = new();
+                        if (_selectedMod.configuration.workshopID == 0)
+                        {
+                            _selectedMod.configuration.SetWorkshopID(_transferItem.Id);
+                            data.Name = _selectedMod.configuration.displayName;
+                            data.Description = _selectedMod.configuration.description;
+                            data.Private = true;
+                            data.Tags = ["Mod"];
+                            if (_selectedMod.configuration.modType == ModConfiguration.Type.MapPack)
+                                data.Tags.Add("Map Pack");
+                            else if (_selectedMod.configuration.modType == ModConfiguration.Type.HatPack)
+                                data.Tags.Add("Hat Pack");
+                            else if (_selectedMod.configuration.modType == ModConfiguration.Type.Reskin)
+                                data.Tags.Add("Texture Pack");
+                        }
+                        else
+                            data.ChangeNotes = _updateTextBox.text;
+                        string screenshotPath = _selectedMod.generateAndGetPathToScreenshot;
+                        data.PreviewPath = screenshotPath;
+                        string folderPath = $"{DuckFile.workshopDirectory}{_transferItem.Id}/content";
+                        if (Directory.Exists(folderPath))
+                            Directory.Delete(folderPath, recursive: true);
+                        DuckFile.CreatePath(folderPath);
+                        DirectoryCopy(_selectedMod.configuration.directory, $"{folderPath}/{_selectedMod.configuration.name}", copySubDirs: true);
+                        if (Directory.Exists($"{folderPath}{_selectedMod.configuration.name}/build"))
+                            Directory.Delete($"{folderPath}{_selectedMod.configuration.name}/build", recursive: true);
+                        if (Directory.Exists($"{folderPath}{_selectedMod.configuration.name}/.vs"))
+                            Directory.Delete($"{folderPath}{_selectedMod.configuration.name}/.vs", recursive: true);
+                        if (File.Exists($"{folderPath}{_selectedMod.configuration.name}/{_selectedMod.configuration.name}_compiled.dll"))
+                        {
+                            string path = $"{folderPath}{_selectedMod.configuration.name}/{_selectedMod.configuration.name}_compiled.dll";
+                            File.SetAttributes(path, FileAttributes.Normal);
+                            File.Delete(path);
+                        }
+                        if (File.Exists($"{folderPath}{_selectedMod.configuration.name}/{_selectedMod.configuration.name}_compiled.hash"))
+                        {
+                            string path2 = $"{folderPath}{_selectedMod.configuration.name}/{_selectedMod.configuration.name}_compiled.hash";
+                            File.SetAttributes(path2, FileAttributes.Normal);
+                            File.Delete(path2);
+                        }
+                        data.ContentFolder = folderPath;
+                        _transferItem.ApplyWorkshopData(data);
+                        if (_transferItem.NeedsLegal)
+                            SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{_transferItem.Id}");
+                        _transferring = true;
+                        _transferItem.ResetProcessing();
+                    }
+                }
+                else if (_transferItem.FinishedProcessing)
+                {
+                    SteamFriends.OpenWebOverlay($"http://steamcommunity.com/sharedfiles/filedetails/?id={_transferItem.Id}");
+                    Directory.Delete($"{DuckFile.workshopDirectory}{_transferItem.Id}/", recursive: true);
+                    _transferItem.ResetProcessing();
+                    _transferItem = null;
+                    _transferring = false;
+                }
+                base.Update();
+                return;
+            }
+#else
             if (_transferItem != null && !_needsUpdateNotes)
             {
                 if (!_transferring)
@@ -338,14 +413,14 @@ public class UIModManagement : UIMenu
                         data.contentFolder = folderPath;
                         _transferItem.ApplyWorkshopData(data);
                         if (_transferItem.NeedsLegal)
-                            Steam.ShowWorkshopLegalAgreement(_transferItem.Id.ToString());
+                            DGSteam.ShowWorkshopLegalAgreement(_transferItem.Id.ToString());
                         _transferring = true;
                         _transferItem.ResetProcessing();
                     }
                 }
                 else if (_transferItem.FinishedProcessing)
                 {
-                    Steam.OverlayOpenURL($"http://steamcommunity.com/sharedfiles/filedetails/?id={_transferItem.Id}");
+                    DGSteam.OverlayOpenURL($"http://steamcommunity.com/sharedfiles/filedetails/?id={_transferItem.Id}");
                     Directory.Delete($"{DuckFile.workshopDirectory}{_transferItem.Id}/", recursive: true);
                     _transferItem.ResetProcessing();
                     _transferItem = null;
@@ -354,6 +429,7 @@ public class UIModManagement : UIMenu
                 base.Update();
                 return;
             }
+#endif
             if (_gamepadMode)
             {
                 _hoverIndex = int.Max(_hoverIndex, 0);
@@ -372,6 +448,7 @@ public class UIModManagement : UIMenu
                     }
                 }
             }
+#if FACEPUNCH
             if (_transferItem != null)
             {
                 if (_updateTextBox != null)
@@ -494,12 +571,142 @@ public class UIModManagement : UIMenu
                             new UIMenuActionOpenMenu(this, _editModMenu).Activate();
                             return;
                         }
-                        Steam.OverlayOpenURL("http://steamcommunity.com/workshop/browse/?appid=312530&searchtext=&childpublishedfileid=0&browsesort=trend&section=readytouseitems&requiredtags%5B%5D=Mod");
+                        SteamFriends.OpenWebOverlay("http://steamcommunity.com/workshop/browse/?appid=312530&searchtext=&childpublishedfileid=0&browsesort=trend&section=readytouseitems&requiredtags%5B%5D=Mod");
                     }
                 }
             }
             else
                 _selectedMod = null;
+#else
+            if (_transferItem != null)
+            {
+                if (_updateTextBox != null)
+                {
+                    Editor.hoverTextBox = false;
+                    _updateTextBox.position = new Vector2(_box.X - _box.halfWidth + 16, _box.Y - _box.halfHeight + 48);
+                    _updateTextBox.size = new Vector2(_box.width - 32, _box.height - 80);
+                    _updateTextBox._maxLines = (int)(_updateTextBox.size.Y / _fancyFont.characterHeight);
+                    _updateTextBox.Update();
+                    float sw = Graphics.GetStringWidth(_updateButtonText, thinButtons: false, 2);
+                    float sh = Graphics.GetStringHeight(_updateButtonText) * 2;
+                    _updateButton = new RectangleF(_box.X - sw / 2, _box.Y + _box.halfHeight - 24, sw, sh);
+                    if (_updateButton.Contains(Mouse.position) && Mouse.left == InputState.Pressed)
+                    {
+                        _needsUpdateNotes = false;
+                        _updateTextBox.LoseFocus();
+                    }
+                    else if (Keyboard.Pressed(Keys.Escape))
+                    {
+                        _needsUpdateNotes = false;
+                        _transferItem = null;
+                        _updateTextBox.LoseFocus();
+                        new UIMenuActionOpenMenu(this, _editModMenu).Activate();
+                        return;
+                    }
+                }
+            }
+            else if (_hoverIndex != -1)
+            {
+                _selectedMod = _mods[_hoverIndex];
+                if (_selectedMod is UI_ModSettings)
+                    _controlString = "@WASD@@SELECT@SETTINGS @CANCEL@BACK";
+                else if (_selectedMod != null && _selectedMod.configuration.error != null)
+                {
+                    if (_selectedMod.configuration.forceHarmonyLegacyLoad)
+                        _controlString = "@WASD@@SELECT@ADJUST @MENU1@TOGGLE @MENU2@DISABLE FORCED LOAD @START@SHOW ERROR";
+                    else
+                        _controlString = "@WASD@@SELECT@ADJUST @MENU1@TOGGLE @MENU2@FORCE LEGACY LOAD @START@SHOW ERROR";
+                }
+                else
+                    _controlString = "@WASD@@SELECT@ADJUST @MENU1@TOGGLE @CANCEL@BACK";
+                if (Input.Pressed("MENU1"))
+                {
+                    if (_selectedMod != null && _selectedMod.configuration != null)
+                    {
+                        if (_selectedMod.configuration.disabled)
+                            _selectedMod.configuration.Enable();
+                        else
+                            _selectedMod.configuration.Disable();
+                        _selectedMod.configuration.error = null;
+                        modsChanged = true;
+                        SFX.Play("rockHitGround", 0.8f);
+                    }
+                }
+                else if (_selectedMod != null && _selectedMod.configuration != null && _selectedMod.configuration.error != null && Input.Pressed("MENU2"))
+                {
+                    if (_selectedMod.configuration != null)
+                    {
+                        _selectedMod.configuration.forceHarmonyLegacyLoad = !_selectedMod.configuration.forceHarmonyLegacyLoad;
+                        ModLoader.DisabledModsChanged();
+                        modsChanged = true;
+                        SFX.Play("rockHitGround", 0.8f);
+                    }
+                }
+                else
+                {
+                    if (Input.Pressed("START") && _selectedMod != null && _selectedMod.configuration != null && _selectedMod.configuration.error != null)
+                    {
+                        string text = $"{DuckFile.saveDirectory}error_info.txt";
+                        File.WriteAllText(text, _selectedMod.configuration.error);
+                        ProcessStartInfo startInfo = new(text)
+                        {
+                            UseShellExecute = true
+                        };
+                        Process.Start(startInfo);
+                        SFX.Play("rockHitGround", 0.8f);
+                        return;
+                    }
+                    if ((Input.Pressed("SELECT") && _pressWait == 0 && _gamepadMode) || (!_gamepadMode && Mouse.left == InputState.Pressed))
+                    {
+                        if (_selectedMod != null)
+                        {
+                            if (_selectedMod is UI_ModSettings)
+                            {
+                                SFX.Play("rockHitGround", 0.8f);
+                                _modSettingsMenu.dirty = true;
+                                new UIMenuActionOpenMenu(this, _modSettingsMenu).Activate();
+                                return;
+                            }
+                            if (!_selectedMod.configuration.loaded)
+                                _editModMenu.title = $"|YELLOW|{_selectedMod.configuration.name}";
+                            else
+                                _editModMenu.title = $"|YELLOW|{_selectedMod.configuration.displayName}";
+                            _editModMenu.Remove(_deleteOrUnsubItem);
+                            _editModMenu.Remove(_uploadItem);
+                            _editModMenu.Remove(_visitItem);
+                            if (!_selectedMod.configuration.isWorkshop && _selectedMod.configuration.loaded)
+                            {
+                                if (_selectedMod.configuration.workshopID != 0)
+                                    _uploadItem.text = "UPDATE";
+                                else
+                                    _uploadItem.text = "UPLOAD";
+                                _editModMenu.Insert(_uploadItem, 1);
+                            }
+                            if (!_selectedMod.configuration.isWorkshop && !_selectedMod.configuration.loaded)
+                            {
+                                _deleteOrUnsubItem.text = "DELETE";
+                                _editModMenu.Insert(_deleteOrUnsubItem, 1);
+                            }
+                            else if (_selectedMod.configuration.isWorkshop)
+                            {
+                                _deleteOrUnsubItem.text = "UNSUBSCRIBE";
+                                _editModMenu.Insert(_deleteOrUnsubItem, 1);
+                            }
+                            if (_selectedMod.configuration.isWorkshop)
+                                _editModMenu.Insert(_visitItem, 1);
+                            _disableOrEnableItem.text = _selectedMod.configuration.disabled ? "ENABLE" : "DISABLE";
+                            _editModMenu.dirty = true;
+                            SFX.Play("rockHitGround", 0.8f);
+                            new UIMenuActionOpenMenu(this, _editModMenu).Activate();
+                            return;
+                        }
+                        DGSteam.OverlayOpenURL("http://steamcommunity.com/workshop/browse/?appid=312530&searchtext=&childpublishedfileid=0&browsesort=trend&section=readytouseitems&requiredtags%5B%5D=Mod");
+                    }
+                }
+            }
+            else
+                _selectedMod = null;
+#endif
             if (_gamepadMode)
             {
                 _draggingScrollbar = false;
@@ -731,6 +938,45 @@ public class UIModManagement : UIMenu
             }
             if (_awaitingChanges)
                 Graphics.DrawString("Restart required for some changes to take effect!", new Vector2(X - halfWidth + 128, Y - halfHeight + 8), Color.Red, 0.6f);
+#if FACEPUNCH
+            if (_transferItem != null)
+            {
+                Graphics.DrawRect(new RectangleF(_box.X - _box.halfWidth, _box.Y - _box.halfHeight, _box.width, _box.height), Color.Black * 0.9f, 0.7f);
+                string centerTopText = "Creating item...";
+                if (_transferring)
+                {
+                    var pct = _transferItem.Progress;
+                    centerTopText = pct switch // facepunch.steamworks is weird in this case
+                    {
+                        .1F => "Preparing config",
+                        .2F => "Preparing content",
+                        > .2F and < .8F => "Uploading content",
+                        .8F => "Uploading preview",
+                        1 => "Committing changes",
+                        _ => "Waiting"
+                    };
+
+                    if (_transferItem.Item is Item item && item.DownloadBytesTotal != 0)
+                    {
+                        var percent = item.DownloadBytesDownloaded / (float)item.DownloadBytesTotal;
+                        centerTopText = $"{centerTopText} ({(int)(percent * 100)}%)";
+                        Graphics.DrawRect(new RectangleF(_box.X - _box.halfWidth + 8, _box.Y - 8, _box.width - 16, 16), Color.LightGray, 0.8f);
+                        Graphics.DrawRect(new RectangleF(_box.X - _box.halfWidth + 8, _box.Y - 8, Lerp.FloatSmooth(0, _box.width - 16, percent), 16), Color.Green, 0.8f);
+                    }
+                    centerTopText += "...";
+                }
+                else if (_needsUpdateNotes)
+                {
+                    Graphics.DrawRect(new RectangleF(_updateTextBox.position.X - 1, _updateTextBox.position.Y - 1, _updateTextBox.size.X + 2, _updateTextBox.size.Y + 2), Color.Gray, 0.85f, filled: false);
+                    Graphics.DrawRect(new RectangleF(_updateTextBox.position.X, _updateTextBox.position.Y, _updateTextBox.size.X, _updateTextBox.size.Y), Color.Black, 0.85f);
+                    _updateTextBox.Draw();
+                    centerTopText = "Enter change notes:";
+                    Graphics.DrawString(_updateButtonText, new Vector2(_updateButton.X, _updateButton.Y), _updateButton.Contains(Mouse.position) ? Color.Yellow : Color.White, 0.9f, null, 2);
+                }
+                float width = Graphics.GetStringWidth(centerTopText, thinButtons: false, 2);
+                Graphics.DrawString(centerTopText, new Vector2(_box.X - width / 2, _box.Y - _box.halfHeight + 24), Color.White, 0.8f, null, 2);
+            }
+#else
             if (_transferItem != null)
             {
                 Graphics.DrawRect(new RectangleF(_box.X - _box.halfWidth, _box.Y - _box.halfHeight, _box.width, _box.height), Color.Black * 0.9f, 0.7f);
@@ -767,11 +1013,12 @@ public class UIModManagement : UIMenu
                 float width = Graphics.GetStringWidth(centerTopText, thinButtons: false, 2);
                 Graphics.DrawString(centerTopText, new Vector2(_box.X - width / 2, _box.Y - _box.halfHeight + 24), Color.White, 0.8f, null, 2);
             }
+#endif
         }
         base.Draw();
     }
 
-#endregion
+    #endregion
 
     #region Private Methods
 
@@ -826,7 +1073,6 @@ public class UIModManagement : UIMenu
         _editModMenu.Close();
         Open();
     }
-
     void DeleteMod()
     {
         ShowYesNo(_editModMenu, delegate
@@ -835,8 +1081,14 @@ public class UIModManagement : UIMenu
             if (_selectedMod.configuration.workshopID == 0)
                 DeleteFileOrFolder(_selectedMod.configuration.directory);
             else
-                Steam.WorkshopUnsubscribe(_selectedMod.configuration.workshopID);
-            _mods.Remove(_selectedMod);
+#if FACEPUNCH
+                new Item(_selectedMod.configuration.workshopID).Unsubscribe()
+                .GetAwaiter()
+                .GetResult();
+#else
+                DGSteam.WorkshopUnsubscribe(_selectedMod.configuration.workshopID);
+#endif
+                _mods.Remove(_selectedMod);
             _hoverIndex = -1;
             _yesNoMenu.Close();
             _editModMenu.Close();
@@ -849,7 +1101,14 @@ public class UIModManagement : UIMenu
         _editModMenu.Close();
         Open();
         if (_selectedMod.configuration.workshopID == 0)
-            _transferItem = Steam.CreateItem();
+#if FACEPUNCH
+        {
+            _transferItem = new(0);
+            _transferItem.Publish();
+        }
+#else
+            _transferItem = DGSteam.CreateItem();
+#endif
         else
         {
             _transferItem = new WorkshopItem(_selectedMod.configuration.workshopID);
@@ -864,7 +1123,11 @@ public class UIModManagement : UIMenu
     {
         _editModMenu.Close();
         Open();
-        Steam.OverlayOpenURL("http://steamcommunity.com/sharedfiles/filedetails/?id=" + _selectedMod.configuration.workshopID);
+#if FACEPUNCH
+        SteamFriends.OpenWebOverlay($"http://steamcommunity.com/sharedfiles/filedetails/?id={_selectedMod.configuration.workshopID}");
+#else
+        DGSteam.OverlayOpenURL("http://steamcommunity.com/sharedfiles/filedetails/?id=" + _selectedMod.configuration.workshopID);
+#endif
     }
 
     void ShowYesNo(UIMenu goBackTo, Action onYes)

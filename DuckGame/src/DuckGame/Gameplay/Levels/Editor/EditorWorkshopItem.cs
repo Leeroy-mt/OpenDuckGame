@@ -3,6 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
 
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Ugc;
+#else
+using Steam;
+#endif
+
 namespace DuckGame;
 
 public class EditorWorkshopItem
@@ -125,7 +133,11 @@ public class EditorWorkshopItem
         }
     }
 
+#if FACEPUNCH
+    public Result result => _item.Result;
+#else
     public SteamResult result => _item.Result;
+#endif
 
     public bool finishedProcessing => _item.FinishedProcessing;
 
@@ -148,33 +160,38 @@ public class EditorWorkshopItem
     {
         _parent = pParent;
         _level = pLevel;
-        if (_level.metaData.workshopID != 0L)
+
+        if (_level.metaData.workshopID != 0)
         {
             _item = WorkshopItem.GetItem(_level.metaData.workshopID);
-            Steam.RequestWorkshopInfo(new List<WorkshopItem> { _item });
+#if FACEPUNCH
+            _item.Request();
+            Wait();
+            _level.workshopData.name = _item.Data.Name;
+            _level.workshopData.description = _item.Data.Description;
+            _level.workshopData.tags = [.. _item.Data.Tags];
+#else
+            DGSteam.RequestWorkshopInfo(new List<WorkshopItem> { _item });
             Wait();
             _level.workshopData.name = _item.Data.name;
             _level.workshopData.description = _item.Data.description;
             _level.workshopData.tags = new List<string>(_item.Data.tags);
+#endif
         }
+
         if (_level.workshopData.name == "")
-        {
             _level.workshopData.name = Path.GetFileNameWithoutExtension(_level.GetPath());
-        }
+
         if (_level.metaData.type == LevelType.Arcade_Machine)
         {
             if (((Level.current as Editor).levelThings[0] as ArcadeMachine).challenge01Data != null)
-            {
                 _subItems.Add(new EditorWorkshopItem(((Level.current as Editor).levelThings[0] as ArcadeMachine).challenge01Data, this));
-            }
+
             if (((Level.current as Editor).levelThings[0] as ArcadeMachine).challenge02Data != null)
-            {
                 _subItems.Add(new EditorWorkshopItem(((Level.current as Editor).levelThings[0] as ArcadeMachine).challenge02Data, this));
-            }
+
             if (((Level.current as Editor).levelThings[0] as ArcadeMachine).challenge03Data != null)
-            {
                 _subItems.Add(new EditorWorkshopItem(((Level.current as Editor).levelThings[0] as ArcadeMachine).challenge03Data, this));
-            }
         }
     }
 
@@ -185,24 +202,121 @@ public class EditorWorkshopItem
         if (_mod.configuration.workshopID != 0L)
         {
             _item = WorkshopItem.GetItem(_mod.configuration.workshopID);
-            Steam.RequestWorkshopInfo(new List<WorkshopItem> { _item });
+#if FACEPUNCH
+            _item.Request();
+            Wait();
+            _mod.workshopData.name = _item.Data.Name;
+            _mod.workshopData.description = _item.Data.Description;
+            _mod.workshopData.tags = [.. _item.Data.Tags];
+#else
+            DGSteam.RequestWorkshopInfo(new List<WorkshopItem> { _item });
             Wait();
             _mod.workshopData.name = _item.Data.name;
             _mod.workshopData.description = _item.Data.description;
             _mod.workshopData.tags = new List<string>(_item.Data.tags);
+#endif
         }
         _mod.workshopData.name = _mod.configuration.displayName;
+
         if (!workshopData.tags.Contains("Mod"))
-        {
             AddTag("Mod");
-        }
     }
 
+#if FACEPUNCH
+    public Result PrepareItem()
+    {
+        if (_item == null)
+        {
+            _item = new(0);
+            _item.Publish();
+            Wait();
+            _level.metaData.workshopID = _item.Id;
+            _item.Name = workshopData.name;
+            _item.Data = new();
+            if (_parent != null && _parent._level.metaData.type == LevelType.Arcade_Machine)
+            {
+                _level.workshopData.name = $"{_parent._item.Data.Name} Sub Challenge {subIndex}";
+                _level.workshopData.description = $"One of the challenges in the \"{_parent._item.Name}\" Arcade Machine.";
+            }
+        }
+
+        if (result != Result.OK)
+            return result;
+
+        _item.Data.Name = workshopData.name;
+        _item.Data.Description = workshopData.description;
+        workshopData.tags.RemoveAll(x => !SteamUploadDialog.possibleTags.Contains(x));
+
+        if (_level.metaData.type != LevelType.Arcade_Machine)
+        {
+            AddTag("Map");
+            AddTag(_level.metaData.size.ToString());
+        }
+
+        if (_level.metaData.type != LevelType.Deathmatch)
+            AddTag(_level.metaData.type.ToString().Replace("_", " "));
+
+        if (deathmatchTestSuccess)
+            AddTag("Deathmatch");
+
+        if (_level.metaData.eightPlayer)
+            AddTag("EightPlayer");
+
+        if (_level.metaData.eightPlayerRestricted)
+            AddTag("EightPlayerOnly");
+        else if (_level.metaData.type == LevelType.Arcade_Machine)
+        {
+            if (_subItems.Count == 3)
+            {
+                bool passed = true;
+                foreach (EditorWorkshopItem subItem in _subItems)
+                {
+                    if (!subItem.challengeTestSuccess)
+                    {
+                        passed = false;
+                        break;
+                    }
+                }
+
+                if (passed)
+                    AddTag("Tested Machine");
+            }
+        }
+        else if (_level.metaData.type == LevelType.Challenge && challengeTestSuccess)
+            AddTag("Tested Challenge");
+        else if (_level.metaData.type == LevelType.Deathmatch)
+            AddTag("Strange");
+
+        if ((Level.current as Editor).levelThings.Exists(x => x is CustomCamera))
+            AddTag("Fixed Camera");
+
+        if (_level.metaData.hasCustomArt)
+            AddTag("Custom Art");
+
+        _item.Data.Tags = [.. workshopData.tags];
+
+        foreach (ulong u in _level.workshopData.dependencies)
+            _item.RemoveDependency(WorkshopItem.GetItem(u));
+        _level.workshopData.dependencies.Clear();
+
+        foreach (EditorWorkshopItem i in subItems)
+        {
+            if (i.PrepareItem() != Result.OK)
+                return i.result;
+
+            _level.workshopData.dependencies.Add(i.item.Id);
+            _item.AddDependency(i.item);
+        }
+
+        CopyFiles();
+        return Result.OK;
+    }
+#else
     public SteamResult PrepareItem()
     {
         if (_item == null)
         {
-            _item = Steam.CreateItem();
+            _item = DGSteam.CreateItem();
             Wait();
             _level.metaData.workshopID = _item.Id;
             _item.SetDetails(workshopData.name, new WorkshopItemData());
@@ -275,10 +389,10 @@ public class EditorWorkshopItem
         {
             AddTag("Custom Art");
         }
-        _item.Data.tags = new List<string>(workshopData.tags);
+        _item.Data.tags = [.. workshopData.tags];
         foreach (ulong u in _level.workshopData.dependencies)
         {
-            Steam.WorkshopRemoveDependency(_item, WorkshopItem.GetItem(u));
+            DGSteam.WorkshopRemoveDependency(_item, WorkshopItem.GetItem(u));
         }
         _level.workshopData.dependencies.Clear();
         foreach (EditorWorkshopItem i in subItems)
@@ -288,11 +402,12 @@ public class EditorWorkshopItem
                 return i.result;
             }
             _level.workshopData.dependencies.Add(i.item.Id);
-            Steam.WorkshopAddDependency(_item, i.item);
+            DGSteam.WorkshopAddDependency(_item, i.item);
         }
         CopyFiles();
         return SteamResult.OK;
     }
+#endif
 
     private void CopyFiles()
     {
@@ -309,7 +424,11 @@ public class EditorWorkshopItem
         }
         File.Copy(_level.GetPath(), fileName);
         File.SetAttributes(_level.GetPath(), FileAttributes.Normal);
+#if FACEPUNCH
+        _item.Data.ContentFolder = folderPath;
+#else
         _item.Data.contentFolder = folderPath;
+#endif
         string previewName = text + loneName + ".png";
         if (File.Exists(previewName))
         {
@@ -318,20 +437,33 @@ public class EditorWorkshopItem
         Stream stream = DuckFile.Create(previewName);
         preview.SaveAsPng(stream, preview.Width, preview.Height);
         stream.Dispose();
+#if FACEPUNCH
+        _item.Data.PreviewPath = previewName;
+#else
         _item.Data.previewPath = previewName;
+#endif
     }
 
     public void Upload()
     {
+#if FACEPUNCH
         _item.ResetProcessing();
         _item.ApplyWorkshopData(_item.Data);
+#else
+        _item.ResetProcessing();
+        _item.ApplyWorkshopData(_item.Data);
+#endif
     }
 
     public void FinishUpload()
     {
         if (_item.NeedsLegal)
         {
-            Steam.ShowWorkshopLegalAgreement(_item.Id.ToString());
+#if FACEPUNCH
+            SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{_item.Id}");
+#else
+            DGSteam.ShowWorkshopLegalAgreement(_item.Id.ToString());
+#endif
         }
     }
 
@@ -339,7 +471,11 @@ public class EditorWorkshopItem
     {
         while (!_item.FinishedProcessing)
         {
-            Steam.Update();
+#if FACEPUNCH
+            SteamClient.RunCallbacks();
+#else
+            DGSteam.Update();
+#endif
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿public enum ItemUpdateStatus
+﻿namespace Steam;
+
+public enum ItemUpdateStatus
 {
     CommittingChanges = 5,
     UploadingPreviewFile = 4,

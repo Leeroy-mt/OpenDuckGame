@@ -2,6 +2,15 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Color = Microsoft.Xna.Framework.Color;
+
+
+#if FACEPUNCH
+using Steamworks;
+using Steamworks.Data;
+#else
+using Steam;
+#endif
 
 namespace DuckGame;
 
@@ -48,7 +57,11 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
         if (pLobby is Lobby l)
         {
             messages.Clear();
+#if FACEPUNCH
+            if (l.Owner.Id != 0)
+#else
             if (l.Owner != null)
+#endif
                 messages.Add($"|LIME|Trying to join {l.Owner.Name}'s lobby...");
             else
                 messages.Add($"|LIME|Trying to join lobby {_takeIndex}/{lobbies.Count}...");
@@ -87,7 +100,11 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
             if (_directConnectLobby != null)
             {
                 _processing = _directConnectLobby.lobby;
+#if FACEPUNCH
+                if (_processing.Id == 0)
+#else
                 if (_processing == null)
+#endif
                 {
                     messages.Clear();
                     messages.Add("|LIME|Trying to join lobby...");
@@ -98,7 +115,11 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
             }
             else
                 _processing = PeekLobby();
+#if FACEPUNCH
+            if (_processing.Id == 0)
+#else
             if (_processing == null)
+#endif
             {
                 if (_directConnectLobby != null)
                     ChangeState(State.Failed);
@@ -114,7 +135,11 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
                 return;
             }
             attempted.Add(_processing.Id);
+#if FACEPUNCH
+            var mismatch = DuckNetwork.CheckVersion(_processing.GetData("version"));
+#else
             NMVersionMismatch.Type mismatch = DuckNetwork.CheckVersion(_processing.GetLobbyData("version"));
+#endif
             if (mismatch != NMVersionMismatch.Type.Match)
             {
                 switch (mismatch)
@@ -133,7 +158,11 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
                 if (_directConnectLobby != null)
                     ChangeState(State.Failed);
             }
+#if FACEPUNCH
+            else if (_processing.GetData("datahash").Trim() != Network.gameDataHash.ToString())
+#else
             else if (_processing.GetLobbyData("datahash").Trim() != Network.gameDataHash.ToString())
+#endif
             {
                 messages.Add("|PURPLE|LOBBY |DGRED|Skipped Lobby (Incompatible)...");
                 TakeLobby();
@@ -197,20 +226,59 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
         int myRandom = 0;
         try
         {
+#if FACEPUNCH
+            if (_hostedLobby.Id != 0)
+                myRandom = Convert.ToInt32(_hostedLobby.GetData("randomID"));
+#else
             if (_hostedLobby != null)
                 myRandom = Convert.ToInt32(_hostedLobby.GetLobbyData("randomID"));
+#endif
         }
         catch
         {
         }
         List<Lobby> sorted = [];
         int numLobbies = Network.activeNetwork.core.NumLobbiesFound();
+#if FACEPUNCH
         for (int i = 0; i < numLobbies; i++)
         {
             Lobby lobby = Network.activeNetwork.core.GetSearchLobbyAtIndex(i);
-            foreach (User user in lobby.Users)
+            foreach (var user in lobby.Members)
                 _ = user;
-            if (lobby.Owner == Steam.User || !lobby.Joinable || blacklist.Contains(lobby.Id) || attempted.Contains(lobby.Id) || (UIMatchmakingBox.core != null && UIMatchmakingBox.core.blacklist.Contains(lobby.Id)))
+            if (lobby.Owner.Id == SteamClient.SteamId || blacklist.Contains(lobby.Id) || attempted.Contains(lobby.Id) || (UIMatchmakingBox.core != null && UIMatchmakingBox.core.blacklist.Contains(lobby.Id)))
+                continue;
+            if (myRandom != 0)
+            {
+                int yourRandom = 0;
+                try
+                {
+                    yourRandom = Convert.ToInt32(lobby.GetData("randomID"));
+                }
+                catch
+                {
+                }
+
+                if (myRandom > yourRandom)
+                    continue;
+            }
+            sorted.Add(lobby);
+        }
+        return [.. sorted.OrderBy(x =>
+        {
+            int num = 100;
+            if (x.GetData("version") != DG.version)
+                num += 100;
+            if (UIMatchmakingBox.core != null && UIMatchmakingBox.core.nonPreferredServers.Contains(x.Id))
+                num += 50;
+            return num;
+        })];
+#else
+        for (int i = 0; i < numLobbies; i++)
+        {
+            Lobby lobby = Network.activeNetwork.core.GetSearchLobbyAtIndex(i);
+            foreach (var user in lobby.Users)
+                _ = user;
+            if (lobby.Owner == DGSteam.User || !lobby.Joinable || blacklist.Contains(lobby.Id) || attempted.Contains(lobby.Id) || (UIMatchmakingBox.core != null && UIMatchmakingBox.core.blacklist.Contains(lobby.Id)))
                 continue;
             if (myRandom != 0)
             {
@@ -237,6 +305,7 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
                 num += 50;
             return num;
         })];
+#endif
     }
 
     #endregion
@@ -245,11 +314,19 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
 
     protected override void Platform_ResetLogic()
     {
+#if FACEPUNCH
+        if (_hostedLobby.Id != 0)
+        {
+            _hostedLobby.SetJoinable(false);
+            _hostedLobby.Leave();
+        }
+#else
         if (_hostedLobby != null)
         {
             _hostedLobby.Joinable = false;
-            Steam.LeaveLobby(_hostedLobby);
+            DGSteam.LeaveLobby(_hostedLobby);
         }
+#endif
     }
 
     protected override void Platform_Open()
@@ -288,14 +365,14 @@ internal class UIMatchmakerSteam(UIServerBrowser.LobbyData joinLobby, UIMenu ope
             _takeIndex++;
             return result;
         }
-        return null;
+        return default;
     }
 
     Lobby PeekLobby()
     {
         if (HasLobby())
             return lobbies[_takeIndex];
-        return null;
+        return default;
     }
 
     #endregion
