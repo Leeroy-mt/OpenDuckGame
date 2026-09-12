@@ -99,6 +99,23 @@ public struct RectangleF
 
     #region Public Methods
 
+    public static RectangleF CreateOfCenter(Vector2 center, Vector2 size)
+    {
+        return new(
+            center - size / 2,
+            center + size / 2
+        );
+    }
+
+    public static RectangleF CreateOfCenter(Vector2 center, float width, float height)
+    {
+        Vector2 size = new(width, height);
+        return new(
+            center - size / 2,
+            center + size / 2
+        );
+    }
+
     public bool Contains(Vector2 position)
     {
         if (position.X >= X && position.Y >= Y && position.X <= X + Width)

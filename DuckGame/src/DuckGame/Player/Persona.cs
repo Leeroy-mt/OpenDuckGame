@@ -1,105 +1,46 @@
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DuckGame;
 
 public static class Persona
 {
-    private static List<DuckPersona> _personasOriginalOrder = new List<DuckPersona>
-    {
-        new DuckPersona(new Vector3(255f, 255f, 255f))
-        {
-            index = 0
-        },
-        new DuckPersona(new Vector3(125f, 125f, 125f))
-        {
-            index = 1
-        },
-        new DuckPersona(new Vector3(247f, 224f, 90f))
-        {
-            index = 2
-        },
-        new DuckPersona(new Vector3(205f, 107f, 29f))
-        {
-            index = 3
-        },
-        new DuckPersona(new Vector3(0f, 133f, 74f), new Vector3(0f, 102f, 57f), new Vector3(0f, 173f, 97f))
-        {
-            index = 4
-        },
-        new DuckPersona(new Vector3(255f, 105f, 117f), new Vector3(207f, 84f, 94f), new Vector3(255f, 158f, 166f))
-        {
-            index = 5
-        },
-        new DuckPersona(new Vector3(49f, 162f, 242f), new Vector3(13f, 123f, 181f), new Vector3(148f, 207f, 245f))
-        {
-            index = 6
-        },
-        new DuckPersona(new Vector3(175f, 85f, 221f), new Vector3(141f, 36f, 194f), new Vector3(213f, 165f, 238f))
-        {
-            index = 7
-        }
-    };
+    static List<DuckPersona> personas;
 
-    private static List<DuckPersona> _personasShuffled;
+    public static DuckPersona Duck1 => personas[0];
 
-    public static int seed;
+    public static DuckPersona Duck2 => personas[1];
 
-    private static List<DuckPersona> _personas
-    {
-        get
-        {
-            if (_personasShuffled == null)
-            {
-                Shuffle();
-            }
-            return _personasShuffled;
-        }
-    }
+    public static DuckPersona Duck3 => personas[2];
 
-    public static DuckPersona Duck1 => _personas[0];
+    public static DuckPersona Duck4 => personas[3];
 
-    public static DuckPersona Duck2 => _personas[1];
+    public static DuckPersona Duck5 => personas[4];
 
-    public static DuckPersona Duck3 => _personas[2];
+    public static DuckPersona Duck6 => personas[5];
 
-    public static DuckPersona Duck4 => _personas[3];
+    public static DuckPersona Duck7 => personas[6];
 
-    public static DuckPersona Duck5 => _personas[4];
+    public static DuckPersona Duck8 => personas[7];
 
-    public static DuckPersona Duck6 => _personas[5];
-
-    public static DuckPersona Duck7 => _personas[6];
-
-    public static DuckPersona Duck8 => _personas[7];
-
-    public static IEnumerable<DuckPersona> all => _personas;
-
-    public static void Initialize()
-    {
-        _ = _personas;
-    }
-
-    public static void Shuffle(int pSeed = -1)
-    {
-        if (pSeed < 0)
-        {
-            seed = Rando.Int(2147483646);
-        }
-        else
-        {
-            seed = pSeed;
-        }
-        Random generator = Rando.Generator;
-        Rando.Generator = new Random(seed);
-        _personasShuffled = _personasOriginalOrder.ToList();
-        Rando.Generator = generator;
-    }
+    public static IEnumerable<DuckPersona> all => personas;
 
     public static int Number(DuckPersona p)
     {
-        return _personas.IndexOf(p);
+        return personas.IndexOf(p);
+    }
+
+    public static void Initialize()
+    {
+        personas = [
+            new DuckPersona(new Vector3(255, 255, 255)) { index = 0 },
+            new DuckPersona(new Vector3(125, 125, 125)) { index = 1 },
+            new DuckPersona(new Vector3(247, 224, 90)) { index = 2 },
+            new DuckPersona(new Vector3(205, 107, 29)) { index = 3 },
+            new DuckPersona(new Vector3(0, 133, 74), new Vector3(0, 102, 57), new Vector3(0, 173, 97)) { index = 4 },
+            new DuckPersona(new Vector3(255, 105, 117), new Vector3(207, 84, 94), new Vector3(255, 158, 166)) { index = 5 },
+            new DuckPersona(new Vector3(49, 162, 242), new Vector3(13, 123, 181), new Vector3(148, 207, 245)) { index = 6 },
+            new DuckPersona(new Vector3(175, 85, 221), new Vector3(141, 36, 194), new Vector3(213, 165, 238)) { index = 7 }
+            ];
     }
 }

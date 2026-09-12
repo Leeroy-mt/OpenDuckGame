@@ -2984,7 +2984,7 @@ public class DuckNetwork
             pProfile.slotType = pReplacementSlot.slotType;
             if (pProfile.team != null && (pProfile.team.activeProfiles.Count == 0 || TeamSelect2.GetSettingBool("teams")) && !pProfile.team.defaultTeam)
             {
-                pProfile.team.Join(pProfile, set: false);
+                pProfile.team.Join(pProfile, setProfileTeam: false);
             }
             else
             {

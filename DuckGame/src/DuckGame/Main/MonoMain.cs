@@ -136,7 +136,7 @@ public class MonoMain : Game
     RenderTarget2D _screenshotTarget;
 
     Thread _infiniteLoopDetector;
-    TVSpinScreen LoadingScreen;
+    LoadingScreen LoadingScreen;
 
     #endregion
 

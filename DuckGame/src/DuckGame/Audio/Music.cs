@@ -2,91 +2,71 @@ using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace DuckGame;
 
 public class Music
 {
-    private static Dictionary<string, MemoryStream> _songs = new Dictionary<string, MemoryStream>();
+    public static MusicInstance _musicPlayer;
 
-    private static Dictionary<string, Queue<string>> _recentSongs = new Dictionary<string, Queue<string>>();
+    #region Private Fields
 
-    private static float _fadeSpeed;
+    static bool _alternateLoop;
 
-    private static float _volume = 1f;
+    static float _fadeSpeed;
+    static float _volume = 1;
+    static float _volumeMult = 1;
+    static float _masterVolume = 0.65f;
 
-    private static float _volumeMult = 1f;
+    static string _currentSong = "";
+    static string _pendingSong = "";
+    static string _alternateSong = "";
 
-    private static float _masterVolume = 0.65f;
+    static Random _musicPickGen = new();
+    static SoundEffect _currentMusic;
 
-    private static string _currentSong = "";
+    static string[] _songList;
 
-    private static string _pendingSong = "";
+    static Dictionary<string, MemoryStream> _songs = [];
+    static Dictionary<string, Queue<string>> _recentSongs = [];
+    static HashSet<string> _processedSongs = [];
 
-    private static string[] _songList;
+    #endregion
 
-    private static Random _musicPickGen = new Random();
-
-    private static SoundEffect _currentMusic = null;
-
-    public static MusicInstance _musicPlayer = null;
-
-    private static bool _alternateLoop = false;
-
-    private static string _alternateSong = "";
-
-    private static HashSet<string> _processedSongs = new HashSet<string>();
-
-    public static Dictionary<string, MemoryStream> songs => _songs;
+    #region Public Properties
 
     public static bool stopped
     {
         get
         {
             if (_musicPlayer.State != SoundState.Stopped)
-            {
                 return _musicPlayer.State == SoundState.Paused;
-            }
             return true;
         }
     }
+    public static bool finished => _musicPlayer.State == SoundState.Stopped;
 
     public static float volumeMult
     {
-        get
-        {
-            return _volumeMult;
-        }
+        get => _volumeMult;
         set
         {
             _volumeMult = value;
             volume = _volume;
         }
     }
-
     public static float volume
     {
-        get
-        {
-            return _volume;
-        }
+        get => _volume;
         set
         {
             _volume = value;
-            if (_musicPlayer != null)
-            {
-                _musicPlayer.Volume = _volume * (_masterVolume * _masterVolume) * _volumeMult;
-            }
+            _musicPlayer?.Volume = _volume * (_masterVolume * _masterVolume) * _volumeMult;
         }
     }
-
     public static float masterVolume
     {
-        get
-        {
-            return _masterVolume;
-        }
+        get => _masterVolume;
         set
         {
             _masterVolume = value;
@@ -98,9 +78,13 @@ public class Music
 
     public static string pendingSong => _pendingSong;
 
-    public static TimeSpan position => new TimeSpan(0, 0, 0, 0, (int)(_musicPlayer.Platform_GetProgress() * (float)_musicPlayer.Platform_GetLengthInMilliseconds()));
+    public static TimeSpan position => new(0, 0, 0, 0, (int)(_musicPlayer.Platform_GetProgress() * _musicPlayer.Platform_GetLengthInMilliseconds()));
 
-    public static bool finished => _musicPlayer.State == SoundState.Stopped;
+    public static Dictionary<string, MemoryStream> songs => _songs;
+
+    #endregion
+
+    #region Public Methods
 
     public static void Reset()
     {
@@ -119,81 +103,72 @@ public class Music
 
     public static void Terminate()
     {
-        foreach (KeyValuePair<string, MemoryStream> song2 in _songs)
-        {
+        foreach (var song2 in _songs)
             song2.Value.Close();
-        }
     }
 
     public static string RandomTrack(string folder, string ignore = "")
     {
         if (DevConsole.rhythmMode)
-        {
             return "InGame/comic.ogg";
-        }
-        string[] songList = _songList;
+
+        var songList = _songList;
         if (ReskinPack.active.Count > 0)
         {
-            List<string> moreSongs = new List<string>();
+            List<string> moreSongs = [];
+
             foreach (ReskinPack p in ReskinPack.active)
-            {
                 moreSongs.AddRange(DuckFile.GetFiles(p.contentPath + "/Audio/Music/InGame"));
-            }
+
             if (moreSongs.Count > 0)
-            {
                 songList = moreSongs.ToArray();
-            }
         }
+
         if (songList.Length == 0)
-        {
             return "";
-        }
-        Random oldRando = Rando.Generator;
+
+        var oldRando = Rando.Generator;
         Rando.Generator = _musicPickGen;
-        List<string> songs = new List<string>();
-        string[] array = songList;
-        foreach (string song in array)
+        List<string> songs = [];
+        var array = songList;
+        foreach (var song in array)
         {
-            string s = folder + "/" + Path.GetFileNameWithoutExtension(song);
+            var s = $"{folder}/{Path.GetFileNameWithoutExtension(song)}";
             if (s != ignore)
-            {
                 songs.Add(s);
-            }
         }
+
         if (songs.Count == 0)
-        {
-            songs.Add(folder + "/" + Path.GetFileNameWithoutExtension(songList[0]));
-        }
-        Queue<string> recentSongs = null;
-        if (!_recentSongs.TryGetValue(folder, out recentSongs))
+            songs.Add($"{folder}/{Path.GetFileNameWithoutExtension(songList[0])}");
+
+        if (!_recentSongs.TryGetValue(folder, out var recentSongs))
         {
             recentSongs = new Queue<string>();
             _recentSongs[folder] = recentSongs;
         }
+
         if (recentSongs.Count > 0 && recentSongs.Count > songs.Count - 5)
-        {
             recentSongs.Dequeue();
-        }
-        List<string> validSongs = new List<string>();
-        validSongs.AddRange(songs);
-        string curSong = "";
+
+        List<string> validSongs = [.. songs];
+        var curSong = "";
         while (curSong == "")
         {
             if (songs.Count == 0 && recentSongs.Count > 0)
             {
                 curSong = recentSongs.Dequeue();
                 if (!validSongs.Contains(curSong))
-                {
                     curSong = "";
-                }
                 continue;
             }
+
             if (songs.Count == 0)
             {
                 curSong = validSongs[0];
                 continue;
             }
-            curSong = songs[Rando.Int(songs.Count() - 1)];
+
+            curSong = songs[Rando.Int(songs.Count - 1)];
             if (curSong == ignore && songs.Count > 1)
             {
                 songs.Remove(curSong);
@@ -202,16 +177,13 @@ public class Music
             else
             {
                 if (!recentSongs.Contains(curSong))
-                {
                     continue;
-                }
-                if (Rando.Float(1f) > 0.25f)
+
+                if (Rando.Float(1) > 0.25f)
                 {
                     songs.Remove(curSong);
                     if (songs.Count > 0)
-                    {
                         curSong = "";
-                    }
                 }
                 else
                 {
@@ -226,19 +198,17 @@ public class Music
 
     public static string FindSong(string song)
     {
-        string[] songList = _songList;
+        var songList = _songList;
         for (int i = 0; i < songList.Length; i++)
         {
-            string shortSong = Path.GetFileNameWithoutExtension(songList[i]);
+            var shortSong = Path.GetFileNameWithoutExtension(songList[i]);
             if (shortSong.ToLower() == song.ToLower())
-            {
-                return "InGame/" + shortSong;
-            }
+                return $"InGame/{shortSong}";
         }
         return "Challenging";
     }
 
-    public static void Play(string music, bool looping = true, float crossFadeTime = 0f)
+    public static void Play(string music, bool looping = true, float crossFadeTime = 0)
     {
         if (Load(music))
         {
@@ -251,42 +221,41 @@ public class Music
     {
     }
 
-    public static bool Load(string music, bool looping = true, float crossFadeTime = 0f)
+    public static bool Load(string music, bool looping = true, float crossFadeTime = 0)
     {
         _currentSong = music;
         _musicPlayer.Stop();
-        if (!music.Contains(":") && !music.EndsWith(".wav"))
+        if (!music.Contains(':') && !music.EndsWith(".wav"))
         {
             try
             {
-                string fullName = "Audio/Music/" + music;
+                var fullName = $"Audio/Music/{music}";
                 try
                 {
-                    _currentMusic = ReskinPack.LoadAsset<SoundEffect>(fullName + ".ogg", pMusic: true);
-                    if (_currentMusic == null)
-                    {
-                        _currentMusic = ReskinPack.LoadAsset<SoundEffect>(fullName + ".mp3", pMusic: true);
-                    }
+                    _currentMusic = ReskinPack.LoadAsset<SoundEffect>($"{fullName}.ogg", pMusic: true);
+                    _currentMusic ??= ReskinPack.LoadAsset<SoundEffect>($"{fullName}.mp3", pMusic: true);
                 }
-                catch (Exception)
+                catch
                 {
                 }
+
                 if (_currentMusic == null)
                 {
-                    fullName = DuckFile.contentDirectory + fullName;
-                    _currentMusic = new SoundEffect(fullName + ".ogg");
+                    fullName = $"{DuckFile.contentDirectory}{fullName}";
+                    _currentMusic = new SoundEffect($"{fullName}.ogg");
                 }
             }
             catch (Exception ex2)
             {
-                DevConsole.Log(DCSection.General, "|DGRED|Failed to load music (" + music + "):");
-                DevConsole.Log(DCSection.General, "|DGRED|" + ex2.Message);
+                DevConsole.Log(DCSection.General, $"|DGRED|Failed to load music ({music}):");
+                DevConsole.Log(DCSection.General, $"|DGRED|{ex2.Message}");
             }
         }
         else
         {
             _currentMusic = new SoundEffect(music);
         }
+
         _musicPlayer.SetData(_currentMusic);
         return true;
     }
@@ -301,7 +270,7 @@ public class Music
         _musicPlayer.IsLooped = false;
     }
 
-    public static void LoadAlternateSong(string music, bool looping = true, float crossFadeTime = 0f)
+    public static void LoadAlternateSong(string music, bool looping = true, float crossFadeTime = 0)
     {
         _alternateLoop = looping;
         _pendingSong = music;
@@ -338,66 +307,66 @@ public class Music
 
     public static void FadeOut(float duration)
     {
-        _fadeSpeed = duration / 60f;
+        _fadeSpeed = duration / 60;
     }
 
     public static void FadeIn(float duration)
     {
-        _fadeSpeed = 0f - duration / 60f;
+        _fadeSpeed = 0 - duration / 60;
     }
 
-    private static void SearchDir(string dir)
+    public static void Update()
     {
-        string[] files = Content.GetFiles(dir);
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    static void SearchDir(string dir)
+    {
+        var files = Content.GetFiles(dir);
         for (int i = 0; i < files.Length; i++)
-        {
             ProcessSong(files[i]);
-        }
+
         files = Content.GetDirectories(dir);
         for (int i = 0; i < files.Length; i++)
-        {
             SearchDir(files[i]);
-        }
     }
 
-    private static void ProcessSong(string path)
+    static void ProcessSong(string path)
     {
         if (ReskinPack.context != null)
         {
-            if (ReskinPack.context.hasIngameMusic && !path.Contains(":") && path.Contains("Audio/Music/InGame"))
-            {
+            if (ReskinPack.context.hasIngameMusic && !path.Contains(':') && path.Contains("Audio/Music/InGame"))
                 return;
-            }
+
             string p = path;
             if (p.StartsWith("Content"))
-            {
-                p = p.Substring(7, p.Length - 7);
-            }
+                p = p[7..];
+
             p = ReskinPack.context.contentPath + p;
             if (DuckFile.FileExists(p))
-            {
                 path = p;
-            }
         }
+
         path = path.Replace('\\', '/');
         if (!_processedSongs.Contains(path))
         {
             _processedSongs.Add(path);
             try
             {
-                MemoryStream sound = OggSong.Load(path, !path.Contains(":"));
-                path = path.Substring(0, path.Length - 4);
-                string shortName = path.Substring(path.IndexOf("/Music/") + 7);
-                _songs[shortName] = sound;
+                var soundStream = OggSong.Load(path, !path.Contains(':'));
+                path = path[..^4];
+                var shortName = path[(path.IndexOf("/Music/") + 7)..];
+                _songs[shortName] = soundStream;
             }
-            catch (Exception)
+            catch
             {
-                DevConsole.Log(DCSection.General, "Failed to load song: " + path);
+                DevConsole.Log(DCSection.General, $"Failed to load song: {path}");
             }
         }
     }
 
-    public static void Update()
-    {
-    }
+    #endregion
 }

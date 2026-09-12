@@ -124,7 +124,7 @@ public class ReskinPack : ContentPack
             LoadReskin(directories[i]);
         }
 #if FACEPUNCH
-        if (SteamClient.SteamId != 0)
+        if (FacepunchSteam.SteamId != 0)
 #else
         if (DGSteam.User != null)
 #endif

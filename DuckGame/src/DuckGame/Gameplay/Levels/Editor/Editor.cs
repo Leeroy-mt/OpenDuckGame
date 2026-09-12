@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -459,6 +458,7 @@ public class Editor : Level
     #endregion
 
     #region Public Methods
+
     public static void PopFocus()
     {
         numPops++;
@@ -475,7 +475,7 @@ public class Editor : Level
         focusStack.Push(o);
     }
 
-    public static void InitializeConstructorLists()
+    public static void InitializeConstructorLists(IProgress<float> progress = null)
     {
         if (MonoMain.moddingEnabled)
             ThingTypes = [.. ManagedContent.Things.SortedTypes];
@@ -492,6 +492,10 @@ public class Editor : Level
         ushort typeIndex = 2;
         Assembly main = Assembly.GetExecutingAssembly();
         string allTypesString = "";
+
+        int allThings = ThingTypes.Count * 3,
+            currentThing = 0;
+
         foreach (Type t in ThingTypes)
         {
             AllBaseTypes[t] = Thing.GetAllTypes(t);
@@ -505,12 +509,20 @@ public class Editor : Level
                     allTypesString += t.Name;
                 typeIndex++;
             }
+
+            progress?.Report(currentThing / (float)allThings);
+            currentThing++;
         }
         thingTypesHash = CRC32.Generate(allTypesString);
         foreach (Type t2 in ThingTypes)
         {
             if (t2.IsAbstract)
+            {
+                progress?.Report(currentThing / (float)allThings);
+                currentThing++;
                 continue;
+            }
+
             RegisterEditorFields(t2);
             ConstructorInfo[] constructors = t2.GetConstructors();
             foreach (ConstructorInfo info in constructors)
@@ -540,6 +552,9 @@ public class Editor : Level
                 _defaultConstructors[t2] = (ThingConstructor)lambda2.Compile();
                 _constructorParameters[t2] = parmList;
             }
+
+            progress?.Report(currentThing / (float)allThings);
+            currentThing++;
         }
         Program.constructorsLoaded = _constructorParameters.Count;
         Program.thingTypes = ThingTypes.Count;
@@ -566,6 +581,9 @@ public class Editor : Level
                 }
                 _constructorParameterExpressions[t3] = () => info2.Invoke(vals);
             }
+
+            progress?.Report(currentThing / (float)allThings);
+            currentThing++;
         }
     }
 
@@ -578,7 +596,7 @@ public class Editor : Level
         }
     }
 
-    public static void InitializePlaceableGroup()
+    public static void InitializePlaceableGroup(IProgress<float> progress = null)
     {
         AutoUpdatables.ignoreAdditions = true;
         _placeables = new EditorGroup(null, null);

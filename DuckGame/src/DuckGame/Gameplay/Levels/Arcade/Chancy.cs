@@ -8,158 +8,114 @@ namespace DuckGame;
 
 public class Chancy
 {
-    public static Chancy context = new Chancy();
-
-    public static float alpha = 0f;
+    #region Public Fields
 
     public static bool atCounter = true;
+    public static bool lookingAtList;
+    public static bool lookingAtChallenge;
+    public static bool hover;
+    public static bool afterChallenge;
+
+    public static int _giveTickets;
+
+    public static float alpha;
+    public static float afterChallengeWait;
 
     public static Vector2 standingPosition = Vector2.Zero;
 
-    public static bool lookingAtList = false;
-
-    public static bool lookingAtChallenge = false;
-
-    public static bool hover = false;
-
-    private static FancyBitmapFont _font;
-
-    private static SpriteMap _dealer;
-
-    private static Sprite _tail;
-
-    private static Sprite _photo;
-
-    private static Sprite _tape;
-
-    private static Sprite _tapePaper;
-
-    private static SpriteMap _paperclip;
-
-    private static SpriteMap _sticker;
-
-    private static Sprite _completeStamp;
-
-    private static Sprite _pencil;
-
-    private static SpriteMap _tinyStars;
-
+    public static Chancy context = new();
     public static Sprite body;
-
     public static Sprite hoverSprite;
-
     public static Sprite listPaper;
-
     public static Sprite challengePaper;
 
-    private static List<string> _lines = new List<string>();
+    #endregion
 
-    private static DealerMood _mood;
+    #region Private Fields
 
-    private static string _currentLine = "";
+    static int _challengeSelection;
 
-    private static List<TextLine> _lineProgress = new List<TextLine>();
+    static float _waitLetter = 1;
+    static float _waitAfterLine = 1;
+    static float _talkMove;
+    static float _listLerp;
+    static float _challengeLerp;
+    static float _chancyLerp;
+    static float _stampAngle;
+    static float _paperAngle;
+    static float _tapeAngle;
 
-    private static float _waitLetter = 1f;
+    static string _currentLine = "";
 
-    private static float _waitAfterLine = 1f;
+    static DealerMood _mood;
 
-    private static float _talkMove = 0f;
-
-    private static float _listLerp = 0f;
-
-    private static float _challengeLerp = 0f;
-
-    private static float _chancyLerp = 0f;
-
-    private static ChallengeSaveData _save;
-
-    private static ChallengeSaveData _realSave;
-
-    private static SpriteMap _previewPhoto;
-
-    private static ChallengeData _challengeData;
-
+    static FancyBitmapFont _font;
+    static SpriteMap _dealer;
+    static Sprite _tail;
+    static Sprite _photo;
+    static Sprite _tape;
+    static Sprite _tapePaper;
+    static SpriteMap _paperclip;
+    static SpriteMap _sticker;
+    static Sprite _completeStamp;
+    static Sprite _pencil;
+    static SpriteMap _tinyStars;
+    static ChallengeSaveData _save;
+    static ChallengeSaveData _realSave;
+    static SpriteMap _previewPhoto;
+    static ChallengeData _challengeData;
     static RenderTarget2D _bestTextTarget;
+    static Random _random;
 
-    private static Random _random;
+    static List<string> _lines = [];
+    static List<TextLine> _lineProgress = [];
+    static List<ChallengeData> _chancyChallenges = [];
 
-    private static float _stampAngle = 0f;
+    #endregion
 
-    private static float _paperAngle = 0f;
-
-    private static float _tapeAngle = 0f;
-
-    private static int _challengeSelection;
-
-    public static int _giveTickets = 0;
-
-    public static bool afterChallenge = false;
-
-    public static float afterChallengeWait = 0f;
-
-    private static List<ChallengeData> _chancyChallenges = new List<ChallengeData>();
+    #region Public Properties
 
     public static int frame
     {
         get
         {
             if (_mood == DealerMood.Concerned)
-            {
                 return _dealer.frame - 4;
-            }
+
             if (_mood == DealerMood.Point)
-            {
                 return _dealer.frame - 2;
-            }
+
             return _dealer.frame;
         }
         set
         {
             if (_mood == DealerMood.Concerned)
-            {
                 _dealer.frame = value + 4;
-            }
             else if (_mood == DealerMood.Point)
-            {
                 _dealer.frame = value + 2;
-            }
             else
-            {
                 _dealer.frame = value;
-            }
         }
     }
 
     public static ChallengeData activeChallenge
     {
-        get
-        {
-            return _challengeData;
-        }
-        set
-        {
-            _challengeData = value;
-        }
+        get => _challengeData;
+        set => _challengeData = value;
     }
 
-    public static ChallengeData selectedChallenge
-    {
-        get
-        {
-            if (_chancyChallenges.Count == 0)
-            {
-                return null;
-            }
-            return _chancyChallenges[_challengeSelection];
-        }
-    }
+    public static ChallengeData selectedChallenge =>
+        _chancyChallenges.Count == 0 ? null : _chancyChallenges[_challengeSelection];
+
+    #endregion
+
+    #region Public Methods
 
     public static void Clear()
     {
         _lines.Clear();
-        _waitLetter = 0f;
-        _waitAfterLine = 0f;
+        _waitLetter = 0;
+        _waitAfterLine = 0;
         _currentLine = "";
         _mood = DealerMood.Normal;
     }
@@ -191,20 +147,24 @@ public class Chancy
         {
             MemoryStream stream = new MemoryStream(Convert.FromBase64String(challenge.preview));
             Texture2D tex = Texture2D.FromStream(Graphics.device, stream);
-            _previewPhoto = new SpriteMap(tex, tex.Width, tex.Height);
-            _previewPhoto.Scale = new Vector2(0.25f);
+            _previewPhoto = new SpriteMap(tex, tex.Width, tex.Height)
+            {
+                Scale = new Vector2(0.25f)
+            };
         }
+
         _challengeData = challenge;
         _realSave = Profiles.active[0].GetSaveData(_challengeData.levelID);
         _save = _realSave.Clone();
         UpdateRandoms();
         atCounter = false;
         Vector2 realPos = duckPos;
-        bool found = false;
-        if (Level.CheckLine<Block>(duckPos, duckPos + new Vector2(36f, 0f), out var hit) != null)
+        var found = false;
+
+        if (Level.CheckLine<Block>(duckPos, duckPos + new Vector2(36, 0), out var hit) != null)
         {
-            hit.X -= 8f;
-            if ((hit - duckPos).Length() > 16f)
+            hit.X -= 8;
+            if ((hit - duckPos).Length() > 16)
             {
                 realPos = hit;
                 found = true;
@@ -215,33 +175,34 @@ public class Chancy
             realPos = duckPos + new Vector2(36f, 0f);
             found = true;
         }
+
         if (found)
         {
-            if (Level.CheckLine<Block>(realPos, realPos + new Vector2(0f, 20f), out hit) == null)
-            {
+            if (Level.CheckLine<Block>(realPos, realPos + new Vector2(0, 20), out hit) == null)
                 found = false;
-            }
             else
             {
                 standingPosition = hit - new Vector2(0f, 25f);
                 body.flipH = true;
             }
         }
+
         if (!found)
         {
-            if (Level.CheckLine<Block>(duckPos, duckPos + new Vector2(-36f, 0f), out hit) != null)
+            if (Level.CheckLine<Block>(duckPos, duckPos + new Vector2(-36, 0), out hit) != null)
             {
-                hit.X += 8f;
+                hit.X += 8;
                 realPos = hit;
                 found = true;
             }
             else
             {
-                realPos = duckPos + new Vector2(-36f, 0f);
+                realPos = duckPos + new Vector2(-36, 0);
                 found = true;
             }
-            Level.CheckLine<Block>(realPos, realPos + new Vector2(0f, 20f), out hit);
-            standingPosition = hit - new Vector2(0f, 25f);
+
+            Level.CheckLine<Block>(realPos, realPos + new Vector2(0, 20), out hit);
+            standingPosition = hit - new Vector2(0, 25);
             body.flipH = false;
         }
     }
@@ -286,31 +247,41 @@ public class Chancy
     public static void ResetChallengeDialogue()
     {
         Clear();
-        float skillIndex = Challenges.GetChallengeSkillIndex();
-        List<string> dialogue = new List<string> { "You interested in a little challenge?", "Bet you can't finish this one!", "You look up for a challenge." };
+        var skillIndex = Challenges.GetChallengeSkillIndex();
+        List<string> dialogue = ["You interested in a little challenge?", "Bet you can't finish this one!", "You look up for a challenge."];
+
         if (_save == null)
         {
             if (skillIndex > 0.75f)
-            {
-                dialogue = new List<string> { "You could do this one easy.", "This should be no problem for you!", "This one's gonna be a breeze.", "Hot off the grill, just for you." };
-            }
+                dialogue = ["You could do this one easy.", "This should be no problem for you!", "This one's gonna be a breeze.", "Hot off the grill, just for you."];
             else if (skillIndex > 0.3f)
-            {
-                dialogue = new List<string> { "Wanna try something different?", "Hey, check this out.", "I've been playin with this new thing." };
-            }
+                dialogue = ["Wanna try something different?", "Hey, check this out.", "I've been playin with this new thing."];
         }
         else if (_save != null && _save.trophy > TrophyType.Gold)
         {
-            dialogue = ((skillIndex > 0.75f) ? new List<string> { "Just never good enough huh?", "You still gotta top that score?" } : ((!(skillIndex > 0.3f)) ? new List<string> { "You already dominated this one.", "|CONCERNED|Huh? |CALM|You already got PLATINUM!" } : new List<string> { "|CONCERNED|Woah, you think you can beat that score?", "|CONCERNED|You're gonna try to beat THAT!?" }));
+            dialogue = skillIndex > 0.75f
+                ? ["Just never good enough huh?", "You still gotta top that score?"]
+                : (!(skillIndex > 0.3f)
+                    ? ["You already dominated this one.", "|CONCERNED|Huh? |CALM|You already got PLATINUM!"]
+                    : [ "|CONCERNED|Woah, you think you can beat that score?", "|CONCERNED|You're gonna try to beat THAT!?" ]);
         }
         else if (_save != null && _save.trophy > TrophyType.Silver)
         {
-            dialogue = ((skillIndex > 0.75f) ? new List<string> { "You know you can do better than gold.", "Pretty good, but you can do better." } : ((!(skillIndex > 0.3f)) ? new List<string> { "Gold is pretty rad, you still wanna do better?", "Still wanna improve that score?" } : new List<string> { "Not bad.", "Yeah that's getting there, gold is alright." }));
+            dialogue = skillIndex > 0.75f
+                ? ["You know you can do better than gold.", "Pretty good, but you can do better."]
+                : (!(skillIndex > 0.3f)
+                    ? ["Gold is pretty rad, you still wanna do better?", "Still wanna improve that score?"]
+                    : [ "Not bad.", "Yeah that's getting there, gold is alright." ]);
         }
         else if (_save != null && _save.trophy > TrophyType.Baseline)
         {
-            dialogue = ((skillIndex > 0.75f) ? new List<string> { "Nice, lets try to top that.", "What? Not bad but you really could do better.", "I know you're not just gonna leave it at that." } : ((!(skillIndex > 0.3f)) ? new List<string> { "Well, you beat it! Can you do better?", "Not bad, you managed to do it!" } : new List<string> { "You did it, but you can do better.", "You're pretty good, you beat it." }));
+            dialogue = skillIndex > 0.75f
+                ? ["Nice, lets try to top that.", "What? Not bad but you really could do better.", "I know you're not just gonna leave it at that."]
+                : (!(skillIndex > 0.3f)
+                    ? ["Well, you beat it! Can you do better?", "Not bad, you managed to do it!"]
+                    : ["You did it, but you can do better.", "You're pretty good, you beat it."]);
         }
+
         Add(dialogue[Rando.Int(dialogue.Count - 1)]);
     }
 
@@ -323,9 +294,7 @@ public class Chancy
     public static void MakeConfetti()
     {
         for (int i = 0; i < 40; i++)
-        {
-            Level.Add(new ChallengeConfetti((float)(i * 8) + Rando.Float(-10f, 10f), -124f + Rando.Float(110f)));
-        }
+            Level.Add(new ChallengeConfetti((i * 8) + Rando.Float(-10, 10), -124 + Rando.Float(110)));
     }
 
     public static bool HasNewTrophy()
@@ -336,15 +305,13 @@ public class Chancy
     public static bool HasNewTime()
     {
         if (_realSave.bestTime == _save.bestTime && _realSave.goodies == _save.goodies)
-        {
             return _realSave.targets != _save.targets;
-        }
         return true;
     }
 
     public static int GiveTrophy()
     {
-        int give = 0;
+        var give = 0;
         if (_save.trophy != _realSave.trophy)
         {
             for (int i = (int)(_save.trophy + 1); i <= (int)_realSave.trophy; i++)
@@ -373,102 +340,91 @@ public class Chancy
     public static void GiveTime()
     {
         if (_save.bestTime != _realSave.bestTime)
-        {
             _save.bestTime = _realSave.bestTime;
-        }
+
         if (_save.goodies != _realSave.goodies)
-        {
             _save.goodies = _realSave.goodies;
-        }
+
         if (_save.targets != _realSave.targets)
-        {
             _save.targets = _realSave.targets;
-        }
+
         UpdateRandoms();
     }
 
     public static void StopShowingChallengeList()
     {
-        _listLerp = 0f;
-        _challengeLerp = 0f;
-        _challengeLerp = 0f;
+        _listLerp = 0;
+        _challengeLerp = 0;
+        _challengeLerp = 0;
         lookingAtChallenge = false;
         lookingAtList = false;
     }
 
     public static void Update()
     {
-        bool lerpList = lookingAtList && _challengeLerp < 0.3f;
-        bool lerpChallenge = lookingAtChallenge && _listLerp < 0.3f;
-        bool lerpChancy = (lookingAtChallenge || UnlockScreen.open) && _listLerp < 0.3f;
-        _listLerp = Lerp.FloatSmooth(_listLerp, lerpList ? 1f : 0f, 0.2f, 1.05f);
-        _challengeLerp = Lerp.FloatSmooth(_challengeLerp, lerpChallenge ? 1f : 0f, 0.2f, 1.05f);
-        _chancyLerp = Lerp.FloatSmooth(_chancyLerp, lerpChancy ? 1f : 0f, 0.2f, 1.05f);
+        var lerpList = lookingAtList && _challengeLerp < 0.3f;
+        var lerpChallenge = lookingAtChallenge && _listLerp < 0.3f;
+        var lerpChancy = (lookingAtChallenge || UnlockScreen.open) && _listLerp < 0.3f;
+        _listLerp = Lerp.FloatSmooth(_listLerp, lerpList ? 1 : 0, 0.2f, 1.05f);
+        _challengeLerp = Lerp.FloatSmooth(_challengeLerp, lerpChallenge ? 1 : 0, 0.2f, 1.05f);
+        _chancyLerp = Lerp.FloatSmooth(_chancyLerp, lerpChancy ? 1 : 0, 0.2f, 1.05f);
         if (lookingAtList)
         {
             _ = _challengeSelection;
             if (Input.Pressed("MENUUP"))
             {
                 _challengeSelection--;
+
                 if (_challengeSelection < 0)
-                {
                     _challengeSelection = 0;
-                }
                 else
-                {
                     SFX.Play("textLetter", 0.7f);
-                }
             }
+
             if (Input.Pressed("MENUDOWN"))
             {
                 _challengeSelection++;
+
                 if (_challengeSelection > _chancyChallenges.Count - 1)
-                {
                     _challengeSelection = _chancyChallenges.Count - 1;
-                }
                 else
-                {
                     SFX.Play("textLetter", 0.7f);
-                }
             }
         }
+
         if (!UnlockScreen.open && !lookingAtChallenge)
-        {
             return;
-        }
+
         if (UnlockScreen.open || lookingAtChallenge)
-        {
-            alpha = Lerp.Float(alpha, 1f, 0.05f);
-        }
+            alpha = Lerp.Float(alpha, 1, 0.05f);
         else
-        {
-            alpha = Lerp.Float(alpha, 0f, 0.05f);
-        }
+            alpha = Lerp.Float(alpha, 0, 0.05f);
+
         if (afterChallenge)
         {
-            if (afterChallengeWait > 0f)
+            if (afterChallengeWait > 0)
             {
                 afterChallengeWait -= 0.03f;
             }
             else if (HasNewTime() || HasNewTrophy())
             {
-                SFX.Play("dacBang", 1f, -0.7f);
+                SFX.Play("dacBang", 1, -0.7f);
                 GiveTime();
                 _giveTickets = GiveTrophy();
-                afterChallengeWait = 1f;
+                afterChallengeWait = 1;
                 MakeConfetti();
             }
             else if (_giveTickets != 0)
             {
                 Profiles.active[0].ticketCount += _giveTickets;
-                afterChallengeWait = 2f;
+                afterChallengeWait = 2;
                 _giveTickets = 0;
                 SFX.Play("ching");
             }
             else
             {
                 ResetChallengeDialogue();
-                afterChallengeWait = 0f;
+                afterChallengeWait = 0;
                 afterChallenge = false;
                 foreach (ArcadeHUD item in Level.current.things[typeof(ArcadeHUD)])
                 {
@@ -481,31 +437,33 @@ public class Chancy
                 Profiles.Save(Profiles.active[0]);
             }
         }
+
         if (_save != null && activeChallenge != null)
         {
-            if (_bestTextTarget == null)
-            {
-                _bestTextTarget = RenderTarget2D.CreateSetUpTarget(120, 8);
-            }
+            _bestTextTarget ??= RenderTarget2D.CreateSetUpTarget(120, 8);
             Graphics.SetRenderTarget(_bestTextTarget);
             Graphics.Clear(Color.Transparent);
             Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullNone, null, Matrix.Identity);
             string text = GetChallengeBestString(_save, activeChallenge);
-            _font.Draw(text, new Vector2((int)Math.Round((float)_bestTextTarget.Width / 2f - _font.GetWidth(text) / 2f), 0f), Color.Black * 0.7f);
+            _font.Draw(text, new Vector2((int)Math.Round(_bestTextTarget.Width / 2f - _font.GetWidth(text) / 2), 0), Color.Black * 0.7f);
             Graphics.screen.End();
             Graphics.SetRenderTarget(null);
         }
+
         Initialize();
+
         if (_lines.Count > 0 && _currentLine == "")
         {
             _waitAfterLine -= 0.03f;
             _talkMove += 0.75f;
-            if (_talkMove > 1f)
+
+            if (_talkMove > 1)
             {
                 frame = 0;
-                _talkMove = 0f;
+                _talkMove = 0;
             }
-            if (_waitAfterLine <= 0f)
+
+            if (_waitAfterLine <= 0)
             {
                 _lineProgress.Clear();
                 _currentLine = _lines[0];
@@ -514,63 +472,68 @@ public class Chancy
                 _mood = DealerMood.Normal;
             }
         }
+
         if (_currentLine != "")
         {
             _waitLetter -= 0.8f;
-            if (!(_waitLetter < 0f))
-            {
+            if (!(_waitLetter < 0))
                 return;
-            }
+
             _talkMove += 0.75f;
-            if (_talkMove > 1f)
+            if (_talkMove > 1)
             {
                 if (_currentLine[0] != ' ' && frame == 0)
-                {
                     frame = Rando.Int(1);
-                }
                 else
-                {
                     frame = 0;
-                }
-                _talkMove = 0f;
+
+                _talkMove = 0;
             }
-            _waitLetter = 1f;
+
+            _waitLetter = 1;
             while (_currentLine[0] == '@')
             {
-                string val = _currentLine[0].ToString() ?? "";
-                _currentLine = _currentLine.Remove(0, 1);
+                var val = _currentLine[0].ToString() ?? "";
+                _currentLine = _currentLine[1..];
+
                 while (_currentLine[0] != '@' && _currentLine.Length > 0)
                 {
                     val += _currentLine[0];
-                    _currentLine = _currentLine.Remove(0, 1);
+                    _currentLine = _currentLine[1..];
                 }
-                _currentLine = _currentLine.Remove(0, 1);
+
+                _currentLine = _currentLine[1..];
                 val += "@";
                 _lineProgress[0].Add(val);
-                _waitLetter = 3f;
+                _waitLetter = 3;
+
                 if (_currentLine.Length == 0)
                 {
                     _currentLine = "";
                     return;
                 }
             }
+
             while (_currentLine[0] == '|')
             {
-                _currentLine = _currentLine.Remove(0, 1);
-                string read = "";
+                _currentLine = _currentLine[1..];
+                var read = "";
                 while (_currentLine[0] != '|' && _currentLine.Length > 0)
                 {
                     read += _currentLine[0];
                     _currentLine = _currentLine.Remove(0, 1);
                 }
+
                 if (_currentLine.Length <= 1)
                 {
                     _currentLine = "";
                     return;
                 }
-                _currentLine = _currentLine.Remove(0, 1);
-                Color c = Color.White;
-                bool foundColor = false;
+
+                _currentLine = _currentLine[1..];
+                var c = Color.White;
+                var foundColor = false;
+
                 switch (read)
                 {
                     case "RED":
@@ -607,6 +570,7 @@ public class Chancy
                         _mood = DealerMood.Point;
                         break;
                 }
+
                 if (foundColor)
                 {
                     if (_lineProgress.Count == 0)
@@ -622,7 +586,7 @@ public class Chancy
                     }
                 }
             }
-            string nextWord = "";
+            var nextWord = "";
             int index = 1;
             if (_currentLine[0] == ' ')
             {
@@ -649,53 +613,49 @@ public class Chancy
                     }
                 }
             }
+
             if (_lineProgress.Count == 0 || _currentLine[0] == '^' || (_currentLine[0] == ' ' && _lineProgress[0].Length() + nextWord.Length > 34))
             {
-                Color c2 = Color.White;
+                var c2 = Color.White;
                 if (_lineProgress.Count > 0)
-                {
                     c2 = _lineProgress[0].lineColor;
-                }
+
                 _lineProgress.Insert(0, new TextLine
                 {
                     lineColor = c2
                 });
+
                 if (_currentLine[0] == ' ' || _currentLine[0] == '^')
-                {
-                    _currentLine = _currentLine.Remove(0, 1);
-                }
+                    _currentLine = _currentLine[1..];
+
                 return;
             }
+
             if (_currentLine[0] == '!' || _currentLine[0] == '?' || _currentLine[0] == '.')
-            {
-                _waitLetter = 5f;
-            }
+                _waitLetter = 5;
             else if (_currentLine[0] == ',')
-            {
-                _waitLetter = 3f;
-            }
+                _waitLetter = 3;
+
             if (_currentLine[0] == '*')
             {
-                _waitLetter = 5f;
+                _waitLetter = 5;
             }
             else
             {
                 _lineProgress[0].Add(_currentLine[0]);
                 char c3 = _currentLine[0].ToString().ToLowerInvariant()[0];
                 if ((c3 < 'a' || c3 > 'z') && c3 >= '0')
-                {
                     _ = 57;
-                }
             }
-            _currentLine = _currentLine.Remove(0, 1);
+            _currentLine = _currentLine[1..];
         }
         else
         {
             _talkMove += 0.75f;
-            if (_talkMove > 1f)
+            if (_talkMove > 1)
             {
                 frame = 0;
-                _talkMove = 0f;
+                _talkMove = 0;
             }
         }
     }
@@ -704,220 +664,215 @@ public class Chancy
     {
         if (chal.trophies[1].timeRequirement > 0 || chal.trophies[2].timeRequirement > 0 || chal.trophies[3].timeRequirement > 0)
         {
-            string timeString = MonoMain.TimeString(TimeSpan.FromMilliseconds(dat.bestTime), 3, small: true);
+            var timeString = MonoMain.TimeString(TimeSpan.FromMilliseconds(dat.bestTime), 3, small: true);
             if (dat.bestTime <= 0)
             {
                 if (!canNull)
-                {
                     return "|RED|N/A";
-                }
                 return null;
             }
-            return "BEST: " + timeString;
+            return $"BEST: {timeString}";
         }
+
         if (chal.trophies[1].targets != -1)
         {
             if (dat.targets <= 0)
             {
                 if (!canNull)
-                {
                     return "|RED|N/A";
-                }
                 return null;
             }
-            return "BEST: " + dat.targets;
+            return $"BEST: {dat.targets}";
         }
+
         if (chal.trophies[1].goodies != -1)
         {
             if (dat.goodies <= 0)
             {
                 if (!canNull)
-                {
                     return "|RED|N/A";
-                }
                 return null;
             }
-            return "BEST: " + dat.goodies;
+            return $"BEST: {dat.goodies}";
         }
         return "";
     }
 
     public static void Draw()
     {
-        Vector2 paperPos = new Vector2(-200f + _listLerp * 270f, 20f);
+        Vector2 paperPos = new(-200 + _listLerp * 270, 20);
+
         if (lookingAtList || _listLerp > 0.01f)
         {
             listPaper.Depth = 0.8f;
             Graphics.Draw(listPaper, paperPos.X, paperPos.Y);
             _font.Depth = 0.85f;
-            _font.Scale = new Vector2(1f);
+            _font.Scale = new Vector2(1);
             _font.Draw("Chancy Challenges", paperPos + new Vector2(11f, 6f), Colors.BlueGray, 0.85f);
-            float yOff = 9f;
+            var yOff = 9F;
             List<ChallengeData> chancyChallenges = _chancyChallenges;
-            int idx = 0;
+            var idx = 0;
+
             foreach (ChallengeData c in chancyChallenges)
             {
-                _font.Draw(c.name, paperPos + new Vector2(19f, 12f + yOff), Colors.DGRed, 0.85f);
-                Vector2 pencilPos = paperPos + new Vector2(12f, 12f + yOff + 4f);
+                _font.Draw(c.name, paperPos + new Vector2(19, 12 + yOff), Colors.DGRed, 0.85f);
+                Vector2 pencilPos = paperPos + new Vector2(12, 12 + yOff + 4);
+
                 if (idx == _challengeSelection)
                 {
                     _pencil.Depth = 0.9f;
                     Graphics.Draw(_pencil, pencilPos.X, pencilPos.Y);
-                    Graphics.DrawLine(paperPos + new Vector2(19f, 12f + yOff + 8.5f), paperPos + new Vector2(19f + _font.GetWidth(c.name), 12f + yOff + 8.5f), Colors.SuperDarkBlueGray, 1f, 0.9f);
+                    Graphics.DrawLine(paperPos + new Vector2(19, 12 + yOff + 8.5f), paperPos + new Vector2(19 + _font.GetWidth(c.name), 12 + yOff + 8.5f), Colors.SuperDarkBlueGray, 1, 0.9f);
                 }
-                ChallengeSaveData savedat = Profiles.active[0].GetSaveData(_chancyChallenges[idx].levelID);
+
+                var savedat = Profiles.active[0].GetSaveData(_chancyChallenges[idx].levelID);
                 if (savedat != null && savedat.trophy > TrophyType.Baseline)
                 {
                     _tinyStars.frame = (int)(savedat.trophy - 1);
                     _tinyStars.Depth = 0.85f;
-                    Graphics.Draw(_tinyStars, pencilPos.X + 2f, pencilPos.Y);
+                    Graphics.Draw(_tinyStars, pencilPos.X + 2, pencilPos.Y);
                 }
-                yOff += 9f;
+
+                yOff += 9;
                 idx++;
             }
         }
+
         if (_challengeLerp < 0.01f && _chancyLerp < 0.01f)
-        {
             return;
-        }
-        Vector2 dealerOffset = new Vector2(100f * (1f - _chancyLerp), 100f * (1f - _chancyLerp));
-        Vector2 descSize = new Vector2(280f, 20f);
-        Vector2 descPos = new Vector2(20f, 132f) + dealerOffset;
-        Graphics.DrawRect(descPos + new Vector2(-2f, 0f), descPos + descSize + new Vector2(2f, 0f), Color.Black);
-        int index = 0;
+
+        Vector2 dealerOffset = new(100 * (1 - _chancyLerp), 100 * (1 - _chancyLerp));
+        Vector2 descSize = new(280, 20);
+        Vector2 descPos = new Vector2(20, 132) + dealerOffset;
+        Graphics.DrawRect(descPos + new Vector2(-2, 0), descPos + descSize + new Vector2(2, 0), Color.Black);
+        var index = 0;
         for (int i = _lineProgress.Count - 1; i >= 0; i--)
         {
-            float wide = Graphics.GetStringWidth(_lineProgress[i].text);
-            float ypos = descPos.Y + 2f + (float)(index * 9);
-            float xpos = descPos.X + descSize.X / 2f - wide / 2f;
+            var wide = Graphics.GetStringWidth(_lineProgress[i].text);
+            var ypos = descPos.Y + 2 + (index * 9);
+            var xpos = descPos.X + descSize.X / 2 - wide / 2;
+
             for (int j = _lineProgress[i].segments.Count - 1; j >= 0; j--)
             {
                 Graphics.DrawString(_lineProgress[i].segments[j].text, new Vector2(xpos, ypos), _lineProgress[i].segments[j].color, 0.85f);
                 xpos += (float)(_lineProgress[i].segments[j].text.Length * 8);
             }
+
             index++;
         }
+
         if (_challengeLerp > 0.01f && _challengeData != null)
         {
-            paperPos = new Vector2(40f, 28f);
-            paperPos = new Vector2(-200f + _challengeLerp * 240f, 28f);
+            paperPos = new Vector2(-200 + _challengeLerp * 240, 28);
             challengePaper.Depth = 0.8f;
             Graphics.Draw(challengePaper, paperPos.X, paperPos.Y);
             _paperclip.Depth = 0.92f;
             _photo.Depth = 0.87f;
-            Graphics.Draw(_photo, paperPos.X + 135f, paperPos.Y - 3f);
-            Graphics.Draw(_paperclip, paperPos.X + 140f, paperPos.Y - 10f);
+            Graphics.Draw(_photo, paperPos.X + 135, paperPos.Y - 3);
+            Graphics.Draw(_paperclip, paperPos.X + 140, paperPos.Y - 10);
+
             if (_previewPhoto != null)
             {
                 _previewPhoto.Depth = 0.89f;
-                _previewPhoto.AngleDegrees = 12f;
-                Graphics.Draw(_previewPhoto, paperPos.X + 146f, paperPos.Y + 0f);
+                _previewPhoto.AngleDegrees = 12;
+                Graphics.Draw(_previewPhoto, paperPos.X + 146, paperPos.Y);
             }
+
             if (_save != null)
             {
                 if (_save.trophy > TrophyType.Baseline)
                 {
                     _sticker.Depth = 0.9f;
                     _sticker.frame = (int)(_save.trophy - 1);
-                    Graphics.Draw(_sticker, paperPos.X + 123f, paperPos.Y + 2f);
+                    Graphics.Draw(_sticker, paperPos.X + 123, paperPos.Y + 2);
                     _completeStamp.Depth = 0.9f;
                     _completeStamp.AngleDegrees = _stampAngle;
                     _completeStamp.Alpha = 0.9f;
-                    Graphics.Draw(_completeStamp, paperPos.X + 72f, paperPos.Y + 82f);
+                    Graphics.Draw(_completeStamp, paperPos.X + 72, paperPos.Y + 82);
                 }
-                string bestString = GetChallengeBestString(_save, _challengeData, canNull: true);
+
+                var bestString = GetChallengeBestString(_save, _challengeData, canNull: true);
                 if (bestString != null && bestString != "")
                 {
                     _tapePaper.Depth = 0.9f;
                     _tapePaper.AngleDegrees = _paperAngle;
-                    Graphics.Draw(_tapePaper, paperPos.X + 64f, paperPos.Y + 22f);
+                    Graphics.Draw(_tapePaper, paperPos.X + 64, paperPos.Y + 22);
                     _tape.Depth = 0.95f;
                     _tape.AngleDegrees = _tapeAngle;
-                    Graphics.Draw(_tape, paperPos.X + 64f, paperPos.Y + 22f);
+                    Graphics.Draw(_tape, paperPos.X + 64, paperPos.Y + 22);
+
                     if (_bestTextTarget != null)
-                    {
-                        Graphics.Draw(_bestTextTarget, new Vector2(paperPos.X + 64f, paperPos.Y + 22f), null, Color.White, Maths.DegToRad(_paperAngle), new Vector2(_bestTextTarget.Width / 2, _bestTextTarget.Height / 2), new Vector2(1f, 1f), SpriteEffects.None, 0.92f);
-                    }
+                        Graphics.Draw(_bestTextTarget, new Vector2(paperPos.X + 64, paperPos.Y + 22), null, Color.White, Maths.DegToRad(_paperAngle), new Vector2(_bestTextTarget.Width / 2, _bestTextTarget.Height / 2), new Vector2(1, 1), SpriteEffects.None, 0.92f);
                 }
             }
             _font.Depth = 0.85f;
-            _font.Scale = new Vector2(1f);
-            _font.Draw(_challengeData.name, paperPos + new Vector2(9f, 7f), Colors.DGRed, 0.85f);
-            _font.Scale = new Vector2(1f);
+            _font.Scale = new Vector2(1);
+            _font.Draw(_challengeData.name, paperPos + new Vector2(9, 7), Colors.DGRed, 0.85f);
+            _font.Scale = new Vector2(1);
             _font.maxWidth = 120;
-            _font.Draw(_challengeData.description, paperPos + new Vector2(5f, 30f), Colors.BlueGray, 0.85f);
-            _font.Scale = new Vector2(1f);
+            _font.Draw(_challengeData.description, paperPos + new Vector2(5, 30), Colors.BlueGray, 0.85f);
+            _font.Scale = new Vector2(1);
             _font.maxWidth = 300;
-            Unlockable u = Unlockables.GetUnlock(_challengeData.reward);
+
+            var u = Unlockables.GetUnlock(_challengeData.reward);
             if (u != null)
             {
                 if (u is UnlockableHat)
-                {
-                    _font.Draw("|MENUORANGE|Reward - " + u.name + " hat", paperPos + new Vector2(5f, 84f), Colors.BlueGray, 0.85f);
-                }
+                    _font.Draw($"|MENUORANGE|Reward - {u.name} hat", paperPos + new Vector2(5, 84), Colors.BlueGray, 0.85f);
             }
             else
             {
-                _font.Draw("|MENUORANGE|Reward - TICKETS", paperPos + new Vector2(5f, 84f), Colors.BlueGray, 0.85f);
+                _font.Draw("|MENUORANGE|Reward - TICKETS", paperPos + new Vector2(5, 84), Colors.BlueGray, 0.85f);
             }
-            ChallengeTrophy t = _challengeData.trophies[1];
+
+            var t = _challengeData.trophies[1];
             if (t.targets != -1)
-            {
-                _font.Draw("|DGBLUE|break at least " + t.targets + " targets", paperPos + new Vector2(5f, 75f), Colors.BlueGray, 0.85f);
-            }
+                _font.Draw($"|DGBLUE|break at least {t.targets} targets", paperPos + new Vector2(5, 75), Colors.BlueGray, 0.85f);
             else if (t.timeRequirement > 0)
-            {
-                _font.Draw("|DGBLUE|beat it in " + t.timeRequirement + " seconds", paperPos + new Vector2(5f, 75f), Colors.BlueGray, 0.85f);
-            }
+                _font.Draw($"|DGBLUE|beat it in {t.timeRequirement} seconds", paperPos + new Vector2(5, 75), Colors.BlueGray, 0.85f);
         }
+
         _tail.flipV = true;
-        Graphics.Draw(_tail, 222f + dealerOffset.X, 117f + dealerOffset.Y);
-        bool hasKey = true;
+        Graphics.Draw(_tail, 222 + dealerOffset.X, 117 + dealerOffset.Y);
+        var hasKey = true;
         if (Unlocks.IsUnlocked("BASEMENTKEY", Profiles.active[0]))
-        {
             hasKey = false;
-        }
+
         if (!hasKey)
-        {
             _dealer.frame += 6;
-        }
+
         _dealer.Depth = 0.5f;
         _dealer.Alpha = alpha;
         Graphics.Draw(_dealer, 216f + dealerOffset.X, 32f + dealerOffset.Y);
+
         if (!hasKey)
-        {
             _dealer.frame -= 6;
-        }
     }
 
     public static void DrawGameLayer()
     {
         if (atCounter)
-        {
             return;
-        }
-        body.Depth = 0f;
+
+        body.Depth = 0;
         Graphics.Draw(body, standingPosition.X, standingPosition.Y);
+
         if (hover)
-        {
             hoverSprite.Alpha = Lerp.Float(hoverSprite.Alpha, 1f, 0.05f);
-        }
         else
-        {
             hoverSprite.Alpha = Lerp.Float(hoverSprite.Alpha, 0f, 0.05f);
-        }
+
         if (hoverSprite.Alpha > 0.01f)
         {
             hoverSprite.Depth = 0f;
             hoverSprite.flipH = body.flipH;
+
             if (hoverSprite.flipH)
-            {
-                Graphics.Draw(hoverSprite, standingPosition.X + 1f, standingPosition.Y - 1f);
-            }
+                Graphics.Draw(hoverSprite, standingPosition.X + 1, standingPosition.Y - 1);
             else
-            {
-                Graphics.Draw(hoverSprite, standingPosition.X - 1f, standingPosition.Y - 1f);
-            }
+                Graphics.Draw(hoverSprite, standingPosition.X - 1, standingPosition.Y - 1);
         }
     }
+
+    #endregion
 }

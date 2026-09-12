@@ -1,40 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-
 namespace DuckGame;
 
 public static class ManagedContent
 {
-    public static ManagedContentList<Thing> Things = new ManagedContentList<Thing>();
+    #region Public Fields
 
-    public static ManagedContentList<AmmoType> AmmoTypes = new ManagedContentList<AmmoType>();
+    public static ManagedContentList<Thing> Things = new();
 
-    public static ManagedContentList<DeathCrateSetting> DeathCrateSettings = new ManagedContentList<DeathCrateSetting>();
+    public static ManagedContentList<AmmoType> AmmoTypes = new();
 
-    public static ManagedContentList<DestroyType> DestroyTypes = new ManagedContentList<DestroyType>();
+    public static ManagedContentList<DeathCrateSetting> DeathCrateSettings = new();
 
-    private static void InitializeContentSet<T>(ManagedContentList<T> list)
-    {
-        if (MonoMain.moddingEnabled)
-        {
-            foreach (Mod mod in ModLoader.accessibleMods)
-            {
-                List<Type> typeList = mod.GetTypeList(typeof(T));
-                foreach (Type type in mod.configuration.contentManager.Compile<T>(mod))
-                {
-                    list.Add(type);
-                    typeList.Add(type);
-                }
-            }
-            return;
-        }
-        foreach (Type t in Editor.GetSubclasses(typeof(T)))
-        {
-            list.Add(t);
-        }
-    }
+    public static ManagedContentList<DestroyType> DestroyTypes = new();
+
+    #endregion
+
+    #region Public Methods
 
     public static void PreInitializeMods()
     {
@@ -50,14 +30,35 @@ public static class ManagedContent
     public static void InitializeMods()
     {
         if (MonoMain.moddingEnabled)
-        {
             ModLoader.LoadMods(DuckFile.modsDirectory);
-        }
+
         ModLoader.InitializeAssemblyArray();
         InitializeContentSet(Things);
         InitializeContentSet(AmmoTypes);
         InitializeContentSet(DeathCrateSettings);
         InitializeContentSet(DestroyTypes);
         ContentProperties.InitializeBags(Things.Types);
+    }
+
+    #endregion
+
+    static void InitializeContentSet<T>(ManagedContentList<T> list)
+    {
+        if (MonoMain.moddingEnabled)
+        {
+            foreach (Mod mod in ModLoader.accessibleMods)
+            {
+                var typeList = mod.GetTypeList(typeof(T));
+                foreach (var type in mod.configuration.contentManager.Compile<T>(mod))
+                {
+                    list.Add(type);
+                    typeList.Add(type);
+                }
+            }
+            return;
+        }
+
+        foreach (var t in Editor.GetSubclasses(typeof(T)))
+            list.Add(t);
     }
 }

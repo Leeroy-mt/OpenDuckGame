@@ -380,6 +380,73 @@ public class TriangleBatch
         trianglePosition += batch.Count;
     }
 
+    #region Begin Methods
+
+    public void Begin()
+    {
+        Begin(
+            SpriteSortMode.BackToFront,
+            BlendState.AlphaBlend,
+            SamplerState.LinearClamp,
+            DepthStencilState.None,
+            RasterizerState.CullCounterClockwise,
+            null,
+            Matrix.Identity
+        );
+    }
+
+    public void Begin(
+        SpriteSortMode spriteSortMode,
+        BlendState blendState
+    ) {
+        Begin(
+            spriteSortMode,
+            blendState,
+            SamplerState.LinearClamp,
+            DepthStencilState.None,
+            RasterizerState.CullCounterClockwise,
+            null,
+            Matrix.Identity
+        );
+    }
+
+    public void Begin(
+        SpriteSortMode spriteSortMode,
+        BlendState blendState,
+        SamplerState samplerState,
+        DepthStencilState depthStencilState,
+        RasterizerState rasterizerState
+    ) {
+        Begin(
+            spriteSortMode,
+            blendState,
+            samplerState,
+            depthStencilState,
+            rasterizerState,
+            null,
+            Matrix.Identity
+        );
+    }
+
+    public void Begin(
+        SpriteSortMode spriteSortMode,
+        BlendState blendState,
+        SamplerState samplerState,
+        DepthStencilState depthStencilState,
+        RasterizerState rasterizerState,
+        Effect effect
+    ) {
+        Begin(
+            spriteSortMode,
+            blendState,
+            samplerState,
+            depthStencilState,
+            rasterizerState,
+            effect,
+            Matrix.Identity
+        );
+    }
+
     public void Begin(
         SpriteSortMode spriteSortMode,
         BlendState blendState,
@@ -388,8 +455,7 @@ public class TriangleBatch
         RasterizerState rasterizerState,
         Effect effect,
         Matrix viewMatrix
-        )
-    {
+    ) {
         trianglePosition = 0;
 
         this.spriteSortMode = spriteSortMode;
@@ -411,8 +477,10 @@ public class TriangleBatch
             : effect,
             viewMatrix,
             GraphicsDevice.ScissorRectangle
-            );
+        );
     }
+
+    #endregion
 
     /// <summary>
     /// Applies all settings
@@ -428,7 +496,15 @@ public class TriangleBatch
 
         var vp = graphicsDevice.Viewport;
 
-        Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, 1, -1, out projectionMatrix);
+        Matrix.CreateOrthographicOffCenter(
+            left: 0,
+            right: vp.Width,
+            bottom: vp.Height,
+            top: 0,
+            1,
+            -1,
+            out projectionMatrix
+        );
 
         FullMatrix = Matrix.Multiply(viewMatrix, projectionMatrix);
     }
@@ -512,20 +588,33 @@ public class TriangleBatch
         for (int i = 1; i < trianglePosition; i++)
         {
             var newTriangle = triangles[i];
-            if (newTriangle.Texture == triangle.Texture && newTriangle.Effect == triangle.Effect)
+            if (    (newTriangle.Texture ==  triangle.Texture) &&
+                    (newTriangle.Effect ==   triangle.Effect)   )
             {
                 length += 3;
             }
             else
             {
-                Flush(offset, length, triangle.Texture, triangle.Effect, ref drawCalls);
+                Flush(
+                    offset,
+                    length,
+                    triangle.Texture,
+                    triangle.Effect,
+                    ref drawCalls
+                );
 
                 offset += length;
                 length = 3;
                 triangle = newTriangle;
             }
         }
-        Flush(offset, length, triangle.Texture, triangle.Effect, ref drawCalls);
+        Flush(
+            offset,
+            length,
+            triangle.Texture,
+            triangle.Effect,
+            ref drawCalls
+        );
     }
 
     /// <summary>
@@ -553,7 +642,7 @@ public class TriangleBatch
             vertices,
             offset,
             length / 3
-            );
+        );
 
         drawCalls++; /* Increasing number of draw calls for debug purposes */
     }
@@ -584,8 +673,7 @@ public class ExternalTriangleBatch
         Vector2 t2,
         Texture2D texture,
         float depth
-    )
-    {
+    ) {
         TriangleBatch.TriangleInfo triangleInfo = new();
 
         triangleInfo.V0.Position = new(p0, depth);
@@ -614,8 +702,7 @@ public class ExternalTriangleBatch
         Color c1,
         Color c2,
         float depth
-    )
-    {
+    ) {
         SetTriangle(p0, p1, p2, c0, c1, c2, default, default, default, null, depth);
     }
 
@@ -625,8 +712,7 @@ public class ExternalTriangleBatch
         Vector2 p2,
         Color color,
         float depth
-    )
-    {
+    ) {
         SetTriangle(p0, p1, p2, color, color, color, depth);
     }
 

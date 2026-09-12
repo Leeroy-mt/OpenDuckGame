@@ -5,11 +5,11 @@ using System.IO;
 
 namespace DuckGame;
 
-public class DuckRig
+public static class DuckRig
 {
-    private static List<Vector2> _hatPoints = new List<Vector2>();
+    static List<Vector2> _hatPoints = [];
 
-    private static List<Vector2> _chestPoints = new List<Vector2>();
+    static List<Vector2> _chestPoints = [];
 
     public static void Initialize()
     {
@@ -17,8 +17,9 @@ public class DuckRig
         {
             _hatPoints.Clear();
             _chestPoints.Clear();
-            BinaryReader r = new(File.OpenRead(Content.path + "rig_duckRig.rig"));
-            int num = r.ReadInt32();
+
+            BinaryReader r = new(File.OpenRead($"{Content.path}rig_duckRig.rig"));
+            var num = r.ReadInt32();
             for (int i = 0; i < num; i++)
             {
                 Vector2 hatPoint = new()

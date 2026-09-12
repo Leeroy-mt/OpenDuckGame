@@ -1,46 +1,55 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace DuckGame;
 
 public class DuckPersona
 {
-    private int _index = -1;
-
-    private Vector3 _color;
-
-    private Vector3 _colorDark;
-
-    private Vector3 _colorLight;
-
-    private SpriteMap _skipSprite;
-
-    private SpriteMap _arrowSprite;
-
-    private SpriteMap _fingerPositionSprite;
-
-    private SpriteMap _featherSprite;
-
-    private SpriteMap _crowdSprite;
-
-    private SpriteMap _sprite;
-
-    private SpriteMap _armSprite;
-
-    private SpriteMap _quackSprite;
-
-    private SpriteMap _controlledSprite;
-
-    private SpriteMap _defaultHead;
+    #region Public Methods
 
     public SpriteMap chatBust;
 
+    public MaterialPersona material;
+
+    #endregion
+
+    #region Private Methods
+
+    int _index = -1;
+
+    Vector3 _color;
+
+    Vector3 _colorDark;
+
+    Vector3 _colorLight;
+
+    SpriteMap _skipSprite;
+
+    SpriteMap _arrowSprite;
+
+    SpriteMap _fingerPositionSprite;
+
+    SpriteMap _featherSprite;
+
+    SpriteMap _crowdSprite;
+
+    SpriteMap _sprite;
+
+    SpriteMap _armSprite;
+
+    SpriteMap _quackSprite;
+
+    SpriteMap _controlledSprite;
+
+    SpriteMap _defaultHead;
+
     RenderTarget2D _iconMap;
 
-    public MaterialPersona material;
+    #endregion
+
+    #region Public Properties
 
     public bool mallard => _colorDark != Vector3.Zero;
 
@@ -48,24 +57,16 @@ public class DuckPersona
     {
         get
         {
-            if (_index < 0)
+            if (_index < 0 && Persona.all.FirstOrDefault(x => x.color == color) is DuckPersona d)
             {
-                DuckPersona d = Persona.all.FirstOrDefault((DuckPersona x) => x.color == color);
-                if (d != null)
-                {
+                _index++;
+
+                using var enumerator = Persona.all.GetEnumerator();
+                while (enumerator.MoveNext() && enumerator.Current != d)
                     _index++;
-                    using (IEnumerator<DuckPersona> enumerator = Persona.all.GetEnumerator())
-                    {
-                        while (enumerator.MoveNext() && enumerator.Current != d)
-                        {
-                            _index++;
-                        }
-                    }
-                    if (_index > Persona.all.Count())
-                    {
-                        _index = 0;
-                    }
-                }
+
+                if (_index > Persona.all.Count())
+                    _index = 0;
             }
             return _index;
         }
@@ -77,150 +78,75 @@ public class DuckPersona
 
     public Vector3 color
     {
-        get
-        {
-            return _color;
-        }
-        set
-        {
-            _color = value;
-        }
+        get => _color;
+        set => _color = value;
     }
 
-    public Vector3 colorDark
-    {
-        get
-        {
-            if (_colorDark == Vector3.Zero)
-            {
-                return _color * 0.7f;
-            }
-            return _colorDark;
-        }
-    }
+    public Vector3 colorDark =>
+        _colorDark == Vector3.Zero ? _color * 0.7f : _colorDark;
 
     public Vector3 colorLight => _colorLight;
 
-    public Color colorUsable => new Color((byte)_color.X, (byte)_color.Y, (byte)_color.Z);
+    public Color colorUsable => new((byte)_color.X, (byte)_color.Y, (byte)_color.Z);
 
     public SpriteMap skipSprite
     {
-        get
-        {
-            return _skipSprite;
-        }
-        set
-        {
-            _skipSprite = value;
-        }
+        get => _skipSprite;
+        set => _skipSprite = value;
     }
 
     public SpriteMap arrowSprite
     {
-        get
-        {
-            return _arrowSprite;
-        }
-        set
-        {
-            _arrowSprite = value;
-        }
+        get => _arrowSprite;
+        set => _arrowSprite = value;
     }
 
     public SpriteMap fingerPositionSprite
     {
-        get
-        {
-            return _fingerPositionSprite;
-        }
-        set
-        {
-            _fingerPositionSprite = value;
-        }
+        get => _fingerPositionSprite;
+        set => _fingerPositionSprite = value;
     }
 
     public SpriteMap featherSprite
     {
-        get
-        {
-            return _featherSprite;
-        }
-        set
-        {
-            _featherSprite = value;
-        }
+        get => _featherSprite;
+        set => _featherSprite = value;
     }
 
     public SpriteMap crowdSprite
     {
-        get
-        {
-            return _crowdSprite;
-        }
-        set
-        {
-            _crowdSprite = value;
-        }
+        get => _crowdSprite;
+        set => _crowdSprite = value;
     }
 
     public SpriteMap sprite
     {
-        get
-        {
-            return _sprite;
-        }
-        set
-        {
-            _sprite = value;
-        }
+        get => _sprite;
+        set => _sprite = value;
     }
 
     public SpriteMap armSprite
     {
-        get
-        {
-            return _armSprite;
-        }
-        set
-        {
-            _armSprite = value;
-        }
+        get => _armSprite;
+        set => _armSprite = value;
     }
 
     public SpriteMap quackSprite
     {
-        get
-        {
-            return _quackSprite;
-        }
-        set
-        {
-            _quackSprite = value;
-        }
+        get => _quackSprite;
+        set => _quackSprite = value;
     }
 
     public SpriteMap controlledSprite
     {
-        get
-        {
-            return _controlledSprite;
-        }
-        set
-        {
-            _controlledSprite = value;
-        }
+        get => _controlledSprite;
+        set => _controlledSprite = value;
     }
 
     public SpriteMap defaultHead
     {
-        get
-        {
-            return _defaultHead;
-        }
-        set
-        {
-            _defaultHead = value;
-        }
+        get => _defaultHead;
+        set => _defaultHead = value;
     }
 
     public RenderTarget2D iconMap
@@ -232,6 +158,8 @@ public class DuckPersona
             return _iconMap;
         }
     }
+
+    #endregion
 
     public Texture2D Recolor(Texture2D pTex)
     {
@@ -249,13 +177,15 @@ public class DuckPersona
         _colorDark = varCol2;
         _colorLight = varCol3;
         material = new MaterialPersona(this);
+
         try
         {
             if (varCol2 != Vector3.Zero)
             {
-                Color c1 = new Color(varCol.X / 255f, varCol.Y / 255f, varCol.Z / 255f);
-                Color c2 = new Color(varCol2.X / 255f, varCol2.Y / 255f, varCol2.Z / 255f);
-                Color c3 = new Color(varCol3.X / 255f, varCol3.Y / 255f, varCol3.Z / 255f);
+                Color c1 = new(varCol.X / 255, varCol.Y / 255, varCol.Z / 255);
+                Color c2 = new(varCol2.X / 255, varCol2.Y / 255, varCol2.Z / 255);
+                Color c3 = new(varCol3.X / 255, varCol3.Y / 255, varCol3.Z / 255);
+
                 _skipSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("skipSign_m"), c1, c2, c3), 52, 18);
                 _skipSprite.Center = new Vector2(_skipSprite.width - 3, 15f);
                 _arrowSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("startArrow_m"), c1, c2, c3), 24, 16);
@@ -275,8 +205,10 @@ public class DuckPersona
                 _sprite.AddAnimation("netted", 1f, true, 14);
                 _sprite.AddAnimation("listening", 1f, true, 16);
                 _sprite.SetAnimation("idle");
-                _featherSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("feather_m"), c1, c2, c3), 12, 4);
-                _featherSprite.speed = 0.3f;
+                _featherSprite = new(Graphics.RecolorM(Content.Load<Texture2D>("feather_m"), c1, c2, c3), 12, 4)
+                {
+                    speed = 0.3f
+                };
                 _featherSprite.AddAnimation("feather", 1f, true, 0, 1, 2, 3);
                 _fingerPositionSprite = new SpriteMap(Graphics.RecolorM(Content.Load<Texture2D>("fingerPositions_m"), c1, c2, c3), 16, 12);
                 _fingerPositionSprite.CenterOrigin();
@@ -312,8 +244,10 @@ public class DuckPersona
                 _sprite.AddAnimation("netted", 1f, true, 14);
                 _sprite.AddAnimation("listening", 1f, true, 16);
                 _sprite.SetAnimation("idle");
-                _featherSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("feather"), _color), 12, 4);
-                _featherSprite.speed = 0.3f;
+                _featherSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("feather"), _color), 12, 4)
+                {
+                    speed = 0.3f
+                };
                 _featherSprite.AddAnimation("feather", 1f, true, 0, 1, 2, 3);
                 _fingerPositionSprite = new SpriteMap(Graphics.RecolorOld(Content.Load<Texture2D>("fingerPositions"), _color), 16, 12);
                 _fingerPositionSprite.CenterOrigin();
@@ -329,12 +263,8 @@ public class DuckPersona
                 chatBust.CenterOrigin();
             }
         }
-        catch (Exception)
+        catch
         {
         }
-    }
-
-    public void Recreate()
-    {
     }
 }

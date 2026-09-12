@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 
 
 #if FACEPUNCH
@@ -396,9 +395,9 @@ public class Content
         Initialize(reverse: false);
     }
 
-    public static void InitializeEffects()
+    public static void InitializeEffects(IProgress<float> progress)
     {
-        SearchDirEffects("Content/Shaders");
+        SearchDirEffects("Content/Shaders", progress);
     }
 
     public static string[] GetFiles(string path, string filter = "*.*")
@@ -705,7 +704,7 @@ public class Content
         return tex?.GetTextureIndex() ?? -1;
     }
 
-#endregion
+    #endregion
 
     #region Private Methods
 
@@ -983,11 +982,14 @@ public class Content
         }
     }
 
-    static void SearchDirEffects(string dir)
+    static void SearchDirEffects(string dir, IProgress<float> progress = null)
     {
         string[] files = GetFiles(dir);
         for (int i = 0; i < files.Length; i++)
+        {
             ProcessEffect(files[i]);
+            progress?.Report(i / (float)files.Length);
+        }
 
         files = GetDirectories(dir);
         for (int i = 0; i < files.Length; i++)
@@ -1052,5 +1054,5 @@ public class Content
         }
     }
 
-#endregion
+    #endregion
 }

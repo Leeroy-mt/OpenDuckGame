@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 #if FACEPUNCH
 using Steamworks;
@@ -15,35 +14,37 @@ namespace DuckGame;
 
 public class MapPack : ContentPack
 {
-    private string _name;
-
-    private Sprite _icon;
-
-    private Mod _mod;
-
-    private string _needsPreviewGenerationDir;
+    #region Public Fields
 
     public string path;
 
-    public static List<MapPack> active = new List<MapPack>();
-
-    public static List<MapPack> _mapPacks = new List<MapPack>();
-
     public static ReskinPack context;
+
+    public static List<MapPack> active = [];
+
+    public static List<MapPack> _mapPacks = [];
+
+    #endregion
+
+    #region Private Fields
+
+    string _name;
+    string _needsPreviewGenerationDir;
+
+    Sprite _icon;
+
+    Mod _mod;
 
     Texture2D _preview;
 
-    public string name
-    {
-        get
-        {
-            if (_mod == null)
-            {
-                return _name;
-            }
-            return _mod.configuration.name;
-        }
-    }
+    #endregion
+
+    #region Public Properties
+
+    public string name =>
+        _mod == null
+        ? _name
+        : _mod.configuration.name;
 
     public Sprite icon => _icon;
 
@@ -51,32 +52,33 @@ public class MapPack : ContentPack
 
     public Texture2D preview => _preview;
 
+    #endregion
+
     public MapPack()
-        : base(null)
-    {
-    }
+        : base(null) { }
+
+    #region Public Methods
 
     public static Mod LoadMapPack(string pDir, Mod pExistingMod = null, ModConfiguration pExistingConfig = null)
     {
-        MapPack pack = new MapPack
+        MapPack pack = new()
         {
             _name = Path.GetFileName(pDir),
             path = pDir
         };
+
         _mapPacks.Add(pack);
         if (pExistingMod == null && pExistingConfig == null)
         {
-            if (!DuckFile.FileExists(pDir + "/preview.png"))
+            if (!DuckFile.FileExists($"{pDir}/preview.png"))
+                File.Copy($"{DuckFile.contentDirectory}/mappack_preview.pngfile", $"{pDir}/preview.png");
+
+            if (!DuckFile.FileExists($"{pDir}/icon.png"))
+                File.Copy($"{DuckFile.contentDirectory}/mappack_icon.pngfile", $"{pDir}/icon.png");
+
+            if (!DuckFile.FileExists($"{pDir}/mappack_info.txt"))
             {
-                File.Copy(DuckFile.contentDirectory + "/mappack_preview.pngfile", pDir + "/preview.png");
-            }
-            if (!DuckFile.FileExists(pDir + "/icon.png"))
-            {
-                File.Copy(DuckFile.contentDirectory + "/mappack_icon.pngfile", pDir + "/icon.png");
-            }
-            if (!DuckFile.FileExists(pDir + "/mappack_info.txt"))
-            {
-                string defaultAuthor = "Dan Rando";
+                var defaultAuthor = "Dan Rando";
 #if FACEPUNCH
                 if (SteamClient.SteamId != 0)
                     defaultAuthor = FacepunchSteam.Me.Name;
@@ -84,72 +86,69 @@ public class MapPack : ContentPack
                 if (DGSteam.User != null)
                     defaultAuthor = DGSteam.User.Name;
 #endif
-                DuckFile.SaveString(pack.name + "\n" + defaultAuthor + "\nEdit info.txt to change this information!\n<add a 1280x720 PNG file called 'screenshot.png' to set a custom workshop image!>", pDir + "/mappack_info.txt");
+                DuckFile.SaveString($"{pack.name}\n{defaultAuthor}\nEdit info.txt to change this information!\n<add a 1280x720 PNG file called 'screenshot.png' to set a custom workshop image!>", pDir + "/mappack_info.txt");
             }
         }
+
         Mod m = pExistingMod;
         if (m == null)
         {
-            m = new ClientMod(pDir + "/", pExistingConfig, "mappack_info.txt");
+            m = new ClientMod($"{pDir}/", pExistingConfig, "mappack_info.txt");
             m.configuration.LoadOrCreateConfig();
             m.configuration.SetModType(ModConfiguration.Type.MapPack);
             ModLoader.AddMod(m);
         }
+
         pack._mod = m;
         m.SetPriority(Priority.MapPack);
         m.configuration.SetMapPack(pack);
-        if (DuckFile.FileExists(pDir + "/icon.png"))
+        if (DuckFile.FileExists($"{pDir}/icon.png"))
         {
             try
             {
-                var tex = ContentPack.LoadTexture2D(pDir + "/icon.png");
+                var tex = ContentPack.LoadTexture2D($"{pDir}/icon.png");
                 pack._icon = new Sprite(tex);
             }
-            catch (Exception)
+            catch
             {
                 pack._icon = new Sprite("default_mappack_icon");
             }
         }
+
         if (!m.configuration.disabled)
         {
             active.Add(pack);
-            if (!DuckFile.FileExists(pDir + "/screenshot.png"))
+            if (!DuckFile.FileExists($"{pDir}/screenshot.png"))
             {
-                if (DuckFile.FileExists(pDir + "/screenshot_autogen.png"))
-                {
-                    pack._preview = ContentPack.LoadTexture2D(pDir + "/screenshot_autogen.png");
-                }
+                if (DuckFile.FileExists($"{pDir}/screenshot_autogen.png"))
+                    pack._preview = LoadTexture2D($"{pDir}/screenshot_autogen.png");
                 else
-                {
                     pack._needsPreviewGenerationDir = pDir;
-                }
             }
             else
             {
-                pack._preview = ContentPack.LoadTexture2D(pDir + "/screenshot.png");
+                pack._preview = LoadTexture2D($"{pDir}/screenshot.png");
             }
         }
+
         return m;
     }
 
     public static void InitializeMapPacks()
     {
-        string[] directories = DuckFile.GetDirectories(DuckFile.mappackDirectory);
+        var directories = DuckFile.GetDirectories(DuckFile.mappackDirectory);
         for (int i = 0; i < directories.Length; i++)
-        {
             LoadMapPack(directories[i]);
-        }
+
 #if FACEPUNCH
-        if (SteamClient.SteamId != 0)
+        if (FacepunchSteam.SteamId != 0)
 #else
         if (DGSteam.User != null)
 #endif
         {
             directories = DuckFile.GetDirectories(DuckFile.globalMappackDirectory);
             for (int i = 0; i < directories.Length; i++)
-            {
                 LoadMapPack(directories[i]);
-            }
         }
     }
 
@@ -160,9 +159,7 @@ public class MapPack : ContentPack
             foreach (MapPack p in _mapPacks)
             {
                 if (p._needsPreviewGenerationDir != null)
-                {
-                    p.RegeneratePreviewImage(p._needsPreviewGenerationDir + "/screenshot_autogen.png");
-                }
+                    p.RegeneratePreviewImage($"{p._needsPreviewGenerationDir}/screenshot_autogen.png");
             }
         }
         catch (Exception ex)
@@ -174,47 +171,45 @@ public class MapPack : ContentPack
 
     public string RegeneratePreviewImage(string pPath)
     {
-        if (pPath == null)
-        {
-            pPath = path + "/screenshot_autogen.png";
-        }
-        int previewWidth = 1280;
-        int previewHeight = 720;
+        pPath ??= $"{path}/screenshot_autogen.png";
+
+        var previewWidth = 1280;
+        var previewHeight = 720;
         var previewTarget = RenderTarget2D.CreateSetUpTarget(previewWidth, previewHeight);
         Viewport oldV = Graphics.viewport;
         var oldTarget = Graphics.GetRenderTarget();
-        Sprite sprite = new Sprite("shiny");
+        Sprite sprite = new("shiny");
         Graphics.SetRenderTarget(previewTarget);
         Graphics.viewport = new Viewport(0, 0, previewWidth, previewHeight);
-        Camera cam = new Camera(0f, 0f, previewWidth, previewHeight);
+        Camera cam = new(0, 0, previewWidth, previewHeight);
         Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, cam.getMatrix());
-        Graphics.Draw(sprite.texture, 0f, 0f, 4f, 4f, 0.1f);
-        string[] files = Directory.GetFiles(_mod.configuration.directory, "*.lev", SearchOption.AllDirectories);
-        int num = 0;
-        int rows = (int)Math.Ceiling(Math.Sqrt(files.Count()));
-        float scaleFactor = 1280f / (float)rows / 1280f * 4f;
-        Vector2 offset = Vector2.Zero;
-        string[] array = files;
+        Graphics.Draw(sprite.texture, 0, 0, 4, 4, 0.1f);
+        var files = Directory.GetFiles(_mod.configuration.directory, "*.lev", SearchOption.AllDirectories);
+        var num = 0;
+        var rows = (int)Math.Ceiling(Math.Sqrt(files.Length));
+        var scaleFactor = 1280F / rows / 1280F * 4;
+        var offset = Vector2.Zero;
+        var array = files;
         foreach (string f in array)
         {
             if (num == rows * rows)
-            {
                 break;
-            }
+
             try
             {
-                LevelMetaData.PreviewPair pair = Content.GeneratePreview(f);
+                var pair = Content.GeneratePreview(f);
                 if (pair.preview != null && pair.preview.Width == 320 && pair.preview.Height == 200)
                 {
-                    float scale = 0.95f;
-                    Vector2 scaledSize = new Vector2((float)pair.preview.Width * scaleFactor * scale, (float)pair.preview.Height * scaleFactor * scale);
-                    Vector2 realSize = new Vector2((float)pair.preview.Width * scaleFactor, (float)pair.preview.Height * scaleFactor);
-                    Graphics.Draw(pair.preview, new Vector2(offset.X + realSize.X / 2f - scaledSize.X / 2f, offset.Y + realSize.Y / 2f - scaledSize.Y / 2f), new RectangleF(0f, 10f, 320f, 180f), Color.White, 0f, Vector2.Zero, new Vector2(scale * scaleFactor), SpriteEffects.None, 0.9f);
+                    var scale = 0.95f;
+                    Vector2 scaledSize = new(pair.preview.Width * scaleFactor * scale, pair.preview.Height * scaleFactor * scale);
+                    Vector2 realSize = new(pair.preview.Width * scaleFactor, pair.preview.Height * scaleFactor);
+                    Graphics.Draw(pair.preview, new Vector2(offset.X + realSize.X / 2 - scaledSize.X / 2, offset.Y + realSize.Y / 2 - scaledSize.Y / 2), new RectangleF(0, 10, 320, 180), Color.White, 0, Vector2.Zero, new Vector2(scale * scaleFactor), SpriteEffects.None, 0.9f);
                 }
             }
-            catch (Exception)
+            catch
             {
             }
+
             num++;
             if (num % rows == 0)
             {
@@ -226,6 +221,7 @@ public class MapPack : ContentPack
                 offset.X += previewWidth / rows;
             }
         }
+
         Graphics.screen.End();
         Graphics.SetRenderTarget(oldTarget);
         Graphics.viewport = oldV;
@@ -235,4 +231,6 @@ public class MapPack : ContentPack
         fs.Close();
         return pPath;
     }
+
+    #endregion
 }

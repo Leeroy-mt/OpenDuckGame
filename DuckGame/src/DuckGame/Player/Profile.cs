@@ -1479,7 +1479,7 @@ public class Profile
             {
                 if (slotType != SlotType.Spectator)
                 {
-                    value.Join(this, set: false);
+                    value.Join(this, setProfileTeam: false);
                 }
                 _team = value;
             }

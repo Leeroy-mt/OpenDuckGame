@@ -104,11 +104,10 @@ public static class Program
         {
             ThreadAbortException a = pException as ThreadAbortException;
             if (a.ExceptionState is Exception)
-            {
                 pException = a.ExceptionState as Exception;
-            }
         }
-        bool modRelated = false;
+
+        var modRelated = false;
         try
         {
             if (Network.isActive)
@@ -127,24 +126,23 @@ public static class Program
                 crashed = true;
             }
         }
-        catch (Exception)
-        {
-        }
-        string error = "";
-        int crashPoint = 0;
+        catch { }
+
+        var error = "";
+        var crashPoint = 0;
         try
         {
             try
             {
                 error = MonoMain.GetExceptionString(pException);
             }
-            catch (Exception)
+            catch
             {
                 try
                 {
                     error = GetExceptionStringMinimal(pException);
                 }
-                catch (Exception)
+                catch
                 {
                     error = pException.ToString();
                 }
@@ -166,14 +164,10 @@ public static class Program
                             error = MonoMain.modMemoryOffendersString + error;
                         }
                     }
-                    catch (Exception)
-                    {
-                    }
+                    catch { }
                 }
             }
-            catch (Exception)
-            {
-            }
+            catch { }
 
             try
             {
@@ -181,8 +175,9 @@ public static class Program
             }
             catch (Exception ex6)
             {
-                error = error + "Writing your crash to the log failed with exception " + ex6.Message + "!\n";
+                error = $"{error}Writing your crash to the log failed with exception {ex6.Message}!\n";
             }
+
             crashPoint = 1;
             Exception ex7 = pException;
             string modName = "";
@@ -208,10 +203,9 @@ public static class Program
                         foreach (Mod m in ModLoader.allMods)
                         {
                             if (m is CoreMod || m.configuration == null || !(m.configuration.assembly != null) || !(m.configuration.assembly != Assembly.GetExecutingAssembly()))
-                            {
                                 continue;
-                            }
-                            bool isCause = (crashAssembly == null && m.configuration.assembly == ex7.TargetSite.DeclaringType.Assembly) || m.configuration.assembly == crashAssembly;
+
+                            var isCause = (crashAssembly == null && m.configuration.assembly == ex7.TargetSite.DeclaringType.Assembly) || m.configuration.assembly == crashAssembly;
                             if (!isCause)
                             {
                                 Type[] types = m.configuration.assembly.GetTypes();
@@ -222,6 +216,7 @@ public static class Program
                                         isCause = true;
                                         break;
                                     }
+
                                     if (pException.InnerException != null && pException.InnerException.StackTrace.Contains(t.ToString()))
                                     {
                                         isCause = true;
@@ -229,19 +224,18 @@ public static class Program
                                     }
                                 }
                             }
+
                             if (!isCause)
-                            {
                                 continue;
-                            }
+
                             modAssembly = m.configuration.assembly;
                             modRelated = true;
                             modName = m.configuration.name;
                             if (!MonoMain.modDebugging)
                             {
                                 if (!gameLoadedSuccessfully || (Options.Data.disableModOnCrash && (DateTime.Now - MonoMain.startTime).TotalMinutes < 2.0))
-                                {
                                     m.configuration.Disable();
-                                }
+
                                 successfullyDisabled = true;
                             }
                         }
@@ -249,18 +243,16 @@ public static class Program
                     }
                     catch (Exception ex8)
                     {
-                        error = error + "Finding if crash was Mod related failed with exception " + ex8.Message + "!\n But, No matter, here's the actual exception message for the crash:\n";
+                        error = $"{error}Finding if crash was Mod related failed with exception {ex8.Message}!\n But, No matter, here's the actual exception message for the crash:\n";
                     }
                 }
             }
-            catch (Exception)
-            {
-            }
+            catch { }
             crashPoint = 4;
+
             if (modAssembly == null)
-            {
                 modAssembly = crashAssembly;
-            }
+
             crashPoint = 6;
             if (File.Exists("CrashWindow.exe"))
             {
@@ -318,10 +310,13 @@ public static class Program
     public static void MakeNetLog()
     {
         StreamWriter file = new("netlog.txt", append: false);
+
         foreach (DCLine d in DevConsole.core.lines)
             file.WriteLine($"{d.timestamp:T} {RemoveColorTags(d.SectionString())} {RemoveColorTags(d.line)}\n");
+
         foreach (DCLine d2 in DevConsole.core.pendingLines)
             file.WriteLine($"{d2.timestamp:T} {RemoveColorTags(d2.SectionString())} {RemoveColorTags(d2.line)}\n");
+
         file.WriteLine("\n");
         file.Close();
     }

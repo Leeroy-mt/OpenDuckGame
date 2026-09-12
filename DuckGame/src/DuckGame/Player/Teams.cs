@@ -6,22 +6,23 @@ namespace DuckGame;
 
 public static class Teams
 {
-    private static TeamsCore _core;
+    #region Public Fields
 
     public static int kCustomOffset = 5000;
-
     public static int kCustomSpread = 2000;
+
+    #endregion
+
+    static TeamsCore _core;
+
+    #region Public Properties
+
+    public static int numTeams => _core.all.Count;
 
     public static TeamsCore core
     {
-        get
-        {
-            return _core;
-        }
-        set
-        {
-            _core = value;
-        }
+        get => _core;
+        set => _core = value;
     }
 
     public static SpriteMap hats => _core.hats;
@@ -44,8 +45,6 @@ public static class Teams
 
     public static Team NullTeam => _core.nullTeam;
 
-    public static int numTeams => _core.all.Count;
-
     public static List<Team> all => _core.all;
 
     public static List<Team> allStock => _core.allStock;
@@ -54,12 +53,12 @@ public static class Teams
     {
         get
         {
-            List<Team> teams = new List<Team>();
-            teams.AddRange(all);
-            List<Team> randomizeTeams = new List<Team>();
+            List<Team> teams = [.. all],
+                       randomizeTeams = [];
+
             while (teams.Count > 0)
             {
-                int index = Rando.Int(teams.Count - 1);
+                var index = Rando.Int(teams.Count - 1);
                 randomizeTeams.Add(teams[index]);
                 teams.RemoveAt(index);
             }
@@ -71,13 +70,11 @@ public static class Teams
     {
         get
         {
-            List<Team> teams = new List<Team>();
+            List<Team> teams = [];
             foreach (Team t in all)
             {
-                if (t.activeProfiles.Where((Profile x) => x.slotType != SlotType.Spectator).Count() > 0)
-                {
+                if (t.activeProfiles.Any(x => x.slotType != SlotType.Spectator))
                     teams.Add(t);
-                }
             }
             return teams;
         }
@@ -87,7 +84,7 @@ public static class Teams
     {
         get
         {
-            List<Team> teams = new List<Team>();
+            List<Team> teams = [];
             foreach (Team t in all)
             {
                 if (t.activeProfiles.Count > 0)
@@ -98,35 +95,33 @@ public static class Teams
                         teams.Add(t);
                     }
                     else if (teams.Count != 0 && t.score == teams[0].score)
-                    {
                         teams.Add(t);
-                    }
                 }
             }
             return teams;
         }
     }
 
+    #endregion
+
+    #region Public Methods
+
     public static Team GetTeam(string name)
     {
-        Team t = _core.all.FirstOrDefault((Team x) => x.name == name);
+        var t = _core.all.FirstOrDefault(x => x.name == name);
         if (t == null)
-        {
             return _core.teams[8];
-        }
         return t;
     }
 
     public static int IndexOf(Team t)
     {
         if (Network.isActive && _core.extraTeams.Contains(t))
-        {
             return DuckNetwork.localProfile.customTeamIndexOffset + _core.extraTeams.IndexOf(t);
-        }
+
         if (t.owner != null)
-        {
             return t.owner.IndexOfCustomTeam(t);
-        }
+
         return _core.all.IndexOf(t);
     }
 
@@ -138,21 +133,19 @@ public static class Teams
             if (pIndex >= 0)
             {
                 if (pIndex < kCustomOffset)
-                {
                     t = all[pIndex];
-                }
                 else
                 {
-                    int profileIndex = (pIndex - kCustomOffset) / kCustomSpread;
+                    var profileIndex = (pIndex - kCustomOffset) / kCustomSpread;
                     if (profileIndex >= 0 && profileIndex < DuckNetwork.profilesFixedOrder.Count)
                     {
-                        int realTeamIndex = (pIndex - kCustomOffset) % kCustomSpread;
+                        var realTeamIndex = (pIndex - kCustomOffset) % kCustomSpread;
                         t = DuckNetwork.profilesFixedOrder[profileIndex].GetCustomTeam((ushort)realTeamIndex);
                     }
                 }
             }
         }
-        catch (Exception)
+        catch
         {
         }
         return t;
@@ -160,13 +153,11 @@ public static class Teams
 
     public static int CurrentGameTeamIndex(Team t)
     {
-        List<Team> teams = new List<Team>();
+        List<Team> teams = [];
         foreach (Team tm in active)
         {
             if (tm.activeProfiles.Count > 1)
-            {
                 teams.Add(tm);
-            }
         }
         return teams.IndexOf(t);
     }
@@ -176,20 +167,20 @@ public static class Teams
         _core.extraTeams.Add(t);
     }
 
-    public static void Initialize()
+    public static void Initialize(IProgress<float> progress = null)
     {
         if (_core == null)
         {
             _core = new TeamsCore();
-            _core.Initialize();
+            _core.Initialize(progress);
         }
     }
 
     public static void PostInitialize()
     {
         foreach (Team deserializedTeam in Team.deserializedTeams)
-        {
             AddExtraTeam(deserializedTeam);
-        }
     }
+
+    #endregion
 }
