@@ -24,11 +24,8 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\Facepunch.Steamworks\Facepunch.Steamworks\Facepunch.Steamworks.Win64.csproj">
-      <Private>True</Private>
-      <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
-    </ProjectReference>
     <ProjectReference Include="..\FNA\FNA.Core.csproj" />
+    <ProjectReference Include="..\lib\Facepunch.Steamworks\Facepunch.Steamworks\Facepunch.Steamworks.Win64.csproj" />
     <ProjectReference Include="..\Steam\Steam.csproj">
       <Private>True</Private>
       <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>

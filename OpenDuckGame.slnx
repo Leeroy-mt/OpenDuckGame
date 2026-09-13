@@ -1,11 +1,11 @@
 <Solution>
+  <Folder Name="/lib/">
+    <Project Path="lib/Facepunch.Steamworks/Facepunch.Steamworks/Facepunch.Steamworks.Posix.csproj" />
+    <Project Path="lib/Facepunch.Steamworks/Facepunch.Steamworks/Facepunch.Steamworks.Win32.csproj" />
+    <Project Path="lib/Facepunch.Steamworks/Facepunch.Steamworks/Facepunch.Steamworks.Win64.csproj" />
+  </Folder>
   <Project Path="CrashWindow/CrashWindow.csproj" />
   <Project Path="DuckGame/DuckGame.csproj" />
-  <Project Path="Facepunch.Steamworks/Facepunch.Steamworks/Facepunch.Steamworks.Win64.csproj">
-    <Build Solution="Debug|*" Project="false" />
-  </Project>
-  <Project Path="FNA/FNA.Core.csproj">
-    <Build Solution="Debug|*" Project="false" />
-  </Project>
+  <Project Path="FNA/FNA.Core.csproj" />
   <Project Path="Steam/Steam.csproj" />
 </Solution>
