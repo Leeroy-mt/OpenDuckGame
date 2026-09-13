@@ -1,3 +1,6 @@
 [submodule "Facepunch.Steamworks"]
 	path = lib/Facepunch.Steamworks
 	url = https://github.com/Facepunch/Facepunch.Steamworks
+[submodule "FNA"]
+	path = lib/FNA
+	url = https://github.com/FNA-XNA/FNA
