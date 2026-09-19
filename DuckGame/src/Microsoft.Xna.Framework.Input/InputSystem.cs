@@ -164,7 +164,7 @@ public static class InputSystem
             throw new InvalidOperationException("TextInput.Initialize can only be called once!");
         }
         hookProcDelegate = HookProc;
-        prevWndProc = SetWindowLongW(window.Handle, -4, (int)Marshal.GetFunctionPointerForDelegate(hookProcDelegate));
+        prevWndProc = SetWindowLongW(window.Handle, GWL_WNDPROC, (int)Marshal.GetFunctionPointerForDelegate(hookProcDelegate));
         hWND = window.Handle;
     }
 
@@ -196,11 +196,11 @@ public static class InputSystem
         ImmReleaseContext(hWND, hIMC);
     }
 
-    private static IntPtr HookProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam)
+    private static IntPtr HookProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam) //TODO: implement similar handler
     {
         MonoMain.ResetInfiniteLoopTimer();
         IntPtr returnCode = CallWindowProcW(prevWndProc, hWnd, msg, wParam, lParam);
-        if (msg == 28)
+        if (msg == WM_ACTIVATEAPP)
         {
             if (wParam == IntPtr.Zero)
             {
@@ -219,19 +219,19 @@ public static class InputSystem
         {
             switch (msg)
             {
-                case 135u:
-                    returnCode = (returnCode.ToInt32() | 4);
+                case WM_GETDLGCODE:
+                    returnCode = (returnCode.ToInt32() | DLGC_WANTALLKEYS);
                     break;
-                case 256u:
+                case WM_KEYDOWN:
                     KeyDown?.Invoke(null, new KeyEventArgs((Keys)(int)wParam));
                     break;
-                case 257u:
+                case WM_KEYUP:
                     KeyUp?.Invoke(null, new KeyEventArgs((Keys)(int)wParam));
                     break;
-                case 646u:
+                case WM_IME_CHAR:
                     IMECharEntered?.Invoke(null, new CharacterEventArgs((char)(int)wParam, lParam.ToInt32()));
                     break;
-                case 641u:
+                case WM_IME_SETCONTEXT:
                     if (wParam.ToInt32() == 1 && DuckGame.Input._imeAllowed)
                     {
                         ImmAssociateContext(hWnd, hIMC);
@@ -239,10 +239,10 @@ public static class InputSystem
                         ImmReleaseContext(hWND, hIMC);
                     }
                     break;
-                case 271u:
+                case WM_IME_COMPOSITION:
                     DuckGame.Keyboard.isComposing = true;
                     break;
-                case 81u:
+                case WM_INPUTLANGCHANGE:
                     ImmAssociateContext(hWnd, hIMC);
                     returnCode = 1;
                     break;
