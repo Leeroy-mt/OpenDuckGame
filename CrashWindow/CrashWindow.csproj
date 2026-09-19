@@ -8,6 +8,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <ApplicationIcon>crashwindow.ico</ApplicationIcon>
     <Configurations>Debug;Release</Configurations>
+	<OutDir>$(SolutionDir)bin</OutDir>
   </PropertyGroup>
 
   <ItemGroup>
