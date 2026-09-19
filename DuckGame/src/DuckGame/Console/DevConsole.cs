@@ -1438,7 +1438,7 @@ public class DevConsole
 
     public static void Log(DCSection section, Verbosity verbose, string text, int netIndex = -1)
     {
-        Console.WriteLine(Program.RemoveColorTags(text));
+        Console.WriteLine(Utils.RemoveColorTags(text));
 
         DCLine line = new()
         {
@@ -2252,7 +2252,7 @@ public class DevConsole
                     Cloud.Update();
                 }
                 Program.crashed = true;
-                Process.Start(Environment.ProcessPath, Program.commandLine + " -recoversave");
+                Process.Start(Environment.ProcessPath, Program.CommandLine + " -recoversave");
                 MonoMain.instance.Exit();
             }
         })

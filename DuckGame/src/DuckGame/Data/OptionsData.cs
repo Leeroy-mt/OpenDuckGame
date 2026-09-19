@@ -113,7 +113,7 @@ public class OptionsData : DataClass
         }
         set
         {
-            if (!Program.isLinux && _textToSpeech != value && value)
+            if (!Program.IsLinux && _textToSpeech != value && value)
             {
                 SFX.ApplyTTSSettings();
                 if (MonoMain.started)
@@ -134,7 +134,7 @@ public class OptionsData : DataClass
         }
         set
         {
-            if (!Program.isLinux && _textToSpeechVolume != value && textToSpeech)
+            if (!Program.IsLinux && _textToSpeechVolume != value && textToSpeech)
             {
                 SFX.ApplyTTSSettings();
                 if (MonoMain.started)
@@ -157,7 +157,7 @@ public class OptionsData : DataClass
         }
         set
         {
-            if (!Program.isLinux && _textToSpeechRate != value && textToSpeech)
+            if (!Program.IsLinux && _textToSpeechRate != value && textToSpeech)
             {
                 SFX.ApplyTTSSettings();
                 if (MonoMain.started)
@@ -178,7 +178,7 @@ public class OptionsData : DataClass
         }
         set
         {
-            if (!Program.isLinux && _textToSpeechVoice != value && textToSpeech)
+            if (!Program.IsLinux && _textToSpeechVoice != value && textToSpeech)
             {
                 SFX.ApplyTTSSettings();
                 List<string> voices = SFX.GetSayVoices();

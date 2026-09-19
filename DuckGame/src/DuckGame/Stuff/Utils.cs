@@ -8,7 +8,7 @@ internal class Utils
 {
     public static List<T> Shuffle<T>(List<T> list)
     {
-        List<T> shuffled = new List<T>(list);
+        List<T> shuffled = [.. list];
         for (int i = 0; i < shuffled.Count - 1; i++)
         {
             int victim_idx = i + Rando.Int(shuffled.Count - 1 - i);
@@ -30,4 +30,25 @@ internal class Utils
         byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
         return Convert.ToBase64String(plainTextBytes);
     }
+
+    public static string RemoveColorTags(string s)
+    {
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (s[i] == '|')
+            {
+                int startIndex = i;
+                for (i++; i < s.Length && s[i] != '|'; i++) ;
+                if (i < s.Length && s[i] == '|')
+                {
+                    s = s.Remove(startIndex, i - startIndex + 1);
+                    i = -1;
+                }
+            }
+        }
+        return s;
+    }
+
+    public static int GetHexVal(char hex) =>
+        hex - ((hex < ':') ? 48 : 55);
 }

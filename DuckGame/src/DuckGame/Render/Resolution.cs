@@ -85,7 +85,7 @@ public class Resolution
     public static void Apply()
     {
         Graphics.snap = 4f;
-        if (_pendingResolution == null || (Program.isLinux && !Keyboard.NothingPressed()))
+        if (_pendingResolution == null || (Program.IsLinux && !Keyboard.NothingPressed()))
         {
             return;
         }
@@ -158,7 +158,7 @@ public class Resolution
         {
             Layer.Game.camera.DoUpdate();
         }
-        if (Program.isLinux)
+        if (Program.IsLinux)
         {
             _takeFocus = 10;
         }

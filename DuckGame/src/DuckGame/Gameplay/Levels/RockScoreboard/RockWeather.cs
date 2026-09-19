@@ -695,7 +695,7 @@ public class RockWeather : Thing
         _weather = Weather.Sunny;
         alwaysRainbow = false;
         neverRainbow = false;
-        DateTime now = MonoMain.GetLocalTime();
+        DateTime now = DateTime.Now;
         if (now.Month < 3)
         {
             snowChance = 0.1f;

@@ -46,7 +46,7 @@ public static class SFX
     {
         get
         {
-            if (Program.isLinux || speech == null)
+            if (Program.IsLinux || speech == null)
                 return false;
 
             return speech.GetSayVoices().Count > 0;
@@ -63,7 +63,7 @@ public static class SFX
     {
         get
         {
-            if (Program.isLinux)
+            if (Program.IsLinux)
                 return null;
 
             if (_speech == null)
@@ -84,19 +84,19 @@ public static class SFX
 
     public static void Say(string pString)
     {
-        if (!Program.isLinux && speech != null)
+        if (!Program.IsLinux && speech != null)
             speech.Say(pString);
     }
 
     public static void StopSaying()
     {
-        if (!Program.isLinux && speech != null)
+        if (!Program.IsLinux && speech != null)
             speech.StopSaying();
     }
 
     public static void SetSayVoice(string pName)
     {
-        if (Program.isLinux || speech == null)
+        if (Program.IsLinux || speech == null)
             return;
 
         try
@@ -111,7 +111,7 @@ public static class SFX
 
     public static List<string> GetSayVoices()
     {
-        if (Program.isLinux || speech == null)
+        if (Program.IsLinux || speech == null)
             return [];
 
         return speech.GetSayVoices();
@@ -119,7 +119,7 @@ public static class SFX
 
     public static void ApplyTTSSettings()
     {
-        if (!Program.isLinux && speech != null)
+        if (!Program.IsLinux && speech != null)
             speech.ApplyTTSSettings();
     }
 

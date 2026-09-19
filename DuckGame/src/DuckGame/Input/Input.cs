@@ -1249,7 +1249,7 @@ public class Input
     {
         try
         {
-            bool notlinux = !Program.isLinux;
+            bool notlinux = !Program.IsLinux;
 
             if (notlinux && !_initializedMessageHook)
             {

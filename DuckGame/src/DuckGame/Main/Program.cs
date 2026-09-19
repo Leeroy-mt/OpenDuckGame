@@ -32,19 +32,9 @@ public static class Program
 
     public static bool alternateSaveLocation;
 
-    public static bool isLinux;
-
     public static bool crashed;
 
     public static bool gameLoadedSuccessfully;
-
-    public static int constructorsLoaded;
-
-    public static int thingTypes;
-
-    public static int steamBuildID;
-
-    public static string commandLine = "";
 
     public static string wineVersion;
 
@@ -54,21 +44,27 @@ public static class Program
 
     #region Private Fields
 
-    static bool enteredMain;
-
-    static bool _showedError;
-
-    static bool _attemptingResolve;
-
     static Main main;
 
     static List<Func<string>> _extraExceptionDetailsMinimal =
     [
         () => $"Date: {DateTime.UtcNow.ToString(DateTimeFormatInfo.InvariantInfo)}",
         () => $"Version: {DG.version}",
-        () => $"Platform: {DG.platform} (Steam Build {steamBuildID})",
-        () => $"Command Line: {commandLine}"
+        () => $"Platform: {DG.platform} (Steam Build {SteamBuildID})",
+        () => $"Command Line: {CommandLine}"
     ];
+
+    #endregion
+
+    #region Public Properties
+
+    public static bool IsLinux { get; private set; }
+
+    public static int SteamBuildID { get; private set; }
+
+    public static string CommandLine { get; internal set; } = "";
+
+    public static DateTime StartTime { get; private set; }
 
     #endregion
 
@@ -79,14 +75,18 @@ public static class Program
     /// </summary>
     public static void Main(string[] args)
     {
-        AppDomain.CurrentDomain.AssemblyResolve += Resolve;
-        var p = (int)Environment.OSVersion.Platform;
-        isLinux = args.Contains("-linux") || p is 4 or 6 or 128;
+        AppDomain.CurrentDomain.ProcessExit += (sender, args) => main?.KillEverything();
 
-        if (args.Contains("-nolinux"))
-            isLinux = false;
+        // Linux Handling
+        {
+            var p = (int)Environment.OSVersion.Platform;
+            IsLinux = args.Contains("-linux") || p is 4 or 6 or 128;
 
-        AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+            if (args.Contains("-nolinux"))
+                IsLinux = false;
+        }
+
+        Directory.SetCurrentDirectory(AppContext.BaseDirectory);
 
         try
         {
@@ -233,7 +233,7 @@ public static class Program
                             modName = m.configuration.name;
                             if (!MonoMain.modDebugging)
                             {
-                                if (!gameLoadedSuccessfully || (Options.Data.disableModOnCrash && (DateTime.Now - MonoMain.startTime).TotalMinutes < 2.0))
+                                if (!gameLoadedSuccessfully || (Options.Data.disableModOnCrash && (DateTime.Now - StartTime).TotalMinutes < 2.0))
                                     m.configuration.Disable();
 
                                 successfullyDisabled = true;
@@ -263,7 +263,7 @@ public static class Program
                         : DG.GetCrashWindowString(pException, modAssembly, error);
                     Process.Start(
                         "CrashWindow.exe",
-                        $"-modResponsible {(modRelated ? "1" : "0")} -modDisabled {((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0"))} -modName {modName} -source {ex7.Source} -commandLine \"{commandLine}\" -executable \"{Environment.ProcessPath}\" {str}"
+                        $"-modResponsible {(modRelated ? "1" : "0")} -modDisabled {((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0"))} -modName {modName} -source {ex7.Source} -commandLine \"{CommandLine}\" -executable \"{Environment.ProcessPath}\" {str}"
                         );
                 }
                 catch (Exception ex11)
@@ -312,10 +312,10 @@ public static class Program
         StreamWriter file = new("netlog.txt", append: false);
 
         foreach (DCLine d in DevConsole.core.lines)
-            file.WriteLine($"{d.timestamp:T} {RemoveColorTags(d.SectionString())} {RemoveColorTags(d.line)}\n");
+            file.WriteLine($"{d.timestamp:T} {Utils.RemoveColorTags(d.SectionString())} {Utils.RemoveColorTags(d.line)}\n");
 
         foreach (DCLine d2 in DevConsole.core.pendingLines)
-            file.WriteLine($"{d2.timestamp:T} {RemoveColorTags(d2.SectionString())} {RemoveColorTags(d2.line)}\n");
+            file.WriteLine($"{d2.timestamp:T} {Utils.RemoveColorTags(d2.SectionString())} {Utils.RemoveColorTags(d2.line)}\n");
 
         file.WriteLine("\n");
         file.Close();
@@ -328,15 +328,7 @@ public static class Program
             StreamWriter streamWriter = new("ducklog.txt", append: true);
             streamWriter.WriteLine(line + "\n");
             streamWriter.Close();
-        }
-        catch
-        {
-        }
-    }
-
-    public static void RemotePlayConnected()
-    {
-        Windows_Audio.forceMode = AudioMode.DirectSound;
+        } catch { }
     }
 
     public static string ProcessExceptionString(Exception e)
@@ -383,93 +375,41 @@ public static class Program
                     }
                 }
             }
-        }
-        catch (Exception)
-        {
-        }
+        } catch { }
         return error;
     }
 
-    public static string GetExceptionStringMinimal(object e)
+    public static string GetExceptionStringMinimal(Exception e)
     {
-        string error = (e as Exception).ToString() + "\r\n";
+        string error = $"{e}\r\n";
         error = error.Replace(kCleanupString, "");
+
         foreach (Func<string> func in _extraExceptionDetailsMinimal)
         {
             string add = "FIELD FAILED";
             try
             {
                 add = func();
-            }
-            catch
-            {
-            }
+            } catch { }
             error += "\r\n";
             error += add;
         }
         return error;
     }
 
-    public static string RemoveColorTags(string s)
-    {
-        for (int i = 0; i < s.Length; i++)
-        {
-            if (s[i] == '|')
-            {
-                int startIndex = i;
-                for (i++; i < s.Length && s[i] != '|'; i++) ;
-                if (i < s.Length && s[i] == '|')
-                {
-                    s = s.Remove(startIndex, i - startIndex + 1);
-                    i = -1;
-                }
-            }
-        }
-        return s;
-    }
-
-    public static Assembly Resolve(object sender, ResolveEventArgs args)
-    {
-        if (!enteredMain)
-            return null;
-        if (!_attemptingResolve)
-        {
-            if (enteredMain)
-            {
-                _attemptingResolve = true;
-                _attemptingResolve = false;
-            }
-            if (!_showedError && (!ModLoader.runningModloadCode || MonoMain.modDebugging))
-            {
-                _showedError = true;
-                string errorLine = "Failed to resolve assembly:\n" + args.Name + "\n";
-                StreamWriter streamWriter = new("ducklog.txt", append: true);
-                streamWriter.WriteLine(errorLine);
-                streamWriter.Close();
-                Process.Start("CrashWindow.exe", "-modResponsible 0 -modDisabled 0 -exceptionString \"" + errorLine.Replace("\n", "|NEWLINE|").Replace("\r", "|NEWLINE2|") + "\" -source Duck Game -commandLine \"\" -executable \"" + Environment.ProcessPath + "\"");
-            }
-        }
-        return null;
-    }
-
-#endregion
+    #endregion
 
     #region Private Methods
 
-    static void OnProcessExit(object sender, EventArgs e) =>
-        main?.KillEverything();
-
     static void DoMain(string[] args)
     {
-        Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-        MonoMain.startTime = DateTime.Now;
-        for (int i = 0; i < args.Length; i++)
-        {
-            commandLine += args[i];
-            if (i != args.Length - 1)
-                commandLine += " ";
-        }
+        StartTime = DateTime.Now;
+        CommandLine = string.Join(" ", args);
+
         bool enableDebugMonitor = false;
+
+        #region Argument Handling
+
         for (int j = 0; j < args.Length; j++)
         {
             if (args[j] == "+connect_lobby")
@@ -481,9 +421,9 @@ public static class Program
                     {
                         DuckGame.Main.connectID = Convert.ToUInt64(args[j], CultureInfo.InvariantCulture);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        throw new Exception("+connect_lobby format exception (" + args[j] + ")");
+                        throw new Exception($"+connect_lobby format exception ({args[j]})", ex);
                     }
                 }
             }
@@ -491,129 +431,71 @@ public static class Program
             {
                 j++;
                 if (args.Length > j)
-                {
                     MonoMain.lobbyPassword = args[j];
-                }
             }
             else if (args[j] == "-debug")
-            {
                 enableDebugMonitor = true;
-            }
             else if (args[j] == "-nothreading")
-            {
                 MonoMain.enableThreadedLoading = false;
-            }
             else if (args[j] == "-defaultcontrols")
-            {
                 MonoMain.defaultControls = true;
-            }
             else if (args[j] == "-olddefaults")
-            {
                 MonoMain.oldDefaultControls = true;
-            }
             else if (args[j] == "-nofullscreen")
-            {
                 MonoMain.noFullscreen = true;
-            }
             else if (args[j] == "-nosteam")
-            {
                 MonoMain.disableSteam = true;
-            }
             else if (args[j] == "-nomods")
-            {
                 MonoMain.nomodsMode = true;
-            }
             else if (args[j] == "-linux")
             {
                 if (MonoMain.audioModeOverride == AudioMode.None)
-                {
                     MonoMain.audioModeOverride = AudioMode.Wave;
-                }
             }
             else if (args[j] == "-disableModding")
-            {
                 MonoMain.moddingEnabled = false;
-            }
             else if (args[j] == "-nointro")
-            {
                 MonoMain.noIntro = true;
-            }
             else if (args[j] == "-startineditor")
-            {
                 MonoMain.startInEditor = true;
-            }
             else if (args[j] == "-moddebug")
-            {
                 MonoMain.modDebugging = true;
-            }
             else if (args[j] == "-editsave")
-            {
                 MonoMain.editSave = true;
-            }
             else if (args[j] == "-ignoreLegacyLoad")
-            {
                 ModLoader.ignoreLegacyLoad = true;
-            }
             else if (args[j] == "-nocloud")
-            {
                 Cloud.nocloud = true;
-            }
             else if (args[j] == "-cloudnoload")
-            {
                 Cloud.downloadEnabled = false;
-            }
             else if (args[j] == "-cloudnosave")
-            {
                 Cloud.uploadEnabled = false;
-            }
             else if (args[j] == "-netdebug")
-            {
                 MonoMain.networkDebugger = true;
-            }
             else if (args[j] == "-altaudio")
-            {
                 MonoMain.audioModeOverride = AudioMode.Wave;
-            }
             else if (args[j] == "-directaudio")
-            {
                 MonoMain.audioModeOverride = AudioMode.DirectSound;
-            }
             else if (args[j] == "-oldangles")
-            {
                 MonoMain.oldAngles = true;
-            }
             else if (args[j] == "-nohidef")
-            {
                 MonoMain.noHidef = true;
-            }
             else if (args[j] == "-logFileOperations")
-            {
                 MonoMain.logFileOperations = true;
-            }
             else if (args[j] == "-logLevelOperations")
-            {
                 MonoMain.logLevelOperations = true;
-            }
             else if (args[j] == "-recoversave")
-            {
                 MonoMain.recoversave = true;
-            }
             else if (args[j] == "-notimeout")
-            {
                 MonoMain.noConnectionTimeout = true;
-            }
             else if (args[j] == "-command")
             {
                 j++;
                 if (j < args.Length)
-                {
                     DevConsole.startupCommands.Add(args[j]);
-                }
             }
             else if (args[j] == "-nostart")
-            {
                 MonoMain.NoStart = true;
-            }
             else
             {
                 if (args[j] == "-nolaunch")
@@ -621,34 +503,29 @@ public static class Program
                     SDL.SDL_ShowSimpleMessageBox(0, "", "-nolaunch Command Line Option activated! Cancelling launch!", 0);
                     return;
                 }
+
                 if (args[j] == "-alternateSaveLocation")
-                {
                     alternateSaveLocation = true;
-                }
             }
         }
+
+        #endregion
+
         try
         {
             if (MonoMain.audioModeOverride == AudioMode.None && Environment.OSVersion.Version.Major < 6)
-            {
                 MonoMain.audioModeOverride = AudioMode.Wave;
-            }
-        }
-        catch (Exception)
-        {
-        }
+        } catch { }
+
         if (enableDebugMonitor)
         {
             try
             {
                 DebugMonitor.OnOutputDebugString += OnOutputDebugStringHandler;
                 DebugMonitor.Start();
-            }
-            catch
-            {
-            }
+            } catch { }
         }
-        enteredMain = true;
+
 #if FACEPUNCH
         if (!MonoMain.disableSteam)
         {
@@ -660,12 +537,13 @@ public static class Program
             else
                 FacepunchSteam.SetupEvents();
         }
+
         try
         {
             if (SteamClient.IsValid)
             {
-                steamBuildID = SteamApps.BuildId;
-                SteamRemotePlay.OnSessionConnected += session => RemotePlayConnected();
+                SteamBuildID = SteamApps.BuildId;
+                SteamRemotePlay.OnSessionConnected += session => Windows_Audio.forceMode = AudioMode.DirectSound;
                 if (!SteamClient.IsLoggedOn || !SteamApps.IsSubscribed)
                     MonoMain.steamConnectionCheckFail = true;
             }
@@ -694,9 +572,11 @@ public static class Program
 #endif
             else
             {
-                steamBuildID = -1;
+                SteamBuildID = -1;
             }
+
         } catch { }
+
         DevConsole.Log($"Starting Duck Game ({DG.platform})...");
         main = new Main();
         main.Run();
@@ -707,5 +587,5 @@ public static class Program
         Console.WriteLine(text);
     }
 
-#endregion
+    #endregion
 }

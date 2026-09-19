@@ -31,7 +31,7 @@ public static class DGSave
             {
                 DevConsole.Log(DCSection.General, "Welcome to the Grid, |DGBLUE|" + DGSteam.User.Name + "|WHITE|.");
 #endif
-                DevConsole.Log(DCSection.General, "You are running Duck Game Steam Build " + Program.steamBuildID + ".");
+                DevConsole.Log(DCSection.General, "You are running Duck Game Steam Build " + Program.SteamBuildID + ".");
             }
 
             if (!Directory.Exists(DuckFile.userDirectory) || pForce)

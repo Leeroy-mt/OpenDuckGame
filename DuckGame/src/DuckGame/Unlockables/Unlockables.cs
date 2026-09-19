@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -143,7 +144,7 @@ public class Unlockables
                 u.DoUnlock();
             }
         }
-        if (MonoMain.GetLocalTime().Hour == 9)
+        if (DateTime.Now.Hour == 9)
         {
             Global.data.playedInTheMorning = true;
         }

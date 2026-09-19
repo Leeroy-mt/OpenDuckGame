@@ -175,7 +175,7 @@ public static class ModLoader
 
     public static void RestartGame()
     {
-        Process.Start(Environment.ProcessPath, Program.commandLine);
+        Process.Start(Environment.ProcessPath, Program.CommandLine);
         MonoMain.instance.Exit();
     }
 
@@ -288,7 +288,7 @@ public static class ModLoader
                     modConfig.error = "!This mod has been officially implemented, Thanks Yupdaniel!";
                     mod = new DisabledMod();
                 }
-                if (Program.isLinux && !modConfig.linuxFix && modConfig.workshopID == 1439906266)
+                if (Program.IsLinux && !modConfig.linuxFix && modConfig.workshopID == 1439906266)
                 {
                     modConfig.Disable();
                     modConfig.error = "!This mod does not currently work on Linux!";
@@ -856,7 +856,7 @@ public static class ModLoader
                     string text = "";
                     text = SmallTypeName(type.AssemblyQualifiedName);
                     _typesByNameUnprocessed[text] = type;
-                    if (Program.isLinux && !text.Contains("\""))
+                    if (Program.IsLinux && !text.Contains("\""))
                     {
                         string text2 = text.Insert(text.IndexOf(", ") + 2, "\"");
                         text2 += "\"";
@@ -878,7 +878,7 @@ public static class ModLoader
                         text = text4 + ", " + text3;
                     }
                     _typesByName[text] = type;
-                    if (Program.isLinux && !text.Contains("\""))
+                    if (Program.IsLinux && !text.Contains("\""))
                     {
                         string text5 = text.Insert(text.IndexOf(", ") + 2, "\"");
                         text5 += "\"";

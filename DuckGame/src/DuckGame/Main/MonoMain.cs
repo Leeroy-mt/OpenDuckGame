@@ -66,8 +66,6 @@ public class MonoMain : Game
 
     public static long framesBackInFocus;
 
-    public static DateTime startTime;
-
     public static string infiniteLoopDetails;
     public static string lobbyPassword = "";
     public static string modMemoryOffendersString = "";
@@ -108,14 +106,16 @@ public class MonoMain : Game
     [
         () => $"Date: {DateTime.UtcNow.ToString(DateTimeFormatInfo.InvariantInfo)}",
         () => $"Version: {DG.version}",
-        () => $"Platform: {DG.platform} (Steam Build {Program.steamBuildID})({(SFX.NoSoundcard ? "NO SFX" : "SFX")})",
-        GetOnlineString,
+        () => $"Platform: {DG.platform} (Steam Build {Program.SteamBuildID})({(SFX.NoSoundcard ? "NO SFX" : "SFX")})",
+        () => Network.isActive
+            ? $"Online: 1 ({(Network.activeNetwork.core.isServer ? "H" : "C")},{Network.activeNetwork.core.averagePing})\r\n"
+            : "Online: 0",
         () => $"Mods: {ModLoader.modHash}",
-        () => $"Time Played: {TimeString(DateTime.Now - startTime)} ({Graphics.frame})",
+        () => $"Time Played: {TimeString(DateTime.Now - Program.StartTime)} ({Graphics.frame})",
         () => $"Special Code: {Main.SpecialCode}",
         () => $"Resolution: (A){Resolution.adapterResolution?.x}x{Resolution.adapterResolution?.y} (G){Resolution.current?.x}x{Resolution.current?.y + (Options.Data.fullscreen ? ($" (Fullscreen({(Options.Data.windowedFullscreen ? "W" : "H")}))") : " (Windowed)")}(RF {framesSinceFocusChange})",
         () => $"Level: {GetLevelString()}",
-        () => $"Command Line: {Program.commandLine}"
+        () => $"Command Line: {Program.CommandLine}"
     ];
 
     bool _canStartLoading;
@@ -360,8 +360,6 @@ public class MonoMain : Game
         }
     }
 
-    public static int GetHexVal(char hex) =>
-        hex - ((hex < ':') ? 48 : 55);
     /// <summary>
     /// Returns the current timer resolution in 100ns units
     /// </summary>
@@ -371,19 +369,6 @@ public class MonoMain : Game
         return current;
     }
 
-    /// <summary>
-    /// Gives the local time zone's time. Unfortunately, MonoGame/Brute does not completely account for time zones on Switch for DateTime.Now.
-    /// </summary>
-    /// <returns>Time zone adjusted for local time.</returns>
-    public static DateTime GetLocalTime() =>
-        DateTime.Now;
-
-    public static string GetOnlineString()
-    {
-        if (Network.isActive)
-            return $"Online: 1 ({(Network.activeNetwork.core.isServer ? "H" : "C")},{Network.activeNetwork.core.averagePing})\r\n";
-        return "Online: 0";
-    }
     public static string GetLevelString()
     {
         if (Level.current == null)
@@ -482,7 +467,7 @@ public class MonoMain : Game
             throw new("The binary key cannot have an odd number of digits");
         byte[] arr = new byte[hex.Length >> 1];
         for (int i = 0; i < hex.Length >> 1; i++)
-            arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
+            arr[i] = (byte)((Utils.GetHexVal(hex[i << 1]) << 4) + Utils.GetHexVal(hex[(i << 1) + 1]));
         return arr;
     }
     public static byte[] StringToByteArray(string hex)
@@ -843,7 +828,7 @@ public class MonoMain : Game
     }
     protected override void Update(GameTime gameTime)
     {
-        if (Program.isLinux)
+        if (Program.IsLinux)
         {
             if (IsActive)
             {

@@ -81,6 +81,8 @@ public class Editor : Level
     public static int _procTilesWide = 3;
     public static int _procTilesHigh = 3;
     public static int placementLimit;
+    public static int thingTypes;
+    public static int constructorsLoaded;
 
     public static uint thingTypesHash;
 
@@ -556,8 +558,8 @@ public class Editor : Level
             progress?.Report(currentThing / (float)allThings);
             currentThing++;
         }
-        Program.constructorsLoaded = _constructorParameters.Count;
-        Program.thingTypes = ThingTypes.Count;
+        constructorsLoaded = _constructorParameters.Count;
+        thingTypes = ThingTypes.Count;
         foreach (Type t3 in ThingTypes)
         {
             ConstructorInfo[] constructors = t3.GetConstructors();
@@ -1135,7 +1137,7 @@ public class Editor : Level
             catch (Exception)
             {
             }
-            throw new Exception($"Error loading constructor parameters for type {t}({_constructorParameters.Count} parms vs {Program.thingTypes}, {Program.constructorsLoaded}, {localTypesCount} things vs {Program.thingTypes})");
+            throw new Exception($"Error loading constructor parameters for type {t}({_constructorParameters.Count} parms vs {thingTypes}, {constructorsLoaded}, {localTypesCount} things vs {thingTypes})");
         }
         return ret;
     }

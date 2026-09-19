@@ -1077,7 +1077,7 @@ public class UILevelBox : UIMenu
                     _feedLine = "I AM A HUNGRY\nLITTLE MAN.";
                     if (Rando.Int(1000) == 1)
                         _feedLine = "I... AM A HUNGRY\nLITTLE MAN.";
-                    DateTime now = MonoMain.GetLocalTime();
+                    DateTime now = DateTime.Now;
                     if (!saidSpecial)
                     {
                         if (now.Month == 4 && now.Day == 20)

@@ -51,7 +51,7 @@ public static class DG
     {
         get
         {
-            DateTime now = MonoMain.GetLocalTime();
+            DateTime now = DateTime.Now;
             if (now.Month == 10)
             {
                 if (now.Day != 28 && now.Day != 29 && now.Day != 30)

@@ -412,9 +412,9 @@ public class UIServerBrowser : UIMenu
             DGSteam.WorkshopSubscribe(w2.Id);
 #endif
         }
-        Program.commandLine = $"{Program.commandLine} -downloadmods +connect_lobby {_joiningLobby.lobby.Id}";
+        Program.CommandLine = $"{Program.CommandLine} -downloadmods +connect_lobby {_joiningLobby.lobby.Id}";
         if (MonoMain.lobbyPassword != "")
-            Program.commandLine = $"{Program.commandLine} +password {MonoMain.lobbyPassword}";
+            Program.CommandLine = $"{Program.CommandLine} +password {MonoMain.lobbyPassword}";
         ModLoader.DisabledModsChanged();
         ModLoader.RestartGame();
     }

@@ -210,7 +210,7 @@ public class Deathmatch : Thing
             levels.AddRange(_fourPlayerLevels);
             levels.AddRange(_eightPlayerNonRestrictedLevels);
         }
-        DateTime now = MonoMain.GetLocalTime();
+        DateTime now = DateTime.Now;
         if (DateTime.Now.Month == 12)
         {
             if (now.Day <= 25)

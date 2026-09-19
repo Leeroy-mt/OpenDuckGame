@@ -82,7 +82,7 @@ public class Speech
         }
         try
         {
-            if (!Program.isLinux && Options.Data.textToSpeech)
+            if (!Program.IsLinux && Options.Data.textToSpeech)
             {
                 (speech as SpeechSynthesizer).SpeakAsyncCancelAll();
                 List<InstalledVoice> voices = (speech as SpeechSynthesizer).GetInstalledVoices().ToList();
