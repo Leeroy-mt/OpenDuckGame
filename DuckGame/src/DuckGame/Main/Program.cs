@@ -496,6 +496,8 @@ public static class Program
             }
             else if (args[j] == "-nostart")
                 MonoMain.NoStart = true;
+            else if (args[j] == "test")
+                MonoMain.CurrentTest = args[++j];
             else
             {
                 if (args[j] == "-nolaunch")

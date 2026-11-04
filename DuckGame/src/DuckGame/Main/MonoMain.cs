@@ -69,6 +69,7 @@ public class MonoMain : Game
     public static string infiniteLoopDetails;
     public static string lobbyPassword = "";
     public static string modMemoryOffendersString = "";
+    public static string CurrentTest;
 
     public static Level transitionLevel;
     public static Thread mainThread;

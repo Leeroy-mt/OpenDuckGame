@@ -1545,6 +1545,26 @@ public class DevConsole
                 Log("|DGRED|vsync disabled");
         }));
 
+        AddCommand(new("test", [
+            new CMD.String("testName")
+        ], cmd =>
+        {
+            var testName = cmd.Arg<string>("testName");
+            if (testName is "textures")
+            {
+                var content = "";
+                foreach (var tex in Content.textures)
+                    content += $"{tex.Key}:{tex.Value.Name}:{tex.Value.GetTextureIndex()}\n";
+                File.WriteAllText("textures.txt", content);
+
+                Process.Start(Environment.ProcessPath, $"{Program.CommandLine} test {testName}");
+
+                if (MonoMain.instance?.Window != null)
+                    SDL.SDL_DestroyWindow(MonoMain.instance.Window.Handle);
+                Environment.Exit(0);
+            }
+        }));
+
         #endregion
 
         AddCommand(new CMD("level",

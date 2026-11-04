@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 
 namespace DuckGame;
 
@@ -161,6 +162,27 @@ public class Main : MonoMain
 #if DEBUG
         Unlockables.UnlockAll();
 #endif
+
+        if (CurrentTest is "textures")
+        {
+            Console.WriteLine("Textures Test:");
+            var index = 0;
+            foreach (var line in File.ReadLines("textures.txt"))
+            {
+                var content = line.Split(':');
+
+                if (DuckGame.Content.textures.TryGetValue(content[0], out var texture))
+                {
+                    if (content[1] != texture.Name)
+                        Console.WriteLine($"- name difference:\t'{content[1]}'(Source)\t'{texture.Name}'(Current)");
+
+                    var texIndex = texture.GetTextureIndex().ToString();
+                    if (content[2] != texIndex)
+                        Console.WriteLine($"- '{content[0]}' index difference:\t'{content[2]}'(Source)\t'{texIndex}'(Current)");
+                }
+                index++;
+            }
+        }
     }
 
     protected override void OnUpdate()
