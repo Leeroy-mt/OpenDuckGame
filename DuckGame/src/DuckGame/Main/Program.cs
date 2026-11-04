@@ -264,7 +264,7 @@ public static class Program
                     Process.Start(
                         "CrashWindow.exe",
                         $"-modResponsible {(modRelated ? "1" : "0")} -modDisabled {((gameLoadedSuccessfully && !Options.Data.disableModOnCrash) ? "2" : (successfullyDisabled ? "1" : "0"))} -modName {modName} -source {ex7.Source} -commandLine \"{CommandLine}\" -executable \"{Environment.ProcessPath}\" {str}"
-                        );
+                    );
                 }
                 catch (Exception ex11)
                 {
@@ -534,9 +534,6 @@ public static class Program
 #if FACEPUNCH
         if (!MonoMain.disableSteam)
         {
-            if (!File.Exists("steam_appid.txt"))
-                File.WriteAllText("steam_appid.txt", FacepunchSteam.AppId.ToString());
-
             if (!FacepunchSteam.Initialize())
                 LogLine("Steam INIT Failed!");
             else
@@ -580,7 +577,7 @@ public static class Program
 
                 if (!DGSteam.IsLoggedIn() || !DGSteam.Authorize())
                     MonoMain.steamConnectionCheckFail = true;
-                }
+            }
             else
             {
                 SteamBuildID = -1;
