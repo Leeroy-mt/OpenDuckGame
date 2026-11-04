@@ -583,63 +583,57 @@ public class DuckFile
     public static void InitializeMojis()
     {
         if (!mojimode)
-        {
             return;
-        }
-        List<string> list = GetFiles(customMojiDirectory, "*.png").ToList();
+
+        List<string> list = [.. GetFiles(customMojiDirectory, "*.png")];
         list.AddRange(GetFiles(customMojiDirectory, "*.jpg"));
         list.AddRange(GetFiles(customMojiDirectory, "*.jpeg"));
         list.AddRange(GetFiles(customMojiDirectory, "*.bmp"));
+
         foreach (string s in list)
         {
             try
             {
                 Texture2D t = TextureConverter.TextureFromFileName(Graphics.device, s, 28, 28, true);
                 if (t == null)
-                {
                     continue;
-                }
+
                 if (t.Width <= 28 && t.Height <= 28)
                 {
-                    Sprite spr = new Sprite(t);
+                    Sprite spr = new(t);
                     RegisterMoji(Path.GetFileNameWithoutExtension(s), spr);
+
                     if (!TextureConverter.LastLoadResultedInResize)
-                    {
                         continue;
-                    }
+
                     try
                     {
                         TryFileOperation(delegate
                         {
                             string text = s;
                             Delete(text);
+
                             if (text.EndsWith(".jpg"))
-                            {
                                 text = text.Replace(".jpg", ".png");
-                            }
+
                             if (text.EndsWith(".bmp"))
-                            {
                                 text = text.Replace(".bmp", ".png");
-                            }
+
                             if (text.EndsWith(".jpeg"))
-                            {
                                 text = text.Replace(".jpeg", ".png");
-                            }
+
                             FileStream stream = File.Create(text);
                             t.SaveAsPng(stream, t.Width, t.Height);
                         }, "InitializeMojis.Resize");
                     }
-                    catch (Exception)
-                    {
-                    }
+                    catch { }
                     continue;
                 }
-                DevConsole.Log("Error loading " + Path.GetFileName(s) + " MOJI (must be smaller than 28x28)", Color.Red);
+                DevConsole.Log($"Error loading {Path.GetFileName(s)} MOJI (must be smaller than 28x28)", Color.Red);
             }
-            catch (Exception)
-            {
-            }
+            catch { }
         }
+
         foreach (string s2 in GetFiles(customMojiDirectory, "*.moj").ToList())
         {
             try
@@ -649,20 +643,19 @@ public class DuckFile
                 {
                     if (t2.Width <= 28 && t2.Height <= 28)
                     {
-                        Sprite spr2 = new Sprite(t2);
+                        Sprite spr2 = new(t2);
                         RegisterMoji(Path.GetFileNameWithoutExtension(s2), spr2);
                     }
                     else
                     {
-                        DevConsole.Log("Error loading " + Path.GetFileName(s2) + " MOJI (must be smaller than 28x28)", Color.Red);
+                        DevConsole.Log($"Error loading {Path.GetFileName(s2)} MOJI (must be smaller than 28x28)", Color.Red);
                     }
                 }
             }
-            catch (Exception)
-            {
-            }
+            catch { }
         }
-        _mojis = _mojis.OrderByDescending((KeyValuePair<string, Sprite> x) => x.Key).ToDictionary((KeyValuePair<string, Sprite> pair) => pair.Key, (KeyValuePair<string, Sprite> pair) => pair.Value);
+        _mojis = _mojis.OrderByDescending(x => x.Key)
+                       .ToDictionary(pair => pair.Key, pair => pair.Value);
     }
 
     public static void BeginDataCommit()
@@ -681,13 +674,9 @@ public class DuckFile
         if (pPath != null)
         {
             if (pDelete)
-            {
                 Cloud.Delete(pPath);
-            }
             else
-            {
                 Cloud.Write(pPath);
-            }
         }
     }
 
@@ -708,17 +697,17 @@ public class DuckFile
         string fullPath = "";
         for (int i = 0; i < path.Count(); i++)
         {
-            if (path[i] == "" || path[i] == "/" || ((path[i].Contains('.') || ignoreLast) && i == path.Count() - 1))
-            {
+            if (path[i] == "" ||
+                path[i] == "/" ||
+                ((path[i].Contains('.') || ignoreLast) && i == path.Length - 1))
                 continue;
-            }
+
             fullPath += path[i];
             if (!Directory.Exists(fullPath))
             {
                 if (MonoMain.logFileOperations)
-                {
-                    DevConsole.Log(DCSection.General, "DuckFile.CreatePath(" + fullPath + ")");
-                }
+                    DevConsole.Log(DCSection.General, $"DuckFile.CreatePath({fullPath})");
+
                 Directory.CreateDirectory(fullPath);
                 Commit(null);
             }
@@ -730,9 +719,7 @@ public class DuckFile
     {
         CreatePath(path);
         if (MonoMain.logFileOperations)
-        {
-            DevConsole.Log(DCSection.General, "DuckFile.Create(" + path + ")");
-        }
+            DevConsole.Log(DCSection.General, $"DuckFile.Create({path})");
         return File.Create(path);
     }
 
@@ -744,16 +731,15 @@ public class DuckFile
         TryFileOperation(delegate
         {
             text = File.ReadAllText(pPath);
-        }, "ReadAllText(" + pPath + ")");
+        }, $"ReadAllText({pPath})");
         return text;
     }
 
     public static string[] ReadAllLines(string path)
     {
         if (MonoMain.logFileOperations)
-        {
-            DevConsole.Log(DCSection.General, "DuckFile.ReadAllLines(" + path + ")");
-        }
+            DevConsole.Log(DCSection.General, $"DuckFile.ReadAllLines({path})");
+
         return File.ReadAllLines(path);
     }
 
@@ -763,9 +749,8 @@ public class DuckFile
         string saveDir = saveDirectory;
         int idx = path.IndexOf(saveDir);
         if (idx != -1)
-        {
             return path.Substring(idx + saveDir.Length, path.Length - idx - saveDir.Length);
-        }
+
         return path;
     }
 

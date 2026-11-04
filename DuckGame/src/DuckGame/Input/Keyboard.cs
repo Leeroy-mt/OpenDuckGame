@@ -387,7 +387,8 @@ public class Keyboard : InputDevice
 
     public static bool NothingPressed()
     {
-        return _keyState.GetPressedKeys().Length == 0 && _keyStatePrev.GetPressedKeys().Length == 0;
+        return _keyState.GetPressedKeys().Length == 0 &&
+            _keyStatePrev.GetPressedKeys().Length == 0;
     }
 
     public static bool Pressed(Keys key, bool any = false)
@@ -415,7 +416,8 @@ public class Keyboard : InputDevice
             };
         }
 
-        return (_keyState.IsKeyDown((Microsoft.Xna.Framework.Input.Keys)key) && !_keyStatePrev.IsKeyDown((Microsoft.Xna.Framework.Input.Keys)key)) || _repeatList.Contains(key);
+        return (_keyState.IsKeyDown((Microsoft.Xna.Framework.Input.Keys)key) && !_keyStatePrev.IsKeyDown((Microsoft.Xna.Framework.Input.Keys)key)) ||
+            _repeatList.Contains(key);
     }
 
     public static bool Down(Keys key)
@@ -465,7 +467,8 @@ public class Keyboard : InputDevice
             };
         }
 
-        return !_keyState.IsKeyDown((Microsoft.Xna.Framework.Input.Keys)key) && _keyStatePrev.IsKeyDown((Microsoft.Xna.Framework.Input.Keys)key);
+        return !_keyState.IsKeyDown((Microsoft.Xna.Framework.Input.Keys)key) &&
+            _keyStatePrev.IsKeyDown((Microsoft.Xna.Framework.Input.Keys)key);
     }
 
     public static char? CharFromKey(Keys key)
@@ -473,13 +476,13 @@ public class Keyboard : InputDevice
         if (KeyScanCodeMap.TryGetValue(key, out var scanCode))
         {
             var n = SDL.SDL_GetKeyFromScancode(
-                        scanCode,
-                        SDL.SDL_GetModState(),
-                        false
-                        );
+                scanCode,
+                SDL.SDL_GetModState(),
+                false
+            );
 
-            var valid = n >= 0x000000 && n <= 0x10ffff
-                     && (n < 0x00d800 || n > 0x00dfff);
+            var valid = (n >= 0x000000 && n <= 0x10ffff) &&
+                        (n < 0x00d800 || n > 0x00dfff);
 
             if (!valid)
                 return null;

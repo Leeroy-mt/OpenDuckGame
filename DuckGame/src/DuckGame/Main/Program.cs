@@ -75,7 +75,7 @@ public static class Program
     /// </summary>
     public static void Main(string[] args)
     {
-        AppDomain.CurrentDomain.ProcessExit += (sender, args) => main?.KillEverything();
+        AppDomain.CurrentDomain.ProcessExit += (_, _) => main?.KillEverything();
 
         // Linux Handling
         {
@@ -513,7 +513,8 @@ public static class Program
 
         try
         {
-            if (MonoMain.audioModeOverride == AudioMode.None && Environment.OSVersion.Version.Major < 6)
+            if (MonoMain.audioModeOverride == AudioMode.None &&
+                Environment.OSVersion.Version.Major < 6)
                 MonoMain.audioModeOverride = AudioMode.Wave;
         } catch { }
 
@@ -525,6 +526,8 @@ public static class Program
                 DebugMonitor.Start();
             } catch { }
         }
+
+        #region Steam Initialization
 
 #if FACEPUNCH
         if (!MonoMain.disableSteam)
@@ -544,9 +547,16 @@ public static class Program
             {
                 SteamBuildID = SteamApps.BuildId;
                 SteamRemotePlay.OnSessionConnected += session => Windows_Audio.forceMode = AudioMode.DirectSound;
+
                 if (!SteamClient.IsLoggedOn || !SteamApps.IsSubscribed)
                     MonoMain.steamConnectionCheckFail = true;
             }
+            else
+            {
+                SteamBuildID = -1;
+            }
+        }
+        catch { }
 #else
         if (!MonoMain.disableSteam)
         {
@@ -558,26 +568,28 @@ public static class Program
             else
                 DGSteam.Initialize();
         }
+
         try
         {
             if (DGSteam.IsInitialized())
             {
                 steamBuildID = DGSteam.GetGameBuildID();
                 DGSteam.RemotePlay += RemotePlayConnected;
+
                 if (!DGSteam.IsLoggedIn() || !DGSteam.Authorize())
-                {
                     MonoMain.steamConnectionCheckFail = true;
                 }
-            }
-#endif
             else
             {
                 SteamBuildID = -1;
             }
-
         } catch { }
+#endif
+
+        #endregion
 
         DevConsole.Log($"Starting Duck Game ({DG.platform})...");
+
         main = new Main();
         main.Run();
     }

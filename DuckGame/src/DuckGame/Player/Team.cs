@@ -15,6 +15,9 @@ using Steam;
 
 namespace DuckGame;
 
+/// <summary>
+/// Defines textures for <see cref="TeamHat"/>, <see cref="ScoreRock"/>, and <see cref="Cape"/>, and also contains the score for players on that team.
+/// </summary>
 public class Team
 {
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
@@ -786,7 +789,6 @@ public class Team
 
     Dictionary<DuckPersona, SpriteMap> _recolors = [];
     List<Profile> _activeProfiles = [];
-
 
     #endregion
 

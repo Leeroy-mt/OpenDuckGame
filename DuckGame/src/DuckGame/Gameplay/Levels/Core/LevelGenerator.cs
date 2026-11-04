@@ -223,9 +223,7 @@ public class LevelGenerator
     public static void Initialize()
     {
         foreach (string level in Content.GetLevels("pyramid", LevelLocation.Content))
-        {
             LoadInTile(level);
-        }
     }
 
     public static RandomLevelNode MakeLevel(RandomLevelData tile = null, bool allowSymmetry = true, int seed = 0, LevGenType type = LevGenType.Any, int varwide = 0, int varhigh = 0, int genX = 1, int genY = 1)

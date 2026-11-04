@@ -1,5 +1,6 @@
 namespace DuckGame;
 
+/// For the most part, it does not differ from <see cref = "Microsoft.Xna.Framework.Input.Keys" />, except for the addition of mouse "keys".
 public enum Keys
 {
     None = 0,

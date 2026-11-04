@@ -43,14 +43,12 @@ public abstract class DestroyType
         if (MonoMain.moddingEnabled)
         {
             byte num = 0;
+            foreach (Type type in ManagedContent.DestroyTypes.SortedTypes)
             {
-                foreach (Type type in ManagedContent.DestroyTypes.SortedTypes)
-                {
-                    _types.Add(num, type);
-                    num++;
-                }
-                return;
+                _types.Add(num, type);
+                num++;
             }
+            return;
         }
         List<Type> list = Editor.GetSubclasses(typeof(DestroyType)).ToList();
         byte index = 0;

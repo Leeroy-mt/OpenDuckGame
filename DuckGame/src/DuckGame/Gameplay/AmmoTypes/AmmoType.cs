@@ -1,10 +1,12 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DuckGame;
 
+/// <summary>
+/// When implemented in a derived class, defines <see cref="Bullet"/>'s properties.
+/// </summary>
 public abstract class AmmoType
 {
     private class ComplexDiffData
@@ -20,10 +22,8 @@ public abstract class AmmoType
             bindings = new List<ClassMember>();
             foreach (ClassMember c in members)
             {
-                if (!(c.name == "complexSync") && (c.type.IsPrimitive || c.type == typeof(Vector2) || c.type == typeof(Color)))
-                {
+                if (c.name != "complexSync" && (c.type.IsPrimitive || c.type == typeof(Vector2) || c.type == typeof(Color)))
                     bindings.Add(c);
-                }
             }
         }
     }
@@ -102,7 +102,7 @@ public abstract class AmmoType
                 return;
             }
         }
-        List<Type> list = Editor.GetSubclasses(typeof(AmmoType)).ToList();
+        List<Type> list = [.. Editor.GetSubclasses(typeof(AmmoType))];
         byte index = 0;
         foreach (Type t in list)
         {

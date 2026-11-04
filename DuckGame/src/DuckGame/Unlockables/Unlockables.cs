@@ -22,18 +22,20 @@ public class Unlockables
 
     public static void Initialize()
     {
-        _unlocks.Add(new UnlockableHats(canHint: false, "hatpack1", new List<Team>
-        {
+        _unlocks.Add(new UnlockableHats(canHint: false, "hatpack1",
+        [
             Teams.GetTeam("BAWB"),
             Teams.GetTeam("Frank"),
             Teams.GetTeam("Meeee")
-        }, () => Unlocks.IsUnlocked("HATTY1"), "Hat Pack 1", "Check out these nifty cool hats."));
-        _unlocks.Add(new UnlockableHats(canHint: false, "hatpack2", new List<Team>
-        {
+        ], () => Unlocks.IsUnlocked("HATTY1"), "Hat Pack 1", "Check out these nifty cool hats."));
+
+        _unlocks.Add(new UnlockableHats(canHint: false, "hatpack2",
+        [
             Teams.GetTeam("Pulpy"),
             Teams.GetTeam("Joey"),
             Teams.GetTeam("Cowboys")
-        }, () => Unlocks.IsUnlocked("HATTY2"), "Hat Pack 2", "More cool hats! WOW!"));
+        ], () => Unlocks.IsUnlocked("HATTY2"), "Hat Pack 2", "More cool hats! WOW!"));
+
         bool futz = false;
         _unlocks.Add(new UnlockableAchievement(canHint: false, "gamerduck", () => Global.data.timesSpawned > ((!futz) ? 99 : 0), "Duck Gamer", "Spawn 100 times.", "play100"));
         _unlocks.Add(new UnlockableHat("chancyHat", Teams.GetTeam("Chancy"), () => Unlocks.IsUnlocked("ULTIMATE"), "Chancy", "Get platinum on all challenges", "chancy"));
@@ -63,95 +65,82 @@ public class Unlockables
         _unlocks.Add(new UnlockableHat("masterHat", Teams.GetTeam("masters"), () => Global.data.nettedDuckTossKills > 25, "BackSlash", "Toss kill 25 netted ducks."));
         _unlocks.Add(new UnlockableHat("clamHat", Teams.GetTeam("clams"), () => Global.data.secondsUnderwater > 600, "CLAMS", "Spend 10 minutes under water."));
         _unlocks.Add(new UnlockableHat("wafflesHat", Teams.GetTeam("waffles"), () => Global.data.playedInTheMorning, "WAFFLES", "Play Duck Game at 9:00AM."));
-        _unlocks.Add(new UnlockableHats("toeboynearlsHats", new List<Team>
-        {
+        _unlocks.Add(new UnlockableHats("toeboynearlsHats",
+        [
             Teams.GetTeam("toeboys"),
             Teams.GetTeam("bigearls")
-        }, () => Global.data.presentsOpened > 100, "TOEBOY N BIGEARL", "Open 100 Presents"));
+        ], () => Global.data.presentsOpened > 100, "TOEBOY N BIGEARL", "Open 100 Presents"));
         _unlocks.Add(new UnlockableHat("katanaHat", Teams.GetTeam("zeros"), () => Global.data.swordKills > 25, "KATANA ZERO", "Get 25 Sword Kills"));
         _unlocks.Add(new UnlockableHat("johnnygreyHat", Teams.GetTeam("johnnygrey"), () => Global.data.typedJohnny, "JOHNNYGREY", "Type 'johnnygrey' into the command console."));
         _unlocks.Add(new UnlockableHat("diplomatsHat", Teams.GetTeam("diplomats"), () => (int)Global.data.onlineMatches >= 50, "DIPLOMATS", "Finish 50 online matches."));
         _unlocks.Add(new UnlockableHat("b52sHat", Teams.GetTeam("B52s"), () => (int)Global.data.winsAsHair >= 10, "B52s", "Win 10 Matches With Great Hair."));
-        _unlocks.Add(new UnlockableHats(canHint: false, "swimhats", new List<Team>
-        {
+        _unlocks.Add(new UnlockableHats(canHint: false, "swimhats",
+        [
             Teams.GetTeam("kerchiefs"),
             Teams.GetTeam("postals"),
             Teams.GetTeam("wahhs")
-        }, () => Global.data.bootedSinceSwitchHatPatch > 0 && Global.data.matchesPlayed > 0, "HATS FOR YOU", "Thanks for playing Duck Game!"));
+        ], () => Global.data.bootedSinceSwitchHatPatch > 0 && Global.data.matchesPlayed > 0, "HATS FOR YOU", "Thanks for playing Duck Game!"));
         _unlocks.Add(new UnlockableHat("ufosHat", Teams.GetTeam("uufos"), () => Global.data.timeJetpackedAsRagdoll >= 1200, "UUFOS", "Spend 20 seconds ragdoll jetpacking."));
+
         string nam = "CYCLOPS";
         if (Teams.GetTeam(nam) != null)
-        {
             _unlocks.Add(new UnlockableHat(canHint: false, nam.ToLowerInvariant(), Teams.GetTeam(nam), () => Global.boughtHats.Contains("CYCLOPS"), nam, Teams.GetTeam(nam).description));
-        }
+
         nam = "MOTHERS";
         if (Teams.GetTeam(nam) != null)
-        {
             _unlocks.Add(new UnlockableHat(canHint: false, nam.ToLowerInvariant(), Teams.GetTeam(nam), () => Global.boughtHats.Contains("MOTHERS"), nam, Teams.GetTeam(nam).description));
-        }
+
         nam = "BIG ROBO";
         if (Teams.GetTeam(nam) != null)
-        {
             _unlocks.Add(new UnlockableHat(canHint: false, nam.ToLowerInvariant(), Teams.GetTeam(nam), () => Global.boughtHats.Contains("BIG ROBO"), nam, Teams.GetTeam(nam).description));
-        }
+
         nam = "TINCAN";
         if (Teams.GetTeam(nam) != null)
-        {
             _unlocks.Add(new UnlockableHat(canHint: false, nam.ToLowerInvariant(), Teams.GetTeam(nam), () => Global.boughtHats.Contains("TINCAN"), nam, Teams.GetTeam(nam).description));
-        }
+
         nam = "WELDERS";
         if (Teams.GetTeam(nam) != null)
-        {
             _unlocks.Add(new UnlockableHat(canHint: false, nam.ToLowerInvariant(), Teams.GetTeam(nam), () => Global.boughtHats.Contains("WELDERS"), nam, Teams.GetTeam(nam).description));
-        }
+
         nam = "PONYCAP";
         if (Teams.GetTeam(nam) != null)
-        {
             _unlocks.Add(new UnlockableHat(canHint: false, nam.ToLowerInvariant(), Teams.GetTeam(nam), () => Global.boughtHats.Contains("PONYCAP"), nam, Teams.GetTeam(nam).description));
-        }
+
         nam = "TRICORNE";
         if (Teams.GetTeam(nam) != null)
-        {
             _unlocks.Add(new UnlockableHat(canHint: false, nam.ToLowerInvariant(), Teams.GetTeam(nam), () => Global.boughtHats.Contains("TRICORNE"), nam, Teams.GetTeam(nam).description));
-        }
+
         nam = "TWINTAIL";
         if (Teams.GetTeam(nam) != null)
-        {
             _unlocks.Add(new UnlockableHat(canHint: false, nam.ToLowerInvariant(), Teams.GetTeam(nam), () => Global.boughtHats.Contains("TWINTAIL"), nam, Teams.GetTeam(nam).description));
-        }
+
         nam = "MAJESTY";
         if (Teams.GetTeam(nam) != null)
-        {
             _unlocks.Add(new UnlockableHat(canHint: false, nam.ToLowerInvariant(), Teams.GetTeam(nam), () => Global.boughtHats.Contains("MAJESTY"), nam, "Max out your level (holy crap!!)"));
-        }
+
         nam = "MOONWALK";
         if (Teams.GetTeam(nam) != null)
-        {
             _unlocks.Add(new UnlockableHat(canHint: false, nam.ToLowerInvariant(), Teams.GetTeam(nam), () => Global.boughtHats.Contains("MOONWALK"), nam, "Raise 8 little men."));
-        }
+
         nam = "HIGHFIVES";
         if (Teams.GetTeam(nam) != null)
-        {
             _unlocks.Add(new UnlockableHat(canHint: false, nam.ToLowerInvariant(), Teams.GetTeam(nam), () => Global.boughtHats.Contains("HIGHFIVES"), nam, Teams.GetTeam(nam).description));
-        }
+
         _unlocks.Add(new UnlockableHat(canHint: false, "devtimes", Teams.GetTeam("CAPTAIN"), () => (Profile.CalculateLocalFlippers() & 0x10) != 0, "UR THE BEST", "Thank you for playing Duck Game <3"));
         _unlocks.Add(new UnlockableHat("eyebob", Teams.GetTeam("eyebob"), () => Global.data.giantLaserKills > 24, "CHARGE SHOT", "Get 25 Kills With the Giant Death Laser"));
+
         foreach (Unlockable u in _unlocks)
         {
             u.Initialize();
             if (u.CheckCondition())
-            {
                 u.DoUnlock();
-            }
         }
+
         if (DateTime.Now.Hour == 9)
-        {
             Global.data.playedInTheMorning = true;
-        }
+
         if (MonoMain.FullMoon)
-        {
             Global.data.playedDuringFullMoon = true;
-        }
     }
 
     public static bool HasPendingUnlocks()

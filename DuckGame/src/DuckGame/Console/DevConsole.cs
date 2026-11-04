@@ -1532,6 +1532,8 @@ public class DevConsole
 
     public static void InitializeCommands()
     {
+        #region OpenDuckGame Commands
+
         AddCommand(new("vsync", () =>
         {
             Graphics._manager.SynchronizeWithVerticalRetrace = !Graphics._manager.SynchronizeWithVerticalRetrace;
@@ -1542,6 +1544,8 @@ public class DevConsole
             else
                 Log("|DGRED|vsync disabled");
         }));
+
+        #endregion
 
         AddCommand(new CMD("level",
         [

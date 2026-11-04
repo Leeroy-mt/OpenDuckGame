@@ -32,21 +32,20 @@ public class News
         }
         FilterBest(stories, NewsSection.MatchComments, 1);
         FilterBest(stories, NewsSection.PlayerComments, 2);
-        stories.Sort((NewsStory a, NewsStory b) => (a.section != b.section) ? ((a.section >= b.section) ? 1 : (-1)) : 0);
+        stories.Sort((a, b) => (a.section != b.section) ? ((a.section >= b.section) ? 1 : -1) : 0);
         return stories;
     }
 
     public static void FilterBest(List<NewsStory> stories, NewsSection section, int numToPick)
     {
         List<NewsStory> list = stories.Where((NewsStory x) => x.section == section).ToList();
-        list.OrderBy((NewsStory x) => x.weight * x.importance);
+        list.OrderBy(x => x.weight * x.importance);
         int index = 0;
         foreach (NewsStory story in list)
         {
             if (index >= numToPick)
-            {
                 stories.Remove(story);
-            }
+
             index++;
         }
     }

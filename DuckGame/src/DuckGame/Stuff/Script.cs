@@ -94,10 +94,9 @@ public class Script
         _activeProfile = Profiles.DefaultPlayer1;
         _activeProfileProperty = typeof(Script).GetProperty("activeProfile", BindingFlags.Static | BindingFlags.Public);
         MethodInfo[] methods = typeof(Script).GetMethods(BindingFlags.Static | BindingFlags.Public);
+
         foreach (MethodInfo p in methods)
-        {
             _availableFunctions[p.Name] = p;
-        }
     }
 
     public static bool hasPurchaseInfo()

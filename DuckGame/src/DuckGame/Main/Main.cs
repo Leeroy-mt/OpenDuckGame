@@ -17,6 +17,10 @@ public class Main : MonoMain
 
     public static ulong connectID;
 
+    public static DuckGameEditor editor;
+
+    #endregion
+
     public static string SpecialCode
     {
         get;
@@ -28,10 +32,6 @@ public class Main : MonoMain
             field = value;
         }
     } = "";
-
-    public static DuckGameEditor editor;
-
-    #endregion
 
     #region Public Methods
 
@@ -116,14 +116,21 @@ public class Main : MonoMain
         UIInviteMenu.Initialize();
         LevelGenerator.Initialize();
         DuckFile.InitializeMojis();
+
         ResetMatchStuff();
+
         DuckFile._flaggedForBackup = false;
+
         foreach (Profile item in Profiles.active)
             item.RecordPreviousStats();
+
         editor = new DuckGameEditor();
+
         Input.devicesChanged = false;
+
         TeamSelect2.ControllerLayoutsChanged();
-        if (connectID != 0L)
+
+        if (connectID != 0)
         {
             SpecialCode = $"Joining lobby on startup ({connectID})";
             NCSteam.PrepareProfilesForJoin();
@@ -139,7 +146,7 @@ public class Main : MonoMain
                 Layer.core.InitializeLayers();
                 Level.core.nextLevel = null;
                 Level.current.DoInitialize();
-                Level.core.currentLevel.lowestPoint = 100000f;
+                Level.core.currentLevel.lowestPoint = 100000;
             }
             else if (startInEditor)
                 Level.current = editor;
@@ -148,6 +155,7 @@ public class Main : MonoMain
             else
                 Level.current = new BIOSScreen();
         }
+
         ModLoader.Start();
 
 #if DEBUG
@@ -162,11 +170,15 @@ public class Main : MonoMain
             DevConsole.RunCommand(DevConsole.startupCommands[0]);
             DevConsole.startupCommands.RemoveAt(0);
         }
+
         RockWeather.TickWeather();
         RandomLevelDownloader.Update();
+
         if (!NetworkDebugger.enabled)
             FireManager.Update();
+
         DamageManager.Update();
+
         if (!Network.isActive)
             NetRand.generator = Rando.Generator;
     }

@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace DuckGame;
 
+/// <summary>
+/// Defines <see cref="Duck"/>'s visual properties.
+/// </summary>
 public class DuckPersona
 {
     #region Public Methods

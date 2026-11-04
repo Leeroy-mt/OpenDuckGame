@@ -285,84 +285,46 @@ public class ProfilesCore
                 foreach (DXMLNode element in root.Elements())
                 {
                     if (element.Name == "ID" && !Profiles.IsDefault(p))
-                    {
                         p.SetID(element.Value);
-                    }
                     else if (element.Name == "Name")
-                    {
                         p.name = element.Value;
-                    }
                     else if (element.Name == "Mood")
-                    {
                         p.funslider = Change.ToSingle(element.Value);
-                    }
                     else if (element.Name == "PreferredColor" && !Profiles.IsDefault(p))
-                    {
                         p.preferredColor = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "NS")
-                    {
                         p.numSandwiches = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "MF")
-                    {
                         p.milkFill = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "LML")
-                    {
                         p.littleManLevel = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "NLM")
-                    {
                         p.numLittleMen = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "LMB")
-                    {
                         p.littleManBucks = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "RSXP")
-                    {
                         p.roundsSinceXP = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "TimesMet")
-                    {
                         p.timesMetVincent = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "TimesMet2")
-                    {
                         p.timesMetVincentSale = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "TimesMet3")
-                    {
                         p.timesMetVincentSell = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "TimesMet4")
-                    {
                         p.timesMetVincentImport = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "TimesMet5")
-                    {
                         p.timesMetVincentHint = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "TimeOfDay")
-                    {
                         p.timeOfDay = Change.ToSingle(element.Value);
-                    }
                     else if (element.Name == "CD")
-                    {
                         p.currentDay = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "Punished")
-                    {
                         p.punished = Change.ToInt32(element.Value);
-                    }
                     else if (element.Name == "XtraPoints")
                     {
                         p.xp = Change.ToInt32(element.Value);
                         if (MonoMain.logFileOperations)
-                        {
-                            DevConsole.Log(DCSection.General, ("Profile(" + name != null) ? name : (").loadXP(" + p.xp + ")"));
-                        }
+                            DevConsole.Log(DCSection.General, ($"Profile({name}" != null) ? name : $").loadXP({p.xp})");
                     }
                     else if (element.Name == "FurniPositions")
                     {
@@ -370,32 +332,25 @@ public class ProfilesCore
                         p.prevFurniPositionData = p.furniturePositionData.ToString();
                     }
                     else if (element.Name == "Fowner")
-                    {
                         p.furnitureOwnershipData = BitBuffer.FromString(element.Value);
-                    }
                     else if (element.Name == "SteamID")
                     {
                         try
                         {
                             p.steamID = Change.ToUInt64(element.Value.Trim());
                         }
-                        catch (Exception)
+                        catch
                         {
                             p.steamID = 0uL;
                         }
+
                         if (p.steamID != 0L && !(Path.GetFileNameWithoutExtension(file) != p.steamID.ToString()))
-                        {
                             steamProfiles.Add(p);
-                        }
                     }
                     else if (element.Name == "LastKnownName")
-                    {
                         p.lastKnownName = element.Value;
-                    }
                     else if (element.Name == "Stats")
-                    {
                         p.stats.Deserialize(element);
-                    }
                     else if (element.Name == "Unlocks")
                     {
                         string[] val = element.Value.Split('|');
@@ -403,55 +358,50 @@ public class ProfilesCore
                         for (int i2 = 0; i2 < numToRead; i2++)
                         {
                             if (val[i2] != "" && !p.unlocks.Contains(val[i2]))
-                            {
                                 p.unlocks.Add(val[i2]);
-                            }
                         }
                     }
                     else if (element.Name == "Tickets")
-                    {
                         p.ticketCount = Convert.ToInt32(element.Value);
-                    }
                     else if (element.Name == "ChallengeData")
                     {
                         try
                         {
                             byte[] data = Editor.StringToBytes(element.Value);
-                            BitBuffer b = new BitBuffer(data, copyData: false);
-                            b.lengthInBytes = data.Length;
+                            BitBuffer b = new(data, copyData: false)
+                            {
+                                lengthInBytes = data.Length
+                            };
+
                             while (b.position < b.lengthInBytes)
                             {
-                                ChallengeSaveData s = ChallengeSaveData.FromBuffer(b.ReadBitBuffer(allowPacking: false));
+                                var s = ChallengeSaveData.FromBuffer(b.ReadBitBuffer(allowPacking: false));
                                 if (s.trophy != TrophyType.Baseline || s.bestTime != 0)
                                 {
                                     s.profileID = p.id;
                                     if (s.trophy == TrophyType.Developer)
-                                    {
                                         Options.Data.gotDevMedal = true;
-                                    }
                                     p.challengeData.Add(s.challenge, s);
                                 }
                             }
                         }
                         catch (Exception ex4)
                         {
-                            DevConsole.Log(DCSection.General, "Profile (" + file + ") failed to load ChallengeData:" + ex4.Message);
+                            DevConsole.Log(DCSection.General, $"Profile ({file}) failed to load ChallengeData:{ex4.Message}");
                         }
                     }
                     else
                     {
-                        if (!(element.Name == "Mappings") || MonoMain.defaultControls)
-                        {
+                        if (element.Name != "Mappings" || MonoMain.defaultControls)
                             continue;
-                        }
+
                         p.inputMappingOverrides.Clear();
                         foreach (DXMLNode map in element.Elements())
                         {
-                            if (!(map.Name == "InputMapping"))
-                            {
+                            if (map.Name != "InputMapping")
                                 continue;
-                            }
-                            DeviceInputMapping mapping = new DeviceInputMapping();
+
+                            DeviceInputMapping mapping = new();
                             mapping.Deserialize(map);
                             try
                             {
@@ -461,24 +411,19 @@ public class ProfilesCore
                                     foreach (KeyValuePair<string, int> pair in defaultMapping.map)
                                     {
                                         if (!mapping.map.ContainsKey(pair.Key))
-                                        {
                                             mapping.MapInput(pair.Key, pair.Value);
-                                        }
                                     }
                                 }
                             }
-                            catch (Exception)
-                            {
-                            }
+                            catch { }
                             p.inputMappingOverrides.Add(mapping);
                         }
                     }
                 }
             }
+
             if (needAdd)
-            {
                 _profiles.Add(p);
-            }
         }
         Profile experience_profile = null;
         ulong experienceProfileID = 0uL;
@@ -496,6 +441,7 @@ public class ProfilesCore
             {
                 if (pro.steamID != 0)
                     numExperienceProfiles++;
+
                 if (pro.steamID == experienceProfileID)
                     experience_profile = pro;
             }
@@ -537,9 +483,8 @@ public class ProfilesCore
                 if (temporaryAccount != null)
                 {
                     foreach (KeyValuePair<string, ChallengeSaveData> challengeDatum in temporaryAccount.challengeData)
-                    {
                         challengeDatum.Value.profileID = experienceProfileID.ToString();
-                    }
+
                     temporaryAccount.name = experienceProfileID.ToString();
                     temporaryAccount.SetID(experienceProfileID.ToString());
                     temporaryAccount.steamID = experienceProfileID;
@@ -548,41 +493,37 @@ public class ProfilesCore
                 }
                 else
                 {
-                    experience_profile = new Profile(experienceProfileID.ToString(), null, null, null, network: false, experienceProfileID.ToString());
-                    experience_profile.steamID = experienceProfileID;
+                    experience_profile = new Profile(experienceProfileID.ToString(), null, null, null, network: false, experienceProfileID.ToString())
+                    {
+                        steamID = experienceProfileID
+                    };
                     numExperienceProfiles++;
                 }
             }
             else
-            {
                 experience_profile = new Profile("experience_profile", null, null, null, network: false, "replace_with_steam");
-            }
+
             if (!Profiles.all.Contains(experience_profile))
-            {
                 Profiles.Add(experience_profile);
-            }
+
             Save(experience_profile);
+
             if (temporary_account_delete != null)
-            {
                 DuckFile.Delete(temporary_account_delete);
-            }
         }
         _experienceProfile = experience_profile;
         _experienceProfile.defaultTeam = Teams.Player1;
         Profile.defaultProfileMappings[0] = _experienceProfile;
         if (Options.legacyPreferredColor > 0)
-        {
             _experienceProfile.preferredColor = Options.legacyPreferredColor;
-        }
         byte flippers = Profile.CalculateLocalFlippers();
+
         foreach (Profile p2 in _profiles)
         {
             p2.flippers = flippers;
             p2.ticketCount = Challenges.GetTicketCount(p2);
             if (p2.ticketCount < 0)
-            {
                 p2.ticketCount = 0;
-            }
         }
         Profile.loading = false;
         initialized = true;
@@ -610,14 +551,9 @@ public class ProfilesCore
                     break;
                 }
             }
+
             if ((hadData1 || hadData2) && !(hadData1 && hadData2))
-            {
-                if (!hadData2)
-                {
-                    return 2;
-                }
-                return 1;
-            }
+                return hadData2 ? 1 : 2;
         }
         return 0;
     }

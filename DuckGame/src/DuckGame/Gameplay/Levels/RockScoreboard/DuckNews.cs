@@ -37,29 +37,24 @@ public class DuckNews
             Stream s = DuckFile.OpenStream(title);
             DuckXML duckXML = DuckXML.Load(s);
             IEnumerable<DXMLNode> root = duckXML.Elements("NewsStory");
-            if (duckXML.invalid || s == null || root.Count() == 0)
-            {
-                throw new Exception("Content Exception: Failed to load news story (" + Content.path + "news/" + title + ".news)! Is the file missing, or has it been edited?");
-            }
+            if (duckXML.invalid || s == null || !root.Any())
+                throw new Exception($"Content Exception: Failed to load news story ({Content.path}news/{title}.news)! Is the file missing, or has it been edited?");
+
             if (root == null)
-            {
                 continue;
-            }
+
             if (DG.isHalloween)
             {
                 IEnumerable<DXMLNode> hall = root.Elements("NewsStoryHalloween");
-                if (hall != null && hall.Count() > 0)
-                {
+                if (hall != null && hall.Any())
                     root = hall;
-                }
             }
             DuckNews story = Parse(root.ElementAt(0));
+
             if (story != null)
-            {
                 _stories.Add(story);
-            }
         }
-        _stories = _stories.OrderBy((DuckNews x) => (int)x._section).ToList();
+        _stories = [.. _stories.OrderBy(x => (int)x._section)];
     }
 
     public static List<DuckStory> CalculateStories()
