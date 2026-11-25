@@ -23,7 +23,9 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\lib\Facepunch.Steamworks\Facepunch.Steamworks\Facepunch.Steamworks.Win64.csproj" />
+    <ProjectReference Include="..\lib\Facepunch.Steamworks\Facepunch.Steamworks\Facepunch.Steamworks.Win64.csproj">
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\lib\FNA\FNA.Core.csproj" />
     <ProjectReference Include="..\Steam\Steam.csproj">
       <Private>True</Private>

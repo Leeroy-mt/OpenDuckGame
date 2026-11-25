@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 #if FACEPUNCH
 using Steamworks;
@@ -35,8 +36,6 @@ public static class Program
     public static bool crashed;
 
     public static bool gameLoadedSuccessfully;
-
-    public static string wineVersion;
 
     public static Assembly crashAssembly;
 
@@ -87,6 +86,33 @@ public static class Program
         }
 
         Directory.SetCurrentDirectory(AppContext.BaseDirectory);
+
+        // Preloading Libraries
+        {
+            var libraryDir = "Win64";
+
+            if (IsLinux)
+                libraryDir = "Unix64";
+
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                if (args.Name.Contains("Facepunch.Steamworks"))
+                {
+                    var file = Directory.GetFiles(libraryDir, "Facepunch.Steamworks*")[0];
+                    var assembly = Assembly.LoadFrom(file);
+                    return assembly;
+                }
+
+                return null;
+            };
+
+            foreach (var libPath in Directory.EnumerateFiles(libraryDir))
+                _ = Assembly.LoadFrom(libPath);
+
+            var nativeLibDir = Path.Combine(libraryDir, "native");
+            foreach (var nativeLibPath in Directory.EnumerateFiles(nativeLibDir))
+                NativeLibrary.TryLoad(nativeLibPath, out _);
+        }
 
         try
         {
