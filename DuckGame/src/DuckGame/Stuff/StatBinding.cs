@@ -59,7 +59,8 @@ public class StatBinding
                 _value = value;
 
 #if FACEPUNCH
-            SteamUserStats.SetStat(_name, valueFloat);
+            if (SteamClient.IsValid)
+                SteamUserStats.SetStat(_name, valueFloat);
 #else
             DGSteam.SetStat(_name, valueFloat);
 #endif

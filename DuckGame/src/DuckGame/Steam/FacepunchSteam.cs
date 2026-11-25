@@ -34,8 +34,9 @@ public static class FacepunchSteam
 
             return SteamClient.IsValid;
         }
-        catch
+        catch (Exception exception)
         {
+            Console.WriteLine(exception.Message);
             return false;
         }
     }
