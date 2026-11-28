@@ -693,26 +693,18 @@ public class DuckFile
     public static void CreatePath(string pathString, bool ignoreLast)
     {
         pathString = pathString.Replace('\\', '/');
-        string[] path = pathString.Split('/');
-        string fullPath = "";
-        for (int i = 0; i < path.Count(); i++)
-        {
-            if (path[i] == "" ||
-                path[i] == "/" ||
-                ((path[i].Contains('.') || ignoreLast) && i == path.Length - 1))
-                continue;
+        pathString = Path.TrimEndingDirectorySeparator(pathString);
 
-            fullPath += path[i];
-            if (!Directory.Exists(fullPath))
-            {
-                if (MonoMain.logFileOperations)
-                    DevConsole.Log(DCSection.General, $"DuckFile.CreatePath({fullPath})");
+        var lastSlash = pathString.LastIndexOf('/');
+        var lastEntry = pathString[(lastSlash + 1)..];
 
-                Directory.CreateDirectory(fullPath);
-                Commit(null);
-            }
-            fullPath += "/";
-        }
+        if (ignoreLast || lastEntry.Contains('.'))
+            pathString = Path.GetDirectoryName(pathString);
+
+        if (MonoMain.logFileOperations)
+            DevConsole.Log(DCSection.General, $"DuckFile.CreatePath({pathString})");
+
+        Directory.CreateDirectory(pathString);
     }
 
     public static FileStream Create(string path)
