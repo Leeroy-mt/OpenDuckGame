@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 #if FACEPUNCH
 using Steamworks;
@@ -37,6 +38,7 @@ public static class DG
     #endregion
 
     #region Public Properties
+
     public static bool drmFailure => _drmFailure;
 
     public static bool devBuild => _devBuild;
@@ -94,8 +96,8 @@ public static class DG
         get
         {
             var os = Environment.OSVersion;
-            var version = Environment.OSVersion.Version;
-            string name = "Windows Mystery Edition";
+            var version = os.Version;
+            var name = RuntimeInformation.OSDescription;
 
             switch (version.Major)
             {
@@ -143,19 +145,18 @@ public static class DG
                     {
                         >= 9841 and <= 19045 => "Windows 10",
                         //20348 => "Windows Server 2022",
-                        >= 22000 and <= 26200 => "Windows 11",
+                        >= 22000 => "Windows 11",
                         _ => os.VersionString
                     };
                     break;
             }
 
-            if (Program.wineVersion != null)
-                name = $"{name} (Linux Wine v{Program.wineVersion})";
             return name;
         }
     }
 
     public static Assembly[] assemblies => ModLoader.modAssemblyArray;
+
     #endregion
 
     #region Public Methods
